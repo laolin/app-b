@@ -108,7 +108,7 @@ gulp.task('copyFonts1', function() {
 
 
 gulp.task('wiredep', function() {
-    return gulp.src( 'app/appb.html')
+    return gulp.src( 'app/app-b.html')
     .pipe(wiredep({
       optional: 'configuration',
       goes: 'here'

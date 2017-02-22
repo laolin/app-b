@@ -3,8 +3,8 @@
 
 angular.module('view-default')
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/default-settings', {
-    templateUrl: 'views/default/default-settings.template.html',
+  $routeProvider.when('/default-search', {
+    templateUrl: 'view-default/default/default-search.template.html',
     controller: ['$scope','$location','$log','$interval','AppbData',
       function ($scope,$location,$log,$interval,AppbData) {
         

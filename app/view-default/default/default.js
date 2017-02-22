@@ -4,7 +4,7 @@
 angular.module('view-default')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/', {
-    templateUrl: 'views/default/default.template.html',
+    templateUrl: 'view-default/default/default.template.html',
     controller: ['$scope','$location','$log','$interval','AppbData',
       function ($scope,$location,$log,$interval,AppbData) {
         var userData=AppbData.getUserData();

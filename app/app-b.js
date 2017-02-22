@@ -22,7 +22,7 @@ cfg.markWxLoginCallback='cb_xd';//和后端API的约定字符串，在 /wx-login
 //-- end config data -----------
 window.appbCfg=cfg;//加个全局变量
 
-angular.module('appb-main',[
+angular.module('app-b',[
   'appb',
   'wx-login',
 
