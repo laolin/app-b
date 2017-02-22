@@ -1,0 +1,256 @@
+body,html{height:100%;-webkit-tap-highlight-color:transparent}
+html {
+  font-size: 14px !important;
+}
+body {
+  font-family: -apple-system-font,"Helvetica Neue","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size: 14px;
+  overflow: auto;
+  background-color:#fbf9fe;
+  margin-bottom: 0px;/* Margin bottom by footer height */
+}
+
+/* ======================
+start #main-header 
+========================*/
+#main-header,#main-footer,#main-container{
+  position: absolute;
+  width: 100%;
+}
+#main-header{
+  z-index: 5;
+  top: 0;
+  height:56px;
+  background-color:#f90;
+}
+#main-header ,
+#main-header a,
+#main-header span,
+#main-header div{
+  color:#fff;
+}
+
+
+#main-header .left ,
+#main-header .right,
+#main-header .center {
+  height:56px;
+  line-height:56px;
+  padding-left:10px;
+  padding-right:10px;
+}
+#main-header .left {
+  float: left;
+  font-size:18px;
+}
+#main-header .right {
+  float: right;
+  font-size:12px;
+}
+#main-header .center {
+  text-align:center;
+  font-size:28px;
+}
+.main-header_container {
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  vertical-align: middle;
+}
+.main-header_container img {
+  background: #3A6F9A;
+  vertical-align: middle;
+  max-height: 32px;
+  max-width: 160px;
+}
+
+.main-header_container i{ 
+  cursor:pointer;
+}
+/* ======================
+ END #main-header 
+========================*/
+
+
+/* ======================
+start #main-container 
+========================*/
+#main-container{
+  height:auto !important;
+  top:56px;
+  bottom:56px;
+  overflow: auto;
+  background-color:#eee;
+}
+
+/* 这个定义影响范围有点大，以后要调整 */
+#main-container a,
+#main-container p,
+#main-container span,
+#main-container div {
+  color:#222;
+}
+/* ======================
+END #main-container 
+========================*/
+
+
+/* ======================
+start #main-footer 
+========================*/
+#main-footer{
+  z-index: 500;
+  bottom: 0;
+  height:55px;
+  border-top:1px solid #ddd;
+  background-color:#fff;
+}
+.main-tabs {
+  width:100%;
+  display: table;
+  table-layout: fixed;
+  cursor:pointer;
+  padding-top:0px;
+}
+.main-tab {
+  height:40px;
+  display: table-cell;
+  text-align:center;
+  padding-top:8px;
+}
+.main-tab a,
+.main-tab span,
+.main-tab  i{
+  color:#222;
+  display:block;
+  font-size:16px;
+}
+.main-tab_active a,
+.main-tab_active span,
+.main-tab_active i{
+  color:#f90;
+}
+/* ======================
+ END  #main-footer 
+========================*/
+
+/* --- progress color ------- */
+.progress  {
+    background-color: #fd2;
+}
+
+.progress .determinate,
+.progress .indeterminate {
+    background-color: #d80;
+}
+/* --- tab align ------- */
+.table-display {
+  display: table;
+  width:100%;
+}
+.table-cell{
+  display: table-cell;
+  text-align:center;
+}
+
+/*======================
+ app css  
+======================*/
+
+.user-icon-big {
+  width:128px;
+  border-radius: 15px;
+}
+
+.hilight {
+  background-color: #fd2;
+}
+
+/*-------------------- 
+ 来自bs  
+======================*/
+
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+}
+.text-justify {
+  text-align: justify;
+}
+.text-nowrap {
+  white-space: nowrap;
+}
+
+
+.img-rounded {
+  border-radius: 15px;
+}
+.img-thumbnail {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+  padding: 4px;
+  line-height: 1.42857143;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  -webkit-transition: all .2s ease-in-out;
+       -o-transition: all .2s ease-in-out;
+          transition: all .2s ease-in-out;
+}
+.img-circle {
+  border-radius: 50%;
+}
+
+
+.hide {
+  display: none !important;
+}
+.show {
+  display: block !important;
+}
+.invisible {
+  visibility: hidden;
+}
+/*====================== 
+  weui color redefine
+  
+  f90 main-color
+  d80 dark
+  fd2 light
+======================*/
+
+div.weui-toast .weui-toast__content {
+  color:#f90 !important;
+}
+
+
+.weui-cells_radio .weui-check:checked + .weui-icon-checked:before ,
+.weui-cells_checkbox .weui-check:checked + .weui-icon-checked:before {
+  color: #f90;
+}
+
+.weui-btn_primary {
+  background-color: #f90;
+  text-overflow: ellipsis;
+  overflow:hidden;
+  display: -webkit-box;
+  height:46px;
+  -webkit-line-clamp:1;
+  -webkit-box-orient: vertical;
+}
+.weui-btn_primary:not(.weui-btn_disabled):active {
+  background-color: #fd2;
+}
+
+
+.weui-switch:checked,
+.weui-switch-cp__input:checked ~ .weui-switch-cp__box {
+    border-color: #f90;
+    background-color: #f90;
+}

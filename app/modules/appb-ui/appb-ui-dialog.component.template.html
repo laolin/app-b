@@ -1,0 +1,18 @@
+<div ng-if='$ctrl.data.show'>
+    <div class="weui-mask"></div>
+    <div class="weui-dialog">
+        <div class="weui-dialog__hd"><strong class="weui-dialog__title">
+          {{$ctrl.data.title}}
+        </strong></div>
+        <div class="weui-dialog__bd">
+          {{$ctrl.data.content}}
+        </div>
+        <div class="weui-dialog__ft">
+            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default"
+             ng-if='$ctrl.data.btn2'
+             ng-click='$ctrl.fn2()'>{{$ctrl.data.btn2}}</a>
+            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary"
+            ng-click='$ctrl.fn1()'>{{$ctrl.data.btn1}}</a>
+        </div>
+    </div>
+</div>

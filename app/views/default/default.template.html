@@ -1,0 +1,18 @@
+<div ng-if='userData.token' class='text-center'>
+  <span ng-if='! userData.wxinfo'>欢迎{{userData.uname}}</span>
+  
+  <div ng-if='userData.wxinfo'>
+    <p>欢迎{{userData.wxinfo.nickname}}</p>
+    <img class='user-icon-big'
+     ng-src='{{userData.wxinfo.headimgurl}}'/>
+  
+
+  </div>
+
+  <a href="#" ng-click='logout()'>logout</a>
+
+</div>
+<div ng-if='! userData.token' class='text-center'>
+  <a href="#!/wx-login">login</a>
+</div'>
+  

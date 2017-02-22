@@ -1,0 +1,8 @@
+<div class="main-tabs">
+<div ng-repeat='tb in $ctrl.footerData.tabs'
+    class="main-tab" ng-class="{'main-tab_active' : tb.active }" >
+  <a href='#!{{tb.href}}'>
+    <i class="fa fa-{{tb.icon}}" aria-hidden="true"></i>
+    <span ng-bind='tb.text'></span>
+  </a>
+</div></div>

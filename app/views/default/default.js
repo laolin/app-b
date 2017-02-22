@@ -1,0 +1,30 @@
+'use strict';
+(function(){
+
+angular.module('view-default')
+.config(['$routeProvider', function($routeProvider) {
+  $routeProvider.when('/', {
+    templateUrl: 'views/default/default.template.html',
+    controller: ['$scope','$location','$log','$interval','AppbData',
+      function ($scope,$location,$log,$interval,AppbData) {
+        var userData=AppbData.getUserData();
+        var appData=AppbData.getAppData();
+        $scope.userData=userData;
+        $scope.appData=appData;
+        
+        //if(! userData || !userData.token) {
+        //  return $location.path( "/wx-login" ).search({pageTo: '/'});
+        //}
+
+        $scope.logout=function() {
+          //userData.token='';
+          appData.setUserData({});//Update to localStorage
+          //$location.path('/wx-login');
+        }
+      }
+    ]
+  })
+}]);
+
+//___________________________________
+})();
