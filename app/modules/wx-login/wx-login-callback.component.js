@@ -1,10 +1,12 @@
 'use strict';
 (function(){
-var MARK_API_CALLBACK='cb_xd';//和后端API的约定字符串
+
+//和后端API的约定字符串
+var MARK_API_CALLBACK=appbCfg.markWxLoginCallback;
 
 angular.module('wx-login')
 .component('wxLoginCallback',{
-  template:' = wx-LoginCallback ',//回调页面不需要显示内容
+  template:' ',//回调页面不需要显示内容
   bindings: {
     appData: '='
   },

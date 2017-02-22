@@ -10,11 +10,27 @@ var cfg={
     {name:'qgs-web',id:'wx8fb342a27567fee7'},
     {name:'qgs-mp',id:'wx93301b9f5ddf5c8f'}
   ],
-  version: '7.00'
-//-- end config data -----------
+  version: '7.01'
 };
 
-angular.module('appb')
+cfg.keyClientId='APP-B_clientId';// 在AppbData里用
+cfg.keyUserData='APP-B_userdata';// 在AppbDataUser里用
+
+cfg.markWxLoginCallback='cb_xd';//和后端API的约定字符串，在 /wx-login里用
+
+
+//-- end config data -----------
+window.appbCfg=cfg;//加个全局变量
+
+angular.module('appb-main',[
+  'appb',
+  'wx-login',
+
+  'view-default',
+
+  'ngResource',
+  'ngRoute'
+])
 .config(['$sceDelegateProvider', function($sceDelegateProvider) {
   $sceDelegateProvider.resourceUrlWhitelist([
     cfg.apiRoot+"/**",

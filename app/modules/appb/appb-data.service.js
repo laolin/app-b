@@ -1,7 +1,7 @@
 'use strict';
 (function(){
   
-var KEY_CLIENTID='APP-B_clientId';
+var KEY_CLIENTID=appbCfg.keyClientId;
 
 angular.module('appb')
 .factory('AppbData',

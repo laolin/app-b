@@ -1,10 +1,9 @@
 'use strict';
 (function(){
-var MARK_API_CALLBACK='cb_xd';//和后端API的约定字符串
 
+//和后端API的约定字符串
+var MARK_API_CALLBACK=appbCfg.markWxLoginCallback;
 var idWxLoginDiv='wx-lg_cnt_'+(+new Date());
-
-console.log('idWxLoginDiv=',idWxLoginDiv);
 
 angular.module('wx-login')
 .component('wxLoginAuth',{
@@ -48,14 +47,12 @@ angular.module('wx-login')
         var wx_src="https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js";
 
         if(typeof(WxLogin)=='undefined') {
-          console.log('jQuery.getScript',wx_src);
           jQuery.getScript( wx_src , _wx_login )
         } else {
           _wx_login();
         }
           
         function _wx_login() {
-          console.log('_wx_login running');
 
           var obj = new WxLogin({
             id:idWxLoginDiv, 

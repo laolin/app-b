@@ -1,6 +1,5 @@
 'use strict';
 (function(){
-var MARK_API_CALLBACK='cb_xd';//和后端API的约定字符串
 
 angular.module('wx-login')
 .config(['$routeProvider', function($routeProvider) {

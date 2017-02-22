@@ -7,7 +7,7 @@
      应该修改 appb.html 
      然后用 ```gulp wiredef``` 命令自动生成 index.html 。
   -->
-<html lang="zh-cmn-Hans" ng-app="appb" class="no-js">
+<html lang="zh-cmn-Hans" ng-app="appb-main" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -43,9 +43,9 @@
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/js-md5/src/md5.js"></script>
   <!-- endbower -->
+  <script src="appb.js"></script>
 
   <script src="modules/appb/appb.module.js"></script>
-
   <script src="modules/appb/appb.controller.js"></script>
   <script src="modules/appb/appb-data.service.js"></script>
   <script src="modules/appb/appb-data-user.service.js"></script>
@@ -65,8 +65,6 @@
   <script src="views/default/default-search.js"></script>
   <script src="views/default/default-settings.js"></script>
 
-  <script src="appb.config.js"></script>
-  
   <script src="assets/js/common.js"></script>
   <!-- endbuild -->
   

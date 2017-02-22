@@ -4,10 +4,6 @@
 
 // Declare app level module which depends on views, and components
 angular.module('appb', [
-
-    'wx-login',
-
-    'view-default',
     
     'ngResource',
     'ngRoute'

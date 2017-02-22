@@ -1,12 +1,13 @@
 'use strict';
 (function(){
 
-var KEY_USERDATA='APP-B_userdata';
+var KEY_USERDATA=appbCfg.keyUserData;
 
 angular.module('appb')
 .factory('AppbDataUser',
-    ['$route','$window','$location','$log','$timeout',
-    function($route, $window,$location,$log,$timeout) {
+['$route','$window','$location','$log','$timeout',
+function($route, $window,$location,$log,$timeout)
+{
   var userData={};
   var u_saved=JSON.parse($window.localStorage.getItem(KEY_USERDATA));
   setUserData(u_saved);
@@ -55,5 +56,5 @@ angular.module('appb')
 }]);
  
   
-
+//__________________________________________
 })();
