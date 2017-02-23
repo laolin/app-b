@@ -28,6 +28,26 @@ function($route, $window,$location,$log,$timeout)
     for (var attr in obj) {
       if (obj.hasOwnProperty(attr)) userData[attr] = obj[attr];
     }
+    
+    //处理头像
+    if(userData.wxinfo  &&  userData.wxinfo.headimgurl ) {
+      //处理网站是https的情况
+      var face=userData.wxinfo.headimgurl;
+      if($location.protocol()=='https' && 
+      face.substr(0,5)=='http:') {
+        userData.wxinfo.headimgurl='https:'+face.substr(5);
+      }
+      //处理其他大小的头像
+      face=userData.wxinfo.headimgurl;
+      if(face.substr(-2)=='/0') {
+        var f0=face.substr(0,face.length-2);
+        userData.wxinfo.headimgurl_46=f0+'/46';
+        userData.wxinfo.headimgurl_64=f0+'/64';
+        userData.wxinfo.headimgurl_96=f0+'/96';
+        userData.wxinfo.headimgurl_132=f0+'/132';
+      }
+        
+    }
     saveUserDataToLocalStorage();
     return userData;
   }
