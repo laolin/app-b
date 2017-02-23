@@ -91,7 +91,12 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   
   return {
     
-    getHeaderData:function(){return headerData},
+    getHeaderData:AppbDataHeader.getHeaderData,
+    addHeader:AppbDataHeader.addHeader,
+    activeHeader:AppbDataHeader.activeHeader,
+    deleteHeader:AppbDataHeader.deleteHeader,
+
+    
     getFooterData:function(){return footerData},
     getAppData:function(){return appData},
     getUserData:function(){return userData},
