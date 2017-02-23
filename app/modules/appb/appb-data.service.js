@@ -6,15 +6,15 @@ var KEY_CLIENTID=appbCfg.keyClientId;
 angular.module('appb')
 .factory('AppbData',
 ['$route','$rootScope','$location','$log','$timeout','$http','$window',
-  'AppbConfig','AppbDataUser','AppbUiDialogService',
+  'AppbConfig','AppbDataHeader','AppbDataFooter','AppbDataUser','AppbUiDialogService',
 function($route, $rootScope,$location,$log,$timeout,$http,$window,
-  AppbConfig,AppbDataUser,AppbUiDialogService) 
+  AppbConfig,AppbDataHeader,AppbDataFooter,AppbDataUser,AppbUiDialogService) 
 {
   
   var appCfg=AppbConfig();
 
-  var headerData={};
-  var footerData={};
+  var headerData=AppbDataHeader.getHeaderData();
+  var footerData=AppbDataFooter.getFooterData();
   var userData=AppbDataUser.getUserData();
   var dialogData=AppbUiDialogService.getData();
 
@@ -38,28 +38,7 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   initClientId();
 
   window.appData=appData;//export to global
- 
-  // headerData
-  headerData.headerText='Welcome';
-  
-  // 链接需要正常的html的地址格式，就是要写上 #!，因为链接可能是外部链接
-  headerData.widgets=[
-    {side:'left',link:'#!/abc/',icon:'cubes'},
-    {side:'left',link:'#!/',text:'HOME'},
-    //{side:'left',link:'javascript:;',img:'assets/img/logo-32.png',text:''},
-    {side:'right',link:'#!/abc/',icon:'battery-half'},
-    {side:'right',link:'#!/default-settings',text:'测试中'}
-  ];
-  
-  // footerData
-  // footer 的链接强制是APP内部链接, 即链接要求是 #!/xxx ，
-  // 但js中的链接不需要写全， 模板中会自动加 #!
-  // '/' 实际代表 '#!/' ， '/default-search' 代表 '#!/default-search'。
-  footerData.tabs=[
-    {text:'首页',icon:'home',href:'/',onClick:0,active:0},
-    {text:'搜索',icon:'search',href:'/default-search',onClick:0,active:1},
-    {text:'测试',icon:'cog',href:'/default-settings',onClick:0,active:0}
-  ];
+
   
   
   //factory functions
