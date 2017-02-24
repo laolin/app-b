@@ -49,7 +49,8 @@ start #main-header
 }
 #main-header .center {
   text-align:center;
-  font-size:28px;
+  overflow:hidden;
+  font-size:22px;
 }
 .main-header_container {
   display: inline-block;
