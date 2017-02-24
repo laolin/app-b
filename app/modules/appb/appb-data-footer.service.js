@@ -5,7 +5,6 @@ angular.module('appb')
 .factory('AppbDataFooter',
 ['$route','$rootScope','$location','$log',
 function($route, $rootScope,$location,$log) {
-  var auto_name ='__auto_name_%@&*-LONG-LONG';
 
   var footerData={};
     
@@ -21,17 +20,17 @@ function($route, $rootScope,$location,$log) {
       {text:'测试',icon:'cog',href:'/default-settings',onClick:0,active:0}
     ],
     "test": [
-      {text:'TEST1',icon:'home',href:'/test-1',onClick:0,active:0},
-      {text:'test2',icon:'search',href:'/test-2',onClick:0,active:2},
-      {text:'test-3',icon:'cog',href:'/test-3',onClick:0,active:0}
+      {text:'TEST1',icon:'car',href:'/test-1',onClick:0,active:0},
+      {text:'test2',icon:'bell',href:'/test-2',onClick:0,active:2},
+      {text:'test-3',icon:'bicycle',href:'/test-3',onClick:0,active:0}
     ]
   };
   activeFooter('0');
   
   //预设的 footer
   function activeFooter(name) {
-    if(footerData.name==name && name!=auto_name)
-      return;//名字相等 且 不是预设的，就不用做什么了 (autoname不是预设的)
+    if(footerData.name==name)
+      return;//名字相等 就不用做什么了  
     if(!tabsAvailable[name]) {
       name='0';
     }
@@ -41,10 +40,10 @@ function($route, $rootScope,$location,$log) {
   }
   
   //新定义的 footer
-  function setFooter(name,tabs,n) {
-    delete tabsAvailable[auto_name];
-    tabsAvailable[auto_name]=tabs;
-    activeFooter(auto_name);
+  function setFooter(name,tabs) {
+    delete tabsAvailable[name];
+    tabsAvailable[name]=tabs;
+    activeFooter(name);
   }
 
 
