@@ -7,11 +7,27 @@ angular.module('appb')
     bindings: {
       headerData: '='
     },
-    controller: ['$scope','$log','$timeout','$location', 
-    function ($scope,$log,$timeout,$location){
+    controller: ['$scope','$log','$timeout','$location','$window',
+    function ($scope,$log,$timeout,$location,$window){
    
-      
-    }]
+      this.goLink = function(k,abs) { 
+      if( k === '-1' ) {
+        $window.history.back();
+        return true;
+      }
+      /*if(k.substr(0,7)=='http://' || k.substr(0,8)=='https://') {
+        $log.log(2,k);
+        location.href=k;
+        return false;
+      }*/
+      if(abs) {
+        location.href=k;
+        return false;
+      }
+      $location.path(k);
+      return true;
+    };
+  }]
 })
 
 //________________________________

@@ -1,6 +1,6 @@
     <div class="main-header_container" >
       <div ng-repeat = 'w in $ctrl.headerData.widgets' ng-class='w.side'>
-        <a href='{{w.link}}'>
+        <a href='' ng-click='$ctrl.goLink(w.link,w.absUrl)' title='{{w.link}}'>
           <i ng-if='w.icon' class="fa fa-{{w.icon}}" aria-hidden="true"></i>
           <img ng-if='w.img' ng-src="{{w.img}}") /> 
           <span ng-if='w.text'>{{w.text}}</span> 

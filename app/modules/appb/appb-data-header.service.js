@@ -10,35 +10,37 @@ function($route, $rootScope,$location,$log) {
   this.headerData=headerData;
 
   // headerData
-  // 链接需要正常的html的地址格式，
-  // angular path 均要写上 #!，因为链接可能是外部链接
-  // 默认几种header样式：
+  // 链接默认都是app内部链接
+  // '-1' 代表后退
+  // 通过设定absUrl=1，可以跳到外部链接
+  //
+  // 默认的几种header样式：
   var headerAvailable=this.dataAvailable={
     '0':{title:'Welcome',widgets:[ //default widgets
-      {side:'left',link:'#!/111',icon:'chevron-left'},
-      {side:'right',link:'#!/111',icon:'user'}
+      {side:'left',link:'-1',icon:'chevron-left'},
+      {side:'right',link:'/111',icon:'user'}
     ]},
     '_L':{title:'欢迎',widgets:[
-      {side:'left',link:'#!/111',icon:'chevron-left'}
+      {side:'left',link:'-1',icon:'chevron-left'}
     ]},
     '_R':{title:'标题',widgets:[
-      {side:'right',link:'#!/111',icon:'user'}
+      {side:'right',link:'/user',icon:'user'}
     ]},
     '_HOME':{title:'Hello',widgets:[
-      {side:'left',link:'#!/',icon:'home'},
-      {side:'right',link:'#!/my',icon:'user'}
+      {side:'left',link:'/',icon:'home'},
+      {side:'right',link:'/my',icon:'user'}
     ]},
     '_TEST':{title:'测试1',widgets:[
-      {side:'left',link:'#!/test',icon:'cubes'},
-      {side:'left',link:'#!/',text:'HOME'},
+      {side:'left',link:'/default-settings',icon:'cubes'},
+      {side:'left',link:'-1',text:'HOME'},
       //{side:'left',link:'javascript:;',img:'assets/img/logo-32.png',text:''},
-      {side:'right',link:'#!/power',icon:'battery-half'},
-      {side:'right',link:'#!/default-settings',text:'测试中'}
+      {side:'right',link:'http://laolin.com',absUrl:1,icon:'battery-half'},
+      {side:'right',link:'/',absUrl:1,text:'测试中'}
     ]},
     '_TEST2':{title:'测试2',widgets:[
-      {side:'left',link:'#!/111',icon:'chevron-left'},
-      {side:'right',link:'#!/p1',icon:'battery-full'},
-      {side:'right',link:'#!/d1',text:'新版'}
+      {side:'left',link:'-1',icon:'chevron-left'},
+      {side:'right',link:'/power',icon:'battery-full'},
+      {side:'right',link:'/test',text:'新版'}
     ]}
   };
   activeHeader('0','');
