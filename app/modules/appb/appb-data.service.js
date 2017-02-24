@@ -70,7 +70,7 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
 
     
     getFooterData:AppbDataFooter.getFooterData,
-    setFooter:AppbDataFooter.setFooter,
+    addFooter:AppbDataFooter.addFooter,
     activeFooter:AppbDataFooter.activeFooter,
     startPathMonitor:AppbDataFooter.startPathMonitor,
     

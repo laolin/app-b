@@ -40,10 +40,10 @@ function($route, $rootScope,$location,$log) {
   }
   
   //新定义的 footer
-  function setFooter(name,tabs) {
+  function addFooter(name,tabs,ac) {
     delete tabsAvailable[name];
     tabsAvailable[name]=tabs;
-    activeFooter(name);
+    if(ac)activeFooter(name);
   }
 
 
@@ -77,7 +77,7 @@ function($route, $rootScope,$location,$log) {
     });
   }
   return {
-    setFooter:setFooter,
+    addFooter:addFooter,
     activeFooter:activeFooter,
     activeTabByPath:activeTabByPath,
     activeTabByIndex:activeTabByIndex,
