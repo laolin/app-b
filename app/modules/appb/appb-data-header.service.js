@@ -18,20 +18,24 @@ function($route, $rootScope,$location,$log) {
       {side:'left',link:'#!/111',icon:'chevron-left'},
       {side:'right',link:'#!/111',icon:'user'}
     ]},
-    '_L':{title:'欢迎',widgets:[ //default widgets
+    '_L':{title:'欢迎',widgets:[
       {side:'left',link:'#!/111',icon:'chevron-left'}
     ]},
-    '_R':{title:'标题',widgets:[ //default widgets
+    '_R':{title:'标题',widgets:[
       {side:'right',link:'#!/111',icon:'user'}
     ]},
-    '_TEST':{title:'测试1',widgets:[ //default widgets
+    '_HOME':{title:'Hello',widgets:[
+      {side:'left',link:'#!/',icon:'home'},
+      {side:'right',link:'#!/my',icon:'user'}
+    ]},
+    '_TEST':{title:'测试1',widgets:[
       {side:'left',link:'#!/test',icon:'cubes'},
       {side:'left',link:'#!/',text:'HOME'},
       //{side:'left',link:'javascript:;',img:'assets/img/logo-32.png',text:''},
       {side:'right',link:'#!/power',icon:'battery-half'},
       {side:'right',link:'#!/default-settings',text:'测试中'}
     ]},
-    '_TEST2':{title:'测试2',widgets:[ //default widgets
+    '_TEST2':{title:'测试2',widgets:[
       {side:'left',link:'#!/111',icon:'chevron-left'},
       {side:'right',link:'#!/p1',icon:'battery-full'},
       {side:'right',link:'#!/d1',text:'新版'}
