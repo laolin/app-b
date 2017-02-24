@@ -15,7 +15,9 @@ angular.module('view-test')
             {side:'right',link:'/test-2',text:'test2'},
             {side:'right',link:'/',text:'home'}
           ]
-          ); 
+        );
+        AppbData.activeFooter('test');
+        
       }
     ]
   })

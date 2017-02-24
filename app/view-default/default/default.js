@@ -10,6 +10,7 @@ angular.module('view-default')
         AppbData.setHeader('欢迎','',-1,
           {side:'right',link:'/test-1',text:'test1'});
 
+        AppbData.activeFooter('0');
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
         $scope.userData=userData;

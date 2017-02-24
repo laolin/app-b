@@ -24,6 +24,7 @@ angular.module('view-test')
          
         AppbData.setHeader('TEST-1aaa','',0,
           {side:'right',link:'/test-2',text:'test2'}); 
+        AppbData.activeFooter('test');
 
       }
     ]

@@ -26,12 +26,12 @@ function($route, $rootScope,$location,$log) {
       {side:'left',link:'-1',icon:'chevron-left'}
     ],
     '_HOME':[
-      {side:'left',link:'-1',icon:'home'},
+      {side:'left',link:'1',icon:'home'},
       {side:'right',link:'/test-1',icon:'user'}
     ],
     '_TEST':[
       {side:'left',link:'/test-1',icon:'cubes'},
-      {side:'left',link:'-1',text:'HOME'},
+      {side:'left',link:'-1',text:'BACK'},
       //{side:'left',link:'javascript:;',img:'assets/img/logo-32.png',text:''},
       {side:'right',link:'/test-2',absUrl:0,icon:'battery-half'},
       {side:'right',link:'/test-3',absUrl:0,text:'测试中'}
@@ -75,7 +75,6 @@ function($route, $rootScope,$location,$log) {
     if(left==1)w[0]=headerAvailable['1'][0];// link to home
     else if(left==-1) w[0]=headerAvailable['-1'][0];//go back link
     if(right)w=w.concat(right);
-    $log.log('right',right,w);
     delete headerAvailable[auto_name];
     headerAvailable[auto_name]=w;
     activeHeader(auto_name,title,bTitle);

@@ -42,36 +42,7 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   
   
   //factory functions
-  function activeTabByPath(p) {
-    $log.log('activeTabByPath',p);
-    for(var i=footerData.tabs.length;i--; ){
-      if(footerData.tabs[i].href==p)break;
-    }
-    if(i<0)return true;
-    return activeTabByIndex(i);
-  }
 
-  function activeTabByIndex(nt) {
-    $log.log('activeTabByIndex',nt);
-    for(var i=footerData.tabs.length;i--; ){
-      footerData.tabs[i].active=false;
-    }
-    footerData.tabs[nt].active=true;
-    headerData.type=footerData.tabs[nt].hdType;
-    if(typeof(footerData.tabs[nt].onClick)=='function')footerData.tabs[nt].onClick();
-    return true;
-  }
-  
-  function startPathMonitor() {
-    $rootScope.$on('$routeChangeSuccess', function() {
-      
-      //if(! userData || !userData.token) {
-      //  $location.path( "/wx-login" );
-      //} else {
-        activeTabByPath($location.path());
-      //}
-    });
-  }
   
 
   //
@@ -98,15 +69,16 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     deleteHeader:AppbDataHeader.deleteHeader,
 
     
-    getFooterData:function(){return footerData},
+    getFooterData:AppbDataFooter.getFooterData,
+    setFooter:AppbDataFooter.setFooter,
+    activeFooter:AppbDataFooter.activeFooter,
+    startPathMonitor:AppbDataFooter.startPathMonitor,
+    
     getAppData:function(){return appData},
     getUserData:function(){return userData},
     
     getDialogData:function(){return dialogData},
 
-    activeTabByPath:activeTabByPath,
-    activeTabByIndex:activeTabByIndex,
-    startPathMonitor:startPathMonitor
   }
   
 }]);

@@ -8,6 +8,7 @@ angular.module('view-test')
     controller: ['$scope','$location','$log','$interval','AppbData',
       function ($scope,$location,$log,$interval,AppbData) {
         AppbData.setHeader('TEST-2 bB bB b');
+        AppbData.activeFooter('test');
       }
     ]
   })

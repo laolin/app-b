@@ -12,6 +12,7 @@ angular.module('view-default')
         var lastname=lastHeader.name;
         var lasttitle=lastHeader.title;
         AppbData.activeHeader('_HOME','测试');
+        AppbData.activeFooter('0');
         $scope.$on('$destroy',function (){
           AppbData.activeHeader(lastname,lasttitle);
         })
