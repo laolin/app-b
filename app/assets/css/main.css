@@ -164,6 +164,9 @@ start #main-footer
 .hilight {
   background-color: #fd2;
 }
+.cursor-pointer { 
+  cursor:pointer;
+}
 
 /*-------------------- 
  来自bs  
