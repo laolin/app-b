@@ -3,6 +3,9 @@
   
 var cfg={
 //-- start config data -----------
+  appName:"Laolin's app B",
+  pageTitle:'Welcome',//默认的页面上方<ui-header>条的标题
+  htmlTitle:'App-B',//默认的浏览器的页面标题
   apiRoot: 'https://api.qinggaoshou.com/api-1.0', //一般的API
   apiWxAuth: 'https://qinggaoshou.com/api-1.0', //WX 授权 callback 域名限制的URI
 
@@ -10,7 +13,7 @@ var cfg={
     {name:'qgs-web',id:'wx8fb342a27567fee7'},
     {name:'qgs-mp',id:'wx93301b9f5ddf5c8f'}
   ],
-  version: '7.01'
+  version: '78.100.100.a'
 };
 
 cfg.keyClientId='APP-B_clientId';// 在AppbData里用
@@ -27,6 +30,7 @@ angular.module('app-b',[
   'wx-login',
 
   'view-default',
+  'view-test',
 
   'ngResource',
   'ngRoute'

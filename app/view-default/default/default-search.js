@@ -10,7 +10,7 @@ angular.module('view-default')
         var lastHeader = AppbData.getHeaderData();
         var lastname=lastHeader.name;
         var lasttitle=lastHeader.title;
-        AppbData.activeHeader('_L','搜索');
+        AppbData.activeHeader('_TEST','搜索');
         $scope.$on('$destroy',function (){
           AppbData.activeHeader(lastname,lasttitle);
         })

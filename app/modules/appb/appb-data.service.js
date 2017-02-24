@@ -92,6 +92,7 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   return {
     
     getHeaderData:AppbDataHeader.getHeaderData,
+    setHeader:AppbDataHeader.setHeader,
     addHeader:AppbDataHeader.addHeader,
     activeHeader:AppbDataHeader.activeHeader,
     deleteHeader:AppbDataHeader.deleteHeader,

@@ -1,15 +1,12 @@
 'use strict';
 (function(){
 
-angular.module('view-default')
+angular.module('view-test')
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/', {
-    templateUrl: 'view-default/default/default.template.html',
+  $routeProvider.when('/test-1', {
+    templateUrl: 'view-test/test/test-1.template.html',
     controller: ['$scope','$location','$log','$interval','AppbData',
       function ($scope,$location,$log,$interval,AppbData) {
-        AppbData.setHeader('欢迎','',-1,
-          {side:'right',link:'/test-1',text:'test1'});
-
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
         $scope.userData=userData;
@@ -24,6 +21,10 @@ angular.module('view-default')
           appData.setUserData({});//Update to localStorage
           //$location.path('/wx-login');
         }
+         
+        AppbData.setHeader('TEST-1aaa','',0,
+          {side:'right',link:'/test-2',text:'test2'}); 
+
       }
     ]
   })
