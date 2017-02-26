@@ -6,8 +6,8 @@ var defBTitle=appbCfg.htmlTitle;
 
 angular.module('appb')
 .factory('AppbDataHeader',
-['$route','$rootScope','$location','$log',
-function($route, $rootScope,$location,$log) {
+['$route','$rootScope','$location','$log','AppbConfig',
+function($route, $rootScope,$location,$log,AppbConfig) {
 
   var headerData={};
   this.headerData=headerData;
@@ -24,24 +24,16 @@ function($route, $rootScope,$location,$log) {
     ],
     '-1':[ //go back
       {side:'left',link:'-1',icon:'chevron-left'}
-    ],
-    '_HOME':[
-      {side:'left',link:'1',icon:'home'},
-      {side:'right',link:'/test-1',icon:'user'}
-    ],
-    '_TEST':[
-      {side:'left',link:'/test-1',icon:'cubes'},
-      {side:'left',link:'-1',text:'BACK'},
-      //{side:'left',link:'javascript:;',img:'assets/img/logo-32.png',text:''},
-      {side:'right',link:'/test-2',absUrl:0,icon:'battery-half'},
-      {side:'right',link:'/test-3',absUrl:0,text:'测试中'}
-    ],
-    '_TEST2':[
-      {side:'left',link:'-1',icon:'chevron-left'},
-      {side:'right',link:'/test-3',icon:'battery-full'},
-      {side:'right',link:'/test-2',text:'新版'}
     ]
   };
+  var cfg=AppbConfig();
+  if(cfg.headerAvailable) {
+    var cfgt=cfg.headerAvailable;
+    for(var i=cfgt.length; i--; ) {
+      addHeader(cfgt[i][0],cfgt[i][1]);
+    }
+  }
+
   activeHeader('1');
   
   //TODO: 验证 widgets 的有效性

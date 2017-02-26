@@ -1,7 +1,8 @@
 'use strict';
 (function(){
   
-var cfg={
+//加个全局变量 appbCfg
+var cfg=window.appbCfg={
   appName:"Laolin's app B",
   pageTitle:'Welcome',//默认的页面上方<ui-header>条的标题
   htmlTitle:'App-B',//默认的浏览器的页面标题
@@ -29,7 +30,7 @@ cfg.keyUserData='APP-B_userdata';// 在AppbDataUser里用
 
 cfg.markWxLoginCallback='cb_xd';//和后端API的约定字符串，在 /wx-login里用
 
-cfg.tabsAvilable=[
+cfg.tabsAvailable=[
   ["0", [
       {text:'首页',icon:'home',href:'/',onClick:0,active:0},
       {text:'搜索',icon:'search',href:'/default-search',onClick:0,active:1},
@@ -41,9 +42,25 @@ cfg.tabsAvilable=[
       {text:'test-3',icon:'bicycle',href:'/test-3',onClick:0,active:0}
   ]]
 ];
+cfg.headerAvailable=[
+  ['_HOME',[
+    {side:'left',link:'1',icon:'home'},
+    {side:'right',link:'/test-1',icon:'user'}
+  ]],
+  ['_TEST',[
+    {side:'left',link:'/test-1',icon:'cubes'},
+    {side:'left',link:'-1',text:'BACK'},
+    //{side:'left',link:'javascript:;',img:'assets/img/logo-32.png',text:''},
+    {side:'right',link:'/test-2',absUrl:0,icon:'battery-half'},
+    {side:'right',link:'/test-3',absUrl:0,text:'测试中'}
+  ]],
+  ['_TEST2',[
+    {side:'left',link:'-1',icon:'chevron-left'},
+    {side:'right',link:'/test-3',icon:'battery-full'},
+    {side:'right',link:'/test-2',text:'新版'}
+  ]]
+];
 
-
-window.appbCfg=cfg;//加个全局变量
 
 
 //___________________________________

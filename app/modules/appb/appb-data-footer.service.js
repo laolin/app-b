@@ -21,8 +21,8 @@ function($route, $rootScope,$location,$log,AppbConfig) {
     ]
   };
   var cfg=AppbConfig();
-  if(cfg.tabsAvilable) {
-    var cfgt=cfg.tabsAvilable;
+  if(cfg.tabsAvailable) {
+    var cfgt=cfg.tabsAvailable;
     for(var i=cfgt.length; i--; ) {
       addFooter(cfgt[i][0],cfgt[i][1]);
     }
