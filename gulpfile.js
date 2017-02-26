@@ -1,4 +1,32 @@
 'use strict';
+
+/**
+ *  可构建多个APP，
+ *  目前有两个APP： `app-b` AND `app-exbook`
+ *  默认APP为 app-b
+ *  
+ *  总的任务：
+ *  
+ *  1, 使用 `gulp` 或 `gulp default` 构建 默认APP (`app-b`)
+ *  2  使用 `gulp appb` 构建 `app-b`
+ *  3, 使用 `gulp exbook` 构建 `app-exbook`
+ *  
+ *  详细 分步任务 列表：
+ * 
+ *  4, gulp wiredep  //根据bower.json 注入依赖的css和js到html中
+ *  5, gulp useref   //合并html中的多个css和js
+ *  6, gulp config-appb //修改配置为`app-b`，单独运行没用，放在别的任务前运行
+ *  7, gulp config-exbook //修改配置为`app-exbook`，同上
+ *  8,  ... 略
+ *  
+ *  一般 分步任务 均为对默认APP操作，
+ *  如果对其他APP，需要在任务前加对应APP的配置任务，
+ *  一定要同一条gulp命令运行多个任务才有效，单独运行没用。
+ *  比如上面的4, 5, 对应app-exbook的任务应该如下：
+ *  4, gulp config-exbook wiredep  //根据bower.json 注入依赖的css和js到html中
+ *  5, gulp config-exbook useref   //合并html中的多个css和js
+ */
+ 
 // =======================================================================
 // Gulp Plugins
 // =======================================================================
@@ -179,4 +207,5 @@ gulp.task('config-exbook', function(){
 });
 
 gulp.task('default',['config-appb','runBuild']);
+gulp.task('appb',['config-appb','runBuild']);
 gulp.task('exbook',['config-exbook','runBuild']);
