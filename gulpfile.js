@@ -65,6 +65,10 @@ var config_appb = {
   
   path: {
     file_copy: '',
+    file_tlp: [
+      'app/modules/**/*.template.html',
+      'app/view-default/**/*.template.html',
+      'app/view-test/**/*.template.html'],
     app: './app',    
     tmp: './tmp',
     
@@ -75,7 +79,7 @@ var config_exbook = {
   //指定templatecache生成的目录、文件名，以便合并到 useref 指定的js文件中
   tplModule: 'appb',
   
-  tplFile: 'tpl.js',
+  tplFile: 'tpl_exbook.js',
 
   //需要知道在 index.html 中定义的路径名和文件名， 以便合并 templatecache
   useref_jspath: 'assets',
@@ -92,6 +96,9 @@ var config_exbook = {
   
   path: {
     file_copy: '',
+    file_tlp: [
+      'app/modules/**/*.template.html',
+      'app/view-exbook/**/*.template.html'],
     app: './app',    
     tmp: './tmp',
     
@@ -105,7 +112,7 @@ var configObj =config_appb;
 // =======================================================================
 
 gulp.task('templatecache', function () {
-  return gulp.src('app/**/*.template.html')
+  return gulp.src(configObj.path.file_tlp)
     .pipe(htmlmin({collapseWhitespace: true,removeComments: true}))
     //指定templatecache生成的目录、文件名，以便合并到 useref 指定的js文件中
     .pipe(templateCache(configObj.tplFile,{module: configObj.tplModule}))
