@@ -3,8 +3,8 @@
 
 angular.module('appb')
 .factory('AppbDataFooter',
-['$route','$rootScope','$location','$log',
-function($route, $rootScope,$location,$log) {
+['$route','$rootScope','$location','$log','AppbConfig',
+function($route, $rootScope,$location,$log,AppbConfig) {
 
   var footerData={};
     
@@ -16,15 +16,17 @@ function($route, $rootScope,$location,$log) {
   var tabsAvailable=this.tabsAvailable={
     "0": [
       {text:'首页',icon:'home',href:'/',onClick:0,active:0},
-      {text:'搜索',icon:'search',href:'/default-search',onClick:0,active:1},
-      {text:'测试',icon:'cog',href:'/default-settings',onClick:0,active:0}
-    ],
-    "test": [
-      {text:'TEST1',icon:'car',href:'/test-1',onClick:0,active:0},
-      {text:'test2',icon:'bell',href:'/test-2',onClick:0,active:2},
-      {text:'test-3',icon:'bicycle',href:'/test-3',onClick:0,active:0}
+      {text:'首页',icon:'search',href:'/a',onClick:0,active:1},
+      {text:'测试',icon:'cog',href:'/b',onClick:0,active:0}
     ]
   };
+  var cfg=AppbConfig();
+  if(cfg.tabsAvilable) {
+    var cfgt=cfg.tabsAvilable;
+    for(var i=cfgt.length; i--; ) {
+      addFooter(cfgt[i][0],cfgt[i][1]);
+    }
+  }
   activeFooter('0');
   
   //预设的 footer
