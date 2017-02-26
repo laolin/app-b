@@ -31,45 +31,78 @@ var gulp = require('gulp'),
 /*
 1. dist 目录下直接放的文件只有两个
   index.html
-  qgs-main.app-config.js
-2. dist/assest 目录不直接放文件
+  xxx-config.js
+  
+2. dist/assest 目录放 js 文件
 
-3. dist/assest/js
-   dist/assest/css
+3. dist/assest/css
    dist/assest/img
    dist/assest/fonts
-   3个子目录放静态文件 
-   第4个目录放字体文件
+   3个子目录放对应的文件
+   
    保持 css 和 fonts 相对路径不变。
 
 */
-var configObj = {
+
+var config_appb = {
   //指定templatecache生成的目录、文件名，以便合并到 useref 指定的js文件中
   tplModule: 'appb',
+  
   tplFile: 'tpl.js',
 
   //需要知道在 index.html 中定义的路径名和文件名， 以便合并 templatecache
-  useref_jspath: 'assets/js',
+  useref_jspath: 'assets',
   useref_jsfile: 'app.js',
+  
+  //s1,手工写的html, 给wiredep处理的文件，处理后可以调试用，可以给useref用
+  html_before_wiredep: 'app-b.html', 
+  
+  //s2,可以调试用，也是给useref处理的文件名
+  html_after_wiredep: 'app-b-index.html', 
+  
+  //s3, 最终放到 dist 目录下的 html文件名
+  html: 'index.html', 
+  
   path: {
+    file_copy: '',
+    app: './app',    
     tmp: './tmp',
     
     dist: './dist'
   }
 }
+var config_exbook = {
+  //指定templatecache生成的目录、文件名，以便合并到 useref 指定的js文件中
+  tplModule: 'appb',
+  
+  tplFile: 'tpl.js',
+
+  //需要知道在 index.html 中定义的路径名和文件名， 以便合并 templatecache
+  useref_jspath: 'assets',
+  useref_jsfile: 'exbook.js',
+  
+  //s1,手工写的html, 给wiredep处理的文件，处理后可以调试用，可以给useref用
+  html_before_wiredep: 'app-exbook.html', 
+  
+  //s2,可以调试用，也是给useref处理的文件名
+  html_after_wiredep: 'app-exbook-index.html', 
+  
+  //s3, 最终放到 dist 目录下的 html文件名
+  html: 'index.html', 
+  
+  path: {
+    file_copy: '',
+    app: './app',    
+    tmp: './tmp',
     
-
-// =======================================================================
-// Error Handling
-// =======================================================================
-function handleError(err) {
-    console.log(err.toString());
-    this.emit('end');
+    dist: './dist-exbook'
+  }
 }
+ 
+// =======================================================================
+var configObj =config_appb;
 
-
-
-
+// =======================================================================
 
 gulp.task('templatecache', function () {
   return gulp.src('app/**/*.template.html')
@@ -79,14 +112,23 @@ gulp.task('templatecache', function () {
     .pipe(gulp.dest(configObj.path.tmp));
 });
 
+gulp.task('wiredep', function() {
+    return gulp.src( configObj.path.app + '/'+configObj.html_before_wiredep )
+    .pipe(wiredep({
+      optional: 'configuration',
+      goes: 'here'
+    }))
+    .pipe(rename(configObj.html_after_wiredep))
+    .pipe(gulp.dest(configObj.path.app));
+});
 
 gulp.task('html-useref',['wiredep'], function(){
-    return gulp.src('app/index.html')
+    return gulp.src(configObj.path.app + '/'+configObj.html_after_wiredep)
         .pipe(useref())
         .pipe(gulpif('*.css', cleanCSS()))
         .pipe(gulpif('*.html', htmlmin({collapseWhitespace: true,removeComments: true})))
+        .pipe(gulpif('*.html', rename(configObj.html)))
         .pipe(gulp.dest(configObj.path.dist));
-
 });
 gulp.task('copyImg', function() {
     return gulp.src('app/assets/img/**/*.*')
@@ -94,8 +136,8 @@ gulp.task('copyImg', function() {
     .pipe(gulp.dest(configObj.path.dist+'/assets/img'))
 });
 
-gulp.task('copyCfg', function() {
-    return gulp.src('app/qgs-main.app-config.js')
+gulp.task('copyFile', function() {
+    return gulp.src(configObj.path.file_copy)
     .pipe(gulp.dest(configObj.path.dist))
 });
 
@@ -107,17 +149,11 @@ gulp.task('copyFonts1', function() {
 });
 
 
-gulp.task('wiredep', function() {
-    return gulp.src( 'app/app-b.html')
-    .pipe(wiredep({
-      optional: 'configuration',
-      goes: 'here'
-    }))
-    .pipe(rename('index.html'))
-    .pipe(gulp.dest('app'));
-});
+//gulp.task('copy', ['copyFonts1','copyImg','copyFile']);
+gulp.task('copy', ['copyFonts1','copyImg']);
 
-gulp.task('default', ['html-useref', 'templatecache','copyFonts1','copyImg','copyCfg'], function(){
+
+gulp.task('runBuild', ['html-useref', 'templatecache','copy'], function(){
   return gulp.src([configObj.path.dist+'/'+configObj.useref_jspath+'/'+configObj.useref_jsfile,
           configObj.path.tmp+'/'+configObj.tplFile])
     .pipe(concat(configObj.useref_jsfile))
@@ -125,3 +161,15 @@ gulp.task('default', ['html-useref', 'templatecache','copyFonts1','copyImg','cop
     .pipe(uglify({compress: { drop_console: true }}))
     .pipe(gulp.dest(configObj.path.dist+'/'+configObj.useref_jspath));
 });
+
+gulp.task('config-appb', function(){
+  console.log('set config to [appb]');
+  configObj =config_appb;
+});
+gulp.task('config-exbook', function(){
+  console.log('set config to [exbook]');
+  configObj =config_exbook;
+});
+
+gulp.task('default',['config-appb','runBuild']);
+gulp.task('exbook',['config-exbook','runBuild']);
