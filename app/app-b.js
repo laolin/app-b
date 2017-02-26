@@ -35,13 +35,17 @@ angular.module('app-b',[
   'ngResource',
   'ngRoute'
 ])
-.config(['$sceDelegateProvider', function($sceDelegateProvider) {
-  $sceDelegateProvider.resourceUrlWhitelist([
-    cfg.apiRoot+"/**",
-    cfg.apiWxAuth+"/**",
-    'self'
-  ]);
-}])
+.config(['$sceDelegateProvider', '$locationProvider', '$routeProvider',
+  function($sceDelegateProvider, $locationProvider, $routeProvider) {
+    $sceDelegateProvider.resourceUrlWhitelist([
+      cfg.apiRoot+"/**",
+      cfg.apiWxAuth+"/**",
+      'self'
+    ]);
+    $locationProvider.hashPrefix('!');
+    $routeProvider.otherwise({redirectTo: '/test-3'});
+  }
+])
 .factory('AppbConfig',[ '$log',
   function( $log) {
     this.config=cfg;    
