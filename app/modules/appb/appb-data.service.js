@@ -6,9 +6,9 @@ var KEY_CLIENTID=appbCfg.keyClientId;
 angular.module('appb')
 .factory('AppbData',
 ['$route','$rootScope','$location','$log','$timeout','$http','$window',
-  'AppbConfig','AppbDataHeader','AppbDataFooter','AppbDataUser','AppbUiDialogService',
+  'AppbConfig','AppbDataHeader','AppbDataFooter','AppbDataUser','AppbUiService',
 function($route, $rootScope,$location,$log,$timeout,$http,$window,
-  AppbConfig,AppbDataHeader,AppbDataFooter,AppbDataUser,AppbUiDialogService) 
+  AppbConfig,AppbDataHeader,AppbDataFooter,AppbDataUser,AppbUiService) 
 {
   
   var appCfg=AppbConfig();
@@ -16,7 +16,7 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   var headerData=AppbDataHeader.getHeaderData();
   var footerData=AppbDataFooter.getFooterData();
   var userData=AppbDataUser.getUserData();
-  var dialogData=AppbUiDialogService.getData();
+  var dialogData=AppbUiService.getDialogData();
 
   var appData=this.appData={
     isWeixinBrowser:(/micromessenger/i).test(navigator.userAgent),
@@ -29,9 +29,9 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     setUserData:AppbDataUser.setUserData,
 
     dialogData:dialogData,
-    setDialogData:AppbUiDialogService.setData,
-    showDialog:AppbUiDialogService.show,
-    hideDialog:AppbUiDialogService.hide,
+    setDialogData:AppbUiService.setDialogData,
+    showDialog:AppbUiService.showDialog,
+    hideDialog:AppbUiService.hideDialog,
     
     appCfg:appCfg
   }

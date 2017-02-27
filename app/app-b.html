@@ -30,7 +30,9 @@
     <div ng-view><h5 class='text-center'>Loading...</h5></div>
   </div>
   <appb-ui-footer id="main-footer" footer-data='appb.footerData'></appb-ui-footer>
-  <appb-ui-dialog id="main-dialog" data='appb.dialogData'></appb-ui-dialog>
+  <appb-ui-abc
+    dialog-data='appb.dialogData'
+  ></appb-ui-abc>
   <!-- build:js assets/app.js -->
   <!-- bower:js -->
   <!-- endbower -->
@@ -43,10 +45,11 @@
   <script src="modules/appb/appb-data-footer.service.js"></script>
   <script src="modules/appb/appb-data-user.service.js"></script>
 
+  <script src="modules/appb-ui/appb-ui-service.js"></script>
   <script src="modules/appb-ui/appb-ui-header.component.js"></script>
   <script src="modules/appb-ui/appb-ui-footer.component.js"></script>
+  <script src="modules/appb-ui/appb-ui-abc.component.js"></script>
   <script src="modules/appb-ui/appb-ui-dialog.component.js"></script>
-  <script src="modules/appb-ui/appb-ui-dialog-service.js"></script>
 
   <script src="modules/wx-login/wx-login.module.js"></script>
   <script src="modules/wx-login/wx-login.route.js"></script>
