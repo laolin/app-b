@@ -33,6 +33,12 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     showDialog:AppbUiService.showDialog,
     hideDialog:AppbUiService.hideDialog,
     
+    toastData:AppbUiService.getToastData(),
+    showToast:AppbUiService.showToast,
+    hideToast:AppbUiService.hideToast,
+    showLoading:AppbUiService.showLoading,
+    hideLoading:AppbUiService.hideLoading,
+    
     appCfg:appCfg
   }
   initClientId();

@@ -1,0 +1,20 @@
+$ctrl.toast={{$ctrl.toast}}
+    <!--BEGIN toast-->
+    <div id="toast" ng-if='$ctrl.toast == "done"'>
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast" ng-click='$ctrl.toast = ""'>
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" ng-if='$ctrl.toast == "loading"'>
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast" ng-click='$ctrl.toast = ""'>
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">数据加载中</p>
+        </div>
+    </div>
+</div>

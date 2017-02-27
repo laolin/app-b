@@ -2,10 +2,10 @@
 (function(){
 
 angular.module('appb')
-.component('appbUiAbc',{
-    templateUrl: 'modules/appb-ui/appb-ui-abc.component.template.html',  
+.component('appbUiToast',{
+    templateUrl: 'modules/appb-ui/appb-ui-toast.component.template.html',  
     bindings: { 
-      appData:"="
+      toast: "="
     },
     controller: ['$scope','$log','$timeout',
       function ($scope,$log,$timeout){

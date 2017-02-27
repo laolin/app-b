@@ -38,7 +38,29 @@ angular.module('appb')
     function hideDialog() {
       svc.dialogData.show=false;
     }
+    
+    
+    svc.toastData='';
+    function showToast() {
+      svc.toastData='toast';
+    }
+    function hideToast() {
+      svc.toastData='';
+    }
+    function showLoading() {
+      svc.toastData='loading';
+    }
+    function hideLoading() {
+      svc.toastData='';
+    }
+    
     return {
+      getToastData:function(){return svc.toastData},
+      showToast:showToast,
+      hideToast:hideToast,
+      showLoading:showLoading,
+      hideLoading:hideLoading,
+      
       setDialogData:setDialogData,
       getDialogData:getDialogData,
       showDialog:showDialog,
