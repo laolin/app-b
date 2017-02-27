@@ -110,7 +110,7 @@ var config_exbook = {
   tplFile: 'tpl_exbook.js',
 
   //需要知道在 index.html 中定义的路径名和文件名， 以便合并 templatecache
-  useref_jspath: '.',
+  useref_jspath: 'assets',
   useref_jsfile: 'exbook.js',
   
   //s1,手工写的html, 给wiredep处理的文件，处理后可以调试用，可以给useref用
