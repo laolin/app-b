@@ -87,8 +87,7 @@ start #main-container
 /* 这个定义影响范围有点大，以后要调整 */
 #main-container a,
 #main-container p,
-#main-container span,
-#main-container div {
+#main-container span{
   color:#222;
 }
 /* ======================
@@ -135,15 +134,6 @@ start #main-footer
  END  #main-footer 
 ========================*/
 
-/* --- progress color ------- */
-.progress  {
-    background-color: #fd2;
-}
-
-.progress .determinate,
-.progress .indeterminate {
-    background-color: #d80;
-}
 /* --- tab align ------- */
 .table-display {
   display: table;
@@ -154,20 +144,6 @@ start #main-footer
   text-align:center;
 }
 
-/*======================
- app css  
-======================*/
-
-.user-icon-big {
-  border-radius: 15px;
-}
-
-.hilight {
-  background-color: #fd2;
-}
-.cursor-pointer { 
-  cursor:pointer;
-}
 
 /*-------------------- 
  来自bs  
@@ -219,41 +195,4 @@ start #main-footer
 }
 .invisible {
   visibility: hidden;
-}
-/*====================== 
-  weui color redefine
-  
-  f90 main-color
-  d80 dark
-  fd2 light
-======================*/
-
-div.weui-toast .weui-toast__content {
-  color:#f90 !important;
-}
-
-
-.weui-cells_radio .weui-check:checked + .weui-icon-checked:before ,
-.weui-cells_checkbox .weui-check:checked + .weui-icon-checked:before {
-  color: #f90;
-}
-
-.weui-btn_primary {
-  background-color: #f90;
-  text-overflow: ellipsis;
-  overflow:hidden;
-  display: -webkit-box;
-  height:46px;
-  -webkit-line-clamp:1;
-  -webkit-box-orient: vertical;
-}
-.weui-btn_primary:not(.weui-btn_disabled):active {
-  background-color: #fd2;
-}
-
-
-.weui-switch:checked,
-.weui-switch-cp__input:checked ~ .weui-switch-cp__box {
-    border-color: #f90;
-    background-color: #f90;
 }

@@ -1,0 +1,72 @@
+/*====================== 
+  color define
+  
+  33cc66 main-color
+  00bb66 dark
+  33ffd0 light
+======================*/
+#main-header{
+  background-color:#33cc66;
+}
+#main-header ,
+#main-header a,
+#main-header span,
+#main-header div{
+  color:#fff;
+}
+.main-tab_active a,
+.main-tab_active span,
+.main-tab_active i{
+  color:#33cc66;
+}
+
+/*======================
+ app css  
+======================*/
+
+.user-icon-big {
+  border-radius: 15px;
+}
+
+.hilight {
+  background-color: #33ffd0;
+}
+.cursor-pointer { 
+  cursor:pointer;
+}
+
+.line-one{
+  text-overflow: ellipsis;
+  overflow:hidden;
+  display: -webkit-box;
+  -webkit-line-clamp:1;
+  -webkit-box-orient: vertical;
+}
+
+/*====================== 
+  weui color redefine
+======================*/
+
+div.weui-toast .weui-toast__content {
+  color:#33cc66 !important;
+}
+
+
+.weui-cells_radio .weui-check:checked + .weui-icon-checked:before ,
+.weui-cells_checkbox .weui-check:checked + .weui-icon-checked:before {
+  color: #33cc66;
+}
+
+.weui-btn_primary {
+  background-color: #33cc66;
+}
+.weui-btn_primary:not(.weui-btn_disabled):active {
+  background-color: #33ffd0;
+}
+
+
+.weui-switch:checked,
+.weui-switch-cp__input:checked ~ .weui-switch-cp__box {
+    border-color: #33cc66;
+    background-color: #33cc66;
+}
