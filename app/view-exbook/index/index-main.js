@@ -5,8 +5,8 @@ angular.module('exbook')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/', {
     templateUrl: 'view-exbook/index/index.template.html',
-    controller: ['$scope','$location','$log','$interval','AppbData',
-      function ($scope,$location,$log,$interval,AppbData) {
+    controller: ['$scope','$location','$log','$interval','AppbData','AppbUiService',
+      function ($scope,$location,$log,$interval,AppbData,AppbUiService) {
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
         $scope.userData=userData;
@@ -25,6 +25,13 @@ angular.module('exbook')
         AppbData.activeHeader('exbook-back', '首页'); 
         AppbData.activeFooter('exbook-index');
 
+        AppbUiService.setDialogData({
+          title:'欢迎使用',
+          content:'这是一测试',
+          btn1:'呵呵',
+          btn2:'hoho'
+        });
+        AppbUiService.showDialog();
       }
     ]
   })
