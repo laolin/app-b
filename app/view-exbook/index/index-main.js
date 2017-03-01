@@ -25,6 +25,7 @@ angular.module('exbook')
         AppbData.activeHeader('exbook-back', '首页'); 
         AppbData.activeFooter('exbook-index');
 
+        /*
         AppbUiService.setDialogData({
           title:'欢迎使用',
           content:'这是一测试',
@@ -32,6 +33,10 @@ angular.module('exbook')
           btn2:'hoho'
         });
         AppbUiService.showDialog();
+        */
+        //AppbUiService.toastLoading();
+        //AppbUiService.toastDone(3);
+        AppbUiService.toastMsg('白',3);
       }
     ]
   })

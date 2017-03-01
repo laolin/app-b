@@ -34,10 +34,10 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     hideDialog:AppbUiService.hideDialog,
     
     toastData:AppbUiService.getToastData(),
-    showToast:AppbUiService.showToast,
-    hideToast:AppbUiService.hideToast,
-    showLoading:AppbUiService.showLoading,
-    hideLoading:AppbUiService.hideLoading,
+    toastHide:AppbUiService.toastHide,
+    toastLoading:AppbUiService.toastLoading,
+    toastDone:AppbUiService.toastDone,
+    toastMsg:AppbUiService.toastMsg,
     
     appCfg:appCfg
   }

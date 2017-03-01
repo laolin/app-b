@@ -196,3 +196,24 @@ start #main-footer
 .invisible {
   visibility: hidden;
 }
+/*====================== 
+  weui plus
+======================*/
+.toast-msg{
+  display: flex;
+  justify-content: center;
+}
+.toast-msg__round {
+    position: fixed;
+    z-index: 5000;
+    min-width: 4em;
+    padding-left:1.5em;
+    padding-right:1.5em;
+    height: 3em;
+    line-height: 3em;
+    bottom: 80px;
+    background: rgba(17, 17, 17, 0.7);
+    text-align: center;
+    border-radius: 1.4em;
+    color: #FFFFFF;
+}

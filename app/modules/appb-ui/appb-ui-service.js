@@ -39,27 +39,37 @@ angular.module('appb')
       svc.dialogData.show=false;
     }
     
-    
-    svc.toastData='';
-    function showToast() {
-      svc.toastData='toast';
+    // toast
+    svc.toastData={};
+    function toastHide() {
+      svc.toastData.type='';
     }
-    function hideToast() {
-      svc.toastData='';
+    function toastLoading(seconds) {
+      svc.toastData.type='loading';
+      if(seconds>0){
+        $timeout(toastHide,1000*seconds);
+      }
     }
-    function showLoading() {
-      svc.toastData='loading';
+    function toastDone(seconds) {
+      svc.toastData.type='done';
+      if(seconds>0){
+        $timeout(toastHide,1000*seconds);
+      }
     }
-    function hideLoading() {
-      svc.toastData='';
+    function toastMsg(msg,seconds) {
+      svc.toastData.type='msg';
+      svc.toastData.msg=msg?msg:'OK';
+      if(seconds>0){
+        $timeout( toastHide ,1000*seconds);
+      }
     }
     
     return {
       getToastData:function(){return svc.toastData},
-      showToast:showToast,
-      hideToast:hideToast,
-      showLoading:showLoading,
-      hideLoading:hideLoading,
+      toastHide:toastHide,
+      toastLoading:toastLoading,
+      toastDone:toastDone,
+      toastMsg:toastMsg,
       
       setDialogData:setDialogData,
       getDialogData:getDialogData,
