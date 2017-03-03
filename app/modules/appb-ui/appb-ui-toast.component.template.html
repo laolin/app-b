@@ -1,7 +1,7 @@
     <!--BEGIN toast-->
     <div id="toast" ng-if='$ctrl.toast.type == "done"'>
         <div class="weui-mask_transparent"></div>
-        <div class="weui-toast" ng-click='$ctrl.toast = ""'>
+        <div class="weui-toast" ng-click='$ctrl.toast.type = ""'>
             <i class="weui-icon-success-no-circle weui-icon_toast"></i>
             <p class="weui-toast__content">已完成</p>
         </div>
@@ -11,14 +11,14 @@
     <!-- loading toast -->
     <div id="loadingToast" ng-if='$ctrl.toast.type == "loading"'>
         <div class="weui-mask_transparent"></div>
-        <div class="weui-toast" ng-click='$ctrl.toast = ""'>
+        <div class="weui-toast" ng-click='$ctrl.toast.type = ""'>
             <i class="weui-loading weui-icon_toast"></i>
             <p class="weui-toast__content">数据加载中</p>
         </div>
     </div>
     <div class="toast-msg" ng-if='$ctrl.toast.type == "msg"'>
         <!--div class="weui-mask_transparent"></div-->
-        <div class="toast-msg__round" ng-click='$ctrl.toast = ""'>
+        <div class="toast-msg__round" ng-click='$ctrl.toast.type = ""'>
             <p class="weui-toast__content">{{$ctrl.toast.msg}}</p>
         </div>
     </div>
