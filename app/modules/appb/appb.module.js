@@ -20,6 +20,7 @@ angular.module('appb', [
     $sceDelegateProvider.resourceUrlWhitelist([
       appbCfg.apiRoot+"/**",
       appbCfg.apiWxAuth+"/**",
+      'https://res.wx.qq.com/**',
       'self'
     ]);
     $locationProvider.hashPrefix('!');

@@ -6,9 +6,9 @@ var KEY_CLIENTID=appbCfg.keyClientId;
 angular.module('appb')
 .factory('AppbData',
 ['$route','$rootScope','$location','$log','$timeout','$http','$window',
-  'AppbConfig','AppbDataHeader','AppbDataFooter','AppbDataUser','AppbUiService',
+  'AppbConfig','AppbDataHeader','AppbDataFooter','AppbDataUser','AppbUiService','AppbDataApi',
 function($route, $rootScope,$location,$log,$timeout,$http,$window,
-  AppbConfig,AppbDataHeader,AppbDataFooter,AppbDataUser,AppbUiService) 
+  AppbConfig,AppbDataHeader,AppbDataFooter,AppbDataUser,AppbUiService,AppbDataApi) 
 {
   
   var appCfg=AppbConfig();
@@ -27,6 +27,7 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     footerData:footerData,
     userData:userData,
     setUserData:AppbDataUser.setUserData,
+    api:AppbDataApi,
 
     dialogData:dialogData,
     setDialogData:AppbUiService.setDialogData,
@@ -41,15 +42,75 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     
     appCfg:appCfg
   }
-  initClientId();
+  init();
 
   window.appData=appData;//export to global
 
-  
-  
-  //factory functions
+  //init functions
+  function init() {
+    initWx();
+    initClientId();
+  }
 
-  
+  function initWx() {
+    //AppbUiService.toastLoading();
+    AppbDataApi.getWjSign().then(function(r){
+      var data=r.data.data;
+      wx.config({
+        debug: false,
+        appId: data.appId,
+        timestamp: data.timestamp,
+        nonceStr: data.nonceStr,
+        signature: data.signature,
+        jsApiList: [
+          // 所有要调用的 API 都要加到这个列表中'onMenuShareTimeline',
+          /*
+          'onMenuShareAppMessage',
+          'onMenuShareQQ',
+          'onMenuShareWeibo',
+          'onMenuShareQZone',
+          'startRecord',
+          'stopRecord',
+          'onVoiceRecordEnd',
+          'playVoice',
+          'pauseVoice',
+          'stopVoice',
+          'onVoicePlayEnd',
+          'uploadVoice',
+          'downloadVoice',
+          */
+          'chooseImage',
+          'previewImage',
+          'uploadImage',
+          'downloadImage',
+          /*
+          'translateVoice',
+          'getNetworkType',
+          'openLocation',
+          'getLocation',
+          
+          'hideOptionMenu',
+          'showOptionMenu',
+          'hideMenuItems',
+          'showMenuItems',
+          'hideAllNonBaseMenuItem',
+          'showAllNonBaseMenuItem',
+          'closeWindow',
+          'scanQRCode',
+          'chooseWXPay'
+          */
+        ]
+      });
+      wx.ready(function () {
+      // 在这里调用 API
+      //================================
+        //$log.log(' wx.ready - AppbUiService.toastHide before',appData.toastData);
+        //AppbUiService.toastHide();
+        //$log.log(' wx.ready - AppbUiService.toastHide after',appData.toastData);
+      //===============================================
+      }); 
+    });
+  }
 
   //
   function initClientId() {
@@ -65,6 +126,8 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     },Math.random()*10);
     return false;
   }
+  
+  //factory functions
   
   return {
     
