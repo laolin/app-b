@@ -56,6 +56,23 @@ var gulp = require('gulp'),
     //order = require('gulp-order'),
     debug = require('gulp-debug');
 
+    var fs = require('fs');
+
+    //自动发布代码
+    gulp.task('dep1', function () {
+      fs.stat('./tmp/deploy.sftp.js', function(err, stat) {
+        if(err == null) {
+          console.log('File exists');
+          var dep_1 = require('./tmp/deploy.sftp.js');
+          return dep_1(configObj);
+        } else {
+          console.log('dep1 file error: ',err.code);
+        }
+      });
+
+    })
+
+
 /*
 1. dist 目录下直接放的文件只有两个
   index.html
