@@ -1,0 +1,19 @@
+  
+<div class="weui-uploader">
+  <div class="weui-uploader__hd">
+      <p class="weui-uploader__title">{{$ctrl.imgData.title}}</p>
+      <div class="weui-uploader__info">{{$ctrl.imgData.imgs.length}}/{{$ctrl.imgData.maxCount}}</div>
+  </div>
+  <div class="weui-uploader__bd">
+      <ul class="weui-uploader__files" id="uploaderFiles">
+          <li class="weui-uploader__file weui-uploader__file_status" 
+          style='background-image:url({{img}})'
+          ng-repeat='img in $ctrl.imgData.imgs track by $index'>
+              <div class="weui-uploader__file-content">{{$index+1}}</div>
+          </li>
+      </ul>
+      <div class="weui-uploader__input-box" ng-click='$ctrl.addImg()'
+      ng-if=' $ctrl.imgData.imgs.length < $ctrl.imgData.maxCount '> 
+      </div>
+  </div>
+</div>
