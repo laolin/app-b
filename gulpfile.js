@@ -152,7 +152,7 @@ var config_exbook = {
 }
  
 // =======================================================================
-var configObj =config_appb;
+var configObj =config_exbook;
 
 // =======================================================================
 
@@ -223,6 +223,6 @@ gulp.task('config-exbook', function(){
   configObj =config_exbook;
 });
 
-gulp.task('default',['config-appb','runBuild']);
+gulp.task('default',['config-exbook','runBuild']);
 gulp.task('appb',['config-appb','runBuild']);
 gulp.task('exbook',['config-exbook','runBuild']);
