@@ -53,7 +53,7 @@ var gulp = require('gulp'),
     wiredep = require('wiredep').stream,
 
     inject = require('gulp-inject'),
-    rev = require('gulp-rev').
+    rev = require('gulp-rev'),
     revReplace = require('gulp-rev-replace'),
     streamSeries = require('stream-series'),
 
@@ -269,8 +269,10 @@ gulp.task('html-useref',['wiredep'], function(){
         .pipe(useref())
         .pipe(gulpif('*.css', cleanCSS()))
         .pipe(gulpif('*.html', htmlmin({collapseWhitespace: true,removeComments: true})))
-        .pipe(gulpif('*.html', rename(configObj.html_dist)))
         .pipe(gulpif('*.js',  uglify({compress: { drop_console: true }})))
+        .pipe(rev()) 
+        .pipe(revReplace()) 
+        .pipe(gulpif('*.html', rename(configObj.html_dist)))
         .pipe(gulp.dest(configObj.path.dist));
 });
 gulp.task('copyImg', function() {
@@ -297,12 +299,6 @@ gulp.task('copy', ['copyFonts1','copyImg']);
 
 
 gulp.task('runBuild', ['html-useref','copy'], function(){
-  return/* gulp.src([configObj.path.dist+'/'+configObj.useref_jspath+'/'+configObj.useref_jsfile,
-          configObj.path.tmp+'/'+configObj.tplFile])
-    .pipe(concat(configObj.useref_jsfile))
-    //.pipe(ngAnnotate())
-    .pipe(uglify({compress: { drop_console: true }}))
-    .pipe(gulp.dest(configObj.path.dist+'/'+configObj.useref_jspath));*/
 });
 
 gulp.task('config-appb', function(){
