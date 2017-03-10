@@ -136,7 +136,7 @@ var config_appb = {
   html_src: 'app-b.html', 
   
   //s2,可以调试用，也是给useref处理的文件名
-  html_debug: 'app-b-index.html', 
+  html_debug: 'index-b.html', 
   
   //s3, 最终放到 dist 目录下的 html文件名
   html_dist: 'index.html', 
@@ -186,10 +186,10 @@ var config_exbook = {
   
   
   //s1,手工写的html, 给ng-inject, wiredep处理的文件，处理后可以调试用，可以给useref用
-  html_src: 'app-exbook.html', 
+  html_src: 'app-b.html', 
   
   //s2,可以调试用，也是给useref处理的文件名
-  html_debug: 'app-exbook-index.html', 
+  html_debug: 'index.html', 
   
   //s3, 最终放到 dist 目录下的 html文件名
   html_dist: 'index.html', 

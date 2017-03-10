@@ -1,22 +1,21 @@
 <!DOCTYPE html>
   <!-- 
-     app-exbook-index.html 是通过 ```gulp config-exbook wiredep``` 自动生成的， 
+     index.html 是通过 ```gulp wiredef``` 自动生成的， 
      在下次自动生成时会被覆盖，
-     所以请不要直接修改 app-exbook-index.html 。
+     所以请不要直接修改 index.html 。
      
-     应该修改 app-exbook.html 
-     然后用 gulp 命令自动生成 。
+     应该修改 app-b.html 
+     然后用 ```gulp wiredef``` 命令自动生成 index.html 。
   -->
-<html lang="zh-cmn-Hans" ng-app="app-exbook" class="no-js">
+<html lang="zh-cmn-Hans" ng-app="appb.main" class="no-js">
 <head>
-  
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
   <title ng-bind='pageTitle'>Welcome</title>
   <meta name="description" content="laolin's app B">
   
-  <!-- build:css assets/css/app.css -->
+  <!-- build:css assets/css/appb.css -->
   <!-- bower:css -->
   <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
   <link rel="stylesheet" href="bower_components/weui/dist/style/weui.css" />
@@ -35,11 +34,8 @@
     <div ng-view><h5 class='text-center'>Loading...</h5></div>
   </div>
   <appb-ui-footer id="main-footer" footer-data='appb.footerData'></appb-ui-footer>
-  <appb-ui-abc
-    app-data='appb.appData'
-  ></appb-ui-abc>
-  <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-  <!-- build:js assets/exbook.js -->
+  <appb-ui-abc app-data='appb.appData'></appb-ui-abc>
+  <!-- build:js assets/appb.js -->
   <!-- bower:js -->
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
@@ -52,14 +48,8 @@
   <!-- endbower -->
   <!-- inject:js -->
   <script src="app-exbook.js"></script>
-  <script src="modules/appb/appb.module.js"></script>
   <script src="modules/wx-login/wx-login.module.js"></script>
-  <script src="modules/appb/appb-data-api.service.js"></script>
-  <script src="modules/appb/appb-data-footer.service.js"></script>
-  <script src="modules/appb/appb-data-header.service.js"></script>
-  <script src="modules/appb/appb-data-user.service.js"></script>
-  <script src="modules/appb/appb-data.service.js"></script>
-  <script src="modules/appb/appb.controller.js"></script>
+  <script src="modules/appb/appb.module.js"></script>
   <script src="modules/appb-ui/appb-ui-abc.component.js"></script>
   <script src="modules/appb-ui/appb-ui-dialog.component.js"></script>
   <script src="modules/appb-ui/appb-ui-footer.component.js"></script>
@@ -70,10 +60,16 @@
   <script src="modules/wx-login/wx-login-auth.component.js"></script>
   <script src="modules/wx-login/wx-login-callback.component.js"></script>
   <script src="modules/wx-login/wx-login.route.js"></script>
+  <script src="modules/appb/appb-data-api.service.js"></script>
+  <script src="modules/appb/appb-data-footer.service.js"></script>
+  <script src="modules/appb/appb-data-header.service.js"></script>
+  <script src="modules/appb/appb-data-user.service.js"></script>
+  <script src="modules/appb/appb-data.service.js"></script>
+  <script src="modules/appb/appb.controller.js"></script>
   <script src="view-exbook/exbook.module.js"></script>
   <script src="view-exbook/exbook/exbook-main.js"></script>
-  <script src="view-exbook/index/index-main.js"></script>
   <script src="view-exbook/service/exbook-service.js"></script>
+  <script src="view-exbook/index/index-main.js"></script>
   <script src="assets/js/common.js"></script>
   <script src="../tmp/tpl_exbook.js"></script>
   <!-- endinject -->

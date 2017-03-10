@@ -2,7 +2,7 @@
 (function(){
 
 // Declare app level module which depends on views, and components
-angular.module(appbCfg.modName, [
+angular.module('appb.main', [
     'appb',
     'wx-login',
     //'ngResource',

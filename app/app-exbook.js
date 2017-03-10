@@ -12,8 +12,6 @@ var cfg=window.appbCfg={
   version: 'exbook.78.101.100.a'
 };
 
-//和 index.html 里的 ng-app 要一致
-cfg.modName='app-exbook';
 cfg.modDep=[
   'exbook'
 ];
