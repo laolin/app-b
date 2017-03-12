@@ -6,10 +6,20 @@
   </div>
   <div class="weui-uploader__bd">
       <ul class="weui-uploader__files" id="uploaderFiles">
-          <li class="weui-uploader__file weui-uploader__file_status" 
+      
+      <!-- .weui-uploader__file_status class 效果是 0.5灰度 盖住背景图的，
+      上传后就不要灰度盖了，要背景图全亮的效果。
+      -->
+          <li class="weui-uploader__file " 
+          ng-class='{
+          "weui-uploader__file_status":!$ctrl.imgData.apiFileIds[$index],
+          "weui-uploader__file_uploadok":$ctrl.imgData.apiFileIds[$index]
+          
+          }'
           style='background-image:url({{img}})'
           ng-repeat='img in $ctrl.imgData.imgs track by $index'>
-              <div class="weui-uploader__file-content">{{$index+1}}</div>
+              <div class="weui-uploader__file-content">
+              </div>
           </li>
       </ul>
       <div class="weui-uploader__input-box" ng-click='$ctrl.addImg()'
