@@ -8,9 +8,7 @@ function ($log,$timeout){
   var svc=this;
   var imgdata;
   svc.imgdata=imgdata={
-    topic:{ title:'题目', maxCount:3, imgs:[ ] },
-    right:{ title:'答案', maxCount:3, imgs:[ ] },
-    error:{ title:'错解', maxCount:3, imgs:[ ] }
+    title:'题目2', maxCount:9, imgs:[ ], serverIds:[], apiFileIds:[]
   };
 
   return {
