@@ -224,5 +224,5 @@ start #main-footer
 但是没有边框了，用.weui-uploader__file_uploadok 加个框
 */
 .weui-uploader__file_uploadok {
-  border:1px solid #bbb;
+  border:1px dashed #bbe;
 }
