@@ -31,6 +31,7 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     api:AppbDataApi,
     userApiSign:userApiSign,
     userApiSignQueryStr:userApiSignQueryStr,
+    requireLogin:requireLogin,
 
     dialogData:dialogData,
     setDialogData:AppbUiService.setDialogData,
@@ -157,6 +158,19 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     }
     return str;
   }
+  
+  /**
+   *  需要用户登录的页面
+   */
+  function requireLogin() {
+    if(! userData || !userData.token) {
+      var currPath=$location.path();
+      $location.path( "/wx-login" ).search({pageTo: currPath});
+      return false;
+    }
+    return true;
+  }
+        
   return {
     
     getHeaderData:AppbDataHeader.getHeaderData,
