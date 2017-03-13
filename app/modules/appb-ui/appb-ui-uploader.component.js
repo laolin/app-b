@@ -5,7 +5,7 @@ angular.module('appb')
 .component('appbUiUploader',{
     templateUrl: 'modules/appb-ui/appb-ui-uploader.component.template.html',  
     bindings: { 
-     appData:"<",//for debug info ( show dialog )
+     appData:"<",
      apiRoot:"<",
      imgData:"="
     },
@@ -46,6 +46,8 @@ angular.module('appb')
               $scope.$apply();
               var apiUp=ctrl.apiRoot+'/wx/mediaget?media_id=';
               apiUp+=res.serverId;
+              var qstr=ctrl.appData.userApiSignQueryStr('wx','mediaget');
+              apiUp+='&'+qstr;
               $http.jsonp(apiUp)
                 .then(function(d){
                   $log.log('api-upload result=',d.data.data);
