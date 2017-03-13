@@ -27,7 +27,10 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     footerData:footerData,
     userData:userData,
     setUserData:AppbDataUser.setUserData,
+    
     api:AppbDataApi,
+    userApiSign:userApiSign,
+    userApiSignQueryStr:userApiSignQueryStr,
 
     dialogData:dialogData,
     setDialogData:AppbUiService.setDialogData,
@@ -129,6 +132,31 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   
   //factory functions
   
+  /**
+   *  和api-call相关的 签名，和 Api-Core 服务器里的算法对应
+   *  详见 appb-data-api
+   *  
+   *  返回签名需要的对象
+   */
+  function userApiSign(api,call) {
+    var uid=appData.userData.uid;
+    var tokenid=appData.userData.tokenid;
+    var token=appData.userData.token;
+    return AppbDataApi.userApiSign(uid,tokenid,token,api,call);
+  }
+  // 签名对象对应的 queryStr, 可以直接加 & 接在 URL 的后面
+  function userApiSignQueryStr(api,call) {
+    var dat=userApiSign(api,call);
+    if(!dat)return '';
+    var str = "";
+    for (var key in dat) {
+      if (str != "") {
+          str += "&";
+      }
+      str += key + "=" + encodeURIComponent(dat[key]);
+    }
+    return str;
+  }
   return {
     
     getHeaderData:AppbDataHeader.getHeaderData,
