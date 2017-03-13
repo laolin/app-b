@@ -84,10 +84,7 @@ start #main-container
   background-color:#eee;
 }
 
-/* 这个定义影响范围有点大，以后要调整 */
-#main-container a,
-#main-container p,
-#main-container span{
+body{
   color:#222;
 }
 /* ======================
