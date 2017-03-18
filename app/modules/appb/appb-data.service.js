@@ -31,6 +31,7 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     api:AppbDataApi,
     userApiSign:userApiSign,
     userApiSignQueryStr:userApiSignQueryStr,
+    urlSignApi:urlSignApi,
     requireLogin:requireLogin,
 
     dialogData:dialogData,
@@ -158,6 +159,28 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     }
     return str;
   }
+  
+  // 需要验证身份的 api 对应的 url, 已带验证身份用的 queryStr
+  function urlSignApi(api,call,para1,para2) {
+    var dat=userApiSign(api,call);
+    if(!dat)return '';
+    var url = appData.appCfg.apiRoot+"/"+api+"/"+call;
+    if('undefined' !== typeof para1) {
+      url+='/'+para1;
+      if('undefined' !== typeof para2) {
+        url+='/'+para2;
+      }
+    }
+    var str='';
+    for (var key in dat) {
+      if (str != "") {
+          str += "&";
+      }
+      str += key + "=" + encodeURIComponent(dat[key]);
+    }
+    return url+'?'+str;
+  }
+
   
   /**
    *  需要用户登录的页面
