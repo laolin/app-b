@@ -12,15 +12,8 @@ angular.module('exbook')
         $scope.userData=userData;
         $scope.appData=appData;
         
-        //if(! userData || !userData.token) {
-        //  return $location.path( "/wx-login" ).search({pageTo: '/'});
-        //}
-
-        $scope.logout=function() {
-          //userData.token='';
-          appData.setUserData({});
-          //$location.path('/wx-login');
-        }
+        //要求登录，如果未登录，会自动跳转到登录界面
+        appData.requireLogin();
          
         AppbData.activeHeader('exbook-home', '错题本'); 
         AppbData.activeFooter('exbook-index');
