@@ -6,7 +6,6 @@ angular.module('appb')
     templateUrl: 'modules/appb-ui/appb-ui-uploader.component.template.html',  
     bindings: { 
      appData:"<",
-     apiRoot:"<",
      imgData:"="
     },
     controller: ['$scope','$log','$http',
@@ -44,10 +43,10 @@ angular.module('appb')
               ctrl.imgData.serverIds[ns] = res.serverId; // 返回图片的服务器端ID
               $log.log('____Upload done','n-img=',ni,'ns=',ns);
               $scope.$apply();
-              var apiUp=ctrl.apiRoot+'/wx/mediaget?media_id=';
-              apiUp+=res.serverId;
-              var qstr=ctrl.appData.userApiSignQueryStr('wx','mediaget');
-              apiUp+='&'+qstr;
+              var apiUp=ctrl.appData.urlSignApi('exbook','mediaget');
+
+              apiUp+='&media_id=' + res.serverId;
+
               $http.jsonp(apiUp)
                 .then(function(d){
                   $log.log('api-upload result=',d.data.data);
@@ -62,7 +61,7 @@ angular.module('appb')
                   }
                   //d.data.data.name 是api上传后的文件ID
                   //可以通过 apiRoot/file/g/ID 或获得文件
-                  ctrl.imgData.imgs[ns]=ctrl.apiRoot+'/file/g/'
+                  ctrl.imgData.imgs[ns]=ctrl.appData.appCfg.apiRoot+'/file/g/'
                   ctrl.imgData.imgs[ns]+=d.data.data.name;
                   ctrl.imgData.apiFileIds[ns]=d.data.data.name;
                 },function(a){
