@@ -1,1 +1,16 @@
-explore exbook
+<div class='text-center' ng-if='! $ctrl.userData.token'>
+  请<a href="#!/wx-login">登录</a>
+</div>
+<div class='timeline-header' ng-if='$ctrl.userData.token'>
+    <p class="user-name" ng-if='$ctrl.userData.wxinfo'>
+      {{$ctrl.userData.wxinfo.nickname}}
+    </p>
+    <p class="user-name" ng-if='! $ctrl.userData.wxinfo'>
+      {{$ctrl.userData.uname}}
+    </p>
+    <img class="user-avt" ng-src="{{$ctrl.userData.wxinfo.headimgurl_96}}">
+</div>
+<div>
+<p>a<p>a<p>a<p>a<p>a<p>a<p>a<p>a<p>a<p>a
+<p>a<p>a<p>a<p>a<p>a<p>a<p>a<p>a<p>a<p>a
+</div>
