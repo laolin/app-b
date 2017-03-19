@@ -42,7 +42,8 @@ angular.module('appb')
             
             //模拟上传图片，返回图片ID：imgid
             var imgid='wx_a0a0a9880e4ede3e6367fea148b929e06f421398.jpg';
-            imgData.imgs[n1]=ctrl.appData.urlApi('file','g',imgid);
+            //imgData.imgs[n1]=ctrl.appData.urlApi('file','g',imgid);
+            imgData.imgs[n1]=imgid;
             //把数据写回
             ctrl.updateImg({img:imgData.imgs});
             return;
@@ -99,7 +100,8 @@ angular.module('appb')
                   }
                   //d.data.data.name 是api上传后的文件ID
                   //可以通过 apiRoot/file/g/ID 或获得文件
-                  imgData.imgs[ns]=ctrl.appData.urlApi('file','g',d.data.data.name);
+                  //imgData.imgs[ns]=ctrl.appData.urlApi('file','g',d.data.data.name);
+                  imgData.imgs[ns]=d.data.data.name;
                   //上传到自己的服务器完成后 serverId 就丢弃掉
                   imgData.serverIds[ns]='';
                   imgData.uploadings[ns]=0;
