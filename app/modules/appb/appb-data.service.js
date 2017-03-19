@@ -31,6 +31,7 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     api:AppbDataApi,
     userApiSign:userApiSign,
     userApiSignQueryStr:userApiSignQueryStr,
+    urlApi:urlApi,
     urlSignApi:urlSignApi,
     requireLogin:requireLogin,
 
@@ -38,6 +39,7 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     setDialogData:AppbUiService.setDialogData,
     showDialog:AppbUiService.showDialog,
     hideDialog:AppbUiService.hideDialog,
+    msgBox:msgBox,
     
     toastData:AppbUiService.getToastData(),
     toastHide:AppbUiService.toastHide,
@@ -134,6 +136,26 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   
   //factory functions
   
+  //快捷弹对话框函数
+  function msgBox(content,title,b1,b2,f1,f2) {
+    var d={
+      content:content,
+      title:title?title:'Msg',
+      btn1:b1?b1:'OK',
+      show:1
+    };
+    if('undefined' != typeof b2 ) {
+      d.btn2=b2;
+    }
+    if('function' == typeof f1 ) {
+      d.fn1=f1;
+    }
+    if('function' == typeof f2 ) {
+      d.fn2=f2;
+    }
+    AppbUiService.setDialogData(d);
+  }
+  
   /**
    *  和api-call相关的 签名，和 Api-Core 服务器里的算法对应
    *  详见 appb-data-api
@@ -160,6 +182,16 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     return str;
   }
   
+  function urlApi(api,call,para1,para2) {
+    var url = appData.appCfg.apiRoot+"/"+api+"/"+call;
+    if('undefined' !== typeof para1) {
+      url+='/'+para1;
+      if('undefined' !== typeof para2) {
+        url+='/'+para2;
+      }
+    }
+    return url;
+  } 
   // 需要验证身份的 api 对应的 url, 已带验证身份用的 queryStr
   function urlSignApi(api,call,para1,para2) {
     var dat=userApiSign(api,call);
