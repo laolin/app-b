@@ -10,8 +10,12 @@
   </div>
   <div class="weui-cell">
     <div class="weui-cell__bd">
-      <appb-ui-uploader img-data='$ctrl.ebData.imgData' 
+      <appb-ui-uploader  
         app-data='$ctrl.appData'
+        img-input='$ctrl.ebData.draft.pics'
+        sep=','
+        max-count='9'
+        update-img='$ctrl.updateImg(img)'
       ></appb-ui-uploader>
     </div>
   </div>

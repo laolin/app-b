@@ -18,6 +18,7 @@ angular.module('exbook')
       var ctrl=this;
       var intervalRes;
       var isUpdating=false;
+      
 
       ctrl.dataChanged={ 
         grade:0,
@@ -26,19 +27,25 @@ angular.module('exbook')
         pics:0,
         anonymous:0
       }
+      ctrl.updateImg=function(img) {
+        ctrl.ebData.draft.pics=img.join(',');
+        ctrl.changeMark('pics');
+      }
       ctrl.$onInit=function(){
         $log.log('ebData',ctrl.ebData);
         intervalRes=$interval(updateData,15*1000);//n秒
       }
       ctrl.$onChanges =function(chg){
+        $log.log(' 2 ** exbookInput onChanges',chg);
       }
       ctrl.$onDestroy=function(){
         $interval.cancel(intervalRes);
+        updateData();
       }
       
       function updateData() {
         if(isUpdating)return;
-        $log.log('updateData',ctrl.ebData.draft);
+        //$log.log('updateData',ctrl.ebData.draft);
         var data={}
         var dirty=false;
         for (var attr in ctrl.dataChanged) {
