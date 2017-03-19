@@ -126,9 +126,9 @@ var config_appb = {
       '!./app/bower_components/**/*'
     ], [
       './app/assets/js/common.js',
-      "./app/assets/css/main.css"
+      "./app/assets/css/**/*.css"
     ], [
-      "./app/view-default/appb.css"
+      "./app/view-default/**/*.css"
     ]
   ],
 
@@ -176,9 +176,9 @@ var config_exbook = {
       '!./app/bower_components/**/*'
     ], [
       './app/assets/js/common.js',
-      "./app/assets/css/main.css"
+      "./app/assets/css/**/*.css"
     ], [
-      "./app/view-exbook/exbook.css"
+      "./app/view-exbook/**/*.css"
     ]
   ],
  

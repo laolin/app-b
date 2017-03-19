@@ -9,15 +9,14 @@ angular.module('exbook')
       function ($scope,$location,$log,ExbookService,AppbData,AppbUiService) {
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
-        var imgData=ExbookService.getImgData();
+        var ebData=ExbookService.getEbData();
         
         //要求登录，如果未登录，会自动跳转到登录界面
         appData.requireLogin();
         
-        appData.imgData=imgData;
         $scope.userData=userData;
         $scope.appData=appData;
-        $scope.imgData=imgData;
+        $scope.ebData=ebData;
         
          
         AppbData.activeHeader('exbook-back', '首页'); 

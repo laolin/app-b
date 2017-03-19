@@ -1,0 +1,61 @@
+<div class="weui-cells weui-cells_form">
+  <div class="weui-cell">
+    <div class="weui-cell__bd">
+      <textarea class="weui-textarea" placeholder="不求万人怜惜，但求一人懂得。" rows="3"
+      ng-model="$ctrl.ebData.draft.content"
+      ng-change="$ctrl.changeMark('content')"
+      ></textarea>
+      <div class="weui-textarea-counter"><span>0</span>/140</div>
+    </div>
+  </div>
+  <div class="weui-cell">
+    <div class="weui-cell__bd">
+      <appb-ui-uploader img-data='$ctrl.ebData.imgData' 
+        app-data='$ctrl.appData'
+      ></appb-ui-uploader>
+    </div>
+  </div>
+
+  <div class="weui-cell weui-cell_select weui-cell_select-after">
+    <div class="weui-cell__hd">
+      <label for="" class="weui-label">年级</label>
+    </div>
+    <div class="weui-cell__bd">
+      <select class="weui-select" name="select_grade"
+      ng-model='$ctrl.ebData.draft.grade' 
+      ng-change="$ctrl.changeMark('grade')">
+        <option ng-repeat='(key, value) in $ctrl.ebData.ebConfig.gradeList'
+          value="{{key}}">{{value}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="weui-cell weui-cell_select weui-cell_select-after">
+    <div class="weui-cell__hd">
+      <label for="" class="weui-label">科目</label>
+    </div>
+    <div class="weui-cell__bd">
+      <select class="weui-select" name="select_course"
+      ng-model='$ctrl.ebData.draft.course'
+      ng-change="$ctrl.changeMark('course')">
+        <option ng-repeat='(key, value) in $ctrl.ebData.ebConfig.courseList'
+          value="{{key}}">{{value}}</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="weui-cell weui-cell_switch">
+    <div class="weui-cell__bd">匿名发表</div>
+    <div class="weui-cell__ft">
+      <input class="weui-switch" type="checkbox"  
+      ng-model='$ctrl.ebData.draft.anonymous'
+      ng-true-value="'y'"
+      ng-false-value="'n'"
+      ng-change="$ctrl.changeMark('anonymous')">
+    </div>
+  </div>
+  
+</div>
+<div class="weui-btn-area">
+  <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">确定</a>
+</div>  
+
