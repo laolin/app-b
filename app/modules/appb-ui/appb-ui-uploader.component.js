@@ -28,6 +28,8 @@ angular.module('appb')
             ctrl.imgInput=chg.imgInput.currentValue;
             if(ctrl.imgInput && ctrl.imgInput.length>0) {
               imgData.imgs=ctrl.imgInput.split(',');
+            } else {
+              imgData.imgs=[];
             }
             //$log.log('chg.imgInput',chg.imgInput.currentValue,imgData);
           }
