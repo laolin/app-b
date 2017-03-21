@@ -1,7 +1,7 @@
 {
-  "name": "app-mat",
-  "version": "1.1.0",
-  "description": "laolin's angular app use matlizeCSS",
+  "name": "app-b",
+  "version": "1.2.0",
+  "description": "laolin's angular app version B",
   "main": "app.js",
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
     "angular-animate": "^1.6.1",
     "angular-aria": "^1.6.1",
     "angular-messages": "^1.6.1",
+    "angular-touch": "1.6.1",
     "jquery": "~2.1.4",
     "font-awesome": "^4.7.0",
     "js-md5": "md5#^0.4.2",
