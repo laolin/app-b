@@ -13,6 +13,7 @@ angular.module('appb.main', [
 angular.module('appb', [
     
     //'ngResource',
+    'ngTouch',
     'ngRoute'
 ])
 .config(['$sceDelegateProvider', '$locationProvider', '$routeProvider',

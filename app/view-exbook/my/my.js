@@ -23,6 +23,12 @@ angular.module('exbook')
         //var ctrl=this;
         ctrl.userData=userData;
         
+        ctrl.swipeLeft=function() {
+          appData.toastMsg('左滑',2);
+        }
+        ctrl.swipeRight=function() {
+          appData.toastMsg('右滑',2);
+        }
         
 
       }
