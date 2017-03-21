@@ -40,27 +40,32 @@ angular.module('appb')
     }
     
     // toast
+    svc.toastTimer=false;
     svc.toastData={};
     function toastHide() {
       svc.toastData.type='';
+      if(svc.toastTimer)$timeout.cancel(svc.toastTimer);
     }
     function toastLoading(seconds) {
       svc.toastData.type='loading';
+      if(svc.toastTimer)$timeout.cancel(svc.toastTimer);
       if(seconds>0){
-        $timeout(toastHide,1000*seconds);
+        svc.toastTimer=$timeout(toastHide,1000*seconds);
       }
     }
     function toastDone(seconds) {
       svc.toastData.type='done';
+      if(svc.toastTimer)$timeout.cancel(svc.toastTimer);
       if(seconds>0){
-        $timeout(toastHide,1000*seconds);
+        svc.toastTimer=$timeout(toastHide,1000*seconds);
       }
     }
     function toastMsg(msg,seconds) {
       svc.toastData.type='msg';
       svc.toastData.msg=msg?msg:'OK';
+      if(svc.toastTimer)$timeout.cancel(svc.toastTimer);
       if(seconds>0){
-        $timeout( toastHide ,1000*seconds);
+        svc.toastTimer=$timeout( toastHide ,1000*seconds);
       }
     }
     
