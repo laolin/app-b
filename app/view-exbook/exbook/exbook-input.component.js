@@ -42,9 +42,34 @@ angular.module('exbook')
         $interval.cancel(intervalRes);
         updateData();
       }
+      ctrl.changeMark=function(key) {
+        ctrl.dataChanged[key]= 1;// 1表示需要更新
+      }
+      ctrl.publish=function() {
+        ctrl.appData.toastLoading();
+        updateData(function(){
+          var api=ctrl.appData.urlSignApi('exbook','draft_publish');
+          $log.log('api1',api);
+          $http.jsonp(api,{params:{fid:ctrl.ebData.draft.fid}})
+          .then(function(){
+            api=ctrl.appData.urlSignApi('exbook','draft_create');
+            $log.log('api2',api);
+            $http.jsonp(api)
+            .then(function(df){
+              ctrl.appData.toastDone(1);
+              ctrl.ebData.draft=df.data.data;
+            });
+          });
+        });
+      }
+
       
-      function updateData() {
-        if(isUpdating)return;
+      function updateData(callback) {
+        if(isUpdating) {
+          $timeout(function(){updateData(callback)},500);
+          return;
+        };
+        isUpdating=true;
         //$log.log('updateData',ctrl.ebData.draft);
         var data={}
         var dirty=false;
@@ -56,8 +81,11 @@ angular.module('exbook')
           }
         }
 
-        if(!dirty)return;
-        isUpdating=true;
+        if(!dirty) {
+          if('function'==typeof callback)callback();
+          isUpdating=false;
+          return;
+        }
         var api=ctrl.appData.urlSignApi('exbook','draft_update');
         if(!api){
           ctrl.appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
@@ -71,6 +99,7 @@ angular.module('exbook')
             }
             //ctrl.appData.toastMsg('draft updated',3);
             isUpdating=false;
+            if('function'==typeof callback)callback();
           },function(e){
              for (var attr in ctrl.dataChanged) {
               if(2 == ctrl.dataChanged[attr])// 2 更新失败->1
@@ -80,9 +109,10 @@ angular.module('exbook')
             isUpdating=false;
           })
       }
-      ctrl.changeMark=function(key) {
-        ctrl.dataChanged[key]= 1;// 1表示需要更新
-      }
+      
+      
+      
+      
     }
   ]
 })
