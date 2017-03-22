@@ -23,12 +23,19 @@
     "jquery": "~2.1.4",
     "font-awesome": "^4.7.0",
     "js-md5": "md5#^0.4.2",
+    "swiper": "^3.0.8",
     "weui": "^1.1.1"
   },
   "overrides": {
     "font-awesome": {
       "main": [
         "css/font-awesome.css"
+      ]
+    },
+    "swiper": {
+      "main": [
+        "dist/css/swiper.css",
+        "dist/js/swiper.jquery.js"
       ]
     }
   }
