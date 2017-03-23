@@ -223,3 +223,40 @@ start #main-footer
 .weui-uploader__file_uploadok {
   border:1px dashed #bbe;
 }
+
+/*按背景图显示图片的*/
+.img-bg-contain {
+  background: center center no-repeat;
+  background-size: contain;
+}
+
+.gallery__opr {
+    position: absolute;
+    right: 0;
+    top: 0;
+    left: 0;
+    background-color: #0D0D0D;
+    color: #FFFFFF;
+    line-height: 60px;
+    text-align: center;
+}
+.gallery__opr a {
+  
+    color: #FFFF0F;
+    font-size:26px;
+}
+.gallery__icon {
+  padding:0 20px;
+}
+
+/*swiper for appb-ui-gallery*/
+.swiper-container {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  bottom: 0px;
+  left: 0;
+}
+.swiper-pagination-bullet {
+  background: #bb9;
+}

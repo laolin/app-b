@@ -69,12 +69,26 @@ angular.module('appb')
       }
     }
     
+    //gallery
+    svc.galleryData={abc:9.998}
+    svc.galleryData.imgs=[];
+    svc.galleryData.show=false;
+    
+    function showGallery(imgs,active_n) {
+      svc.galleryData.show=true;
+      svc.galleryData.imgs=imgs;
+      svc.galleryData.active=active_n;
+    }
+    
     return {
       getToastData:function(){return svc.toastData},
       toastHide:toastHide,
       toastLoading:toastLoading,
       toastDone:toastDone,
       toastMsg:toastMsg,
+
+      getGalleryData:function(){return svc.galleryData},
+      showGallery:showGallery,
       
       setDialogData:setDialogData,
       getDialogData:getDialogData,

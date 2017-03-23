@@ -1,0 +1,25 @@
+<div class="page gallery js_show" ng-if='$ctrl.galleryData.show'>
+    <div class="weui-gallery" style="display: block">
+        <span class="gallery__opr">
+            <a href="" class="pull-right gallery__icon" ng-click='$ctrl.close()'>
+              <i class="fa fa-close" aria-hidden="true"></i>
+            </a> 
+            <a href="" class="gallery__icon">
+              <i class="fa fa-home" aria-hidden="true"></i>
+            </a> 
+        </span>
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <span class="img-bg-contain swiper-slide" 
+            
+            style='background-image:url({{$ctrl.appData.urlApi("file/g",img)}})'
+            ng-repeat='img in $ctrl.galleryData.imgs track by $index'
+            >
+            </span>
+          </div>
+          <!-- Add Pagination -->
+          <div class="swiper-pagination"></div>
+        </div>
+    
+    </div>
+</div>

@@ -47,6 +47,9 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     toastDone:AppbUiService.toastDone,
     toastMsg:AppbUiService.toastMsg,
     
+    galleryData:AppbUiService.getGalleryData(),
+    showGallery:AppbUiService.showGallery,
+    
     appCfg:appCfg
   }
   init();
