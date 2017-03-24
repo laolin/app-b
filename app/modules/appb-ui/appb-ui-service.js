@@ -88,6 +88,7 @@ angular.module('appb')
           pagination: '.swiper-pagination',
           paginationClickable: true
         });
+        svc.galleryData.swiper.slideTo(active_n);
       },78);
     }
     
