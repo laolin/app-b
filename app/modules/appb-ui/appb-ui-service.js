@@ -73,6 +73,10 @@ angular.module('appb')
     svc.galleryData={abc:9.998}
     svc.galleryData.imgs=[];
     svc.galleryData.show=false;
+    svc.galleryData.headerData={
+      widgets:[{side:'right',link:function(){svc.galleryData.show=false;},icon:'close'}],
+      title:'PicS'
+    };
     
     function showGallery(imgs,active_n) {
       svc.galleryData.show=true;

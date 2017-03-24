@@ -11,6 +11,10 @@ angular.module('appb')
     function ($scope,$log,$timeout,$location,$window){
    
       this.goLink = function(k,abs) { 
+      if('function' == typeof k) {
+        k();
+        return true;
+      }
       if( k === '-1' ) {
         $window.history.back();
         return true;

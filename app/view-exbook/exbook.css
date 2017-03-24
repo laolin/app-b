@@ -5,15 +5,14 @@
   0088dd dark
   33ddff light
 ======================*/
-#main-header{
+.main-header_container {
   background-color:#0099ff;
 }
-#main-header ,
-#main-header a,
-#main-header span,
-#main-header div{
+.main-header_container ,
+.main-header_container a{
   color:#fff;
 }
+
 .main-tab_active a,
 .main-tab_active span,
 .main-tab_active i{

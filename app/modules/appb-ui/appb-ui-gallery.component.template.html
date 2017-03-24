@@ -1,13 +1,15 @@
 <div class="page gallery js_show" ng-if='$ctrl.galleryData.show'>
     <div class="weui-gallery" style="display: block">
-        <span class="gallery__opr">
+        <!--span class="gallery__opr">
             <a href="" class="pull-right gallery__icon" ng-click='$ctrl.close()'>
               <i class="fa fa-close" aria-hidden="true"></i>
             </a> 
             <a href="" class="gallery__icon">
               <i class="fa fa-home" aria-hidden="true"></i>
             </a> 
-        </span>
+        </span-->
+          <appb-ui-header header-data='$ctrl.galleryData.headerData'></appb-ui-header>
+
         <div class="swiper-container">
           <div class="swiper-wrapper">
             <span class="img-bg-contain swiper-slide" 

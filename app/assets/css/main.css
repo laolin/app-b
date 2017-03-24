@@ -13,48 +13,46 @@ body {
 /* ======================
 start #main-header 
 ========================*/
-#main-header,#main-footer,#main-container{
+#main-header,#main-footer,#main-container {
   position: absolute;
   width: 100%;
 }
-#main-header{
+.main-header_container {
   z-index: 5;
   top: 0;
   height:56px;
   background-color:#f90;
 }
-#main-header ,
-#main-header a,
-#main-header span,
-#main-header div{
+.main-header_container ,
+.main-header_container a{
   color:#fff;
 }
 
 
-#main-header .left ,
-#main-header .right,
-#main-header .center {
+.main-header_container .left ,
+.main-header_container .right,
+.main-header_container .center {
   height:56px;
   line-height:56px;
   padding-left:10px;
   padding-right:10px;
 }
-#main-header .left {
+.main-header_container .left {
   float: left;
   font-size:18px;
 }
-#main-header .right {
+.main-header_container .right {
   float: right;
   font-size:16px;
 }
-#main-header .center {
+.main-header_container .center {
   text-align:center;
   overflow:hidden;
   font-size:22px;
 }
 .main-header_container {
   display: inline-block;
-  height: 100%;
+  height:56px;
   width: 100%;
   vertical-align: middle;
 }
@@ -243,7 +241,7 @@ start #main-footer
 .gallery__opr a {
   
     color: #FFFF0F;
-    font-size:26px;
+    font-size:20px;
 }
 .gallery__icon {
   padding:0 20px;
