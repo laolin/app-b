@@ -3,14 +3,16 @@
 
 angular.module('appb')
 .component('appbUiHeader',{
-    templateUrl: 'modules/appb-ui/appb-ui-header.template.html',
-    bindings: {
-      headerData: '='
-    },
-    controller: ['$scope','$log','$timeout','$location','$window',
-    function ($scope,$log,$timeout,$location,$window){
-   
-      this.goLink = function(k,abs) { 
+  templateUrl: 'modules/appb-ui/appb-ui-header.template.html',
+  bindings: {
+    headerData: '<'
+  },
+  controller: ['$scope','$log','$timeout','$location','$window',
+  function ($scope,$log,$timeout,$location,$window){
+    var ctrl=this;
+    ctrl.$onChanges=function(chg) {
+    }
+    ctrl.goLink = function(k,abs) {
       if('function' == typeof k) {
         k();
         return true;
