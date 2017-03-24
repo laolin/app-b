@@ -78,6 +78,13 @@ angular.module('appb')
       svc.galleryData.show=true;
       svc.galleryData.imgs=imgs;
       svc.galleryData.active=active_n;
+      
+      $timeout(function() {
+        svc.galleryData.swiper = new Swiper('.swiper-container', {
+          pagination: '.swiper-pagination',
+          paginationClickable: true
+        });
+      },78);
     }
     
     return {
