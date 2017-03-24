@@ -13,6 +13,31 @@ angular.module('appb')
         var ctrl=this;
         ctrl.swiper=false;
         ctrl.$onInit=function() {
+          /*
+          ctrl.galleryData.onTouchStart=function(obj,ev) {
+            $log.log('sw.onTouchStart',obj,ev);
+          }
+          ctrl.galleryData.onTouchEnd=function(obj,ev) {
+            $log.log('sw.onTouchEnd',obj,ev);
+          }
+          ctrl.galleryData.onClick=function(obj,ev) {
+            $log.log('sw.onClick',obj,ev);
+          }
+          */
+          ctrl.galleryData.onTap=function(obj,ev) {
+            $log.log('sw.onTap',obj,ev);
+          }
+          ctrl.galleryData.onDoubleTap=function(obj,ev) {
+            //$log.log('sw.onDoubleTap',obj,ev);
+          }
+          
+          ctrl.galleryData.onNav=function(obj) {
+            $log.log('sw.onSlideChangeEnd',obj);
+            ctrl.galleryData.tick= + new Date();
+            ctrl.galleryData.headerData.title=
+              (1+obj.activeIndex) + '/' + obj.slides.length;
+            $scope.$apply();
+          };
         }
         ctrl.$onChanges=function(chg) {
         }

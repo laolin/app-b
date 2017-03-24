@@ -75,21 +75,41 @@ angular.module('appb')
     svc.galleryData.show=false;
     svc.galleryData.headerData={
       widgets:[{side:'right',link:function(){svc.galleryData.show=false;},icon:'close'}],
-      title:'PicS'
+      title:'0/0'
     };
     
     function showGallery(imgs,active_n) {
       svc.galleryData.show=true;
       svc.galleryData.imgs=imgs;
+      if(!active_n)active_n=0;
       svc.galleryData.active=active_n;
+      svc.galleryData.headerData.title='1/'+imgs.length;
       
-      $timeout(function() {
-        svc.galleryData.swiper = new Swiper('.swiper-container', {
-          pagination: '.swiper-pagination',
-          paginationClickable: true
-        });
+      if(!svc.galleryData.swiper) {
+        $timeout(function() {
+          svc.galleryData.swiper = new Swiper('.swiper-container', {
+            pagination: '.swiper-pagination',
+            onSlideChangeEnd:svc.galleryData.onNav,
+            
+            //onTouchStart:svc.galleryData.onTouchStart,
+            //onTouchEnd  :svc.galleryData.onTouchEnd,
+            //onClick     :svc.galleryData.onClick,
+            onTap       :svc.galleryData.onTap,
+            onDoubleTap :svc.galleryData.onDoubleTap,
+            
+            
+            observer: true, //ng-repeat更新dom后，swiper对象会自动更新各页内容
+            observeParents: true,
+            
+            
+            
+            paginationClickable: true
+          });
+          svc.galleryData.swiper.slideTo(active_n);
+        },78);
+      } else {
         svc.galleryData.swiper.slideTo(active_n);
-      },78);
+      }
     }
     
     return {

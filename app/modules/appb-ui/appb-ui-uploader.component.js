@@ -35,6 +35,9 @@ angular.module('appb')
           }
         }
          
+        ctrl.clickImg=function(n){
+          ctrl.appData.showGallery(ctrl.imgData.imgs,n);
+        }
         ctrl.addImg=function(){
           $log.log('..addImg');
           if(imgData.imgs.length >= ctrl.maxCount)return;
