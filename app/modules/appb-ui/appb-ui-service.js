@@ -85,7 +85,9 @@ angular.module('appb')
       svc.galleryData.active=active_n;
       svc.galleryData.headerData.title='1/'+imgs.length;
       
-      if(!svc.galleryData.swiper) {
+      //observer不灵，必须要重新new, 所以 让 if 总是 true
+      // if( !svc.galleryData.swiper) {
+      if(1){
         $timeout(function() {
           svc.galleryData.swiper = new Swiper('.swiper-container', {
             pagination: '.swiper-pagination',
@@ -98,8 +100,8 @@ angular.module('appb')
             onDoubleTap :svc.galleryData.onDoubleTap,
             
             
-            observer: true, //ng-repeat更新dom后，swiper对象会自动更新各页内容
-            observeParents: true,
+            //observer: true, //ng-repeat更新dom后，swiper对象会自动更新各页内容
+            //observeParents: true,
             
             
             

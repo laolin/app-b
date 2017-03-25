@@ -25,15 +25,14 @@ angular.module('appb')
           }
           */
           ctrl.galleryData.onTap=function(obj,ev) {
-            $log.log('sw.onTap',obj,ev);
+            //$log.log('sw.onTap',obj,ev);
           }
           ctrl.galleryData.onDoubleTap=function(obj,ev) {
             //$log.log('sw.onDoubleTap',obj,ev);
           }
           
           ctrl.galleryData.onNav=function(obj) {
-            $log.log('sw.onSlideChangeEnd',obj);
-            ctrl.galleryData.tick= + new Date();
+            //$log.log('sw.onSlideChangeEnd',obj);
             ctrl.galleryData.headerData.title=
               (1+obj.activeIndex) + '/' + obj.slides.length;
             $scope.$apply();
