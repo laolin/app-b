@@ -11,7 +11,9 @@
             "weui-uploader__file_status":$ctrl.imgData.uploadings[$index],
             "weui-uploader__file_uploadok":!$ctrl.imgData.uploadings[$index]
           }'
-          style='background-image:url({{$ctrl.appData.urlApi("file","g",img)}})'
+          ng-style='{"background-image": $ctrl.appData.filePath?
+            "url("+$ctrl.appData.filePath+"/"+img+")" : ""
+          }'
           ng-click="$ctrl.clickImg($index)"
           ng-repeat='img in $ctrl.imgData.imgs track by $index'>
               <div class="weui-uploader__file-content">
