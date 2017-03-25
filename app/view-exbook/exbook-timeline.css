@@ -2,20 +2,13 @@
 
 .timeline-header {
     position: relative;
-    height:278px;
+    height:178px;
     background-color:#005278;
 }
 
 .user-avt,
 .user-name {
-    position: absolute
-}
-
-#bg {
-    width: 100%
-}
-
-.user-name {
+    position: absolute;
     text-align: right;
     right: 134px;
     bottom: 15px;
@@ -23,18 +16,6 @@
     font-weight: 700;
     font-size: 15px;
     text-shadow: 0 1px .5px #222
-}
-
-#share a,.btn {
-    font-size: 14px
-}
-
-.btn,b {
-    font-weight: 400
-}
-
-#share a,#share p,.btn {
-    text-align: center
 }
 
 .user-avt {
@@ -47,58 +28,92 @@
     background-color: #fff
 }
 
-#list li,.po-hd {
-    position: relative
+
+/*
+  exbook post and comment:
+  ===========================
+  
+  ebfeed-list 全部列表
+  ebfeed-unit 一项
+    eb-po-avt-wrap 头像
+    eb-po-cmt 内容，评论
+      eb-po-body 内容区
+        eb-po-name 用户名
+        eb-post内容
+        eb-time 时间
+        eb-c-icon img 评论按钮
+      eb-r 尖三角分割行
+      eb-cmt 评论区
+        eb-like 点赞列表
+        eb-cmt-list 评论
+    eb-po-clear 清除浮动
+  
+  
+*/
+
+
+.eb-po-body,
+.eb-post {
+    overflow: hidden
 }
 
-#list {
-    padding: 30px 0 10px
+.eb-po-cmt,
+.eb-post .eb-list-img:nth-child(1),
+.eb-time {
+    float: left
 }
 
-#list li {
-    line-height: 1.5;
-    border-bottom: 1px solid #e2e2e2;
-    margin-top: 15px;
-    padding-bottom: 15px
+.eb-cmt,
+.eb-r,
+.eb-time {
+  clear: both
 }
 
-#share a:nth-child(2),.ads,.po-avt {
-    position: absolute
+
+
+
+
+.eb-time {
+  font-size: 13px;
+  color: #b1b1b1;
 }
 
-.ads {
-    color: #999;
-    right: 5px;
-    top: 0
+.ebfeed-list,
+.ebfeed-unit,
+.eb-po-body {
+  position: relative
 }
 
-.ads img {
-    width: 10px;
-    padding-left: 8px
+.ebfeed-list {
+  padding: 1px 0 50px;
+  font-size: 14px;
+  background-color:#f8f8f8;
 }
 
-.ad-link {
-    color: #3b5384
+.ebfeed-unit {
+  line-height: 1.5;
+  border-bottom: 1px solid #f3f3f3;
+  margin-top: 15px;
+  padding-bottom: 15px
+}
+.eb-po-clear {
+  clear: both;
 }
 
-.post .ad-link img {
-    width: 11px;
-    padding: 0;
-    display: inline-block
+
+.eb-po-avt-wrap {
+  padding-left: 10px
 }
 
-.po-avt-wrap {
-    padding-left: 10px
+.eb-po-avt {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 0;
+  left: 10px
 }
 
-.po-avt {
-    width: 40px;
-    height: 40px;
-    top: 0;
-    left: 10px
-}
-
-.r {
+.eb-r {
     border-bottom: 8px solid #eee;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
@@ -107,34 +122,33 @@
     margin-left: 10px
 }
 
-.po-cmt {
+.eb-po-cmt {
     padding-left: 60px;
     padding-right: 10px;
     width: 100%;
-    box-sizing: border-box
+    box-sizing: border-box;
+    background-color:#f8f8f8;
 }
 
-.po-name {
+.eb-po-name {
     color: #576b95
 }
 
-.post {
+.eb-post {
     color: #252525;
     padding-bottom: 10px
 }
 
-.post img {
+.eb-post img {
     padding: 10px 5px 0 0;
     display: block;
     max-height: 130px;
     max-width: 130px
 }
 
-#share a,.btn {
-    display: inline-block
-}
 
-.post .list-img {
+
+.eb-post .eb-list-img {
     width: 30%;
     max-height: 80px;
     max-width: 80px;
@@ -143,89 +157,42 @@
     object-fit: cover
 }
 
-.post .list-img:last-child {
+.eb-post .eb-list-img:last-child {
     padding-right: 0
 }
 
-.time {
-    color: #b1b1b1
-}
 
-.c-icon {
+.eb-c-icon {
     width: 20px;
     float: right
 }
 
-.cmt-wrap {
-    width: 100%;
-    background-color: #eee
+.eb-cmt {
+  font-size: 14px;
+  width: 100%;
+  background-color: #eee;
 }
 
-.like {
+.eb-like {
     color: #576b95;
+    border-bottom: 1px solid #e3e3e3;
     padding: 5px 5px 3px 12px
 }
 
-.like img {
+.eb-like img {
     width: 12px;
     padding-right: 5px
 }
 
-.cmt-list {
+.eb-cmt-list {
     padding: 5px 12px;
     color: #454545
 }
 
-.cmt-list p {
+.eb-cmt-list p {
     padding-top: 3px
 }
 
-.cmt-list span {
+.eb-cmt-list span {
     color: #3b5384
 }
-
-#share a {
-    border-radius: 5px;
-    background-color: #26337e;
-    color: #fff;
-    line-height: 2.5;
-    width: 138px;
-    margin: 0 10px
-}
-
-#share a:nth-child(1) {
-    position: absolute;
-    left: 50%;
-    margin-left: -148px
-}
-
-#share a:nth-child(2) {
-    right: 50%;
-    margin-right: -148px
-}
-
-#share p {
-    padding: 45px 0 10px;
-    color: #999
-}
-
-#guide {
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    background-image: url(../images/guide2.png);
-    background-repeat: no-repeat;
-    background-position: right top;
-    background-color: #191919;
-    background-size: contain;
-    opacity: .9
-}
-
-
-
-
