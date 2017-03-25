@@ -22,6 +22,13 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     isWeixinBrowser:(/micromessenger/i).test(navigator.userAgent),
     clientId:'not-init-'+(+new Date()),
     
+    /**
+     *  appData.filePath
+     *  用于直接通过URL访问API上传的文件
+     *  （通常是通过API /file/g 访问文件 ）
+     */
+    filePath: '',// see: init()
+    
     
     headerData:headerData,
     footerData:footerData,
@@ -58,6 +65,12 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
 
   //init functions
   function init() {
+    $http.jsonp(urlApi('file','path')).then(function(d){
+      if(d.data.errcode==0) {
+        appData.filePath=appData.appCfg.apiRoot+d.data.data;
+      }
+    });
+
     initWx();
     initClientId();
   }
@@ -194,7 +207,8 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
       }
     }
     return url;
-  } 
+  }
+  
   // 需要验证身份的 api 对应的 url, 已带验证身份用的 queryStr
   function urlSignApi(api,call,para1,para2) {
     var dat=userApiSign(api,call);
@@ -216,6 +230,10 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     return url+'?'+str;
   }
 
+  //
+  function urlFile() {
+    
+  }
   
   /**
    *  需要用户登录的页面
