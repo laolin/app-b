@@ -14,7 +14,9 @@
           <div class="swiper-wrapper">
             <span class="img-bg-contain swiper-slide" 
             
-            style='background-image:url({{$ctrl.appData.urlApi("file","g",img)}})'
+            ng-style='{"background-image": $ctrl.appData.filePath?
+            "url("+$ctrl.appData.filePath+"/"+img+")" : ""
+            }'
             ng-repeat='img in $ctrl.galleryData.imgs track by $index'
             >
             </span>
