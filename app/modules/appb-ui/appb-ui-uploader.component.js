@@ -17,7 +17,7 @@ angular.module('appb')
       function ($scope,$log,$http){
         
         var ctrl=this;
-        var imgData=ctrl.imgData={imgs:[],serverIds:[],uploadings:[]};
+        var imgData=ctrl.imgData={imgs:[],uploadings:[]};
         
         ctrl.$onInit=function(){
           $log.log('appbUiUploader onInit');
@@ -73,7 +73,11 @@ angular.module('appb')
         };//end of ctrl.addImg
         ctrl.uploadImg=function(){
           var ni=imgData.imgs.length;
-          var ns=imgData.serverIds.length;
+          var ns;
+          for(ns=0;ns<ni;ns++) {
+            if(imgData.uploadings[ns])
+              break;
+          }
           if(ns>=ni)return;
           $log.log('==== Upload start.......','n-img=',ni,'ns=',ns);
           //ctrl.appData.toastMsg('Upload i='+ni+',s='+ns);
@@ -81,7 +85,6 @@ angular.module('appb')
             localId: imgData.imgs[ns], // 需要上传的图片的本地ID
             isShowProgressTips: 0, // 默认为1，显示进度提示
             success: function (res) {
-              imgData.serverIds[ns] = res.serverId; // 返回图片的服务器端ID
               $log.log('____Upload to wx server','n-img=',ni,'ns=',ns);
               //ctrl.appData.toastMsg('Updone i='+ni+',s='+ns);
               $scope.$apply();
@@ -107,8 +110,6 @@ angular.module('appb')
                   //可以通过 apiRoot/file/g/ID 或获得文件
                   //imgData.imgs[ns]=ctrl.appData.urlApi('file','g',d.data.data.name);
                   imgData.imgs[ns]=d.data.data.name;
-                  //上传到自己的服务器完成后 serverId 就丢弃掉
-                  imgData.serverIds[ns]='';
                   imgData.uploadings[ns]=0;
                   //把数据写回
                   ctrl.updateImg({img:imgData.imgs});
