@@ -2,8 +2,8 @@
 (function(){
 
 angular.module('exbook')
-.component('exbookInput',{
-  templateUrl: 'view-exbook/exbook/exbook-input.component.template.html',  
+.component('ebInput',{
+  templateUrl: 'view-exbook/exbook/eb-input.component.template.html',  
   bindings: { 
     appData:"<",
     //注意，

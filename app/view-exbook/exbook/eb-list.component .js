@@ -2,8 +2,8 @@
 (function(){
 
 angular.module('exbook')
-.component('exbookList',{
-  templateUrl: 'view-exbook/exbook/exbook-list.component.template.html',  
+.component('ebList',{
+  templateUrl: 'view-exbook/exbook/eb-list.component.template.html',  
   bindings: { 
     appData:"<"
   },
