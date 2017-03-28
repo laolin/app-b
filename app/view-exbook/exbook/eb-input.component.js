@@ -52,13 +52,8 @@ angular.module('exbook')
           $log.log('api1',api);
           $http.jsonp(api,{params:{fid:ctrl.ebData.draft.fid}})
           .then(function(){
-            api=ctrl.appData.urlSignApi('exbook','draft_create');
-            $log.log('api2',api);
-            $http.jsonp(api)
-            .then(function(df){
-              ctrl.appData.toastDone(1);
-              ctrl.ebData.draft=df.data.data;
-            });
+            ctrl.ebData.initDraft();
+            ctrl.appData.toastDone(1);
           });
         });
       }

@@ -32,18 +32,12 @@ function ($log,$http,$timeout,AppbData){
       }
       $log.log('Done init draft',res);
       ebData.draft=res.data;
-      
-      ebData.imgData={
-        title:'题目', maxCount:9, imgs:[ ], serverIds:[], apiFileIds:[]
-      };
     },function(e){
       // error
       $log.log('error at ExbookService-initDraft',e);
     })
   }
-  initDraft();
   
-  init_cfg();
   function init_cfg() {
     if(config)return;
     
@@ -67,6 +61,12 @@ function ($log,$http,$timeout,AppbData){
       appData.toastMsg('下载初始化数据失败');
     });
   }
+  
+  //
+  ebData.initDraft=initDraft;
+  initDraft();
+  init_cfg();
+
 
   return {
     getEbData:function(){return ebData}
