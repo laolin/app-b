@@ -69,3 +69,7 @@ div.weui-toast .weui-toast__content {
     border-color: #0099ff;
     background-color: #0099ff;
 }
+
+.weui-loadmore_line .weui-loadmore__tips {
+  background-color: #f8f8f8;
+}
