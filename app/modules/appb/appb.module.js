@@ -13,6 +13,7 @@ angular.module('appb.main', [
 angular.module('appb', [
     
     //'ngResource',
+    'angularMoment',
     'ngTouch',
     'ngRoute'
 ])

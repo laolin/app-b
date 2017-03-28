@@ -39,6 +39,12 @@
         "dist/css/swiper.css",
         "dist/js/swiper.jquery.js"
       ]
+    },
+    "moment": {
+      "main": [
+        "moment.js",
+        "locale/zh-cn.js"
+      ]
     }
   }
 }
