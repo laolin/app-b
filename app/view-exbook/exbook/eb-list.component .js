@@ -5,6 +5,7 @@ angular.module('exbook')
 .component('ebList',{
   templateUrl: 'view-exbook/exbook/eb-list.component.template.html',  
   bindings: { 
+    ebData:"<",
     appData:"<"
   },
   controller: ['$log','$timeout','$interval','$http',

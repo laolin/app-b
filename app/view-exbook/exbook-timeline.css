@@ -39,6 +39,8 @@
     eb-po-cmt 内容，评论
       eb-po-body 内容区
         eb-po-name 用户名
+        eb-po-grade 年级
+        eb-po-course 科目
         eb-post内容
         eb-time 时间
         eb-c-icon img 评论按钮
@@ -132,6 +134,14 @@
 
 .eb-po-name {
     color: #576b95
+}
+.eb-po-grade {
+  float: right;
+  color: #525252;
+}
+.eb-po-course {
+  float: right;
+  color: #525252;
 }
 
 .eb-post {

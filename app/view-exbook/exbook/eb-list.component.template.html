@@ -1,23 +1,32 @@
 <div class="ebfeed-list" ng-if='1'>
 
-  <div class="ebfeed-unit" ng-repeat='a in [1,2,3,4,5,6]'>  
+  <div class="weui-loadmore" ng-if='$ctrl.ebData.feedLoading || !$ctrl.ebData.feedList || !$ctrl.ebData.feedList.length'>
+    <i class="weui-loading"></i>
+    <span class="weui-loadmore__tips">正在加载</span>
+  </div>
+  
+  <div class="ebfeed-unit" ng-repeat='a in $ctrl.ebData.feedList'>  
     <div class="eb-po-avt-wrap">
       <img class="eb-po-avt" src="http://wx.qlogo.cn/mmopen/ycl3dlo13Ml9hzuINOQgoAd6TibNPSys1vjwvXWdEHHZSic4wukIG13uz3X0KF6hNxtH2dhqd7pyGWQSb9WlFa6GZP7ZqNa3x0/46">
     </div>
     <div class="eb-po-cmt">
       <div class="eb-po-body">
-        <p class="eb-po-name">用户名 ab@c~username</p>
+        <div>
+          <span class="eb-po-name">fid={{a.fid}}</span>
+          <span class="eb-po-course">{{$ctrl.ebData.ebConfig.courseList[a.course]}}</span>
+          <span class="eb-po-grade">{{$ctrl.ebData.ebConfig.gradeList[a.grade]}}</span>
+        </div>
         <div class="eb-post">
-          <p>内容，内容，内容，内容，content content content content 同学们好，这题好难，看不懂啊~~</p>
-          <p>
-            <img class="eb-list-img" src="https://img1.gtimg.com/ninja/1/2017/03/ninja149017210778490.jpg" style="height: 80px;">
-            <img class="eb-list-img" src="https://inews.gtimg.com/newsapp_ls/0/1309408888_200160/0" style="height: 80px;">
-            <img class="eb-list-img" src="https://inews.gtimg.com/newsapp_ls/0/1309408890_200160/0" style="height: 80px;">
-            <img class="eb-list-img" src="https://res.wx.qq.com/open/zh_CN/htmledition/res/img/pic/slider/banner_index_pay2168b9.png" style="height: 80px;">
-            <img class="eb-list-img" src="https://res.wx.qq.com/open/zh_CN/htmledition/res/img/pic/slider/banner_index_smart22168b9.png" style="height: 80px;">
+          <p>{{a.content}}</p>
+          <p ng-if='a.pics'>
+            <img class="eb-list-img" style="height: 80px;"
+            
+            ng-repeat='img in a.pics.split(",") track by $index'
+            ng-src="{{$ctrl.appData.filePath}}/{{img}}">
+            
           </p>
         </div>
-        <span class="eb-time">刚刚 2016-2-9</span> &nbsp;
+        <span class="eb-time" am-time-ago='1000*a.publish_at'></span>
         <!--span class=""> 删除 </span>
         <span class=""> 投诉 </span-->
         <img class="eb-c-icon" src="assets/img/cmt.png">
@@ -42,6 +51,9 @@
     <div class="eb-po-clear"></div>
   </div>
 
+  <div class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+    <span class="weui-loadmore__tips"></span>
+  </div>
 
 </div>
 

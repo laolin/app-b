@@ -6,9 +6,9 @@ var KEY_CLIENTID=appbCfg.keyClientId;
 angular.module('appb')
 .factory('AppbData',
 ['$route','$rootScope','$location','$log','$timeout','$http','$window',
-  'AppbConfig','AppbDataHeader','AppbDataFooter','AppbDataUser','AppbUiService','AppbDataApi',
+  'AppbConfig','AppbDataHeader','AppbDataFooter','AppbDataUser','AppbUiService','AppbDataApi','moment',
 function($route, $rootScope,$location,$log,$timeout,$http,$window,
-  AppbConfig,AppbDataHeader,AppbDataFooter,AppbDataUser,AppbUiService,AppbDataApi) 
+  AppbConfig,AppbDataHeader,AppbDataFooter,AppbDataUser,AppbUiService,AppbDataApi,moment) 
 {
   
   var appCfg=AppbConfig();
@@ -73,6 +73,8 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
 
     initWx();
     initClientId();
+    //moment.changeLocale('zh-cn');
+    moment.locale('zh-cn');
   }
 
   function initWx() {
