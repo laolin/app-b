@@ -34,6 +34,7 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     footerData:footerData,
     userData:userData,
     setUserData:AppbDataUser.setUserData,
+    dealWxHeadImg:AppbDataUser.dealWxHeadImg,
     
     api:AppbDataApi,
     userApiSign:userApiSign,
