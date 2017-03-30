@@ -4,8 +4,9 @@
       <textarea class="weui-textarea" placeholder="不求万人怜惜，但求一人懂得。" rows="3"
       ng-model="$ctrl.ebData.draft.content"
       ng-change="$ctrl.changeMark('content')"
+      maxlength='{{$ctrl.maxTextLength}}'
       ></textarea>
-      <div class="weui-textarea-counter"><span>0</span>/140</div>
+      <div class="weui-textarea-counter"><span>{{$ctrl.ebData.draft.content.length}}</span>/{{$ctrl.maxTextLength}}</div>
     </div>
   </div>
   <div class="weui-cell">

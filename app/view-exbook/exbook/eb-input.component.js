@@ -20,6 +20,7 @@ angular.module('exbook')
       var isUpdating=false;
       
 
+      ctrl.maxTextLength=999;
       ctrl.dataChanged={ 
         grade:0,
         course:0,
