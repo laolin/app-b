@@ -5,8 +5,8 @@ angular.module('exbook')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/explore', {
     templateUrl: 'view-exbook/explore/explore.template.html',
-    controller: ['$scope','$location','$log','ExbookService','AppbData','AppbUiService',
-      function ($scope,$location,$log,ExbookService,AppbData,AppbUiService) {
+    controller: ['$scope','$http','$log','ExbookService','AppbData',
+      function ($scope,$http,$log,ExbookService,AppbData) {
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
         AppbData.activeHeader('exbook-back', '发现'); 
@@ -21,6 +21,11 @@ angular.module('exbook')
         // 使用 component 时
         //var ctrl=this;
         ctrl.userData=userData;
+        ctrl.appData=appData;
+        if( !appData.ebData.feedList || !appData.ebData.feedList.length) {
+          appData.ebData.exploreFeed();
+        }          
+        
       }
     ]
   })

@@ -13,13 +13,65 @@ function ($log,$http,$timeout,AppbData){
   appData.ebData=ebData;
   svc.ebData=ebData;
   
+  
+  /**
+   *  para.count=2~200: 数量
+   *  para.oldMore=1: 更多旧帖
+   *  para.newMore=1: 更多新帖
+   */
+  function exploreFeed(para){
+    var i;
+    var api=appData.urlSignApi('exbook','feed_list');
+    if(!api){
+      appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
+      return false;
+    }
+    var pdata={count:20};
+    if(para && para.count) {
+      pdata.before=para.count;
+    }
+    
+    // after 表示获取新的
+    // before 表示获取更多旧的
+    if(para && ebData.feedList.length) {
+      //假定服务器返回的时间顺序都是正常的
+      // 目前也假定没有发布时间是在同 一秒  的 ( TODO: 这个有问题 )
+      if(para.newMore) {
+        pdata.after=ebData.feedList[0].publish_at;
+      } else if( para.oldMore) {
+        pdata.before=ebData.feedList[ebData.feedList.length-1].publish_at;
+      }
+    }
+    $log.log('exploreFeed',para,pdata);
+    
+    $http.jsonp(api, {params:pdata})
+    .then(function(s){
+      if(s.data.errcode!=0) {
+        $log.log('Er:FeedList:',s.data.msg);
+        return;
+      }
+      
+      //
+      if(pdata.before) { //oldMore
+        ebData.feedList=ebData.feedList.concat(s.data.data);
+      } else if(pdata.after) {//newMore
+        ebData.feedList=s.data.data.concat(ebData.feedList);
+      } else {
+        ebData.feedList=s.data.data;
+      }
+    },function(e){
+      // error
+      $log.log('error at ExbookService-exploreFeed',e);
+    })
+  }
+  
   function initDraft() {
     var api=appData.urlSignApi('exbook','draft_create');
     if(!api){
       appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
       return false;
     }
-    $http.jsonp(api, {params:{}})//TODO : 出错处理
+    $http.jsonp(api, {params:{}})
     .then(function(s){
       var res=s.data;
       if(res.errcode > 0) {
@@ -64,6 +116,8 @@ function ($log,$http,$timeout,AppbData){
   
   //
   ebData.initDraft=initDraft;
+  ebData.exploreFeed=exploreFeed;
+  ebData.feedList=[];
   initDraft();
   init_cfg();
 
