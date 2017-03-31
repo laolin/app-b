@@ -2,14 +2,14 @@
 (function(){
 
 angular.module('appb')
-.directive('appbUiShowMore', function () {
+.directive('appbUiOnScrollBottom', function () {
   return {
     restrict: 'A',
     //template: 'Load more...',
     link: function (scope, element, attrs) {
       var raw = element[0];
       
-      //console.log('appbUiShowMore link',scope, element, attrs,raw.scrollTop , raw.offsetHeight,raw.scrollHeight,'ok..');
+      //console.log('appbUiOnScrollBottom link',scope, element, attrs,raw.scrollTop , raw.offsetHeight,raw.scrollHeight,'ok..');
           
       element.bind('scroll', function () {
         //console.log('in scroll');
@@ -17,7 +17,7 @@ angular.module('appb')
         //console.log(raw.scrollHeight);
         if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight) {
           //console.log("I am at the bottom");
-          scope.$apply(attrs.appbUiShowMore);
+          scope.$apply(attrs.appbUiOnScrollBottom);
         }
       });
     }

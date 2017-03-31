@@ -1,9 +1,4 @@
 <div class="ebfeed-list" ng-if='1'>
-
-  <div class="weui-loadmore" ng-if='$ctrl.ebData.feedLoading || !$ctrl.ebData.feedList || !$ctrl.ebData.feedList.length'>
-    <i class="weui-loading"></i>
-    <span class="weui-loadmore__tips">正在加载</span>
-  </div>
   
   <div class="ebfeed-unit" ng-repeat='a in $ctrl.ebData.feedList'>  
     <div class="eb-po-avt-wrap">
@@ -53,14 +48,21 @@
   
   <div class="weui-cells">
     <a href class="weui-cell weui-cell_link"
-    ng-if='$ctrl.ebData.hasMore'
+    ng-if='$ctrl.ebData.hasOldMore && !$ctrl.ebData.oldMoreLoading'
     ng-click='$ctrl.ebData.exploreFeed({oldMore:1})'>
-      <div class="weui-cell__bd">加载更多</div>
+      <div class="weui-cell__bd text-center">加载更多</div>
     </a>
     <a href class="weui-cell weui-cell_link"
-    ng-if='!$ctrl.ebData.hasMore'>
-      <div class="weui-cell__bd">已显示全部</div>
+    ng-if='!$ctrl.ebData.hasOldMore && !$ctrl.ebData.oldMoreLoading'>
+      <div class="weui-cell__bd text-center">已显示全部</div>
     </a>
+    
+    <div class="weui-cell" ng-if='$ctrl.ebData.oldMoreLoading'>
+      <div class="weui-loadmore">
+        <i class="weui-loading"></i>
+        <span class="weui-loadmore__tips">正在加载</span>
+      </div>
+    </div>  
   </div>
 
 </div>

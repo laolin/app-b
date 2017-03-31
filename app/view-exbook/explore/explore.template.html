@@ -1,4 +1,4 @@
-<div class='main-content-wrapper' appb-ui-show-more='$ctrl.showMore()'>
+<div class='main-content-wrapper' appb-ui-on-scroll-bottom='$ctrl.showOldMore()'>
 <div class="weui-cells" ng-if='! $ctrl.userData.token'>
   <div class='weui-cell text-center'>
     请<a href="#!/wx-login">登录</a>
@@ -8,6 +8,21 @@
 <eb-timeline-header user-data='$ctrl.userData'></eb-timeline-header>
 
 <div class="weui-cells__title">我关注的</div>
+<div class="weui-cells"
+  ng-if='$ctrl.appData.ebData.hasNewMore && !$ctrl.appData.ebData.newMoreLoading'
+  ng-click='$ctrl.showNewMore()'>
+  <div class='weui-cell text-center'>
+    <div class="weui-cell__bd text-center">有新内容，点此刷新</div>
+  </div>
+</div>
+<div class="weui-cells" ng-if='$ctrl.appData.ebData.newMoreLoading'>
+  <div class="weui-cell">
+    <div class="weui-loadmore">
+      <i class="weui-loading"></i>
+      <span class="weui-loadmore__tips">正在加载</span>
+    </div>
+  </div>
+</div>
 
 
 

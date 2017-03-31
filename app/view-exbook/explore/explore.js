@@ -36,8 +36,11 @@ angular.module('exbook')
         if( !appData.ebData.feedList || !appData.ebData.feedList.length) {
           appData.ebData.exploreFeed();
         }
-        ctrl.showMore=function(){
-          if(appData.ebData.hasMore)
+        ctrl.showNewMore=function(){
+            appData.ebData.exploreFeed({newMore:1});
+        }
+        ctrl.showOldMore=function(){
+          if(appData.ebData.hasOldMore)
             appData.ebData.exploreFeed({oldMore:1});
         }
 

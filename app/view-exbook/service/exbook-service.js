@@ -27,20 +27,30 @@ function ($log,$http,$timeout,AppbData){
       return false;
     }
     var pdata={count:10};
-    if(para && para.count) {
-      pdata.before=para.count;
-    }
     
-    // after 表示获取新的
-    // before 表示获取更多旧的
+    // newmore 表示获取新的
+    // oldmore 表示获取更多旧的
     if(para && ebData.feedList.length) {
       //假定服务器返回的时间顺序都是正常的
       // 目前也假定没有发布时间是在同 一秒  的 ( TODO: 这个有问题 )
       if(para.newMore) {
-        pdata.after=ebData.feedList[0].publish_at;
+        if(ebData.newMoreLoading)return;
+        ebData.newMoreLoading=true;
+        pdata.newmore=ebData.feedList[0].publish_at;
       } else if( para.oldMore) {
-        pdata.before=ebData.feedList[ebData.feedList.length-1].publish_at;
+        if(ebData.oldMoreLoading)return;
+        ebData.oldMoreLoading=true;
+        pdata.oldmore=ebData.feedList[ebData.feedList.length-1].publish_at;
       }
+    }
+    if(para && para.count) {
+      pdata.count=para.count;
+    }
+    
+    //newMore的一律刷200条
+    var newMoreCount=200;
+    if(pdata.newmore) {
+      pdata.count=newMoreCount;
     }
     $log.log('exploreFeed',para,pdata);
     
@@ -50,21 +60,38 @@ function ($log,$http,$timeout,AppbData){
         $log.log('Er:FeedList:',s.data.msg);
         if(s.data.errcode==10) { // 10 和服务器相关。服务器统一整理调整时要一并调整
           //appData.toastMsg('已没有更多',3);
-          ebData.hasMore=false;
+          if(pdata.newmore) {
+            ebData.hasNewMore=false;
+          }
+          if(pdata.oldmore) {
+            ebData.hasOldMore=false;
+          }
         }
+        if(pdata.newmore) ebData.newMoreLoading=false;
+        if(pdata.oldmore) ebData.oldMoreLoading=false;
         return;
       }
       
       //
-      if(pdata.before) { //oldMore
+      if(pdata.oldmore) { //oldMore
         ebData.feedList=ebData.feedList.concat(s.data.data);
-      } else if(pdata.after) {//newMore
-        ebData.feedList=s.data.data.concat(ebData.feedList);
+        ebData.oldMoreLoading=false;
+      } else if(pdata.newmore) {//newMore
+        //newMore 如果返回 newMoreCount，说明新的很多，
+        //新内容和原来的内容在时间没连续的接上，故要扔掉旧的
+        if(s.data.data.length==newMoreCount) {
+          ebData.feedList=s.data.data;
+        } else {
+          ebData.feedList=s.data.data.concat(ebData.feedList);
+        }
+        ebData.newMoreLoading=false;
       } else {
         ebData.feedList=s.data.data;
       }
     },function(e){
       // error
+      if(pdata.newmore)ebData.newMoreLoading=false;
+      if(pdata.oldmore)ebData.oldMoreLoading=false;
       $log.log('error at ExbookService-exploreFeed',e);
     })
   }
@@ -122,7 +149,10 @@ function ($log,$http,$timeout,AppbData){
   ebData.initDraft=initDraft;
   ebData.exploreFeed=exploreFeed;
   ebData.feedList=[];
-  ebData.hasMore=true;
+  ebData.newMoreLoading=false;
+  ebData.oldMoreLoading=false;
+  ebData.hasNewMore=false;
+  ebData.hasOldMore=true;
   initDraft();
   init_cfg();
 
