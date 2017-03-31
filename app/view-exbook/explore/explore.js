@@ -14,6 +14,17 @@ angular.module('exbook')
 
         //要求登录，如果未登录，会自动跳转到登录界面
         appData.requireLogin();
+        
+        $scope.$on('$destroy', function iVeBeenDismissed() {
+          // say goodbye to your controller here
+          // release resources, cancel request...
+          //$log.log('exbook/explore $destroy');
+        });
+        $scope.$on('$viewContentLoaded', function readyToTrick() {
+          // say hello to your new content here
+          // BUT NEVER TOUCHES THE DOM FROM A CONTROLLER
+          //$log.log('exbook/explore $viewContentLoaded');
+        });
 
         //使用ctrl, 后面方便切换为 component
         var ctrl=$scope.$ctrl={};
@@ -24,7 +35,12 @@ angular.module('exbook')
         ctrl.appData=appData;
         if( !appData.ebData.feedList || !appData.ebData.feedList.length) {
           appData.ebData.exploreFeed();
-        }          
+        }
+        ctrl.showMore=function(){
+          appData.ebData.exploreFeed({oldMore:1});
+        }
+
+        
         
       }
     ]

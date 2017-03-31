@@ -26,8 +26,8 @@
 <body ng-controller='appbCtrl as appb'>
 
   <appb-ui-header id="main-header" header-data='appb.headerData'></appb-ui-header>
-  <div id="main-container">
-    <div ng-view><h5 class='text-center'>Loading...</h5></div>
+  <div id="main-container" ng-view>
+    <h5 class='text-center'>Loading...</h5>
   </div>
   <appb-ui-footer id="main-footer" footer-data='appb.footerData'></appb-ui-footer>
   <appb-ui-abc app-data='appb.appData'></appb-ui-abc>

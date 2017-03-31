@@ -85,6 +85,15 @@ start #main-container
 body{
   color:#222;
 }
+
+/* 用于 #main-container 内再嵌一层，捕捉滚动事件用 */
+.main-content-wrapper {
+  position: absolute;
+  width: 100%;
+  top:0px;
+  bottom:0px;
+  overflow: auto;
+}
 /* ======================
 END #main-container 
 ========================*/

@@ -26,7 +26,7 @@ function ($log,$http,$timeout,AppbData){
       appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
       return false;
     }
-    var pdata={count:20};
+    var pdata={count:10};
     if(para && para.count) {
       pdata.before=para.count;
     }
