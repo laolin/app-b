@@ -37,7 +37,8 @@ angular.module('exbook')
           appData.ebData.exploreFeed();
         }
         ctrl.showMore=function(){
-          appData.ebData.exploreFeed({oldMore:1});
+          if(appData.ebData.hasMore)
+            appData.ebData.exploreFeed({oldMore:1});
         }
 
         

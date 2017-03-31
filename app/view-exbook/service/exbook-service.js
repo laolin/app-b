@@ -48,6 +48,10 @@ function ($log,$http,$timeout,AppbData){
     .then(function(s){
       if(s.data.errcode!=0) {
         $log.log('Er:FeedList:',s.data.msg);
+        if(s.data.errcode==10) { // 10 和服务器相关。服务器统一整理调整时要一并调整
+          //appData.toastMsg('已没有更多',3);
+          ebData.hasMore=false;
+        }
         return;
       }
       
@@ -118,6 +122,7 @@ function ($log,$http,$timeout,AppbData){
   ebData.initDraft=initDraft;
   ebData.exploreFeed=exploreFeed;
   ebData.feedList=[];
+  ebData.hasMore=true;
   initDraft();
   init_cfg();
 

@@ -50,6 +50,18 @@
     </div>
     <div class="eb-po-clear"></div>
   </div>
+  
+  <div class="weui-cells">
+    <a href class="weui-cell weui-cell_link"
+    ng-if='$ctrl.ebData.hasMore'
+    ng-click='$ctrl.ebData.exploreFeed({oldMore:1})'>
+      <div class="weui-cell__bd">加载更多</div>
+    </a>
+    <a href class="weui-cell weui-cell_link"
+    ng-if='!$ctrl.ebData.hasMore'>
+      <div class="weui-cell__bd">已显示全部</div>
+    </a>
+  </div>
 
 </div>
 
