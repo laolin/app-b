@@ -15,7 +15,8 @@ angular.module('appb')
         //console.log('in scroll');
         //console.log(raw.scrollTop , raw.offsetHeight,raw.scrollTop + raw.offsetHeight);
         //console.log(raw.scrollHeight);
-        if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight) {
+        
+        if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight-2) {
           //console.log("I am at the bottom");
           scope.$apply(attrs.appbUiOnScrollBottom);
         }
