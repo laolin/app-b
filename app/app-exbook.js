@@ -30,7 +30,7 @@ cfg.markWxLoginCallback='cb_xd';//和后端API的约定字符串，在 /wx-login
 cfg.tabsAvailable=[
   ['exbook-index',[
     {text:'首页',icon:'home',href:'/',active:1},
-    {text:'错题',icon:'book',href:'/exbook'},
+    //{text:'错题',icon:'book',href:'/exbook'},
     {text:'发现',icon:'search',href:'/explore'},
     {text:'我的',icon:'user',href:'/my'}
   ]],
@@ -42,14 +42,14 @@ cfg.tabsAvailable=[
 ];
 cfg.headerAvailable=[
   ['exbook-home',[
-    {side:'left',link:'1',icon:'home'},
-    {side:'right',link:'/my',icon:'user'},
-    {side:'right',link:'/settings',text:'换年级'}
+    {side:'left',link:'-1',icon:'chevron-left'},
+    {side:'right',link:'/',icon:'plus'},
+    //{side:'right',link:'/settings',text:'换年级'}
   ]],
   ['exbook-back',[
-    {side:'left',link:'-1',icon:'chevron-left'},
+    {side:'left',link:'1',icon:'home'},
     {side:'right',link:'/my',icon:'user'},
-    {side:'right',link:'/settings',text:'换年级'}
+    //{side:'right',link:'/settings',text:'换年级'}
   ]]
 ];
 

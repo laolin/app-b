@@ -9,7 +9,7 @@ angular.module('exbook')
       function ($scope,$http,$log,ExbookService,AppbData) {
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
-        AppbData.activeHeader('exbook-back', '发现'); 
+        AppbData.activeHeader('exbook-home', '发现'); 
         AppbData.activeFooter('exbook-index');
 
         //要求登录，如果未登录，会自动跳转到登录界面
