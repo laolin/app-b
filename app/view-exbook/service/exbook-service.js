@@ -130,6 +130,9 @@ function ($log,$http,$timeout,$location,AppbData){
           }
           return;
         }
+        
+        ebData.lastGrade=ebData.draft.grade;
+        ebData.lastCourse=ebData.draft.course;
         initDraft();
         ebData.hasNewMore=true;
         $location.path( "/explore" )
@@ -206,6 +209,14 @@ function ($log,$http,$timeout,$location,AppbData){
       }
       $log.log('Done init draft',res);
       ebData.draft=res.data;
+      
+      if(ebData.lastGrade&&ebData.lastCourse) {
+        //自动按上次的年级、科目
+        ebData.draft.grade=ebData.lastGrade;
+        ebData.draft.course=ebData.lastCourse;
+        changeMark('grade');
+        changeMark('course');
+      }
     },function(e){
       // error
       $log.log('error at ExbookService-initDraft',e);
