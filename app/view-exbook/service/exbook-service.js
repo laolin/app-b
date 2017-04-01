@@ -9,8 +9,8 @@ var
   ERR_OK=0;
 angular.module('exbook')
 .factory('ExbookService', 
-['$log','$http','$timeout','AppbData',
-function ($log,$http,$timeout,AppbData){
+['$log','$http','$timeout','$location','AppbData',
+function ($log,$http,$timeout,$location,AppbData){
   var svc=this;
   var ebData={draft:{}};//草稿
   var appData=AppbData.getAppData();
@@ -119,8 +119,20 @@ function ($log,$http,$timeout,AppbData){
       var api=appData.urlSignApi('exbook','draft_publish');
       $log.log('api1',api);
       $http.jsonp(api,{params:{fid:ebData.draft.fid}})
-      .then(function(){
+      .then(function(s){
+        
+        if(s.data.errcode!=0) {
+          $log.log('Er:publish:',s.data.errcode,s.data.msg);
+          if(s.data.errcode==ERR_EB_INVALID) {
+            appData.toastMsg(s.data.msg,7);
+          } else {
+            appData.toastMsg('Er:publish:',s.data.errcode,s.data.msg,8);
+          }
+          return;
+        }
         initDraft();
+        ebData.hasNewMore=true;
+        $location.path( "/explore" )
         appData.toastDone(1);
       });
     });
