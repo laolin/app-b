@@ -99,6 +99,7 @@ function ($log,$http,$timeout,AppbData){
         } else {
           ebData.feedList=s.data.data.concat(ebData.feedList);
         }
+        ebData.hasNewMore=false;
         ebData.newMoreLoading=false;
       } else {
         ebData.feedList=s.data.data;
