@@ -87,6 +87,8 @@ function ($log,$http,$timeout,$location,AppbData){
         return;
       }
       
+      //获取所有的 s.data.data[i].uid 的用户信息
+      getUsers(s.data.data);
       //
       if(pdata.oldmore) { //oldMore
         ebData.feedList=ebData.feedList.concat(s.data.data);
@@ -111,7 +113,37 @@ function ($log,$http,$timeout,$location,AppbData){
       $log.log('error at ExbookService-exploreFeed',e);
     })
   }
-
+  
+  /**
+   *  获取数组各uid 头像图片地址
+   *  输入
+   *  arr 数组，每个元素的uid是要获取头像用户
+   *  
+   *  根据 usersInfo 查现在头像 ，如果对应 uid 已有就跳过
+   *  如果没有，就用 /wx/get_users/uid1,uid2,uid3 API获取一堆用户的信息   
+   */
+  function getUsers(arr) {
+    var ids=[];
+    for(var i=arr.length;i--; ) {
+      if(!ebData.usersInfo[arr[i]['uid']] && 
+        ids.indexOf(arr[i]['uid'])<0)ids.push(arr[i]['uid']);
+    }
+    if(ids.length) {
+      var api=appData.urlSignApi('wx','get_users',ids.join(','));
+      $http.jsonp(api).then(function(s){
+        if(s.data.errcode!=0) {
+          $log.log('Err:getUsers:',s.data.errcode,s.data.msg);
+          return;
+        }
+        var d=s.data.data;
+        for(i=d.length;i--; ) {
+          ebData.usersInfo[d[i]['uid']]=d[i];
+        }
+      },function(e){
+        $log.log('Err:getUsers:',e);
+      });
+    }
+  }
 
   function publish() {
     appData.toastLoading();
@@ -256,6 +288,7 @@ function ($log,$http,$timeout,$location,AppbData){
   ebData.publish=publish;
   
   ebData.feedList=[];
+  ebData.usersInfo={};//头像等用户信息
   ebData.newMoreLoading=false;
   ebData.oldMoreLoading=false;
   ebData.hasNewMore=false;
