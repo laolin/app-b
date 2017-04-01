@@ -2,12 +2,20 @@
   
   <div class="ebfeed-unit" ng-repeat='a in $ctrl.ebData.feedList'>  
     <div class="eb-po-avt-wrap">
-      <img class="eb-po-avt" src="http://wx.qlogo.cn/mmopen/ycl3dlo13Ml9hzuINOQgoAd6TibNPSys1vjwvXWdEHHZSic4wukIG13uz3X0KF6hNxtH2dhqd7pyGWQSb9WlFa6GZP7ZqNa3x0/46">
+      <img class="eb-po-avt" ng-src="{{
+        $ctrl.ebData.usersInfo[a.uid].wxinfo?
+        $ctrl.ebData.usersInfo[a.uid].wxinfo.headimgurl :
+        'assets/img/anonymous.png'
+      }}">
     </div>
     <div class="eb-po-cmt">
       <div class="eb-po-body">
         <div>
-          <span class="eb-po-name">fid={{a.fid}}</span>
+          <span class="eb-po-name">{{
+            $ctrl.ebData.usersInfo[a.uid].wxinfo?
+            $ctrl.ebData.usersInfo[a.uid].wxinfo.nickname :
+            $ctrl.ebData.usersInfo[a.uid].uname
+          }}</span>
           <span class="eb-po-course">{{$ctrl.ebData.ebConfig.courseList[a.course]}}</span>
           <span class="eb-po-grade">{{$ctrl.ebData.ebConfig.gradeList[a.grade]}}</span>
         </div>
