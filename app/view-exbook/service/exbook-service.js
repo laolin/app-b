@@ -1,6 +1,12 @@
 'use strict';
 (function(){
+  
+//错误代码和服务器相关。服务器统一整理调整时要一并调整
+var
+  ERR_EB_INVALID=202002,//内容无效
+  ERR_EB_NOTHING=202003,//获取结果为空
 
+  ERR_OK=0;
 angular.module('exbook')
 .factory('ExbookService', 
 ['$log','$http','$timeout','AppbData',
@@ -13,6 +19,15 @@ function ($log,$http,$timeout,AppbData){
   appData.ebData=ebData;
   svc.ebData=ebData;
   
+  svc.isUpdating=false;
+  svc.dataChanged={ 
+    grade:0,
+    course:0,
+    content:0,
+    pics:0,
+    anonymous:0
+  };
+
   
   /**
    *  para.count=2~200: 数量
@@ -58,7 +73,7 @@ function ($log,$http,$timeout,AppbData){
     .then(function(s){
       if(s.data.errcode!=0) {
         $log.log('Er:FeedList:',s.data.msg);
-        if(s.data.errcode==10) { // 10 和服务器相关。服务器统一整理调整时要一并调整
+        if(s.data.errcode==ERR_EB_NOTHING) { 
           //appData.toastMsg('已没有更多',3);
           if(pdata.newmore) {
             ebData.hasNewMore=false;
@@ -95,7 +110,70 @@ function ($log,$http,$timeout,AppbData){
       $log.log('error at ExbookService-exploreFeed',e);
     })
   }
+
+
+  function publish() {
+    appData.toastLoading();
+    updateData(function(){
+      var api=appData.urlSignApi('exbook','draft_publish');
+      $log.log('api1',api);
+      $http.jsonp(api,{params:{fid:ebData.draft.fid}})
+      .then(function(){
+        initDraft();
+        appData.toastDone(1);
+      });
+    });
+  }
   
+  function changeMark(key) {
+    svc.dataChanged[key]= 1;// 1表示需要更新
+  }
+
+  function updateData(callback) {
+    if(svc.isUpdating) {
+      $timeout(function(){updateData(callback)},500);
+      return;
+    };
+    svc.isUpdating=true;
+    //$log.log('updateData',ebData.draft);
+    var data={}
+    var dirty=false;
+    for (var attr in svc.dataChanged) {
+      if(1 == svc.dataChanged[attr]) { // 1表示需要更新
+        dirty=true;
+        data[attr]=ebData.draft[attr];
+        svc.dataChanged[attr]=2;//2 表示正在更新中
+      }
+    }
+
+    if(!dirty) {
+      if('function'==typeof callback)callback();
+      svc.isUpdating=false;
+      return;
+    }
+    var api=appData.urlSignApi('exbook','draft_update');
+    if(!api){
+      appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
+    }
+    data.fid=ebData.draft.fid;
+    $http.jsonp(api, {params:data})//TODO : 出错处理
+      .then(function(s){
+         for (var attr in svc.dataChanged) {
+          if(2 == svc.dataChanged[attr])// 2 更新成功->0
+            svc.dataChanged[attr]=0;                    
+        }
+        //appData.toastMsg('draft updated',3);
+        svc.isUpdating=false;
+        if('function'==typeof callback)callback();
+      },function(e){
+         for (var attr in svc.dataChanged) {
+          if(2 == svc.dataChanged[attr])// 2 更新失败->1
+            svc.dataChanged[attr]=1;                    
+        }
+        appData.toastMsg('draft updated error');
+        svc.isUpdating=false;
+      })
+  }  
   function initDraft() {
     var api=appData.urlSignApi('exbook','draft_create');
     if(!api){
@@ -148,6 +226,11 @@ function ($log,$http,$timeout,AppbData){
   //
   ebData.initDraft=initDraft;
   ebData.exploreFeed=exploreFeed;
+  //更新、发布相关：
+  ebData.changeMark=changeMark;
+  ebData.updateData=updateData;
+  ebData.publish=publish;
+  
   ebData.feedList=[];
   ebData.newMoreLoading=false;
   ebData.oldMoreLoading=false;

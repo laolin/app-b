@@ -3,7 +3,7 @@
     <div class="weui-cell__bd">
       <textarea class="weui-textarea" placeholder="不求万人怜惜，但求一人懂得。" rows="3"
       ng-model="$ctrl.ebData.draft.content"
-      ng-change="$ctrl.changeMark('content')"
+      ng-change="$ctrl.ebData.changeMark('content')"
       maxlength='{{$ctrl.maxTextLength}}'
       ></textarea>
       <div class="weui-textarea-counter"><span>{{$ctrl.ebData.draft.content.length}}</span>/{{$ctrl.maxTextLength}}</div>
@@ -28,7 +28,7 @@
     <div class="weui-cell__bd">
       <select class="weui-select" name="select_grade"
       ng-model='$ctrl.ebData.draft.grade' 
-      ng-change="$ctrl.changeMark('grade')">
+      ng-change="$ctrl.ebData.changeMark('grade')">
         <option ng-repeat='(key, value) in $ctrl.ebData.ebConfig.gradeList'
           value="{{key}}">{{value}}</option>
       </select>
@@ -41,7 +41,7 @@
     <div class="weui-cell__bd">
       <select class="weui-select" name="select_course"
       ng-model='$ctrl.ebData.draft.course'
-      ng-change="$ctrl.changeMark('course')">
+      ng-change="$ctrl.ebData.changeMark('course')">
         <option ng-repeat='(key, value) in $ctrl.ebData.ebConfig.courseList'
           value="{{key}}">{{value}}</option>
       </select>
@@ -55,13 +55,13 @@
       ng-model='$ctrl.ebData.draft.anonymous'
       ng-true-value="'y'"
       ng-false-value="'n'"
-      ng-change="$ctrl.changeMark('anonymous')">
+      ng-change="$ctrl.ebData.changeMark('anonymous')">
     </div>
   </div-->
   
 </div>
 <div class="weui-btn-area">
   <a class="weui-btn weui-btn_primary" href="#" id="showTooltips"
-  ng-click="$ctrl.publish()">确定</a>
+  ng-click="$ctrl.ebData.publish()">确定</a>
 </div>  
 
