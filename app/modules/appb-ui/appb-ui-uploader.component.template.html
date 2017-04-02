@@ -15,13 +15,13 @@
             "url("+$ctrl.appData.filePath+"/"+img+")" : ""
           }'
           ng-click="$ctrl.clickImg($index)"
-          ng-repeat='img in $ctrl.imgData.imgs track by $index'>
+          ng-repeat='img in $ctrl.imgs track by $index'>
               <div class="weui-uploader__file-content">
               </div>
           </li>
       </ul>
       <div class="weui-uploader__input-box" ng-click='$ctrl.addImg()'
-      ng-if=' $ctrl.imgData.imgs.length < $ctrl.maxCount '> 
+      ng-if=' $ctrl.imgs.length < $ctrl.maxCount '> 
       </div>
   </div>
 </div>

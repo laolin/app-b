@@ -35,6 +35,7 @@ angular.module('appb')
             //$log.log('sw.onSlideChangeEnd',obj);
             ctrl.galleryData.headerData.title=
               (1+obj.activeIndex) + '/' + obj.slides.length;
+            ctrl.galleryData.active=obj.activeIndex;
             $scope.$apply();
           };
         }

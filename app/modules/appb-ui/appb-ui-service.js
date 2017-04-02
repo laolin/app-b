@@ -70,18 +70,54 @@ angular.module('appb')
     }
     
     //gallery
-    svc.galleryData={abc:9.998}
+    svc.galleryData={};
     svc.galleryData.imgs=[];
     svc.galleryData.show=false;
+    //widgets[0]是在右侧的关闭按钮
+    //widgets[1]设计为左侧动态的删除按钮
     svc.galleryData.headerData={
-      widgets:[{side:'right',link:function(){svc.galleryData.show=false;},icon:'close'}],
+      widgets:[
+        {side:'right',link:function(){svc.galleryData.show=false;},icon:'close'}        
+      ],
+      deleteButton:{side:'left',link:function(){svc.galleryData.deleteActiveSlide();},icon:'trash'},
       title:'0/0'
     };
+    svc.galleryData.deleteActiveSlide=function(){
+      if(!svc.galleryData.onDelete)return;
+      $log.log('del no.',svc.galleryData.active);
+      //只有一张，直接关掉
+      if(1==svc.galleryData.imgs.length) {
+        //svc.galleryData.imgs=[];//删除由eb-input自己完成
+        svc.galleryData.show=false;
+        svc.galleryData.onDelete(0);
+        return;
+      }
+      
+      svc.galleryData.onDelete(svc.galleryData.active);
+      var newn=svc.galleryData.active-1;
+      if(newn<0){
+        newn=0;
+      }
+      svc.galleryData.swiper.slideTo(newn);
+      svc.galleryData.active=newn;
+
+      //svc.galleryData.imgs.splice(svc.galleryData.active,1); //删除由eb-input自己完成
+      svc.galleryData.swiper.removeSlide(svc.galleryData.active);
+      svc.galleryData.headerData.title=
+        (1+svc.galleryData.swiper.activeIndex) + '/' + svc.galleryData.swiper.slides.length;
+    }
     
-    function showGallery(imgs,active_n) {
+    function showGallery(imgs,active_n,onDelete) {
       svc.galleryData.show=true;
       svc.galleryData.imgs=imgs;
+      if('function' == typeof onDelete) {
+        svc.galleryData.onDelete=onDelete;
+        svc.galleryData.headerData.widgets[1]=svc.galleryData.headerData.deleteButton;
+      } else {
+        delete svc.galleryData.headerData.widgets[1];
+      }
       if(!active_n)active_n=0;
+      if(active_n>=imgs.length)active_n=imgs.length-1;
       svc.galleryData.active=active_n;
       svc.galleryData.headerData.title='1/'+imgs.length;
       

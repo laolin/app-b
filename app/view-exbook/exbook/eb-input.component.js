@@ -8,10 +8,10 @@ angular.module('exbook')
     appData:"<",
     //注意，
     // 本 component 里修改了 ebData 的值
-    // 这里 ebData 虽然是“单向绑定”，
-    // 但其实传递来的是变量的引用，所以是双向影响值的
-    //用单向绑定，目的是为了外部变化能自动调用$onChange
-    ebData:"<" 
+    
+    //pics 用单向绑定，外部变化能自动调用$onChange
+    pics:"<",
+    ebData:"=" 
   },
   controller: ['$log','$timeout','$interval','$http',
     function ($log,$timeout,$interval,$http){
@@ -20,16 +20,22 @@ angular.module('exbook')
       
 
       ctrl.maxTextLength=999;
-      ctrl.updateImg=function(img) {
-        ctrl.ebData.draft.pics=img.join(',');
+      
+      ctrl.updateImg=function(imgs) {
+        ctrl.ebData.draft.pics=imgs.join(',');
         ctrl.ebData.changeMark('pics');
       }
       ctrl.$onInit=function(){
-        $log.log('ebData',ctrl.ebData);
+        $log.log('ebData',ctrl.ebData.draft.pics,ctrl.ebData);
         intervalRes=$interval(ctrl.ebData.updateData,15*1000);//n秒
       }
       ctrl.$onChanges =function(chg){
-        $log.log(' 2 ** exbookInput onChanges',chg);
+        if( chg.pics) {
+          if(ctrl.pics)ctrl.imgs=ctrl.pics.split(',');
+          else ctrl.imgs=[];
+          $log.log('s2 chg@ebInput',ctrl.pics,ctrl.imgs);
+        }
+
       }
       ctrl.$onDestroy=function(){
         $interval.cancel(intervalRes);
