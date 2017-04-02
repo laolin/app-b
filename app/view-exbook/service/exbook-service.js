@@ -9,8 +9,8 @@ var
   ERR_OK=0;
 angular.module('exbook')
 .factory('ExbookService', 
-['$log','$http','$timeout','$location','AppbData',
-function ($log,$http,$timeout,$location,AppbData){
+['$log','$http','$timeout','$location','AppbData','ExbookCommentService',
+function ($log,$http,$timeout,$location,AppbData,ExbookCommentService){
   var svc=this;
   var ebData={draft:{}};//草稿
   var appData=AppbData.getAppData();
@@ -92,6 +92,11 @@ function ($log,$http,$timeout,$location,AppbData){
       
       //获取所有的 s.data.data[i].uid 的用户信息
       getUsers(s.data.data);
+      
+      //获取所有fid下的评论
+      var fids=fidList(s.data.data);
+      $log.log('fids',fids);
+      ExbookCommentService.getComment({fids:fids.join(',')});
       //
       if(pdata.oldmore) { //oldMore
         ebData.feedList=ebData.feedList.concat(s.data.data);
@@ -117,7 +122,13 @@ function ($log,$http,$timeout,$location,AppbData){
       $log.log('error at ExbookService-exploreFeed',e);
     })
   }
-  
+  function fidList(feeds) {
+    var ids=[];
+    for(var i=feeds.length;i--; ) {
+      if(ids.indexOf(feeds[i]['fid'])<0)ids.push(feeds[i]['fid']);
+    }
+    return ids;
+  }  
   /**
    *  获取数组各uid 头像图片地址
    *  输入
