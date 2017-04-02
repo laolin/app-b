@@ -35,6 +35,9 @@ function ($log,$http,$timeout,$location,AppbData){
    *  para.newMore=1: 更多新帖
    */
   function exploreFeed(para){
+    //由于有自动刷新机制，所以这里允许出错次数不能太多
+    //否则在网络条件不好时会过多重复调用没有效果的API
+    if(countError()>3)return;
     var i;
     var api=appData.urlSignApi('exbook','feed_list');
     if(!api){
@@ -72,6 +75,7 @@ function ($log,$http,$timeout,$location,AppbData){
     $http.jsonp(api, {params:pdata})
     .then(function(s){
       if(s.data.errcode!=0) {
+        countError(1);
         $log.log('Er:FeedList:',s.data.msg);
         if(s.data.errcode==ERR_EB_NOTHING) { 
           //appData.toastMsg('已没有更多',3);
@@ -108,6 +112,7 @@ function ($log,$http,$timeout,$location,AppbData){
       }
     },function(e){
       // error
+      countError(1);
       if(pdata.newmore)ebData.newMoreLoading=false;
       if(pdata.oldmore)ebData.oldMoreLoading=false;
       $log.log('error at ExbookService-exploreFeed',e);
@@ -123,6 +128,7 @@ function ($log,$http,$timeout,$location,AppbData){
    *  如果没有，就用 /wx/get_users/uid1,uid2,uid3 API获取一堆用户的信息   
    */
   function getUsers(arr) {
+    if(countError()>10)return;
     var ids=[];
     for(var i=arr.length;i--; ) {
       if(!ebData.usersInfo[arr[i]['uid']] && 
@@ -133,6 +139,7 @@ function ($log,$http,$timeout,$location,AppbData){
       $http.jsonp(api).then(function(s){
         if(s.data.errcode!=0) {
           $log.log('Err:getUsers:',s.data.errcode,s.data.msg);
+          countError(1);
           return;
         }
         var d=s.data.data;
@@ -140,12 +147,14 @@ function ($log,$http,$timeout,$location,AppbData){
           ebData.usersInfo[d[i]['uid']]=d[i];
         }
       },function(e){
+        countError(1);
         $log.log('Err:getUsers:',e);
       });
     }
   }
 
   function publish() {
+    if(countError()>10)return;
     appData.toastLoading();
     updateData(function(){
       var api=appData.urlSignApi('exbook','draft_publish');
@@ -160,6 +169,7 @@ function ($log,$http,$timeout,$location,AppbData){
           } else {
             appData.toastMsg('Er:publish:',s.data.errcode,s.data.msg,8);
           }
+          countError(1);
           return;
         }
         
@@ -173,6 +183,9 @@ function ($log,$http,$timeout,$location,AppbData){
         $location.path( "/explore" );
         exploreFeed({newMore:1});//自动刷新新帖
         appData.toastDone(1);
+      },function(e){
+        appData.toastMsg('Ejsonp:publish',8);
+        countError(1);
       });
     });
   }
@@ -218,7 +231,8 @@ function ($log,$http,$timeout,$location,AppbData){
         svc.isUpdating=false;
         if('function'==typeof callback)callback();
       },function(e){
-         for (var attr in svc.dataChanged) {
+        countError(1);
+        for (var attr in svc.dataChanged) {
           if(2 == svc.dataChanged[attr])// 2 更新失败->1
             svc.dataChanged[attr]=1;                    
         }
@@ -238,16 +252,19 @@ function ($log,$http,$timeout,$location,AppbData){
       if(res.errcode > 0) {
         appData.toastMsg('Error init draft',60);
         $log.log('Error init draft',res);
+        countError(1);
       }
       if(!res.data) {
         appData.toastMsg('Error init draft data',60);
         $log.log('Error init draft data',res);
+        countError(1);
       }
       $log.log('Done init draft',res);
       ebData.draft=res.data;
       
     },function(e){
       // error
+      countError(1);
       $log.log('error at ExbookService-initDraft',e);
     })
   }
@@ -267,13 +284,35 @@ function ($log,$http,$timeout,$location,AppbData){
           btn1:'OK',
           show:1
         });
+        countError(1);
         return;
       }
       config=d.data.data;
       ebData.ebConfig=config;
     },function(e){
       appData.toastMsg('下载初始化数据失败');
+      countError(1);
     });
+  }
+  /**
+   *  计算出错次数，避免网络不好出错后继续频繁刷新
+   *  
+   *  n : true值  => 加一次出错
+   *  n : false值 => 直接返回出错次数
+   *  记录上次出错时间，每秒出错次数 -1
+   */
+  function countError(n) {
+    var now=+new Date();
+    var last=ebData.lastError.time;
+    //每秒出错次数 -1
+    ebData.lastError.count -= (now-last)/1000;//js不是整数也可以 ++  不用Math.floor
+    ebData.lastError.count = Math.max(0,ebData.lastError.count);
+    if(n) {
+      ebData.lastError.count++;
+      ebData.lastError.time = now;
+    }
+    
+    return ebData.lastError.count;
   }
   
   //
@@ -290,6 +329,7 @@ function ($log,$http,$timeout,$location,AppbData){
   ebData.oldMoreLoading=false;
   ebData.hasNewMore=false;
   ebData.hasOldMore=true;
+  ebData.lastError={count:0,time:+new Date()}
   initDraft();
   init_cfg();
   exploreFeed();//先预读feed
