@@ -279,9 +279,7 @@ function ($log,$http,$timeout,$location,AppbData){
   function init_cfg() {
     if(config)return;
     
-    var url=appData.appCfg.apiRoot+'/eb_common/config?';
-    var qstr=appData.userApiSignQueryStr('eb_common','config');
-    url+=qstr;
+    var url=appData.urlSignApi('exbook','config');
 
     $http.jsonp(url).then(function(d){
       if(d.data.errcode!=0 || ! d.data.data) {
