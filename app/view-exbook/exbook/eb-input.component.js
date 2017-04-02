@@ -33,7 +33,6 @@ angular.module('exbook')
         if( chg.pics) {
           if(ctrl.pics)ctrl.imgs=ctrl.pics.split(',');
           else ctrl.imgs=[];
-          $log.log('s2 chg@ebInput',ctrl.pics,ctrl.imgs);
         }
 
       }

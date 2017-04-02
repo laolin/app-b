@@ -6,8 +6,6 @@ angular.module('appb')
     templateUrl: 'modules/appb-ui/appb-ui-uploader.component.template.html',  
     bindings: { 
      appData:"<",
-     imgInput:"<",
-     sep:'@',
      maxCount:"<",
      
      imgs:"=",
@@ -20,17 +18,14 @@ angular.module('appb')
         var imgData=ctrl.imgData={uploadings:[]};
         
         ctrl.$onInit=function(){
-          $log.log('appbUiUploader onInit');
         }
         ctrl.$onChanges=function(chg){
         }
         
         ctrl.deleteImg=function(n){
-          $log.log('ctrl.imgs',ctrl.imgs.join(','))
-          if(n>=ctrl.imgs.length)return;
+          if(n<0 || n>=ctrl.imgs.length)return;
           ctrl.imgs.splice(n,1);
           ctrl.updateImg({imgs:ctrl.imgs});
-          $log.log('ctrl.imgs new',ctrl.imgs.join(','))
         }
         ctrl.clickImg=function(n){
           ctrl.appData.showGallery(ctrl.imgs,n,ctrl.deleteImg);
