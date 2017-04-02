@@ -49,16 +49,15 @@ function ($log,$http,$timeout,$location,AppbData){
     // newmore 表示获取新的
     // oldmore 表示获取更多旧的
     if(para && ebData.feedList.length) {
-      //假定服务器返回的时间顺序都是正常的
-      // 目前也假定没有发布时间是在同 一秒  的 ( TODO: 这个有问题 )
+      //规定 publish时间顺序和 fid排序都是一样的
       if(para.newMore) {
         if(ebData.newMoreLoading)return;
         ebData.newMoreLoading=true;
-        pdata.newmore=ebData.feedList[0].publish_at;
+        pdata.newmore=ebData.feedList[0].fid;
       } else if( para.oldMore) {
         if(ebData.oldMoreLoading)return;
         ebData.oldMoreLoading=true;
-        pdata.oldmore=ebData.feedList[ebData.feedList.length-1].publish_at;
+        pdata.oldmore=ebData.feedList[ebData.feedList.length-1].fid;
       }
     }
     if(para && para.count) {
