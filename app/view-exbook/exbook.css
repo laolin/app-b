@@ -45,7 +45,9 @@
 /*====================== 
   weui color redefine
 ======================*/
-
+.weui-btn_disabled.weui-btn_primary {
+  background-color: #7799bb;
+}
 div.weui-toast .weui-toast__content {
   color:#0099ff !important;
 }

@@ -155,6 +155,7 @@ function ($log,$http,$timeout,$location,AppbData){
 
   function publish() {
     if(countError()>10)return;
+    ebData.publishing=true;
     appData.toastLoading();
     updateData(function(){
       var api=appData.urlSignApi('exbook','draft_publish');
@@ -170,6 +171,7 @@ function ($log,$http,$timeout,$location,AppbData){
             appData.toastMsg('Er:publish:',s.data.errcode,s.data.msg,8);
           }
           countError(1);
+          ebData.publishing=false;
           return;
         }
         
@@ -183,10 +185,15 @@ function ($log,$http,$timeout,$location,AppbData){
         $location.path( "/explore" );
         exploreFeed({newMore:1});//自动刷新新帖
         appData.toastDone(1);
+        ebData.publishing=false;
       },function(e){
         appData.toastMsg('Ejsonp:publish',8);
         countError(1);
+        ebData.publishing=false;
       });
+    },function(){
+      countError(1);
+      ebData.publishing=false;
     });
   }
   
@@ -194,9 +201,9 @@ function ($log,$http,$timeout,$location,AppbData){
     svc.dataChanged[key]= 1;// 1表示需要更新
   }
 
-  function updateData(callback) {
+  function updateData(callback,onErr) {
     if(svc.isUpdating) {
-      $timeout(function(){updateData(callback)},500);
+      $timeout(function(){updateData(callback,onErr)},500);
       return;
     };
     svc.isUpdating=true;
@@ -238,8 +245,9 @@ function ($log,$http,$timeout,$location,AppbData){
         }
         appData.toastMsg('draft updated error');
         svc.isUpdating=false;
+        if('function'==typeof onErr)onErr();
       })
-  }  
+  }
   function initDraft() {
     var api=appData.urlSignApi('exbook','draft_create');
     if(!api){
@@ -322,6 +330,7 @@ function ($log,$http,$timeout,$location,AppbData){
   ebData.changeMark=changeMark;
   ebData.updateData=updateData;
   ebData.publish=publish;
+  ebData.publishing=false;
   
   ebData.feedList=[];
   ebData.usersInfo={};//头像等用户信息

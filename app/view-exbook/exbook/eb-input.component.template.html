@@ -61,7 +61,9 @@
   
 </div>
 <div class="weui-btn-area">
-  <a class="weui-btn weui-btn_primary" href="#" id="showTooltips"
-  ng-click="$ctrl.ebData.publish()">确定</a>
+  <button class="weui-btn weui-btn_primary" href="#" id="showTooltips"
+  ng-disabled="$ctrl.ebData.publishing"
+  ng-class="{'weui-btn_disabled':$ctrl.ebData.publishing}"
+  ng-click="$ctrl.ebData.publish()">确定</button>
 </div>  
 
