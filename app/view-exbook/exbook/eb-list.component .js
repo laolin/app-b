@@ -18,7 +18,10 @@ angular.module('exbook')
       }
       ctrl.$onDestroy=function(){
       }
-      
+      ctrl.clickImg=function(f,n){
+        $log.log('ctrl.clickImg',f,n);
+        ctrl.appData.showGallery(ctrl.ebData.feedList[f].pics.split(','),n);
+      }      
       
     }
   ]

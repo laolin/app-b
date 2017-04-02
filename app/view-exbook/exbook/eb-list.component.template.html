@@ -1,6 +1,7 @@
 <div class="ebfeed-list" ng-if='1'>
   
-  <div class="ebfeed-unit" ng-repeat='a in $ctrl.ebData.feedList'>  
+  <div class="ebfeed-unit" ng-repeat='a in $ctrl.ebData.feedList'
+  ng-init="feedIndex=$index">  
     <div class="eb-po-avt-wrap">
       <img class="eb-po-avt" ng-src="{{
         $ctrl.ebData.usersInfo[a.uid].wxinfo?
@@ -23,8 +24,9 @@
           <p>{{a.content}}</p>
           <p ng-if='a.pics'>
             <img class="eb-list-img" style="height: 80px;"
-            
             ng-repeat='img in a.pics.split(",") track by $index'
+            ng-init="picIndex=$index"
+            ng-click="$ctrl.clickImg(feedIndex,picIndex)"
             ng-src="{{$ctrl.appData.filePath}}/{{img}}">
             
           </p>
