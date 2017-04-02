@@ -5,7 +5,7 @@
 var cfg=window.appbCfg={
   appName:"错题整理工具",
   pageTitle:'错题整理',//默认的页面上方<ui-header>条的标题
-  htmlTitle:'欢迎使用',//默认的浏览器的页面标题
+  htmlTitle:'错题整理 - 请高手实用工具系列',//默认的浏览器的页面标题
   apiRoot: 'https://api.qinggaoshou.com/api-1.0', //一般的API
   apiWxAuth: 'https://qinggaoshou.com/api-1.0', //WX 授权 callback 域名限制的URI
 
