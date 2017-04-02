@@ -163,11 +163,15 @@ function ($log,$http,$timeout,$location,AppbData){
           return;
         }
         
+        //发布成功，把草稿中的 文字、图片 清空，其余不变
         ebData.lastGrade=ebData.draft.grade;
         ebData.lastCourse=ebData.draft.course;
-        initDraft();
+        ebData.draft.content='';//服务器在发布时也清空了
+        ebData.draft.pics='';//服务器在发布时也清空了
+          
         ebData.hasNewMore=true;
-        $location.path( "/explore" )
+        $location.path( "/explore" );
+        exploreFeed({newMore:1});//自动刷新新帖
         appData.toastDone(1);
       });
     });
@@ -242,13 +246,6 @@ function ($log,$http,$timeout,$location,AppbData){
       $log.log('Done init draft',res);
       ebData.draft=res.data;
       
-      if(ebData.lastGrade&&ebData.lastCourse) {
-        //自动按上次的年级、科目
-        ebData.draft.grade=ebData.lastGrade;
-        ebData.draft.course=ebData.lastCourse;
-        changeMark('grade');
-        changeMark('course');
-      }
     },function(e){
       // error
       $log.log('error at ExbookService-initDraft',e);
@@ -295,6 +292,7 @@ function ($log,$http,$timeout,$location,AppbData){
   ebData.hasOldMore=true;
   initDraft();
   init_cfg();
+  exploreFeed();//先预读feed
 
 
   return {
