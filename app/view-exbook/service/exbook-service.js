@@ -180,9 +180,11 @@ function ($log,$http,$timeout,$location,AppbData){
         ebData.draft.content='';//服务器在发布时也清空了
         ebData.draft.pics='';//服务器在发布时也清空了
           
-        ebData.hasNewMore=true;
         $location.path( "/explore" );
-        exploreFeed({newMore:1});//自动刷新新帖
+        if(ebData.feedList.length) {
+          ebData.hasNewMore=true;
+          exploreFeed({newMore:1});//自动刷新新帖
+        }//原先没有任何feed时,跳到/explore后会自己取，故不需要刷新新帖
         appData.toastDone(1);
         ebData.publishing=false;
       },function(e){
@@ -338,7 +340,6 @@ function ($log,$http,$timeout,$location,AppbData){
   ebData.lastError={count:0,time:+new Date()}
   initDraft();
   init_cfg();
-  exploreFeed();//先预读feed
 
 
   return {
