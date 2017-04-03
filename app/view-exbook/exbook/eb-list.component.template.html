@@ -36,22 +36,11 @@
         <span class=""> 投诉 </span-->
         <img class="eb-c-icon" src="assets/img/cmt.png">
       </div>
-      <div class="eb-r"></div>
-      <div class="eb-cmt">
-        <div class="eb-like"><img src="assets/img/like.png">苍井空，陈冠希，杨幂，王思聪，陈赫，刘德华，张学友，成龙，郭富城，马云</div>
-        <div class="eb-cmt-list">
-            <p><span>张小龙：</span>版权所有，这么抄不太好吧。</p>
-            <p><span>王思聪：</span>我爸有钱。</p>
-            <p>
-              <span>马云</span>
-              回复
-              <span>王思聪</span>
-              <span>：</span>
-              我比你爸有钱。
-            </p>
-            <p><span>杨幂：</span>月落乌啼霜满天，江枫渔火对愁眠，姑苏城外塞山寺，夜半钟声到客船。</p>
-        </div>
-      </div>
+      <eb-list-comment app-data='$ctrl.appData'
+      fid='a.fid'
+      like-data='$ctrl.ebData.cmtData.commentList[a.fid+"like"]'
+      comment-data='$ctrl.ebData.cmtData.commentList[a.fid+"comment"]'>
+      </eb-list-comment>
     </div>
     <div class="eb-po-clear"></div>
   </div>

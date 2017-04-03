@@ -1,0 +1,22 @@
+<div ng-if='($ctrl.likeData && $ctrl.likeData.length)
+  || 
+  ($ctrl.commentData && $ctrl.commentData.length)'>
+      <div class="eb-r"></div>
+      <div class="eb-cmt">
+        <div class="eb-like" ng-if='($ctrl.likeData && $ctrl.likeData.length)'><img src="assets/img/like.png">
+        <a ng-repeat='k in $ctrl.likeData'>
+          <span>{{$ctrl.uname(k.uid)}}</span>,
+        </a>
+        </div>
+        <div class="eb-cmt-list" ng-if='($ctrl.commentData && $ctrl.commentData.length)'>
+            <p ng-repeat='c in $ctrl.commentData'>
+              <span>{{$ctrl.uname(c.uid)}}</span>
+              <a ng-if='c.re_uid > 0'>回复
+              <span>{{$ctrl.uname(c.re_uid)}}</span>
+              </a>
+              <span>：</span>
+              {{c.content}}
+            </p>
+        </div>
+      </div>
+</div>

@@ -11,14 +11,13 @@ var
   ERR_OK=0;
 angular.module('exbook')
 .factory('ExbookCommentService', 
-['$log','$http','$timeout','$location','AppbData',
-function ($log,$http,$timeout,$location,AppbData){
+['$log','$http','$timeout','$location','AppbData','ExbookToolsService',
+function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
   var svc=this;
   var cmtData={};
   var appData=AppbData.getAppData();
   var config=false;
 
-  appData.cmtData=cmtData;
   svc.cmtData=cmtData;
 
 
@@ -72,8 +71,24 @@ function ($log,$http,$timeout,$location,AppbData){
         return;
       }
       
+
       //
-      cmtData.commentList=cmtData.commentList.concat(s.data.data);
+      var cm=s.data.data;
+      var rquids=[];
+      for(i=0;i<cm.length;i++) {
+        if(!cmtData.commentList[cm[i].fid+'comment']) {
+          cmtData.commentList[cm[i].fid+'comment']=[];
+        }
+        if(!cmtData.commentList[cm[i].fid+'like']) {
+          cmtData.commentList[cm[i].fid+'like']=[];
+        }
+        cmtData.commentList[cm[i].fid+cm[i].ctype].push(cm[i]);
+        rquids.push({uid:cm[i].uid},{uid:cm[i].re_uid});
+      }
+
+      //获取所有 需要 的用户信息
+      ExbookToolsService.requireUsersInfo(rquids);
+      
       //s3，没有错，返回满页，也要继续取下一页评论
       if(pdata.count == s.data.data.length) {
         var page=para.page;
@@ -91,38 +106,20 @@ function ($log,$http,$timeout,$location,AppbData){
   }
   
   
-  /**
-   *  计算出错次数，避免网络不好出错后继续频繁刷新
-   *  
-   *  n : true值  => 加一次出错
-   *  n : false值 => 直接返回出错次数
-   *  记录上次出错时间，每秒出错次数 -1
-   */
-  function countError(n) {
-    var now=+new Date();
-    var last=cmtData.lastError.time;
-    //每秒出错次数 -1
-    cmtData.lastError.count -= (now-last)/1000;//js不是整数也可以 ++  不用Math.floor
-    cmtData.lastError.count = Math.max(0,cmtData.lastError.count);
-    if(n) {
-      cmtData.lastError.count++;
-      cmtData.lastError.time = now;
-    }
-    
-    return cmtData.lastError.count;
-  }
+  var countError =ExbookToolsService.countError;
+
   
   //
   cmtData.getComment=getComment;
   cmtData.addComment=addComment;
   //更新、发布相关：
   
-  cmtData.commentList=[];
-  cmtData.lastError={count:0,time:+new Date()}
+  cmtData.commentList={};
 
 
 
   return {
+    getCmtData:function(){return cmtData;},
     addComment:addComment,
     getComment:getComment
   }

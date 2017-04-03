@@ -9,14 +9,15 @@ var
   ERR_OK=0;
 angular.module('exbook')
 .factory('ExbookService', 
-['$log','$http','$timeout','$location','AppbData','ExbookCommentService',
-function ($log,$http,$timeout,$location,AppbData,ExbookCommentService){
+['$log','$http','$timeout','$location','AppbData','ExbookCommentService','ExbookToolsService',
+function ($log,$http,$timeout,$location,AppbData,ExbookCommentService,ExbookToolsService){
   var svc=this;
   var ebData={draft:{}};//草稿
   var appData=AppbData.getAppData();
   var config=false;
 
   appData.ebData=ebData;
+  appData.ebData.cmtData=ExbookCommentService.getCmtData();
   svc.ebData=ebData;
   
   svc.isUpdating=false;
@@ -91,7 +92,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookCommentService){
       }
       
       //获取所有的 s.data.data[i].uid 的用户信息
-      getUsers(s.data.data);
+      ExbookToolsService.requireUsersInfo(s.data.data);
       
       //获取所有fid下的评论
       var fids=fidList(s.data.data);
@@ -129,39 +130,6 @@ function ($log,$http,$timeout,$location,AppbData,ExbookCommentService){
     }
     return ids;
   }  
-  /**
-   *  获取数组各uid 头像图片地址
-   *  输入
-   *  arr 数组，每个元素的uid是要获取头像用户
-   *  
-   *  根据 usersInfo 查现在头像 ，如果对应 uid 已有就跳过
-   *  如果没有，就用 /wx/get_users/uid1,uid2,uid3 API获取一堆用户的信息   
-   */
-  function getUsers(arr) {
-    if(countError()>10)return;
-    var ids=[];
-    for(var i=arr.length;i--; ) {
-      if(!ebData.usersInfo[arr[i]['uid']] && 
-        ids.indexOf(arr[i]['uid'])<0)ids.push(arr[i]['uid']);
-    }
-    if(ids.length) {
-      var api=appData.urlSignApi('wx','get_users',ids.join(','));
-      $http.jsonp(api).then(function(s){
-        if(s.data.errcode!=0) {
-          $log.log('Err:getUsers:',s.data.errcode,s.data.msg);
-          countError(1);
-          return;
-        }
-        var d=s.data.data;
-        for(i=d.length;i--; ) {
-          ebData.usersInfo[d[i]['uid']]=d[i];
-        }
-      },function(e){
-        countError(1);
-        $log.log('Err:getUsers:',e);
-      });
-    }
-  }
 
   function publish() {
     if(countError()>10)return;
@@ -312,26 +280,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookCommentService){
       countError(1);
     });
   }
-  /**
-   *  计算出错次数，避免网络不好出错后继续频繁刷新
-   *  
-   *  n : true值  => 加一次出错
-   *  n : false值 => 直接返回出错次数
-   *  记录上次出错时间，每秒出错次数 -1
-   */
-  function countError(n) {
-    var now=+new Date();
-    var last=ebData.lastError.time;
-    //每秒出错次数 -1
-    ebData.lastError.count -= (now-last)/1000;//js不是整数也可以 ++  不用Math.floor
-    ebData.lastError.count = Math.max(0,ebData.lastError.count);
-    if(n) {
-      ebData.lastError.count++;
-      ebData.lastError.time = now;
-    }
-    
-    return ebData.lastError.count;
-  }
+  var countError =ExbookToolsService.countError;
   
   //
   ebData.initDraft=initDraft;
@@ -343,12 +292,12 @@ function ($log,$http,$timeout,$location,AppbData,ExbookCommentService){
   ebData.publishing=false;
   
   ebData.feedList=[];
-  ebData.usersInfo={};//头像等用户信息
+  ebData.usersInfo=ExbookToolsService.getUsersInfoData();//头像等用户信息
   ebData.newMoreLoading=false;
   ebData.oldMoreLoading=false;
   ebData.hasNewMore=false;
   ebData.hasOldMore=true;
-  ebData.lastError={count:0,time:+new Date()}
+
   initDraft();
   init_cfg();
 
