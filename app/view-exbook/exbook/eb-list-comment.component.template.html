@@ -5,7 +5,7 @@
       <div class="eb-cmt">
         <div class="eb-like" ng-if='($ctrl.likeData && $ctrl.likeData.length)'><img src="assets/img/like.png">
         <a ng-repeat='k in $ctrl.likeData'>
-          <span>{{$ctrl.uname(k.uid)}}</span>,
+          <span>{{$ctrl.uname(k.uid)}}</span><aa ng-if='$index < ($ctrl.likeData.length-1)'> , </aa>
         </a>
         </div>
         <div class="eb-cmt-list" ng-if='($ctrl.commentData && $ctrl.commentData.length)'>
