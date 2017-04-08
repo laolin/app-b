@@ -1,10 +1,14 @@
 <div class="eb-cmt-popbar">
-  <a href ng-click='$ctrl.like()'>
-    <img class="eb-cmt-popbar-icon" src="assets/img/like-q.png">
-    <span class="eb-cmt-popbar-text">赞</span>
+  <a href class=""
+    ng-class='{"eb-cmt-popbar-text":!$ctrl.liking,
+      "eb-cmt-popbar-text-alert":$ctrl.liking}'
+    ng-click='$ctrl.like()'>
+    <i class='fa fa-heart-o'></i>
+    <span ng-if='!$ctrl.liking'>赞</span>
+    <span ng-if='$ctrl.liking'>取消</span>
   </a>
-  <a href ng-click='$ctrl.comment()'>
-    <img class="eb-cmt-popbar-icon" src="assets/img/cmt-q.png">
-    <span class="eb-cmt-popbar-text">评论</span>
+  <a href class="eb-cmt-popbar-text" ng-click='$ctrl.comment()'>
+    <i class='fa fa-commenting-o'></i>
+    <span >评论</span>
   </a>
 </div>

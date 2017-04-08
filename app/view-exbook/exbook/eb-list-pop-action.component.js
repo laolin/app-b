@@ -6,7 +6,8 @@ angular.module('exbook')
   templateUrl: 'view-exbook/exbook/eb-list-pop-action.component.template.html',  
   bindings: { 
     fid:"<",
-    commentData:"<",
+    liking:"<",
+    cmtData:"<",
 
     appData:"<"
   },
@@ -22,7 +23,11 @@ angular.module('exbook')
       }
       ctrl.like=function(){
         $log.log('like fid=',ctrl.fid);
-        ctrl.commentData.addLike(ctrl.fid);
+        if(ctrl.liking) {
+          ctrl.cmtData.delLike(ctrl.fid,ctrl.liking);
+        } else {
+          ctrl.cmtData.addLike(ctrl.fid);
+        }
       }
       ctrl.comment=function(){
         $log.log('comment fid=',ctrl.fid);

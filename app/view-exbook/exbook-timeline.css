@@ -201,6 +201,11 @@ div.eb-cmt-popbar {
 }
 .eb-cmt-popbar-text {
   color:#eee;
+  padding: 0 10px;
+}
+.eb-cmt-popbar-text-alert {
+  color:#e00;
+  padding: 0 10px;
 }
 
 

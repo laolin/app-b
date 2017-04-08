@@ -26,6 +26,20 @@ angular.module('exbook')
       
 
       ctrl.activeAction=-2;
+      ctrl.amILiking={}
+      
+      //动态计算是否点过赞
+      ctrl.isLiked=function(fid){
+        var likes=ctrl.ebData.cmtData.commentList[fid+'like'];
+        if(!likes)return ctrl.amILiking[fid]=false;
+        for(var i=likes.length;i--; ) {
+          if(ctrl.appData.userData.uid==likes[i].uid)
+            return ctrl.amILiking[fid]=likes[i].cid;
+        }
+        return ctrl.amILiking[fid]=false;
+      }
+
+      
       
       ctrl.hidePop=function(){
         //$log.log('off-str=',ctrl.activeAction);
@@ -41,6 +55,7 @@ angular.module('exbook')
       }
       ctrl.showPop=function(n,$event){
         $event.stopPropagation();
+        ctrl.isLiked(ctrl.ebData.feedList[n].fid);//需要动态计算，因为可能在显示后点过赞
         if(ctrl.activeAction==n){
           ctrl.hidePop();
         } else {

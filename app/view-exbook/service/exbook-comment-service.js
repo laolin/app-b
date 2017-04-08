@@ -28,7 +28,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
     if(countError()>10)return;
     if(cmtData.likePublishing)return;
     cmtData.likePublishing=true;
-    appData.toastLoading();
+    //appData.toastLoading();
   
     var api=appData.urlSignApi('ebcomment','add','like');
     $log.log('api1',api);
@@ -37,7 +37,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
       
       if(s.data.errcode!=0) {
         $log.log('Er:ebcomment:',s.data.errcode,s.data.msg);
-        if(s.data.errcode==ERR_EB_INVALID) {
+        if(s.data.errcode==ERR_EBC_INVALID) {
           appData.toastMsg(s.data.msg,7);
         } else {
           appData.toastMsg('Er:ebcomment:',s.data.errcode,s.data.msg,8);
@@ -48,7 +48,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
       }
       
       //点赞成功
-      appData.toastDone(1);
+      //appData.toastDone(1);
       getComment({newMore:cmtData.cidMax});
       cmtData.likePublishing=false;
     },function(e){
@@ -57,6 +57,56 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
       cmtData.likePublishing=false;
     });
   
+  }
+
+  /**
+   *  删除 点赞
+   */
+  function delLike(fid,cid) {
+    delCtype(fid,cid,'like');
+  }
+  /**
+   *  删除 评论
+   */
+  function delComment(fid,cid) {
+    delCtype(fid,cid,'comment');
+  }
+  /**
+   *  删除 点赞/评论
+   */
+  function delCtype(fid,cid,ctype) {
+    var api=appData.urlSignApi('ebcomment','del');
+    $http.jsonp(api,{params:{fid:fid,cid:cid,ctype:ctype}})
+    .then(function(s){
+      if(s.data.errcode!=0) {
+        $log.log('Er:del c:',s.data.errcode,s.data.msg);
+        if(s.data.errcode==ERR_EBC_INVALID) {
+          appData.toastMsg(s.data.msg,7);
+        } else {
+          appData.toastMsg('Er:del c:',s.data.errcode,s.data.msg,8);
+        }
+        return;
+      }
+      //取消点赞成功
+      //appData.toastDone(1);
+      //本地 相应删除点赞数据：
+      var cm=cmtData.commentList[fid+ctype];
+      for(var i=cm.length; i-- ; ) {
+        if(cm[i].cid==cid) {
+          cm.splice(i,1);
+          break;
+        }
+      }
+      for(i=cmtData.commentIdList.length; i-- ; ) {
+        if(cmtData.commentIdList[i]==cid) {
+          cmtData.commentIdList.splice(i,1);
+          break;
+        }
+      }
+    },function(e){
+      appData.toastMsg('Ejsonp:del c',8);
+      countError(1);
+    });
   }
   
   /**
@@ -160,6 +210,8 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
   cmtData.getComment=getComment;
   cmtData.addComment=addComment;
   cmtData.addLike=addLike;
+  cmtData.delLike=delLike;
+  cmtData.delComment=delComment;
   //更新、发布相关：
   
   cmtData.commentList={};
