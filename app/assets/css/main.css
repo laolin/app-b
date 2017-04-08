@@ -200,6 +200,10 @@ start #main-footer
 .invisible {
   visibility: hidden;
 }
+.cur-pointer {
+  cursor:pointer;
+}
+
 /*====================== 
   weui plus
 ======================*/

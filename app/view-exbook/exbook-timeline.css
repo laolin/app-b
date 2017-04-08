@@ -44,6 +44,7 @@
         eb-post内容
         eb-time 时间
         eb-c-icon img 评论按钮
+        eb-cmt-popbar 评论点赞弹出条
       eb-r 尖三角分割行
       eb-cmt 评论区
         eb-like 点赞列表
@@ -176,6 +177,32 @@
     width: 20px;
     float: right
 }
+
+div.eb-cmt-popbar {
+  /*position: relative;*/
+  position: absolute;
+  bottom: 2px;
+  right:30px;
+  
+  display: inline-block;
+  border-radius: 5px;
+  padding:0 10px;
+  height:40px;
+  line-height:40px;
+  color:#ddd;
+  background-color: #3a3a3e;
+}
+
+.eb-cmt-popbar-icon {
+  margin:8px 4px;
+  width:24px;
+  height:24px;
+  vertical-align:middle;
+}
+.eb-cmt-popbar-text {
+  color:#eee;
+}
+
 
 .eb-cmt {
   font-size: 14px;

@@ -31,10 +31,15 @@
             
           </p>
         </div>
+        <eb-list-pop-action
+        ng-show='$ctrl.activeAction ==feedIndex'
+        ng-hide='$ctrl.activeAction !=feedIndex'></eb-list-pop-action>
+
         <span class="eb-time" am-time-ago='1000*a.publish_at'></span>
         <!--span class=""> 删除 </span>
         <span class=""> 投诉 </span-->
-        <img class="eb-c-icon" src="assets/img/cmt.png">
+        <img class="eb-c-icon cur-pointer" src="assets/img/cmt.png"
+        ng-click='$ctrl.showPop(feedIndex,$event)'>
       </div>
       <eb-list-comment app-data='$ctrl.appData'
       fid='a.fid'
