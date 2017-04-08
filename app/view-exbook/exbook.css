@@ -64,6 +64,13 @@ div.weui-toast .weui-toast__content {
 .weui-dialog__btn_primary {
   color: #0099ff;
 }
+.weui-vcode-btn {
+  color: #0099ff;
+}
+.appb-btn-main {
+  font-size:20px;
+  color: #0099ff;
+}
 .weui-btn_primary:not(.weui-btn_disabled):active {
   background-color: #33ddff;
 }

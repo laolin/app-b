@@ -225,6 +225,10 @@ start #main-footer
     border-radius: 1.4em;
     color: #FFFFFF;
 }
+.appb-btn-main {
+  font-size:20px;
+  color: #3CC51F;;
+}
 
 /*
 .weui-uploader__file_status class 效果是 0.5灰度 盖住背景图的，
