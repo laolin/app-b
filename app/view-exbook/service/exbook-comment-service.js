@@ -49,6 +49,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
       
       //点赞成功
       appData.toastDone(1);
+      getComment({newMore:cmtData.cidMax});
       cmtData.likePublishing=false;
     },function(e){
       appData.toastMsg('Ejsonp:ebcomment',8);
@@ -78,6 +79,12 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
     }
     var pdata={count:200};
  
+    if(para && para.newMore) {
+      pdata.newmoew=para.newMore;
+    }
+    if(para && para.oldMore) {
+      pdata.oldmoew=para.oldMore;
+    }
     if(para && para.count) {
       pdata.count=para.count;
     }
@@ -109,7 +116,13 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
       //
       var cm=s.data.data;
       var rquids=[];
+      var cid;
       for(i=0;i<cm.length;i++) {
+        cid = + cm[i].cid//转为数字，否则字符串比较9比10大
+        if(cid<cmtData.cidMin)cmtData.cidMin=cid;
+        if(cid>cmtData.cidMax)cmtData.cidMax=cid;
+        if(cmtData.commentIdList.indexOf(cid)>=0)return;//已有的数据
+        cmtData.commentIdList.push(cid);
         if(!cmtData.commentList[cm[i].fid+'comment']) {
           cmtData.commentList[cm[i].fid+'comment']=[];
         }
@@ -150,6 +163,9 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
   //更新、发布相关：
   
   cmtData.commentList={};
+  cmtData.commentIdList=[];
+  cmtData.cidMax=0;//保存已获得的cid 的最大最小范围
+  cmtData.cidMin=9e99;//保存已获得的cid 的最大最小范围
 
 
 
