@@ -61,6 +61,9 @@ div.weui-toast .weui-toast__content {
 .weui-btn_primary {
   background-color: #0099ff;
 }
+.weui-dialog__btn_primary {
+  color: #0099ff;
+}
 .weui-btn_primary:not(.weui-btn_disabled):active {
   background-color: #33ddff;
 }

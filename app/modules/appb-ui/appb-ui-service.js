@@ -77,11 +77,23 @@ angular.module('appb')
     //widgets[1]设计为左侧动态的删除按钮
     svc.galleryData.headerData={
       widgets:[
-        {side:'right',link:function(){svc.galleryData.show=false;},icon:'close'}        
+        {side:'left',link:function(){svc.galleryData.show=false;},icon:'arrow-left'}        
       ],
-      deleteButton:{side:'left',link:function(){svc.galleryData.deleteActiveSlide();},icon:'trash'},
+      deleteButton:{side:'right',link:confirmDelImg,icon:'trash'},
       title:'0/0'
     };
+    function confirmDelImg() {
+      var d={
+        title:'确认',
+        content:'确定要删除图片么？',
+        btn1:'删除!',
+        btn2:'不删啦',
+        fn1:svc.galleryData.deleteActiveSlide,
+        show:1
+      };
+      setDialogData(d);
+    }
+    
     svc.galleryData.deleteActiveSlide=function(){
       if(!svc.galleryData.onDelete)return;
       $log.log('del no.',svc.galleryData.active);
