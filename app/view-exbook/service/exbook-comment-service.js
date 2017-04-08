@@ -80,10 +80,10 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
     var pdata={count:200};
  
     if(para && para.newMore) {
-      pdata.newmoew=para.newMore;
+      pdata.newmore=para.newMore;
     }
     if(para && para.oldMore) {
-      pdata.oldmoew=para.oldMore;
+      pdata.oldmore=para.oldMore;
     }
     if(para && para.count) {
       pdata.count=para.count;
