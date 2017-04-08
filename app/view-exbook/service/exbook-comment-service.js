@@ -23,7 +23,41 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
 
   function addComment(para){
   }
-
+  
+  function addLike(fid) {
+    if(countError()>10)return;
+    if(cmtData.likePublishing)return;
+    cmtData.likePublishing=true;
+    appData.toastLoading();
+  
+    var api=appData.urlSignApi('ebcomment','add','like');
+    $log.log('api1',api);
+    $http.jsonp(api,{params:{fid:fid}})
+    .then(function(s){
+      
+      if(s.data.errcode!=0) {
+        $log.log('Er:ebcomment:',s.data.errcode,s.data.msg);
+        if(s.data.errcode==ERR_EB_INVALID) {
+          appData.toastMsg(s.data.msg,7);
+        } else {
+          appData.toastMsg('Er:ebcomment:',s.data.errcode,s.data.msg,8);
+        }
+        countError(1);
+        cmtData.likePublishing=false;
+        return;
+      }
+      
+      //点赞成功
+      appData.toastDone(1);
+      cmtData.likePublishing=false;
+    },function(e){
+      appData.toastMsg('Ejsonp:ebcomment',8);
+      countError(1);
+      cmtData.likePublishing=false;
+    });
+  
+  }
+  
   /**
    *  para.count=2~200: 数量
    *  para.page=1,2: 从1开始计数的页码
@@ -112,6 +146,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
   //
   cmtData.getComment=getComment;
   cmtData.addComment=addComment;
+  cmtData.addLike=addLike;
   //更新、发布相关：
   
   cmtData.commentList={};

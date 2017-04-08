@@ -6,8 +6,8 @@ angular.module('exbook')
   templateUrl: 'view-exbook/exbook/eb-list-pop-action.component.template.html',  
   bindings: { 
     fid:"<",
-    commentData:"=",
-    likeData:"=",
+    commentData:"<",
+
     appData:"<"
   },
   controller: ['$log','$timeout','$interval','$http',
@@ -15,18 +15,18 @@ angular.module('exbook')
       var ctrl=this;
       
       ctrl.$onInit=function(){
-        $log.log('ebListComment init',ctrl.likeData,ctrl.commentData);
       }
       ctrl.$onChanges =function(chg){
       }
       ctrl.$onDestroy=function(){
       }
-      ctrl.uname=function(uid){
-        var u=ctrl.appData.ebData.usersInfo[uid];
-        if(!u)return 'uid'+uid;
-        if(u.wxinfo)return u.wxinfo.nickname;
-        return u.uname;
-      }      
+      ctrl.like=function(){
+        $log.log('like fid=',ctrl.fid);
+        ctrl.commentData.addLike(ctrl.fid);
+      }
+      ctrl.comment=function(){
+        $log.log('comment fid=',ctrl.fid);
+      }
       
     }
   ]
