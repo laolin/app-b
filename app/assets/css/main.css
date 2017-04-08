@@ -20,7 +20,7 @@ start #main-header
 .main-header_container {
   z-index: 5;
   top: 0;
-  height:56px;
+  height:44px;
   background-color:#f90;
 }
 .main-header_container ,
@@ -32,8 +32,8 @@ start #main-header
 .main-header_container .left ,
 .main-header_container .right,
 .main-header_container .center {
-  height:56px;
-  line-height:56px;
+  height:44px;
+  line-height:44px;
   padding-left:10px;
   padding-right:10px;
 }
@@ -48,11 +48,11 @@ start #main-header
 .main-header_container .center {
   text-align:center;
   overflow:hidden;
-  font-size:22px;
+  font-size:20px;
 }
 .main-header_container {
   display: inline-block;
-  height:56px;
+  height:44px;
   width: 100%;
   vertical-align: middle;
 }
@@ -76,8 +76,8 @@ start #main-container
 ========================*/
 #main-container{
   height:auto !important;
-  top:56px;
-  bottom:56px;
+  top:44px;
+  bottom:50px;
   overflow: auto;
   background-color:#eee;
 }
@@ -105,7 +105,7 @@ start #main-footer
 #main-footer{
   z-index: 500;
   bottom: 0;
-  height:55px;
+  height:49px;
   border-top:1px solid #ddd;
   background-color:#fff;
 }
@@ -117,10 +117,10 @@ start #main-footer
   padding-top:0px;
 }
 .main-tab {
-  height:40px;
+  height:41px;
   display: table-cell;
   text-align:center;
-  padding-top:8px;
+  padding-top:4px;
 }
 .main-tab a,
 .main-tab span,
