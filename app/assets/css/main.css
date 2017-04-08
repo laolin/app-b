@@ -138,6 +138,31 @@ start #main-footer
  END  #main-footer 
 ========================*/
 
+/* --- 底部输入框 总高度50, 同#main-footer(叠在其上方) -------*/
+.appb-input-bar {
+  position: absolute;
+  width: 100%;
+
+  z-index: 600;
+  bottom: 0;
+  height:44px;
+  font-size:18px;
+  padding-top: 2px;
+  padding-bottom: 3px;
+  border-top:1px solid #ddd;
+  background-color:#fff;
+}
+.appb-input-bar-btn {
+  padding: 3px 12px 3px 10px;
+  margin : 5px 5px 4px;
+}
+.appb-input-bar-btn-disabled {
+  color: #888;
+  background-color:#fff !important;
+}
+.appb-input-bar-icon {
+  color: #1AAD19;
+}
 /* --- tab align ------- */
 .table-display {
   display: table;
