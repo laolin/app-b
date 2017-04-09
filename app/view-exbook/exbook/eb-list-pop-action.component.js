@@ -29,8 +29,10 @@ angular.module('exbook')
           ctrl.cmtData.addLike(ctrl.fid);
         }
       }
-      ctrl.comment=function(){
+      ctrl.comment=function($event){
+        //$event.stopPropagation(); 不能停止向上传递消息，否则弹出框不会关闭
         $log.log('comment fid=',ctrl.fid);
+        ctrl.appData.inputData.showBar();
       }
       
     }

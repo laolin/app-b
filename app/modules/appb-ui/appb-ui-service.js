@@ -3,8 +3,8 @@
 
 angular.module('appb')
 .factory('AppbUiService', 
-  ['$log','$timeout',
-  function ($log,$timeout){
+  ['$log','$timeout','$document',
+  function ($log,$timeout,$document){
 
     var svc=this;
     svc.dialogData={}
@@ -73,8 +73,8 @@ angular.module('appb')
     svc.galleryData={};
     svc.galleryData.imgs=[];
     svc.galleryData.show=false;
-    //widgets[0]是在右侧的关闭按钮
-    //widgets[1]设计为左侧动态的删除按钮
+    //widgets[0]是在左侧的关闭按钮
+    //widgets[1]设计为右侧动态的删除按钮
     svc.galleryData.headerData={
       widgets:[
         {side:'left',link:function(){svc.galleryData.show=false;},icon:'arrow-left'}        
@@ -162,6 +162,56 @@ angular.module('appb')
       }
     }
     
+    
+    // ---- inputData --------
+    var inputData=svc.inputData={};
+    inputData.showing=false;
+    inputData.inputs={}
+    inputData.elementInputBar=false;//在component里初始化，表示InputBar的HTML element
+    
+    /**
+     *  inputData.showBar():
+     *    id 输入框的标识
+     *    onSend(text) 确定后执行的回调
+     *    placeholder 提示
+     */
+    inputData.showBar=function(id,onSend,placeholder) {
+      //$event.stopPropagation();
+      inputData.showing=true;
+      $document
+        .off('ontouchend', inputData.hideBar)
+        .off('click', inputData.hideBar);
+      $log.log('OFF.s..inputData.showBar');
+      $timeout(function(){$document
+        .on('ontouchend', inputData.hideBar)
+        .on('click', inputData.hideBar);
+        $log.log('ON..inputData.showBar');
+      },900)
+    }
+    inputData.hideBar=function(e) {
+      var isInside=false;
+      var ep=false;
+      if(inputData.elementInputBar) {
+        for (ep = e.target; ep; ep = ep.parentNode) {
+          if (ep === inputData.elementInputBar) {
+            isInside=true;
+            break;
+          }
+        }
+      } else {
+        $log.log('(*)(?)Init error of inputData.elementInputBar');
+      }
+      if(!isInside) {
+        inputData.showing=false;
+        $timeout(function(){},1);//to apply scope
+        $document
+          .off('ontouchend', inputData.hideBar)
+          .off('click', inputData.hideBar);
+        $log.log('OFF..inputData.showBar');
+      }
+    }
+    // ---- end inputData --------
+    
     return {
       getToastData:function(){return svc.toastData},
       toastHide:toastHide,
@@ -172,6 +222,8 @@ angular.module('appb')
       getGalleryData:function(){return svc.galleryData},
       showGallery:showGallery,
       
+      getInputData:function(){return svc.inputData},
+
       setDialogData:setDialogData,
       getDialogData:getDialogData,
       showDialog:showDialog,

@@ -58,6 +58,8 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     galleryData:AppbUiService.getGalleryData(),
     showGallery:AppbUiService.showGallery,
     
+    inputData:AppbUiService.getInputData(),
+
     appCfg:appCfg
   }
   init();

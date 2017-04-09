@@ -7,7 +7,7 @@
     <span ng-if='!$ctrl.liking'>赞</span>
     <span ng-if='$ctrl.liking'>取消</span>
   </a>
-  <a href class="eb-cmt-popbar-text" ng-click='$ctrl.comment()'>
+  <a href class="eb-cmt-popbar-text" ng-click='$ctrl.comment($event)'>
     <i class='fa fa-commenting-o'></i>
     <span >评论</span>
   </a>

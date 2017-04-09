@@ -15,7 +15,6 @@ angular.module('exbook')
       var ctrl=this;
       
       ctrl.$onInit=function(){
-        $log.log('ebListComment init',ctrl.likeData,ctrl.commentData);
       }
       ctrl.$onChanges =function(chg){
       }

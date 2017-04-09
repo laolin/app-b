@@ -5,11 +5,15 @@ angular.module('appb')
 .component('appbUiInputBar',{
     templateUrl: 'modules/appb-ui/appb-ui-input-bar.template.html',  
     bindings: {
-      appData: '<'
+      inputData: '<'
     },
-    controller: ['$scope','$log','$timeout',
-      function ($scope,$log,$timeout){
-
+    controller: ['$scope','$log','$timeout','$element',
+      function ($scope,$log,$timeout,$element){
+        var ctrl=this;
+        
+        ctrl.$onInit=function() {
+          ctrl.inputData.elementInputBar=$element[0];
+        }
       }
     ]
 })
