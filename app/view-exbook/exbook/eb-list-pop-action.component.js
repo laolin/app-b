@@ -11,8 +11,8 @@ angular.module('exbook')
 
     appData:"<"
   },
-  controller: ['$log','$timeout','$interval','$http',
-    function ($log,$timeout,$interval,$http){
+  controller: ['$log','$timeout','$location',
+    function ($log,$timeout,$location){
       var ctrl=this;
       
       ctrl.$onInit=function(){
@@ -29,12 +29,10 @@ angular.module('exbook')
           ctrl.cmtData.addLike(ctrl.fid);
         }
       }
-      ctrl.comment=function($event){
+      ctrl.comment=function($event) {
         //$event.stopPropagation(); 不能停止向上传递消息，否则弹出框不会关闭
-        $log.log('comment fid=',ctrl.fid);
-        ctrl.appData.inputData.showBar();
+        ctrl.appData.inputData.showBar('comment',ctrl.fid);
       }
-      
     }
   ]
 })

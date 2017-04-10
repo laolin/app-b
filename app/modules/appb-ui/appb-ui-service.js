@@ -3,8 +3,8 @@
 
 angular.module('appb')
 .factory('AppbUiService', 
-  ['$log','$timeout','$document',
-  function ($log,$timeout,$document){
+  ['$log','$timeout','$document','$window',
+  function ($log,$timeout,$document,$window){
 
     var svc=this;
     svc.dialogData={}
@@ -167,6 +167,9 @@ angular.module('appb')
     var inputData=svc.inputData={};
     inputData.showing=false;
     inputData.inputs={}
+    inputData.type='';
+    inputData.iid=0;//输入框的目标是评论时，待评论的cid
+    inputData.activeId=false;
     inputData.elementInputBar=false;//在component里初始化，表示InputBar的HTML element
     
     /**
@@ -175,9 +178,19 @@ angular.module('appb')
      *    onSend(text) 确定后执行的回调
      *    placeholder 提示
      */
-    inputData.showBar=function(id,onSend,placeholder) {
+    inputData.showBar=function(type,id,onSend,placeholder) {
       //$event.stopPropagation();
       inputData.showing=true;
+      inputData.type=type;
+      inputData.iid=id;//输入框的目标是评论时，待评论的cid
+      inputData.activeId=type+id;
+      if(!inputData.inputs[inputData.activeId]){
+        inputData.inputs[inputData.activeId]={}
+      }
+      if(type=='comment') {
+        inputData.scrollToTheCommentEnd();
+        angular.element($window).bind('resize', inputData.scrollToTheCommentEnd);
+      }
       $document
         .off('ontouchend', inputData.hideBar)
         .off('click', inputData.hideBar);
@@ -210,6 +223,25 @@ angular.module('appb')
         $log.log('OFF..inputData.showBar');
       }
     }
+          
+    inputData.scrollToTheCommentEnd=function() {
+      if( ! inputData.showing || inputData.type !='comment') return;
+      var e0=angular.element('.main-content-wrapper');
+      var e1=angular.element('#eb-feed-end-'+inputData.iid);
+      
+      var y0=e0.scrollTop();
+      var yOff=e0.outerHeight();
+      var y1=e1.offset().top;
+      //40是pageheader的高度 5是留的空白高度
+      //实现：发表评论时评论框上方，正好是本帖的所有评论的底部(空白5px)
+      e0.animate({scrollTop: y0+y1-yOff-40+5},"fast");
+      
+      
+      //$location.hash('eb-feed-end-'+inputData.iid);
+      //$anchorScroll.yOffset=-yOff-40;
+      //$anchorScroll();
+    }
+
     // ---- end inputData --------
     
     return {
