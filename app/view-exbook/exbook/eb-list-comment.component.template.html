@@ -4,12 +4,12 @@
       <div class="eb-r"></div>
       <div class="eb-cmt">
         <div class="eb-like" ng-if='($ctrl.likeData && $ctrl.likeData.length)'><img src="assets/img/like.png">
-        <a ng-repeat='k in $ctrl.likeData | orderBy:"+cid" '>
+        <a ng-repeat='k in $ctrl.likeData | orderBy:"create_at" '>
           <span>{{$ctrl.uname(k.uid)}}</span><aa ng-if='$index < ($ctrl.likeData.length-1)'> , </aa>
         </a>
         </div>
         <div class="eb-cmt-list" ng-if='($ctrl.commentData && $ctrl.commentData.length)'>
-            <p ng-repeat='c in $ctrl.commentData | orderBy:"+cid" '>
+            <p ng-repeat='c in $ctrl.commentData | orderBy:"create_at" '>
               <span>{{$ctrl.uname(c.uid)}}</span>
               <a ng-if='c.re_uid > 0'>回复
               <span>{{$ctrl.uname(c.re_uid)}}</span>
