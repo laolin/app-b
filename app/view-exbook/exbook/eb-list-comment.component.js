@@ -27,6 +27,10 @@ angular.module('exbook')
         return u.uname;
       }
       ctrl.comment=function(re_cid,re_uid,reuname) {
+        //已经在评论，点击评论只是返回（结果是评论框会关闭，不重进入回复。）
+        //如果从一个评论直接关闭再马上打开一个评论，
+        //在手机上会闪两下：关于键盘，再打开键盘
+        if(ctrl.appData.inputData.showing)return;
         ctrl.appData.inputData.showBar({
           type:'comment',
           id:ctrl.fid,
