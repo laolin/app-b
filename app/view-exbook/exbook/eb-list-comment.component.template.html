@@ -9,7 +9,8 @@
         </a>
         </div>
         <div class="eb-cmt-list" ng-if='($ctrl.commentData && $ctrl.commentData.length)'>
-            <p ng-repeat='c in $ctrl.commentData | orderBy:"create_at" '>
+            <p ng-repeat='c in $ctrl.commentData | orderBy:"create_at" '
+            ng-click='$ctrl.comment(c.cid,c.uid, $ctrl.uname(c.uid) )'>
               <span>{{$ctrl.uname(c.uid)}}</span>
               <a ng-if='c.re_uid > 0'>回复
               <span>{{$ctrl.uname(c.re_uid)}}</span>

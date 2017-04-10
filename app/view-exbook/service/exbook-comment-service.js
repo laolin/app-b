@@ -30,6 +30,11 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
   function addComment(para){
     $log.log('addComment',para);
     var obj={content:para.__input};
+    if(para.re_cid && para.re_uid ){
+      obj.re_cid=para.re_cid;
+      obj.re_uid=para.re_uid;
+    }
+
     para.__input='';
     _addCommentOrLike(para.id,'comment',obj);
   }
@@ -45,7 +50,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
     //appData.toastLoading();
   
     var api=appData.urlSignApi('ebcomment','add',type);
-    $log.log('api1',api);
+    //$log.log('api1',api,obj);
     $http.jsonp(api,{params:angular.extend({fid:fid},obj)})
     .then(function(s){
       

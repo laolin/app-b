@@ -25,7 +25,17 @@ angular.module('exbook')
         if(!u)return 'uid'+uid;
         if(u.wxinfo)return u.wxinfo.nickname;
         return u.uname;
-      }      
+      }
+      ctrl.comment=function(re_cid,re_uid,reuname) {
+        ctrl.appData.inputData.showBar({
+          type:'comment',
+          id:ctrl.fid,
+          re_cid:re_cid,
+          re_uid:re_uid,
+          placeholder:'回复: '+reuname,
+          onOk:ctrl.appData.ebData.cmtData.addComment
+        });
+      }  
       
     }
   ]
