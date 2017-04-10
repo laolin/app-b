@@ -31,7 +31,11 @@ angular.module('exbook')
       }
       ctrl.comment=function($event) {
         //$event.stopPropagation(); 不能停止向上传递消息，否则弹出框不会关闭
-        ctrl.appData.inputData.showBar('comment',ctrl.fid);
+        ctrl.appData.inputData.showBar({
+          type:'comment',
+          id:ctrl.fid,
+          onOk:ctrl.cmtData.addComment
+        });
       }
     }
   ]

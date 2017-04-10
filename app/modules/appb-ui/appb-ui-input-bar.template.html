@@ -1,7 +1,8 @@
 <div class="appb-input-bar" ng-show='$ctrl.inputData.showing'>
     <div class="weui-cell weui-cell_vcode">
       <div class="weui-cell__bd">
-        <input class="weui-input" type="text" placeholder="请输入文本">
+        <input class="weui-input" type="text" placeholder="请输入文本"
+        ng-model='$ctrl.inputData.paras[$ctrl.inputData.activeId].__input'>
       </div>
       <div class="weui-cell__ft">
         <a href class="appb-input-bar-icon" ng-click=''>
@@ -9,7 +10,7 @@
         </a>
         <button class="weui-btn weui-btn_mini weui-btn_primary appb-input-bar-btn"
         ng-class="{'appb-input-bar-btn-disabled':0}"
-        ng-click=''>
+        ng-click='$ctrl.inputData.onOk()'>
         发送</button>
       </div>
     </div>

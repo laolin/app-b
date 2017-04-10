@@ -20,19 +20,33 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
 
   svc.cmtData=cmtData;
 
-
+  /**
+   *  para 是由 <appb-ui-input-bar> 组件传递来的对象
+   *  包含必选项：
+   *  para.id,代表fid
+   *  para.__input,代表content
+   *  其他可选：
+   */
   function addComment(para){
+    $log.log('addComment',para);
+    var obj={content:para.__input};
+    para.__input='';
+    _addCommentOrLike(para.id,'comment',obj);
   }
   
   function addLike(fid) {
+    _addCommentOrLike(fid,'like')
+  }
+  
+  function _addCommentOrLike(fid,type,obj) {
     if(countError()>10)return;
     if(cmtData.likePublishing)return;
     cmtData.likePublishing=true;
     //appData.toastLoading();
   
-    var api=appData.urlSignApi('ebcomment','add','like');
+    var api=appData.urlSignApi('ebcomment','add',type);
     $log.log('api1',api);
-    $http.jsonp(api,{params:{fid:fid}})
+    $http.jsonp(api,{params:angular.extend({fid:fid},obj)})
     .then(function(s){
       
       if(s.data.errcode!=0) {

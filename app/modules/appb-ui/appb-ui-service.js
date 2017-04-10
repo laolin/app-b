@@ -166,28 +166,62 @@ angular.module('appb')
     // ---- inputData --------
     var inputData=svc.inputData={};
     inputData.showing=false;
-    inputData.inputs={}
+    /**
+     *  showBar(paras)参数paras说明：
+     *  显示输入框，需要传入paras参数
+     *  {
+     *    type        : 【必须】'comment',...
+     *    id          : 【必须】cid,...
+     *    onOk        : 【必须】fun(inputs[xxId],paras[xxId]),
+     *    onCancel    : fun(inputs[xxId],paras[xxId]),  
+     *        上述两回调函数会收到两个参数，
+     *        一个是input输入的内容，
+     *        一个是打开时传入的paras
+     *    placeholder : '回复xxx'...
+     *    其他需要的参数，都会回传给onOk
+     *  }
+     *  
+     *  
+     *  根据传入的 paras，设置：
+     *  1) inputData.activeId=paras.type+paras.id;
+     *  2) inputData.paras[inputData.activeId] = paras
+     *  3) 交互输入的内容放在 paras.__input （即paras会被增加一个元素）
+     *  4) 点击确定后, 调用 :
+     *    paras.onOk(paras); //paras.__input是输入的内容
+     */
+    inputData.paras={};
     inputData.type='';
-    inputData.iid=0;//输入框的目标是评论时，待评论的cid
     inputData.activeId=false;
     inputData.elementInputBar=false;//在component里初始化，表示InputBar的HTML element
+
+    inputData.onOk=function() {
+      var para=inputData.paras[inputData.activeId];
+      if(!para) return -1;
+      var fn=para.onOk;
+      if('function' != typeof fn) return -2;
+      inputData.showing=false;
+      $document
+        .off('ontouchend', inputData.hideBar)
+        .off('click', inputData.hideBar);
+      $log.log('OFF ok..inputData.showBar');
+      return fn(para);
+    }
     
     /**
      *  inputData.showBar():
-     *    id 输入框的标识
-     *    onSend(text) 确定后执行的回调
-     *    placeholder 提示
+     *  见 inputData.paras 上方的说明
      */
-    inputData.showBar=function(type,id,onSend,placeholder) {
+    inputData.showBar=function(paras) {
       //$event.stopPropagation();
       inputData.showing=true;
-      inputData.type=type;
-      inputData.iid=id;//输入框的目标是评论时，待评论的cid
-      inputData.activeId=type+id;
-      if(!inputData.inputs[inputData.activeId]){
-        inputData.inputs[inputData.activeId]={}
+      inputData.type=paras.type;
+      inputData.activeId=paras.type+paras.id;
+      if(!inputData.paras[inputData.activeId]) {
+        inputData.paras[inputData.activeId]=paras;
+      } else {
+        angular.extend(inputData.paras[inputData.activeId],paras);
       }
-      if(type=='comment') {
+      if(paras.type=='comment') {
         inputData.scrollToTheCommentEnd();
         angular.element($window).bind('resize', inputData.scrollToTheCommentEnd);
       }
@@ -227,14 +261,14 @@ angular.module('appb')
     inputData.scrollToTheCommentEnd=function() {
       if( ! inputData.showing || inputData.type !='comment') return;
       var e0=angular.element('.main-content-wrapper');
-      var e1=angular.element('#eb-feed-end-'+inputData.iid);
+      var e1=angular.element('#eb-feed-end-'+inputData.paras[inputData.activeId].id);
       
       var y0=e0.scrollTop();
       var yOff=e0.outerHeight();
       var y1=e1.offset().top;
-      //40是pageheader的高度 5是留的空白高度
+      //40是pageheader的高度 10是留的空白高度
       //实现：发表评论时评论框上方，正好是本帖的所有评论的底部(空白5px)
-      e0.animate({scrollTop: y0+y1-yOff-40+5},"fast");
+      e0.animate({scrollTop: y0+y1-yOff-40+10},"fast");
       
       
       //$location.hash('eb-feed-end-'+inputData.iid);
