@@ -229,6 +229,9 @@ angular.module('appb')
         .off('ontouchend', inputData.hideBar)
         .off('click', inputData.hideBar);
       $log.log('OFF.s..inputData.showBar');
+      $timeout(function(){
+        inputData.elementInputBar.querySelector('input').focus();
+      },1)
       $timeout(function(){$document
         .on('ontouchend', inputData.hideBar)
         .on('click', inputData.hideBar);
