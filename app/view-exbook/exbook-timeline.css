@@ -75,10 +75,17 @@
 
 
 
+.eb-action{
+  float: left;
+  font-size: 13px;
+  color: #3b5384;
+  padding:0 5px;
+}
 
 .eb-time {
   font-size: 13px;
   color: #b1b1b1;
+  padding-right:5px;
 }
 
 .ebfeed-list,

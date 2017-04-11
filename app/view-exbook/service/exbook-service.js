@@ -228,6 +228,38 @@ function ($log,$http,$timeout,$location,AppbData,ExbookCommentService,ExbookTool
         if('function'==typeof onErr)onErr();
       })
   }
+  
+  //删除一条
+  function deleteFeed(fid) {
+    appData.dialogData.confirmDialog('删除此条',function(){_confirmedDeleteFeed(fid)});
+  }
+  function _confirmedDeleteFeed(fid) {
+    var api=appData.urlSignApi('exbook','feed_delete');
+    appData.toastLoading();
+    $http.jsonp(api,{params:{fid:fid}})
+    .then(function(s){
+      if(s.data.errcode!=0) {
+        var info='E:DelF:'+s.data.errcode+":"+s.data.msg;
+        $log.log(info);
+        appData.toastMsg(info,8);
+        return;
+      }
+      
+      //删除成功
+      for(var i=ebData.feedList.length; i--; ) {
+        if(ebData.feedList[i].fid==fid){
+          ebData.feedList.splice(i,1);
+          //TODO: 服务器端会留下一堆无头的评论，待处理
+          break;
+        }
+      }
+      appData.toastDone(1);
+    },function(e){
+      appData.toastMsg('Ejsonp:DelF',8);
+    });
+
+  }
+  
   function initDraft() {
     var api=appData.urlSignApi('exbook','draft_create');
     if(!api){
@@ -290,6 +322,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookCommentService,ExbookTool
   ebData.updateData=updateData;
   ebData.publish=publish;
   ebData.publishing=false;
+  ebData.deleteFeed=deleteFeed;
   
   ebData.feedList=[];
   ebData.usersInfo=ExbookToolsService.getUsersInfoData();//头像等用户信息

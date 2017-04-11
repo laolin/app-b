@@ -33,7 +33,6 @@
         </div>
         <eb-list-pop-action
           ng-show='$ctrl.activeAction ==feedIndex'
-          ng-hide='$ctrl.activeAction !=feedIndex'
           fid='a.fid'
           liking='$ctrl.amILiking[a.fid]'
           cmt-data='$ctrl.appData.ebData.cmtData'
@@ -41,8 +40,12 @@
         ></eb-list-pop-action>
 
         <span class="eb-time" am-time-ago='1000*a.publish_at'></span>
-        <!--span class=""> 删除 </span>
-        <span class=""> 投诉 </span-->
+        <span class="eb-action"
+          ng-if='a.uid==$ctrl.appData.userData.uid'
+          ng-click='$ctrl.ebData.deleteFeed(a.fid)'>
+          删除
+        </span>
+        <!--span class="eb-action" ng-if='a.uid!=$ctrl.appData.userData.uid'>投诉</span-->
         <img class="eb-c-icon cur-pointer" src="assets/img/cmt.png"
         ng-click='$ctrl.showPop(feedIndex,$event)'>
       </div>
