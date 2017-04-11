@@ -18,6 +18,11 @@ angular.module('appb')
     svc.dialogData.show=false;
     svc.dialogData.answer=0;//点按钮1或2后，其值=1或2
     
+    svc.dialogData.setDialogData=setDialogData;
+    svc.dialogData.showDialog=showDialog;
+    svc.dialogData.hideDialog=hideDialog;
+    svc.dialogData.confirmDialog=confirmDialog;
+    
     function getDialogData() {
       return svc.dialogData;
     }
@@ -37,6 +42,17 @@ angular.module('appb')
     }
     function hideDialog() {
       svc.dialogData.show=false;
+    }
+    function confirmDialog(actionText,onOk,onCancle) {
+      svc.dialogData.title='提示';
+      svc.dialogData.content='确定要'+actionText+'吗?';
+      svc.dialogData.btn1=actionText;
+      svc.dialogData.btn2='不';
+      svc.dialogData.fn1=onOk;
+      svc.dialogData.fn2=onCancle;
+      
+      svc.dialogData.show=true;
+      svc.dialogData.answer=0;
     }
     
     // toast
