@@ -59,6 +59,7 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     showGallery:AppbUiService.showGallery,
     
     inputData:AppbUiService.getInputData(),
+    menuData:AppbUiService.getMenuData(),
 
     appCfg:appCfg
   }

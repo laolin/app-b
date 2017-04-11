@@ -1,0 +1,10 @@
+<div class="weui-skin_android" style="opacity: 1;" ng-if='$ctrl.show'>
+  <div class="weui-mask"></div>
+  <div class="weui-actionsheet">
+    <div class="weui-actionsheet__menu">
+      <div class="weui-actionsheet__cell" 
+        ng-repeat='m in $ctrl.menus track by $index'
+        ng-click='$ctrl.click($index)'>{{m.text}}</div>
+    </div>
+  </div>
+</div>

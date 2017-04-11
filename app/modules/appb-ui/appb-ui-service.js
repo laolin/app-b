@@ -203,7 +203,7 @@ angular.module('appb')
       $document
         .off('ontouchend', inputData.hideBar)
         .off('click', inputData.hideBar);
-      $log.log('OFF ok..inputData.showBar');
+      //$log.log('OFF ok..inputData.showBar');
       return fn(para);
     }
     
@@ -228,14 +228,14 @@ angular.module('appb')
       $document
         .off('ontouchend', inputData.hideBar)
         .off('click', inputData.hideBar);
-      $log.log('OFF.s..inputData.showBar');
+      //$log.log('OFF.s..inputData.showBar');
       $timeout(function(){
         inputData.elementInputBar.querySelector('input').focus();
       },1)
       $timeout(function(){$document
         .on('ontouchend', inputData.hideBar)
         .on('click', inputData.hideBar);
-        $log.log('ON..inputData.showBar');
+        //$log.log('ON..inputData.showBar');
       },900)
     }
     inputData.hideBar=function(e) {
@@ -257,7 +257,7 @@ angular.module('appb')
         $document
           .off('ontouchend', inputData.hideBar)
           .off('click', inputData.hideBar);
-        $log.log('OFF..inputData.showBar');
+        //$log.log('OFF..inputData.showBar');
       }
     }
           
@@ -280,7 +280,17 @@ angular.module('appb')
     }
 
     // ---- end inputData --------
+    // ---- menuData --------
+    var menuData=svc.menuData={};
+    menuData.show=false;
+    menuData.menus=[{text:'test 1',onClick:function(){$log.log('menu - 1')}}];
+    menuData.showMenu=function(m) {
+      menuData.show=true;
+      menuData.menus=m;
+    }
     
+    // ---- end menuData --------
+
     return {
       getToastData:function(){return svc.toastData},
       toastHide:toastHide,
@@ -292,6 +302,7 @@ angular.module('appb')
       showGallery:showGallery,
       
       getInputData:function(){return svc.inputData},
+      getMenuData:function(){return svc.menuData},
 
       setDialogData:setDialogData,
       getDialogData:getDialogData,
