@@ -284,8 +284,9 @@ angular.module('appb')
     var menuData=svc.menuData={};
     menuData.show=false;
     menuData.menus=[{text:'test 1',onClick:function(){$log.log('menu - 1')}}];
-    menuData.showMenu=function(m) {
+    menuData.showMenu=function(m,isModal) {
       menuData.show=true;
+      menuData.isModal=isModal;
       menuData.menus=m;
     }
     
