@@ -47,7 +47,7 @@ angular.module('appb')
       svc.dialogData.title='提示';
       svc.dialogData.content='确定要'+actionText+'吗?';
       svc.dialogData.btn1=actionText;
-      svc.dialogData.btn2='不';
+      svc.dialogData.btn2=actionText.substr(0,2)=='取消'?'不':'取消';
       svc.dialogData.fn1=onOk;
       svc.dialogData.fn2=onCancle;
       
