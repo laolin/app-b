@@ -31,6 +31,14 @@ angular.module('exbook')
         //如果从一个评论直接关闭再马上打开一个评论，
         //在手机上会闪两下：关于键盘，再打开键盘
         if(ctrl.appData.inputData.showing)return;
+        if(ctrl.appData.userData.uid == re_uid){
+          //点击自己的评论时，不是回复自己，是弹出删除菜单
+          ctrl.appData.menuData.showMenu([{
+            text:'删除',
+            onClick:function(){ctrl.appData.ebData.cmtData.delComment(ctrl.fid,re_cid)}
+          }],0);
+          return;
+        }
         ctrl.appData.inputData.showBar({
           type:'comment',
           id:ctrl.fid,
