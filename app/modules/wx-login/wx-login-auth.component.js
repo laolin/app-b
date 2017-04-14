@@ -23,9 +23,11 @@ angular.module('wx-login')
           $location.path( pageTo );
           return;
         }
+        var para1=btoa(location.href.split("#")[0]+"#!/wx-callback");
+        para1=para1.replace('/','_');//由于 base64的第64个字符是 '/'，要替换为 '_'
+        var para2=btoa(pageTo);
         var api_wx=appData.appCfg.apiWxAuth+ "/bindwx/callback_bridge/" +
-              btoa(location.href.split("#")[0]+"#!/wx-callback")+
-              '/'+btoa(pageTo);
+              para1 + '/'+para2;
         $log.log('pageTo',pageTo,api_wx);
         var inx=appData.isWeixinBrowser?1:0;
         
