@@ -292,7 +292,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookCommentService,ExbookTool
   function init_cfg() {
     if(config)return;
     
-    var url=appData.urlSignApi('exbook','config');
+    var url=appData.urlApi('exbook','config');
 
     $http.jsonp(url).then(function(d){
       if(d.data.errcode!=0 || ! d.data.data) {
