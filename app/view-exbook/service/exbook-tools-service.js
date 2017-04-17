@@ -36,6 +36,7 @@ function ($log,$http,$timeout,$location,AppbData){
         }
         var d=s.data.data;
         for(i=d.length;i--; ) {
+          appData.userData.dealWxHeadImg(d[i].wxinfo);
           usersInfo[d[i]['uid']]=d[i];
         }
       },function(e){

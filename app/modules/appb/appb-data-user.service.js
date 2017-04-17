@@ -36,11 +36,15 @@ function($route, $window,$location,$log,$timeout)
   //处理头像
   function dealWxHeadImg(wxinfo) {
     if(wxinfo  &&  wxinfo.headimgurl ) {
+      
       //处理网站是https的情况
+      //把前面的 http: 去掉即可自动 http或https 协议
       var face=wxinfo.headimgurl;
-      if($location.protocol()=='https' && face.substr(0,5)=='http:') {
-        wxinfo.headimgurl='https:'+face.substr(5);
+      if(face.substr(0,5)=='http:') {
+        wxinfo.headimgurl=face.substr(5);
       }
+      
+      /*（这样有点费内存，考虑不要各种大小的头像？）
       //处理其他大小的头像
       face=wxinfo.headimgurl;
       if(face.substr(-2)=='/0') {
@@ -50,6 +54,7 @@ function($route, $window,$location,$log,$timeout)
         wxinfo.headimgurl_96=f0+'/96';
         wxinfo.headimgurl_132=f0+'/132';
       }
+      */
         
     }
   }
@@ -68,6 +73,8 @@ function($route, $window,$location,$log,$timeout)
     return dat;
   }
   
+  //================
+  userData.dealWxHeadImg=dealWxHeadImg;
   return {
     addApiSignature:addApiSignature,
     saveUserDataToLocalStorage:saveUserDataToLocalStorage,
