@@ -82,7 +82,6 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   }
 
   function initWx() {
-    //AppbUiService.toastLoading();
     AppbDataApi.getWjSign().then(function(r){
       var data=r.data.data;
       wx.config({
@@ -92,8 +91,8 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
         nonceStr: data.nonceStr,
         signature: data.signature,
         jsApiList: [
-          // 所有要调用的 API 都要加到这个列表中'onMenuShareTimeline',
-          /*
+          // 所有要调用的 API 都要加到这个列表中
+          'onMenuShareTimeline',
           'onMenuShareAppMessage',
           'onMenuShareQQ',
           'onMenuShareWeibo',
@@ -107,12 +106,10 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
           'onVoicePlayEnd',
           'uploadVoice',
           'downloadVoice',
-          */
           'chooseImage',
           'previewImage',
           'uploadImage',
           'downloadImage',
-          /*
           'translateVoice',
           'getNetworkType',
           'openLocation',
@@ -127,16 +124,12 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
           'closeWindow',
           'scanQRCode',
           'chooseWXPay'
-          */
         ]
       });
       wx.ready(function () {
       // 在这里调用 API
       //================================
-        //$log.log(' wx.ready - AppbUiService.toastHide before',appData.toastData);
-        //AppbUiService.toastHide();
-        //$log.log(' wx.ready - AppbUiService.toastHide after',appData.toastData);
-      //===============================================
+
       }); 
     });
   }

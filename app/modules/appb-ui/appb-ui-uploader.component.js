@@ -16,7 +16,7 @@ angular.module('appb')
         
         var ctrl=this;
         var imgData=ctrl.imgData={uploadings:[]};
-        
+        ctrl.countError=0;
         ctrl.$onInit=function(){
         }
         ctrl.$onChanges=function(chg){
@@ -95,6 +95,7 @@ angular.module('appb')
                       btn1:'OK',
                       show:1
                     });
+                    if(ctrl.countError++<10)ctrl.uploadImg();//错误次数不太多时继续重试
                     return;
                   }
                   //d.data.data.name 是api上传后的文件ID
@@ -103,7 +104,10 @@ angular.module('appb')
                   imgData.uploadings[ns]=0;
                   //把数据写回
                   ctrl.updateImg({imgs:ctrl.imgs});
+                  ctrl.countError=0;
+                  if(ns<ni-1)ctrl.uploadImg();//传一下张图片
                 },function(a){
+                  if(ctrl.countError++<10)ctrl.uploadImg();//错误次数不太多时继续重试
                   appData.setDialogData({
                     title:'api-upload callback Err!',
                     content:'ns='+ns+',= '+JSON.stringify(a),
@@ -112,7 +116,6 @@ angular.module('appb')
                   });
                 })
               
-              if(ns<ni-1)ctrl.uploadImg()
             }
           });
         }////end of ctrl.uploadImg
