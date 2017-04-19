@@ -6,7 +6,9 @@
       ng-change="$ctrl.ebData.changeMark('content')"
       maxlength='{{$ctrl.maxTextLength}}'
       ></textarea>
-      <div class="weui-textarea-counter"><span>{{$ctrl.ebData.draft.content.length}}</span>/{{$ctrl.maxTextLength}}</div>
+      <div class="weui-textarea-counter"
+      ng-if='$ctrl.ebData.draft.content.length/$ctrl.maxTextLength > 0.9'
+      ><span>{{$ctrl.ebData.draft.content.length}}</span>/{{$ctrl.maxTextLength}}</div>
     </div>
   </div>
   <div class="weui-cell">
