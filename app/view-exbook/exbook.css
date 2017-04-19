@@ -42,6 +42,10 @@
   -webkit-box-orient: vertical;
 }
 
+.map-wrapper {
+  width:100%;
+  height:300px;
+}
 /*====================== 
   weui color redefine
 ======================*/
