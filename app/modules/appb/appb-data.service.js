@@ -18,6 +18,16 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   var userData=AppbDataUser.getUserData();
   var dialogData=AppbUiService.getDialogData();
 
+  var wxShareData ={//微信分享的显示信息
+    title: headerData.bTitle, // 分享标题
+    desc: appCfg.appDesc,
+    link: '',
+    imgUrl: appCfg.appLogo, // 分享图标
+    success: function () { 
+    },
+    cancel: function () { 
+    }
+  };
   var appData=this.appData={
     isWeixinBrowser:(/micromessenger/i).test(navigator.userAgent),
     clientId:'not-init-'+(+new Date()),
@@ -61,6 +71,7 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     inputData:AppbUiService.getInputData(),
     menuData:AppbUiService.getMenuData(),
 
+    wxShareData:wxShareData,//微信分享的显示信息
     appCfg:appCfg
   }
   init();
@@ -127,9 +138,9 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
         ]
       });
       wx.ready(function () {
-      // 在这里调用 API
-      //================================
-
+        // 在这里调用 API
+        //================================
+        wx.onMenuShareAppMessage( wxShareData ); 
       }); 
     });
   }

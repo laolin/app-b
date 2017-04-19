@@ -12,25 +12,25 @@ angular.module('exbook')
         AppbData.activeHeader('exbook-home', '发现'); 
         AppbData.activeFooter('exbook-index');
 
+        //使用ctrl, 后面方便切换为 component
+        var ctrl=$scope.$ctrl={};
+        // 使用 component 时
+        //var ctrl=this;
+
         //要求登录，如果未登录，会自动跳转到登录界面
         appData.requireLogin();
         
-        $scope.$on('$destroy', function iVeBeenDismissed() {
-          // say goodbye to your controller here
-          // release resources, cancel request...
-          //$log.log('exbook/explore $destroy');
+        $scope.$on('$viewContentLoaded', function () {
+          ctrl.wxShareData_ori=angular.copy(appData.wxShareData);//备份wxShareData
+          appData.wxShareData.title='错题本-发现';
+          appData.wxShareData.desc='错题本-发现-说明';
+
         });
-        $scope.$on('$viewContentLoaded', function readyToTrick() {
-          // say hello to your new content here
-          // BUT NEVER TOUCHES THE DOM FROM A CONTROLLER
-          //$log.log('exbook/explore $viewContentLoaded');
+        $scope.$on('$destroy', function () {
+          angular.extend(appData.wxShareData,ctrl.wxShareData_ori);//还原wxShareData
         });
 
-        //使用ctrl, 后面方便切换为 component
-        var ctrl=$scope.$ctrl={};
         
-        // 使用 component 时
-        //var ctrl=this;
         ctrl.userData=userData;
         ctrl.appData=appData;
         if( !appData.ebData.feedList || !appData.ebData.feedList.length) {

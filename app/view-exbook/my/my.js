@@ -21,6 +21,19 @@ angular.module('exbook')
         
         // 使用 component 时
         //var ctrl=this;
+        
+        
+        $scope.$on('$viewContentLoaded', function () {
+          ctrl.wxShareData_ori=angular.copy(appData.wxShareData);//备份wxShareData
+          appData.wxShareData.title='错题本-我的';
+          appData.wxShareData.desc='错题本-我的-说明';
+
+        });
+        $scope.$on('$destroy', function () {
+          angular.extend(appData.wxShareData,ctrl.wxShareData_ori);//还原wxShareData
+        });
+
+        
         ctrl.userData=userData;
         ctrl.appData=appData;
         
@@ -28,7 +41,9 @@ angular.module('exbook')
           appData.toastMsg('左滑',2);
         }
         ctrl.swipeRight=function() {
-          appData.toastMsg('右滑',2);
+          appData.toastMsg('重登录',2);
+          appData.setUserData({});
+          appData.requireLogin();
         }
         
       }
