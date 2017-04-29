@@ -152,7 +152,7 @@ function ($log,$timeout,AppbData){
       mapData.map.addControl(svc.geolocation);
       AMap.event.addListener(svc.geolocation, 'complete', svc.onLocateComplete);//返回定位信息
       AMap.event.addListener(svc.geolocation, 'error', svc.onLocateError);  
-      
+      getCurrentPosition();
     })
   }
   function getCurrentPosition() {
