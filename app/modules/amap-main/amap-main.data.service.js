@@ -2,14 +2,15 @@
 (function(){
 
 angular.module('amap-main')
-.factory('AmapMainData', ['$log','$timeout',
-function ($log,$timeout){
+.factory('AmapMainData', ['$log','$timeout','AppbData',
+function ($log,$timeout,AppbData){
   var svc=this;
   var mapData={
     options:{zoom: 15},
     inInit:0 //表示是否正在初始化
   };
-  
+  var appData=AppbData.getAppData();
+  appData.mapData=mapData;
   
   
   

@@ -13,7 +13,6 @@ angular.module('exbook')
         AppbData.activeHeader('exbook-home', '我的'); 
         AppbData.activeFooter('exbook-index');
         
-        appData.mapData=AmapMainData.getMapData();
         
         //要求登录，如果未登录，会自动跳转到登录界面
         appData.requireLogin();
@@ -47,6 +46,8 @@ angular.module('exbook')
           appData.setUserData({});
           appData.requireLogin();
         }
+        $log.log('mapData',appData.mapData);
+        //appData.mapData.getCurrentPosition();
         
       }
     ]
