@@ -156,7 +156,12 @@ function ($log,$timeout,AppbData){
     })
   }
   function getCurrentPosition() {
-    svc.geolocation.getCurrentPosition();
+    svc.geolocation.getCurrentPosition(function(status,res){
+      mapData.geolocation=res;
+      //appData.msgBox(res.formattedAddress+'\n经度：'+res.position.lng+'，纬度'+res.position.lat,'地址信息');
+      //$timeout(function(){},1);//相当于$scope.$apply()
+      
+    });
   }
   
   mapData.showMapTo=showMapTo;
