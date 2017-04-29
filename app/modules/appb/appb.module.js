@@ -23,6 +23,7 @@ angular.module('appb', [
       appbCfg.apiRoot+"/**",
       appbCfg.apiWxAuth+"/**",
       'https://res.wx.qq.com/**',
+      'https://webapi.amap.com/**',
       'self'
     ]);
     $locationProvider.hashPrefix('!');

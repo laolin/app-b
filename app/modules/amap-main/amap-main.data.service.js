@@ -2,8 +2,8 @@
 (function(){
 
 angular.module('amap-main')
-.factory('AmapMainData', ['$log','$timeout','AppbData',
-function ($log,$timeout,AppbData){
+.factory('AmapMainData', ['$log','$timeout','$http','AppbData',
+function ($log,$timeout,$http,AppbData){
   var svc=this;
   var mapData={
     options:{zoom: 15},
@@ -53,30 +53,16 @@ function ($log,$timeout,AppbData){
     mapData.inInit=1;
     
     if(typeof(options)=='object')setMapOptions(options);
-    if(typeof (AMap) == 'undefined')loadMapScript()
-    $timeout(wait_init_map, 10);
-    
-    function wait_init_map() {
-      if(mapData.inInit++ > 20 ) {
-        //TODO
-        //load map error, check network please.
-      }
-      $log.log("wait_init_map ...",mapData.inInit);
-      if(typeof (AMap) == 'undefined' 
-          || typeof (AMap.ToolBar) == 'undefined'
-         // || typeof (AMap.Geocoder) == 'undefined'
-          || typeof (AMap.Map) == 'undefined'
-          ) {
-        $timeout(wait_init_map, mapData.inInit * mapData.inInit * 100);
-      }
-      else {
+    if(typeof (AMap) == 'undefined'){
+      loadMapScript().then(function(d1){
         _init_map();
-        //mapData.inInit=false;
-        
         svc.showLocateButton();
-      }
+        loadMapUiScript().then(function(d2){
+          $log.log('OK loadMap-Ui-Script',d2);//正常加载JS也执行不到这一句
+        },function(e){$log.log('Error loadMap-Ui-Script',e)});//loadMapUiScript这里加载js文件正常，但还是会收到404错误，不知道为什么 //TOTO
+      },function(e){$log.log('Error loadMapScript',e)});
     }
-    //initMap 直接执行的语句结束
+    
     
     //以下为initMap的内部函数
     function _init_map() {
@@ -117,13 +103,12 @@ function ($log,$timeout,AppbData){
       mapData.southwest=bd.southwest;
     }
     function loadMapScript() {
-      var script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = location.protocol + 
-      "//webapi.amap.com/maps?v=1.3&key=b4a551eacfbb920a6e68b5eca1126dd5" +
-      "&plugin=AMap.ToolBar";
+      return $http.jsonp("https://webapi.amap.com/maps?v=1.3&key=b4a551eacfbb920a6e68b5eca1126dd5" +
+      "&plugin=AMap.ToolBar");
       //,AMap.Autocomplete,AMap.PlaceSearch,AMap.Geocoder,AMap.Scale,AMap.OverView";
-      document.body.appendChild(script);
+    }
+    function loadMapUiScript() {
+      return $http.jsonp("https://webapi.amap.com/ui/1.0/main.js");
     }
   }
   
