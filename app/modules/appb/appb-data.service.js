@@ -95,6 +95,10 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   function initWx() {
     AppbDataApi.getWjSign().then(function(r){
       var data=r.data.data;
+      if(!data) {
+        appData.msgBox('Err#'+r.data.errcode+':'+r.data.msg,'Error WxJsSign');
+        return;
+      }
       wx.config({
         debug: false,
         appId: data.appId,
