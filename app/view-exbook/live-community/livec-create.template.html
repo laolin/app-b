@@ -1,2 +1,2 @@
-
-<live-community livec-data='livecData'></live-community>
+<a ng-if='!userData.isAdmin()'>您无权查看此页面</a>
+<live-community livec-data='livecData' ng-if='userData.isAdmin()'></live-community>

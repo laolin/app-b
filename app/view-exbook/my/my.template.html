@@ -20,11 +20,30 @@
             {{$ctrl.userData.uname}}
           </span>
         </h4>
-        <p class="weui-media-box__desc">积分: 9527</p>
+        <p class="weui-media-box__desc">{{}}</p>
       </div>
     </a>
   </div>
 
 </div>
 
+
+<div class="weui-panel"
+ng-if='$ctrl.userData.isAdmin()'>
+  <div class="weui-panel__hd">管理功能</div>
+  <div class="weui-panel__bd">
+    <div class="weui-media-box weui-media-box_small-appmsg">
+      <div class="weui-cells">
+        <a class="weui-cell weui-cell_access" href='#!/livec-create'
+         >
+            <div class="weui-cell__hd"><i class="fa fa-university" aria-hidden="true"></i></div>
+            <div class="weui-cell__bd weui-cell_primary">
+                <p>创建小区</p>
+            </div>
+            <span class="weui-cell__ft"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 

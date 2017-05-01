@@ -5,8 +5,8 @@ angular.module('exbook')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/livec-create', {
     templateUrl: 'view-exbook/live-community/livec-create.template.html',
-    controller: ['$scope','$timeout','$log','AppbData','AppbUiService','AmapMainData',
-      function ($scope,$timeout,$log,AppbData,AppbUiService,AmapMainData) {
+    controller: ['$scope','$timeout','$log','AppbData','AppbUiService','LivecData',
+      function ($scope,$timeout,$log,AppbData,AppbUiService,LivecData) {
 
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
@@ -16,6 +16,9 @@ angular.module('exbook')
         
         //要求登录，如果未登录，会自动跳转到登录界面
         appData.requireLogin();
+        //if(!userData.isAdmin()) {
+          //无权查看此页面
+        //}
 
         var ctrl=this;
         
@@ -31,7 +34,7 @@ angular.module('exbook')
         });
 
         
-        ctrl.userData=userData;
+        $scope.userData=userData;
         ctrl.appData=appData;
         appData.mapData.onReady(function(){
           $scope.livecData=appData.livecData;

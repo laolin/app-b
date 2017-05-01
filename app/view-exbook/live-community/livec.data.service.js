@@ -12,14 +12,13 @@ function ($log,$timeout,$http,AppbData,AmapMainData){
   
   function onClick(msg) {
     $log.log('--mapData.onClick--',msg);
+    if(! livecData.lnglatSel) { //第一次点击，弹出操作帮助提示
+      appData.toastMsg('创建小区前可先改名',8);
+    }
     livecData.lnglatSel=msg.lnglat;
     if(livecData.selMarker) {
       livecData.selMarker.setPosition(msg.lnglat);
     }
-    
-    
-    
-    
     mapData.plugins.geocoder.getAddress(msg.lnglat, function(status, result) {
       if (status === 'complete' && result.info === 'OK') {
         result.regeocode.formattedAddress; //返回地址描述
@@ -45,11 +44,11 @@ function ($log,$timeout,$http,AppbData,AmapMainData){
           //iconLabel中不能包含innerHTML属性（内部会利用awesomeIcon自动构建）
           iconLabel: {
             style: {
-              color: '#029', //设置颜色
+              color: '#fff', //设置颜色
               fontSize: '18px' //设置字号
             }
           },
-          iconStyle: 'beige', //设置图标样式
+          iconStyle: 'blue', //设置图标样式
 
           //基础的Marker参数
           map: appData.mapData.map,
