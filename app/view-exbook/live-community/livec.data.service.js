@@ -8,27 +8,62 @@ function ($log,$timeout,$http,AppbData,AmapMainData){
   var appData=AppbData.getAppData();
   var mapData=AmapMainData.getMapData();
 
-  var livecData={locationSel:{}};
+  var livecData={
+    selLocation:{},
+    creating:false
+  };
   
   function onClick(msg) {
     $log.log('--mapData.onClick--',msg);
-    if(! livecData.lnglatSel) { //第一次点击，弹出操作帮助提示
+    if(! livecData.selLnglat) { //第一次点击，弹出操作帮助提示
       appData.toastMsg('创建小区前可先改名',8);
     }
-    livecData.lnglatSel=msg.lnglat;
+    livecData.selLnglat=msg.lnglat;
     if(livecData.selMarker) {
       livecData.selMarker.setPosition(msg.lnglat);
     }
     mapData.plugins.geocoder.getAddress(msg.lnglat, function(status, result) {
       if (status === 'complete' && result.info === 'OK') {
         result.regeocode.formattedAddress; //返回地址描述
-        $log.log('--mapData.onClick Result->',result.regeocode);
-        $timeout(function(){livecData.locationSel=result.regeocode;},1);
+        $log.log('--mapData.onClick Result->',result.regeocode.addressComponent);
+        $timeout(function(){
+          livecData.selLocation=result.regeocode;
+          livecData.selName=result.regeocode.formattedAddress;
+        },1);
       }
     });     
 
   }
   
+  function createLivec() {
+    livecData.creating=true;
+    var api=appData.urlSignApi('livecommunity','create');
+    var adc=livecData.selLocation.addressComponent
+    var params={
+      name:livecData.selName,
+      descript:livecData.selLocation.formattedAddress,
+      addr:adc.district+adc.township+adc.street,
+      lngE7:Math.round(livecData.selLnglat.lng*1e7),
+      latE7:Math.round(livecData.selLnglat.lat*1e7),
+      province:livecData.selLocation.addressComponent.province,
+      city:livecData.selLocation.addressComponent.city,
+      citycode:livecData.selLocation.addressComponent.citycode
+    }
+    $log.log('params=',params);
+    $http.jsonp(api,{params:params})
+    .then(function(s) {
+      livecData.creating=false;
+      if(s.data.errcode!=0) {
+        appData.toastMsg(s.data.msg+'#'+s.data.errcode,7);
+      }
+    },function(e) {
+      livecData.creating=false;
+    });
+
+  }
+  
+  //===============
+  livecData.createLivec=createLivec;
   appData.livecData=livecData;
   
   init();

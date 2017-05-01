@@ -3,12 +3,11 @@
 </div>
 <div class='text-center'>请在地图上选择小区的准确位置</div>
 <div class="weui-cells weui-cells_form"
-ng-if='$ctrl.livecData.locationSel.formattedAddress'>
+ng-if='$ctrl.livecData.selLocation.formattedAddress'>
   <div class="weui-cell">
     <div class="weui-cell__bd">
       <textarea class="weui-textarea" placeholder="" rows="2"
-      ng-model="$ctrl.livecData.locationSel.formattedAddress"
-      ng-change=""
+      ng-model="$ctrl.livecData.selName"
       maxlength='55'
       ></textarea>
     </div>
@@ -16,9 +15,11 @@ ng-if='$ctrl.livecData.locationSel.formattedAddress'>
 
   <div class="weui-btn-area">
     <button class="weui-btn weui-btn_primary" href="#" id="showTooltips"
-    ng-disabled="$ctrl.ebData.publishing"
-    ng-class="{'weui-btn_disabled':$ctrl.ebData.publishing}"
-    ng-click="$ctrl.ebData.publish()">创建小区</button>
+    ng-disabled="$ctrl.livecData.creating"
+    ng-class="{'weui-btn_disabled':$ctrl.livecData.creating}"
+    ng-click="$ctrl.livecData.createLivec()">
+    {{$ctrl.livecData.creating?'请稍候...':'创建小区'}}
+    </button>
   </div>  
       
 </div>
