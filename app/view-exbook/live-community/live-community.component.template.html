@@ -1,0 +1,26 @@
+<div class="map-wrapper">
+  <amap-main map-options='' map-data="appData.mapData"></amap-main>
+</div>
+
+<div class="weui-cells weui-cells_form"
+ng-if='$ctrl.livecData.locationSel.formattedAddress'>
+  <div class="weui-cell">
+    <div class="weui-cell__bd">
+      <textarea class="weui-textarea" placeholder="" rows="2"
+      ng-model="$ctrl.livecData.locationSel.formattedAddress"
+      ng-change=""
+      maxlength='55'
+      ></textarea>
+    </div>
+  </div>
+
+  <div class="weui-btn-area">
+    <button class="weui-btn weui-btn_primary" href="#" id="showTooltips"
+    ng-disabled="$ctrl.ebData.publishing"
+    ng-class="{'weui-btn_disabled':$ctrl.ebData.publishing}"
+    ng-click="$ctrl.ebData.publish()">创建小区</button>
+  </div>  
+      
+</div>
+
+

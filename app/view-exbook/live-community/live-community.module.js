@@ -1,9 +1,8 @@
 'use strict';
 (function(){
 
-angular.module('exbook',[
+angular.module('live-community',[
   'amap-main',
-  'live-community',
   'ngRoute'
 ]);
 
