@@ -2,6 +2,7 @@
 (function(){
 
 var KEY_USERDATA=appbCfg.keyUserData;
+var RIGHTS_ADMIN = 0x00010000;//TODO 和服务器端统一文件
 
 angular.module('appb')
 .factory('AppbDataUser',
@@ -72,9 +73,13 @@ function($route, $window,$location,$log,$timeout)
     dat.api_signature=md5(api+call+userData.uid+userData.token+tim);
     return dat;
   }
+  function isAdmin() {
+    return (userData.rights & RIGHTS_ADMIN)
+  }
   
   //================
   userData.dealWxHeadImg=dealWxHeadImg;
+  userData.isAdmin=isAdmin;
   return {
     addApiSignature:addApiSignature,
     saveUserDataToLocalStorage:saveUserDataToLocalStorage,
