@@ -30,6 +30,8 @@ function($route, $window,$location,$log,$timeout)
       if (obj.hasOwnProperty(attr)) userData[attr] = obj[attr];
     }
     
+    userData.dealWxHeadImg=dealWxHeadImg;
+    userData.isAdmin=isAdmin;
     dealWxHeadImg(userData.wxinfo);
     saveUserDataToLocalStorage();
     return userData;
