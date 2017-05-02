@@ -36,7 +36,7 @@ angular.module('exbook')
         
         $scope.userData=userData;
         ctrl.appData=appData;
-        appData.mapData.onReady(function(){
+        appData.mapData.ready(function(){
           $scope.livecData=appData.livecData;
         });
         

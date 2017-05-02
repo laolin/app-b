@@ -8,12 +8,13 @@ function ($log,$timeout,$http,AppbData){
   var mapData={
     options:{zoom: 15,isHotspot:1},
     plugins:{},
-    ready:0,
+    locatedMark:0,//完成定位标记
+    readyMarks:[0,0,0],
+    isReady:0,//函数，在下面重定义，存在多个异步调用，判断全部readyMarks
     inInit:0 //表示是否正在初始化
   };
   var appData=AppbData.getAppData();
   appData.mapData=mapData;
-  
   
   
   
@@ -64,11 +65,11 @@ function ($log,$timeout,$http,AppbData){
     },function(e){$log.log('Error loadMapScript',e)})
     .then(function(d2){
       loadMapUiScript().then(function(d3){
-        mapData.ready=1;
-        $log.log('mapData.ready',mapData.ready);
+        mapData.readyMarks[0]=1;
+        $log.log('mapData.readyMarks',mapData.readyMarks);
       },function(e){
-        mapData.ready=2;//其实也是正确的
-        $log.log('mapData.ready',mapData.ready);
+        mapData.readyMarks[0]=2;//其实也是正确的
+        $log.log('mapData.readyMarks',mapData.readyMarks);
       });
       //loadMapUiScript这里加载js文件正常，
       //但还是似乎是JS文件执行的结果有什么问题，
@@ -118,13 +119,22 @@ function ($log,$timeout,$http,AppbData){
     }
   }
 
-
-  function onReady(callback) {
-    $log.log('mapData.onReady:',mapData.ready);
-    if(!mapData.ready) {
-      return $timeout(function(){onReady(callback)},300);
+  mapData.isReady=function() {
+    // readyMarks[0] : map js is readyMarks
+    // [1]: AMap.PlaceSearch is readyMarks
+    // [2]: AMap.Geocoder is readyMarks
+    for( var i=mapData.readyMarks.length;i--; ) {
+      if(!mapData.readyMarks[i])return false;
     }
-    $log.log('mapData.onReady run! ',mapData.ready);
+    return true;
+  }
+
+  function ready(callback) {
+    //$log.log('mapData.onReady:',mapData.readyMarks.join(','));
+    if(!mapData.isReady()) {
+      return $timeout(function(){ready(callback)},800);
+    }
+    //$log.log('mapData.onReady run! ',mapData.readyMarks.join(','));
     $timeout(callback,1);
   }
   function _onMove(msg) {
@@ -138,20 +148,16 @@ function ($log,$timeout,$http,AppbData){
     $log.log('_onClick',msg);
     if('function'==typeof mapData.onClick)mapData.onClick(msg);
   }
-  
-  //用于使用时设置回调函数
-  //目前仅允许设一个回调函数，覆盖掉上次设置的。
-  function onMove(msg) {
-  }
-  function onClick(msg) {
-  }
-  
-  svc.onLocateComplete = function() {
+  function _onLocateComplete(msg) {
     $log.log('onLocateComplete');
+    if('function'==typeof mapData.onLocateComplete)mapData.onLocateComplete(msg);
   }
-  svc.onLocateError = function() {
+  function _onLocateError(msg) {
     $log.log('onLocateError');
+    if('function'==typeof mapData.onLocateError)mapData.onLocateError(msg);
   }
+  
+  
   
   svc.showLocateButton = function() {
     mapData.map.plugin('AMap.Geolocation', function () {
@@ -169,18 +175,20 @@ function ($log,$timeout,$http,AppbData){
         zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
       });
       mapData.map.addControl(svc.geolocation);
-      AMap.event.addListener(svc.geolocation, 'complete', svc.onLocateComplete);//返回定位信息
-      AMap.event.addListener(svc.geolocation, 'error', svc.onLocateError);  
+      AMap.event.addListener(svc.geolocation, 'complete', _onLocateComplete);//返回定位信息
+      AMap.event.addListener(svc.geolocation, 'error', _onLocateError);  
       getCurrentPosition();//自动定位到当前位置
       mapData.plugins.geolocation=svc.geolocation;
     });
     mapData.map.plugin('AMap.Geocoder', function () {
       svc.geocoder = new AMap.Geocoder({});
       mapData.plugins.geocoder=svc.geocoder;
+      mapData.readyMarks[2]=1;
     });
     mapData.map.plugin('AMap.PlaceSearch', function () {
       svc.placeSearch = new AMap.PlaceSearch({});
       mapData.plugins.placeSearch=svc.placeSearch;
+      mapData.readyMarks[1]=1;
     });
 
     
@@ -192,6 +200,7 @@ function ($log,$timeout,$http,AppbData){
   function getCurrentPosition() {
     svc.geolocation.getCurrentPosition(function(status,res){
       mapData.resLocation=res;
+      mapData.locatedMark=1;
       //appData.msgBox(res.formattedAddress+'\n经度：'+res.position.lng+'，纬度'+res.position.lat,'地址信息');
       //$timeout(function(){},1);//相当于$scope.$apply()
       
@@ -202,9 +211,14 @@ function ($log,$timeout,$http,AppbData){
   mapData.setMapOptions=setMapOptions;
   mapData.getCurrentPosition=getCurrentPosition;
   
-  mapData.onReady=onReady;
-  mapData.onMove=onMove;
-  mapData.onClick=onClick;
+  mapData.ready=ready;
+  
+  //oNxxx(msg)用于设置回调函数
+  //目前仅允许设一个回调函数，覆盖掉上次设置的。
+  mapData.onMove=function(msg) { };
+  mapData.onClick=function(msg) { };
+  mapData.onLocateComplete=function(msg) { };
+  mapData.onLocateError=function(msg) { };
   initMap();
 
   return {

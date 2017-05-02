@@ -2,24 +2,55 @@
 (function(){
 
 angular.module('live-community')
-.factory('LivecData', ['$log','$timeout','$http','AppbData','AmapMainData',
-function ($log,$timeout,$http,AppbData,AmapMainData){
+.factory('LivecData', ['$log','$timeout','$http','AppbData','AppbDataUser','AmapMainData',
+function ($log,$timeout,$http,AppbData,AppbDataUser,AmapMainData){
   var svc=this;
   var appData=AppbData.getAppData();
+  var userData=AppbDataUser.getUserData();
   var mapData=AmapMainData.getMapData();
 
   var livecData={
     selLocation:{},
     creating:false
   };
+  
+  function init() {
+    appData.mapData.ready(function(){
+      mapData.onClick=onClick;
+      mapData.onLocateComplete=onLocateComplete;
+      AMapUI.loadUI(['overlay/AwesomeMarker'], function(AwesomeMarker) {
+        livecData.selMarker=new AwesomeMarker({
+          //设置awesomeIcon
+          awesomeIcon: 'home', //可用的icons参见： http://fontawesome.io/icons/
+          //下列参数继承自父类
+          visible: true,//可见
+          draggable: true,
+          //iconLabel中不能包含innerHTML属性（内部会利用awesomeIcon自动构建）
+          iconLabel: {
+            style: {
+              color: '#fff', //设置颜色
+              fontSize: '18px' //设置字号
+            }
+          },
+          iconStyle: 'blue', //设置图标样式
+
+          //基础的Marker参数
+          map: appData.mapData.map,
+          position: appData.mapData.map.getCenter()
+        });
+        _selPosition(appData.mapData.map.getCenter());
+        livecData.selMarker.on('dragend',function(msg){
+          _selPosition(msg.lnglat);
+        });
+      });
+    })
+  }
+
+  
   function onClick(msg) {
-    $log.log('--mapData.onClick--',msg);
-    if(! livecData.selLnglat) { //第一次点击，弹出操作帮助提示
-      appData.toastMsg('创建小区前可先改名',8);
-    }
-    livecData.selLnglat=msg.lnglat;
+    //$log.log('--mapData.onClick--',msg);
     if(livecData.selMarker) {
-      livecData.selMarker.show();
+      //livecData.selMarker.show();
       var dist=msg.lnglat.distance(livecData.selMarker.getPosition());//米
       var speed=dist*9;//此速度需要的时间 3.6/9=0.4秒。
       livecData.selMarker.moveTo(msg.lnglat,speed);//setPosition
@@ -28,10 +59,14 @@ function ($log,$timeout,$http,AppbData,AmapMainData){
   }
   
   function _selPosition(lnglat) {
+    if(! livecData.selLnglat) { //第一次点击，弹出操作帮助提示
+      appData.toastMsg('创建小区前可先改名',8);
+    }
+    livecData.selLnglat=lnglat;
     mapData.plugins.geocoder.getAddress(lnglat, function(status, result) {
       if (status === 'complete' && result.info === 'OK') {
         result.regeocode.formattedAddress; //返回地址描述
-        $log.log('--mapData.onClick Result->',result.regeocode.addressComponent);
+        //$log.log('--mapData.onClick Result->',result.regeocode.addressComponent);
         $timeout(function(){
           livecData.selLocation=result.regeocode;
           livecData.selName=result.regeocode.formattedAddress;
@@ -40,6 +75,13 @@ function ($log,$timeout,$http,AppbData,AmapMainData){
     });
 
   }
+  
+  function onLocateComplete(msg,a,b,c) {
+    msg.lnglat=msg.position;//高德的成员名字不统一。。。
+    onClick(msg);
+    appData.toastMsg('已自动定位到您的位置',7);
+  }
+  //===================================================
   
   function createLivec() {
     livecData.creating=true;
@@ -73,36 +115,6 @@ function ($log,$timeout,$http,AppbData,AmapMainData){
   appData.livecData=livecData;
   
   init();
-  function init() {
-    appData.mapData.onReady(function(){
-      mapData.onClick=onClick;
-      
-      AMapUI.loadUI(['overlay/AwesomeMarker'], function(AwesomeMarker) {
-        livecData.selMarker=new AwesomeMarker({
-          //设置awesomeIcon
-          awesomeIcon: 'home', //可用的icons参见： http://fontawesome.io/icons/
-          //下列参数继承自父类
-          visible: false,//先不可见
-          draggable: true,
-          //iconLabel中不能包含innerHTML属性（内部会利用awesomeIcon自动构建）
-          iconLabel: {
-            style: {
-              color: '#fff', //设置颜色
-              fontSize: '18px' //设置字号
-            }
-          },
-          iconStyle: 'blue', //设置图标样式
-
-          //基础的Marker参数
-          map: appData.mapData.map,
-          position: appData.mapData.map.getCenter()
-        });
-        livecData.selMarker.on('dragend',function(msg){
-          _selPosition(msg.lnglat);
-        });
-      });
-    })
-  }
 
   return {
     getLivecData:function () {return livecData}
