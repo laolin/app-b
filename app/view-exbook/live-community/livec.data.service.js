@@ -40,7 +40,7 @@ function ($log,$timeout,$http,AppbData,AppbDataUser,AmapMainData){
         });
         _selPosition(appData.mapData.map.getCenter());
         livecData.selMarker.on('dragend',function(msg){
-          _selPosition(msg.lnglat);
+          _selPosition(livecData.selMarker.getPosition());
         });
       });
     })
