@@ -12,7 +12,6 @@ function ($log,$timeout,$http,AppbData,AmapMainData){
     selLocation:{},
     creating:false
   };
-  
   function onClick(msg) {
     $log.log('--mapData.onClick--',msg);
     if(! livecData.selLnglat) { //第一次点击，弹出操作帮助提示
@@ -20,9 +19,16 @@ function ($log,$timeout,$http,AppbData,AmapMainData){
     }
     livecData.selLnglat=msg.lnglat;
     if(livecData.selMarker) {
-      livecData.selMarker.setPosition(msg.lnglat);
+      livecData.selMarker.show();
+      var dist=msg.lnglat.distance(livecData.selMarker.getPosition());//米
+      var speed=dist*9;//此速度需要的时间 3.6/9=0.4秒。
+      livecData.selMarker.moveTo(msg.lnglat,speed);//setPosition
     }
-    mapData.plugins.geocoder.getAddress(msg.lnglat, function(status, result) {
+    _selPosition(msg.lnglat);
+  }
+  
+  function _selPosition(lnglat) {
+    mapData.plugins.geocoder.getAddress(lnglat, function(status, result) {
       if (status === 'complete' && result.info === 'OK') {
         result.regeocode.formattedAddress; //返回地址描述
         $log.log('--mapData.onClick Result->',result.regeocode.addressComponent);
@@ -31,7 +37,7 @@ function ($log,$timeout,$http,AppbData,AmapMainData){
           livecData.selName=result.regeocode.formattedAddress;
         },1);
       }
-    });     
+    });
 
   }
   
@@ -76,6 +82,8 @@ function ($log,$timeout,$http,AppbData,AmapMainData){
           //设置awesomeIcon
           awesomeIcon: 'home', //可用的icons参见： http://fontawesome.io/icons/
           //下列参数继承自父类
+          visible: false,//先不可见
+          draggable: true,
           //iconLabel中不能包含innerHTML属性（内部会利用awesomeIcon自动构建）
           iconLabel: {
             style: {
@@ -88,6 +96,9 @@ function ($log,$timeout,$http,AppbData,AmapMainData){
           //基础的Marker参数
           map: appData.mapData.map,
           position: appData.mapData.map.getCenter()
+        });
+        livecData.selMarker.on('dragend',function(msg){
+          _selPosition(msg.lnglat);
         });
       });
     })
