@@ -6,7 +6,7 @@ angular.module('appb')
     templateUrl: 'modules/appb-ui/appb-ui-gallery.component.template.html',  
     bindings: { 
      appData:"<",
-     galleryData:"<"
+     galleryData:"="
     },
     controller: ['$scope','$log','$timeout',
       function ($scope,$log,$timeout){
@@ -38,6 +38,13 @@ angular.module('appb')
             ctrl.galleryData.active=obj.activeIndex;
             $scope.$apply();
           };
+          $scope.$on('$locationChangeStart', function(event, newUrl, oldUrl) {
+            //显示 gallery 时按浏览器的后退按钮：关闭 gallery
+            if(ctrl.galleryData.show) {
+              ctrl.close();
+              event.preventDefault();
+            }
+          });
         }
         ctrl.$onChanges=function(chg) {
         }
