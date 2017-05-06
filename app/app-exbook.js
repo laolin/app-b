@@ -3,14 +3,14 @@
   
 //加个全局变量 appbCfg
 var cfg=window.appbCfg={
-  appName:"共享高手",
+  appName:"错题整理高手",
   
-  appDesc:"欢迎使用共享高手",//微信分享时默认文本
+  appDesc:"欢迎使用错题整理高手",//微信分享时默认文本
   appLogo:"https://api.qinggaoshou.com/api-1.0/uploads/wx_1f5d16338807332c9f6d6dd3cae69b4ca20935b0.jpg",//微信分享时默认图片
   
-  pageTitle:'共享高手',//默认的页面上方<ui-header>条的标题
-  htmlTitle:'共享高手 - 请高手实用工具',//默认的浏览器的页面标题
-  apiRoot: 'https://api.qinggaoshou.com/api-1.0', //一般的API
+  pageTitle:'错题整理高手',//默认的页面上方<ui-header>条的标题
+  htmlTitle:'错题整理高手 - 请高手实用工具',//默认的浏览器的页面标题
+  apiRoot: 'https://api.qinggaoshou.com/api-eb', //一般的API
   apiWxAuth: 'https://qinggaoshou.com/api-1.0', //WX 授权 callback 域名限制的URI
 
   version: 'exbook.78.101.101.a'
