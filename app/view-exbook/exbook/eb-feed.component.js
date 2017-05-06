@@ -6,7 +6,7 @@ angular.module('exbook')
   templateUrl: 'view-exbook/exbook/eb-feed.component.template.html',  
   bindings: { 
     ebData:"<",
-    feed:"=",
+    feed:"<",
     appData:"<"
   },
   controller: ['$log','$timeout','$interval','$scope','$document',

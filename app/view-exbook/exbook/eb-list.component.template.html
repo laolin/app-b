@@ -1,9 +1,8 @@
 <div class="ebfeed-list" ng-if='1'>
   
-  <div class="ebfeed-unit" ng-repeat='a in $ctrl.ebData.feedList'
-  ng-init="feedIndex=$index">  
+  <div ng-repeat='feed in $ctrl.ebData.feedList'>  
     <eb-feed app-data='$ctrl.appData' eb-data='$ctrl.ebData'
-    feed=a></eb-feed>
+    feed=feed></eb-feed>
   </div>
   
   <div class="weui-cells">

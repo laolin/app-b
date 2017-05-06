@@ -1,4 +1,4 @@
- 
+  <div class="ebfeed-unit">
     <div class="eb-po-avt-wrap">
       <img class="eb-po-avt" ng-src="{{
         $ctrl.ebData.usersInfo[$ctrl.feed.uid].wxinfo?
@@ -36,7 +36,8 @@
           app-data='$ctrl.appData'
         ></eb-list-pop-action>
 
-        <span class="eb-time" am-time-ago='1000*$ctrl.feed.publish_at'></span>
+        <a class="eb-time" am-time-ago='1000*$ctrl.feed.publish_at'
+        href='#!/exbook?fid={{$ctrl.feed.fid}}'></a>
         <span class="eb-action"
           ng-if='$ctrl.feed.uid==$ctrl.appData.userData.uid'
           ng-click='$ctrl.ebData.deleteFeed($ctrl.feed.fid)'>
@@ -53,3 +54,4 @@
       </eb-list-comment>
     </div>
     <div class="eb-po-clear" id='eb-feed-end-{{$ctrl.feed.fid}}'></div>
+  </div>
