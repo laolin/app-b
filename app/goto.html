@@ -1,0 +1,32 @@
+<html>
+<head>
+  <title>Loading</title>
+  <script>
+  function a(paramName,location) {
+    var searchString = location.search.substring(1),
+      i, val,
+      params = searchString.split("&"),
+      path='';
+
+    for (i=0;i<params.length;i++) {
+      val = params[i].split("=");
+      if (val[0] == paramName) {
+        path= val[1];
+        params.splice(i,1);
+        break;
+      }
+    }
+    if(params.length)
+      path = '.?'+params.join('&')+"#!"+path;
+    else
+      path=".";
+    //console.log(params,path);
+    location.href='.'+searchString;
+  }
+  a('goto',window.location);
+  </script>
+</head>
+<body>
+  <h3>Loading...</h3>
+</body>
+</html>

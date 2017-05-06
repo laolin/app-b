@@ -295,7 +295,12 @@ gulp.task('copyFonts1', function() {
 
 
 //gulp.task('copy', ['copyFonts1','copyImg','copyFile']);
-gulp.task('copy', ['copyFonts1','copyImg']);
+gulp.task('copy', ['copyFonts1','copyImg'], function(){
+  return gulp.src(configObj.path.app + '/goto.html')
+    .pipe(htmlmin({collapseWhitespace: true,removeComments: true,minifyJS:true}))
+    .pipe(gulp.dest(configObj.path.dist));
+
+});;
 
 
 gulp.task('runBuild', ['html-useref','copy'], function(){
