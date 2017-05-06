@@ -134,18 +134,18 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
           'chooseWXPay'
         ]
       });
+      wxShareData.title= headerData.bTitle, // 分享标题
+      wxShareData.desc= appCfg.appDesc,
+      wxShareData.link= location.href;//staticUrl(),
+      wxShareData.imgUrl= appCfg.appLogo, // 分享图标
+      wxShareData.success= function () { 
+      },
+      wxShareData.cancel= function () { 
+      }
       wx.ready(function () {
         // 在这里调用 API
         //================================
         
-        wxShareData.title= headerData.bTitle, // 分享标题
-        wxShareData.desc= appCfg.appDesc,
-        wxShareData.link= location.href;//staticUrl(),
-        wxShareData.imgUrl= appCfg.appLogo, // 分享图标
-        wxShareData.success= function () { 
-        },
-        wxShareData.cancel= function () { 
-        }
 
         wx.onMenuShareAppMessage( wxShareData ); 
         wx.onMenuShareTimeline( wxShareData ); 

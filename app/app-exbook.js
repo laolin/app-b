@@ -6,7 +6,7 @@ var cfg=window.appbCfg={
   appName:"错题整理高手",
   
   appDesc:"欢迎使用错题整理高手",//微信分享时默认文本
-  appLogo:"https://api.qinggaoshou.com/api-1.0/uploads/wx_1f5d16338807332c9f6d6dd3cae69b4ca20935b0.jpg",//微信分享时默认图片
+  appLogo:"https://qinggaoshou.com/images/qgs-log-1.jpg",//微信分享时默认图片
   
   pageTitle:'错题整理高手',//默认的页面上方<ui-header>条的标题
   htmlTitle:'错题整理高手 - 请高手实用工具',//默认的浏览器的页面标题
