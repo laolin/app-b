@@ -50,7 +50,6 @@ angular.module('exbook')
             appData.wxShareData.imgUrl= appData.filePath+
              '/'+ appData.ebData.feedOne.pics.split(',')[0];
           }
-          $log.log('appData.wxShareData=',appData.wxShareData);
         });
         if( !appData.ebData.feedList || !appData.ebData.feedList.length) {
           appData.ebData.exploreFeed();
