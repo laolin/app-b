@@ -9,8 +9,8 @@ var
   ERR_OK=0;
 angular.module('exbook')
 .factory('ExbookService', 
-['$log','$http','$timeout','$location','AppbData','ExbookCommentService','ExbookToolsService',
-function ($log,$http,$timeout,$location,AppbData,ExbookCommentService,ExbookToolsService){
+['$log','$http','$timeout','$location','$q','AppbData','ExbookCommentService','ExbookToolsService',
+function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookToolsService){
   var svc=this;
   var ebData={draft:{}};//草稿
   var appData=AppbData.getAppData();
@@ -29,6 +29,42 @@ function ($log,$http,$timeout,$location,AppbData,ExbookCommentService,ExbookTool
     anonymous:0
   };
 
+  function getFeed(fid){
+    var i;
+    var deferred = $q.defer();
+    for(i=ebData.feedList.length;i--; ) {
+      if(ebData.feedList[i].fid==fid) {
+        angular.copy(ebData.feedList[i],ebData.feedOne);//绑定到页面中，不可重赋值
+        deferred.resolve(1);
+        return deferred.promise;
+      }
+    }
+    var api=appData.urlSignApi('exbook','feed_get');
+    if(!api){
+      appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
+      deferred.reject(-1);
+      return deferred.promise;
+    }
+    
+    
+    return $http.jsonp(api, {params:{fid:fid}})
+    .then(function(s){
+      if(s.data.errcode!=0) {
+        countError(1);
+        $log.log('Er:getFeed:',s.data.msg);
+        return;
+      }
+      angular.copy(s.data.data,ebData.feedOne);//绑定到页面中，不可重赋值
+      $log.log('GOT ebData.feedOne',ebData.feedOne);
+      //获取所有的 s.data.data.uid 的用户信息
+      ExbookToolsService.requireUsersInfo([s.data.data]);
+      
+      //获取所有fid下的评论
+      ExbookCommentService.getComment({fids:s.data.data.fid});
+
+    },function(e){
+    });
+  }
   
   /**
    *  para.count=2~200: 数量
@@ -316,6 +352,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookCommentService,ExbookTool
   
   //
   ebData.initDraft=initDraft;
+  ebData.getFeed=getFeed;
   ebData.exploreFeed=exploreFeed;
   //更新、发布相关：
   ebData.changeMark=changeMark;
@@ -324,6 +361,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookCommentService,ExbookTool
   ebData.publishing=false;
   ebData.deleteFeed=deleteFeed;
   
+  ebData.feedOne={};
   ebData.feedList=[];
   ebData.usersInfo=ExbookToolsService.getUsersInfoData();//头像等用户信息
   ebData.newMoreLoading=false;
