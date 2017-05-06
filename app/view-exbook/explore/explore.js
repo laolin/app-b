@@ -22,8 +22,9 @@ angular.module('exbook')
         
         $scope.$on('$viewContentLoaded', function () {
           ctrl.wxShareData_ori=angular.copy(appData.wxShareData);//备份wxShareData
-          appData.wxShareData.title='错题本-发现';
-          appData.wxShareData.desc='错题本-发现-说明';
+          appData.wxShareData.title='我发现了这里有好多题目，速来围观。';
+          appData.wxShareData.desc='这题你会做么？';
+          appData.wxShareData.link=location.href;
 
         });
         $scope.$on('$destroy', function () {

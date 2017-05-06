@@ -19,8 +19,21 @@ angular.module('exbook')
         $scope.ebData=ebData;
         
          
-        AppbData.activeHeader('exbook-back', '首页'); 
+        AppbData.activeHeader('exbook-back', '发布题目'); 
         AppbData.activeFooter('exbook-index');
+        
+        var ctrl=this;
+        $scope.$on('$viewContentLoaded', function () {
+          ctrl.wxShareData_ori=angular.copy(appData.wxShareData);//备份wxShareData
+          appData.wxShareData.title='我发现了这里有好多题目，速来围观';
+          //appData.appCfg.appName;
+          appData.wxShareData.desc='今天你做题了么？';
+          appData.wxShareData.link=location.href;
+
+        });
+        $scope.$on('$destroy', function () {
+          angular.extend(appData.wxShareData,ctrl.wxShareData_ori);//还原wxShareData
+        });
 
         
 
