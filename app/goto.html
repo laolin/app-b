@@ -11,7 +11,7 @@
     for (i=0;i<params.length;i++) {
       val = params[i].split("=");
       if (val[0] == paramName) {
-        path= val[1];
+        path= decodeURIComponent(val[1]);
         params.splice(i,1);
         break;
       }

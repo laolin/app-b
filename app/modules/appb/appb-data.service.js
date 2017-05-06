@@ -19,14 +19,6 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   var dialogData=AppbUiService.getDialogData();
 
   var wxShareData ={//微信分享的显示信息
-    title: headerData.bTitle, // 分享标题
-    desc: appCfg.appDesc,
-    link: '',
-    imgUrl: appCfg.appLogo, // 分享图标
-    success: function () { 
-    },
-    cancel: function () { 
-    }
   };
   var appData=this.appData={
     isWeixinBrowser:(/micromessenger/i).test(navigator.userAgent),
@@ -72,6 +64,7 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     menuData:AppbUiService.getMenuData(),
 
     wxShareData:wxShareData,//微信分享的显示信息
+    staticUrl:staticUrl,
     appCfg:appCfg
   }
   init();
@@ -144,7 +137,18 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
       wx.ready(function () {
         // 在这里调用 API
         //================================
+        
+        wxShareData.title= headerData.bTitle, // 分享标题
+        wxShareData.desc= appCfg.appDesc,
+        wxShareData.link= location.href;//staticUrl(),
+        wxShareData.imgUrl= appCfg.appLogo, // 分享图标
+        wxShareData.success= function () { 
+        },
+        wxShareData.cancel= function () { 
+        }
+
         wx.onMenuShareAppMessage( wxShareData ); 
+        wx.onMenuShareTimeline( wxShareData ); 
       }); 
     });
   }
@@ -260,7 +264,38 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     }
     return true;
   }
-        
+  
+  /**
+   *  staticUrl(hash)
+   *  返回:
+   *    //当前WEB路径/goto.html?xx=xx&xx=xx&goto=hash
+   *  用于分享、支付等，固定页面地址。进入后自动跳转到指定的页面
+   *  
+   *  hash : 后续要自动转到的页面 （由goto.html实现）
+   *    例: 
+   *      `/`  会自动转到 `#!/`
+   *      `/my` 会自动转到 `#!/`
+   *      `/explore?id=5` 会自动转到 `#!/explore?id=5`
+   *   默认当前地址
+   */
+  function staticUrl(hash) {
+    if('undefined' == typeof hash) {
+      hash=location.hash.substr(2);//去年前面的 '#!'
+    }
+    hash=encodeURIComponent(hash);
+    var host=location.origin;
+    var path=location.pathname;
+    path=path.substr(0,path.lastIndexOf('/')+1);
+    var page='goto.html';
+    var search=location.search;
+    if(search)
+      search+='&goto='+hash;
+    else search='?goto='+hash;
+
+    
+    return (host+path+page+search);
+  }
+    
   return {
     
     getHeaderData:AppbDataHeader.getHeaderData,
