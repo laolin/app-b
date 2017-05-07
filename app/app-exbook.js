@@ -33,9 +33,9 @@ cfg.markWxLoginCallback='cb_xd';//和后端API的约定字符串，在 /wx-login
 
 cfg.tabsAvailable=[
   ['exbook-index',[
-    {text:'发布',icon:'pencil-square-o',href:'/compose',active:1},
+    {text:'发布',icon:'pencil-square-o',href:'/compose'},
     //{text:'错题',icon:'book',href:'/exbook'},
-    {text:'浏览',icon:'file-text-o',href:'/explore'},
+    {text:'浏览',icon:'file-text-o',href:'/explore',active:1},
     {text:'我的',icon:'user',href:'/my'}
   ]],
   ['exbook-debug',[
