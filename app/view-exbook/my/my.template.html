@@ -20,7 +20,7 @@
             {{$ctrl.userData.uname}}
           </span>
         </h4>
-        <p class="weui-media-box__desc">如有显示异常，可在头像上右滑重登录试试</p>
+        <p class="weui-media-box__desc">如有显示异常，可在此向右滑动重登录试试</p>
       </div>
     </a>
   </div>
@@ -31,14 +31,10 @@
   <div class="weui-panel__bd">
     <div class="weui-media-box weui-media-box_small-appmsg">
       <div class="weui-cells">
-        <a class="weui-cell weui-cell_access" href='#!/livec-create'
-         >
-            <div class="weui-cell__hd"><i class="fa fa-id-card-o" aria-hidden="true"></i></div>
-            <div class="weui-cell__bd weui-cell_primary">
-                <p>我的小区</p>
-            </div>
-            <span class="weui-cell__ft"></span>
-        </a>
+        <appb-ui-panel-cell-small icon='university'
+          url='/livec-create'
+          text='我的小区'
+        ></appb-ui-panel-cell-small>
       </div>
     </div>
   </div>
@@ -48,18 +44,54 @@
 
 <div class="weui-panel"
 ng-if='$ctrl.userData.isAdmin()'>
+  <div class="weui-panel__hd">管理员-统计</div>
+  <div class="weui-panel__bd">
+    <div class="weui-media-box weui-media-box_small-appmsg">
+      <div class="weui-cells">
+        <appb-ui-panel-cell-small icon='university'
+          url='/log-analy-user-activety?hour=2'
+          text='用户活跃度（2小时）'
+        ></appb-ui-panel-cell-small>
+        <appb-ui-panel-cell-small icon='university'
+          url='/log-analy-user-activety?hour=6' 
+          text='用户活跃度（6小时）'
+        ></appb-ui-panel-cell-small>
+        <appb-ui-panel-cell-small icon='university'
+          url='/log-analy-user-activety?hour=12' 
+          text='用户活跃度（12小时）'
+        ></appb-ui-panel-cell-small>
+        <appb-ui-panel-cell-small icon='university'
+          url='/log-analy-user-activety?hour=24' 
+          text='用户活跃度（24小时）'
+        ></appb-ui-panel-cell-small>
+        <appb-ui-panel-cell-small icon='university'
+          url='/log-analy-user-activety?day=2' 
+          text='用户活跃度（2天）'
+        ></appb-ui-panel-cell-small>
+        <appb-ui-panel-cell-small icon='university'
+          url='/log-analy-user-activety?day=7' 
+          text='用户活跃度（7天）'
+        ></appb-ui-panel-cell-small>
+        <appb-ui-panel-cell-small icon='university'
+          url='/log-analy-user-activety?day=30' 
+          text='用户活跃度（30天）'
+        ></appb-ui-panel-cell-small>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="weui-panel"
+ng-if='$ctrl.userData.isAdmin()'>
   <div class="weui-panel__hd">管理功能</div>
   <div class="weui-panel__bd">
     <div class="weui-media-box weui-media-box_small-appmsg">
       <div class="weui-cells">
-        <a class="weui-cell weui-cell_access" href='#!/livec-create'
-         >
-            <div class="weui-cell__hd"><i class="fa fa-university" aria-hidden="true"></i></div>
-            <div class="weui-cell__bd weui-cell_primary">
-                <p>创建小区</p>
-            </div>
-            <span class="weui-cell__ft"></span>
-        </a>
+        <appb-ui-panel-cell-small icon='university'
+          url='/livec-create'
+          text='创建小区'
+        ></appb-ui-panel-cell-small>
       </div>
     </div>
   </div>
