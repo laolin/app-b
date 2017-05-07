@@ -17,9 +17,9 @@
       }
     }
     if(params.length)
-      path = '.?'+params.join('&')+"#!"+path;
+      path = '.?_r='+(+new Date())+'&'+params.join('&')+"#!"+path;
     else
-      path=".";
+      path='.?_r='+(+new Date());
     //console.log(params,path);
     location.href=path;
   }
