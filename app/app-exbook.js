@@ -19,7 +19,7 @@ var cfg=window.appbCfg={
 cfg.modDep=[
   'exbook'
 ];
-cfg.defPath='/';
+cfg.defPath='/explore';
 
 cfg.wxApp=[
     {name:'qgs-web',id:'wx8fb342a27567fee7'},
@@ -33,13 +33,13 @@ cfg.markWxLoginCallback='cb_xd';//和后端API的约定字符串，在 /wx-login
 
 cfg.tabsAvailable=[
   ['exbook-index',[
-    {text:'发布题目',icon:'pencil-square-o',href:'/',active:1},
+    {text:'发布',icon:'pencil-square-o',href:'/compose',active:1},
     //{text:'错题',icon:'book',href:'/exbook'},
     {text:'浏览',icon:'file-text-o',href:'/explore'},
-    //{text:'我的',icon:'user',href:'/my'}
+    {text:'我的',icon:'user',href:'/my'}
   ]],
   ['exbook-debug',[
-    {text:'首页debug',icon:'home',href:'/',active:1},
+    {text:'首页debug',icon:'home',href:'/compose',active:1},
     {text:'发现debug',icon:'search',href:'/explore'},
     {text:'我的debug',icon:'user',href:'/my'}
   ]]
@@ -47,11 +47,11 @@ cfg.tabsAvailable=[
 cfg.headerAvailable=[
   ['exbook-home',[
     {side:'left',link:'-1',icon:'chevron-left'},
-    {side:'right',link:'/',icon:'plus'},
+    {side:'right',link:'/compose',icon:'plus'},
     //{side:'right',link:'/settings',text:'换年级'}
   ]],
   ['exbook-back',[
-    {side:'left',link:'1',icon:'home'},
+    {side:'left',link:'/explore',icon:'home'},
     {side:'right',link:'/my',icon:'user'},
     //{side:'right',link:'/settings',text:'换年级'}
   ]]

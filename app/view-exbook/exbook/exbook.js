@@ -40,16 +40,19 @@ angular.module('exbook')
         appData.ebData.getFeed($scope.fid)
         .then(function(e){
           $log.log('appData.ebData.getFeed DONE res=',e,appData.ebData.feedOne);
-          
-          //题目内容：设为转发图文件消息的标题
-          if(appData.ebData.feedOne.content) {
-            appData.wxShareData.title='题目:'+appData.ebData.feedOne.content;
-          }
-          //如果题目有配图，设为图文消息的配图
-          if(appData.ebData.feedOne.pics) {
-            appData.wxShareData.imgUrl= appData.filePath+
-             '/'+ appData.ebData.feedOne.pics.split(',')[0];
-          }
+          wx.ready(function () {
+            appData.wxShareData.link= location.href;
+            //题目内容：设为转发图文件消息的标题
+            if(appData.ebData.feedOne.content) {
+              appData.wxShareData.title='题目:'+appData.ebData.feedOne.content;
+            }
+            //如果题目有配图，设为图文消息的配图
+            if(appData.ebData.feedOne.pics) {
+              appData.wxShareData.imgUrl= appData.filePath+
+               '/'+ appData.ebData.feedOne.pics.split(',')[0];
+            }
+            //appData.msgBox(appData.wxShareData.link,appData.ebData.feedOne.pics);
+          });
         });
         if( !appData.ebData.feedList || !appData.ebData.feedList.length) {
           appData.ebData.exploreFeed();
