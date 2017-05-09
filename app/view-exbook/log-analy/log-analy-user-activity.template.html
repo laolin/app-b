@@ -3,13 +3,19 @@
 <a ng-if='$ctrl.hour'>{{$ctrl.hour}}小时</a>
 的用户活跃度</div>
 
-
-
+<div class="weui-cells" ng-if='$ctrl.logData.activityLoading'>
+  <div class="weui-cell">
+    <div class="weui-loadmore-XX">
+      <i class="weui-loading"></i>
+      <span class="weui-loadmore__tips">正在加载</span>
+    </div>
+  </div>  
+</div>  
   
-<div class="weui-panel weui-panel_access" ng-if='$ctrl.userData.isAdmin()'>
+<div class="weui-panel weui-panel_access" ng-if='$ctrl.userData.isAdmin() && !$ctrl.logData.activityLoading'>
   <div class="weui-panel__bd">
     <a href class="weui-media-box weui-media-box_appmsg"
-    ng-repeat='ua in $ctrl.logData.activieyList track by $index'>
+    ng-repeat='ua in $ctrl.logData.activityList track by $index'>
       <div class="weui-media-box__hd">
         <img class="weui-media-box__thumb" ng-src="{{$ctrl.userData.usersInfo[ua.uid].wxinfo.headimgurl}}" alt="">
       </div>

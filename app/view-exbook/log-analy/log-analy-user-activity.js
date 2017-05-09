@@ -3,8 +3,8 @@
 
 angular.module('exbook')
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/log-analy-user-activety', {
-    templateUrl: 'view-exbook/log-analy/log-analy-user-activety.template.html',
+  $routeProvider.when('/log-analy-user-activity', {
+    templateUrl: 'view-exbook/log-analy/log-analy-user-activity.template.html',
     controller: ['$scope','$location','$log','AppbLogService','AppbData','AppbUiService','AmapMainData',
       function ($scope,$location,$log,AppbLogService,AppbData,AppbUiService,AmapMainData) {
 

@@ -28,24 +28,27 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbDataUser){
       deferred.reject(-2);
       return deferred.promise;
     }
-    
+    logData.activityLoading=true;
     return $http.jsonp(api, {params:para})
     .then(function(s){
       if(s.data.errcode!=0) {
         $log.log('Er:getLog:',s.data.msg);
         appData.toastMsg('Er:getLog:'+s.data.msg+":"+s.data.errcode);
         //有错等几秒重试
+        logData.activityLoading=false;
         return $timeout(function(){getLog_n(para)},8000);
       }
       
-      logData.activieyList=s.data.data;
+      logData.activityList=s.data.data;
       //获取所有 需要 的用户信息
+      logData.activityLoading=false;
       return userData.requireUsersInfo(s.data.data);
       
     },function(e){
       // error
       $log.log('error at getLog_n',e);
       deferred.reject(e);
+      logData.activityLoading=false;
       return deferred.promise;
     })
   }
@@ -55,7 +58,8 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbDataUser){
   
   logData.getLogActivity=getLogActivity;
   
-  logData.activieyList={};
+  logData.activityLoading=false;
+  logData.activityList=[];
   appData.logData=logData;
 
 
