@@ -49,7 +49,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
     cmtData.likePublishing=true;
     //appData.toastLoading();
   
-    var api=appData.urlSignApi('ebcomment','add',type);
+    var api=appData.urlSignApi('comment','add',type);
     //$log.log('api1',api,obj);
     $http.jsonp(api,{params:angular.extend({fid:fid},obj)})
     .then(function(s){
@@ -94,7 +94,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
    *  删除 点赞/评论
    */
   function delCtype(fid,cid,ctype) {
-    var api=appData.urlSignApi('ebcomment','del');
+    var api=appData.urlSignApi('comment','del');
     $http.jsonp(api,{params:{fid:fid,cid:cid,ctype:ctype}})
     .then(function(s){
       if(s.data.errcode!=0) {
@@ -141,7 +141,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
       return;
     }
     var i;
-    var api=appData.urlSignApi('ebcomment','li');
+    var api=appData.urlSignApi('comment','li');
     if(!api){
       appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
       return false;
