@@ -39,7 +39,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
         return deferred.promise;
       }
     }
-    var api=appData.urlSignApi('exbook','feed_get');
+    var api=appData.urlSignApi('feed','get');
     if(!api){
       appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
       deferred.reject(-1);
@@ -76,12 +76,12 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
     //否则在网络条件不好时会过多重复调用没有效果的API
     if(countError()>3)return;
     var i;
-    var api=appData.urlSignApi('exbook','feed_list');
+    var api=appData.urlSignApi('feed','li');
     if(!api){
       appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
       return false;
     }
-    var pdata={count:10};
+    var pdata={count:10, app:'exbook',cat:'exbook' };
     
     // newmore 表示获取新的
     // oldmore 表示获取更多旧的
@@ -172,7 +172,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
     ebData.publishing=true;
     appData.toastLoading();
     updateData(function(){
-      var api=appData.urlSignApi('exbook','draft_publish');
+      var api=appData.urlSignApi('feed','draft_publish');
       $log.log('api1',api);
       $http.jsonp(api,{params:{fid:ebData.draft.fid}})
       .then(function(s){
@@ -190,8 +190,6 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
         }
         
         //发布成功，把草稿中的 文字、图片 清空，其余不变
-        ebData.lastGrade=ebData.draft.grade;
-        ebData.lastCourse=ebData.draft.course;
         ebData.draft.content='';//服务器在发布时也清空了
         ebData.draft.pics='';//服务器在发布时也清空了
           
@@ -239,7 +237,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
       svc.isUpdating=false;
       return;
     }
-    var api=appData.urlSignApi('exbook','draft_update');
+    var api=appData.urlSignApi('feed','draft_update');
     if(!api){
       appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
     }
@@ -270,7 +268,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
     appData.dialogData.confirmDialog('删除此条',function(){_confirmedDeleteFeed(fid)});
   }
   function _confirmedDeleteFeed(fid) {
-    var api=appData.urlSignApi('exbook','feed_delete');
+    var api=appData.urlSignApi('feed','del');
     appData.toastLoading();
     $http.jsonp(api,{params:{fid:fid}})
     .then(function(s){
@@ -297,23 +295,25 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
   }
   
   function initDraft() {
-    var api=appData.urlSignApi('exbook','draft_create');
+    var api=appData.urlSignApi('feed','draft_init');
     if(!api){
       appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
       return false;
     }
-    $http.jsonp(api, {params:{}})
+    $http.jsonp(api, {params:{app:'exbook',cat:'exbook'}})
     .then(function(s){
       var res=s.data;
       if(res.errcode > 0) {
         appData.toastMsg('Error init draft',60);
         $log.log('Error init draft',res);
         countError(1);
+        return;
       }
       if(!res.data) {
         appData.toastMsg('Error init draft data',60);
         $log.log('Error init draft data',res);
         countError(1);
+        return;
       }
       $log.log('Done init draft',res);
       ebData.draft=res.data;
