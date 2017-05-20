@@ -22,44 +22,21 @@
     </div>
   </div>
 
-  <div class="weui-cell weui-cell_select weui-cell_select-after">
+  <!-- 目前仅支持单选的数据 -->
+  <div class="weui-cell weui-cell_select weui-cell_select-after"
+  ng-repeat='cf in $ctrl.ebData.ebConfig.data_define'>
     <div class="weui-cell__hd">
-      <label for="" class="weui-label">年级</label>
+      <label for="" class="weui-label">{{cf.name}}</label>
     </div>
     <div class="weui-cell__bd">
-      <select class="weui-select" name="select_grade"
-      ng-model='$ctrl.ebData.draft.grade' 
-      ng-change="$ctrl.ebData.changeMark('grade')">
-        <option ng-repeat='(key, value) in $ctrl.ebData.ebConfig.gradeList'
+      <select class="weui-select" name="select_{{cf.column}}"
+      ng-model='$ctrl.ebData.draft[cf.column]' 
+      ng-change="$ctrl.ebData.changeMark(cf.column)">
+        <option ng-repeat='(key, value) in cf.data'
           value="{{key}}">{{value}}</option>
       </select>
     </div>
   </div>
-  <div class="weui-cell weui-cell_select weui-cell_select-after">
-    <div class="weui-cell__hd">
-      <label for="" class="weui-label">科目</label>
-    </div>
-    <div class="weui-cell__bd">
-      <select class="weui-select" name="select_course"
-      ng-model='$ctrl.ebData.draft.course'
-      ng-change="$ctrl.ebData.changeMark('course')">
-        <option ng-repeat='(key, value) in $ctrl.ebData.ebConfig.courseList'
-          value="{{key}}">{{value}}</option>
-      </select>
-    </div>
-  </div>
-  
-  <!--div class="weui-cell weui-cell_switch">
-    <div class="weui-cell__bd">匿名发表</div>
-    <div class="weui-cell__ft">
-      <input class="weui-switch" type="checkbox"  
-      ng-model='$ctrl.ebData.draft.anonymous'
-      ng-true-value="'y'"
-      ng-false-value="'n'"
-      ng-change="$ctrl.ebData.changeMark('anonymous')">
-    </div>
-  </div-->
-  
 </div>
 <div class="weui-btn-area">
   <button class="weui-btn weui-btn_primary" href="#" id="showTooltips"
