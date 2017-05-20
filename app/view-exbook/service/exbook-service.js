@@ -343,6 +343,10 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
       }
       config=d.data.data;
       ebData.ebConfig=config;
+      ebData.valueList={};
+      for(var i=config.data_define.length;i--;) {
+        ebData.valueList[config.data_define[i].column]=config.data_define[i].data;
+      }
     },function(e){
       appData.toastMsg('下载初始化数据失败');
       countError(1);
