@@ -33,11 +33,12 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     var i;
     var deferred = $q.defer();
     var fcat=feedAppCat(app,cat);
-    for(i=ebData.feedAll[fcat].length;i--; ) {
-      if(ebData.feedAll[fcat][i].fid==fid) {
-        angular.copy(ebData.feedAll[fcat][i],ebData.feedOne);//绑定到页面中，不可重赋值
-        deferred.resolve(ebData.feedAll[fcat][i]);
-        return deferred.promise;
+    if(ebData.feedAll[fcat]) {
+      for(i=ebData.feedAll[fcat].length;i--; ) {
+        if(ebData.feedAll[fcat][i].fid==fid) {//绑定到页面中，不可重赋值
+          deferred.resolve(ebData.feedAll[fcat][i]);
+          return deferred.promise;
+        }
       }
     }
     var api=appData.urlSignApi('feed','get');
@@ -56,8 +57,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
         deferred.reject(-2);
         return deferred.promise;
       }
-      angular.copy(s.data.data,ebData.feedOne);//绑定到页面中，不可重赋值
-      $log.log('GOT ebData.feedOne',ebData.feedOne);
+      
       //获取所有的 s.data.data.uid 的用户信息
       appData.userData.requireUsersInfo([s.data.data]);
       
@@ -377,7 +377,6 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   ebData.feedAppCat=feedAppCat;
   ebData.deleteFeed=deleteFeed;
   
-  ebData.feedOne={};
   ebData.feedAll={};//feedList
   ebData.usersInfo=appData.userData.usersInfo;//头像等用户信息
   ebData.newMoreLoading=false;

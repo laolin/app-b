@@ -1,16 +1,17 @@
 <div class='timeline-header'>
-    <p class="user-name" ng-if='ebData.usersInfo[ebData.feedOne.uid].wxinfo'>
-      {{ebData.usersInfo[ebData.feedOne.uid].wxinfo.nickname}}
+    <p class="user-name" ng-if='ebData.usersInfo[feed1.uid].wxinfo'>
+      {{ebData.usersInfo[feed1.uid].wxinfo.nickname}}
     </p>
-    <p class="user-name" ng-if='! ebData.usersInfo[ebData.feedOne.uid].wxinfo'>
-      {{ebData.usersInfo[ebData.feedOne.uid].uname}}
+    <p class="user-name" ng-if='! ebData.usersInfo[feed1.uid].wxinfo'>
+      {{ebData.usersInfo[feed1.uid].uname}}
     </p>
-    <img class="user-avt" ng-src="{{ebData.usersInfo[ebData.feedOne.uid].wxinfo.headimgurl}}">
+    <img class="user-avt" ng-src="{{ebData.usersInfo[feed1.uid].wxinfo.headimgurl}}">
 </div>
 <div class="weui-cells__title">&nbsp;</div>
 <div class="ebfeed-list">
-    <eb-feed app-data='appData' eb-data='ebData'
-    feed=appData.ebData.feedOne></eb-feed>
+    <eb-feed app-data='appData' feed-data='ebData'
+    feed-app='feed1.app' feed-cat='feed1.cat'
+    feed='feed1'></eb-feed>
 </div>
 
 <div class="weui-cells">
