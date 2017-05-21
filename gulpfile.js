@@ -217,6 +217,7 @@ gulp.task('copy', ['copyFonts1','copyImg'], function(){
 
 
 gulp.task('runBuild', ['html-useref','copy'], function(){
+  fs.writeFile(configObj.path.tmp+'/'+configObj.tplJsName,'//clear after build');
 });
 
 gulp.task('config-empty', function(){
