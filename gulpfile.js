@@ -56,6 +56,7 @@ var gulp = require('gulp'),
     rev = require('gulp-rev'),
     revReplace = require('gulp-rev-replace'),
     streamSeries = require('stream-series'),
+    filelist = require('gulp-filelist'),
 
     notify = require('gulp-notify'),
     //order = require('gulp-order'),
@@ -139,14 +140,13 @@ var config_appb = {
   html_debug: 'index-b.html', 
   
   //s3, 最终放到 dist 目录下的 html文件名
-  html_dist: 'index.html', 
+  html_dist: 'index0.html', 
   
   path: {
-    file_copy: '',
-    app: './app',    
-    tmp: './tmp',
+    app: 'app',    
+    tmp: 'tmp',
     
-    dist: './dist'
+    dist: 'dist'
   }
 }
 var config_exbook = {
@@ -192,14 +192,13 @@ var config_exbook = {
   html_debug: 'index.html', 
   
   //s3, 最终放到 dist 目录下的 html文件名
-  html_dist: 'index.html', 
+  html_dist: 'index0.html', 
   
   path: {
-    file_copy: '',
-    app: './app',    
-    tmp: './tmp',
+    app: 'app',    
+    tmp: 'tmp',
     
-    dist: './dist-exbook'
+    dist: 'dist-exbook'
   }
 }
 
@@ -265,6 +264,10 @@ gulp.task('wiredep', ['inject'], function() {
  *  把 css js 合并
  */
 gulp.task('html-useref',['wiredep'], function(){
+  
+  var jsFilter = filter("**/*.js", { restore: true });
+  var cssFilter = filter("**/*.css", { restore: true });
+  
     return gulp.src(configObj.path.app + '/'+configObj.html_debug)
         .pipe(useref())
         .pipe(gulpif('*.css', cleanCSS()))
@@ -273,7 +276,22 @@ gulp.task('html-useref',['wiredep'], function(){
         .pipe(rev()) 
         .pipe(revReplace()) 
         .pipe(gulpif('*.html', rename(configObj.html_dist)))
-        .pipe(gulp.dest(configObj.path.dist));
+        .pipe(gulp.dest(configObj.path.dist)) 
+      
+        .pipe(debug({title:'a1 -'})) 
+        
+        .pipe(jsFilter) 
+        .pipe(filelist('js.json',{ relative: true }))
+        .pipe(jsFilter.restore) 
+        
+        
+        .pipe(cssFilter) 
+        .pipe(filelist('css.json',{ relative: true }))
+        .pipe(cssFilter.restore)
+        
+        .pipe(gulp.dest(configObj.path.dist)) 
+      
+      
 });
 gulp.task('copyImg', function() {
     return gulp.src('app/assets/img/**/*.*')
@@ -281,10 +299,6 @@ gulp.task('copyImg', function() {
     .pipe(gulp.dest(configObj.path.dist+'/assets/img'))
 });
 
-gulp.task('copyFile', function() {
-    return gulp.src(configObj.path.file_copy)
-    .pipe(gulp.dest(configObj.path.dist))
-});
 
 //font-awesome 的字体文件
 gulp.task('copyFonts1', function() {
@@ -294,10 +308,10 @@ gulp.task('copyFonts1', function() {
 });
 
 
-//gulp.task('copy', ['copyFonts1','copyImg','copyFile']);
 gulp.task('copy', ['copyFonts1','copyImg'], function(){
-  return gulp.src(configObj.path.app + '/goto.html')
+  return gulp.src(configObj.path.app + '/app-b.loader.html')
     .pipe(htmlmin({collapseWhitespace: true,removeComments: true,minifyJS:true}))
+    .pipe(rename('index.html'))
     .pipe(gulp.dest(configObj.path.dist));
 
 });;

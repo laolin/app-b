@@ -13,6 +13,7 @@
     "gulp-clean-css": "^2.3.2",
     "gulp-concat": "^2.6.1",
     "gulp-debug": "^3.0.0",
+    "gulp-filelist": "^1.0.0",
     "gulp-filter": "^5.0.0",
     "gulp-flatten": "^0.3.1",
     "gulp-htmlmin": "^3.0.0",
