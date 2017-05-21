@@ -12,7 +12,7 @@ angular.module('appb')
 ['$log','$http','$timeout','$location','$q','AppbData','AppbCommentService',
 function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   var svc=this;
-  var feedData={draft:{}};//草稿
+  var feedData={};
   var appData=AppbData.getAppData();
   var config=false;
 
@@ -176,14 +176,17 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     return ids;
   }  
 
-  function publish() {
+  function publish(app,cat) {
     if(errorCount()>10)return;
+    var fcat=feedAppCat(app,cat);
+    var drft=feedData.draftAll[fcat];
+    if(!drft)return initDraft(app,cat);
     feedData.publishing=true;
     appData.toastLoading();
-    updateData(function(){
+    updateData(app,cat,function(){
       var api=appData.urlSignApi('feed','draft_publish');
       $log.log('api1',api);
-      $http.jsonp(api,{params:{fid:feedData.draft.fid}})
+      $http.jsonp(api,{params:{fid:drft.fid}})
       .then(function(s){
         
         if(s.data.errcode!=0) {
@@ -199,9 +202,8 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
         }
         
         //发布成功，把草稿中的 文字、图片 清空，其余不变
-        feedData.draft.content='';//服务器在发布时也清空了
-        feedData.draft.pics='';//服务器在发布时也清空了
-        var fcat=feedAppCat(feedData.draft.app,feedData.draft.cat);
+        drft.content='';//服务器在发布时也清空了
+        drft.pics='';//服务器在发布时也清空了
         $location.path( "/explore" );
         if(feedData.feedAll[fcat].length) {
           feedData.hasNewMore=true;
@@ -224,19 +226,20 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     svc.dataChanged[key]= 1;// 1表示需要更新
   }
 
-  function updateData(callback,onErr) {
+  function updateData(app,cat,callback,onErr) {
+    var deferred = $q.defer();
+    var fcat=feedAppCat(app,cat);
+
     if(svc.isUpdating) {
-      $timeout(function(){updateData(callback,onErr)},500);
-      return;
+      return $timeout(function(){return updateData(app,cat,callback,onErr)},500);
     };
     svc.isUpdating=true;
-    //$log.log('updateData',feedData.draft);
     var data={}
     var dirty=false;
     for (var attr in svc.dataChanged) {
       if(1 == svc.dataChanged[attr]) { // 1表示需要更新
         dirty=true;
-        data[attr]=feedData.draft[attr];
+        data[attr]=feedData.draftAll[fcat][attr];
         svc.dataChanged[attr]=2;//2 表示正在更新中
       }
     }
@@ -244,31 +247,35 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     if(!dirty) {
       if('function'==typeof callback)callback();
       svc.isUpdating=false;
-      return;
+      deferred.resolve(1);
+      return deferred.promise;
     }
     var api=appData.urlSignApi('feed','draft_update');
     if(!api){
       appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
     }
-    data.fid=feedData.draft.fid;
-    $http.jsonp(api, {params:data})//TODO : 出错处理
+    data.fid=feedData.draftAll[fcat].fid;
+    return $http.jsonp(api, {params:data})//TODO : 出错处理
       .then(function(s){
          for (var attr in svc.dataChanged) {
           if(2 == svc.dataChanged[attr])// 2 更新成功->0
             svc.dataChanged[attr]=0;                    
         }
-        //appData.toastMsg('draft updated',3);
         svc.isUpdating=false;
         if('function'==typeof callback)callback();
+        deferred.resolve(s);
+        return deferred.promise;
       },function(e){
         errorCount(1);
         for (var attr in svc.dataChanged) {
           if(2 == svc.dataChanged[attr])// 2 更新失败->1
             svc.dataChanged[attr]=1;                    
         }
-        appData.toastMsg('draft updated error');
+        appData.toastMsg('draft_update error');
         svc.isUpdating=false;
         if('function'==typeof onErr)onErr();
+        deferred.reject(e);
+        return deferred.promise;
       })
   }
   
@@ -305,34 +312,42 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
 
   }
   
-  function initDraft() {
+  function initDraft(app,cat) {
+    var deferred = $q.defer();
+
     var api=appData.urlSignApi('feed','draft_init');
     if(!api){
       appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
-      return false;
+      deferred.reject('requireLogin');
+      return deferred.promise;
     }
-    $http.jsonp(api, {params:{app:'exbook',cat:'exbook'}})
+    $http.jsonp(api, {params:{app:app,cat:cat}})
     .then(function(s){
       var res=s.data;
       if(res.errcode > 0) {
-        appData.toastMsg('Error init draft',60);
-        $log.log('Error init draft',res);
+        appData.toastMsg('Error init_draft',60);
+        $log.log('Error init_draft',res);
         errorCount(1);
-        return;
+        deferred.reject('Error init_draft');
+        return deferred.promise;
       }
       if(!res.data) {
-        appData.toastMsg('Error init draft data',60);
-        $log.log('Error init draft data',res);
+        appData.toastMsg('Error draft_data',60);
+        $log.log('Error draft_data',res);
         errorCount(1);
-        return;
+        deferred.reject('Error draft_data');
+        return deferred.promise;
       }
-      $log.log('Done init draft',res);
-      feedData.draft=res.data;
-      
+      $log.log('Done init_draft',res);
+      feedData.draftAll[feedAppCat(app,cat)]=res.data;
+      deferred.resolve(res.data);
+      return deferred.promise;
     },function(e){
       // error
       errorCount(1);
       $log.log('error at ExbookService-initDraft',e);
+      deferred.reject(e);
+      return deferred.promise;
     })
   }
   
@@ -377,6 +392,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   feedData.feedAppCat=feedAppCat;
   feedData.deleteFeed=deleteFeed;
   
+  feedData.draftAll={};//_draft
   feedData.feedAll={};//feedList
   feedData.usersInfo=appData.userData.usersInfo;//头像等用户信息
   feedData.newMoreLoading=false;
@@ -384,7 +400,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   feedData.hasNewMore=false;
   feedData.hasOldMore=true;
 
-  initDraft();
+  //initDraft();
   init_cfg();
 
 

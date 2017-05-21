@@ -2,13 +2,13 @@
   <div class="weui-cell">
     <div class="weui-cell__bd">
       <textarea class="weui-textarea" placeholder="不求万人怜惜，但求一人懂得。" rows="3"
-      ng-model="$ctrl.feedData.draft.content"
+      ng-model="$ctrl.feedData.draftAll[$ctrl.fcat].content"
       ng-change="$ctrl.feedData.changeMark('content')"
       maxlength='{{$ctrl.maxTextLength}}'
       ></textarea>
       <div class="weui-textarea-counter"
-      ng-if='$ctrl.feedData.draft.content.length/$ctrl.maxTextLength > 0.9'
-      ><span>{{$ctrl.feedData.draft.content.length}}</span>/{{$ctrl.maxTextLength}}</div>
+      ng-if='$ctrl.feedData.draftAll[$ctrl.fcat].content.length/$ctrl.maxTextLength > 0.9'
+      ><span>{{$ctrl.feedData.draftAll[$ctrl.fcat].content.length}}</span>/{{$ctrl.maxTextLength}}</div>
     </div>
   </div>
   <div class="weui-cell">
@@ -30,7 +30,7 @@
     </div>
     <div class="weui-cell__bd">
       <select class="weui-select" name="select_{{cf.column}}"
-      ng-model='$ctrl.feedData.draft[cf.column]' 
+      ng-model='$ctrl.feedData.draftAll[$ctrl.fcat][cf.column]' 
       ng-change="$ctrl.feedData.changeMark(cf.column)">
         <option ng-repeat='(key, value) in cf.data'
           value="{{key}}">{{value}}</option>
@@ -42,6 +42,6 @@
   <button class="weui-btn weui-btn_primary" href="#" id="showTooltips"
   ng-disabled="$ctrl.feedData.publishing"
   ng-class="{'weui-btn_disabled':$ctrl.feedData.publishing}"
-  ng-click="$ctrl.feedData.publish()">确定</button>
+  ng-click="$ctrl.feedData.publish($ctrl.feedApp,$ctrl.feedCat)">确定</button>
 </div>  
 

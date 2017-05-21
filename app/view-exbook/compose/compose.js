@@ -18,7 +18,13 @@ angular.module('exbook')
         $scope.userData=userData;
         $scope.appData=appData;
         $scope.feedData=feedData;
+        $scope.feedApp='exbook';
+        $scope.feedCat='exbook';
+        $scope.fcat=feedData.feedAppCat($scope.feedApp,$scope.feedCat);
         
+        if(!feedData.draftAll[$scope.fcat]) {
+          feedData.initDraft($scope.feedApp,$scope.feedCat);
+        }
          
         AppbData.activeHeader('exbook-back', '发布题目'); 
         AppbData.activeFooter('exbook-index');
