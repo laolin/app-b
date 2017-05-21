@@ -15,12 +15,15 @@
   <title ng-bind='pageTitle'>Welcome</title>
   <meta name="description" content="laolin's app B">
   
-  <!-- build:css assets/css/appb.css -->
+  <!-- build:css assets/css/lib.css -->
   <!-- bower:css -->
   <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
   <link rel="stylesheet" href="bower_components/swiper/dist/css/swiper.css" />
   <link rel="stylesheet" href="bower_components/weui/dist/style/weui.css" />
   <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:css assets/css/appb.css -->
   <!-- inject:css -->
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="view-exbook/exbook-timeline.css">
@@ -40,7 +43,7 @@
   
   <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
   
-  <!-- build:js assets/appb.js -->
+  <!-- build:js assets/lib.js -->
   <!-- bower:js -->
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/angular/angular.js"></script>
@@ -56,6 +59,9 @@
   <script src="bower_components/moment/locale/zh-cn.js"></script>
   <script src="bower_components/angular-moment/angular-moment.js"></script>
   <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:js assets/appb.js -->
   <!-- inject:js -->
   <script src="app-exbook.js"></script>
   <script src="modules/amap-main/amap-main.module.js"></script>
@@ -87,6 +93,14 @@
   <script src="modules/wx-login/wx-login.route.js"></script>
   <script src="view-exbook/exbook.module.js"></script>
   <script src="view-exbook/live-community/live-community.module.js"></script>
+  <script src="view-exbook/exbook/eb-feed.component.js"></script>
+  <script src="view-exbook/exbook/eb-input.component.js"></script>
+  <script src="view-exbook/exbook/eb-list-comment.component.js"></script>
+  <script src="view-exbook/exbook/eb-list-pop-action.component.js"></script>
+  <script src="view-exbook/exbook/eb-list.component.js"></script>
+  <script src="view-exbook/exbook/eb-timeline-header.component.js"></script>
+  <script src="view-exbook/exbook/exbook.js"></script>
+  <script src="view-exbook/compose/compose.js"></script>
   <script src="view-exbook/explore/explore.js"></script>
   <script src="view-exbook/live-community/live-community.component.js"></script>
   <script src="view-exbook/live-community/livec-create.js"></script>
@@ -96,14 +110,6 @@
   <script src="view-exbook/service/exbook-comment-service.js"></script>
   <script src="view-exbook/service/exbook-service.js"></script>
   <script src="view-exbook/service/exbook-tools-service.js"></script>
-  <script src="view-exbook/compose/compose.js"></script>
-  <script src="view-exbook/exbook/eb-feed.component.js"></script>
-  <script src="view-exbook/exbook/eb-input.component.js"></script>
-  <script src="view-exbook/exbook/eb-list-comment.component.js"></script>
-  <script src="view-exbook/exbook/eb-list-pop-action.component.js"></script>
-  <script src="view-exbook/exbook/eb-list.component.js"></script>
-  <script src="view-exbook/exbook/eb-timeline-header.component.js"></script>
-  <script src="view-exbook/exbook/exbook.js"></script>
   <script src="assets/js/common.js"></script>
   <script src="../tmp/tpl_exbook.js"></script>
   <!-- endinject -->
