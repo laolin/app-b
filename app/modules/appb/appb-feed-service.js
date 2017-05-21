@@ -18,21 +18,25 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
 
   appData.ebData=ebData;
   appData.ebData.cmtData=AppbCommentService.getCmtData();
-  svc.ebData=ebData;
+
   
   svc.isUpdating=false;
   svc.dataChanged={ 
     content:0,
     pics:0
   };
+  function feedAppCat(app,cat) {
+    return app+'.'+cat;
+  }
 
-  function getFeed(fid){
+  function getFeed(fid,app,cat){
     var i;
     var deferred = $q.defer();
-    for(i=ebData.feedList.length;i--; ) {
-      if(ebData.feedList[i].fid==fid) {
-        angular.copy(ebData.feedList[i],ebData.feedOne);//绑定到页面中，不可重赋值
-        deferred.resolve(1);
+    var fcat=feedAppCat(app,cat);
+    for(i=ebData.feedAll[fcat].length;i--; ) {
+      if(ebData.feedAll[fcat][i].fid==fid) {
+        angular.copy(ebData.feedAll[fcat][i],ebData.feedOne);//绑定到页面中，不可重赋值
+        deferred.resolve(ebData.feedAll[fcat][i]);
         return deferred.promise;
       }
     }
@@ -49,7 +53,8 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       if(s.data.errcode!=0) {
         errorCount(1);
         $log.log('Er:getFeed:',s.data.msg);
-        return;
+        deferred.reject(-2);
+        return deferred.promise;
       }
       angular.copy(s.data.data,ebData.feedOne);//绑定到页面中，不可重赋值
       $log.log('GOT ebData.feedOne',ebData.feedOne);
@@ -58,8 +63,11 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       
       //获取所有fid下的评论
       AppbCommentService.getComment({fids:s.data.data.fid});
-
+      deferred.resolve(s.data.data);
+      return deferred.promise;
     },function(e){
+      deferred.reject(e);
+      return deferred.promise;
     });
   }
   
@@ -80,18 +88,22 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     }
     var pdata={count:10, app:'exbook',cat:'exbook' };
     
+    var fcat=feedAppCat(pdata.app,pdata.cat);
+    if(!ebData.feedAll[fcat])
+      ebData.feedAll[fcat]=[];
+    
     // newmore 表示获取新的
     // oldmore 表示获取更多旧的
-    if(para && ebData.feedList.length) {
+    if(para && ebData.feedAll[fcat].length) {
       //规定 publish时间顺序和 fid排序都是一样的
       if(para.newMore) {
         if(ebData.newMoreLoading)return;
         ebData.newMoreLoading=true;
-        pdata.newmore=ebData.feedList[0].fid;
+        pdata.newmore=ebData.feedAll[fcat][0].fid;
       } else if( para.oldMore) {
         if(ebData.oldMoreLoading)return;
         ebData.oldMoreLoading=true;
-        pdata.oldmore=ebData.feedList[ebData.feedList.length-1].fid;
+        pdata.oldmore=ebData.feedAll[fcat][ebData.feedAll[fcat].length-1].fid;
       }
     }
     if(para && para.count) {
@@ -133,20 +145,20 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       AppbCommentService.getComment({fids:fids.join(',')});
       //
       if(pdata.oldmore) { //oldMore
-        ebData.feedList=ebData.feedList.concat(s.data.data);
+        ebData.feedAll[fcat]=ebData.feedAll[fcat].concat(s.data.data);
         ebData.oldMoreLoading=false;
       } else if(pdata.newmore) {//newMore
         //newMore 如果返回 newMoreCount，说明新的很多，
         //新内容和原来的内容在时间没连续的接上，故要扔掉旧的
         if(s.data.data.length==newMoreCount) {
-          ebData.feedList=s.data.data;
+          ebData.feedAll[fcat]=s.data.data;
         } else {
-          ebData.feedList=s.data.data.concat(ebData.feedList);
+          ebData.feedAll[fcat]=s.data.data.concat(ebData.feedAll[fcat]);
         }
         ebData.hasNewMore=false;
         ebData.newMoreLoading=false;
       } else {
-        ebData.feedList=s.data.data;
+        ebData.feedAll[fcat]=s.data.data;
       }
     },function(e){
       // error
@@ -189,9 +201,9 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
         //发布成功，把草稿中的 文字、图片 清空，其余不变
         ebData.draft.content='';//服务器在发布时也清空了
         ebData.draft.pics='';//服务器在发布时也清空了
-          
+        var fcat=feedAppCat(ebData.draft.app,ebData.draft.cat);
         $location.path( "/explore" );
-        if(ebData.feedList.length) {
+        if(ebData.feedAll[fcat].length) {
           ebData.hasNewMore=true;
           exploreFeed({newMore:1});//自动刷新新帖
         }//原先没有任何feed时,跳到/explore后会自己取，故不需要刷新新帖
@@ -261,10 +273,10 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   }
   
   //删除一条
-  function deleteFeed(fid) {
-    appData.dialogData.confirmDialog('删除此条',function(){_confirmedDeleteFeed(fid)});
+  function deleteFeed(fid,app,cat) {
+    appData.dialogData.confirmDialog('删除此条',function(){_confirmedDeleteFeed(fid,app,cat)});
   }
-  function _confirmedDeleteFeed(fid) {
+  function _confirmedDeleteFeed(fid,app,cat) {
     var api=appData.urlSignApi('feed','del');
     appData.toastLoading();
     $http.jsonp(api,{params:{fid:fid}})
@@ -276,10 +288,12 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
         return;
       }
       
+      var fcat=feedAppCat(app,cat);
+      
       //删除成功
-      for(var i=ebData.feedList.length; i--; ) {
-        if(ebData.feedList[i].fid==fid){
-          ebData.feedList.splice(i,1);
+      for(var i=ebData.feedAll[fcat].length; i--; ) {
+        if(ebData.feedAll[fcat][i].fid==fid){
+          ebData.feedAll[fcat].splice(i,1);
           //TODO: 服务器端会留下一堆无头的评论，待处理
           break;
         }
@@ -360,10 +374,11 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   ebData.updateData=updateData;
   ebData.publish=publish;
   ebData.publishing=false;
+  ebData.feedAppCat=feedAppCat;
   ebData.deleteFeed=deleteFeed;
   
   ebData.feedOne={};
-  ebData.feedList=[];
+  ebData.feedAll={};//feedList
   ebData.usersInfo=appData.userData.usersInfo;//头像等用户信息
   ebData.newMoreLoading=false;
   ebData.oldMoreLoading=false;

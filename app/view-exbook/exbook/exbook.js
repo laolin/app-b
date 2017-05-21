@@ -54,7 +54,8 @@ angular.module('exbook')
             //appData.msgBox(appData.wxShareData.link,appData.ebData.feedOne.pics);
           });
         });
-        if( !appData.ebData.feedList || !appData.ebData.feedList.length) {
+        var feeds=appData.ebData.feedAll[appData.ebData.feedAppCat('exbook','exbook')];
+        if( !feeds || !feeds.length) {
           appData.ebData.exploreFeed();
         }
 

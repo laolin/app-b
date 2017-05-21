@@ -1,8 +1,8 @@
   <div class="ebfeed-unit">
     <div class="eb-po-avt-wrap">
       <img class="eb-po-avt" ng-src="{{
-        $ctrl.ebData.usersInfo[$ctrl.feed.uid].wxinfo?
-        $ctrl.ebData.usersInfo[$ctrl.feed.uid].wxinfo.headimgurl :
+        $ctrl.feedData.usersInfo[$ctrl.feed.uid].wxinfo?
+        $ctrl.feedData.usersInfo[$ctrl.feed.uid].wxinfo.headimgurl :
         'assets/img/anonymous.png'
       }}">
     </div>
@@ -10,12 +10,12 @@
       <div class="eb-po-body">
         <div>
           <span class="eb-po-name">{{
-            $ctrl.ebData.usersInfo[$ctrl.feed.uid].wxinfo?
-            $ctrl.ebData.usersInfo[$ctrl.feed.uid].wxinfo.nickname :
-            $ctrl.ebData.usersInfo[$ctrl.feed.uid].uname
+            $ctrl.feedData.usersInfo[$ctrl.feed.uid].wxinfo?
+            $ctrl.feedData.usersInfo[$ctrl.feed.uid].wxinfo.nickname :
+            $ctrl.feedData.usersInfo[$ctrl.feed.uid].uname
           }}</span>
-          <span class="eb-po-course">&nbsp;{{$ctrl.ebData.valueList.d2[$ctrl.feed.d2]}}</span>
-          <span class="eb-po-grade">{{$ctrl.ebData.valueList.d1[$ctrl.feed.d1]}}</span>
+          <span class="eb-po-course">&nbsp;{{$ctrl.feedData.valueList.d2[$ctrl.feed.d2]}}</span>
+          <span class="eb-po-grade">{{$ctrl.feedData.valueList.d1[$ctrl.feed.d1]}}</span>
         </div>
         <div class="eb-post">
           <p>{{$ctrl.feed.content}}</p>
@@ -29,10 +29,10 @@
           </p>
         </div>
         <eb-list-pop-action
-          ng-show='$ctrl.ebData._activeAction ==$ctrl.feed.fid'
+          ng-show='$ctrl.feedData._activeAction ==$ctrl.feed.fid'
           fid='$ctrl.feed.fid'
           liking='$ctrl.amILiking[$ctrl.feed.fid]'
-          cmt-data='$ctrl.appData.ebData.cmtData'
+          cmt-data='$ctrl.feedData.cmtData'
           app-data='$ctrl.appData'
         ></eb-list-pop-action>
 
@@ -40,7 +40,7 @@
         href='#!/exbook?fid={{$ctrl.feed.fid}}'></a>
         <span class="eb-action"
           ng-if='$ctrl.feed.uid==$ctrl.appData.userData.uid'
-          ng-click='$ctrl.ebData.deleteFeed($ctrl.feed.fid)'>
+          ng-click='$ctrl.feedData.deleteFeed($ctrl.feed.fid,$ctrl.feedApp,$ctrl.feedCat)'>
           删除
         </span>
         <!--span class="eb-action" ng-if='$ctrl.feed.uid!=$ctrl.appData.userData.uid'>投诉</span-->
@@ -49,8 +49,8 @@
       </div>
       <eb-list-comment app-data='$ctrl.appData'
       fid='$ctrl.feed.fid'
-      like-data='$ctrl.ebData.cmtData.commentList[$ctrl.feed.fid+"like"]'
-      comment-data='$ctrl.ebData.cmtData.commentList[$ctrl.feed.fid+"comment"]'>
+      like-data='$ctrl.feedData.cmtData.commentList[$ctrl.feed.fid+"like"]'
+      comment-data='$ctrl.feedData.cmtData.commentList[$ctrl.feed.fid+"comment"]'>
       </eb-list-comment>
     </div>
     <div class="eb-po-clear" id='eb-feed-end-{{$ctrl.feed.fid}}'></div>

@@ -34,7 +34,10 @@ angular.module('exbook')
         
         ctrl.userData=userData;
         ctrl.appData=appData;
-        if( !appData.ebData.feedList || !appData.ebData.feedList.length) {
+        ctrl.feedApp='exbook';
+        ctrl.feedCat='exbook';
+        var feeds=appData.ebData.feedAll[appData.ebData.feedAppCat('exbook','exbook')];
+        if( !feeds || !feeds.length) {
           appData.ebData.exploreFeed();
         }
         ctrl.showNewMore=function(){

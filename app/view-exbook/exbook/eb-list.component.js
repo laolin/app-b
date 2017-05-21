@@ -5,7 +5,9 @@ angular.module('exbook')
 .component('ebList',{
   templateUrl: 'view-exbook/exbook/eb-list.component.template.html',  
   bindings: { 
-    ebData:"<",
+    feedData:"<",
+    feedApp:"<",
+    feedCat:"<",
     appData:"<"
   },
   controller: ['$log','$timeout','$interval','$scope','$document',
@@ -18,7 +20,9 @@ angular.module('exbook')
       }
       ctrl.$onDestroy=function(){
       }
-      
+      ctrl.feedAppCat=function(){
+        return ctrl.feedData.feedAppCat(ctrl.feedApp,ctrl.feedCat);
+      }
       
 
       
