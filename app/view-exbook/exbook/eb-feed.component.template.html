@@ -47,7 +47,7 @@
         <img class="eb-c-icon cur-pointer" src="assets/img/cmt.png"
         ng-click='$ctrl.showPop($ctrl.feed.fid,$event)'>
       </div>
-      <eb-list-comment app-data='$ctrl.appData'
+      <eb-list-comment app-data='$ctrl.appData' feed-data='$ctrl.feedData'
       fid='$ctrl.feed.fid'
       like-data='$ctrl.feedData.cmtData.commentList[$ctrl.feed.fid+"like"]'
       comment-data='$ctrl.feedData.cmtData.commentList[$ctrl.feed.fid+"comment"]'>

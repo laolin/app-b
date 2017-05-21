@@ -7,16 +7,16 @@
   
   <div class="weui-cells">
     <a href class="weui-cell weui-cell_link"
-    ng-if='$ctrl.ebData.hasOldMore && !$ctrl.ebData.oldMoreLoading'
-    ng-click='$ctrl.ebData.exploreFeed({oldMore:1})'>
+    ng-if='$ctrl.feedData.hasOldMore && !$ctrl.feedData.oldMoreLoading'
+    ng-click='$ctrl.feedData.exploreFeed({oldMore:1})'>
       <div class="weui-cell__bd text-center">加载更多</div>
     </a>
     <a href class="weui-cell weui-cell_link"
-    ng-if='!$ctrl.ebData.hasOldMore && !$ctrl.ebData.oldMoreLoading'>
+    ng-if='!$ctrl.feedData.hasOldMore && !$ctrl.feedData.oldMoreLoading'>
       <div class="weui-cell__bd text-center">已显示全部</div>
     </a>
     
-    <div class="weui-cell" ng-if='$ctrl.ebData.oldMoreLoading'>
+    <div class="weui-cell" ng-if='$ctrl.feedData.oldMoreLoading'>
       <div class="weui-loadmore-XX">
         <i class="weui-loading"></i>
         <span class="weui-loadmore__tips">正在加载</span>

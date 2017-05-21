@@ -8,6 +8,7 @@ angular.module('exbook')
     fid:"<",
     commentData:"=",
     likeData:"=",
+    feedData:"<",
     appData:"<"
   },
   controller: ['$log','$timeout','$interval','$http',
@@ -21,7 +22,7 @@ angular.module('exbook')
       ctrl.$onDestroy=function(){
       }
       ctrl.uname=function(uid){
-        var u=ctrl.appData.ebData.usersInfo[uid];
+        var u=ctrl.feedData.usersInfo[uid];
         if(!u)return 'uid'+uid;
         if(u.wxinfo)return u.wxinfo.nickname;
         return u.uname;
@@ -35,7 +36,7 @@ angular.module('exbook')
           //点击自己的评论时，不是回复自己，是弹出删除菜单
           ctrl.appData.menuData.showMenu([{
             text:'删除',
-            onClick:function(){ctrl.appData.ebData.cmtData.delComment(ctrl.fid,re_cid)}
+            onClick:function(){ctrl.feedData.cmtData.delComment(ctrl.fid,re_cid)}
           }],0);
           return;
         }
@@ -45,7 +46,7 @@ angular.module('exbook')
           re_cid:re_cid,
           re_uid:re_uid,
           placeholder:'回复: '+reuname,
-          onOk:ctrl.appData.ebData.cmtData.addComment
+          onOk:ctrl.feedData.cmtData.addComment
         });
       }  
       
