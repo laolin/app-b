@@ -97,110 +97,9 @@ var gulp = require('gulp'),
 
 */
 
-var config_appb = {
-  //指定templatecache生成的目录、文件名，以便合并到 useref 指定的js文件中
-  tplModule: 'appb',
-  tplHtml: [//app后马上跟两个*号，否则路径的 base 不对，模板不能用
-    './app/**/modules/**/*.template.html',
-    './app/**/view-default/**/*.template.html',
-    './app/**/view-test/**/*.template.html'],
-  tplJsName: 'tpl_appb-sys.js',
-  
-  injects: [
-    [
-      './app/app-b.js'
-    ], [
-      './app/**/modules/**/*.module.js',
-      '!./app/bower_components/**/*'
-    ], [
-      './app/**/modules/**/*.js',
-      '!./app/**/*.module.js', 
-      '!./app/bower_components/**/*'
-    ], [
-      './app/**/view-default/**/*.module.js',
-      './app/**/view-test/**/*.module.js',
-      '!./app/bower_components/**/*'
-    ], [
-      './app/**/view-default/**/*.js',
-      './app/**/view-test/**/*.js',
-      '!./app/**/*.module.js', 
-      '!./app/bower_components/**/*'
-    ], [
-      './app/assets/js/common.js',
-      "./app/assets/css/**/*.css"
-    ], [
-      "./app/view-default/**/*.css"
-    ]
-  ],
-
-  //s1,手工写的html, 给wiredep处理的文件，处理后可以调试用，可以给useref用
-  html_src: 'app-b.html', 
-  
-  //s2,可以调试用，也是给useref处理的文件名
-  html_debug: 'index-b.html', 
-  
-  //s3, 最终放到 dist 目录下的 html文件名
-  html_dist: 'index0.html', 
-  
-  path: {
-    app: 'app',    
-    tmp: 'tmp',
-    
-    dist: 'dist'
-  }
-}
-var config_exbook = {
-  //指定templatecache生成的目录、文件名，以便合并到 useref 指定的js文件中
-  tplModule: 'appb',
-  tplHtml: [//app后马上跟两个*号，否则路径的 base 不对，模板不能用
-    './app/**/modules/**/*.template.html',
-    './app/**/view-exbook/**/*.template.html'],
-  tplJsName: 'tpl_exbook.js',
-  
-  injects: [
-    [
-      './app/app-exbook.js'
-    ], [
-      './app/**/modules/**/*.module.js',
-      '!./app/bower_components/**/*'
-    ], [
-      './app/**/modules/**/*.js',
-      '!./app/**/*.module.js', 
-      '!./app/bower_components/**/*'
-    ], [
-      './app/**/view-exbook/**/*.module.js',
-      '!./app/bower_components/**/*'
-    ], [
-      './app/**/view-exbook/**/*.js',
-      '!./app/**/*.module.js', 
-      '!./app/bower_components/**/*'
-    ], [
-      './app/assets/js/common.js',
-      "./app/assets/css/**/*.css"
-    ], [
-      "./app/view-exbook/**/*.css"
-    ]
-  ],
- 
-  
-  
-  
-  //s1,手工写的html, 给ng-inject, wiredep处理的文件，处理后可以调试用，可以给useref用
-  html_src: 'app-b.html', 
-  
-  //s2,可以调试用，也是给useref处理的文件名
-  html_debug: 'index.html', 
-  
-  //s3, 最终放到 dist 目录下的 html文件名
-  html_dist: 'index0.html', 
-  
-  path: {
-    app: 'app',    
-    tmp: 'tmp',
-    
-    dist: 'dist-exbook'
-  }
-}
+var config_empty = require ( './gulpfile.app-empty.js' );
+var config_exbook = require ( './gulpfile.app-exbook.js' );
+var config_jia = require ( './gulpfile.app-jia.js' );
 
 
 // =======================================================================
@@ -309,7 +208,7 @@ gulp.task('copyFonts1', function() {
 
 
 gulp.task('copy', ['copyFonts1','copyImg'], function(){
-  return gulp.src(configObj.path.app + '/app-b.loader.html')
+  return gulp.src(configObj.path.app + '/' + configObj.html_loader)
     .pipe(htmlmin({collapseWhitespace: true,removeComments: true,minifyJS:true}))
     .pipe(rename('index.html'))
     .pipe(gulp.dest(configObj.path.dist));
@@ -320,15 +219,20 @@ gulp.task('copy', ['copyFonts1','copyImg'], function(){
 gulp.task('runBuild', ['html-useref','copy'], function(){
 });
 
-gulp.task('config-appb', function(){
-  console.log('set config to [appb]');
-  configObj =config_appb;
+gulp.task('config-empty', function(){
+  console.log('set config to [app-empty]');
+  configObj =config_empty;
 });
 gulp.task('config-exbook', function(){
-  console.log('set config to [exbook]');
+  console.log('set config to [app-exbook]');
   configObj =config_exbook;
 });
+gulp.task('config-jia', function(){
+  console.log('set config to [app-jia]');
+  configObj =config_jia;
+});
 
-gulp.task('default',['config-exbook','runBuild']);
-gulp.task('appb',['config-appb','runBuild']);
+gulp.task('default',['config-jia','runBuild']);
+gulp.task('empty',['config-empty','runBuild']);
 gulp.task('exbook',['config-exbook','runBuild']);
+gulp.task('jia',['config-jia','runBuild']);
