@@ -58,19 +58,6 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     var token=appData.userData.token;
     return AppbDataApi.userApiSign(uid,tokenid,token,api,call);
   }
-  // 签名对象对应的 queryStr, 可以直接加 & 接在 URL 的后面
-  function userApiSignQueryStr(api,call) {
-    var dat=userApiSign(api,call);
-    if(!dat)return '';
-    var str = "";
-    for (var key in dat) {
-      if (str != "") {
-          str += "&";
-      }
-      str += key + "=" + encodeURIComponent(dat[key]);
-    }
-    return str;
-  }
   
   function urlApi(api,call,para1,para2) {
     var url = appData.appCfg.apiRoot+"/"+api+"/"+call;
@@ -275,8 +262,6 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     dealWxHeadImg:AppbDataUser.dealWxHeadImg,
     
     api:AppbDataApi,
-    userApiSign:userApiSign,
-    userApiSignQueryStr:userApiSignQueryStr,
     urlApi:urlApi,
     urlSignApi:urlSignApi,
     requireLogin:requireLogin,
