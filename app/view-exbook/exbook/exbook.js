@@ -28,7 +28,7 @@ angular.module('exbook')
         });
         
         $scope.appData=appData;
-        $scope.ebData=appData.ebData;
+        $scope.feedData=appData.feedData;
 
         $scope.fid=$location.search()['fid'];
         $scope.feed1={}
@@ -38,10 +38,10 @@ angular.module('exbook')
           return;
         }
 
-        appData.ebData.getFeed($scope.fid)
+        appData.feedData.getFeed($scope.fid)
         .then(function(feed1){
           $scope.feed1=feed1;
-          $log.log('appData.ebData.getFeed DONE res=',feed1);
+          $log.log('appData.feedData.getFeed DONE res=',feed1);
           wx.ready(function () {
             appData.wxShareData.link= location.href;
             //题目内容：设为转发图文件消息的标题
@@ -56,9 +56,9 @@ angular.module('exbook')
             //appData.msgBox(appData.wxShareData.link,feed1.pics);
           });
         });
-        var feeds=appData.ebData.feedAll[appData.ebData.feedAppCat('exbook','exbook')];
+        var feeds=appData.feedData.feedAll[appData.feedData.feedAppCat('exbook','exbook')];
         if( !feeds || !feeds.length) {
-          appData.ebData.exploreFeed();
+          appData.feedData.exploreFeed();
         }
 
 

@@ -9,13 +9,13 @@
 
 <div class="weui-cells__title">我关注的</div>
 <div class="weui-cells"
-  ng-if='$ctrl.appData.ebData.hasNewMore && !$ctrl.appData.ebData.newMoreLoading'
+  ng-if='$ctrl.appData.feedData.hasNewMore && !$ctrl.appData.feedData.newMoreLoading'
   ng-click='$ctrl.showNewMore()'>
   <div class='weui-cell text-center'>
     <div class="weui-cell__bd text-center">有新内容，点此刷新</div>
   </div>
 </div>
-<div class="weui-cells" ng-if='$ctrl.appData.ebData.newMoreLoading'>
+<div class="weui-cells" ng-if='$ctrl.appData.feedData.newMoreLoading'>
   <div class="weui-cell">
     <div class="weui-loadmore">
       <i class="weui-loading"></i>
@@ -26,7 +26,7 @@
 
 
 
-<eb-list app-data='$ctrl.appData' feed-data='$ctrl.appData.ebData' feed-app='$ctrl.feedApp' feed-cat='$ctrl.feedCat'></eb-list>
+<eb-list app-data='$ctrl.appData' feed-data='$ctrl.appData.feedData' feed-app='$ctrl.feedApp' feed-cat='$ctrl.feedCat'></eb-list>
 
 </div>
 

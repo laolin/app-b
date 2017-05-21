@@ -9,14 +9,15 @@ angular.module('exbook')
       function ($scope,$timeout,$log,AppbFeedService,AppbData,AppbUiService) {
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
-        var ebData=AppbFeedService.getEbData();
+        var feedData=appData.feedData;
+        $log.log('feedData @ /compose',feedData);
         
         //要求登录，如果未登录，会自动跳转到登录界面
         appData.requireLogin();
         
         $scope.userData=userData;
         $scope.appData=appData;
-        $scope.ebData=ebData;
+        $scope.feedData=feedData;
         
          
         AppbData.activeHeader('exbook-back', '发布题目'); 
