@@ -18,157 +18,13 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   var userData=AppbDataUser.getUserData();
   var dialogData=AppbUiService.getDialogData();
 
+  var lastError={count:0,time:+new Date(),msg:''};
+
   var wxShareData ={//微信分享的显示信息
   };
-  var appData=this.appData={
-    isWeixinBrowser:(/micromessenger/i).test(navigator.userAgent),
-    clientId:'not-init-'+(+new Date()),
-    
-    /**
-     *  appData.filePath
-     *  用于直接通过URL访问API上传的文件
-     *  （通常是通过API /file/g 访问文件 ）
-     */
-    filePath: '',// see: init()
-    
-    
-    headerData:headerData,
-    footerData:footerData,
-    userData:userData,
-    setUserData:AppbDataUser.setUserData,
-    dealWxHeadImg:AppbDataUser.dealWxHeadImg,
-    
-    api:AppbDataApi,
-    userApiSign:userApiSign,
-    userApiSignQueryStr:userApiSignQueryStr,
-    urlApi:urlApi,
-    urlSignApi:urlSignApi,
-    requireLogin:requireLogin,
-
-    dialogData:dialogData,
-    setDialogData:AppbUiService.setDialogData,
-    showDialog:AppbUiService.showDialog,
-    hideDialog:AppbUiService.hideDialog,
-    msgBox:msgBox,
-    
-    toastData:AppbUiService.getToastData(),
-    toastHide:AppbUiService.toastHide,
-    toastLoading:AppbUiService.toastLoading,
-    toastDone:AppbUiService.toastDone,
-    toastMsg:AppbUiService.toastMsg,
-    
-    galleryData:AppbUiService.getGalleryData(),
-    showGallery:AppbUiService.showGallery,
-    
-    inputData:AppbUiService.getInputData(),
-    menuData:AppbUiService.getMenuData(),
-
-    wxShareData:wxShareData,//微信分享的显示信息
-    staticUrl:staticUrl,
-    appCfg:appCfg
-  }
-  init();
-
-  window.appData=appData;//export to global
-
-  //init functions
-  function init() {
-    $http.jsonp(urlApi('file','path')).then(function(d){
-      if(d.data.errcode==0) {
-        appData.filePath=appData.appCfg.apiRoot+d.data.data;
-      }
-    });
-
-    initWx();
-    initClientId();
-    //moment.changeLocale('zh-cn');
-    moment.locale('zh-cn');
-  }
-
-  function initWx() {
-    AppbDataApi.getWjSign().then(function(r){
-      var data=r.data.data;
-      if(!data) {
-        appData.msgBox('Err#'+r.data.errcode+':'+r.data.msg,'Error WxJsSign');
-        return;
-      }
-      wx.config({
-        debug: false,
-        appId: data.appId,
-        timestamp: data.timestamp,
-        nonceStr: data.nonceStr,
-        signature: data.signature,
-        jsApiList: [
-          // 所有要调用的 API 都要加到这个列表中
-          'onMenuShareTimeline',
-          'onMenuShareAppMessage',
-          'onMenuShareQQ',
-          'onMenuShareWeibo',
-          'onMenuShareQZone',
-          'startRecord',
-          'stopRecord',
-          'onVoiceRecordEnd',
-          'playVoice',
-          'pauseVoice',
-          'stopVoice',
-          'onVoicePlayEnd',
-          'uploadVoice',
-          'downloadVoice',
-          'chooseImage',
-          'previewImage',
-          'uploadImage',
-          'downloadImage',
-          'translateVoice',
-          'getNetworkType',
-          'openLocation',
-          'getLocation',
-          
-          'hideOptionMenu',
-          'showOptionMenu',
-          'hideMenuItems',
-          'showMenuItems',
-          'hideAllNonBaseMenuItem',
-          'showAllNonBaseMenuItem',
-          'closeWindow',
-          'scanQRCode',
-          'chooseWXPay'
-        ]
-      });
-      wxShareData.title= headerData.bTitle, // 分享标题
-      wxShareData.desc= appCfg.appDesc,
-      wxShareData.link= location.href;//staticUrl(),
-      wxShareData.imgUrl= appCfg.appLogo, // 分享图标
-      wxShareData.success= function () { 
-      },
-      wxShareData.cancel= function () { 
-      }
-      wx.ready(function () {
-        // 在这里调用 API
-        //================================
-        
-
-        wx.onMenuShareAppMessage( wxShareData ); 
-        wx.onMenuShareTimeline( wxShareData ); 
-      }); 
-    });
-  }
-
-  //
-  function initClientId() {
-    var saved_id= $window.localStorage.getItem(KEY_CLIENTID);
-    if(saved_id) {
-      return appData.clientId=saved_id;
-    }
-    var t1= +new Date();
-    $timeout(function(){
-      var t2= +new Date();
-      appData.clientId='APP-B-'+md5('%@&*'+$location.host()+t1+t2+Math.random());
-      $window.localStorage.setItem(KEY_CLIENTID,appData.clientId);
-    },Math.random()*10);
-    return false;
-  }
-  
-  //factory functions
+  //---------------------------------------------
+  // BEGIN: factory functions
+  //---------------------------------------------
   
   //快捷弹对话框函数
   function msgBox(content,title,b1,b2,f1,f2) {
@@ -248,10 +104,6 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     return url+'?'+str;
   }
 
-  //
-  function urlFile() {
-    
-  }
   
   /**
    *  需要用户登录的页面
@@ -264,38 +116,198 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     }
     return true;
   }
-  
-  /**
-   *  staticUrl(hash)
-   *  返回:
-   *    //当前WEB路径/goto.html?xx=xx&xx=xx&goto=hash
-   *  用于分享、支付等，固定页面地址。进入后自动跳转到指定的页面
-   *  
-   *  hash : 后续要自动转到的页面 （由goto.html实现）
-   *    例: 
-   *      `/`  会自动转到 `#!/`
-   *      `/my` 会自动转到 `#!/`
-   *      `/explore?id=5` 会自动转到 `#!/explore?id=5`
-   *   默认当前地址
-   */
-  function staticUrl(hash) {
-    if('undefined' == typeof hash) {
-      hash=location.hash.substr(2);//去年前面的 '#!'
-    }
-    hash=encodeURIComponent(hash);
-    var host=location.origin;
-    var path=location.pathname;
-    path=path.substr(0,path.lastIndexOf('/')+1);
-    var page='goto.html';
-    var search=location.search;
-    if(search)
-      search+='&goto='+hash;
-    else search='?goto='+hash;
+    
 
+
+  /**
+   *  计算出错次数，避免网络不好出错后继续频繁刷新
+   *  
+   *  n : true值  => 加一次出错
+   *  n : false值 => 直接返回出错次数
+   *  记录上次出错时间，每秒出错次数 -1
+   */
+  function errorCount(n,msg) {
+    var now=+new Date();
+    var last=lastError.time;
+    //每秒出错次数 -1
+    lastError.count -= (now-last)/1000;//js不是整数也可以 ++  不用Math.floor
+    lastError.count = Math.max(0,lastError.count);
+    if(n) {
+      lastError.count++;
+      lastError.time = now;
+      if(msg)lastError.msg=msg;
+    }
     
-    return (host+path+page+search);
+    return lastError.count;
   }
+  function errorMsg() {
+    return lastError.msg;
+  }
+  //---------------------------------------------
+  // END: factory functions
+  //---------------------------------------------
+
+  //---------------------------------------------
+  // BEGIN: init functions
+  //---------------------------------------------
+  function init() {
+    $http.jsonp(urlApi('file','path')).then(function(d){
+      if(d.data.errcode==0) {
+        appData.filePath=appData.appCfg.apiRoot+d.data.data;
+      }
+    });
+
+    initWx();
+    initClientId();
+    //moment.changeLocale('zh-cn');
+    moment.locale('zh-cn');
+  }
+
+  function initWx() {
+    AppbDataApi.getWjSign().then(function(r){
+      var data=r.data.data;
+      if(!data) {
+        appData.msgBox('Err#'+r.data.errcode+':'+r.data.msg,'Error WxJsSign');
+        return;
+      }
+      wx.config({
+        debug: false,
+        appId: data.appId,
+        timestamp: data.timestamp,
+        nonceStr: data.nonceStr,
+        signature: data.signature,
+        jsApiList: [
+          // 所有要调用的 API 都要加到这个列表中
+          'onMenuShareTimeline',
+          'onMenuShareAppMessage',
+          'onMenuShareQQ',
+          'onMenuShareWeibo',
+          'onMenuShareQZone',
+          'startRecord',
+          'stopRecord',
+          'onVoiceRecordEnd',
+          'playVoice',
+          'pauseVoice',
+          'stopVoice',
+          'onVoicePlayEnd',
+          'uploadVoice',
+          'downloadVoice',
+          'chooseImage',
+          'previewImage',
+          'uploadImage',
+          'downloadImage',
+          'translateVoice',
+          'getNetworkType',
+          'openLocation',
+          'getLocation',
+          
+          'hideOptionMenu',
+          'showOptionMenu',
+          'hideMenuItems',
+          'showMenuItems',
+          'hideAllNonBaseMenuItem',
+          'showAllNonBaseMenuItem',
+          'closeWindow',
+          'scanQRCode',
+          'chooseWXPay'
+        ]
+      });
+      wxShareData.title= headerData.bTitle, // 分享标题
+      wxShareData.desc= appCfg.appDesc,
+      wxShareData.link= location.href;
+      wxShareData.imgUrl= appCfg.appLogo, // 分享图标
+      wxShareData.success= function () { 
+      },
+      wxShareData.cancel= function () { 
+      }
+      wx.ready(function () {
+        // 在这里调用 API
+        //================================
+        
+
+        wx.onMenuShareAppMessage( wxShareData ); 
+        wx.onMenuShareTimeline( wxShareData ); 
+      }); 
+    });
+  }
+
+  //
+  function initClientId() {
+    var saved_id= $window.localStorage.getItem(KEY_CLIENTID);
+    if(saved_id) {
+      return appData.clientId=saved_id;
+    }
+    var t1= +new Date();
+    $timeout(function(){
+      var t2= +new Date();
+      appData.clientId='APP-B-'+md5('%@&*'+$location.host()+t1+t2+Math.random());
+      $window.localStorage.setItem(KEY_CLIENTID,appData.clientId);
+    },Math.random()*10);
+    return false;
+  }
+  
+
+  //---------------------------------------------
+  // END: init functions
+  //---------------------------------------------
+
+  //---------------------------------------------
+  // Run init functions:
+  //---------------------------------------------
+
+  var appData=this.appData={
+    isWeixinBrowser:(/micromessenger/i).test(navigator.userAgent),
+    clientId:'not-init-'+(+new Date()),
     
+    /**
+     *  appData.filePath
+     *  用于直接通过URL访问API上传的文件
+     *  （通常是通过API /file/g 访问文件 ）
+     */
+    filePath: '',// see: init()
+    errorCount:errorCount,
+    errorMsg:errorMsg,
+    
+    headerData:headerData,
+    footerData:footerData,
+    userData:userData,
+    setUserData:AppbDataUser.setUserData,
+    dealWxHeadImg:AppbDataUser.dealWxHeadImg,
+    
+    api:AppbDataApi,
+    userApiSign:userApiSign,
+    userApiSignQueryStr:userApiSignQueryStr,
+    urlApi:urlApi,
+    urlSignApi:urlSignApi,
+    requireLogin:requireLogin,
+
+    dialogData:dialogData,
+    setDialogData:AppbUiService.setDialogData,
+    showDialog:AppbUiService.showDialog,
+    hideDialog:AppbUiService.hideDialog,
+    msgBox:msgBox,
+    
+    toastData:AppbUiService.getToastData(),
+    toastHide:AppbUiService.toastHide,
+    toastLoading:AppbUiService.toastLoading,
+    toastDone:AppbUiService.toastDone,
+    toastMsg:AppbUiService.toastMsg,
+    
+    galleryData:AppbUiService.getGalleryData(),
+    showGallery:AppbUiService.showGallery,
+    
+    inputData:AppbUiService.getInputData(),
+    menuData:AppbUiService.getMenuData(),
+
+    wxShareData:wxShareData,//微信分享的显示信息
+    appCfg:appCfg
+  }
+  init();
+
+  window.appData=appData;//export to global
+
+//MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+
   return {
     
     getHeaderData:AppbDataHeader.getHeaderData,

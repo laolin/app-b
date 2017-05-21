@@ -7,26 +7,23 @@ var
   ERR_EB_NOTHING=202003,//获取结果为空
 
   ERR_OK=0;
-angular.module('exbook')
-.factory('ExbookService', 
-['$log','$http','$timeout','$location','$q','AppbData','ExbookCommentService','ExbookToolsService',
-function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookToolsService){
+angular.module('appb')
+.factory('AppbFeedService', 
+['$log','$http','$timeout','$location','$q','AppbData','AppbCommentService',
+function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   var svc=this;
   var ebData={draft:{}};//草稿
   var appData=AppbData.getAppData();
   var config=false;
 
   appData.ebData=ebData;
-  appData.ebData.cmtData=ExbookCommentService.getCmtData();
+  appData.ebData.cmtData=AppbCommentService.getCmtData();
   svc.ebData=ebData;
   
   svc.isUpdating=false;
   svc.dataChanged={ 
-    grade:0,
-    course:0,
     content:0,
-    pics:0,
-    anonymous:0
+    pics:0
   };
 
   function getFeed(fid){
@@ -50,17 +47,17 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
     return $http.jsonp(api, {params:{fid:fid}})
     .then(function(s){
       if(s.data.errcode!=0) {
-        countError(1);
+        errorCount(1);
         $log.log('Er:getFeed:',s.data.msg);
         return;
       }
       angular.copy(s.data.data,ebData.feedOne);//绑定到页面中，不可重赋值
       $log.log('GOT ebData.feedOne',ebData.feedOne);
       //获取所有的 s.data.data.uid 的用户信息
-      ExbookToolsService.requireUsersInfo([s.data.data]);
+      appData.userData.requireUsersInfo([s.data.data]);
       
       //获取所有fid下的评论
-      ExbookCommentService.getComment({fids:s.data.data.fid});
+      AppbCommentService.getComment({fids:s.data.data.fid});
 
     },function(e){
     });
@@ -74,7 +71,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
   function exploreFeed(para){
     //由于有自动刷新机制，所以这里允许出错次数不能太多
     //否则在网络条件不好时会过多重复调用没有效果的API
-    if(countError()>3)return;
+    if(errorCount()>3)return;
     var i;
     var api=appData.urlSignApi('feed','li');
     if(!api){
@@ -111,7 +108,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
     $http.jsonp(api, {params:pdata})
     .then(function(s){
       if(s.data.errcode!=0) {
-        countError(1);
+        errorCount(1);
         $log.log('Er:FeedList:',s.data.msg);
         if(s.data.errcode==ERR_EB_NOTHING) { 
           //appData.toastMsg('已没有更多',3);
@@ -128,12 +125,12 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
       }
       
       //获取所有的 s.data.data[i].uid 的用户信息
-      ExbookToolsService.requireUsersInfo(s.data.data);
+      appData.userData.requireUsersInfo(s.data.data);
       
       //获取所有fid下的评论
       var fids=fidList(s.data.data);
       $log.log('fids',fids);
-      ExbookCommentService.getComment({fids:fids.join(',')});
+      AppbCommentService.getComment({fids:fids.join(',')});
       //
       if(pdata.oldmore) { //oldMore
         ebData.feedList=ebData.feedList.concat(s.data.data);
@@ -153,7 +150,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
       }
     },function(e){
       // error
-      countError(1);
+      errorCount(1);
       if(pdata.newmore)ebData.newMoreLoading=false;
       if(pdata.oldmore)ebData.oldMoreLoading=false;
       $log.log('error at ExbookService-exploreFeed',e);
@@ -168,7 +165,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
   }  
 
   function publish() {
-    if(countError()>10)return;
+    if(errorCount()>10)return;
     ebData.publishing=true;
     appData.toastLoading();
     updateData(function(){
@@ -184,7 +181,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
           } else {
             appData.toastMsg('Er:publish:',s.data.errcode,s.data.msg,8);
           }
-          countError(1);
+          errorCount(1);
           ebData.publishing=false;
           return;
         }
@@ -202,11 +199,11 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
         ebData.publishing=false;
       },function(e){
         appData.toastMsg('Ejsonp:publish',8);
-        countError(1);
+        errorCount(1);
         ebData.publishing=false;
       });
     },function(){
-      countError(1);
+      errorCount(1);
       ebData.publishing=false;
     });
   }
@@ -252,7 +249,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
         svc.isUpdating=false;
         if('function'==typeof callback)callback();
       },function(e){
-        countError(1);
+        errorCount(1);
         for (var attr in svc.dataChanged) {
           if(2 == svc.dataChanged[attr])// 2 更新失败->1
             svc.dataChanged[attr]=1;                    
@@ -306,13 +303,13 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
       if(res.errcode > 0) {
         appData.toastMsg('Error init draft',60);
         $log.log('Error init draft',res);
-        countError(1);
+        errorCount(1);
         return;
       }
       if(!res.data) {
         appData.toastMsg('Error init draft data',60);
         $log.log('Error init draft data',res);
-        countError(1);
+        errorCount(1);
         return;
       }
       $log.log('Done init draft',res);
@@ -320,7 +317,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
       
     },function(e){
       // error
-      countError(1);
+      errorCount(1);
       $log.log('error at ExbookService-initDraft',e);
     })
   }
@@ -338,7 +335,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
           btn1:'OK',
           show:1
         });
-        countError(1);
+        errorCount(1);
         return;
       }
       config=d.data.data;
@@ -349,10 +346,10 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
       }
     },function(e){
       appData.toastMsg('下载初始化数据失败');
-      countError(1);
+      errorCount(1);
     });
   }
-  var countError =ExbookToolsService.countError;
+  var errorCount =appData.errorCount;
   
   //
   ebData.initDraft=initDraft;
@@ -367,7 +364,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
   
   ebData.feedOne={};
   ebData.feedList=[];
-  ebData.usersInfo=ExbookToolsService.getUsersInfoData();//头像等用户信息
+  ebData.usersInfo=appData.userData.usersInfo;//头像等用户信息
   ebData.newMoreLoading=false;
   ebData.oldMoreLoading=false;
   ebData.hasNewMore=false;
