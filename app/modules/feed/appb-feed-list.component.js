@@ -1,9 +1,9 @@
 'use strict';
 (function(){
 
-angular.module('exbook')
-.component('ebList',{
-  templateUrl: 'view-exbook/exbook/eb-list.component.template.html',  
+angular.module('appb')
+.component('appbFeedList',{
+  templateUrl: 'modules/feed/appb-feed-list.component.template.html',  
   bindings: { 
     feedData:"<",
     feedApp:"<",
