@@ -28,13 +28,13 @@
             
           </p>
         </div>
-        <eb-list-pop-action
+        <appb-feed-pop-action
           ng-show='$ctrl.feedData._activeAction ==$ctrl.feed.fid'
           fid='$ctrl.feed.fid'
           liking='$ctrl.amILiking[$ctrl.feed.fid]'
           cmt-data='$ctrl.feedData.cmtData'
           app-data='$ctrl.appData'
-        ></eb-list-pop-action>
+        ></appb-feed-pop-action>
 
         <a class="eb-time" am-time-ago='1000*$ctrl.feed.publish_at'
         href='#!/exbook?fid={{$ctrl.feed.fid}}'></a>
@@ -47,11 +47,11 @@
         <img class="eb-c-icon cur-pointer" src="assets/img/cmt.png"
         ng-click='$ctrl.showPop($ctrl.feed.fid,$event)'>
       </div>
-      <eb-list-comment app-data='$ctrl.appData' feed-data='$ctrl.feedData'
+      <appb-feed-comment app-data='$ctrl.appData' feed-data='$ctrl.feedData'
       fid='$ctrl.feed.fid'
       like-data='$ctrl.feedData.cmtData.commentList[$ctrl.feed.fid+"like"]'
       comment-data='$ctrl.feedData.cmtData.commentList[$ctrl.feed.fid+"comment"]'>
-      </eb-list-comment>
+      </appb-feed-comment>
     </div>
     <div class="eb-po-clear" id='eb-feed-end-{{$ctrl.feed.fid}}'></div>
   </div>

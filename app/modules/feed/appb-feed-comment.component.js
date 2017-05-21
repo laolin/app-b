@@ -1,9 +1,9 @@
 'use strict';
 (function(){
 
-angular.module('exbook')
-.component('ebListComment',{
-  templateUrl: 'view-exbook/exbook/eb-list-comment.component.template.html',  
+angular.module('appb')
+.component('appbFeedComment',{
+  templateUrl: 'modules/feed/appb-feed-comment.component.template.html',  
   bindings: { 
     fid:"<",
     commentData:"=",
