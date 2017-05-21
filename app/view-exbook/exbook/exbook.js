@@ -5,8 +5,8 @@ angular.module('exbook')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/exbook', {
     templateUrl: 'view-exbook/exbook/exbook.template.html',
-    controller: ['$scope','$location','$log','$q','ExbookService','AppbData',
-      function ($scope,$location,$log,$q,ExbookService,AppbData) {
+    controller: ['$scope','$location','$log','$q','AppbFeedService','AppbData',
+      function ($scope,$location,$log,$q,AppbFeedService,AppbData) {
 
         var appData=AppbData.getAppData();
         
@@ -28,34 +28,37 @@ angular.module('exbook')
         });
         
         $scope.appData=appData;
-        $scope.ebData=appData.ebData;
+        $scope.feedData=appData.feedData;
 
         $scope.fid=$location.search()['fid'];
+        $scope.feed1={}
         
         if($scope.fid<=0) {
           $location.path('/explore');
           return;
         }
 
-        appData.ebData.getFeed($scope.fid)
-        .then(function(e){
-          $log.log('appData.ebData.getFeed DONE res=',e,appData.ebData.feedOne);
+        appData.feedData.getFeed($scope.fid)
+        .then(function(feed1){
+          $scope.feed1=feed1;
+          $log.log('appData.feedData.getFeed DONE res=',feed1);
           wx.ready(function () {
             appData.wxShareData.link= location.href;
             //题目内容：设为转发图文件消息的标题
-            if(appData.ebData.feedOne.content) {
-              appData.wxShareData.title='题目:'+appData.ebData.feedOne.content;
+            if(feed1.content) {
+              appData.wxShareData.title='题目:'+feed1.content;
             }
             //如果题目有配图，设为图文消息的配图
-            if(appData.ebData.feedOne.pics) {
+            if(feed1.pics) {
               appData.wxShareData.imgUrl= appData.filePath+
-               '/'+ appData.ebData.feedOne.pics.split(',')[0];
+               '/'+ feed1.pics.split(',')[0];
             }
-            //appData.msgBox(appData.wxShareData.link,appData.ebData.feedOne.pics);
+            //appData.msgBox(appData.wxShareData.link,feed1.pics);
           });
         });
-        if( !appData.ebData.feedList || !appData.ebData.feedList.length) {
-          appData.ebData.exploreFeed();
+        var feeds=appData.feedData.feedAll[appData.feedData.feedAppCat('exbook','exbook')];
+        if( !feeds || !feeds.length) {
+          appData.feedData.exploreFeed();
         }
 
 

@@ -80,7 +80,6 @@ function($http, $window,$location,$log,$timeout,$q)
     return (userData.rights & RIGHTS_ADMIN)
   }
   
-  //TODO ExbookToolsService里的requireUsersInfo函数待取消
   /**
   *  获取数组各uid 头像图片地址
   *  输入

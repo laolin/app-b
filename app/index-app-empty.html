@@ -15,11 +15,15 @@
   <title ng-bind='pageTitle'>Welcome</title>
   <meta name="description" content="laolin's app B">
   
-  <!-- build:css assets/css/appb.css -->
+  <!-- build:css assets/css/lib.css -->
   <!-- bower:css -->
   <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="bower_components/swiper/dist/css/swiper.css" />
   <link rel="stylesheet" href="bower_components/weui/dist/style/weui.css" />
   <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:css assets/css/appb.css -->
   <!-- inject:css -->
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="view-default/appb.css">
@@ -30,45 +34,65 @@
 <body ng-controller='appbCtrl as appb'>
 
   <appb-ui-header id="main-header" header-data='appb.headerData'></appb-ui-header>
-  <div id="main-container">
-    <div ng-view><h5 class='text-center'>Loading...</h5></div>
+  <div id="main-container" ng-view>
+    <h5 class='text-center'>Loading...</h5>
   </div>
   <appb-ui-footer id="main-footer" footer-data='appb.footerData'></appb-ui-footer>
   <appb-ui-abc app-data='appb.appData'></appb-ui-abc>
   
   <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
   
-  <!-- build:js assets/appb.js -->
+  <!-- build:js assets/lib.js -->
   <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="bower_components/angular-resource/angular-resource.js"></script>
   <script src="bower_components/angular-animate/angular-animate.js"></script>
   <script src="bower_components/angular-aria/angular-aria.js"></script>
   <script src="bower_components/angular-messages/angular-messages.js"></script>
-  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/angular-touch/angular-touch.js"></script>
   <script src="bower_components/js-md5/src/md5.js"></script>
+  <script src="bower_components/swiper/dist/js/swiper.jquery.js"></script>
+  <script src="bower_components/moment/moment.js"></script>
+  <script src="bower_components/moment/locale/zh-cn.js"></script>
+  <script src="bower_components/angular-moment/angular-moment.js"></script>
   <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:js assets/appb.js -->
   <!-- inject:js -->
-  <script src="app-b.js"></script>
-  <script src="modules/wx-login/wx-login.module.js"></script>
+  <script src="app-empty.js"></script>
+  <script src="modules/amap-main/amap-main.module.js"></script>
   <script src="modules/appb/appb.module.js"></script>
+  <script src="modules/wx-login/wx-login.module.js"></script>
+  <script src="modules/amap-main/amap-main.component.js"></script>
+  <script src="modules/amap-main/amap-main.data.service.js"></script>
+  <script src="modules/appb/appb-comment-service.js"></script>
+  <script src="modules/appb/appb-data-api.service.js"></script>
+  <script src="modules/appb/appb-data-footer.service.js"></script>
+  <script src="modules/appb/appb-data-header.service.js"></script>
+  <script src="modules/appb/appb-data-user.service.js"></script>
+  <script src="modules/appb/appb-data.service.js"></script>
+  <script src="modules/appb/appb-feed-service.js"></script>
+  <script src="modules/appb/appb-log-service.js"></script>
+  <script src="modules/appb/appb.controller.js"></script>
   <script src="modules/appb-ui/appb-ui-abc.component.js"></script>
   <script src="modules/appb-ui/appb-ui-dialog.component.js"></script>
+  <script src="modules/appb-ui/appb-ui-feed-input.component.js"></script>
   <script src="modules/appb-ui/appb-ui-footer.component.js"></script>
+  <script src="modules/appb-ui/appb-ui-gallery.component.js"></script>
   <script src="modules/appb-ui/appb-ui-header.component.js"></script>
+  <script src="modules/appb-ui/appb-ui-input-bar.component.js"></script>
+  <script src="modules/appb-ui/appb-ui-on-scroll-bottom.directive.js"></script>
+  <script src="modules/appb-ui/appb-ui-panel-cell-small.js"></script>
+  <script src="modules/appb-ui/appb-ui-popmenu.component.js"></script>
   <script src="modules/appb-ui/appb-ui-service.js"></script>
   <script src="modules/appb-ui/appb-ui-toast.component.js"></script>
   <script src="modules/appb-ui/appb-ui-uploader.component.js"></script>
   <script src="modules/wx-login/wx-login-auth.component.js"></script>
   <script src="modules/wx-login/wx-login-callback.component.js"></script>
   <script src="modules/wx-login/wx-login.route.js"></script>
-  <script src="modules/appb/appb-data-api.service.js"></script>
-  <script src="modules/appb/appb-data-footer.service.js"></script>
-  <script src="modules/appb/appb-data-header.service.js"></script>
-  <script src="modules/appb/appb-data-user.service.js"></script>
-  <script src="modules/appb/appb-data.service.js"></script>
-  <script src="modules/appb/appb.controller.js"></script>
   <script src="view-default/default/default.module.js"></script>
   <script src="view-test/test/test.module.js"></script>
   <script src="view-default/default/default-search.js"></script>
@@ -78,7 +102,7 @@
   <script src="view-test/test/test-2.js"></script>
   <script src="view-test/test/test-3.js"></script>
   <script src="assets/js/common.js"></script>
-  <script src="../tmp/tpl_appb-sys.js"></script>
+  <script src="../tmp/tpl_app-empty.js"></script>
   <!-- endinject -->
   <!-- endbuild -->
   

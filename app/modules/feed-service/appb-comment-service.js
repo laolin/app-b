@@ -9,13 +9,14 @@ var
   ERR_EBC_INVALID=203502,//类型内容无效
 
   ERR_OK=0;
-angular.module('exbook')
-.factory('ExbookCommentService', 
-['$log','$http','$timeout','$location','AppbData','ExbookToolsService',
-function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
+angular.module('appb')
+.factory('AppbCommentService', 
+['$log','$http','$timeout','$location','AppbData',
+function ($log,$http,$timeout,$location,AppbData){
   var svc=this;
   var cmtData={};
   var appData=AppbData.getAppData();
+  var userData=appData.userData;
   var config=false;
 
   svc.cmtData=cmtData;
@@ -44,7 +45,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
   }
   
   function _addCommentOrLike(fid,type,obj) {
-    if(countError()>10)return;
+    if(errorCount()>10)return;
     if(cmtData.likePublishing)return;
     cmtData.likePublishing=true;
     //appData.toastLoading();
@@ -61,7 +62,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
         } else {
           appData.toastMsg('Er:ebcomment:',s.data.errcode,s.data.msg,8);
         }
-        countError(1);
+        errorCount(1);
         cmtData.likePublishing=false;
         return;
       }
@@ -72,7 +73,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
       cmtData.likePublishing=false;
     },function(e){
       appData.toastMsg('Ejsonp:ebcomment',8);
-      countError(1);
+      errorCount(1);
       cmtData.likePublishing=false;
     });
   
@@ -124,7 +125,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
       }
     },function(e){
       appData.toastMsg('Ejsonp:del c',8);
-      countError(1);
+      errorCount(1);
     });
   }
   
@@ -136,7 +137,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
    *  para.fids=[x,x,x,...]
    */
   function getComment(para){
-    if(countError()>10) {
+    if(errorCount()>10) {
       $log.log('Too many errors @getComment');
       return;
     }
@@ -175,7 +176,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
           //s1，没有更多的评论，才算完成
           return;
         }
-        countError(1);
+        errorCount(1);
         //s2，有错等几秒重试
         $timeout(function(){getComment(para)},8000);
         return;
@@ -203,7 +204,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
       }
 
       //获取所有 需要 的用户信息
-      ExbookToolsService.requireUsersInfo(rquids);
+      userData.requireUsersInfo(rquids);
       
       //s3，没有错，返回满页，也要继续取下一页评论
       if(pdata.count == s.data.data.length) {
@@ -214,7 +215,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
       }
     },function(e){
       // error
-      countError(1);
+      errorCount(1);
       //s4，有错等几秒重试
       $timeout(function(){getComment(para)},8000);
       $log.log('error at getComment',e);
@@ -222,7 +223,7 @@ function ($log,$http,$timeout,$location,AppbData,ExbookToolsService){
   }
   
   
-  var countError =ExbookToolsService.countError;
+  var errorCount =appData.errorCount;
 
   
   //

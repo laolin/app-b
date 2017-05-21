@@ -7,36 +7,38 @@ var
   ERR_EB_NOTHING=202003,//获取结果为空
 
   ERR_OK=0;
-angular.module('exbook')
-.factory('ExbookService', 
-['$log','$http','$timeout','$location','$q','AppbData','ExbookCommentService','ExbookToolsService',
-function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookToolsService){
+angular.module('appb')
+.factory('AppbFeedService', 
+['$log','$http','$timeout','$location','$q','AppbData','AppbCommentService',
+function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   var svc=this;
-  var ebData={draft:{}};//草稿
+  var feedData={};
   var appData=AppbData.getAppData();
   var config=false;
 
-  appData.ebData=ebData;
-  appData.ebData.cmtData=ExbookCommentService.getCmtData();
-  svc.ebData=ebData;
+  appData.feedData=feedData;
+  appData.feedData.cmtData=AppbCommentService.getCmtData();
+
   
   svc.isUpdating=false;
   svc.dataChanged={ 
-    grade:0,
-    course:0,
     content:0,
-    pics:0,
-    anonymous:0
+    pics:0
   };
+  function feedAppCat(app,cat) {
+    return app+'.'+cat;
+  }
 
-  function getFeed(fid){
+  function getFeed(fid,app,cat){
     var i;
     var deferred = $q.defer();
-    for(i=ebData.feedList.length;i--; ) {
-      if(ebData.feedList[i].fid==fid) {
-        angular.copy(ebData.feedList[i],ebData.feedOne);//绑定到页面中，不可重赋值
-        deferred.resolve(1);
-        return deferred.promise;
+    var fcat=feedAppCat(app,cat);
+    if(feedData.feedAll[fcat]) {
+      for(i=feedData.feedAll[fcat].length;i--; ) {
+        if(feedData.feedAll[fcat][i].fid==fid) {//绑定到页面中，不可重赋值
+          deferred.resolve(feedData.feedAll[fcat][i]);
+          return deferred.promise;
+        }
       }
     }
     var api=appData.urlSignApi('feed','get');
@@ -50,19 +52,22 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
     return $http.jsonp(api, {params:{fid:fid}})
     .then(function(s){
       if(s.data.errcode!=0) {
-        countError(1);
+        errorCount(1);
         $log.log('Er:getFeed:',s.data.msg);
-        return;
+        deferred.reject(-2);
+        return deferred.promise;
       }
-      angular.copy(s.data.data,ebData.feedOne);//绑定到页面中，不可重赋值
-      $log.log('GOT ebData.feedOne',ebData.feedOne);
+      
       //获取所有的 s.data.data.uid 的用户信息
-      ExbookToolsService.requireUsersInfo([s.data.data]);
+      appData.userData.requireUsersInfo([s.data.data]);
       
       //获取所有fid下的评论
-      ExbookCommentService.getComment({fids:s.data.data.fid});
-
+      AppbCommentService.getComment({fids:s.data.data.fid});
+      deferred.resolve(s.data.data);
+      return deferred.promise;
     },function(e){
+      deferred.reject(e);
+      return deferred.promise;
     });
   }
   
@@ -74,7 +79,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
   function exploreFeed(para){
     //由于有自动刷新机制，所以这里允许出错次数不能太多
     //否则在网络条件不好时会过多重复调用没有效果的API
-    if(countError()>3)return;
+    if(errorCount()>3)return;
     var i;
     var api=appData.urlSignApi('feed','li');
     if(!api){
@@ -83,18 +88,22 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
     }
     var pdata={count:10, app:'exbook',cat:'exbook' };
     
+    var fcat=feedAppCat(pdata.app,pdata.cat);
+    if(!feedData.feedAll[fcat])
+      feedData.feedAll[fcat]=[];
+    
     // newmore 表示获取新的
     // oldmore 表示获取更多旧的
-    if(para && ebData.feedList.length) {
+    if(para && feedData.feedAll[fcat].length) {
       //规定 publish时间顺序和 fid排序都是一样的
       if(para.newMore) {
-        if(ebData.newMoreLoading)return;
-        ebData.newMoreLoading=true;
-        pdata.newmore=ebData.feedList[0].fid;
+        if(feedData.newMoreLoading)return;
+        feedData.newMoreLoading=true;
+        pdata.newmore=feedData.feedAll[fcat][0].fid;
       } else if( para.oldMore) {
-        if(ebData.oldMoreLoading)return;
-        ebData.oldMoreLoading=true;
-        pdata.oldmore=ebData.feedList[ebData.feedList.length-1].fid;
+        if(feedData.oldMoreLoading)return;
+        feedData.oldMoreLoading=true;
+        pdata.oldmore=feedData.feedAll[fcat][feedData.feedAll[fcat].length-1].fid;
       }
     }
     if(para && para.count) {
@@ -111,51 +120,51 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
     $http.jsonp(api, {params:pdata})
     .then(function(s){
       if(s.data.errcode!=0) {
-        countError(1);
+        errorCount(1);
         $log.log('Er:FeedList:',s.data.msg);
         if(s.data.errcode==ERR_EB_NOTHING) { 
           //appData.toastMsg('已没有更多',3);
           if(pdata.newmore) {
-            ebData.hasNewMore=false;
+            feedData.hasNewMore=false;
           }
           if(pdata.oldmore) {
-            ebData.hasOldMore=false;
+            feedData.hasOldMore=false;
           }
         }
-        if(pdata.newmore) ebData.newMoreLoading=false;
-        if(pdata.oldmore) ebData.oldMoreLoading=false;
+        if(pdata.newmore) feedData.newMoreLoading=false;
+        if(pdata.oldmore) feedData.oldMoreLoading=false;
         return;
       }
       
       //获取所有的 s.data.data[i].uid 的用户信息
-      ExbookToolsService.requireUsersInfo(s.data.data);
+      appData.userData.requireUsersInfo(s.data.data);
       
       //获取所有fid下的评论
       var fids=fidList(s.data.data);
       $log.log('fids',fids);
-      ExbookCommentService.getComment({fids:fids.join(',')});
+      AppbCommentService.getComment({fids:fids.join(',')});
       //
       if(pdata.oldmore) { //oldMore
-        ebData.feedList=ebData.feedList.concat(s.data.data);
-        ebData.oldMoreLoading=false;
+        feedData.feedAll[fcat]=feedData.feedAll[fcat].concat(s.data.data);
+        feedData.oldMoreLoading=false;
       } else if(pdata.newmore) {//newMore
         //newMore 如果返回 newMoreCount，说明新的很多，
         //新内容和原来的内容在时间没连续的接上，故要扔掉旧的
         if(s.data.data.length==newMoreCount) {
-          ebData.feedList=s.data.data;
+          feedData.feedAll[fcat]=s.data.data;
         } else {
-          ebData.feedList=s.data.data.concat(ebData.feedList);
+          feedData.feedAll[fcat]=s.data.data.concat(feedData.feedAll[fcat]);
         }
-        ebData.hasNewMore=false;
-        ebData.newMoreLoading=false;
+        feedData.hasNewMore=false;
+        feedData.newMoreLoading=false;
       } else {
-        ebData.feedList=s.data.data;
+        feedData.feedAll[fcat]=s.data.data;
       }
     },function(e){
       // error
-      countError(1);
-      if(pdata.newmore)ebData.newMoreLoading=false;
-      if(pdata.oldmore)ebData.oldMoreLoading=false;
+      errorCount(1);
+      if(pdata.newmore)feedData.newMoreLoading=false;
+      if(pdata.oldmore)feedData.oldMoreLoading=false;
       $log.log('error at ExbookService-exploreFeed',e);
     })
   }
@@ -167,14 +176,17 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
     return ids;
   }  
 
-  function publish() {
-    if(countError()>10)return;
-    ebData.publishing=true;
+  function publish(app,cat) {
+    if(errorCount()>10)return;
+    var fcat=feedAppCat(app,cat);
+    var drft=feedData.draftAll[fcat];
+    if(!drft)return initDraft(app,cat);
+    feedData.publishing=true;
     appData.toastLoading();
-    updateData(function(){
+    updateData(app,cat,function(){
       var api=appData.urlSignApi('feed','draft_publish');
       $log.log('api1',api);
-      $http.jsonp(api,{params:{fid:ebData.draft.fid}})
+      $http.jsonp(api,{params:{fid:drft.fid}})
       .then(function(s){
         
         if(s.data.errcode!=0) {
@@ -184,30 +196,29 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
           } else {
             appData.toastMsg('Er:publish:',s.data.errcode,s.data.msg,8);
           }
-          countError(1);
-          ebData.publishing=false;
+          errorCount(1);
+          feedData.publishing=false;
           return;
         }
         
         //发布成功，把草稿中的 文字、图片 清空，其余不变
-        ebData.draft.content='';//服务器在发布时也清空了
-        ebData.draft.pics='';//服务器在发布时也清空了
-          
+        drft.content='';//服务器在发布时也清空了
+        drft.pics='';//服务器在发布时也清空了
         $location.path( "/explore" );
-        if(ebData.feedList.length) {
-          ebData.hasNewMore=true;
+        if(feedData.feedAll[fcat].length) {
+          feedData.hasNewMore=true;
           exploreFeed({newMore:1});//自动刷新新帖
         }//原先没有任何feed时,跳到/explore后会自己取，故不需要刷新新帖
         appData.toastDone(1);
-        ebData.publishing=false;
+        feedData.publishing=false;
       },function(e){
         appData.toastMsg('Ejsonp:publish',8);
-        countError(1);
-        ebData.publishing=false;
+        errorCount(1);
+        feedData.publishing=false;
       });
     },function(){
-      countError(1);
-      ebData.publishing=false;
+      errorCount(1);
+      feedData.publishing=false;
     });
   }
   
@@ -215,19 +226,20 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
     svc.dataChanged[key]= 1;// 1表示需要更新
   }
 
-  function updateData(callback,onErr) {
+  function updateData(app,cat,callback,onErr) {
+    var deferred = $q.defer();
+    var fcat=feedAppCat(app,cat);
+
     if(svc.isUpdating) {
-      $timeout(function(){updateData(callback,onErr)},500);
-      return;
+      return $timeout(function(){return updateData(app,cat,callback,onErr)},500);
     };
     svc.isUpdating=true;
-    //$log.log('updateData',ebData.draft);
     var data={}
     var dirty=false;
     for (var attr in svc.dataChanged) {
       if(1 == svc.dataChanged[attr]) { // 1表示需要更新
         dirty=true;
-        data[attr]=ebData.draft[attr];
+        data[attr]=feedData.draftAll[fcat][attr];
         svc.dataChanged[attr]=2;//2 表示正在更新中
       }
     }
@@ -235,39 +247,43 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
     if(!dirty) {
       if('function'==typeof callback)callback();
       svc.isUpdating=false;
-      return;
+      deferred.resolve(1);
+      return deferred.promise;
     }
     var api=appData.urlSignApi('feed','draft_update');
     if(!api){
       appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
     }
-    data.fid=ebData.draft.fid;
-    $http.jsonp(api, {params:data})//TODO : 出错处理
+    data.fid=feedData.draftAll[fcat].fid;
+    return $http.jsonp(api, {params:data})//TODO : 出错处理
       .then(function(s){
          for (var attr in svc.dataChanged) {
           if(2 == svc.dataChanged[attr])// 2 更新成功->0
             svc.dataChanged[attr]=0;                    
         }
-        //appData.toastMsg('draft updated',3);
         svc.isUpdating=false;
         if('function'==typeof callback)callback();
+        deferred.resolve(s);
+        return deferred.promise;
       },function(e){
-        countError(1);
+        errorCount(1);
         for (var attr in svc.dataChanged) {
           if(2 == svc.dataChanged[attr])// 2 更新失败->1
             svc.dataChanged[attr]=1;                    
         }
-        appData.toastMsg('draft updated error');
+        appData.toastMsg('draft_update error');
         svc.isUpdating=false;
         if('function'==typeof onErr)onErr();
+        deferred.reject(e);
+        return deferred.promise;
       })
   }
   
   //删除一条
-  function deleteFeed(fid) {
-    appData.dialogData.confirmDialog('删除此条',function(){_confirmedDeleteFeed(fid)});
+  function deleteFeed(fid,app,cat) {
+    appData.dialogData.confirmDialog('删除此条',function(){_confirmedDeleteFeed(fid,app,cat)});
   }
-  function _confirmedDeleteFeed(fid) {
+  function _confirmedDeleteFeed(fid,app,cat) {
     var api=appData.urlSignApi('feed','del');
     appData.toastLoading();
     $http.jsonp(api,{params:{fid:fid}})
@@ -279,10 +295,12 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
         return;
       }
       
+      var fcat=feedAppCat(app,cat);
+      
       //删除成功
-      for(var i=ebData.feedList.length; i--; ) {
-        if(ebData.feedList[i].fid==fid){
-          ebData.feedList.splice(i,1);
+      for(var i=feedData.feedAll[fcat].length; i--; ) {
+        if(feedData.feedAll[fcat][i].fid==fid){
+          feedData.feedAll[fcat].splice(i,1);
           //TODO: 服务器端会留下一堆无头的评论，待处理
           break;
         }
@@ -294,34 +312,42 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
 
   }
   
-  function initDraft() {
+  function initDraft(app,cat) {
+    var deferred = $q.defer();
+
     var api=appData.urlSignApi('feed','draft_init');
     if(!api){
       appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
-      return false;
+      deferred.reject('requireLogin');
+      return deferred.promise;
     }
-    $http.jsonp(api, {params:{app:'exbook',cat:'exbook'}})
+    $http.jsonp(api, {params:{app:app,cat:cat}})
     .then(function(s){
       var res=s.data;
       if(res.errcode > 0) {
-        appData.toastMsg('Error init draft',60);
-        $log.log('Error init draft',res);
-        countError(1);
-        return;
+        appData.toastMsg('Error init_draft',60);
+        $log.log('Error init_draft',res);
+        errorCount(1);
+        deferred.reject('Error init_draft');
+        return deferred.promise;
       }
       if(!res.data) {
-        appData.toastMsg('Error init draft data',60);
-        $log.log('Error init draft data',res);
-        countError(1);
-        return;
+        appData.toastMsg('Error draft_data',60);
+        $log.log('Error draft_data',res);
+        errorCount(1);
+        deferred.reject('Error draft_data');
+        return deferred.promise;
       }
-      $log.log('Done init draft',res);
-      ebData.draft=res.data;
-      
+      $log.log('Done init_draft',res);
+      feedData.draftAll[feedAppCat(app,cat)]=res.data;
+      deferred.resolve(res.data);
+      return deferred.promise;
     },function(e){
       // error
-      countError(1);
+      errorCount(1);
       $log.log('error at ExbookService-initDraft',e);
+      deferred.reject(e);
+      return deferred.promise;
     })
   }
   
@@ -338,47 +364,48 @@ function ($log,$http,$timeout,$location,$q,AppbData,ExbookCommentService,ExbookT
           btn1:'OK',
           show:1
         });
-        countError(1);
+        errorCount(1);
         return;
       }
       config=d.data.data;
-      ebData.ebConfig=config;
-      ebData.valueList={};
+      feedData.ebConfig=config;
+      feedData.valueList={};
       for(var i=config.data_define.length;i--;) {
-        ebData.valueList[config.data_define[i].column]=config.data_define[i].data;
+        feedData.valueList[config.data_define[i].column]=config.data_define[i].data;
       }
     },function(e){
       appData.toastMsg('下载初始化数据失败');
-      countError(1);
+      errorCount(1);
     });
   }
-  var countError =ExbookToolsService.countError;
+  var errorCount =appData.errorCount;
   
   //
-  ebData.initDraft=initDraft;
-  ebData.getFeed=getFeed;
-  ebData.exploreFeed=exploreFeed;
+  feedData.initDraft=initDraft;
+  feedData.getFeed=getFeed;
+  feedData.exploreFeed=exploreFeed;
   //更新、发布相关：
-  ebData.changeMark=changeMark;
-  ebData.updateData=updateData;
-  ebData.publish=publish;
-  ebData.publishing=false;
-  ebData.deleteFeed=deleteFeed;
+  feedData.changeMark=changeMark;
+  feedData.updateData=updateData;
+  feedData.publish=publish;
+  feedData.publishing=false;
+  feedData.feedAppCat=feedAppCat;
+  feedData.deleteFeed=deleteFeed;
   
-  ebData.feedOne={};
-  ebData.feedList=[];
-  ebData.usersInfo=ExbookToolsService.getUsersInfoData();//头像等用户信息
-  ebData.newMoreLoading=false;
-  ebData.oldMoreLoading=false;
-  ebData.hasNewMore=false;
-  ebData.hasOldMore=true;
+  feedData.draftAll={};//_draft
+  feedData.feedAll={};//feedList
+  feedData.usersInfo=appData.userData.usersInfo;//头像等用户信息
+  feedData.newMoreLoading=false;
+  feedData.oldMoreLoading=false;
+  feedData.hasNewMore=false;
+  feedData.hasOldMore=true;
 
-  initDraft();
+  //initDraft();
   init_cfg();
 
 
   return {
-    getEbData:function(){return ebData}
+    getFeedData:function(){return feedData}
   }
          
 }]);

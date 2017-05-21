@@ -5,8 +5,8 @@ angular.module('exbook')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/my', {
     templateUrl: 'view-exbook/my/my.template.html',
-    controller: ['$scope','$timeout','$log','ExbookService','AppbData','AppbUiService','AmapMainData',
-      function ($scope,$timeout,$log,ExbookService,AppbData,AppbUiService,AmapMainData) {
+    controller: ['$scope','$timeout','$log','AppbFeedService','AppbData','AppbUiService','AmapMainData',
+      function ($scope,$timeout,$log,AppbFeedService,AppbData,AppbUiService,AmapMainData) {
 
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();

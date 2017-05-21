@@ -5,8 +5,8 @@ angular.module('exbook')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/explore', {
     templateUrl: 'view-exbook/explore/explore.template.html',
-    controller: ['$scope','$http','$log','ExbookService','AppbData',
-      function ($scope,$http,$log,ExbookService,AppbData) {
+    controller: ['$scope','$http','$log','AppbFeedService','AppbData',
+      function ($scope,$http,$log,AppbFeedService,AppbData) {
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
         AppbData.activeHeader('exbook-home', '发现'); 
@@ -34,15 +34,18 @@ angular.module('exbook')
         
         ctrl.userData=userData;
         ctrl.appData=appData;
-        if( !appData.ebData.feedList || !appData.ebData.feedList.length) {
-          appData.ebData.exploreFeed();
+        ctrl.feedApp='exbook';
+        ctrl.feedCat='exbook';
+        var feeds=appData.feedData.feedAll[appData.feedData.feedAppCat('exbook','exbook')];
+        if( !feeds || !feeds.length) {
+          appData.feedData.exploreFeed();
         }
         ctrl.showNewMore=function(){
-            appData.ebData.exploreFeed({newMore:1});
+            appData.feedData.exploreFeed({newMore:1});
         }
         ctrl.showOldMore=function(){
-          if(appData.ebData.hasOldMore)
-            appData.ebData.exploreFeed({oldMore:1});
+          if(appData.feedData.hasOldMore)
+            appData.feedData.exploreFeed({oldMore:1});
         }
 
         

@@ -1,11 +1,13 @@
 'use strict';
 (function(){
 
-angular.module('exbook')
-.component('ebFeed',{
-  templateUrl: 'view-exbook/exbook/eb-feed.component.template.html',  
+angular.module('appb')
+.component('appbFeed',{
+  templateUrl: 'modules/feed/appb-feed.component.template.html',  
   bindings: { 
-    ebData:"<",
+    feedData:"<",
+    feedApp:"<",
+    feedCat:"<",
     feed:"<",
     appData:"<"
   },
@@ -29,7 +31,7 @@ angular.module('exbook')
       
       //动态计算是否点过赞
       ctrl.isLiked=function(fid){
-        var likes=ctrl.ebData.cmtData.commentList[fid+'like'];
+        var likes=ctrl.feedData.cmtData.commentList[fid+'like'];
         if(!likes)return ctrl.amILiking[fid]=false;
         for(var i=likes.length;i--; ) {
           if(ctrl.appData.userData.uid==likes[i].uid)
@@ -39,7 +41,7 @@ angular.module('exbook')
       }
      
       ctrl.hidePop=function(){
-        ctrl.ebData._activeAction=-1;
+        ctrl.feedData._activeAction=-1;
         $timeout(function(){ },2);// for => $scope.$apply()
         $document
           .off('ontouchend', ctrl.hidePop)
@@ -48,10 +50,10 @@ angular.module('exbook')
       ctrl.showPop=function(fid,$event){
         $event.stopPropagation();
         ctrl.isLiked(fid);//需要动态计算，因为可能在显示后点过赞
-        if(ctrl.ebData._activeAction==fid){
+        if(ctrl.feedData._activeAction==fid){
           ctrl.hidePop();
         } else {
-          ctrl.ebData._activeAction=fid;
+          ctrl.feedData._activeAction=fid;
           $document
             .on('ontouchend', ctrl.hidePop)
             .on('click', ctrl.hidePop);

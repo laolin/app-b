@@ -1,9 +1,9 @@
 'use strict';
 (function(){
 
-angular.module('exbook')
-.component('ebListPopAction',{
-  templateUrl: 'view-exbook/exbook/eb-list-pop-action.component.template.html',  
+angular.module('appb')
+.component('appbFeedPopAction',{
+  templateUrl: 'modules/feed/appb-feed-pop-action.component.template.html',  
   bindings: { 
     fid:"<",
     liking:"<",
