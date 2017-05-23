@@ -1,0 +1,17 @@
+<div class='timeline-header'>
+    <p class="user-name" ng-if='feedData.usersInfo[feed1.uid].wxinfo'>
+      {{feedData.usersInfo[feed1.uid].wxinfo.nickname}}
+    </p>
+    <p class="user-name" ng-if='! feedData.usersInfo[feed1.uid].wxinfo'>
+      {{feedData.usersInfo[feed1.uid].uname}}
+    </p>
+    <img class="user-avt" ng-src="{{feedData.usersInfo[feed1.uid].wxinfo.headimgurl}}">
+</div>
+<div class="weui-cells__title">&nbsp;</div>
+
+<div class="weui-cells">
+  <a class="weui-cell weui-cell_link" href='#!/explore'>
+    <div class="weui-cell__bd text-center">我要预约</div>
+  </a>
+</div>
+

@@ -1,0 +1,136 @@
+<div class="weui-cells__title"></div>
+
+<div class='text-center' ng-if='! $ctrl.userData.token'>
+  请<a href="#!/wx-login">登录</a>
+</div>
+<div class="weui-panel weui-panel_access" ng-if='$ctrl.userData.token'>
+  <div class="weui-panel__bd">
+    <a href class="weui-media-box weui-media-box_appmsg"
+    ng-swipe-left='$ctrl.swipeLeft()'
+    ng-swipe-right='$ctrl.swipeRight()'>
+      <div class="weui-media-box__hd">
+        <img class="weui-media-box__thumb" ng-src="{{$ctrl.userData.wxinfo.headimgurl}}" alt="">
+      </div>
+      <div class="weui-media-box__bd">
+        <h4 class="weui-media-box__title">
+          <span ng-if='$ctrl.userData.wxinfo'>
+            {{$ctrl.userData.wxinfo.nickname}}
+          </span>
+          <span ng-if='! $ctrl.userData.wxinfo'>
+            {{$ctrl.userData.uname}}
+          </span>
+        </h4>
+        <p class="weui-media-box__desc">如有显示异常，可在此向右滑动重登录试试</p>
+      </div>
+    </a>
+  </div>
+
+</div>
+
+<div class="weui-panel" ng-if='1'>
+  <div class="weui-panel__bd">
+    <div class="weui-media-box weui-media-box_small-appmsg">
+      <div class="weui-cells">
+        <appb-ui-panel-cell-small icon='university' url='/my' text='我的订单' >
+        </appb-ui-panel-cell-small>
+        <appb-ui-panel-cell-small icon='gift' url='/my' text='我的积分' >
+        </appb-ui-panel-cell-small>
+        <appb-ui-panel-cell-small icon='comments' url='/my' text='我的评论' >
+        </appb-ui-panel-cell-small>
+        <appb-ui-panel-cell-small icon='envelope' url='/my' text='我的消息' >
+        </appb-ui-panel-cell-small>
+        <appb-ui-panel-cell-small icon='id-card' url='/my' text='我的资料' >
+        </appb-ui-panel-cell-small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="weui-panel"
+ng-if='$ctrl.userData.isAdmin()'>
+  <div class="weui-panel__hd">管理功能1</div>
+  <div class="weui-panel__bd">
+    <div class="weui-media-box weui-media-box_small-appmsg">
+      <div class="weui-cells">
+        <appb-ui-panel-cell-small icon='check-circle'
+          url='/my'
+          text='订单审核'
+        ></appb-ui-panel-cell-small>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="weui-panel"
+ng-if='$ctrl.userData.isAdmin()'>
+  <div class="weui-panel__hd">管理功能2</div>
+  <div class="weui-panel__bd">
+    <div class="weui-media-box weui-media-box_small-appmsg">
+      <div class="weui-cells">
+        <appb-ui-panel-cell-small icon='puzzle-piece'
+          url='/my'
+          text='创建服务'
+        ></appb-ui-panel-cell-small>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="weui-panel"
+ng-if='$ctrl.userData.isAdmin()'>
+  <div class="weui-panel__hd">管理员-统计</div>
+  <div class="weui-panel__bd">
+    <div class="weui-media-box weui-media-box_small-appmsg">
+      <div class="weui-cells">
+        <appb-ui-panel-cell-small icon='university'
+          url='/log-analy-user-activity?hour=2'
+          text='用户活跃度（2小时）'
+        ></appb-ui-panel-cell-small>
+        <appb-ui-panel-cell-small icon='university'
+          url='/log-analy-user-activity?hour=6' 
+          text='用户活跃度（6小时）'
+        ></appb-ui-panel-cell-small>
+        <appb-ui-panel-cell-small icon='university'
+          url='/log-analy-user-activity?hour=12' 
+          text='用户活跃度（12小时）'
+        ></appb-ui-panel-cell-small>
+        <appb-ui-panel-cell-small icon='university'
+          url='/log-analy-user-activity?hour=24' 
+          text='用户活跃度（24小时）'
+        ></appb-ui-panel-cell-small>
+        <appb-ui-panel-cell-small icon='university'
+          url='/log-analy-user-activity?day=2' 
+          text='用户活跃度（2天）'
+        ></appb-ui-panel-cell-small>
+        <appb-ui-panel-cell-small icon='university'
+          url='/log-analy-user-activity?day=7' 
+          text='用户活跃度（7天）'
+        ></appb-ui-panel-cell-small>
+        <appb-ui-panel-cell-small icon='university'
+          url='/log-analy-user-activity?day=30' 
+          text='用户活跃度（30天）'
+        ></appb-ui-panel-cell-small>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="weui-panel"
+ng-if='0 && $ctrl.userData.isAdmin()'>
+  <div class="weui-panel__hd">管理功能</div>
+  <div class="weui-panel__bd">
+    <div class="weui-media-box weui-media-box_small-appmsg">
+      <div class="weui-cells">
+        <appb-ui-panel-cell-small icon='university'
+          url='/livec-create'
+          text='创建小区'
+        ></appb-ui-panel-cell-small>
+      </div>
+    </div>
+  </div>
+</div>
+

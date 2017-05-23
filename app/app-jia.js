@@ -33,22 +33,22 @@ cfg.markWxLoginCallback='cb_xd';//和后端API的约定字符串，在 /wx-login
 
 cfg.tabsAvailable=[
   ['index',[
-    {text:'迦空间',icon:'university',href:'/service'},
-    {text:'一起迦',icon:'comments',href:'/explore',active:1},
-    {text:'我的迦',icon:'user',href:'/my'}
+    {text:'嘉空间',icon:'university',href:'/serve'},
+    {text:'嘉交换',icon:'shopping-basket',href:'/explore',active:1},
+    {text:'我的嘉',icon:'user',href:'/my'}
   ]],
-  ['jia-debug',[
+  ['debug',[
     {text:'首页debug',icon:'home',href:'/compose',active:1},
     {text:'发现debug',icon:'search',href:'/explore'},
     {text:'我的debug',icon:'user',href:'/my'}
   ]]
 ];
 cfg.headerAvailable=[
-  ['jia-home',[
+  ['home',[
     {side:'left',link:'-1',icon:'chevron-left'},
     {side:'right',link:'/compose',icon:'plus'}
   ]],
-  ['jia-back',[
+  ['back',[
     {side:'left',link:'/explore',icon:'home'},
     {side:'right',link:'/my',icon:'user'}
   ]]
