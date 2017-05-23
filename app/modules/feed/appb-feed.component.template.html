@@ -14,8 +14,8 @@
             $ctrl.feedData.usersInfo[$ctrl.feed.uid].wxinfo.nickname :
             $ctrl.feedData.usersInfo[$ctrl.feed.uid].uname
           }}</span>
-          <span class="eb-po-course">&nbsp;{{$ctrl.feedData.valueList.d2[$ctrl.feed.d2]}}</span>
-          <span class="eb-po-grade">{{$ctrl.feedData.valueList.d1[$ctrl.feed.d1]}}</span>
+          <span class="eb-po-course">&nbsp;{{$ctrl.fValue('d2',$ctrl.feed.d2)}}</span>
+          <span class="eb-po-grade">{{$ctrl.fValue('d1',$ctrl.feed.d1)}}</span>
         </div>
         <div class="eb-post">
           <p>{{$ctrl.feed.content}}</p>

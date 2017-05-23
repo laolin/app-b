@@ -16,11 +16,17 @@ angular.module('appb')
       var ctrl=this;
       
       ctrl.$onInit=function(){
+        
       }
       ctrl.$onChanges =function(chg){
       }
       ctrl.$onDestroy=function(){
       }
+      ctrl.fValue=function(name,key){
+        return ctrl.feedData.getFeedDefinitionValue(ctrl.feedApp,ctrl.feedCat,name,key);
+        
+      }
+      
       ctrl.clickImg=function(n){
         $log.log('ctrl.clickImg',n);
         ctrl.appData.showGallery(ctrl.feed.pics.split(','),n);

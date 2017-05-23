@@ -13,8 +13,8 @@ angular.module('appb')
 function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   var svc=this;
   var feedData={};
+  var feedDefinition={};
   var appData=AppbData.getAppData();
-  var config=false;
 
   appData.feedData=feedData;
   appData.feedData.cmtData=AppbCommentService.getCmtData();
@@ -351,33 +351,56 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     })
   }
   
-  function init_cfg() {
-    if(config)return;
+  
     
-    var url=appData.urlApi('exbook','config');
-
-    $http.jsonp(url).then(function(d){
-      if(d.data.errcode!=0 || ! d.data.data) {
-        appData.setDialogData({
-          title:'get cfg Data Err!',
-          content:JSON.stringify(d.data),
-          btn1:'OK',
-          show:1
-        });
-        errorCount(1);
-        return;
-      }
-      config=d.data.data;
-      feedData.ebConfig=config;
-      feedData.valueList={};
-      for(var i=config.data_define.length;i--;) {
-        feedData.valueList[config.data_define[i].column]=config.data_define[i].data;
-      }
-    },function(e){
-      appData.toastMsg('下载初始化数据失败');
-      errorCount(1);
-    });
+/* 
+[
+{name: 'content',desc:'内容'},
+{name: 'pics',desc:'图片'},
+{name: 'position',desc:'地址'},
+{name: 'url',desc:'网址'},
+  {
+    name: 'd1',//d1~d4,attr,要和数据表的列名对应
+    desc: '年级',
+    type: 'radio',
+    keys: ['x0','x1','x2','x3','x4','x5','x6'],
+    values: ['幼升小','一年级','二年级','三年级','四年级','五年级/小升初','初中以上']
+  },
+  {
+    name: 'd2',//d1~d4,attr,要和数据表的列名对应
+    desc: '科目',
+    type: 'radio',
+    keys: ['yu','shu','ying','other'],
+    values: ['语文','数学','英语','其他']
   }
+]*/
+  function defineFeed(app,cat,desc,columns) {
+    feedDefinition[feedAppCat(app,cat)]={desc:desc,columns:columns};
+  }
+  function getFeedDefinition(app,cat) {
+    return feedDefinition[feedAppCat(app,cat)];
+  }
+  function getFeedDefinitionValue(app,cat,name,key) {
+    var df = feedDefinition[feedAppCat(app,cat)].columns;
+    for(var i= df.length ; i-- ; ) {
+      if(df[i].name==name) {
+        for(var j= df[i].keys.length ; j-- ; ) {
+          if(df[i].keys[j]==key) {
+            return df[i].values[j];
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  
+  
+  
+  
+  
+  
+  
   var errorCount =appData.errorCount;
   
   //
@@ -394,14 +417,18 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   
   feedData.draftAll={};//_draft
   feedData.feedAll={};//feedList
+  feedData.feedDefinition=feedDefinition;//init by defineFeed()
+  feedData.defineFeed=defineFeed;
+  feedData.getFeedDefinition=getFeedDefinition;
+  feedData.getFeedDefinitionValue=getFeedDefinitionValue;
+
   feedData.usersInfo=appData.userData.usersInfo;//头像等用户信息
   feedData.newMoreLoading=false;
   feedData.oldMoreLoading=false;
   feedData.hasNewMore=false;
   feedData.hasOldMore=true;
 
-  //initDraft();
-  init_cfg();
+
 
 
   return {
