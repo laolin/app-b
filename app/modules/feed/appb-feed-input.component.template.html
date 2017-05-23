@@ -1,6 +1,12 @@
 <div class="weui-cells weui-cells_form">
-  <div class="weui-cell">
-    <div class="weui-cell__bd">
+
+  <div class="weui-cell"
+  ng-class="{'weui-cell_select':cf.type, 'weui-cell_select-after':cf.type}"
+  ng-repeat='cf in $ctrl.fconfig.columns'>
+  
+  
+    <!-- 1.1  cf.type 为空，  cf.name=="content" -->  
+    <div class="weui-cell__bd" ng-if='! cf.type && cf.name=="content"'>
       <textarea class="weui-textarea" placeholder="不求万人怜惜，但求一人懂得。" rows="3"
       ng-model="$ctrl.feedData.draftAll[$ctrl.fcat].content"
       ng-change="$ctrl.feedData.changeMark('content')"
@@ -10,9 +16,9 @@
       ng-if='$ctrl.feedData.draftAll[$ctrl.fcat].content.length/$ctrl.maxTextLength > 0.9'
       ><span>{{$ctrl.feedData.draftAll[$ctrl.fcat].content.length}}</span>/{{$ctrl.maxTextLength}}</div>
     </div>
-  </div>
-  <div class="weui-cell">
-    <div class="weui-cell__bd">
+
+    <!-- 1.2 cf.type 为空，  cf.name=="pics" -->  
+    <div class="weui-cell__bd" ng-if='! cf.type && cf.name=="pics"'>
       <appb-ui-uploader  
         app-data='$ctrl.appData'
         imgs='$ctrl.imgs'
@@ -20,22 +26,21 @@
         update-img='$ctrl.updateImg(imgs)'
       ></appb-ui-uploader>
     </div>
-  </div>
-
-  <!-- 目前仅支持单选的数据 -->
-  <div class="weui-cell weui-cell_select weui-cell_select-after"
-  ng-repeat='cf in $ctrl.feedData.ebConfig.data_define'>
-    <div class="weui-cell__hd">
-      <label for="" class="weui-label">{{cf.name}}</label>
+    
+    <!-- 2， cf.type 有值的情况-->  
+    <div class="weui-cell__hd" ng-if='cf.type'>
+      <label for="" class="weui-label">{{cf.desc}}</label>
     </div>
-    <div class="weui-cell__bd">
-      <select class="weui-select" name="select_{{cf.column}}"
-      ng-model='$ctrl.feedData.draftAll[$ctrl.fcat][cf.column]' 
-      ng-change="$ctrl.feedData.changeMark(cf.column)">
-        <option ng-repeat='(key, value) in cf.data'
-          value="{{key}}">{{value}}</option>
+    <div class="weui-cell__bd" ng-if='cf.type'>
+      <select class="weui-select" name="select_{{cf.name}}"
+      ng-model='$ctrl.feedData.draftAll[$ctrl.fcat][cf.name]' 
+      ng-change="$ctrl.feedData.changeMark(cf.name)">
+        <option ng-repeat='key in cf.keys '
+          value="{{key}}">{{cf.values[$index]}}</option>
       </select>
-    </div>
+    </div>    
+
+
   </div>
 </div>
 <div class="weui-btn-area">

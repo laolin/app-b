@@ -2,8 +2,8 @@
 (function(){
 
 angular.module('appb')
-.component('appbUiFeedInput',{
-  templateUrl: 'modules/appb-ui/appb-ui-feed-input.component.template.html',  
+.component('appbFeedInput',{
+  templateUrl: 'modules/feed/appb-feed-input.component.template.html',  
   bindings: { 
     appData:"<",
     //pics 用单向绑定，外部变化能自动调用$onChange
@@ -29,6 +29,8 @@ angular.module('appb')
       ctrl.$onInit=function(){
         ctrl.fcat=ctrl.feedData.feedAppCat(ctrl.feedApp,ctrl.feedCat);
         ctrl.drft=ctrl.feedData.draftAll[ctrl.fcat];
+        ctrl.fconfig=ctrl.feedData.getFeedDefinition(ctrl.feedApp,ctrl.feedCat);
+        
         $log.log('feed-input draft,feedData:',ctrl.drft,ctrl.feedData);
         intervalRes=$interval(function(){ctrl.feedData.updateData(ctrl.feedApp,ctrl.feedCat)},15*1000);//n秒
       }
