@@ -16,22 +16,21 @@ angular.module('appb')
     function ($log,$timeout,$interval,$http){
       var ctrl=this;
       var intervalRes;
-      ctrl.drft={};//see $onInit
-      ctrl.fcat='';//see $onInit
       
 
       ctrl.maxTextLength=999;
       
       ctrl.updateImg=function(imgs) {
-        ctrl.drft.pics=imgs.join(',');
+        var fcat= ctrl.feedData.feedAppCat(ctrl.feedApp,ctrl.feedCat);
+        var drft= ctrl.feedData.draftAll[fcat];
+        $log.log('drft==->',drft);
+        if(!drft)return;//未初始化完成草稿（http未返回）
+        drft.pics=imgs.join(',');
         ctrl.feedData.changeMark('pics');
       }
       ctrl.$onInit=function(){
-        ctrl.fcat=ctrl.feedData.feedAppCat(ctrl.feedApp,ctrl.feedCat);
-        ctrl.drft=ctrl.feedData.draftAll[ctrl.fcat];
         ctrl.fconfig=ctrl.feedData.getFeedDefinition(ctrl.feedApp,ctrl.feedCat);
-        
-        $log.log('feed-input draft,feedData:',ctrl.drft,ctrl.feedData);
+        $log.log('feed-input feedData:',ctrl.feedData);
         intervalRes=$interval(function(){ctrl.feedData.updateData(ctrl.feedApp,ctrl.feedCat)},15*1000);//n秒
       }
       ctrl.$onChanges =function(chg){
