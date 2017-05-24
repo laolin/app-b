@@ -314,6 +314,10 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   
   function initDraft(app,cat) {
     var deferred = $q.defer();
+    if(feedData.draftAll[feedAppCat(app,cat)]) {
+      deferred.resolve(feedData.draftAll[feedAppCat(app,cat)]);
+      return deferred.promise;
+    }
 
     var api=appData.urlSignApi('feed','draft_init');
     if(!api){
