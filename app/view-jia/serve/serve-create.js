@@ -9,6 +9,7 @@ angular.module('jia')
       function ($scope,$location,$log,$q,AppbFeedService,AppbData) {
 
         var appData=AppbData.getAppData();
+        var feedData=appData.feedData;
         
         //要求登录，如果未登录，会自动跳转到登录界面
         appData.requireLogin();
@@ -32,7 +33,9 @@ angular.module('jia')
         $scope.feedApp='jia';
         $scope.feedCat='serve';
         $scope.fcat=feedData.feedAppCat($scope.feedApp,$scope.feedCat);
-        
+        $scope.onPublish=function(a) {
+          $log.log('$scope.onPublish serve-created!->',a);
+        }        
         if(!feedData.draftAll[$scope.fcat]) {
           feedData.initDraft($scope.feedApp,$scope.feedCat);
         }

@@ -5,8 +5,8 @@ angular.module('exbook')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/compose', {
     templateUrl: 'view-exbook/compose/compose.template.html',
-    controller: ['$scope','$timeout','$log','AppbFeedService','AppbData','AppbUiService',
-      function ($scope,$timeout,$log,AppbFeedService,AppbData,AppbUiService) {
+    controller: ['$scope','$timeout','$log','$location','AppbFeedService','AppbData','AppbUiService',
+      function ($scope,$timeout,$log,$location,AppbFeedService,AppbData,AppbUiService) {
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
         var feedData=appData.feedData;
@@ -21,6 +21,15 @@ angular.module('exbook')
         $scope.feedApp='exbook';
         $scope.feedCat='exbook';
         $scope.fcat=feedData.feedAppCat($scope.feedApp,$scope.feedCat);
+        $scope.onPublish=function(a) {
+          $log.log('$scope.onPublish at compose.js',a);
+          
+          $location.path( "/explore" );
+          if(feedData.feedAll[$scope.fcat].length) {
+            feedData.hasNewMore=true;
+            feedData.exploreFeed({newMore:1});//自动刷新新帖
+          }//原先没有任何feed时,跳到/explore后会自己取，故不需要刷新新帖
+        }
         
         if(!feedData.draftAll[$scope.fcat]) {
           feedData.initDraft($scope.feedApp,$scope.feedCat);

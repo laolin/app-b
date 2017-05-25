@@ -21,7 +21,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
 
   
   svc.isUpdating=false;
-  svc.dataChanged={ 
+  feedData.dataChanged=svc.dataChanged={ 
     content:0,
     pics:0
   };
@@ -177,48 +177,59 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   }  
 
   function publish(app,cat) {
-    if(errorCount()>10)return;
+    var deferred = $q.defer();
+    if(errorCount()>10) {
+      deferred.reject('too many errors');
+      return deferred.promise;
+    }
     var fcat=feedAppCat(app,cat);
     var drft=feedData.draftAll[fcat];
-    if(!drft)return initDraft(app,cat);
+    if(!drft){
+      deferred.reject('need initDraft first:'+app+','+cat);
+      return deferred.promise;
+    }
     feedData.publishing=true;
     appData.toastLoading();
-    updateData(app,cat,function(){
+    return updateData(app,cat)
+    .then(function(){
       var api=appData.urlSignApi('feed','draft_publish');
       $log.log('api1',api);
-      $http.jsonp(api,{params:{fid:drft.fid}})
-      .then(function(s){
-        
-        if(s.data.errcode!=0) {
-          $log.log('Er:publish:',s.data.errcode,s.data.msg);
-          if(s.data.errcode==ERR_EB_INVALID) {
-            appData.toastMsg(s.data.msg,7);
-          } else {
-            appData.toastMsg('Er:publish:',s.data.errcode,s.data.msg,8);
-          }
-          errorCount(1);
-          feedData.publishing=false;
-          return;
-        }
-        
-        //发布成功，把草稿中的 文字、图片 清空，其余不变
-        drft.content='';//服务器在发布时也清空了
-        drft.pics='';//服务器在发布时也清空了
-        $location.path( "/explore" );
-        if(feedData.feedAll[fcat].length) {
-          feedData.hasNewMore=true;
-          exploreFeed({newMore:1});//自动刷新新帖
-        }//原先没有任何feed时,跳到/explore后会自己取，故不需要刷新新帖
-        appData.toastDone(1);
-        feedData.publishing=false;
-      },function(e){
-        appData.toastMsg('Ejsonp:publish',8);
-        errorCount(1);
-        feedData.publishing=false;
-      });
+      return $http.jsonp(api,{params:{fid:drft.fid}})
     },function(){
       errorCount(1);
       feedData.publishing=false;
+      deferred.reject('Err updata before pub');
+      return deferred.promise;
+    })
+    .then(function(s){
+      if(s.data.errcode!=0) {
+        $log.log('Er:publish:',s.data.errcode,s.data.msg);
+        if(s.data.errcode==ERR_EB_INVALID) {
+          appData.toastMsg(s.data.msg,7);
+        } else {
+          appData.toastMsg('Er:publish:',s.data.errcode,s.data.msg,8);
+        }
+        errorCount(1);
+        feedData.publishing=false;
+        deferred.reject(s);
+        return deferred.promise;
+      }
+      
+      //发布成功，把草稿中的 文字、图片 清空，其余不变
+      drft.content='';//服务器在发布时也清空了
+      drft.pics='';//服务器在发布时也清空了
+      
+      
+      appData.toastDone(1);
+      feedData.publishing=false;
+      deferred.resolve(s);
+      return deferred.promise;
+    },function(e){
+      appData.toastMsg('Ejsonp:publish',8);
+      errorCount(1);
+      feedData.publishing=false;
+      deferred.reject(e);
+      return deferred.promise;
     });
   }
   
@@ -226,12 +237,12 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     svc.dataChanged[key]= 1;// 1表示需要更新
   }
 
-  function updateData(app,cat,callback,onErr) {
+  function updateData(app,cat) {
     var deferred = $q.defer();
     var fcat=feedAppCat(app,cat);
 
     if(svc.isUpdating) {
-      return $timeout(function(){return updateData(app,cat,callback,onErr)},500);
+      return $timeout(function(){return updateData(app,cat)},500);
     };
     svc.isUpdating=true;
     var data={}
@@ -245,7 +256,6 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     }
 
     if(!dirty) {
-      if('function'==typeof callback)callback();
       svc.isUpdating=false;
       deferred.resolve(1);
       return deferred.promise;
@@ -253,6 +263,8 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     var api=appData.urlSignApi('feed','draft_update');
     if(!api){
       appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
+      deferred.reject('need login');
+      return deferred.promise;
     }
     data.fid=feedData.draftAll[fcat].fid;
     return $http.jsonp(api, {params:data})//TODO : 出错处理
@@ -262,7 +274,6 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
             svc.dataChanged[attr]=0;                    
         }
         svc.isUpdating=false;
-        if('function'==typeof callback)callback();
         deferred.resolve(s);
         return deferred.promise;
       },function(e){
@@ -273,7 +284,6 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
         }
         appData.toastMsg('draft_update error');
         svc.isUpdating=false;
-        if('function'==typeof onErr)onErr();
         deferred.reject(e);
         return deferred.promise;
       })
