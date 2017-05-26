@@ -58,7 +58,7 @@ angular.module('exbook')
         });
         var feeds=appData.feedData.feedAll[appData.feedData.feedAppCat('exbook','exbook')];
         if( !feeds || !feeds.length) {
-          appData.feedData.exploreFeed();
+          appData.feedData.exploreFeed('exbook','exbook');
         }
 
 

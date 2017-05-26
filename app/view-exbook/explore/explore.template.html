@@ -1,4 +1,4 @@
-<div class='main-content-wrapper' appb-ui-on-scroll-bottom='$ctrl.showOldMore()'>
+<div class='main-content-wrapper' appb-ui-on-scroll-bottom='$ctrl.showOldMore($ctrl.feedApp,$ctrl.feedCat)'>
 <div class="weui-cells" ng-if='! $ctrl.userData.token'>
   <div class='weui-cell text-center'>
     请<a href="#!/wx-login">登录</a>
@@ -9,13 +9,14 @@
 
 <div class="weui-cells__title">我关注的</div>
 <div class="weui-cells"
-  ng-if='$ctrl.appData.feedData.hasNewMore && !$ctrl.appData.feedData.newMoreLoading'
-  ng-click='$ctrl.showNewMore()'>
+  ng-if='$ctrl.appData.feedData.hasNewMore[$ctrl.fcat] && 
+  !$ctrl.appData.feedData.newMoreLoading[$ctrl.fcat]'
+  ng-click='$ctrl.showNewMore($ctrl.feedApp,$ctrl.feedCat)'>
   <div class='weui-cell text-center'>
     <div class="weui-cell__bd text-center">有新内容，点此刷新</div>
   </div>
 </div>
-<div class="weui-cells" ng-if='$ctrl.appData.feedData.newMoreLoading'>
+<div class="weui-cells" ng-if='$ctrl.appData.feedData.newMoreLoading[$ctrl.fcat]'>
   <div class="weui-cell">
     <div class="weui-loadmore">
       <i class="weui-loading"></i>

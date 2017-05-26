@@ -36,16 +36,17 @@ angular.module('exbook')
         ctrl.appData=appData;
         ctrl.feedApp='exbook';
         ctrl.feedCat='exbook';
+        ctrl.fcat='exbook.exbook';
         var feeds=appData.feedData.feedAll[appData.feedData.feedAppCat('exbook','exbook')];
         if( !feeds || !feeds.length) {
-          appData.feedData.exploreFeed();
+          appData.feedData.exploreFeed(ctrl.feedApp,ctrl.feedCat);
         }
         ctrl.showNewMore=function(){
-            appData.feedData.exploreFeed({newMore:1});
+            appData.feedData.exploreFeed(ctrl.feedApp,ctrl.feedCat,{newMore:1});
         }
         ctrl.showOldMore=function(){
-          if(appData.feedData.hasOldMore)
-            appData.feedData.exploreFeed({oldMore:1});
+          if(!appData.feedData.hasOldest[ctrl.fcat])
+            appData.feedData.exploreFeed(ctrl.feedApp,ctrl.feedCat,{oldMore:1});
         }
 
         

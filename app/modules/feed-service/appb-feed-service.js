@@ -76,17 +76,22 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
    *  para.oldMore=1: 更多旧帖
    *  para.newMore=1: 更多新帖
    */
-  function exploreFeed(para){
+  function exploreFeed(app,cat,para){
+    var deferred = $q.defer();
     //由于有自动刷新机制，所以这里允许出错次数不能太多
     //否则在网络条件不好时会过多重复调用没有效果的API
-    if(errorCount()>3)return;
+    if(errorCount()>3){
+      deferred.reject(-1);
+      return deferred.promise;
+    }
     var i;
     var api=appData.urlSignApi('feed','li');
     if(!api){
       appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
-      return false;
+      deferred.reject(-2);
+      return deferred.promise;
     }
-    var pdata={count:10, app:'exbook',cat:'exbook' };
+    var pdata={count:10, app:app, cat:cat};
     
     var fcat=feedAppCat(pdata.app,pdata.cat);
     if(!feedData.feedAll[fcat])
@@ -97,12 +102,18 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     if(para && feedData.feedAll[fcat].length) {
       //规定 publish时间顺序和 fid排序都是一样的
       if(para.newMore) {
-        if(feedData.newMoreLoading)return;
-        feedData.newMoreLoading=true;
+        if(feedData.newMoreLoading[fcat]){
+          deferred.reject('Err_newMoreLoading');
+          return deferred.promise;
+        }
+        feedData.newMoreLoading[fcat]=true;
         pdata.newmore=feedData.feedAll[fcat][0].fid;
       } else if( para.oldMore) {
-        if(feedData.oldMoreLoading)return;
-        feedData.oldMoreLoading=true;
+        if(feedData.oldMoreLoading[fcat]){
+          deferred.reject('Err_oldMoreLoading');
+          return deferred.promise;
+        }
+        feedData.oldMoreLoading[fcat]=true;
         pdata.oldmore=feedData.feedAll[fcat][feedData.feedAll[fcat].length-1].fid;
       }
     }
@@ -117,7 +128,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     }
     $log.log('exploreFeed',para,pdata);
     
-    $http.jsonp(api, {params:pdata})
+    return $http.jsonp(api, {params:pdata})
     .then(function(s){
       if(s.data.errcode!=0) {
         errorCount(1);
@@ -125,15 +136,18 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
         if(s.data.errcode==ERR_EB_NOTHING) { 
           //appData.toastMsg('已没有更多',3);
           if(pdata.newmore) {
-            feedData.hasNewMore=false;
+            feedData.hasNewMore[fcat]=false;
           }
           if(pdata.oldmore) {
-            feedData.hasOldMore=false;
+            feedData.hasOldest[fcat]=true;
           }
         }
-        if(pdata.newmore) feedData.newMoreLoading=false;
-        if(pdata.oldmore) feedData.oldMoreLoading=false;
-        return;
+        if(pdata.newmore) feedData.newMoreLoading[fcat]=false;
+        if(pdata.oldmore) feedData.oldMoreLoading[fcat]=false;
+        //这里不能reject?
+        //deferred.reject('Er:FeedList:'+s.data.msg);
+        deferred.resolve(false);
+        return deferred.promise;
       }
       
       //获取所有的 s.data.data[i].uid 的用户信息
@@ -146,7 +160,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       //
       if(pdata.oldmore) { //oldMore
         feedData.feedAll[fcat]=feedData.feedAll[fcat].concat(s.data.data);
-        feedData.oldMoreLoading=false;
+        feedData.oldMoreLoading[fcat]=false;
       } else if(pdata.newmore) {//newMore
         //newMore 如果返回 newMoreCount，说明新的很多，
         //新内容和原来的内容在时间没连续的接上，故要扔掉旧的
@@ -155,17 +169,21 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
         } else {
           feedData.feedAll[fcat]=s.data.data.concat(feedData.feedAll[fcat]);
         }
-        feedData.hasNewMore=false;
-        feedData.newMoreLoading=false;
+        feedData.hasNewMore[fcat]=false;
+        feedData.newMoreLoading[fcat]=false;
       } else {
         feedData.feedAll[fcat]=s.data.data;
       }
+      deferred.resolve(feedData.feedAll[fcat]);
+      return deferred.promise;
     },function(e){
       // error
       errorCount(1);
-      if(pdata.newmore)feedData.newMoreLoading=false;
-      if(pdata.oldmore)feedData.oldMoreLoading=false;
+      if(pdata.newmore)feedData.newMoreLoading[fcat]=false;
+      if(pdata.oldmore)feedData.oldMoreLoading[fcat]=false;
       $log.log('error at ExbookService-exploreFeed',e);
+      deferred.reject(e);
+      return deferred.promise;
     })
   }
   function fidList(feeds) {
@@ -437,10 +455,10 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   feedData.getFeedDefinitionValue=getFeedDefinitionValue;
 
   feedData.usersInfo=appData.userData.usersInfo;//头像等用户信息
-  feedData.newMoreLoading=false;
-  feedData.oldMoreLoading=false;
-  feedData.hasNewMore=false;
-  feedData.hasOldMore=true;
+  feedData.newMoreLoading={};
+  feedData.oldMoreLoading={};
+  feedData.hasNewMore={};
+  feedData.hasOldest={};// = ! hasOldMore
 
 
 

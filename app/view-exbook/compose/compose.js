@@ -26,8 +26,8 @@ angular.module('exbook')
           
           $location.path( "/explore" );
           if(feedData.feedAll[$scope.fcat].length) {
-            feedData.hasNewMore=true;
-            feedData.exploreFeed({newMore:1});//自动刷新新帖
+            feedData.hasNewMore['exbook.exbook']=true;
+            feedData.exploreFeed($scope.feedApp,$scope.feedCat,{newMore:1});//自动刷新新帖
           }//原先没有任何feed时,跳到/explore后会自己取，故不需要刷新新帖
         }
         
