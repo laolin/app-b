@@ -76,7 +76,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
    *  para.oldMore=1: 更多旧帖
    *  para.newMore=1: 更多新帖
    */
-  function exploreFeed(para){
+  function exploreFeed(app,cat,para){
     //由于有自动刷新机制，所以这里允许出错次数不能太多
     //否则在网络条件不好时会过多重复调用没有效果的API
     if(errorCount()>3)return;
@@ -86,7 +86,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
       return false;
     }
-    var pdata={count:10, app:'exbook',cat:'exbook' };
+    var pdata={count:10, app:app, cat:cat};
     
     var fcat=feedAppCat(pdata.app,pdata.cat);
     if(!feedData.feedAll[fcat])

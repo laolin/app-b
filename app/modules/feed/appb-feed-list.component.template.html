@@ -8,7 +8,7 @@
   <div class="weui-cells">
     <a href class="weui-cell weui-cell_link"
     ng-if='$ctrl.feedData.hasOldMore && !$ctrl.feedData.oldMoreLoading'
-    ng-click='$ctrl.feedData.exploreFeed({oldMore:1})'>
+    ng-click='$ctrl.feedData.exploreFeed($ctrl.feedApp,$ctrl.feedCat,{oldMore:1})'>
       <div class="weui-cell__bd text-center">加载更多</div>
     </a>
     <a href class="weui-cell weui-cell_link"
