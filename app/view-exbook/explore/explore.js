@@ -36,6 +36,7 @@ angular.module('exbook')
         ctrl.appData=appData;
         ctrl.feedApp='exbook';
         ctrl.feedCat='exbook';
+        ctrl.fcat='exbook.exbook';
         var feeds=appData.feedData.feedAll[appData.feedData.feedAppCat('exbook','exbook')];
         if( !feeds || !feeds.length) {
           appData.feedData.exploreFeed(ctrl.feedApp,ctrl.feedCat);
@@ -44,7 +45,7 @@ angular.module('exbook')
             appData.feedData.exploreFeed(ctrl.feedApp,ctrl.feedCat,{newMore:1});
         }
         ctrl.showOldMore=function(){
-          if(appData.feedData.hasOldMore)
+          if(!appData.feedData.hasOldest[ctrl.fcat])
             appData.feedData.exploreFeed(ctrl.feedApp,ctrl.feedCat,{oldMore:1});
         }
 
