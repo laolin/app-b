@@ -37,7 +37,7 @@
         ></appb-feed-pop-action>
 
         <a class="eb-time" am-time-ago='1000*$ctrl.feed.publish_at'
-        href='#!/exbook?fid={{$ctrl.feed.fid}}'></a>
+        href=''></a>
         <span class="eb-action"
           ng-if='$ctrl.feed.uid==$ctrl.appData.userData.uid'
           ng-click='$ctrl.feedData.deleteFeed($ctrl.feed.fid,$ctrl.feedApp,$ctrl.feedCat)'>

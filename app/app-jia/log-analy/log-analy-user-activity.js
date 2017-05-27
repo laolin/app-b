@@ -4,7 +4,7 @@
 angular.module('jia')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/log-analy-user-activity', {
-    templateUrl: 'view-jia/log-analy/log-analy-user-activity.template.html',
+    templateUrl: 'app-jia/log-analy/log-analy-user-activity.template.html',
     controller: ['$scope','$location','$log','AppbLogService','AppbData','AppbUiService','AmapMainData',
       function ($scope,$location,$log,AppbLogService,AppbData,AppbUiService,AmapMainData) {
 

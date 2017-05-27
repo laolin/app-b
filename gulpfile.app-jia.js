@@ -19,7 +19,7 @@ module.exports =
   // /app/后马上跟两个*号，否则路径的 base 不对，模板不能用
   "tplHtml": [
     "./app/**/modules/**/*.template.html",
-    "./app/**/view-jia/**/*.template.html"
+    "./app/**/app-jia/**/*.template.html"
   ],
     
   "tplJsName": "tpl_jia.js",
@@ -31,7 +31,7 @@ module.exports =
 
   "injects": [
     [
-      "./app/app-jia.js"
+      "./app/app-jia/app-jia.define.js"
     ], [
       "./app/**/modules/**/*.module.js",
       "!./app/bower_components/**/*"
@@ -40,17 +40,18 @@ module.exports =
       "!./app/**/*.module.js", 
       "!./app/bower_components/**/*"
     ], [
-      "./app/**/view-jia/**/*.module.js",
+      "./app/**/app-jia/**/*.module.js",
       "!./app/bower_components/**/*"
     ], [
-      "./app/**/view-jia/**/*.js",
+      "./app/**/app-jia/**/*.js",
+      "!./app/app-jia/app-jia.define.js",
       "!./app/**/*.module.js", 
       "!./app/bower_components/**/*"
     ], [
       "./app/assets/js/common.js",
       "./app/assets/css/**/*.css"
     ], [
-      "./app/view-jia/**/*.css"
+      "./app/app-jia/**/*.css"
     ]
   ]
 }
