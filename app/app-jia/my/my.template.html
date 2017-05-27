@@ -20,7 +20,7 @@
             {{$ctrl.userData.uname}}
           </span>
         </h4>
-        <p class="weui-media-box__desc">如有显示异常，可在此向右滑动重登录试试</p>
+        <p class="weui-media-box__desc">嘉空间——回归设计态</p>
       </div>
     </a>
   </div>
@@ -65,13 +65,17 @@ ng-if='$ctrl.userData.isAdmin()'>
 
 <div class="weui-panel"
 ng-if='$ctrl.userData.isAdmin()'>
-  <div class="weui-panel__hd">管理功能2</div>
+  <div class="weui-panel__hd">嘉空间服务管理</div>
   <div class="weui-panel__bd">
     <div class="weui-media-box weui-media-box_small-appmsg">
       <div class="weui-cells">
         <appb-ui-panel-cell-small icon='puzzle-piece'
           url='/serve-create'
           text='创建服务'
+        ></appb-ui-panel-cell-small>
+        <appb-ui-panel-cell-small icon='th-list'
+          url='/serve-list'
+          text='服务列表'
         ></appb-ui-panel-cell-small>
       </div>
     </div>

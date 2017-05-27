@@ -3,8 +3,8 @@
 
 angular.module('jia')
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/serve-create', {
-    templateUrl: 'view-jia/serve/serve-create.template.html',
+  $routeProvider.when('/serve', {
+    templateUrl: 'app-jia/serve/serve.template.html',
     controller: ['$scope','$location','$log','$q','AppbFeedService','AppbData',
       function ($scope,$location,$log,$q,AppbFeedService,AppbData) {
 
@@ -33,13 +33,12 @@ angular.module('jia')
         $scope.feedApp='jia';
         $scope.feedCat='serve';
         $scope.fcat=feedData.feedAppCat($scope.feedApp,$scope.feedCat);
-        $scope.onPublish=function(a) {
-          $log.log('$scope.onPublish serve-created!->',a);
-        }        
-        if(!feedData.draftAll[$scope.fcat]) {
-          feedData.initDraft($scope.feedApp,$scope.feedCat);
-        }
 
+        var feeds=feedData.feedAll[feedData.feedAppCat($scope.feedApp,$scope.feedCat)];
+        if( !feeds || !feeds.length) {
+          feedData.exploreFeed($scope.feedApp,$scope.feedCat);
+        }
+        
 
 
 
