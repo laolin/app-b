@@ -70,6 +70,8 @@
   }
   var allCss= getJson( 'css.json' + "?_=" + (+new Date()) );
   var allJs = getJson(  'js.json' + "?_=" + (+new Date()) );
+  allCss.sort();
+  allJs.sort();
   loadAllCss(allCss);
   loadAllJs(allJs,0);
 })(document);
