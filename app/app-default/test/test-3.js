@@ -4,7 +4,7 @@
 angular.module('view-test')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/test-3', {
-    templateUrl: 'view-test/test/test-3.template.html',
+    templateUrl: 'app-default/test/test-3.template.html',
     controller: ['$scope','$location','$log','$interval','AppbData',
       function ($scope,$location,$log,$interval,AppbData) {
         

@@ -3,14 +3,15 @@
 
 angular.module('view-default')
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/default-search', {
-    templateUrl: 'view-default/default/default-search.template.html',
+  $routeProvider.when('/default-settings', {
+    templateUrl: 'app-default/default/default-settings.template.html',
     controller: ['$scope','$location','$log','$interval','AppbData',
       function ($scope,$location,$log,$interval,AppbData) {
+        
         var lastHeader = AppbData.getHeaderData();
         var lastname=lastHeader.name;
         var lasttitle=lastHeader.title;
-        AppbData.activeHeader('_TEST','搜索');
+        AppbData.activeHeader('_HOME','测试');
         AppbData.activeFooter('0');
         $scope.$on('$destroy',function (){
           AppbData.activeHeader(lastname,lasttitle);

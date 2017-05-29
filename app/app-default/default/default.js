@@ -4,7 +4,7 @@
 angular.module('view-default')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/', {
-    templateUrl: 'view-default/default/default.template.html',
+    templateUrl: 'app-default/default/default.template.html',
     controller: ['$scope','$location','$log','$interval','AppbData',
       function ($scope,$location,$log,$interval,AppbData) {
         AppbData.setHeader('欢迎','',-1,

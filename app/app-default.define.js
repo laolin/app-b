@@ -1,13 +1,21 @@
 'use strict';
 (function(){
   
+window.__assetsPath='../assets';
 //加个全局变量 appbCfg
 var cfg=window.appbCfg={
   appName:"Laolin's app B",
+
+  appDesc:"测试APP说明",//微信分享时默认文本
+  appLogo:"https://qinggaoshou.com/images/qgs-log-1.jpg",//微信分享时默认图片
+
   pageTitle:'Welcome',//默认的页面上方<ui-header>条的标题
   htmlTitle:'App-B',//默认的浏览器的页面标题
   apiRoot: 'https://api.qinggaoshou.com/api-1.0', //一般的API
   apiWxAuth: 'https://qinggaoshou.com/api-1.0', //WX 授权 callback 域名限制的URI
+
+  //assetsRoot 的取值（__assetsPath）由 gulp 构建时自动替换
+  assetsRoot: window.__assetsPath,//可在本地部署静态文件 或 跨域部署静态文件
 
   version: '78.101.100.a'
 };
