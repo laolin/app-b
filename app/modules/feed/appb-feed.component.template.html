@@ -3,7 +3,7 @@
       <img class="eb-po-avt" ng-src="{{
         $ctrl.feedData.usersInfo[$ctrl.feed.uid].wxinfo?
         $ctrl.feedData.usersInfo[$ctrl.feed.uid].wxinfo.headimgurl :
-        'assets/img/anonymous.png'
+        $ctrl.appData.appCfg.assetsRoot+'/img/anonymous.png'
       }}">
     </div>
     <div class="eb-po-cmt">
@@ -44,7 +44,7 @@
           删除
         </span>
         <!--span class="eb-action" ng-if='$ctrl.feed.uid!=$ctrl.appData.userData.uid'>投诉</span-->
-        <img class="eb-c-icon cur-pointer" src="assets/img/cmt.png"
+        <img class="eb-c-icon cur-pointer" ng-src="{{$ctrl.appData.appCfg.assetsRoot}}/img/cmt.png"
         ng-click='$ctrl.showPop($ctrl.feed.fid,$event)'>
       </div>
       <appb-feed-comment app-data='$ctrl.appData' feed-data='$ctrl.feedData'

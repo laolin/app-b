@@ -3,7 +3,7 @@
   ($ctrl.commentData && $ctrl.commentData.length)'>
       <div class="eb-r"></div>
       <div class="eb-cmt">
-        <div class="eb-like" ng-if='($ctrl.likeData && $ctrl.likeData.length)'><img src="assets/img/like.png">
+        <div class="eb-like" ng-if='($ctrl.likeData && $ctrl.likeData.length)'><img ng-src="{{$ctrl.appData.appCfg.assetsRoot}}/img/like.png">
         <a ng-repeat='k in $ctrl.likeData | orderBy:"create_at" '>
           <span>{{$ctrl.uname(k.uid)}}</span><aa ng-if='$index < ($ctrl.likeData.length-1)'> , </aa>
         </a>
