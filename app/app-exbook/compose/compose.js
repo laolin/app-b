@@ -4,7 +4,7 @@
 angular.module('exbook')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/compose', {
-    templateUrl: 'view-exbook/compose/compose.template.html',
+    templateUrl: 'app-exbook/compose/compose.template.html',
     controller: ['$scope','$timeout','$log','$location','AppbFeedService','AppbData','AppbUiService',
       function ($scope,$timeout,$log,$location,AppbFeedService,AppbData,AppbUiService) {
         var userData=AppbData.getUserData();

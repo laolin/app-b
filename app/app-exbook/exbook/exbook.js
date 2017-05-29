@@ -4,7 +4,7 @@
 angular.module('exbook')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/exbook', {
-    templateUrl: 'view-exbook/exbook/exbook.template.html',
+    templateUrl: 'app-exbook/exbook/exbook.template.html',
     controller: ['$scope','$location','$log','$q','AppbFeedService','AppbData',
       function ($scope,$location,$log,$q,AppbFeedService,AppbData) {
 

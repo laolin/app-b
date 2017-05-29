@@ -3,7 +3,7 @@
 
 angular.module('live-community')
 .component('liveCommunity',{
-    templateUrl: 'view-exbook/live-community/live-community.component.template.html',  
+    templateUrl: 'app-exbook/live-community/live-community.component.template.html',  
     bindings: {
       livecData:"=",
 

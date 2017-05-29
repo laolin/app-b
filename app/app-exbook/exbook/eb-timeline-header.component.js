@@ -3,7 +3,7 @@
 
 angular.module('exbook')
 .component('ebTimelineHeader',{
-  templateUrl: 'view-exbook/exbook/eb-timeline-header.component.template.html',  
+  templateUrl: 'app-exbook/exbook/eb-timeline-header.component.template.html',  
   bindings: { 
     appData:"<",
     userData:"<" 

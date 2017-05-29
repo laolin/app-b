@@ -4,7 +4,7 @@
 angular.module('exbook')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/livec-create', {
-    templateUrl: 'view-exbook/live-community/livec-create.template.html',
+    templateUrl: 'app-exbook/live-community/livec-create.template.html',
     controller: ['$scope','$timeout','$log','AppbData','AppbUiService','LivecData',
       function ($scope,$timeout,$log,AppbData,AppbUiService,LivecData) {
 

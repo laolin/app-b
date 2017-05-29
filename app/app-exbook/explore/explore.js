@@ -4,7 +4,7 @@
 angular.module('exbook')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/explore', {
-    templateUrl: 'view-exbook/explore/explore.template.html',
+    templateUrl: 'app-exbook/explore/explore.template.html',
     controller: ['$scope','$http','$log','AppbFeedService','AppbData',
       function ($scope,$http,$log,AppbFeedService,AppbData) {
         var userData=AppbData.getUserData();
