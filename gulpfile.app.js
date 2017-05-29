@@ -9,7 +9,7 @@ module.exports = function(app_name) { return {
   
   "path": {
     "app": "app",    
-    "app_assets": "app/assets",  
+    "app_assets": "assets",  
     
     "dist_root": "dist",
     "dist_assets": "dist/assets",
