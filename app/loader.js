@@ -1,34 +1,15 @@
-<!DOCTYPE html>
-<!--
+/*
   (1) index.html 文件其实内容基本是固定的， 除了加载的CSS、JS文件变化。
-  (2) 所以增加了 app-b.loader.html 基本上是和index.html一样的。
-  (3) 但是，要加载的CSS，JS文件列表是通过 
+  (2) 所以使用此js来替代index.html中加载的文件，相应地从index.html中删掉 css , js 引用。
+  (3) 要加载的CSS，JS文件名列表是通过 
       getJson( 'css.json' )和getJson( 'js.json' ) 动态获取的，
       css.json 和 js.json 通过 `gulp-filelist` 插件自动生成。
-  (4) 再通过 loadFile() 加载真正的js,css文件。
+  (4) 再根据得到的文件名列表，通过 loadFile() 加载真正的js,css文件。
   
-  (5) 这个文件的效果是由于本文件的内容是固定的，不怕微信缓存
+  (5) 这个文件的效果是由于本文件的内容通常是固定的很少改动，不怕微信缓存
     第(3)步中通过在json文件名后加 `?_=xxx` 能动态更新文件
     可解决微信缓存不更新文件的问题。
--->
-<html lang="zh-cmn-Hans" ng-app="appb.main" class="no-js">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
-  <title ng-bind='pageTitle'>Welcome</title>
-  <meta name="description" content="laolin's app B">
-</head>
-
-<body ng-controller='appbCtrl as appb'>
-  <appb-ui-header id="main-header" header-data='appb.headerData'></appb-ui-header>
-  <div id="main-container" ng-view>
-    <h5 class='text-center'>Loading...</h5>
-  </div>
-  <appb-ui-footer id="main-footer" footer-data='appb.footerData'></appb-ui-footer>
-  <appb-ui-abc app-data='appb.appData'></appb-ui-abc>
-  
-<script> 
+*/
 (function (document){
   function getJson(url){
       var Httpreq = new XMLHttpRequest(); // a new request
@@ -59,23 +40,22 @@
     }
   }
 
+  // `__assetsPath`  在 assetsPath.config.js 里定义
+  // gulp构建时会根据gulp.app-xxx.js的配置修改值
   function loadAllJs(js,i) {
     if(i>=js.length)return;
-    loadFile(js[i],'js',function(){loadAllJs(js,i+1)});
+    loadFile(__assetsPath+'/'+js[i],'js',function(){loadAllJs(js,i+1)});
   }
   function loadAllCss(css) {
     for(var i=0;i<css.length;i++) {
-      loadFile(css[i],'css');
+      loadFile(__assetsPath+'/css/'+css[i],'css');
     }
   }
   var allCss= getJson( 'css.json' + "?_=" + (+new Date()) );
   var allJs = getJson(  'js.json' + "?_=" + (+new Date()) );
+  window.__assetsPath='../assets';
   allCss.sort();
   allJs.sort();
   loadAllCss(allCss);
   loadAllJs(allJs,0);
 })(document);
-</script>  
-  <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>  
-</body>
-</html>
