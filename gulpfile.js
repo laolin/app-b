@@ -41,6 +41,7 @@ var gulp = require('gulp'),
     filter = require('gulp-filter'),
     flatten = require('gulp-flatten'),
     rename = require('gulp-rename'),
+    replace = require('gulp-replace'),
     del = require('del'),
 
     uglify = require('gulp-uglify'),
@@ -103,7 +104,7 @@ var config_jia = require ( './gulpfile.app-jia.js' );
 
 
 // =======================================================================
-var configObj =config_exbook;
+var configObj =config_jia;
 
 // =======================================================================
 
@@ -126,6 +127,34 @@ gulp.task('templatecache', function () {
     .pipe(templateCache(configObj.tplJsName,{module: configObj.tplModule}))
     .pipe(gulp.dest(configObj.path.tmp));
 });
+
+/**
+ *  s2a: build-loader
+ *  仅注入 loader.js 的 index.html 版本
+ *  其他css,js 都通过 loader.js 动态加载
+ */
+gulp.task('build-loader', function () {
+  var src=configObj.path.app + '/'+configObj.html_src;
+  
+  var loaderJs=configObj.path.app + '/'+'loader.js';
+  
+  //1, 把loader.js里的路径替换掉，然后写入dist目录
+  gulp.src(loaderJs)
+    .pipe(replace("window.__assetsPath='../assets'",
+        "window.__assetsPath='"+configObj.path.assets_dep_at+"'"))
+    .pipe(uglify({compress: { drop_console: true }}))
+    .pipe(gulp.dest(configObj.path.dist_app))
+  
+  //2, app-b.html 文件只注入loader.js，然后写入dist/imdex.html
+  // (注，app-b.html注入全部js,css文件后，并用usref合并压缩的，
+  //   是写入dist/imdex0.html，属于备用文件)
+  return gulp.src( src )
+    .pipe(inject(gulp.src(loaderJs, {read: false}), {relative: true}))
+    .pipe(rename(configObj.dist_loader))
+    .pipe(htmlmin({collapseWhitespace: true,removeComments: true}))
+    .pipe(gulp.dest(configObj.path.dist_app))
+});
+
 
 /**
  *  s2: inject
@@ -171,13 +200,18 @@ gulp.task('html-useref',['wiredep'], function(){
         .pipe(useref())
         .pipe(gulpif('*.css', cleanCSS()))
         .pipe(gulpif('*.html', htmlmin({collapseWhitespace: true,removeComments: true})))
+
+
+        .pipe(gulpif('*.js', replace("window.__assetsPath='../assets'",
+          "window.__assetsPath='"+configObj.path.assets_dep_at+"'")))
         .pipe(gulpif('*.js',  uglify({compress: { drop_console: true }})))
         .pipe(rev()) 
         .pipe(revReplace()) 
-        .pipe(gulpif('*.html', rename(configObj.html_dist)))
-        .pipe(gulp.dest(configObj.path.dist)) 
+        .pipe(gulpif('*.html', rename(configObj.dist_html)))
+        .pipe(gulp.dest(configObj.path.dist_app)) 
       
         .pipe(debug({title:'a1 -'})) 
+        .pipe(flatten())
         
         .pipe(jsFilter) 
         .pipe(filelist('js.json',{ relative: true }))
@@ -188,35 +222,31 @@ gulp.task('html-useref',['wiredep'], function(){
         .pipe(filelist('css.json',{ relative: true }))
         .pipe(cssFilter.restore)
         
-        .pipe(gulp.dest(configObj.path.dist)) 
+        .pipe(gulp.dest(configObj.path.dist_app)) 
       
       
 });
 gulp.task('copyImg', function() {
-    return gulp.src('app/assets/img/**/*.*')
+    return gulp.src(configObj.path.app_assets+'/img/**/*.*')
     .pipe(imagemin())
-    .pipe(gulp.dest(configObj.path.dist+'/assets/img'))
+    .pipe(gulp.dest(configObj.path.dist_assets+'/img'))
 });
 
 
 //font-awesome 的字体文件
 gulp.task('copyFonts1', function() {
-    return gulp.src('app/bower_components/font-awesome/fonts/*.*')
+  return gulp.src('bower_components/font-awesome/fonts/*.*')
     //.pipe(flatten())
-    .pipe(gulp.dest(configObj.path.dist+'/assets/fonts'))
+    .pipe(gulp.dest(configObj.path.dist_assets+'/fonts'))
 });
 
 
 gulp.task('copy', ['copyFonts1','copyImg'], function(){
-  return gulp.src(configObj.path.app + '/' + configObj.html_loader)
-    .pipe(htmlmin({collapseWhitespace: true,removeComments: true,minifyJS:true}))
-    .pipe(rename('index.html'))
-    .pipe(gulp.dest(configObj.path.dist));
 
 });;
 
 
-gulp.task('runBuild', ['html-useref','copy'], function(){
+gulp.task('runBuild', ['build-loader','html-useref','copy'], function(){
   fs.writeFile(configObj.path.tmp+'/'+configObj.tplJsName,'//clear after build');
 });
 

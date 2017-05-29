@@ -3,14 +3,25 @@
 module.exports = 
 {
   "html_src": "app-b.html", 
-  "html_loader": "app-b.loader.html", 
-  "html_debug": "index.html", 
-  "html_dist": "index0.html", // html_loader 改名后做 index.html
+  "html_debug": "index.html", //这是app目录下的文件名，用于调试
+  
+  "dist_loader": "index.html", // 注入 loader 改名后做 index.html
+  "dist_html": "index0.html", // 注入一大堆js,css的 改名后做 index0.html
   
   "path": {
     "app": "app",    
+    "app_assets": "app/assets",  
+    
+    "dist_root": "dist",
+    "dist_assets": "dist/assets",
+    "dist_app": "dist/app-jia",
+    
     "tmp": "tmp",
-    "dist": "dist-jia"
+    
+    // assets_dep_at 是运行时的路径（相对于index.html的路径）
+    // 注assets可部署在本地，也可跨域部署在独立的机器上(需要配置字体跨域支持)
+    "assets_dep_at":"../assets" //部署在本地
+    //"assets_dep_at":"https://app.linjp.cn/static/assets-b" //部署在独立的机器上
   },
   
   //【template 模板 处理】 ---------------------------- 
@@ -31,25 +42,19 @@ module.exports =
 
   "injects": [
     [
-      "./app/app-jia/app-jia.define.js"
+      "./app/app-jia.define.js"
     ], [
-      "./app/**/modules/**/*.module.js",
-      "!./app/bower_components/**/*"
+      "./app/modules/**/*.module.js"
     ], [
-      "./app/**/modules/**/*.js",
-      "!./app/**/*.module.js", 
-      "!./app/bower_components/**/*"
+       "./app/modules/**/*.js",
+      "!./app/modules/**/*.module.js"
     ], [
-      "./app/**/app-jia/**/*.module.js",
-      "!./app/bower_components/**/*"
+      "./app/app-jia/**/*.module.js"
     ], [
-      "./app/**/app-jia/**/*.js",
-      "!./app/app-jia/app-jia.define.js",
-      "!./app/**/*.module.js", 
-      "!./app/bower_components/**/*"
+       "./app/app-jia/**/*.js",
+      "!./app/app-jia/**/*.module.js"
     ], [
-      "./app/assets/js/common.js",
-      "./app/assets/css/**/*.css"
+      "./app/modules/**/*.css"
     ], [
       "./app/app-jia/**/*.css"
     ]

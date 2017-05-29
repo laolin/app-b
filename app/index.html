@@ -15,18 +15,18 @@
   <title ng-bind='pageTitle'>Welcome</title>
   <meta name="description" content="laolin's app B">
   
-  <!-- build:css assets/css/1-lib.css -->
+  <!-- build:css ../assets/css/1-lib.css -->
   <!-- bower:css -->
-  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="bower_components/swiper/dist/css/swiper.css" />
-  <link rel="stylesheet" href="bower_components/weui/dist/style/weui.css" />
+  <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="../bower_components/swiper/dist/css/swiper.css" />
+  <link rel="stylesheet" href="../bower_components/weui/dist/style/weui.css" />
   <!-- endbower -->
   <!-- endbuild -->
 
-  <!-- build:css assets/css/2-appb.css -->
+  <!-- build:css ../assets/css/2-appb.css -->
   <!-- inject:css -->
-  <link rel="stylesheet" href="assets/css/feed-timeline.css">
-  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="modules/feed-timeline.css">
+  <link rel="stylesheet" href="modules/main.css">
   <link rel="stylesheet" href="app-jia/jia.css">
   <!-- endinject -->
   <!-- endbuild -->
@@ -43,32 +43,31 @@
   
   <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
   
-  <!-- build:js assets/3-lib.js -->
+  <!-- build:js ../assets/3-lib.js -->
   <!-- bower:js -->
-  <script src="bower_components/jquery/dist/jquery.js"></script>
-  <script src="bower_components/angular/angular.js"></script>
-  <script src="bower_components/angular-route/angular-route.js"></script>
-  <script src="bower_components/angular-resource/angular-resource.js"></script>
-  <script src="bower_components/angular-animate/angular-animate.js"></script>
-  <script src="bower_components/angular-aria/angular-aria.js"></script>
-  <script src="bower_components/angular-messages/angular-messages.js"></script>
-  <script src="bower_components/angular-touch/angular-touch.js"></script>
-  <script src="bower_components/js-md5/src/md5.js"></script>
-  <script src="bower_components/swiper/dist/js/swiper.jquery.js"></script>
-  <script src="bower_components/moment/moment.js"></script>
-  <script src="bower_components/moment/locale/zh-cn.js"></script>
-  <script src="bower_components/angular-moment/angular-moment.js"></script>
+  <script src="../bower_components/jquery/dist/jquery.js"></script>
+  <script src="../bower_components/angular/angular.js"></script>
+  <script src="../bower_components/angular-route/angular-route.js"></script>
+  <script src="../bower_components/angular-resource/angular-resource.js"></script>
+  <script src="../bower_components/angular-animate/angular-animate.js"></script>
+  <script src="../bower_components/angular-aria/angular-aria.js"></script>
+  <script src="../bower_components/angular-messages/angular-messages.js"></script>
+  <script src="../bower_components/angular-touch/angular-touch.js"></script>
+  <script src="../bower_components/js-md5/src/md5.js"></script>
+  <script src="../bower_components/swiper/dist/js/swiper.jquery.js"></script>
+  <script src="../bower_components/moment/moment.js"></script>
+  <script src="../bower_components/moment/locale/zh-cn.js"></script>
+  <script src="../bower_components/angular-moment/angular-moment.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
 
-  <!-- build:js assets/4-appb.js -->
+  <!-- build:js ../assets/4-appb.js -->
   <!-- inject:js -->
-  <script src="app-jia/app-jia.define.js"></script>
-  <script src="modules/amap-main/amap-main.module.js"></script>
+  <script src="app-jia.define.js"></script>
   <script src="modules/appb/appb.module.js"></script>
+  <script src="modules/amap-main/amap-main.module.js"></script>
   <script src="modules/wx-login/wx-login.module.js"></script>
-  <script src="modules/amap-main/amap-main.component.js"></script>
-  <script src="modules/amap-main/amap-main.data.service.js"></script>
+  <script src="modules/common.js"></script>
   <script src="modules/appb/appb-data-api.service.js"></script>
   <script src="modules/appb/appb-data-footer.service.js"></script>
   <script src="modules/appb/appb-data-header.service.js"></script>
@@ -76,6 +75,13 @@
   <script src="modules/appb/appb-data.service.js"></script>
   <script src="modules/appb/appb-log-service.js"></script>
   <script src="modules/appb/appb.controller.js"></script>
+  <script src="modules/amap-main/amap-main.component.js"></script>
+  <script src="modules/amap-main/amap-main.data.service.js"></script>
+  <script src="modules/feed/appb-feed-comment.component.js"></script>
+  <script src="modules/feed/appb-feed-input.component.js"></script>
+  <script src="modules/feed/appb-feed-list.component.js"></script>
+  <script src="modules/feed/appb-feed-pop-action.component.js"></script>
+  <script src="modules/feed/appb-feed.component.js"></script>
   <script src="modules/appb-ui/appb-ui-abc.component.js"></script>
   <script src="modules/appb-ui/appb-ui-dialog.component.js"></script>
   <script src="modules/appb-ui/appb-ui-footer.component.js"></script>
@@ -88,15 +94,10 @@
   <script src="modules/appb-ui/appb-ui-service.js"></script>
   <script src="modules/appb-ui/appb-ui-toast.component.js"></script>
   <script src="modules/appb-ui/appb-ui-uploader.component.js"></script>
-  <script src="modules/feed/appb-feed-comment.component.js"></script>
-  <script src="modules/feed/appb-feed-input.component.js"></script>
-  <script src="modules/feed/appb-feed-list.component.js"></script>
-  <script src="modules/feed/appb-feed-pop-action.component.js"></script>
-  <script src="modules/feed/appb-feed.component.js"></script>
+  <script src="modules/log-analy/appb-log-analy-user-activity.component.js"></script>
   <script src="modules/feed-service/appb-comment-service.js"></script>
   <script src="modules/feed-service/appb-feed-service.js"></script>
   <script src="modules/feed-service/feed.data.define.js"></script>
-  <script src="modules/log-analy/appb-log-analy-user-activity.component.js"></script>
   <script src="modules/wx-login/wx-login-auth.component.js"></script>
   <script src="modules/wx-login/wx-login-callback.component.js"></script>
   <script src="modules/wx-login/wx-login.route.js"></script>
@@ -107,7 +108,6 @@
   <script src="app-jia/serve/serve-create.js"></script>
   <script src="app-jia/serve/serve-list.js"></script>
   <script src="app-jia/serve/serve.js"></script>
-  <script src="assets/js/common.js"></script>
   <script src="../tmp/tpl_jia.js"></script>
   <!-- endinject -->
   <!-- endbuild -->
