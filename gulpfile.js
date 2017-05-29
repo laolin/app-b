@@ -66,6 +66,7 @@ var gulp = require('gulp'),
     
     
     var fs = require('fs');
+    var args = require('minimist')(process.argv.slice(2));
 
     //自动发布代码
     gulp.task('dep1', function () {
@@ -98,13 +99,20 @@ var gulp = require('gulp'),
 
 */
 
-var config_empty = require ( './gulpfile.app-empty.js' );
-var config_exbook = require ( './gulpfile.app-exbook.js' );
-var config_jia = require ( './gulpfile.app-jia.js' );
-
 
 // =======================================================================
-var configObj =config_jia;
+var app_name=args['app'];
+if(!app_name)app_name=args['a'];
+if(!app_name)app_name='jia';
+
+fs.stat("./app/app-"+app_name+".define.js", function(err, stat) {
+  if(err){
+    console.log("Err: Missing ./app/app-"+app_name+".define.js");
+    process.exit(1);
+  }
+});
+
+var configObj =require ( './gulpfile.app.js' )(app_name);
 
 // =======================================================================
 
@@ -250,20 +258,4 @@ gulp.task('runBuild', ['build-loader','html-useref','copy'], function(){
   fs.writeFile(configObj.path.tmp+'/'+configObj.tplJsName,'//clear after build');
 });
 
-gulp.task('config-empty', function(){
-  console.log('set config to [app-empty]');
-  configObj =config_empty;
-});
-gulp.task('config-exbook', function(){
-  console.log('set config to [app-exbook]');
-  configObj =config_exbook;
-});
-gulp.task('config-jia', function(){
-  console.log('set config to [app-jia]');
-  configObj =config_jia;
-});
-
-gulp.task('default',['config-jia','runBuild']);
-gulp.task('empty',['config-empty','runBuild']);
-gulp.task('exbook',['config-exbook','runBuild']);
-gulp.task('jia',['config-jia','runBuild']);
+gulp.task('default',['runBuild']);

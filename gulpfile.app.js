@@ -1,12 +1,11 @@
 'use strict';
 
-module.exports = 
-{
+module.exports = function(app_name) { return {
   "html_src": "app-b.html", 
   "html_debug": "index.html", //这是app目录下的文件名，用于调试
   
-  "dist_loader": "index.html", // 注入 loader 改名后做 index.html
-  "dist_html": "index0.html", // 注入一大堆js,css的 改名后做 index0.html
+  "dist_loader": "index.html", // 只注入 loader 后做 index.html
+  "dist_html": "index0.html", // 注入一大堆js,css的 不做index.html,改名做 index0.html
   
   "path": {
     "app": "app",    
@@ -14,7 +13,7 @@ module.exports =
     
     "dist_root": "dist",
     "dist_assets": "dist/assets",
-    "dist_app": "dist/app-jia",
+    "dist_app": "dist/"+app_name,
     
     "tmp": "tmp",
     
@@ -30,10 +29,10 @@ module.exports =
   // /app/后马上跟两个*号，否则路径的 base 不对，模板不能用
   "tplHtml": [
     "./app/**/modules/**/*.template.html",
-    "./app/**/app-jia/**/*.template.html"
+    "./app/**/app-"+app_name+"/**/*.template.html"
   ],
     
-  "tplJsName": "tpl_jia.js",
+  "tplJsName": "tpl_"+app_name+".js",
   
   // 【injects 注入内容】 ---------------------------- 
   //  注：
@@ -42,21 +41,27 @@ module.exports =
 
   "injects": [
     [
-      "./app/app-jia.define.js"
-    ], [
+      "./app/app-"+app_name+".define.js"
+    ], 
+    [
       "./app/modules/**/*.module.js"
-    ], [
+    ], 
+    [
        "./app/modules/**/*.js",
       "!./app/modules/**/*.module.js"
-    ], [
-      "./app/app-jia/**/*.module.js"
-    ], [
-       "./app/app-jia/**/*.js",
-      "!./app/app-jia/**/*.module.js"
-    ], [
+    ], 
+    [
+      "./app/app-"+app_name+"/**/*.module.js"
+    ], 
+    [
+       "./app/app-"+app_name+"/**/*.js",
+      "!./app/app-"+app_name+"/**/*.module.js"
+    ], 
+    [
       "./app/modules/**/*.css"
-    ], [
-      "./app/app-jia/**/*.css"
+    ], 
+    [
+      "./app/app-"+app_name+"/**/*.css"
     ]
   ]
-}
+}}
