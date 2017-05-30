@@ -353,7 +353,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       deferred.reject('requireLogin');
       return deferred.promise;
     }
-    $http.jsonp(api, {params:{app:app,cat:cat}})
+    return $http.jsonp(api, {params:{app:app,cat:cat}})
     .then(function(s){
       var res=s.data;
       if(res.errcode > 0) {
