@@ -7,7 +7,7 @@
   
     <!-- 1  cf.type =="mtext" -->  
     <div class="weui-cell__bd" ng-if=' cf.type =="mtext"'>
-      <textarea class="weui-textarea" placeholder="不求万人怜惜，但求一人懂得。" rows="3"
+      <textarea class="weui-textarea" placeholder="{{cf.placeholder}}" rows="3"
       ng-model="$ctrl.models[cf.name]"
       ng-change="$ctrl.changeModel(cf.name)"
       maxlength='{{$ctrl.maxTextLength}}'
