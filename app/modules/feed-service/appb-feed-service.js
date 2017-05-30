@@ -264,13 +264,23 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     };
     svc.isUpdating=true;
     var data={}
+    var data_attr=false;
     var dirty=false;
-    for (var attr in svc.dataChanged) {
-      if(1 == svc.dataChanged[attr]) { // 1表示需要更新
+    for (var key in svc.dataChanged) {
+      if(1 == svc.dataChanged[key]) { // 1表示需要更新
         dirty=true;
-        data[attr]=feedData.draftAll[fcat][attr];
-        svc.dataChanged[attr]=2;//2 表示正在更新中
+        //处理attr.xxx，属于下一级数据列的情况
+        if(key.substr(0,5)=='attr.') {
+          if(!data_attr)data_attr={}
+          data_attr[key.substr(5)]=feedData.draftAll[fcat].attr[key.substr(5)];
+        } else {
+          data[key]=feedData.draftAll[fcat][key];
+        }
+        svc.dataChanged[key]=2;//2 表示正在更新中
       }
+    }
+    if(data_attr) {
+      data.attr=JSON.stringify(data_attr);
     }
 
     if(!dirty) {
@@ -371,6 +381,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
         return deferred.promise;
       }
       $log.log('Done init_draft',res);
+      if(res.data.attr)res.data.attr=JSON.parse(res.data.attr);
       feedData.draftAll[feedAppCat(app,cat)]=res.data;
       deferred.resolve(res.data);
       return deferred.promise;
@@ -412,6 +423,16 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   function getFeedDefinition(app,cat) {
     return feedDefinition[feedAppCat(app,cat)];
   }
+  function getFeedDefinitionType(app,cat,name) {
+    var df = feedDefinition[feedAppCat(app,cat)].columns;
+    for(var i= df.length ; i-- ; ) {
+      if(df[i].name==name) {
+        return df[i].type
+      }
+      return '';
+    }
+    return '';
+  }
   function getFeedDefinitionValue(app,cat,name,key) {
     var df = feedDefinition[feedAppCat(app,cat)].columns;
     for(var i= df.length ; i-- ; ) {
@@ -421,6 +442,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
             return df[i].values[j];
           }
         }
+        return false;
       }
     }
     return false;
@@ -453,6 +475,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   feedData.defineFeed=defineFeed;
   feedData.getFeedDefinition=getFeedDefinition;
   feedData.getFeedDefinitionValue=getFeedDefinitionValue;
+  feedData.getFeedDefinitionType=getFeedDefinitionType;
 
   feedData.usersInfo=appData.userData.usersInfo;//头像等用户信息
   feedData.newMoreLoading={};

@@ -8,8 +8,8 @@
     <!-- 1  cf.type =="mtext" -->  
     <div class="weui-cell__bd" ng-if=' cf.type =="mtext"'>
       <textarea class="weui-textarea" placeholder="不求万人怜惜，但求一人懂得。" rows="3"
-      ng-model="$ctrl.feedData.draftAll[$ctrl.fcat][cf.name]"
-      ng-change="$ctrl.feedData.changeMark([cf.name])"
+      ng-model="$ctrl.models[cf.name]"
+      ng-change="$ctrl.changeModel(cf.name)"
       maxlength='{{$ctrl.maxTextLength}}'
       ></textarea>
       <div class="weui-textarea-counter"
@@ -33,8 +33,8 @@
     </div>
     <div class="weui-cell__bd" ng-if="cf.type=='radio'">
       <select class="weui-select" name="select_{{cf.name}}"
-      ng-model='$ctrl.feedData.draftAll[$ctrl.fcat][cf.name]' 
-      ng-change="$ctrl.feedData.changeMark(cf.name)">
+      ng-model='$ctrl.models[cf.name]' 
+      ng-change="$ctrl.changeModel(cf.name)">
         <option ng-repeat='key in cf.keys '
           value="{{key}}">{{cf.values[$index]}}</option>
       </select>
@@ -47,8 +47,8 @@
     <div class="weui-cell__bd" ng-if="cf.type=='text'">
       <input class="weui-input" type="input"  placeholder=""
         name="input_{{cf.name}}"
-        ng-model='$ctrl.feedData.draftAll[$ctrl.fcat][cf.name]' 
-        ng-change="$ctrl.feedData.changeMark(cf.name)"
+        ng-model='$ctrl.models[cf.name]' 
+        ng-change="$ctrl.changeModel(cf.name)"
       >
     </div>
     
@@ -59,8 +59,8 @@
     <div class="weui-cell__bd" ng-if="cf.type=='date'">
       <input class="weui-input" type="date" 
         name="input_{{cf.name}}"
-        ng-model='$ctrl.dates[cf.name]' 
-        ng-change="$ctrl.changeDates(cf.name)"
+        ng-model='$ctrl.models[cf.name]' 
+        ng-change="$ctrl.changeModel(cf.name)"
       >
     </div>
     
@@ -71,8 +71,8 @@
     <div class="weui-cell__bd" ng-if="cf.type=='datetime'">
       <input class="weui-input" type="datetime-local" 
         name="input_{{cf.name}}"
-        ng-model='$ctrl.dates[cf.name]' 
-        ng-change="$ctrl.changeDates(cf.name)"
+        ng-model='$ctrl.models[cf.name]' 
+        ng-change="$ctrl.changeModel(cf.name)"
       >
     </div>
 

@@ -37,6 +37,28 @@ angular.module('jia')
       name: 'content',
       desc:'内容',
       type: 'mtext'
+    },
+    {
+      name: 'attr.promoBegin',
+      desc:'优惠开始时间',
+      type: 'datetime'
+    },
+    {
+      name: 'attr.promoEnd',
+      desc:'优惠结束时间',
+      type: 'datetime'
+    },
+    {
+      name: 'attr.promoDesc',
+      desc:'优惠说明',
+      type: 'text'
+    },
+    {
+      name: 'attr.size',
+      desc:'类型',
+      type: 'radio',
+      keys: ['1','2','3','4'],
+      values: ['房间','阳台','车库','厨房']
     }
   ]);
 

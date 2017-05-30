@@ -21,7 +21,7 @@ angular.module('appb')
       
 
       ctrl.maxTextLength=999;
-      ctrl.dates={};
+      ctrl.models={};
       
       ctrl.updateImg=function(imgs) {
         var drft= ctrl.feedData.draftAll[ctrl.fcat];
@@ -30,13 +30,28 @@ angular.module('appb')
         drft.pics=imgs.join(',');
         ctrl.feedData.changeMark('pics');
       }
-      ctrl.changeDates=function(name) {
+      ctrl.changeModel=function(name) {
         var drft= ctrl.feedData.draftAll[ctrl.fcat];
-        $log.log('drft==->',drft);
+        
         if(!drft)return;//未初始化完成草稿（http未返回）
-        drft[name]=ctrl.dates[name].toISOString()
-        ctrl.feedData.changeMark(name);
-        $log.log('drft==-|>',drft[name]);
+        var type=ctrl.feedData.getFeedDefinitionType(ctrl.feedApp,ctrl.feedCat,name);
+        var realname=name;
+        //attr的下一级参数
+        if(name.substr(0,5)=='attr.') {
+          if(!drft.attr)drft.attr={}
+          drft=drft.attr;
+          realname=name.substr(5);
+          $log.log('drft.realname',realname,ctrl.feedData.draftAll[ctrl.fcat]);
+        }
+        
+        if(type.substr(0,4)=='date') {
+          drft[realname]=ctrl.models[name].toISOString()
+          ctrl.feedData.changeMark(name);
+          $log.log('drft==-|>',drft[realname]);
+        } else {
+          drft[realname]=ctrl.models[name];
+          ctrl.feedData.changeMark(name)
+        }
       }
       
       ctrl.publish=function() {
@@ -52,16 +67,24 @@ angular.module('appb')
         ctrl.fcat= ctrl.feedData.feedAppCat(ctrl.feedApp,ctrl.feedCat);
         ctrl.fconfig=ctrl.feedData.getFeedDefinition(ctrl.feedApp,ctrl.feedCat);
         
+        var obj_draft,item_d,name,realname;
         ctrl.feedData.initDraft(ctrl.feedApp,ctrl.feedCat).then(function(){
+          obj_draft=ctrl.feedData.draftAll[ctrl.fcat];
           for(var i=ctrl.fconfig.columns.length;i--;) {
+            realname=name=ctrl.fconfig.columns[i].name;
+            if(name.substr(0,5)=='attr.') {
+              realname=name.substr(5);
+              item_d=obj_draft.attr[realname];
+            } else {
+              item_d=obj_draft[name];
+            }
             if(ctrl.fconfig.columns[i].type.substr(0,4)=='date') {
-              $log.log('fcat',ctrl.fcat,ctrl.feedData.draftAll[ctrl.fcat]);
-              ctrl.dates[ctrl.fconfig.columns[i].name]=new Date(
-                ctrl.feedData.draftAll[ctrl.fcat][ctrl.fconfig.columns[i].name]
-              );
-              $log.log('dates',ctrl.dates,ctrl.feedData.draftAll[ctrl.fcat][ctrl.fconfig.columns[i].name]);
+              ctrl.models[name]=new Date( item_d);
+            } else {
+              ctrl.models[name]= item_d;
             }
           }
+          $log.log('ctrl.models',ctrl.models);
         })
         $log.log('feed-input feedData:',ctrl.feedData);
         intervalRes=$interval(function(){ctrl.feedData.updateData(ctrl.feedApp,ctrl.feedCat)},15*1000);//n秒
