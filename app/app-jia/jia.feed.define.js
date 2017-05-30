@@ -4,7 +4,11 @@ angular.module('jia')
   $log.log('exbook init ok');
   var feedData=AppbFeedService.getFeedData();
   feedData.defineFeed('jia','serve','嘉空间服务',[
-    {name: 'pics',desc:'图片'},
+    {
+      name: 'pics',
+      desc:'图片',
+      type: 'pics'
+    },
     {
       name: 'd1',//d1~d4,attr,要和数据表的列名对应
       desc: '年级',
@@ -28,12 +32,14 @@ angular.module('jia')
     },
     {
       name: 'd4',//d1~d4,attr,要和数据表的列名对应
-      desc: '匿名',
-      type: 'radio',
-      keys: ['1','0'],
-      values: ['是','否']
+      desc: '价格',
+      type: 'text'
     },
-    {name: 'content',desc:'内容'}
+    {
+      name: 'content',
+      desc:'内容',
+      type: 'mtext'
+    }
   ]);
 
 }]);

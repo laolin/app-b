@@ -1,24 +1,24 @@
 <div class="weui-cells weui-cells_form">
 
   <div class="weui-cell"
-  ng-class="{'weui-cell_select':cf.type, 'weui-cell_select-after':cf.type}"
+  ng-class="{'weui-cell_select':cf.type=='radio', 'weui-cell_select-after':cf.type=='radio'}"
   ng-repeat='cf in $ctrl.fconfig.columns'>
   
   
-    <!-- 1.1  cf.type 为空，  cf.name=="content" -->  
-    <div class="weui-cell__bd" ng-if='! cf.type && cf.name=="content"'>
+    <!-- 1  cf.type =="mtext" -->  
+    <div class="weui-cell__bd" ng-if=' cf.type =="mtext"'>
       <textarea class="weui-textarea" placeholder="不求万人怜惜，但求一人懂得。" rows="3"
-      ng-model="$ctrl.feedData.draftAll[$ctrl.fcat].content"
-      ng-change="$ctrl.feedData.changeMark('content')"
+      ng-model="$ctrl.feedData.draftAll[$ctrl.fcat][cf.name]"
+      ng-change="$ctrl.feedData.changeMark([cf.name])"
       maxlength='{{$ctrl.maxTextLength}}'
       ></textarea>
       <div class="weui-textarea-counter"
-      ng-if='$ctrl.feedData.draftAll[$ctrl.fcat].content.length/$ctrl.maxTextLength > 0.9'
-      ><span>{{$ctrl.feedData.draftAll[$ctrl.fcat].content.length}}</span>/{{$ctrl.maxTextLength}}</div>
+      ng-if='$ctrl.feedData.draftAll[$ctrl.fcat][cf.name].length/$ctrl.maxTextLength > 0.9'
+      ><span>{{$ctrl.feedData.draftAll[$ctrl.fcat][cf.name].length}}</span>/{{$ctrl.maxTextLength}}</div>
     </div>
 
-    <!-- 1.2 cf.type 为空，  cf.name=="pics" -->  
-    <div class="weui-cell__bd" ng-if='! cf.type && cf.name=="pics"'>
+    <!-- 2 cf.type  =="pics" -->  
+    <div class="weui-cell__bd" ng-if=' cf.type =="pics"'>
       <appb-ui-uploader  
         app-data='$ctrl.appData'
         imgs='$ctrl.imgs'
@@ -27,11 +27,11 @@
       ></appb-ui-uploader>
     </div>
     
-    <!-- 2， cf.type 有值的情况-->  
-    <div class="weui-cell__hd" ng-if='cf.type'>
+    <!-- 3， cf.type = radio -->  
+    <div class="weui-cell__hd" ng-if="cf.type=='radio'">
       <label for="" class="weui-label">{{cf.desc}}</label>
     </div>
-    <div class="weui-cell__bd" ng-if='cf.type'>
+    <div class="weui-cell__bd" ng-if="cf.type=='radio'">
       <select class="weui-select" name="select_{{cf.name}}"
       ng-model='$ctrl.feedData.draftAll[$ctrl.fcat][cf.name]' 
       ng-change="$ctrl.feedData.changeMark(cf.name)">
@@ -40,6 +40,19 @@
       </select>
     </div>    
 
+    <!-- 4， cf.type = input -->  
+    <div class="weui-cell__hd" ng-if="cf.type=='text'">
+      <label class="weui-label">{{cf.desc}}</label>
+    </div>
+    <div class="weui-cell__bd" ng-if="cf.type=='text'">
+      <input class="weui-input" type="input"  placeholder=""
+        name="input_{{cf.name}}"
+        ng-model='$ctrl.feedData.draftAll[$ctrl.fcat][cf.name]' 
+        ng-change="$ctrl.feedData.changeMark(cf.name)"
+      >
+    </div>
+  
+    
 
   </div>
 </div>
