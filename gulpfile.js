@@ -288,4 +288,6 @@ gulp.task('runBuild', ['build-loader','html-useref','copy'], function(){
 });
 
 gulp.task('default',['runBuild']);
-gulp.task('dev',['build-loader','wiredep']);
+gulp.task('dev',['build-loader','wiredep'], function(){
+  fs.writeFile(configObj.path.tmp+'/'+configObj.tplJsName,'//clear after build');
+});
