@@ -1,8 +1,11 @@
+<form name='{{$ctrl.formname}}'>
 <div class="weui-cells weui-cells_form">
 
-  <div class="weui-cell"
-  ng-class="{'weui-cell_select':cf.type=='radio', 'weui-cell_select-after':cf.type=='radio'}"
-  ng-repeat='cf in $ctrl.fconfig.columns'>
+  <div class="weui-cell "
+  ng-class="{'weui-cell_select':cf.type=='radio', 'weui-cell_select-after':cf.type=='radio',
+  'weui-cell_warn':! {{$ctrl.formname}}.input_{{cf.name}}.$valid
+  }"
+  ng-repeat='cf in $ctrl.fconfig.columns'> 
   
   
     <!-- 1  cf.type =="mtext" -->  
@@ -32,7 +35,7 @@
       <label for="" class="weui-label">{{cf.desc}}</label>
     </div>
     <div class="weui-cell__bd" ng-if="cf.type=='radio'">
-      <select class="weui-select" name="select_{{cf.name}}"
+      <select class="weui-select" name="input_{{cf.name}}"
       ng-model='$ctrl.models[cf.name]' 
       ng-change="$ctrl.changeModel(cf.name)">
         <option ng-repeat='key in cf.keys '
@@ -45,10 +48,27 @@
       <label class="weui-label">{{cf.desc}}</label>
     </div>
     <div class="weui-cell__bd" ng-if="cf.type=='text'">
-      <input class="weui-input" type="input"  placeholder=""
+      <input class="weui-input" type="input"  placeholder="{{cf.placeholder}}"
         name="input_{{cf.name}}"
         ng-model='$ctrl.models[cf.name]' 
         ng-change="$ctrl.changeModel(cf.name)"
+        ng-required='cf.required'
+        ng-minlength="cf.minlength"
+        ng-maxlength="cf.maxlength"
+      >
+    </div>
+    <!-- 4a， cf.type = number -->  
+    <div class="weui-cell__hd" ng-if="cf.type=='number'">
+      <label class="weui-label">{{cf.desc}}</label>
+    </div>
+    <div class="weui-cell__bd" ng-if="cf.type=='number'">
+      <input class="weui-input" type="number"  placeholder="{{cf.placeholder}}"
+        name="input_{{cf.name}}"
+        ng-model='$ctrl.models[cf.name]' 
+        ng-change="$ctrl.changeModel(cf.name)"
+        ng-required='cf.required'
+        ng-min="cf.min"
+        ng-max="cf.max"
       >
     </div>
     
@@ -61,6 +81,7 @@
         name="input_{{cf.name}}"
         ng-model='$ctrl.models[cf.name]' 
         ng-change="$ctrl.changeModel(cf.name)"
+        required 
       >
     </div>
     
@@ -73,6 +94,7 @@
         name="input_{{cf.name}}"
         ng-model='$ctrl.models[cf.name]' 
         ng-change="$ctrl.changeModel(cf.name)"
+        required 
       >
     </div>
 
@@ -84,4 +106,4 @@
   ng-class="{'weui-btn_disabled':$ctrl.feedData.publishing}"
   ng-click="$ctrl.publish()">确定</button>
 </div>  
-
+</form>

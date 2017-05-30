@@ -37,7 +37,7 @@ angular.module('appb')
         var type=ctrl.feedData.getFeedDefinitionType(ctrl.feedApp,ctrl.feedCat,name);
         var realname=name;
         //attr的下一级参数
-        if(name.substr(0,5)=='attr.') {
+        if(name.substr(0,5)=='attr_') {
           if(!drft.attr)drft.attr={}
           drft=drft.attr;
           realname=name.substr(5);
@@ -64,22 +64,26 @@ angular.module('appb')
         });
       }
       ctrl.$onInit=function(){
+        ctrl.formname='fm_'+(+new Date);
         ctrl.fcat= ctrl.feedData.feedAppCat(ctrl.feedApp,ctrl.feedCat);
         ctrl.fconfig=ctrl.feedData.getFeedDefinition(ctrl.feedApp,ctrl.feedCat);
         
-        var obj_draft,item_d,name,realname;
+        var obj_draft,item_d,name,realname,type;
         ctrl.feedData.initDraft(ctrl.feedApp,ctrl.feedCat).then(function(){
           obj_draft=ctrl.feedData.draftAll[ctrl.fcat];
           for(var i=ctrl.fconfig.columns.length;i--;) {
             realname=name=ctrl.fconfig.columns[i].name;
-            if(name.substr(0,5)=='attr.') {
+            if(name.substr(0,5)=='attr_') {
               realname=name.substr(5);
               item_d=obj_draft.attr[realname];
             } else {
               item_d=obj_draft[name];
             }
-            if(ctrl.fconfig.columns[i].type.substr(0,4)=='date') {
+            type=ctrl.fconfig.columns[i].type;
+            if(type.substr(0,4)=='date') {
               ctrl.models[name]=new Date( item_d);
+            } else if(type =='number') {
+              ctrl.models[name]= parseFloat( item_d) ;
             } else {
               ctrl.models[name]= item_d;
             }
