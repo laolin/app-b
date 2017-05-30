@@ -2,29 +2,40 @@
 
 /**
  *  可构建多个APP，
- *  目前有两个APP： `app-b` AND `app-exbook`
- *  默认APP为 app-b
+ *  开发一个APP(假设app名为 XXX)需要一个目录和一个文件：
+ *      `app/app-XXX.define.js`文件 和 `app/app-XXX`目录
  *  
- *  总的任务：
+ *  ===========================
+ *  gulp 任务使用：
+ *  ===========================
  *  
- *  1, 使用 `gulp` 或 `gulp default` 构建 默认APP (`app-b`)
- *  2  使用 `gulp appb` 构建 `app-b`
- *  3, 使用 `gulp exbook` 构建 `app-exbook`
+ *  1, 使用 `gulp` 或 `gulp default` 构建 默认APP
+ *  - `gulp --app XXX` 构建 名为 XXX 的app
+ *  - 上面也可简写为 `gulp -a XXX
  *  
- *  详细 分步任务 列表：
- * 
- *  4, gulp wiredep  //根据bower.json 注入依赖的css和js到html中
- *  5, gulp useref   //合并html中的多个css和js
- *  6, gulp config-appb //修改配置为`app-b`，单独运行没用，放在别的任务前运行
- *  7, gulp config-exbook //修改配置为`app-exbook`，同上
- *  8,  ... 略
+ *  2, `gulp dev`
  *  
- *  一般 分步任务 均为对默认APP操作，
- *  如果对其他APP，需要在任务前加对应APP的配置任务，
- *  一定要同一条gulp命令运行多个任务才有效，单独运行没用。
- *  比如上面的4, 5, 对应app-exbook的任务应该如下：
- *  4, gulp config-exbook wiredep  //根据bower.json 注入依赖的css和js到html中
- *  5, gulp config-exbook useref   //合并html中的多个css和js
+ *  - 目前还有一个没写完可将就用的自动发布任务:  `gulp dep1`
+ *  
+ *  
+ *  ===========================
+ *  详细任务 列表：
+ *  ===========================
+ *  
+ *  s1: `templatecache` : angular template 的(*.template.html) 打包至js文件(tmp/tlp_XXX.js)
+ *  s2: `inject` : 全部js,css注入app/app-b.html 中，生成app/index.html，方便开发调试
+ *    参见gulpfile.js中的inject部分
+ *  s3: `wiredep` : 注入 bower components 
+ *  s4: `html-useref` : 把 css js 合并
+ *    生成 css.json js.json 文件到 dist-app/目录下，供loader.js使用
+ *  
+ *  A : `build-loader` : app-b.html 中仅注入 loader.js 的 index.html 版本，详见loader.js中的注释
+ *  
+ *  B : `copy` : 复制 需要的js,img文件到dist-app 目录下
+ *  
+ *  `runBuild` : = ['build-loader','html-useref','copy']
+ *  `default` : 同`runBuild`
+ *  `dev` : = ['build-loader','wiredep']
  */
  
 // =======================================================================
@@ -84,16 +95,26 @@ var gulp = require('gulp'),
 
 
 /*
-1. dist 目录下直接放的文件只有两个
-  index.html
-  xxx-config.js
+1. dist/APP_NAME 目录下放的文件有5个
+  1, index0.html
+  2, index.html
+  3, loader.js
+  4, css.json
+  5, js.json
   
-2. dist/assest 目录放 js 文件
-
-3. dist/assest/css
-   dist/assest/img
-   dist/assest/fonts
-   3个子目录放对应的文件
+  正常只要有index0.html一个文件就够了
+  但是由于 微信会缓存文件，所以把变化的内容都移出来留下的内容放在2,3文件中
+  4和5的内容是变化的（css,js文件名列表）
+  loader.js负责动态加载，避免微信缓存
+  
+  
+2. 各APP的 ASSETS 目录名是固定的 (dist/assest) (这样多APP可共用assest)
+   ASSETS 目录放 js 文件
+   ASSETS/css 目录放 css 文件
+   ASSETS/fonts 目录放字体文件
+   ASSETS/img 目录放图片
+   
+   为方便开发，APP中约定上述4个子目录固定，不能变化。
    
    保持 css 和 fonts 相对路径不变。
 
@@ -136,33 +157,6 @@ gulp.task('templatecache', function () {
     .pipe(gulp.dest(configObj.path.tmp));
 });
 
-/**
- *  s2a: build-loader
- *  仅注入 loader.js 的 index.html 版本
- *  其他css,js 都通过 loader.js 动态加载
- */
-gulp.task('build-loader', function () {
-  var src=configObj.path.app + '/'+configObj.html_src;
-  
-  var loaderJs=configObj.path.app + '/'+'loader.js';
-  
-  //1, 把loader.js里的路径替换掉，然后写入dist目录
-  gulp.src(loaderJs)
-    .pipe(replace("window.__assetsPath='../assets'",
-        "window.__assetsPath='"+configObj.path.assets_dep_at+"'"))
-    .pipe(uglify({compress: { drop_console: true }}))
-    .pipe(gulp.dest(configObj.path.dist_app))
-  
-  //2, app-b.html 文件只注入loader.js，然后写入dist/imdex.html
-  // (注，app-b.html注入全部js,css文件后，并用usref合并压缩的，
-  //   是写入dist/imdex0.html，属于备用文件)
-  return gulp.src( src )
-    .pipe(inject(gulp.src(loaderJs, {read: false}), {relative: true}))
-    .pipe(rename(configObj.dist_loader))
-    .pipe(htmlmin({collapseWhitespace: true,removeComments: true}))
-    .pipe(gulp.dest(configObj.path.dist_app))
-});
-
 
 /**
  *  s2: inject
@@ -198,6 +192,8 @@ gulp.task('wiredep', ['inject'], function() {
 /**
  *  s4: html-useref
  *  把 css js 合并
+ *  
+ *  同时生成 css.json js.json 文件到 dist-app/目录下，供loader.js使用
  */
 gulp.task('html-useref',['wiredep'], function(){
   
@@ -234,6 +230,39 @@ gulp.task('html-useref',['wiredep'], function(){
       
       
 });
+
+
+/**
+ *  s5: build-loader
+ *  app-b.html 中仅注入 loader.js 的 index.html 版本
+ *  其他css,js 都通过 loader.js 动态加载
+ */
+gulp.task('build-loader', function () {
+  var src=configObj.path.app + '/'+configObj.html_src;
+  
+  var loaderJs=configObj.path.app + '/'+'loader.js';
+  
+  //1, 把loader.js里的路径替换掉，然后写入dist目录
+  gulp.src(loaderJs)
+    .pipe(replace("window.__assetsPath='../assets'",
+        "window.__assetsPath='"+configObj.path.assets_dep_at+"'"))
+    .pipe(uglify({compress: { drop_console: true }}))
+    .pipe(gulp.dest(configObj.path.dist_app))
+  
+  //2, app-b.html 文件只注入loader.js，然后写入dist/imdex.html
+  // (注，app-b.html注入全部js,css文件后，并用usref合并压缩的，
+  //   是写入dist/imdex0.html，属于备用文件)
+  return gulp.src( src )
+    .pipe(inject(gulp.src(loaderJs, {read: false}), {relative: true}))
+    .pipe(rename(configObj.dist_loader))
+    .pipe(htmlmin({collapseWhitespace: true,removeComments: true}))
+    .pipe(gulp.dest(configObj.path.dist_app))
+});
+
+
+
+
+
 gulp.task('copyImg', function() {
     return gulp.src(configObj.path.app_assets+'/img/**/*.*')
     .pipe(imagemin())
@@ -259,3 +288,4 @@ gulp.task('runBuild', ['build-loader','html-useref','copy'], function(){
 });
 
 gulp.task('default',['runBuild']);
+gulp.task('dev',['build-loader','wiredep']);
