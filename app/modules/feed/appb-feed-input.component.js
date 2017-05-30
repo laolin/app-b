@@ -21,6 +21,7 @@ angular.module('appb')
       
 
       ctrl.maxTextLength=999;
+      ctrl.dates={};
       
       ctrl.updateImg=function(imgs) {
         var drft= ctrl.feedData.draftAll[ctrl.fcat];
@@ -28,6 +29,14 @@ angular.module('appb')
         if(!drft)return;//未初始化完成草稿（http未返回）
         drft.pics=imgs.join(',');
         ctrl.feedData.changeMark('pics');
+      }
+      ctrl.changeDates=function(name) {
+        var drft= ctrl.feedData.draftAll[ctrl.fcat];
+        $log.log('drft==->',drft);
+        if(!drft)return;//未初始化完成草稿（http未返回）
+        drft[name]=ctrl.dates[name].toISOString()
+        ctrl.feedData.changeMark(name);
+        $log.log('drft==-|>',drft[name]);
       }
       
       ctrl.publish=function() {
@@ -42,6 +51,18 @@ angular.module('appb')
       ctrl.$onInit=function(){
         ctrl.fcat= ctrl.feedData.feedAppCat(ctrl.feedApp,ctrl.feedCat);
         ctrl.fconfig=ctrl.feedData.getFeedDefinition(ctrl.feedApp,ctrl.feedCat);
+        
+        ctrl.feedData.initDraft(ctrl.feedApp,ctrl.feedCat).then(function(){
+          for(var i=ctrl.fconfig.columns.length;i--;) {
+            if(ctrl.fconfig.columns[i].type.substr(0,4)=='date') {
+              $log.log('fcat',ctrl.fcat,ctrl.feedData.draftAll[ctrl.fcat]);
+              ctrl.dates[ctrl.fconfig.columns[i].name]=new Date(
+                ctrl.feedData.draftAll[ctrl.fcat][ctrl.fconfig.columns[i].name]
+              );
+              $log.log('dates',ctrl.dates,ctrl.feedData.draftAll[ctrl.fcat][ctrl.fconfig.columns[i].name]);
+            }
+          }
+        })
         $log.log('feed-input feedData:',ctrl.feedData);
         intervalRes=$interval(function(){ctrl.feedData.updateData(ctrl.feedApp,ctrl.feedCat)},15*1000);//n秒
       }

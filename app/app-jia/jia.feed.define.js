@@ -25,10 +25,8 @@ angular.module('jia')
     },
     {
       name: 'd3',//d1~d4,attr,要和数据表的列名对应
-      desc: '公开',
-      type: 'radio',
-      keys: ['pub','friendsonly','private'],
-      values: ['公开','朋友可见','仅自己可见']
+      desc: '时间',
+      type: 'datetime'
     },
     {
       name: 'd4',//d1~d4,attr,要和数据表的列名对应

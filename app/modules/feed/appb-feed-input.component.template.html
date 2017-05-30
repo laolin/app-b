@@ -51,8 +51,30 @@
         ng-change="$ctrl.feedData.changeMark(cf.name)"
       >
     </div>
-  
     
+    <!-- 5， cf.type = date -->  
+    <div class="weui-cell__hd" ng-if="cf.type=='date'">
+      <label for="" class="weui-label">{{cf.desc}}</label>
+    </div>
+    <div class="weui-cell__bd" ng-if="cf.type=='date'">
+      <input class="weui-input" type="date" 
+        name="input_{{cf.name}}"
+        ng-model='$ctrl.dates[cf.name]' 
+        ng-change="$ctrl.changeDates(cf.name)"
+      >
+    </div>
+    
+    <!-- 6， cf.type = datetime -->  
+    <div class="weui-cell__hd" ng-if="cf.type=='datetime'">
+      <label for="" class="weui-label">{{cf.desc}}</label>
+    </div>
+    <div class="weui-cell__bd" ng-if="cf.type=='datetime'">
+      <input class="weui-input" type="datetime-local" 
+        name="input_{{cf.name}}"
+        ng-model='$ctrl.dates[cf.name]' 
+        ng-change="$ctrl.changeDates(cf.name)"
+      >
+    </div>
 
   </div>
 </div>
