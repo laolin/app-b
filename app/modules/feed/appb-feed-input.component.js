@@ -59,6 +59,11 @@ angular.module('appb')
         .then(function(obj) {
           if('function' == typeof ctrl.onPublish) {
             $log.log('onPublish',obj);
+            //发布成功，为提高性能，简化系统，
+            //规定发布后把草稿中的 文字、图片 清空，其余不变
+            ctrl.models.content='';//服务器在发布时也清空了
+            ctrl.models.pics='';//服务器在发布时也清空了
+
             ctrl.onPublish({feed:obj});//回调参数名为feed： onPublish='onPublish(feed)'
           }
         });
