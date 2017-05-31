@@ -96,7 +96,7 @@ angular.module('appb')
           $log.log('ctrl.models',ctrl.models);
         })
         $log.log('feed-input feedData:',ctrl.feedData);
-        intervalRes=$interval(function(){ctrl.feedData.updateData(ctrl.feedApp,ctrl.feedCat)},15*1000);//n秒
+        intervalRes=$interval(function(){ctrl.feedData.updateDraft(ctrl.feedApp,ctrl.feedCat)},15*1000);//n秒
       }
       ctrl.$onChanges =function(chg){
         if( chg.pics) {
@@ -107,7 +107,7 @@ angular.module('appb')
       }
       ctrl.$onDestroy=function(){
         $interval.cancel(intervalRes);
-        ctrl.feedData.updateData(ctrl.feedApp,ctrl.feedCat);
+        ctrl.feedData.updateDraft(ctrl.feedApp,ctrl.feedCat);
       }
 
       

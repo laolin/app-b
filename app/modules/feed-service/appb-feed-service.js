@@ -208,7 +208,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     }
     feedData.publishing=true;
     appData.toastLoading();
-    return updateData(app,cat)
+    return updateDraft(app,cat)
     .then(function(){
       var api=appData.urlSignApi('feed','draft_publish');
       $log.log('api1',api);
@@ -255,12 +255,12 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     svc.dataChanged[key]= 1;// 1表示需要更新
   }
 
-  function updateData(app,cat) {
+  function updateDraft(app,cat) {
     var deferred = $q.defer();
     var fcat=feedAppCat(app,cat);
 
     if(svc.isUpdating) {
-      return $timeout(function(){return updateData(app,cat)},500);
+      return $timeout(function(){return updateDraft(app,cat)},500);
     };
     svc.isUpdating=true;
     var data={}
@@ -464,7 +464,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   feedData.exploreFeed=exploreFeed;
   //更新、发布相关：
   feedData.changeMark=changeMark;
-  feedData.updateData=updateData;
+  feedData.updateDraft=updateDraft;
   feedData.publish=publish;
   feedData.publishing=false;
   feedData.feedAppCat=feedAppCat;
