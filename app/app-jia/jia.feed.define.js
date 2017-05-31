@@ -13,7 +13,9 @@ angular.module('jia')
       name: 'content',
       desc:'服务内容',
       placeholder: '请输入嘉空间服务内容',
-      type: 'mtext'
+      type: 'mtext',
+      maxlength: 99,
+      minlength: 5
     },
     {
       name: 'd1',//d1~d4,attr,要和数据表的列名对应
@@ -30,13 +32,8 @@ angular.module('jia')
       max: 19999
     },
     {
-      name: 'attr_promoBegin',
-      desc:'惠开始时间',
-      type: 'datetime',
-    },
-    {
       name: 'attr_promoEnd',
-      desc:'惠结束时间',
+      desc:'优惠结束时间',
       type: 'datetime',
     },
     {
@@ -44,8 +41,8 @@ angular.module('jia')
       desc:'推广优惠说明',
       type: 'text',
       required:1,
-      fminlength:2,
-      fmaxlength:100
+      minlength:2,
+      maxlength:100
     }
   ]);
 

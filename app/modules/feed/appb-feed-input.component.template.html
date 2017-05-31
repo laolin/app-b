@@ -11,13 +11,16 @@
     <!-- 1  cf.type =="mtext" -->  
     <div class="weui-cell__bd" ng-if=' cf.type =="mtext"'>
       <textarea class="weui-textarea" placeholder="{{cf.placeholder}}" rows="3"
+      name="input_{{cf.name}}"
       ng-model="$ctrl.models[cf.name]"
       ng-change="$ctrl.changeModel(cf.name)"
-      maxlength='{{$ctrl.maxTextLength}}'
+      maxlength='{{cf.maxlength}}'
+      NOUSE-ng-maxlength='cf.maxlength'
+      ng-minlength='cf.minlength'
       ></textarea>
       <div class="weui-textarea-counter"
-      ng-if='$ctrl.feedData.draftAll[$ctrl.fcat][cf.name].length/$ctrl.maxTextLength > 0.9'
-      ><span>{{$ctrl.feedData.draftAll[$ctrl.fcat][cf.name].length}}</span>/{{$ctrl.maxTextLength}}</div>
+      ng-if='$ctrl.feedData.draftAll[$ctrl.fcat][cf.name].length/cf.maxlength > 0.9'
+      ><span>{{$ctrl.feedData.draftAll[$ctrl.fcat][cf.name].length}}</span>/{{cf.maxlength}}</div>
     </div>
 
     <!-- 2 cf.type  =="pics" -->  
