@@ -13,8 +13,6 @@ angular.module('exbook')
       var ctrl=this;
       
 
-      ctrl.dataChanged={ 
-      }
       ctrl.$onInit=function(){
       }
       ctrl.$onChanges =function(chg){

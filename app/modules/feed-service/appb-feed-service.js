@@ -21,10 +21,6 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
 
   
   svc.isUpdating=false;
-  feedData.dataChanged=svc.dataChanged={ 
-    content:0,
-    pics:0
-  };
   function feedAppCat(app,cat) {
     return app+'.'+cat;
   }
@@ -259,32 +255,30 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     });
   }
   
-  function changeMark(key) {
-    svc.dataChanged[key]= 1;// 1表示需要更新
-  }
 
-  function updateDraft(app,cat) {
+  function updateDraft(app,cat,feedFullObj,dataChanged) {
+    $log.log('updateDraft->>',feedFullObj,dataChanged);
     var deferred = $q.defer();
     var fcat=feedAppCat(app,cat);
 
     if(svc.isUpdating) {
-      return $timeout(function(){return updateDraft(app,cat)},500);
+      return $timeout(function(){return updateDraft(app,cat,feedFullObj,dataChanged)},500);
     };
     svc.isUpdating=true;
     var data={}
     var data_attr=false;
     var dirty=false;
-    for (var key in svc.dataChanged) {
-      if(1 == svc.dataChanged[key]) { // 1表示需要更新
+    for (var key in dataChanged) {
+      if(1 == dataChanged[key]) { // 1表示需要更新
         dirty=true;
         //处理attr.xxx，属于下一级数据列的情况
         if(key.substr(0,5)=='attr_') {
           if(!data_attr)data_attr={}
-          data_attr[key.substr(5)]=feedData.draftAll[fcat].attr[key.substr(5)];
+          data_attr[key.substr(5)]=feedFullObj.attr[key.substr(5)];
         } else {
-          data[key]=feedData.draftAll[fcat][key];
+          data[key]=feedFullObj[key];
         }
-        svc.dataChanged[key]=2;//2 表示正在更新中
+        dataChanged[key]=2;//2 表示正在更新中
       }
     }
     if(data_attr) {
@@ -302,21 +296,21 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       deferred.reject('need login');
       return deferred.promise;
     }
-    data.fid=feedData.draftAll[fcat].fid;
+    data.fid=feedFullObj.fid;
     return $http.jsonp(api, {params:data})//TODO : 出错处理
       .then(function(s){
-         for (var attr in svc.dataChanged) {
-          if(2 == svc.dataChanged[attr])// 2 更新成功->0
-            svc.dataChanged[attr]=0;                    
+         for (var attr in dataChanged) {
+          if(2 == dataChanged[attr])// 2 更新成功->0
+            dataChanged[attr]=0;                    
         }
         svc.isUpdating=false;
         deferred.resolve(s);
         return deferred.promise;
       },function(e){
         errorCount(1);
-        for (var attr in svc.dataChanged) {
-          if(2 == svc.dataChanged[attr])// 2 更新失败->1
-            svc.dataChanged[attr]=1;                    
+        for (var attr in dataChanged) {
+          if(2 == dataChanged[attr])// 2 更新失败->1
+            dataChanged[attr]=1;                    
         }
         appData.toastMsg('draft_update error');
         svc.isUpdating=false;
@@ -471,7 +465,6 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   feedData.getFeed=getFeed;
   feedData.exploreFeed=exploreFeed;
   //更新、发布相关：
-  feedData.changeMark=changeMark;
   feedData.updateDraft=updateDraft;
   feedData.publish=publish;
   feedData.publishing=false;

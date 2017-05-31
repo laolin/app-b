@@ -23,12 +23,17 @@ angular.module('appb')
 
       ctrl.maxTextLength=999;
       ctrl.models={};
+      ctrl.changeMarks={}
+      function markChange(key) {
+        ctrl.changeMarks[key]= 1;// 1表示需要更新
+      }
+
       
       ctrl.updateImg=function(imgs) {
         $log.log('feed==->',ctrl.feed);
         if(!ctrl.feed)return;//未初始化完成草稿（http未返回）
         ctrl.feed.pics=imgs.join(',');
-        ctrl.feedData.changeMark('pics');
+        markChange('pics');
       }
       ctrl.changeModel=function(name) {
         if(!ctrl.feed){
@@ -38,7 +43,6 @@ angular.module('appb')
         var type=ctrl.feedData.getFeedDefinitionType(ctrl.feedApp,ctrl.feedCat,name);
         var realname=name;
         var drft=ctrl.feed;
-        $log.log('ctrl.feed 1',ctrl.feed.content,drft.content);
         //attr的下一级参数
         if(name.substr(0,5)=='attr_') {
           if(!ctrl.feed.attr)ctrl.feed.attr={}
@@ -46,15 +50,13 @@ angular.module('appb')
           realname=name.substr(5);
         }
         
+        markChange(name);
         if(type.substr(0,4)=='date') {
           drft[realname]=ctrl.models[name].toISOString()
-          ctrl.feedData.changeMark(name);
           $log.log('drft==-|>',drft[realname]);
         } else {
           drft[realname]=ctrl.models[name];
-          ctrl.feedData.changeMark(name)
         }
-        $log.log('ctrl.feed 2',ctrl.feed.content,drft.content);
       }
       
       ctrl.publish=function() {
@@ -104,7 +106,7 @@ angular.module('appb')
           $log.log('ctrl.models',ctrl.models);
         }
         $log.log('feed-input feedData:',ctrl.feedData);
-        intervalRes=$interval(function(){ctrl.feedData.updateDraft(ctrl.feedApp,ctrl.feedCat)},15*1000);//n秒
+        intervalRes=$interval(function(){ctrl.feedData.updateDraft(ctrl.feedApp,ctrl.feedCat,ctrl.feed,ctrl.changeMarks)},15*1000);//n秒
       }
       ctrl.$onChanges =function(chg){
         if( chg.pics) {
@@ -115,7 +117,7 @@ angular.module('appb')
       }
       ctrl.$onDestroy=function(){
         $interval.cancel(intervalRes);
-        ctrl.feedData.updateDraft(ctrl.feedApp,ctrl.feedCat);
+        ctrl.feedData.updateDraft(ctrl.feedApp,ctrl.feedCat,ctrl.feed,ctrl.changeMarks);
       }
 
       
