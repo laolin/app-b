@@ -21,6 +21,7 @@ angular.module('appb')
       
 
       ctrl.maxTextLength=999;
+      ctrl.models={};
       
       ctrl.updateImg=function(imgs) {
         var drft= ctrl.feedData.draftAll[ctrl.fcat];
@@ -28,6 +29,29 @@ angular.module('appb')
         if(!drft)return;//未初始化完成草稿（http未返回）
         drft.pics=imgs.join(',');
         ctrl.feedData.changeMark('pics');
+      }
+      ctrl.changeModel=function(name) {
+        var drft= ctrl.feedData.draftAll[ctrl.fcat];
+        
+        if(!drft)return;//未初始化完成草稿（http未返回）
+        var type=ctrl.feedData.getFeedDefinitionType(ctrl.feedApp,ctrl.feedCat,name);
+        var realname=name;
+        //attr的下一级参数
+        if(name.substr(0,5)=='attr_') {
+          if(!drft.attr)drft.attr={}
+          drft=drft.attr;
+          realname=name.substr(5);
+          $log.log('drft.realname',realname,ctrl.feedData.draftAll[ctrl.fcat]);
+        }
+        
+        if(type.substr(0,4)=='date') {
+          drft[realname]=ctrl.models[name].toISOString()
+          ctrl.feedData.changeMark(name);
+          $log.log('drft==-|>',drft[realname]);
+        } else {
+          drft[realname]=ctrl.models[name];
+          ctrl.feedData.changeMark(name)
+        }
       }
       
       ctrl.publish=function() {
@@ -40,8 +64,32 @@ angular.module('appb')
         });
       }
       ctrl.$onInit=function(){
+        ctrl.formname='fm_'+(+new Date);
         ctrl.fcat= ctrl.feedData.feedAppCat(ctrl.feedApp,ctrl.feedCat);
         ctrl.fconfig=ctrl.feedData.getFeedDefinition(ctrl.feedApp,ctrl.feedCat);
+        
+        var obj_draft,item_d,name,realname,type;
+        ctrl.feedData.initDraft(ctrl.feedApp,ctrl.feedCat).then(function(){
+          obj_draft=ctrl.feedData.draftAll[ctrl.fcat];
+          for(var i=ctrl.fconfig.columns.length;i--;) {
+            realname=name=ctrl.fconfig.columns[i].name;
+            if(name.substr(0,5)=='attr_') {
+              realname=name.substr(5);
+              item_d=obj_draft.attr[realname];
+            } else {
+              item_d=obj_draft[name];
+            }
+            type=ctrl.fconfig.columns[i].type;
+            if(type.substr(0,4)=='date') {
+              ctrl.models[name]=new Date( item_d);
+            } else if(type =='number') {
+              ctrl.models[name]= parseFloat( item_d) ;
+            } else {
+              ctrl.models[name]= item_d;
+            }
+          }
+          $log.log('ctrl.models',ctrl.models);
+        })
         $log.log('feed-input feedData:',ctrl.feedData);
         intervalRes=$interval(function(){ctrl.feedData.updateData(ctrl.feedApp,ctrl.feedCat)},15*1000);//n秒
       }
