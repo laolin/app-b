@@ -437,15 +437,16 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     var df = feedDefinition[feedAppCat(app,cat)].columns;
     for(var i= df.length ; i-- ; ) {
       if(df[i].name==name) {
+        if(!df[i].keys)return '';
         for(var j= df[i].keys.length ; j-- ; ) {
           if(df[i].keys[j]==key) {
             return df[i].values[j];
           }
         }
-        return false;
+        return '';
       }
     }
-    return false;
+    return '';
   }
 
   
