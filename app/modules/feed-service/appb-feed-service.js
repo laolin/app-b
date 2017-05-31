@@ -270,7 +270,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       if(1 == svc.dataChanged[key]) { // 1表示需要更新
         dirty=true;
         //处理attr.xxx，属于下一级数据列的情况
-        if(key.substr(0,5)=='attr.') {
+        if(key.substr(0,5)=='attr_') {
           if(!data_attr)data_attr={}
           data_attr[key.substr(5)]=feedData.draftAll[fcat].attr[key.substr(5)];
         } else {
