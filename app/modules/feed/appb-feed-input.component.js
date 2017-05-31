@@ -12,6 +12,7 @@ angular.module('appb')
     pics:"<",
     feedApp:"<",
     feedCat:"<",
+    feed: "=",
     feedData:"=" 
   },
   controller: ['$log','$timeout','$interval','$http',
@@ -24,24 +25,25 @@ angular.module('appb')
       ctrl.models={};
       
       ctrl.updateImg=function(imgs) {
-        var drft= ctrl.feedData.draftAll[ctrl.fcat];
-        $log.log('drft==->',drft);
-        if(!drft)return;//未初始化完成草稿（http未返回）
-        drft.pics=imgs.join(',');
+        $log.log('feed==->',ctrl.feed);
+        if(!ctrl.feed)return;//未初始化完成草稿（http未返回）
+        ctrl.feed.pics=imgs.join(',');
         ctrl.feedData.changeMark('pics');
       }
       ctrl.changeModel=function(name) {
-        var drft= ctrl.feedData.draftAll[ctrl.fcat];
-        
-        if(!drft)return;//未初始化完成草稿（http未返回）
+        if(!ctrl.feed){
+          $log.log('no feed');
+          return;//未初始化完成草稿（http未返回）
+        }
         var type=ctrl.feedData.getFeedDefinitionType(ctrl.feedApp,ctrl.feedCat,name);
         var realname=name;
+        var drft=ctrl.feed;
+        $log.log('ctrl.feed 1',ctrl.feed.content,drft.content);
         //attr的下一级参数
         if(name.substr(0,5)=='attr_') {
-          if(!drft.attr)drft.attr={}
-          drft=drft.attr;
+          if(!ctrl.feed.attr)ctrl.feed.attr={}
+          drft=ctrl.feed.attr;
           realname=name.substr(5);
-          $log.log('drft.realname',realname,ctrl.feedData.draftAll[ctrl.fcat]);
         }
         
         if(type.substr(0,4)=='date') {
@@ -52,6 +54,7 @@ angular.module('appb')
           drft[realname]=ctrl.models[name];
           ctrl.feedData.changeMark(name)
         }
+        $log.log('ctrl.feed 2',ctrl.feed.content,drft.content);
       }
       
       ctrl.publish=function() {
@@ -73,16 +76,21 @@ angular.module('appb')
         ctrl.fcat= ctrl.feedData.feedAppCat(ctrl.feedApp,ctrl.feedCat);
         ctrl.fconfig=ctrl.feedData.getFeedDefinition(ctrl.feedApp,ctrl.feedCat);
         
-        var obj_draft,item_d,name,realname,type;
-        ctrl.feedData.initDraft(ctrl.feedApp,ctrl.feedCat).then(function(){
-          obj_draft=ctrl.feedData.draftAll[ctrl.fcat];
+        var item_d,name,realname,type;
+        $timeout(wait_feed,10);
+        function wait_feed(){
+          $log.log('waiting_feed');
+          if(!ctrl.feed)return $timeout(wait_feed,100);
+          init_models_by_feed();
+        }
+        function init_models_by_feed(){
           for(var i=ctrl.fconfig.columns.length;i--;) {
             realname=name=ctrl.fconfig.columns[i].name;
             if(name.substr(0,5)=='attr_') {
               realname=name.substr(5);
-              item_d=obj_draft.attr[realname];
+              item_d=ctrl.feed.attr[realname];
             } else {
-              item_d=obj_draft[name];
+              item_d=ctrl.feed[name];
             }
             type=ctrl.fconfig.columns[i].type;
             if(type.substr(0,4)=='date') {
@@ -94,7 +102,7 @@ angular.module('appb')
             }
           }
           $log.log('ctrl.models',ctrl.models);
-        })
+        }
         $log.log('feed-input feedData:',ctrl.feedData);
         intervalRes=$interval(function(){ctrl.feedData.updateDraft(ctrl.feedApp,ctrl.feedCat)},15*1000);//n秒
       }

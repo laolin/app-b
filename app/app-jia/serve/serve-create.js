@@ -36,11 +36,14 @@ angular.module('jia')
         $scope.onPublish=function(a) {
           $log.log('$scope.onPublish serve-created!->',a);
         }        
+
         if(!feedData.draftAll[$scope.fcat]) {
-          feedData.initDraft($scope.feedApp,$scope.feedCat);
+          feedData.initDraft($scope.feedApp,$scope.feedCat).then(function(){
+            $scope.feed=feedData.draftAll[$scope.fcat];
+          });
+        } else {
+          $scope.feed=feedData.draftAll[$scope.fcat];
         }
-
-
 
 
       }
