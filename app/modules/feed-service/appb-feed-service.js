@@ -63,6 +63,8 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       
       //获取所有fid下的评论
       AppbCommentService.getComment({fids:s.data.data.fid});
+      if(s.data.data.attr)
+        s.data.data.attr=JSON.parse(s.data.data.attr);
       deferred.resolve(s.data.data);
       return deferred.promise;
     },function(e){
@@ -173,6 +175,12 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
         feedData.newMoreLoading[fcat]=false;
       } else {
         feedData.feedAll[fcat]=s.data.data;
+      }
+      var dlist=s.data.data;
+      for(i=dlist.length;i--;i) {
+        if(dlist[i].attr) {
+          dlist[i].attr=JSON.parse(dlist[i].attr);
+        }
       }
       deferred.resolve(feedData.feedAll[fcat]);
       return deferred.promise;
