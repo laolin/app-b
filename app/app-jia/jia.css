@@ -95,3 +95,7 @@ div.weui-toast .weui-toast__content {
   padding-right:10px;
   color:#e06000;
 }
+
+.weui-icon-success {
+  color: #e06000;
+}
