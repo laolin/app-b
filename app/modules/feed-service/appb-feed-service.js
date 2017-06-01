@@ -198,7 +198,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     return ids;
   }  
 
-  function publish(app,cat) {
+  function publish(app,cat,feedFullObj,dataChanged) {
     var deferred = $q.defer();
     if(errorCount()>10) {
       deferred.reject('too many errors');
@@ -212,7 +212,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     }
     feedData.publishing=true;
     appData.toastLoading();
-    return updateDraft(app,cat)
+    return updateDraft(app,cat,feedFullObj,dataChanged)
     .then(function(){
       var api=appData.urlSignApi('feed','draft_publish');
       $log.log('api1',api);

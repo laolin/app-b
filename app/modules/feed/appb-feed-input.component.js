@@ -60,7 +60,7 @@ angular.module('appb')
       }
       
       ctrl.publish=function() {
-        ctrl.feedData.publish(ctrl.feedApp,ctrl.feedCat)
+        ctrl.feedData.publish(ctrl.feedApp,ctrl.feedCat,ctrl.feed,ctrl.changeMarks)
         .then(function(obj) {
           if('function' == typeof ctrl.onPublish) {
             $log.log('onPublish',obj);
