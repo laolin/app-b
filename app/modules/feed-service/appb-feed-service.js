@@ -143,8 +143,8 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
         if(pdata.newmore) feedData.newMoreLoading[fcat]=false;
         if(pdata.oldmore) feedData.oldMoreLoading[fcat]=false;
         //这里不能reject?
-        //deferred.reject('Er:FeedList:'+s.data.msg);
-        deferred.resolve(false);
+        deferred.reject('Er:FeedList:'+s.data.msg);
+        //deferred.resolve(false);
         return deferred.promise;
       }
       
@@ -290,7 +290,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
 
     if(!dirty) {
       svc.isUpdating=false;
-      deferred.resolve(1);
+      deferred.resolve(feedFullObj);//继续返回feed内容
       return deferred.promise;
     }
     
