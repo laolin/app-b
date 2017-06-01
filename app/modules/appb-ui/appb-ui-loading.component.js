@@ -2,17 +2,16 @@
 (function(){
 
 angular.module('appb')
-.component('appbUiInputBar',{
-    templateUrl: 'modules/appb-ui/appb-ui-input-bar.template.html',  
+.component('appbUiLoading',{
+    templateUrl: 'modules/appb-ui/appb-ui-loading.component.template.html',  
     bindings: {
-      inputData: '<'
+      text: '@'
     },
     controller: ['$scope','$log','$timeout','$element',
       function ($scope,$log,$timeout,$element){
         var ctrl=this;
         
         ctrl.$onInit=function() {
-          ctrl.inputData.elementInputBar=$element[0];
         }
       }
     ]

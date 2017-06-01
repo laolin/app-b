@@ -1,12 +1,12 @@
 /*====================== 
   color define
   
-  f12929 main-color
-  d02222 dark
-  ff6666 light
+  e06000 main-color
+  d03300 dark
+  f08833 light
 ======================*/
 .main-header_container {
-  background-color:#f12929;
+  background-color:#e06000;
 }
 .main-header_container ,
 .main-header_container a{
@@ -16,7 +16,7 @@
 .main-tab_active a,
 .main-tab_active span,
 .main-tab_active i{
-  color:#f12929;
+  color:#e06000;
 }
 
 /*======================
@@ -28,7 +28,7 @@
 }
 
 .hilight {
-  background-color: #ff6666;
+  background-color: #f08833;
 }
 .cursor-pointer { 
   cursor:pointer;
@@ -50,40 +50,40 @@
   weui color redefine
 ======================*/
 .weui-btn_disabled.weui-btn_primary {
-  background-color: #7799bb;
+  background-color: #888;
 }
 div.weui-toast .weui-toast__content {
-  color:#f12929 !important;
+  color:#e06000 !important;
 }
 
 
 .weui-cells_radio .weui-check:checked + .weui-icon-checked:before ,
 .weui-cells_checkbox .weui-check:checked + .weui-icon-checked:before {
-  color: #f12929;
+  color: #e06000;
 }
 
 .weui-btn_primary {
-  background-color: #f12929;
+  background-color: #e06000;
 }
 .weui-dialog__btn_primary {
-  color: #f12929;
+  color: #e06000;
 }
 .appb-input-bar-icon {
-  color: #f12929;
+  color: #e06000;
 }
 .appb-btn-main {
   font-size:20px;
-  color: #f12929;
+  color: #e06000;
 }
 .weui-btn_primary:not(.weui-btn_disabled):active {
-  background-color: #ff6666;
+  background-color: #f08833;
 }
 
 
 .weui-switch:checked,
 .weui-switch-cp__input:checked ~ .weui-switch-cp__box {
-    border-color: #f12929;
-    background-color: #f12929;
+    border-color: #e06000;
+    background-color: #e06000;
 }
 
 .weui-loadmore_line .weui-loadmore__tips {
@@ -93,5 +93,9 @@ div.weui-toast .weui-toast__content {
 /* .weui-cell__hd 图标右侧没留空，我们采用I做图标，故用此CSS修正一下*/
 .weui-media-box_small-appmsg  .weui-cell__hd i {
   padding-right:10px;
-  color:#f12929;
+  color:#e06000;
+}
+
+.weui-icon-success {
+  color: #e06000;
 }

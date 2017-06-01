@@ -21,15 +21,11 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
 
   
   svc.isUpdating=false;
-  feedData.dataChanged=svc.dataChanged={ 
-    content:0,
-    pics:0
-  };
   function feedAppCat(app,cat) {
     return app+'.'+cat;
   }
 
-  function getFeed(fid,app,cat){
+  function getFeed(app,cat,fid){
     var i;
     var deferred = $q.defer();
     var fcat=feedAppCat(app,cat);
@@ -63,6 +59,8 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       
       //获取所有fid下的评论
       AppbCommentService.getComment({fids:s.data.data.fid});
+      if(s.data.data.attr)
+        s.data.data.attr=JSON.parse(s.data.data.attr);
       deferred.resolve(s.data.data);
       return deferred.promise;
     },function(e){
@@ -145,8 +143,8 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
         if(pdata.newmore) feedData.newMoreLoading[fcat]=false;
         if(pdata.oldmore) feedData.oldMoreLoading[fcat]=false;
         //这里不能reject?
-        //deferred.reject('Er:FeedList:'+s.data.msg);
-        deferred.resolve(false);
+        deferred.reject('Er:FeedList:'+s.data.msg);
+        //deferred.resolve(false);
         return deferred.promise;
       }
       
@@ -174,6 +172,12 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       } else {
         feedData.feedAll[fcat]=s.data.data;
       }
+      var dlist=s.data.data;
+      for(i=dlist.length;i--;i) {
+        if(dlist[i].attr) {
+          dlist[i].attr=JSON.parse(dlist[i].attr);
+        }
+      }
       deferred.resolve(feedData.feedAll[fcat]);
       return deferred.promise;
     },function(e){
@@ -194,21 +198,23 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     return ids;
   }  
 
-  function publish(app,cat) {
+  function publish(app,cat,drft,dataChanged) {
     var deferred = $q.defer();
     if(errorCount()>10) {
       deferred.reject('too many errors');
       return deferred.promise;
     }
     var fcat=feedAppCat(app,cat);
-    var drft=feedData.draftAll[fcat];
-    if(!drft){
-      deferred.reject('need initDraft first:'+app+','+cat);
+    //var drft=feedData.draftAll[fcat];
+    if(!drft || drft.flag!='draft'){
+      deferred.reject('draft error:'+app+','+cat);
       return deferred.promise;
     }
     feedData.publishing=true;
     appData.toastLoading();
-    return updateData(app,cat)
+    //step1: START: `update-feed`
+    return updateFeed(app,cat,drft,dataChanged)
+    //step2: after `update-feed` THEN `draft_publish`
     .then(function(){
       var api=appData.urlSignApi('feed','draft_publish');
       $log.log('api1',api);
@@ -219,6 +225,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       deferred.reject('Err updata before pub');
       return deferred.promise;
     })
+    //step3: after `draft_publish` THEN:
     .then(function(s){
       if(s.data.errcode!=0) {
         $log.log('Er:publish:',s.data.errcode,s.data.msg);
@@ -251,32 +258,30 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     });
   }
   
-  function changeMark(key) {
-    svc.dataChanged[key]= 1;// 1表示需要更新
-  }
 
-  function updateData(app,cat) {
+  function updateFeed(app,cat,feedFullObj,dataChanged) {
+    $log.log('updateFeed->>',feedFullObj,dataChanged);
     var deferred = $q.defer();
     var fcat=feedAppCat(app,cat);
 
     if(svc.isUpdating) {
-      return $timeout(function(){return updateData(app,cat)},500);
+      return $timeout(function(){return updateFeed(app,cat,feedFullObj,dataChanged)},500);
     };
     svc.isUpdating=true;
     var data={}
     var data_attr=false;
     var dirty=false;
-    for (var key in svc.dataChanged) {
-      if(1 == svc.dataChanged[key]) { // 1表示需要更新
+    for (var key in dataChanged) {
+      if(1 == dataChanged[key]) { // 1表示需要更新
         dirty=true;
         //处理attr.xxx，属于下一级数据列的情况
         if(key.substr(0,5)=='attr_') {
           if(!data_attr)data_attr={}
-          data_attr[key.substr(5)]=feedData.draftAll[fcat].attr[key.substr(5)];
+          data_attr[key.substr(5)]=feedFullObj.attr[key.substr(5)];
         } else {
-          data[key]=feedData.draftAll[fcat][key];
+          data[key]=feedFullObj[key];
         }
-        svc.dataChanged[key]=2;//2 表示正在更新中
+        dataChanged[key]=2;//2 表示正在更新中
       }
     }
     if(data_attr) {
@@ -285,32 +290,35 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
 
     if(!dirty) {
       svc.isUpdating=false;
-      deferred.resolve(1);
+      deferred.resolve(feedFullObj);//继续返回feed内容
       return deferred.promise;
     }
-    var api=appData.urlSignApi('feed','draft_update');
+    
+    var updateType='feed_update';
+    if(feedFullObj.flag=='draft')updateType='draft_update';
+    var api=appData.urlSignApi('feed',updateType);
     if(!api){
       appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
       deferred.reject('need login');
       return deferred.promise;
     }
-    data.fid=feedData.draftAll[fcat].fid;
+    data.fid=feedFullObj.fid;
     return $http.jsonp(api, {params:data})//TODO : 出错处理
       .then(function(s){
-         for (var attr in svc.dataChanged) {
-          if(2 == svc.dataChanged[attr])// 2 更新成功->0
-            svc.dataChanged[attr]=0;                    
+         for (var attr in dataChanged) {
+          if(2 == dataChanged[attr])// 2 更新成功->0
+            dataChanged[attr]=0;                    
         }
         svc.isUpdating=false;
-        deferred.resolve(s);
+        deferred.resolve(feedFullObj);//继续返回feed内容
         return deferred.promise;
       },function(e){
         errorCount(1);
-        for (var attr in svc.dataChanged) {
-          if(2 == svc.dataChanged[attr])// 2 更新失败->1
-            svc.dataChanged[attr]=1;                    
+        for (var attr in dataChanged) {
+          if(2 == dataChanged[attr])// 2 更新失败->1
+            dataChanged[attr]=1;                    
         }
-        appData.toastMsg('draft_update error');
+        appData.toastMsg('feed_update error');
         svc.isUpdating=false;
         deferred.reject(e);
         return deferred.promise;
@@ -463,8 +471,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   feedData.getFeed=getFeed;
   feedData.exploreFeed=exploreFeed;
   //更新、发布相关：
-  feedData.changeMark=changeMark;
-  feedData.updateData=updateData;
+  feedData.updateFeed=updateFeed;
   feedData.publish=publish;
   feedData.publishing=false;
   feedData.feedAppCat=feedAppCat;

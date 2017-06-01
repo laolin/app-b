@@ -1,1 +1,6 @@
-<appb-feed-list app-data='appData' feed-data='feedData' feed-app='feedApp' feed-cat='feedCat'></appb-feed-list>
+<serve-feed-list
+  class='main-content-wrapper' 
+  appb-ui-on-scroll-bottom='feedData.exploreFeed(feedApp,feedCat,{oldMore:1})'
+
+  app-data='appData' feed-data='feedData' feed-app='feedApp' feed-cat='feedCat'
+></serve-feed-list>

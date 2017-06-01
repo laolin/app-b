@@ -4,8 +4,19 @@ angular.module('appb')
   $log.log('exbook init ok');
   var feedData=AppbFeedService.getFeedData();
   feedData.defineFeed('exbook','exbook','错题本',[
-    {name: 'content',desc:'内容'},
-    {name: 'pics',desc:'图片'},
+    {
+      name: 'content',
+      desc:'内容',
+      placeholder: '不求万人怜惜，但求一人懂得。',
+      type: 'mtext',
+      maxlength: 999,
+      minlength: 3
+    },
+    {
+      name: 'pics',
+      desc:'图片',
+      type: 'pics'
+    },
     {
       name: 'd1',//d1~d4,attr,要和数据表的列名对应
       desc: '年级',

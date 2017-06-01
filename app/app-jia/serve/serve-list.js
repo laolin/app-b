@@ -14,7 +14,7 @@ angular.module('jia')
         //要求登录，如果未登录，会自动跳转到登录界面
         appData.requireLogin();
          
-        AppbData.activeHeader('home', appData.appCfg.appName); 
+        AppbData.activeHeader('home', '服务列表'); 
         AppbData.activeFooter('index');
         var ctrl=this;
         $scope.$on('$viewContentLoaded', function () {

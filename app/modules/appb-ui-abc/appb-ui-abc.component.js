@@ -3,7 +3,7 @@
 
 angular.module('appb')
 .component('appbUiAbc',{
-    templateUrl: 'modules/appb-ui/appb-ui-abc.component.template.html',  
+    templateUrl: 'modules/appb-ui-abc/appb-ui-abc.component.template.html',  
     bindings: { 
       appData:"="
     },

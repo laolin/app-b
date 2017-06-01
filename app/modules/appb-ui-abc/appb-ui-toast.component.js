@@ -3,7 +3,7 @@
 
 angular.module('appb')
 .component('appbUiToast',{
-    templateUrl: 'modules/appb-ui/appb-ui-toast.component.template.html',  
+    templateUrl: 'modules/appb-ui-abc/appb-ui-toast.component.template.html',  
     bindings: { 
       toast: "="
     },

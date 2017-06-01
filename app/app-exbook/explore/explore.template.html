@@ -8,24 +8,6 @@
 <eb-timeline-header user-data='$ctrl.userData'></eb-timeline-header>
 
 <div class="weui-cells__title">我关注的</div>
-<div class="weui-cells"
-  ng-if='$ctrl.appData.feedData.hasNewMore[$ctrl.fcat] && 
-  !$ctrl.appData.feedData.newMoreLoading[$ctrl.fcat]'
-  ng-click='$ctrl.showNewMore($ctrl.feedApp,$ctrl.feedCat)'>
-  <div class='weui-cell text-center'>
-    <div class="weui-cell__bd text-center">有新内容，点此刷新</div>
-  </div>
-</div>
-<div class="weui-cells" ng-if='$ctrl.appData.feedData.newMoreLoading[$ctrl.fcat]'>
-  <div class="weui-cell">
-    <div class="weui-loadmore">
-      <i class="weui-loading"></i>
-      <span class="weui-loadmore__tips">正在加载</span>
-    </div>
-  </div>
-</div>
-
-
 
 <appb-feed-list app-data='$ctrl.appData' feed-data='$ctrl.appData.feedData' feed-app='$ctrl.feedApp' feed-cat='$ctrl.feedCat'></appb-feed-list>
 

@@ -3,7 +3,7 @@
 
 angular.module('appb')
 .component('appbUiPopmenu',{
-    templateUrl: 'modules/appb-ui/appb-ui-popmenu.component.template.html',  
+    templateUrl: 'modules/appb-ui-abc/appb-ui-popmenu.component.template.html',  
     bindings: { 
       menus:"<",
       modal: "<",
