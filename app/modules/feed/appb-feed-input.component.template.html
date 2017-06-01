@@ -1,4 +1,6 @@
-<form name='{{$ctrl.formname}}'>
+<appb-ui-loading  ng-if='!$ctrl.feed.fid'>
+</appb-ui-loading>
+<form name='{{$ctrl.formname}}' ng-if='$ctrl.feed.fid'>
 <div class="weui-cells weui-cells_form">
 
   <div class="weui-cell "
