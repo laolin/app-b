@@ -38,7 +38,7 @@ angular.module('exbook')
           return;
         }
 
-        appData.feedData.getFeed($scope.fid)
+        appData.feedData.getFeed('exbook','exbook',$scope.fid)
         .then(function(feed1){
           $scope.feed1=feed1;
           $log.log('appData.feedData.getFeed DONE res=',feed1);

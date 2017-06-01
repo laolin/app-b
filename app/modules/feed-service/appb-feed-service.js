@@ -25,7 +25,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     return app+'.'+cat;
   }
 
-  function getFeed(fid,app,cat){
+  function getFeed(app,cat,fid){
     var i;
     var deferred = $q.defer();
     var fcat=feedAppCat(app,cat);
