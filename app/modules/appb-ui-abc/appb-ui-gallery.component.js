@@ -3,7 +3,7 @@
 
 angular.module('appb')
 .component('appbUiGallery',{
-    templateUrl: 'modules/appb-ui/appb-ui-gallery.component.template.html',  
+    templateUrl: 'modules/appb-ui-abc/appb-ui-gallery.component.template.html',  
     bindings: { 
      appData:"<",
      galleryData:"="

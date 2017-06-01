@@ -3,7 +3,7 @@
 
 angular.module('appb')
 .component('appbUiInputBar',{
-    templateUrl: 'modules/appb-ui/appb-ui-input-bar.template.html',  
+    templateUrl: 'modules/appb-ui-abc/appb-ui-input-bar.template.html',  
     bindings: {
       inputData: '<'
     },
