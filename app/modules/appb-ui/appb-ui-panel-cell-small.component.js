@@ -3,7 +3,7 @@
 
 angular.module('appb')
 .component('appbUiPanelCellSmall',{
-    templateUrl: 'modules/appb-ui/appb-ui-panel-cell-small.template.html',  
+    templateUrl: 'modules/appb-ui/appb-ui-panel-cell-small.component.template.html',  
     bindings: {
       text: '@',
       url: '@',
