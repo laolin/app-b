@@ -103,7 +103,13 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     }
     return true;
   }
-    
+
+  function isAdmin() {
+    if(! userData || !userData.token || !(userData.rights&0x10000) ) {
+      return false;
+    }
+    return true;
+  }    
 
 
   /**
@@ -265,6 +271,7 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     urlApi:urlApi,
     urlSignApi:urlSignApi,
     requireLogin:requireLogin,
+    isAdmin:isAdmin,
 
     dialogData:dialogData,
     setDialogData:AppbUiService.setDialogData,
