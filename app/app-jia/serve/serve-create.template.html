@@ -1,2 +1,8 @@
-<appb-feed-input feed='feed' feed-data='feedData' feed-app='feedApp' feed-cat='feedCat' app-data='appData' after-publish='afterPublish(feed)'>
+<appb-feed-input
+  ng-if='isAdmin'
+  feed='feed' feed-data='feedData' feed-app='feedApp' feed-cat='feedCat' app-data='appData' after-publish='afterPublish(feed)'>
 </appb-feed-input>  
+<appb-ui-oprate-msg 
+  ng-if='!isAdmin'
+  type='warn' title='无权访问此页' content='需要管理员权限'>
+</appb-ui-oprate-msg>

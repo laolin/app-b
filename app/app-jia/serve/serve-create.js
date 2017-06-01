@@ -29,6 +29,7 @@ angular.module('jia')
         });
         
         $scope.appData=appData;
+        $scope.isAdmin=appData.userData.isAdmin()
         $scope.feedData=feedData;
         $scope.feedApp='jia';
         $scope.feedCat='serve';
