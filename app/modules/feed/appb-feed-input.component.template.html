@@ -107,8 +107,8 @@
 </div>
 <div class="weui-btn-area">
   <button class="weui-btn weui-btn_primary" href="#" id="showTooltips"
-  ng-disabled="$ctrl.feedData.publishing"
-  ng-class="{'weui-btn_disabled':$ctrl.feedData.publishing}"
-  ng-click="$ctrl.publish()">确定</button>
+  ng-disabled="$ctrl.feedData.publishing || !{{$ctrl.formname}}.$valid"
+  ng-class="{'weui-btn_disabled':$ctrl.feedData.publishing|| !{{$ctrl.formname}}.$valid}"
+  ng-click="$ctrl.onOk()">确定</button>
 </div>  
 </form>

@@ -57,9 +57,14 @@ angular.module('appb')
           drft[realname]=ctrl.models[name];
         }
       }
-      
-      ctrl.publish=function() {
-        ctrl.feedData.publish(ctrl.feedApp,ctrl.feedCat,ctrl.feed,ctrl.changeMarks)
+      ctrl.onOk=function() {
+        if(ctrl.feed.flag!='draft')
+        return ctrl.feedData.updateFeed(ctrl.feedApp,ctrl.feedCat,ctrl.feed,ctrl.changeMarks)
+        .then(function(obj) {
+          return ctrl.afterPublish({feed:obj});//回调参数名为feed
+        })
+        
+        return ctrl.feedData.publish(ctrl.feedApp,ctrl.feedCat,ctrl.feed,ctrl.changeMarks)
         .then(function(obj) {
           if('function' == typeof ctrl.afterPublish) {
             $log.log('afterPublish',obj);
@@ -67,9 +72,8 @@ angular.module('appb')
             //规定发布后把草稿中的 文字、图片 清空，其余不变
             ctrl.models.content='';//服务器在发布时也清空了
             ctrl.models.pics='';//服务器在发布时也清空了
-            ctrl.feed.pics='';//服务器在发布时也清空了
 
-            ctrl.afterPublish({feed:obj});//回调参数名为feed
+            return ctrl.afterPublish({feed:obj});//回调参数名为feed
           }
         });
       }
@@ -111,14 +115,14 @@ angular.module('appb')
           $log.log('ctrl.models',ctrl.models);
         }
         $log.log('feed-input feedData:',ctrl.feedData);
-        intervalRes=$interval(function(){ctrl.feedData.updateDraft(ctrl.feedApp,ctrl.feedCat,ctrl.feed,ctrl.changeMarks)},15*1000);//n秒
+        intervalRes=$interval(function(){ctrl.feedData.updateFeed(ctrl.feedApp,ctrl.feedCat,ctrl.feed,ctrl.changeMarks)},15*1000);//n秒
       }
       ctrl.$onChanges =function(chg){
 
       }
       ctrl.$onDestroy=function(){
         $interval.cancel(intervalRes);
-        ctrl.feedData.updateDraft(ctrl.feedApp,ctrl.feedCat,ctrl.feed,ctrl.changeMarks);
+        ctrl.feedData.updateFeed(ctrl.feedApp,ctrl.feedCat,ctrl.feed,ctrl.changeMarks);
       }
 
       
