@@ -48,9 +48,9 @@
         <img class="eb-c-icon cur-pointer" ng-src="{{$ctrl.appData.appCfg.assetsRoot}}/img/cmt.png"
         ng-click='$ctrl.showPop($ctrl.feed.fid,$event)'>
       </div>
-      <a href class="weui-btn weui-btn_mini weui-btn_primary"
-        ng-click=''>
-        按钮
+      <a class="weui-btn weui-btn_mini weui-btn_primary"
+        href='#!/serve-edit?fid={{$ctrl.feed.fid}}' >
+        修改内容
       </a>
       <appb-feed-comment app-data='$ctrl.appData' feed-data='$ctrl.feedData'
       fid='$ctrl.feed.fid'

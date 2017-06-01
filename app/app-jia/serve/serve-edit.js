@@ -3,8 +3,8 @@
 
 angular.module('jia')
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/serve-create', {
-    templateUrl: 'app-jia/serve/serve-create.template.html',
+  $routeProvider.when('/serve-edit', {
+    templateUrl: 'app-jia/serve/serve-edit.template.html',
     controller: ['$scope','$location','$log','$q','AppbFeedService','AppbData',
       function ($scope,$location,$log,$q,AppbFeedService,AppbData) {
 
@@ -13,8 +13,10 @@ angular.module('jia')
         
         //要求登录，如果未登录，会自动跳转到登录界面
         appData.requireLogin();
-         
-        AppbData.activeHeader('home', '创建服务'); 
+        $scope.fid=$location.search()['fid'];
+        
+        if($scope.fid)AppbData.activeHeader('home', '修改服务'); 
+        else AppbData.activeHeader('home', '创建服务'); 
         AppbData.activeFooter('index');
         var ctrl=this;
         $scope.$on('$viewContentLoaded', function () {
@@ -36,9 +38,16 @@ angular.module('jia')
         $scope.fcat=feedData.feedAppCat($scope.feedApp,$scope.feedCat);
         $scope.afterPublish=function(a) {
           $log.log('$scope.afterPublish serve-created!->',a);
-        }        
-
-        if(!feedData.draftAll[$scope.fcat]) {
+        }
+                
+        if($scope.fid) {
+          feedData.getFeed($scope.feedApp,$scope.feedCat,$scope.fid)
+          .then(function(feed1){
+            $scope.feed=feed1;
+          },function(e){
+            appData.toastMsg('ErrFeed:'+e);
+          });
+        } else if(!feedData.draftAll[$scope.fcat]) {
           feedData.initDraft($scope.feedApp,$scope.feedCat).then(function(){
             $scope.feed=feedData.draftAll[$scope.fcat];
           });

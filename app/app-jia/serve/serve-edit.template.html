@@ -1,0 +1,11 @@
+<appb-ui-loading  ng-if='!feed'>
+</appb-ui-loading>
+
+  <appb-feed-input
+  ng-if='isAdmin && feed'
+  feed='feed' feed-data='feedData' feed-app='feedApp' feed-cat='feedCat' app-data='appData' after-publish='afterPublish(feed)'>
+</appb-feed-input>  
+<appb-ui-oprate-msg 
+  ng-if='!isAdmin || isError'
+  type='warn' title='无法访问此页' content='网络错误或没有管理员权限'>
+</appb-ui-oprate-msg>
