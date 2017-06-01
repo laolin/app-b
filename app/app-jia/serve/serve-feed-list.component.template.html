@@ -1,4 +1,19 @@
 <div class="ebfeed-list" ng-if='1'>
+
+  <div class="weui-cells"
+    ng-if='$ctrl.feedData.hasNewMore[$ctrl.feedAppCat()] && 
+    !$ctrl.feedData.newMoreLoading[$ctrl.feedAppCat()]'
+    ng-click='$ctrl.feedData.exploreFeed($ctrl.feedApp,$ctrl.feedCat,{newMore:1})'>
+    <div class='weui-cell text-center'>
+      <div class="weui-cell__bd text-center">有新内容，点此刷新</div>
+    </div>
+  </div>
+  
+  <appb-ui-loading
+    ng-if='$ctrl.feedData.newMoreLoading[$ctrl.feedAppCat()]'>
+  </appb-ui-loading>
+
+
   <div ng-repeat='feed in $ctrl.feedData.feedAll[$ctrl.feedAppCat()]'>  
     <serve-feed app-data='$ctrl.appData' feed-data='$ctrl.feedData'
     feed-app='$ctrl.feedApp' feed-cat='$ctrl.feedCat'

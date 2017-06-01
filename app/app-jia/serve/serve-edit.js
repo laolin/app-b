@@ -37,7 +37,9 @@ angular.module('jia')
         $scope.feedCat='serve';
         $scope.fcat=feedData.feedAppCat($scope.feedApp,$scope.feedCat);
         $scope.afterPublish=function(a) {
-          $log.log('$scope.afterPublish serve-created!->',a);
+          $location.path('/serve-list').search('fid',null);
+          feedData.hasNewMore[$scope.fcat]=true;
+          feedData.exploreFeed($scope.feedApp,$scope.feedCat,{newMore:1});//自动刷新新帖
         }
                 
         if($scope.fid) {
