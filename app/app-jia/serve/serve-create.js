@@ -33,8 +33,8 @@ angular.module('jia')
         $scope.feedApp='jia';
         $scope.feedCat='serve';
         $scope.fcat=feedData.feedAppCat($scope.feedApp,$scope.feedCat);
-        $scope.onPublish=function(a) {
-          $log.log('$scope.onPublish serve-created!->',a);
+        $scope.afterPublish=function(a) {
+          $log.log('$scope.afterPublish serve-created!->',a);
         }        
 
         if(!feedData.draftAll[$scope.fcat]) {

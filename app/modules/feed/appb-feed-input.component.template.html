@@ -21,8 +21,8 @@
       ng-minlength='cf.minlength'
       ></textarea>
       <div class="weui-textarea-counter"
-      ng-if='$ctrl.feedData.draftAll[$ctrl.fcat][cf.name].length/cf.maxlength > 0.9'
-      ><span>{{$ctrl.feedData.draftAll[$ctrl.fcat][cf.name].length}}</span>/{{cf.maxlength}}</div>
+      ng-if='$ctrl.feed[cf.name].length/cf.maxlength > 0.9'
+      ><span>{{$ctrl.feed[cf.name].length}}</span>/{{cf.maxlength}}</div>
     </div>
 
     <!-- 2 cf.type  =="pics" -->  

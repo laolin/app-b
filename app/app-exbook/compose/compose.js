@@ -21,8 +21,8 @@ angular.module('exbook')
         $scope.feedApp='exbook';
         $scope.feedCat='exbook';
         $scope.fcat=feedData.feedAppCat($scope.feedApp,$scope.feedCat);
-        $scope.onPublish=function(a) {
-          $log.log('$scope.onPublish at compose.js',a);
+        $scope.afterPublish=function(a) {
+          $log.log('$scope.afterPublish at compose.js',a);
           
           $location.path( "/explore" );
           if(feedData.feedAll[$scope.fcat].length) {

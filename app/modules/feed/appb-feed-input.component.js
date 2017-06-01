@@ -6,10 +6,8 @@ angular.module('appb')
   templateUrl: 'modules/feed/appb-feed-input.component.template.html',  
   bindings: { 
     appData:"<",
-    onPublish:"&", //回调参数名为feed： onPublish='onPublish(feed)'
+    afterPublish:"&", //回调参数名为feed： after-publish='afterPublish(feed)'
     
-    //pics 用单向绑定，外部变化能自动调用$onChange
-    pics:"<",
     feedApp:"<",
     feedCat:"<",
     feed: "=",
@@ -21,7 +19,8 @@ angular.module('appb')
       var intervalRes;
       
 
-      ctrl.maxTextLength=999;
+      //注，目前这样的设计只支持一个 'pics'
+      ctrl.imgs=-1;//-1 as:the mark of not-init
       ctrl.models={};
       ctrl.changeMarks={}
       function markChange(key) {
@@ -62,14 +61,15 @@ angular.module('appb')
       ctrl.publish=function() {
         ctrl.feedData.publish(ctrl.feedApp,ctrl.feedCat,ctrl.feed,ctrl.changeMarks)
         .then(function(obj) {
-          if('function' == typeof ctrl.onPublish) {
-            $log.log('onPublish',obj);
+          if('function' == typeof ctrl.afterPublish) {
+            $log.log('afterPublish',obj);
             //发布成功，为提高性能，简化系统，
             //规定发布后把草稿中的 文字、图片 清空，其余不变
             ctrl.models.content='';//服务器在发布时也清空了
             ctrl.models.pics='';//服务器在发布时也清空了
+            ctrl.feed.pics='';//服务器在发布时也清空了
 
-            ctrl.onPublish({feed:obj});//回调参数名为feed： onPublish='onPublish(feed)'
+            ctrl.afterPublish({feed:obj});//回调参数名为feed
           }
         });
       }
@@ -86,6 +86,11 @@ angular.module('appb')
           init_models_by_feed();
         }
         function init_models_by_feed(){
+          //注，目前这样的设计只支持一个 'pics'
+          if(ctrl.feed.pics)
+            ctrl.imgs=ctrl.feed.pics.split(',');
+          else
+            ctrl.imgs=[];
           for(var i=ctrl.fconfig.columns.length;i--;) {
             realname=name=ctrl.fconfig.columns[i].name;
             if(name.substr(0,5)=='attr_') {
@@ -109,10 +114,6 @@ angular.module('appb')
         intervalRes=$interval(function(){ctrl.feedData.updateDraft(ctrl.feedApp,ctrl.feedCat,ctrl.feed,ctrl.changeMarks)},15*1000);//n秒
       }
       ctrl.$onChanges =function(chg){
-        if( chg.pics) {
-          if(ctrl.pics)ctrl.imgs=ctrl.pics.split(',');
-          else ctrl.imgs=[];
-        }
 
       }
       ctrl.$onDestroy=function(){
