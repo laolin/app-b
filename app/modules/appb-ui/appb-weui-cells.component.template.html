@@ -1,0 +1,16 @@
+<div class="weui-cells">
+<div class="weui-cells__title" ng-if='$ctrl.title'>{{$ctrl.title}}</div>
+<a class="weui-cell"
+  href
+  ng-repeat='c in $ctrl.cells'
+  ng-class="{'weui-cell_access':c.url}" 
+  ng-click='$ctrl.goLink(c.url)'>
+    <div class="weui-cell__hd" ng-if='c.icon'><i class="fa fa-{{c.icon}}" aria-hidden="true"></i></div>
+    <div class="weui-cell__bd weui-cell_primary">
+        <p>{{c.text}}</p>
+    </div>
+    <span class="weui-cell__ft">{{c.notes}}</span>
+</a>
+
+</div>
+

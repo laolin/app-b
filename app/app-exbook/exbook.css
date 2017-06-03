@@ -91,7 +91,7 @@ div.weui-toast .weui-toast__content {
 }
 
 /* .weui-cell__hd 图标右侧没留空，我们采用I做图标，故用此CSS修正一下*/
-.weui-media-box_small-appmsg  .weui-cell__hd i {
+.weui-cell__hd i {
   padding-right:10px;
   color:#0099ff;
 }
