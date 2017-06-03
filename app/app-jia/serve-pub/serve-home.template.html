@@ -13,22 +13,47 @@
 </appb-ui-oprate-msg>
 
 
+<div ng-if='serve.fid'>
 
 <ks-swiper-container class="serve-swiper-container"
 ng-if='serve.fid'
 slides-per-view="1" 
 autoplay="1000"
 loop="true"
-pagination='.swiper-pagination'
+XX-pagination='.swiper-pagination'
 show-nav-buttons="false"
-initial-slide="3"   space-between="0" pagination-clickable="true">
-    <ks-swiper-slide class="swiper-slide" ng-repeat="s in imgs track by $index"
+initial-slide="0"   space-between="0" pagination-clickable="true">
+    <ks-swiper-slide class="swiper-slide"
+      ng-repeat="s in imgs track by $index"
     >
-      <div class="swiper-zoom-container">
-        <img class='swiper-img' ng-src="{{appData.filePath}}/{{s}}"/>
-      </div>
+      <img class='swiper-img' ng-src="{{appData.filePath}}/{{s}}"/>
     </ks-swiper-slide>
     
 </ks-swiper-container>
-          <div class="swiper-pagination"></div>
 
+<div class="statusbar">
+    <div class="subleft avil">
+            <div class="price ">¥<strong class="small">{{serve.d2}}</strong>
+            </div>
+            <div class="information">
+                <div class="soldcount"><span></span>原价</div>
+                <div class="oprice"><del>¥ {{serve.d1}}</del></div>
+            </div>
+    </div>
+    <div class="countdown">
+        <div id="J_CountDownTxt" class="txt">距结束仅剩</div>
+        <div class="clockrun">
+            <span class="num" id="J_TimeHour">300</span><span class="dot">:</span>
+            <span class="num" id="J_TimeMin">13</span><span class="dot">:</span>
+            <span class="num" id="J_TimeSec">31</span><span class="dot">.</span>
+            <span class="num" id="J_TimeWSec">11</span>
+        </div>
+    </div>
+</div>
+
+<div class='weui-cell jia-serve-content'>
+{{serve.content}}
+</div>
+
+
+</div>
