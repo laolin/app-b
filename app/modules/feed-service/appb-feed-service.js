@@ -99,7 +99,9 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     var fcat=feedAppCat(pdata.app,pdata.cat);
     if(!feedData.feedAll[fcat])
       feedData.feedAll[fcat]=[];
-    
+    if(para && para.getdel) {
+      pdata.getdel=1;
+    }
     // newmore 表示获取新的
     // oldmore 表示获取更多旧的
     if(para && feedData.feedAll[fcat].length) {
