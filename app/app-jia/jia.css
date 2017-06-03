@@ -109,5 +109,7 @@ div.weui-toast .weui-toast__content {
 }
 .swiper-img {
   width: 100%;
+  object-fit: cover;
+  height: 300px;
 }
 
