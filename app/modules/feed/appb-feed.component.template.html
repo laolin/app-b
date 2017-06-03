@@ -18,7 +18,9 @@
           <span class="eb-po-grade">{{$ctrl.fValue('d1',$ctrl.feed.d1)}}</span>
         </div>
         <div class="eb-post">
+          <p class='eb-post_ext1'></p>
           <p>{{$ctrl.feed.content}}</p>
+          <p class='eb-post_ext2'></p>
           <p ng-if='$ctrl.feed.pics'>
             <img class="eb-list-img" style="height: 80px;"
             ng-repeat='img in $ctrl.feed.pics.split(",") track by $index'
@@ -27,6 +29,7 @@
             ng-src="{{$ctrl.appData.filePath}}/{{img}}">
             
           </p>
+          <p class='eb-post_ext3'></p>
         </div>
         <appb-feed-pop-action
           ng-show='$ctrl.feedData._activeAction ==$ctrl.feed.fid'

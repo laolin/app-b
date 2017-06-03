@@ -14,8 +14,8 @@ angular.module('jia')
       desc:'服务内容',
       placeholder: '请输入嘉空间服务内容',
       type: 'mtext',
-      maxlength: 99,
-      minlength: 5
+      maxlength: 999,
+      minlength: 2
     },
     {
       name: 'd1',//d1~d4,attr,要和数据表的列名对应
@@ -30,6 +30,13 @@ angular.module('jia')
       type: 'number',
       min: 0.99,
       max: 19999
+    },
+    {
+      name: 'k1',
+      desc: '状态',
+      type: 'radio',
+      keys: ['1','0'],
+      values: ['开放服务','停止此业务']
     },
     {
       name: 'attr_promoEnd',

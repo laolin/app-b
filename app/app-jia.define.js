@@ -21,6 +21,7 @@ var cfg=window.appbCfg={
 };
 
 cfg.modDep=[
+  'ksSwiper',
   'jia'
 ];
 cfg.defPath='/explore';

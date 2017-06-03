@@ -52,6 +52,10 @@
         href='#!/serve-edit?fid={{$ctrl.feed.fid}}' >
         修改内容
       </a>
+      <a class="weui-btn weui-btn_mini weui-btn_primary"
+        href='#!/serve-home?fid={{$ctrl.feed.fid}}' >
+        进入
+      </a>
       <appb-feed-comment app-data='$ctrl.appData' feed-data='$ctrl.feedData'
       fid='$ctrl.feed.fid'
       like-data='$ctrl.feedData.cmtData.commentList[$ctrl.feed.fid+"like"]'
