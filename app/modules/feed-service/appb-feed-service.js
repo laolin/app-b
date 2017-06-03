@@ -31,7 +31,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     var fcat=feedAppCat(app,cat);
     if(feedData.feedAll[fcat]) {
       for(i=feedData.feedAll[fcat].length;i--; ) {
-        if(feedData.feedAll[fcat][i].fid==fid) {//绑定到页面中，不可重赋值
+        if(feedData.feedAll[fcat][i].fid==fid) {
           deferred.resolve(feedData.feedAll[fcat][i]);
           return deferred.promise;
         }
@@ -51,6 +51,11 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
         errorCount(1);
         $log.log('Er:getFeed:',s.data.msg);
         deferred.reject(-2);
+        return deferred.promise;
+      }
+      
+      if(s.data.data.app!=app || s.data.data.cat!=cat) {
+        deferred.reject('feedtype not match');
         return deferred.promise;
       }
       
