@@ -37,7 +37,7 @@ angular.module('jia')
         $scope.feedCat='serve';
         $scope.fcat=feedData.feedAppCat($scope.feedApp,$scope.feedCat);
         $scope.afterPublish=function(a) {
-          $location.path('/serve-admin-list').search('fid',null);
+          $location.url('/serve-list?admin=1');
           feedData.hasNewMore[$scope.fcat]=true;
           feedData.exploreFeed($scope.feedApp,$scope.feedCat,{newMore:1});//自动刷新新帖
         }
