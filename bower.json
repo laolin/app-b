@@ -24,6 +24,7 @@
     "font-awesome": "^4.7.0",
     "js-md5": "md5#^0.4.2",
     "swiper": "^3.0.8",
+    "angular-swiper": "^0.4.0",
     "moment": "^2.18.1",
     "angular-moment": "^1.0.1",
     "weui": "^1.1.1"

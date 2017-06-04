@@ -16,7 +16,7 @@ function($route, $rootScope,$location,$log,AppbConfig) {
   var tabsAvailable=this.tabsAvailable={
     "0": [
       {text:'首页',icon:'home',href:'/',onClick:0,active:0},
-      {text:'首页',icon:'search',href:'/a',onClick:0,active:1},
+      {text:'搜索',icon:'search',href:'/a',onClick:0,active:1},
       {text:'测试',icon:'cog',href:'/b',onClick:0,active:0}
     ]
   };
@@ -27,7 +27,9 @@ function($route, $rootScope,$location,$log,AppbConfig) {
       addFooter(cfgt[i][0],cfgt[i][1]);
     }
   }
-  activeFooter('0');
+  //默认用 index 的footer，由app自己定义名为index的footer，
+  //如果名为 `index` 的footer不存在，自动会切换为 `0`
+  activeFooter('index');
   
   //预设的 footer
   function activeFooter(name) {

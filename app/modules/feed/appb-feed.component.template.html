@@ -1,0 +1,60 @@
+  <div class="ebfeed-unit">
+    <div class="eb-po-avt-wrap">
+      <img class="eb-po-avt" ng-src="{{
+        $ctrl.feedData.usersInfo[$ctrl.feed.uid].wxinfo?
+        $ctrl.feedData.usersInfo[$ctrl.feed.uid].wxinfo.headimgurl :
+        $ctrl.appData.appCfg.assetsRoot+'/img/anonymous.png'
+      }}">
+    </div>
+    <div class="eb-po-cmt">
+      <div class="eb-po-body">
+        <div>
+          <span class="eb-po-name">{{
+            $ctrl.feedData.usersInfo[$ctrl.feed.uid].wxinfo?
+            $ctrl.feedData.usersInfo[$ctrl.feed.uid].wxinfo.nickname :
+            $ctrl.feedData.usersInfo[$ctrl.feed.uid].uname
+          }}</span>
+          <span class="eb-po-course">&nbsp;{{$ctrl.fValue('d2',$ctrl.feed.d2)}}</span>
+          <span class="eb-po-grade">{{$ctrl.fValue('d1',$ctrl.feed.d1)}}</span>
+        </div>
+        <div class="eb-post">
+          <p class='eb-post_ext1'></p>
+          <p>{{$ctrl.feed.content}}</p>
+          <p class='eb-post_ext2'></p>
+          <p ng-if='$ctrl.feed.pics'>
+            <img class="eb-list-img" style="height: 80px;"
+            ng-repeat='img in $ctrl.feed.pics.split(",") track by $index'
+            ng-init="picIndex=$index"
+            ng-click="$ctrl.clickImg(picIndex)"
+            ng-src="{{$ctrl.appData.filePath}}/{{img}}">
+            
+          </p>
+          <p class='eb-post_ext3'></p>
+        </div>
+        <appb-feed-pop-action
+          ng-show='$ctrl.feedData._activeAction ==$ctrl.feed.fid'
+          fid='$ctrl.feed.fid'
+          liking='$ctrl.amILiking[$ctrl.feed.fid]'
+          cmt-data='$ctrl.feedData.cmtData'
+          app-data='$ctrl.appData'
+        ></appb-feed-pop-action>
+
+        <a class="eb-time" am-time-ago='1000*$ctrl.feed.publish_at'
+        href=''></a>
+        <span class="eb-action"
+          ng-if='$ctrl.feed.uid==$ctrl.appData.userData.uid'
+          ng-click='$ctrl.feedData.deleteFeed($ctrl.feed.fid,$ctrl.feedApp,$ctrl.feedCat)'>
+          删除
+        </span>
+        <!--span class="eb-action" ng-if='$ctrl.feed.uid!=$ctrl.appData.userData.uid'>投诉</span-->
+        <img class="eb-c-icon cur-pointer" ng-src="{{$ctrl.appData.appCfg.assetsRoot}}/img/cmt.png"
+        ng-click='$ctrl.showPop($ctrl.feed.fid,$event)'>
+      </div>
+      <appb-feed-comment app-data='$ctrl.appData' feed-data='$ctrl.feedData'
+      fid='$ctrl.feed.fid'
+      like-data='$ctrl.feedData.cmtData.commentList[$ctrl.feed.fid+"like"]'
+      comment-data='$ctrl.feedData.cmtData.commentList[$ctrl.feed.fid+"comment"]'>
+      </appb-feed-comment>
+    </div>
+    <div class="eb-po-clear" id='eb-feed-end-{{$ctrl.feed.fid}}'></div>
+  </div>

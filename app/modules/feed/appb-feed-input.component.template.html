@@ -1,0 +1,114 @@
+<appb-ui-loading  ng-if='!$ctrl.feed.fid'>
+</appb-ui-loading>
+<form name='{{$ctrl.formname}}' ng-if='$ctrl.feed.fid'>
+<div class="weui-cells weui-cells_form">
+
+  <div class="weui-cell "
+  ng-class="{'weui-cell_select':cf.type=='radio', 'weui-cell_select-after':cf.type=='radio',
+  'weui-cell_warn':! {{$ctrl.formname}}.input_{{cf.name}}.$valid
+  }"
+  ng-repeat='cf in $ctrl.fconfig.columns'> 
+  
+  
+    <!-- 1  cf.type =="mtext" -->  
+    <div class="weui-cell__bd" ng-if=' cf.type =="mtext"'>
+      <textarea class="weui-textarea" placeholder="{{cf.placeholder}}" rows="3"
+      name="input_{{cf.name}}"
+      ng-model="$ctrl.models[cf.name]"
+      ng-change="$ctrl.changeModel(cf.name)"
+      maxlength='{{cf.maxlength}}'
+      NOUSE-ng-maxlength='cf.maxlength'
+      ng-minlength='cf.minlength'
+      ></textarea>
+      <div class="weui-textarea-counter"
+      ng-if='$ctrl.feed[cf.name].length/cf.maxlength > 0.9'
+      ><span>{{$ctrl.feed[cf.name].length}}</span>/{{cf.maxlength}}</div>
+    </div>
+
+    <!-- 2 cf.type  =="pics" -->  
+    <div class="weui-cell__bd" ng-if=' cf.type =="pics"'>
+      <appb-ui-uploader  
+        app-data='$ctrl.appData'
+        imgs='$ctrl.imgs'
+        max-count='9'
+        update-img='$ctrl.updateImg(imgs)'
+      ></appb-ui-uploader>
+    </div>
+    
+    <!-- 3， cf.type = radio -->  
+    <div class="weui-cell__hd" ng-if="cf.type=='radio'">
+      <label for="" class="weui-label">{{cf.desc}}</label>
+    </div>
+    <div class="weui-cell__bd" ng-if="cf.type=='radio'">
+      <select class="weui-select" name="input_{{cf.name}}"
+      ng-model='$ctrl.models[cf.name]' 
+      ng-change="$ctrl.changeModel(cf.name)">
+        <option ng-repeat='key in cf.keys '
+          value="{{key}}">{{cf.values[$index]}}</option>
+      </select>
+    </div>    
+
+    <!-- 4， cf.type = input -->  
+    <div class="weui-cell__hd" ng-if="cf.type=='text'">
+      <label class="weui-label">{{cf.desc}}</label>
+    </div>
+    <div class="weui-cell__bd" ng-if="cf.type=='text'">
+      <input class="weui-input" type="input"  placeholder="{{cf.placeholder}}"
+        name="input_{{cf.name}}"
+        ng-model='$ctrl.models[cf.name]' 
+        ng-change="$ctrl.changeModel(cf.name)"
+        ng-required='cf.required'
+        ng-minlength="cf.minlength"
+        ng-maxlength="cf.maxlength"
+      >
+    </div>
+    <!-- 4a， cf.type = number -->  
+    <div class="weui-cell__hd" ng-if="cf.type=='number'">
+      <label class="weui-label">{{cf.desc}}</label>
+    </div>
+    <div class="weui-cell__bd" ng-if="cf.type=='number'">
+      <input class="weui-input" type="number"  placeholder="{{cf.placeholder}}"
+        name="input_{{cf.name}}"
+        ng-model='$ctrl.models[cf.name]' 
+        ng-change="$ctrl.changeModel(cf.name)"
+        ng-required='cf.required'
+        ng-min="cf.min"
+        ng-max="cf.max"
+      >
+    </div>
+    
+    <!-- 5， cf.type = date -->  
+    <div class="weui-cell__hd" ng-if="cf.type=='date'">
+      <label for="" class="weui-label">{{cf.desc}}</label>
+    </div>
+    <div class="weui-cell__bd" ng-if="cf.type=='date'">
+      <input class="weui-input" type="date" 
+        name="input_{{cf.name}}"
+        ng-model='$ctrl.models[cf.name]' 
+        ng-change="$ctrl.changeModel(cf.name)"
+        required 
+      >
+    </div>
+    
+    <!-- 6， cf.type = datetime -->  
+    <div class="weui-cell__hd" ng-if="cf.type=='datetime'">
+      <label for="" class="weui-label">{{cf.desc}}</label>
+    </div>
+    <div class="weui-cell__bd" ng-if="cf.type=='datetime'">
+      <input class="weui-input" type="datetime-local" 
+        name="input_{{cf.name}}"
+        ng-model='$ctrl.models[cf.name]' 
+        ng-change="$ctrl.changeModel(cf.name)"
+        required 
+      >
+    </div>
+
+  </div>
+</div>
+<div class="weui-btn-area">
+  <button class="weui-btn weui-btn_primary" href="#" id="showTooltips"
+  ng-disabled="$ctrl.feedData.publishing || !{{$ctrl.formname}}.$valid"
+  ng-class="{'weui-btn_disabled':$ctrl.feedData.publishing|| !{{$ctrl.formname}}.$valid}"
+  ng-click="$ctrl.onOk()">确定</button>
+</div>  
+</form>

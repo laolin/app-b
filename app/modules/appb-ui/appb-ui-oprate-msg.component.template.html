@@ -1,0 +1,19 @@
+<div class="weui-msg">
+  <div class="weui-msg__icon-area">
+    <i class="weui-icon-{{$ctrl.type}} weui-icon_msg"></i>
+  </div>
+  <div class="weui-msg__text-area">
+    <h2 class="weui-msg__title">{{$ctrl.title}}</h2>
+    <p class="weui-msg__desc">{{$ctrl.content}}</p>
+  </div>
+  <div class="weui-msg__opr-area">
+    <p class="weui-btn-area">
+      <a href class="weui-btn weui-btn_primary"
+        ng-click='$ctrl.fn1()'>{{$ctrl.btn1}}</a>
+      <a href class="weui-btn weui-btn_default"
+        ng-if='$ctrl.btn2'
+        ng-click='$ctrl.fn2()'>{{$ctrl.btn2}}</a>
+    </p>
+  </div>
+</div>
+    

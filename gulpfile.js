@@ -2,29 +2,40 @@
 
 /**
  *  可构建多个APP，
- *  目前有两个APP： `app-b` AND `app-exbook`
- *  默认APP为 app-b
+ *  开发一个APP(假设app名为 XXX)需要一个目录和一个文件：
+ *      `app/app-XXX.define.js`文件 和 `app/app-XXX`目录
  *  
- *  总的任务：
+ *  ===========================
+ *  gulp 任务使用：
+ *  ===========================
  *  
- *  1, 使用 `gulp` 或 `gulp default` 构建 默认APP (`app-b`)
- *  2  使用 `gulp appb` 构建 `app-b`
- *  3, 使用 `gulp exbook` 构建 `app-exbook`
+ *  1, 使用 `gulp` 或 `gulp default` 构建 默认APP
+ *  - `gulp --app XXX` 构建 名为 XXX 的app
+ *  - 上面也可简写为 `gulp -a XXX
  *  
- *  详细 分步任务 列表：
- * 
- *  4, gulp wiredep  //根据bower.json 注入依赖的css和js到html中
- *  5, gulp useref   //合并html中的多个css和js
- *  6, gulp config-appb //修改配置为`app-b`，单独运行没用，放在别的任务前运行
- *  7, gulp config-exbook //修改配置为`app-exbook`，同上
- *  8,  ... 略
+ *  2, `gulp dev`
  *  
- *  一般 分步任务 均为对默认APP操作，
- *  如果对其他APP，需要在任务前加对应APP的配置任务，
- *  一定要同一条gulp命令运行多个任务才有效，单独运行没用。
- *  比如上面的4, 5, 对应app-exbook的任务应该如下：
- *  4, gulp config-exbook wiredep  //根据bower.json 注入依赖的css和js到html中
- *  5, gulp config-exbook useref   //合并html中的多个css和js
+ *  - 目前还有一个没写完可将就用的自动发布任务:  `gulp dep1`
+ *  
+ *  
+ *  ===========================
+ *  详细任务 列表：
+ *  ===========================
+ *  
+ *  s1: `templatecache` : angular template 的(*.template.html) 打包至js文件(tmp/tlp_XXX.js)
+ *  s2: `inject` : 全部js,css注入app/app-b.html 中，生成app/index.html，方便开发调试
+ *    参见gulpfile.js中的inject部分
+ *  s3: `wiredep` : 注入 bower components 
+ *  s4: `html-useref` : 把 css js 合并
+ *    生成 css.json js.json 文件到 dist-app/目录下，供loader.js使用
+ *  
+ *  A : `build-loader` : app-b.html 中仅注入 loader.js 的 index.html 版本，详见loader.js中的注释
+ *  
+ *  B : `copy` : 复制 需要的js,img文件到dist-app 目录下
+ *  
+ *  `runBuild` : = ['build-loader','html-useref','copy']
+ *  `default` : 同`runBuild`
+ *  `dev` : = ['build-loader','wiredep']
  */
  
 // =======================================================================
@@ -41,6 +52,7 @@ var gulp = require('gulp'),
     filter = require('gulp-filter'),
     flatten = require('gulp-flatten'),
     rename = require('gulp-rename'),
+    replace = require('gulp-replace'),
     del = require('del'),
 
     uglify = require('gulp-uglify'),
@@ -56,6 +68,7 @@ var gulp = require('gulp'),
     rev = require('gulp-rev'),
     revReplace = require('gulp-rev-replace'),
     streamSeries = require('stream-series'),
+    filelist = require('gulp-filelist'),
 
     notify = require('gulp-notify'),
     //order = require('gulp-order'),
@@ -64,6 +77,7 @@ var gulp = require('gulp'),
     
     
     var fs = require('fs');
+    var args = require('minimist')(process.argv.slice(2));
 
     //自动发布代码
     gulp.task('dep1', function () {
@@ -81,131 +95,45 @@ var gulp = require('gulp'),
 
 
 /*
-1. dist 目录下直接放的文件只有两个
-  index.html
-  xxx-config.js
+1. dist/APP_NAME 目录下放的文件有5个
+  1, index0.html
+  2, index.html
+  3, loader.js
+  4, css.json
+  5, js.json
   
-2. dist/assest 目录放 js 文件
-
-3. dist/assest/css
-   dist/assest/img
-   dist/assest/fonts
-   3个子目录放对应的文件
+  正常只要有index0.html一个文件就够了
+  但是由于 微信会缓存文件，所以把变化的内容都移出来留下的内容放在2,3文件中
+  4和5的内容是变化的（css,js文件名列表）
+  loader.js负责动态加载，避免微信缓存
+  
+  
+2. 各APP的 ASSETS 目录名是固定的 (dist/assest) (这样多APP可共用assest)
+   ASSETS 目录放 js 文件
+   ASSETS/css 目录放 css 文件
+   ASSETS/fonts 目录放字体文件
+   ASSETS/img 目录放图片
+   
+   为方便开发，APP中约定上述4个子目录固定，不能变化。
    
    保持 css 和 fonts 相对路径不变。
 
 */
 
-var config_appb = {
-  //指定templatecache生成的目录、文件名，以便合并到 useref 指定的js文件中
-  tplModule: 'appb',
-  tplHtml: [//app后马上跟两个*号，否则路径的 base 不对，模板不能用
-    './app/**/modules/**/*.template.html',
-    './app/**/view-default/**/*.template.html',
-    './app/**/view-test/**/*.template.html'],
-  tplJsName: 'tpl_appb-sys.js',
-  
-  injects: [
-    [
-      './app/app-b.js'
-    ], [
-      './app/**/modules/**/*.module.js',
-      '!./app/bower_components/**/*'
-    ], [
-      './app/**/modules/**/*.js',
-      '!./app/**/*.module.js', 
-      '!./app/bower_components/**/*'
-    ], [
-      './app/**/view-default/**/*.module.js',
-      './app/**/view-test/**/*.module.js',
-      '!./app/bower_components/**/*'
-    ], [
-      './app/**/view-default/**/*.js',
-      './app/**/view-test/**/*.js',
-      '!./app/**/*.module.js', 
-      '!./app/bower_components/**/*'
-    ], [
-      './app/assets/js/common.js',
-      "./app/assets/css/**/*.css"
-    ], [
-      "./app/view-default/**/*.css"
-    ]
-  ],
-
-  //s1,手工写的html, 给wiredep处理的文件，处理后可以调试用，可以给useref用
-  html_src: 'app-b.html', 
-  
-  //s2,可以调试用，也是给useref处理的文件名
-  html_debug: 'index-b.html', 
-  
-  //s3, 最终放到 dist 目录下的 html文件名
-  html_dist: 'index.html', 
-  
-  path: {
-    file_copy: '',
-    app: './app',    
-    tmp: './tmp',
-    
-    dist: './dist'
-  }
-}
-var config_exbook = {
-  //指定templatecache生成的目录、文件名，以便合并到 useref 指定的js文件中
-  tplModule: 'appb',
-  tplHtml: [//app后马上跟两个*号，否则路径的 base 不对，模板不能用
-    './app/**/modules/**/*.template.html',
-    './app/**/view-exbook/**/*.template.html'],
-  tplJsName: 'tpl_exbook.js',
-  
-  injects: [
-    [
-      './app/app-exbook.js'
-    ], [
-      './app/**/modules/**/*.module.js',
-      '!./app/bower_components/**/*'
-    ], [
-      './app/**/modules/**/*.js',
-      '!./app/**/*.module.js', 
-      '!./app/bower_components/**/*'
-    ], [
-      './app/**/view-exbook/**/*.module.js',
-      '!./app/bower_components/**/*'
-    ], [
-      './app/**/view-exbook/**/*.js',
-      '!./app/**/*.module.js', 
-      '!./app/bower_components/**/*'
-    ], [
-      './app/assets/js/common.js',
-      "./app/assets/css/**/*.css"
-    ], [
-      "./app/view-exbook/**/*.css"
-    ]
-  ],
- 
-  
-  
-  
-  //s1,手工写的html, 给ng-inject, wiredep处理的文件，处理后可以调试用，可以给useref用
-  html_src: 'app-b.html', 
-  
-  //s2,可以调试用，也是给useref处理的文件名
-  html_debug: 'index.html', 
-  
-  //s3, 最终放到 dist 目录下的 html文件名
-  html_dist: 'index.html', 
-  
-  path: {
-    file_copy: '',
-    app: './app',    
-    tmp: './tmp',
-    
-    dist: './dist-exbook'
-  }
-}
-
 
 // =======================================================================
-var configObj =config_exbook;
+var app_name=args['app'];
+if(!app_name)app_name=args['a'];
+if(!app_name)app_name='jia';
+
+fs.stat("./app/app-"+app_name+".define.js", function(err, stat) {
+  if(err){
+    console.log("Err: Missing ./app/app-"+app_name+".define.js");
+    process.exit(1);
+  }
+});
+
+var configObj =require ( './gulpfile.app.js' )(app_name);
 
 // =======================================================================
 
@@ -228,6 +156,7 @@ gulp.task('templatecache', function () {
     .pipe(templateCache(configObj.tplJsName,{module: configObj.tplModule}))
     .pipe(gulp.dest(configObj.path.tmp));
 });
+
 
 /**
  *  s2: inject
@@ -263,58 +192,102 @@ gulp.task('wiredep', ['inject'], function() {
 /**
  *  s4: html-useref
  *  把 css js 合并
+ *  
+ *  同时生成 css.json js.json 文件到 dist-app/目录下，供loader.js使用
  */
 gulp.task('html-useref',['wiredep'], function(){
+  
+  var jsFilter = filter("**/*.js", { restore: true });
+  var cssFilter = filter("**/*.css", { restore: true });
+  
     return gulp.src(configObj.path.app + '/'+configObj.html_debug)
         .pipe(useref())
         .pipe(gulpif('*.css', cleanCSS()))
         .pipe(gulpif('*.html', htmlmin({collapseWhitespace: true,removeComments: true})))
+
+
+        .pipe(gulpif('*.js', replace("window.__assetsPath='../assets'",
+          "window.__assetsPath='"+configObj.path.assets_dep_at+"'")))
         .pipe(gulpif('*.js',  uglify({compress: { drop_console: true }})))
         .pipe(rev()) 
         .pipe(revReplace()) 
-        .pipe(gulpif('*.html', rename(configObj.html_dist)))
-        .pipe(gulp.dest(configObj.path.dist));
-});
-gulp.task('copyImg', function() {
-    return gulp.src('app/assets/img/**/*.*')
-    .pipe(imagemin())
-    .pipe(gulp.dest(configObj.path.dist+'/assets/img'))
+        .pipe(gulpif('*.html', rename(configObj.dist_html)))
+        .pipe(gulp.dest(configObj.path.dist_app)) 
+      
+        .pipe(debug({title:'a1 -'})) 
+        .pipe(flatten())
+        
+        .pipe(jsFilter) 
+        .pipe(filelist('js.json',{ relative: true }))
+        .pipe(jsFilter.restore) 
+        
+        
+        .pipe(cssFilter) 
+        .pipe(filelist('css.json',{ relative: true }))
+        .pipe(cssFilter.restore)
+        
+        .pipe(gulp.dest(configObj.path.dist_app)) 
+      
+      
 });
 
-gulp.task('copyFile', function() {
-    return gulp.src(configObj.path.file_copy)
-    .pipe(gulp.dest(configObj.path.dist))
+
+/**
+ *  s5: build-loader
+ *  app-b.html 中仅注入 loader.js 的 index.html 版本
+ *  其他css,js 都通过 loader.js 动态加载
+ */
+gulp.task('build-loader', function () {
+  var src=configObj.path.app + '/'+configObj.html_src;
+  
+  var loaderJs=configObj.path.app + '/'+'loader.js';
+  
+  //1, 把loader.js里的路径替换掉，然后写入dist目录
+  gulp.src(loaderJs)
+    .pipe(replace("window.__assetsPath='../assets'",
+        "window.__assetsPath='"+configObj.path.assets_dep_at+"'"))
+    .pipe(uglify({compress: { drop_console: true }}))
+    .pipe(gulp.dest(configObj.path.dist_app))
+  
+  //2, app-b.html 文件只注入loader.js，然后写入dist/imdex.html
+  // (注，app-b.html注入全部js,css文件后，并用usref合并压缩的，
+  //   是写入dist/imdex0.html，属于备用文件)
+  return gulp.src( src )
+    .pipe(inject(gulp.src(loaderJs, {read: false}), {relative: true}))
+    .pipe(rename(configObj.dist_loader))
+    .pipe(htmlmin({collapseWhitespace: true,removeComments: true}))
+    .pipe(gulp.dest(configObj.path.dist_app))
 });
+
+
+
+
+
+gulp.task('copyImg', function() {
+    return gulp.src(configObj.path.app_assets+'/img/**/*.*')
+    .pipe(imagemin())
+    .pipe(gulp.dest(configObj.path.dist_assets+'/img'))
+});
+
 
 //font-awesome 的字体文件
 gulp.task('copyFonts1', function() {
-    return gulp.src('app/bower_components/font-awesome/fonts/*.*')
+  return gulp.src('bower_components/font-awesome/fonts/*.*')
     //.pipe(flatten())
-    .pipe(gulp.dest(configObj.path.dist+'/assets/fonts'))
+    .pipe(gulp.dest(configObj.path.dist_assets+'/fonts'))
 });
 
 
-//gulp.task('copy', ['copyFonts1','copyImg','copyFile']);
 gulp.task('copy', ['copyFonts1','copyImg'], function(){
-  return gulp.src(configObj.path.app + '/goto.html')
-    .pipe(htmlmin({collapseWhitespace: true,removeComments: true,minifyJS:true}))
-    .pipe(gulp.dest(configObj.path.dist));
 
 });;
 
 
-gulp.task('runBuild', ['html-useref','copy'], function(){
+gulp.task('runBuild', ['build-loader','html-useref','copy'], function(){
+  fs.writeFile(configObj.path.tmp+'/'+configObj.tplJsName,'//clear after build');
 });
 
-gulp.task('config-appb', function(){
-  console.log('set config to [appb]');
-  configObj =config_appb;
+gulp.task('default',['runBuild']);
+gulp.task('dev',['build-loader','wiredep'], function(){
+  fs.writeFile(configObj.path.tmp+'/'+configObj.tplJsName,'//clear after build');
 });
-gulp.task('config-exbook', function(){
-  console.log('set config to [exbook]');
-  configObj =config_exbook;
-});
-
-gulp.task('default',['config-exbook','runBuild']);
-gulp.task('appb',['config-appb','runBuild']);
-gulp.task('exbook',['config-exbook','runBuild']);

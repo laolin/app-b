@@ -1,0 +1,73 @@
+
+<appb-ui-loading
+  ng-if='serve == -1'>
+</appb-ui-loading>
+
+<appb-ui-oprate-msg 
+  ng-if='serve == -2'
+  type='warn' title='参数错误或网络错误'>
+</appb-ui-oprate-msg>
+
+
+<div ng-if='serve.fid'>
+
+<ks-swiper-container class="serve-swiper-container"
+ng-if='serve.fid'
+slides-per-view="1" 
+autoplay="1000"
+loop="true"
+XX-pagination='.swiper-pagination'
+show-nav-buttons="false"
+initial-slide="0"   space-between="0" pagination-clickable="true">
+    <ks-swiper-slide class="swiper-slide"
+      ng-repeat="s in imgs track by $index"
+    >
+      <img class='swiper-img' ng-src="{{appData.filePath}}/{{s}}"/>
+    </ks-swiper-slide>
+    
+</ks-swiper-container>
+
+<div class="statusbar">
+    <div class="subleft avil">
+            <div class="price ">¥<strong class="small">{{serve.d2}}</strong>
+            </div>
+            <div class="information">
+                <div class="soldcount"><span></span>原价</div>
+                <div class="oprice"><del>¥ {{serve.d1}}</del></div>
+            </div>
+    </div>
+    <div class="countdown" ng-if='timeDiff<=0'>
+      <div class="txt">活动已结束</div>
+        <a class="txt" href='#!/serve-list'>查看其他活动</a>
+    </div>
+    <div class="countdown" ng-if='timeDiff>0'>
+        <div class="txt">活动还剩余</div>
+        <div class="clockrun">
+            <span class="num">{{timeDay}}天</span><span class="dot"></span>
+            <span class="num">{{timeHour}}</span><span class="dot">:</span>
+            <span class="num">{{timeMin}}</span><span class="dot">:</span>
+            <span class="num">{{timeSec}}</span><span class="dot">.</span>
+            <span class="num">{{timeMsec}}</span>
+        </div>
+    </div>
+</div>
+
+<div class='weui-cell jia-serve-content'>
+{{serve.content}}
+</div>
+
+<p class='weui-btn-area' ng-if='timeDiff>0'>
+  <a href class="weui-btn weui-btn_primary"
+    ng-click='order()'>马上预定</a>
+</p>
+
+<div>
+<appb-feed-list app-data='appData' feed-data='feedData' feed-app='cm_app' feed-cat='cm_cat'></appb-feed-list>
+
+  <appb-feed-input
+    ng-if='1'
+    feed='jiaComment' feed-data='feedData' feed-app='cm_app' feed-cat='cm_cat' app-data='appData' after-publish='afterComment(feed)'>
+  </appb-feed-input>  
+</div>
+
+</div>
