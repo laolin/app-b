@@ -3,7 +3,7 @@ angular.module('appb')
 .run(['$log','AppbFeedService',function($log,AppbFeedService){
   $log.log('appb init ok');
   var feedData=AppbFeedService.getFeedData();
-  feedData.defineFeed('appb','score','评价',[
+  feedData.defineFeed('appb_score','评价',[
     {
       name: 'd1',
       desc: '评分',
@@ -15,7 +15,7 @@ angular.module('appb')
     {name: 'pics',desc:'图片'}
   ]);
   
-  feedData.defineFeed('appb','report','投诉/举报',[
+  feedData.defineFeed('appb_report','投诉/举报',[
     {
       name: 'd1',
       desc: '类型',

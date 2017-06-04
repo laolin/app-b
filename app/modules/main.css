@@ -290,7 +290,7 @@ start #main-footer
 }
 
 /*swiper for appb-ui-gallery*/
-.swiper-container {
+.weui-gallery .swiper-container {
   position: absolute;
   top: 60px;
   right: 0;
@@ -300,3 +300,7 @@ start #main-footer
 .swiper-pagination-bullet {
   background: #bb9;
 }
+
+
+
+

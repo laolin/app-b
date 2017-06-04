@@ -1,4 +1,4 @@
-  <div class="ebfeed-unit">
+  <div class="ebfeed-unit"  ng-if='$ctrl.feed.access==0 || $ctrl.canAdmin'>
     <div class="eb-po-avt-wrap">
       <img class="eb-po-avt" ng-src="{{
         $ctrl.feedData.usersInfo[$ctrl.feed.uid].wxinfo?
@@ -29,6 +29,23 @@
             
           </p>
         </div>
+        <div  class='eweui-cell' ng-if='!$ctrl.canAdmin'>
+          <a class="weui-btn weui-btn_mini weui-btn_primary"
+            href='#!/serve-home?fid={{$ctrl.feed.fid}}' >
+            详情
+          </a>
+        </div>
+        <div  class='eweui-cell' ng-if='$ctrl.canAdmin'>
+          <a class="weui-btn weui-btn_mini weui-btn_primary"
+            href='#!/serve-home?fid={{$ctrl.feed.fid}}' >
+            详情
+          </a>
+          <a class="weui-btn weui-btn_mini weui-btn_warn"
+            href='#!/serve-edit?fid={{$ctrl.feed.fid}}' >
+            编辑
+          </a>
+        </div>
+
         <appb-feed-pop-action
           ng-show='$ctrl.feedData._activeAction ==$ctrl.feed.fid'
           fid='$ctrl.feed.fid'
@@ -48,10 +65,6 @@
         <img class="eb-c-icon cur-pointer" ng-src="{{$ctrl.appData.appCfg.assetsRoot}}/img/cmt.png"
         ng-click='$ctrl.showPop($ctrl.feed.fid,$event)'>
       </div>
-      <a class="weui-btn weui-btn_mini weui-btn_primary"
-        href='#!/serve-edit?fid={{$ctrl.feed.fid}}' >
-        修改内容
-      </a>
       <appb-feed-comment app-data='$ctrl.appData' feed-data='$ctrl.feedData'
       fid='$ctrl.feed.fid'
       like-data='$ctrl.feedData.cmtData.commentList[$ctrl.feed.fid+"like"]'

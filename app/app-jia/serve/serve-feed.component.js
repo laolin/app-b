@@ -11,19 +11,25 @@ angular.module('jia')
     feed:"<",
     appData:"<"
   },
-  controller: ['$log','$timeout','$interval','$scope','$document',
-    function ($log,$timeout,$interval,$scope,$document){
+  controller: ['$log','$timeout','$interval','$location','$document',
+    function ($log,$timeout,$interval,$location,$document){
       var ctrl=this;
       
       ctrl.$onInit=function(){
-        
+        ctrl.admin=$location.search()['admin'];
+        ctrl.canAdmin=false;
+        if(ctrl.admin==1) {
+          ctrl.canAdmin=ctrl.appData.userData.isAdmin();
+        }        
       }
       ctrl.$onChanges =function(chg){
       }
       ctrl.$onDestroy=function(){
       }
+      
+
       ctrl.fValue=function(name,key){
-        return ctrl.feedData.getFeedDefinitionValue(ctrl.feedApp,ctrl.feedCat,name,key);
+        return ctrl.feedData.getFeedDefinitionValue(ctrl.feedApp,name,key);
         
       }
       

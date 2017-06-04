@@ -33,14 +33,14 @@
       <div class="weui-cells">
         <appb-ui-panel-cell-small icon='university' url='/my' text='我的订单' >
         </appb-ui-panel-cell-small>
-        <appb-ui-panel-cell-small icon='gift' url='/my' text='我的积分' >
+        <!--appb-ui-panel-cell-small icon='gift' url='/my' text='我的积分' >
         </appb-ui-panel-cell-small>
         <appb-ui-panel-cell-small icon='comments' url='/my' text='我的评论' >
         </appb-ui-panel-cell-small>
         <appb-ui-panel-cell-small icon='envelope' url='/my' text='我的消息' >
         </appb-ui-panel-cell-small>
         <appb-ui-panel-cell-small icon='id-card' url='/my' text='我的资料' >
-        </appb-ui-panel-cell-small>
+        </appb-ui-panel-cell-small-->
       </div>
     </div>
   </div>
@@ -62,65 +62,35 @@ ng-if='$ctrl.userData.isAdmin()'>
 </div>
 
 
-
-<div class="weui-panel"
-ng-if='$ctrl.userData.isAdmin()'>
-  <div class="weui-panel__hd">嘉空间服务管理</div>
-  <div class="weui-panel__bd">
-    <div class="weui-media-box weui-media-box_small-appmsg">
-      <div class="weui-cells">
-        <appb-ui-panel-cell-small icon='puzzle-piece'
-          url='/serve-edit'
-          text='创建服务'
-        ></appb-ui-panel-cell-small>
-        <appb-ui-panel-cell-small icon='th-list'
-          url='/serve-list'
-          text='服务列表'
-        ></appb-ui-panel-cell-small>
-      </div>
-    </div>
-  </div>
+<div ng-if='$ctrl.userData.isAdmin()'> 
+  <appb-weui-cells
+    title='嘉空间服务管理'
+    cells="[
+      {text:'创建服务',url:'/serve-edit',icon:'puzzle-piece', notes:'新建'},
+      {text:'服务列表（管理员界面）',url:'/serve-list?admin=1',icon:'th-list', notes:''},
+      {text:'服务列表（用户界面）',url:'/serve-list',icon:'th-list', notes:''},
+    ]"
+  >
+  </appb-weui-cells>
 </div>
 
-
-<div class="weui-panel"
-ng-if='$ctrl.userData.isAdmin()'>
-  <div class="weui-panel__hd">管理员-统计</div>
-  <div class="weui-panel__bd">
-    <div class="weui-media-box weui-media-box_small-appmsg">
-      <div class="weui-cells">
-        <appb-ui-panel-cell-small icon='university'
-          url='/log-analy-user-activity?hour=2'
-          text='用户活跃度（2小时）'
-        ></appb-ui-panel-cell-small>
-        <appb-ui-panel-cell-small icon='university'
-          url='/log-analy-user-activity?hour=6' 
-          text='用户活跃度（6小时）'
-        ></appb-ui-panel-cell-small>
-        <appb-ui-panel-cell-small icon='university'
-          url='/log-analy-user-activity?hour=12' 
-          text='用户活跃度（12小时）'
-        ></appb-ui-panel-cell-small>
-        <appb-ui-panel-cell-small icon='university'
-          url='/log-analy-user-activity?hour=24' 
-          text='用户活跃度（24小时）'
-        ></appb-ui-panel-cell-small>
-        <appb-ui-panel-cell-small icon='university'
-          url='/log-analy-user-activity?day=2' 
-          text='用户活跃度（2天）'
-        ></appb-ui-panel-cell-small>
-        <appb-ui-panel-cell-small icon='university'
-          url='/log-analy-user-activity?day=7' 
-          text='用户活跃度（7天）'
-        ></appb-ui-panel-cell-small>
-        <appb-ui-panel-cell-small icon='university'
-          url='/log-analy-user-activity?day=30' 
-          text='用户活跃度（30天）'
-        ></appb-ui-panel-cell-small>
-      </div>
-    </div>
-  </div>
+<div ng-if='$ctrl.userData.isAdmin()'> 
+  <appb-weui-cells
+    title='管理员-统计'
+    cells="[
+      {text:'用户活跃度（1小时）',url:'/log-analy-user-activity?hour=1',icon:'university'},
+      {text:'用户活跃度（2小时）',url:'/log-analy-user-activity?hour=2',icon:'university'},
+      {text:'用户活跃度（6小时）',url:'/log-analy-user-activity?hour=6',icon:'university'},
+      {text:'用户活跃度（12小时）',url:'/log-analy-user-activity?hour=12',icon:'university'},
+      {text:'用户活跃度（24小时）',url:'/log-analy-user-activity?hour=24',icon:'university'},
+      {text:'用户活跃度（2天）',url:'/log-analy-user-activity?day=2',icon:'university'},
+      {text:'用户活跃度（7天）',url:'/log-analy-user-activity?day=7',icon:'university'},
+      {text:'用户活跃度（30天）',url:'/log-analy-user-activity?day=30',icon:'university'}
+    ]"
+  >
+  </appb-weui-cells>
 </div>
+
 
 
 <div class="weui-panel"

@@ -3,7 +3,7 @@ angular.module('appb')
 .run(['$log','AppbFeedService',function($log,AppbFeedService){
   $log.log('exbook init ok');
   var feedData=AppbFeedService.getFeedData();
-  feedData.defineFeed('exbook','exbook','错题本',[
+  feedData.defineFeed('exbook','错题本',[
     {
       name: 'content',
       desc:'内容',

@@ -91,7 +91,7 @@ div.weui-toast .weui-toast__content {
 }
 
 /* .weui-cell__hd 图标右侧没留空，我们采用I做图标，故用此CSS修正一下*/
-.weui-media-box_small-appmsg  .weui-cell__hd i {
+.weui-cell__hd i {
   padding-right:10px;
   color:#e06000;
 }
@@ -99,3 +99,17 @@ div.weui-toast .weui-toast__content {
 .weui-icon-success {
   color: #e06000;
 }
+
+
+/* ------------------- */
+
+
+.swiper-slide {
+  font-size: 0px; /* swiper-slide 下方有空白的问题，只好用这个去掉空白*/
+}
+.swiper-img {
+  width: 100%;
+  object-fit: cover;
+  height: 300px;
+}
+

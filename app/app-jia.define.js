@@ -21,9 +21,10 @@ var cfg=window.appbCfg={
 };
 
 cfg.modDep=[
+  'ksSwiper',
   'jia'
 ];
-cfg.defPath='/explore';
+cfg.defPath='/serve-list';
 
 cfg.wxApp=[
     {name:'qgs-web',id:'wx8fb342a27567fee7'},
@@ -37,9 +38,9 @@ cfg.markWxLoginCallback='cb_xd';//和后端API的约定字符串，在 /wx-login
 
 cfg.tabsAvailable=[
   ['index',[
-    {text:'嘉空间',icon:'university',href:'/serve'},
-    {text:'嘉交换',icon:'shopping-basket',href:'/explore',active:1},
-    {text:'我的嘉',icon:'user',href:'/my'}
+    {text:'发现嘉空间',icon:'search',href:'/serve-list'},//shopping-basket
+    {text:'嘉空间服务',icon:'university',href:'/serve-home',active:1},
+    {text:'我的嘉空间',icon:'user',href:'/my'}
   ]],
   ['debug',[
     {text:'首页debug',icon:'home',href:'/compose',active:1},

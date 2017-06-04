@@ -23,7 +23,7 @@ angular.module('appb')
       ctrl.$onDestroy=function(){
       }
       ctrl.fValue=function(name,key){
-        return ctrl.feedData.getFeedDefinitionValue(ctrl.feedApp,ctrl.feedCat,name,key);
+        return ctrl.feedData.getFeedDefinitionValue(ctrl.feedApp,key);
         
       }
       

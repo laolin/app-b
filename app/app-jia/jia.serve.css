@@ -1,0 +1,136 @@
+
+/* ==========================================
+ 价格及剩余时间 栏
+*/
+
+
+.statusbar {
+    position: relative;
+    height: 54px;
+    background: -webkit-gradient(linear,0 0,0 100%,from(#eff),to(#dee));
+    overflow: hidden;
+    color: #fff;
+}
+
+.statusbar .subleft {
+    position: relative;
+    margin-right: 150px;
+    height: 54px;
+}
+.statusbar .subleft.avil, .statusbar .subleft.soldout {
+    background: #E61414;
+}
+.statusbar .subleft.avil, .statusbar .subleft.soldout {
+    background: #e06000;
+    background-image: initial;
+    background-position-x: initial;
+    background-position-y: initial;
+    background-size: initial;
+    background-repeat-x: initial;
+    background-repeat-y: initial;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: rgb(224, 96, 0);
+}
+.statusbar .subleft .price {
+    padding: 0 10px;
+    display: inline-block;
+    height: 54px;
+    line-height: 54px;
+    vertical-align: text-bottom;
+    font-size: 24px;
+}
+
+
+
+
+.statusbar .subleft .information {
+    position: absolute;
+    top: 0;
+    display: inline-block;
+    color: #fff;
+    width: 170px;
+}
+.statusbar .subleft .information .soldcount {
+    display: inline-block;
+    padding: 0 6px;
+    height: 18px;
+    line-height: 18px;
+    font-size: 11px;
+    margin-top: 10px;
+}
+.statusbar .subleft .information .oprice {
+    padding: 0 4px;
+    height: 16px;
+    line-height: 16px;
+    font-size: 12px;
+}
+.statusbar .subleft:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 100%;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: -6px;
+    border-top: 27px solid #e06000;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 27px solid #e06000;
+}
+.statusbar .countdown {
+    position: absolute;
+    right: 0;
+    top: 10px;
+    width: 140px;
+    height: 54px;
+    text-align: center;
+}
+.statusbar .countdown .txt {
+    height: 16px;
+    text-align: center;
+    line-height: 16px;
+    font-size: 12px;
+    color: #e06000;
+}
+.statusbar .countdown .clockrun .num {
+    float: left;
+    min-width: 16px;
+    height: 16px;
+    text-align: center;
+    line-height: 16px;
+    background: #e06000;
+    border-radius: 3px;
+}
+.statusbar .countdown .clockrun {
+    margin: 2px 0 0 5px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #fff;
+}
+.statusbar .countdown .clockrun .dot {
+    float: left;
+    width: 6px;
+    height: 16px;
+    line-height: 18px;
+    text-align: center;
+    color: grey;
+}
+.statusbar .countdown .clockrun .day {
+  width: 14px;
+}
+
+
+
+/* ==========================================
+ 内容
+*/
+
+.jia-serve-content {
+  background-color: #fff;
+  font-weight:900;
+}
