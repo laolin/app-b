@@ -67,8 +67,8 @@ ng-if='$ctrl.userData.isAdmin()'>
     title='嘉空间服务管理'
     cells="[
       {text:'创建服务',url:'/serve-edit',icon:'puzzle-piece', notes:'新建'},
-      {text:'服务列表',url:'/serve-admin-list',icon:'th-list', notes:''},
-      {text:'已删除列表',url:'/serve-admin-list?deleted=1',icon:'th-list', notes:''}
+      {text:'服务列表（管理员界面）',url:'/serve-list?admin=1',icon:'th-list', notes:''},
+      {text:'服务列表（用户界面）',url:'/serve-list',icon:'th-list', notes:''},
     ]"
   >
   </appb-weui-cells>
