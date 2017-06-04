@@ -4,7 +4,7 @@
 angular.module('jia')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/serve-edit', {
-    templateUrl: 'app-jia/serve/serve-edit.template.html',
+    templateUrl: 'app-jia/serve-admin/serve-edit.template.html',
     controller: ['$scope','$location','$log','$q','AppbFeedService','AppbData',
       function ($scope,$location,$log,$q,AppbFeedService,AppbData) {
 

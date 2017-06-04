@@ -3,8 +3,8 @@
 
 angular.module('jia')
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/serve-admin-list', {
-    templateUrl: 'app-jia/serve/serve-admin-list.template.html',
+  $routeProvider.when('/serve-list', {
+    templateUrl: 'app-jia/serve/serve-list.template.html',
     controller: ['$scope','$location','$log','$q','AppbFeedService','AppbData',
       function ($scope,$location,$log,$q,AppbFeedService,AppbData) {
 
