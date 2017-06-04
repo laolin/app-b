@@ -332,6 +332,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       })
   }
   
+  
   //删除一条
   function deleteFeed(fid,app,cat) {
     appData.dialogData.confirmDialog('删除此条',function(){_confirmedDeleteFeed(fid,app,cat)});
@@ -363,6 +364,28 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       appData.toastMsg('Ejsonp:DelF',8);
     });
 
+  }
+  function changeFeedAccess(app,cat,fid,access) {
+    var deferred = $q.defer();
+    var api=appData.urlSignApi('feed','change_access');
+    appData.toastLoading();
+    return $http.jsonp(api,{params:{fid:fid,access:access}})
+    .then(function(s){
+      if(s.data.errcode!=0) {
+        var info='E:AccF:'+s.data.errcode+":"+s.data.msg;
+        $log.log(info);
+        appData.toastMsg(info,8);
+        deferred.reject(info);
+        return deferred.promise;
+      }
+      appData.toastDone(1);
+      deferred.resolve(1);//随便返回个1
+      return deferred.promise;
+    },function(e){
+      appData.toastMsg('Ejsonp:AccF',8);
+      deferred.reject('Ejsonp:AccF');
+      return deferred.promise;
+    });
   }
   
   function initDraft(app,cat) {
@@ -483,6 +506,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   feedData.publishing=false;
   feedData.feedAppCat=feedAppCat;
   feedData.deleteFeed=deleteFeed;
+  feedData.changeFeedAccess=changeFeedAccess;
   
   feedData.draftAll={};//_draft
   feedData.feedAll={};//feedList

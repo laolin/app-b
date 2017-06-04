@@ -6,7 +6,9 @@
         $ctrl.appData.appCfg.assetsRoot+'/img/anonymous.png'
       }}">
     </div>
-    <div class="eb-po-cmt">
+    <div class="eb-po-cmt"
+      ng-class="{'serve-not-pub':+$ctrl.feed.access}"
+    >
       <div class="eb-po-body">
         <div>
           <span class="eb-po-name">{{
@@ -43,6 +45,12 @@
           <a class="weui-btn weui-btn_mini weui-btn_warn"
             href='#!/serve-edit?fid={{$ctrl.feed.fid}}' >
             编辑
+          </a>
+          <a class="weui-btn weui-btn_mini weui-btn_warn"
+            href
+            ng-click='$ctrl.pubFeed(+$ctrl.feed.access)' 
+          >
+            {{+$ctrl.feed.access?'未公开，点此公开':'已公开，点此关闭'}}
           </a>
         </div>
 

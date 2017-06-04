@@ -73,6 +73,21 @@ angular.module('jia')
       }
 
       
+      ctrl.pubFeed=function(pub){
+        $log.log('ctrl.pubFeed',+ctrl.feed.access,pub)
+        if(+ctrl.feed.access && pub) {
+          ctrl.feedData.changeFeedAccess(ctrl.feedApp,ctrl.feedCat,ctrl.feed.fid,0)
+          .then(function(s){
+            ctrl.feed.access=0;
+          },function(e){});
+        }
+        else if(!+ctrl.feed.access && !pub) {
+          ctrl.feedData.changeFeedAccess(ctrl.feedApp,ctrl.feedCat,ctrl.feed.fid,0x10000)
+          .then(function(s){
+            ctrl.feed.access=1;
+          },function(e){});
+        }
+      }
 
       
       
