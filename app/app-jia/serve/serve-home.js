@@ -83,6 +83,27 @@ angular.module('jia')
             $scope.timeSec= Math.floor(($scope.timeDiff % (60*1000))/1000);
             $scope.timeMsec= Math.floor(($scope.timeDiff % 1000)/10);
         }
+        
+        $scope.cm_app='jia';
+        $scope.cm_cat='comment';
+        $scope.cm_fcat=feedData.feedAppCat($scope.cm_app,$scope.cm_cat);
+        $scope.commentForm=false;
+        feedData.exploreFeed($scope.cm_app,$scope.cm_cat);//获取评论
+        if(feedData.draftAll[$scope.cm_fcat]) {
+          $scope.jiaComment=feedData.draftAll[$scope.cm_fcat];
+        } else {
+          feedData.initDraft($scope.cm_app,$scope.cm_cat).then(function(){
+            $scope.jiaComment=feedData.draftAll[$scope.cm_fcat];
+          });
+        }
+        $scope.afterComment=function(feed) {
+          $log.log(feed);
+          feedData.hasNewMore[$scope.cm_fcat]=true;
+          feedData.exploreFeed($scope.cm_app,$scope.cm_cat,{newMore:1});//自动刷新新帖
+        }
+        $scope.showComment=function() {
+          $scope.commentForm=!$scope.commentForm;
+        }
 
       }
     ]

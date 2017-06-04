@@ -60,4 +60,14 @@ initial-slide="0"   space-between="0" pagination-clickable="true">
   <a href class="weui-btn weui-btn_primary"
     ng-click='order()'>马上预定</a>
 </p>
+
+<div>
+<appb-feed-list app-data='appData' feed-data='feedData' feed-app='cm_app' feed-cat='cm_cat'></appb-feed-list>
+
+  <appb-feed-input
+    ng-if='1'
+    feed='jiaComment' feed-data='feedData' feed-app='cm_app' feed-cat='cm_cat' app-data='appData' after-publish='afterComment(feed)'>
+  </appb-feed-input>  
+</div>
+
 </div>
