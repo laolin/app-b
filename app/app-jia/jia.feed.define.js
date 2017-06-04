@@ -32,17 +32,10 @@ angular.module('jia')
       max: 19999
     },
     {
-      name: 'k1',
-      desc: '状态',
-      type: 'radio',
-      keys: ['1','0'],
-      values: ['开放服务','停止此业务']
-    },
-    {
       name: 'attr_promoEnd',
       desc:'优惠结束时间',
       type: 'datetime',
-    },
+    }/*,
     {
       name: 'attr_promoDesc',
       desc:'推广优惠说明',
@@ -50,7 +43,7 @@ angular.module('jia')
       required:1,
       minlength:2,
       maxlength:100
-    }
+    }*/
   ]);
 
 }]);
