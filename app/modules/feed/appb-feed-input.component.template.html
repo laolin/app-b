@@ -109,6 +109,6 @@
   <button class="weui-btn weui-btn_primary" href="#" id="showTooltips"
   ng-disabled="$ctrl.feedData.publishing || !{{$ctrl.formname}}.$valid"
   ng-class="{'weui-btn_disabled':$ctrl.feedData.publishing|| !{{$ctrl.formname}}.$valid}"
-  ng-click="$ctrl.onOk()">确定</button>
+  ng-click="$ctrl.onOk()">{{ $ctrl.feedData.publishing?'Loading':$ctrl.buttonText?$ctrl.buttonText:'确定'}}</button>
 </div>  
 </form>

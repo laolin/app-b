@@ -8,6 +8,7 @@ angular.module('appb')
     appData:"<",
     afterPublish:"&", //回调参数名为feed： after-publish='afterPublish(feed)'
     
+    buttonText: "<",
     feedApp:"<",
     feedCat:"<",
     feed: "=",
