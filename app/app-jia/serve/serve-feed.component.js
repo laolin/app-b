@@ -29,7 +29,7 @@ angular.module('jia')
       
 
       ctrl.fValue=function(name,key){
-        return ctrl.feedData.getFeedDefinitionValue(ctrl.feedApp,ctrl.feedCat,name,key);
+        return ctrl.feedData.getFeedDefinitionValue(ctrl.feedApp,name,key);
         
       }
       

@@ -39,7 +39,7 @@ angular.module('appb')
           $log.log('no feed');
           return;//未初始化完成草稿（http未返回）
         }
-        var type=ctrl.feedData.getFeedDefinitionType(ctrl.feedApp,ctrl.feedCat,name);
+        var type=ctrl.feedData.getFeedDefinitionType(ctrl.feedApp,name);
         var realname=name;
         var drft=ctrl.feed;
         //attr的下一级参数
@@ -80,7 +80,7 @@ angular.module('appb')
       ctrl.$onInit=function(){
         ctrl.formname='fm_'+(+new Date);
         ctrl.fcat= ctrl.feedData.feedAppCat(ctrl.feedApp,ctrl.feedCat);
-        ctrl.fconfig=ctrl.feedData.getFeedDefinition(ctrl.feedApp,ctrl.feedCat);
+        ctrl.fconfig=ctrl.feedData.getFeedDefinition(ctrl.feedApp);
         
         var item_d,name,realname,type;
         $timeout(wait_feed,10);

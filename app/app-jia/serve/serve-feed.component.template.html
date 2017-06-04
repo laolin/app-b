@@ -1,4 +1,4 @@
-  <div class="ebfeed-unit">
+  <div class="ebfeed-unit"  ng-if='$ctrl.feed.access==0 || $ctrl.canAdmin'>
     <div class="eb-po-avt-wrap">
       <img class="eb-po-avt" ng-src="{{
         $ctrl.feedData.usersInfo[$ctrl.feed.uid].wxinfo?

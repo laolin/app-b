@@ -43,6 +43,7 @@ angular.module('jia')
             $scope.serve=feed1;
             
             $interval(calTime,78);
+            init_comment();
             if(feed1.pics) {
               $scope.imgs=feed1.pics.split(',');
             } else {
@@ -84,17 +85,19 @@ angular.module('jia')
             $scope.timeMsec= Math.floor(($scope.timeDiff % 1000)/10);
         }
         
-        $scope.cm_app='jia';
-        $scope.cm_cat='comment';
-        $scope.cm_fcat=feedData.feedAppCat($scope.cm_app,$scope.cm_cat);
-        $scope.commentForm=false;
-        feedData.exploreFeed($scope.cm_app,$scope.cm_cat);//获取评论
-        if(feedData.draftAll[$scope.cm_fcat]) {
-          $scope.jiaComment=feedData.draftAll[$scope.cm_fcat];
-        } else {
-          feedData.initDraft($scope.cm_app,$scope.cm_cat).then(function(){
+        function init_comment() {
+          $scope.cm_app='jia_serve_comment';
+          $scope.cm_cat='serveid_'+$scope.serve.fid;
+          $scope.cm_fcat=feedData.feedAppCat($scope.cm_app,$scope.cm_cat);
+          $scope.commentForm=false;
+          feedData.exploreFeed($scope.cm_app,$scope.cm_cat);//获取评论
+          if(feedData.draftAll[$scope.cm_fcat]) {
             $scope.jiaComment=feedData.draftAll[$scope.cm_fcat];
-          });
+          } else {
+            feedData.initDraft($scope.cm_app,$scope.cm_cat).then(function(){
+              $scope.jiaComment=feedData.draftAll[$scope.cm_fcat];
+            });
+          }
         }
         $scope.afterComment=function(feed) {
           $log.log(feed);

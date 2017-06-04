@@ -432,14 +432,14 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     values: ['语文','数学','英语','其他']
   }
 ]*/
-  function defineFeed(app,cat,desc,columns) {
-    feedDefinition[feedAppCat(app,cat)]={desc:desc,columns:columns};
+  function defineFeed(app,desc,columns) {
+    feedDefinition[app]={desc:desc,columns:columns};
   }
-  function getFeedDefinition(app,cat) {
-    return feedDefinition[feedAppCat(app,cat)];
+  function getFeedDefinition(app) {
+    return feedDefinition[app];
   }
-  function getFeedDefinitionType(app,cat,name) {
-    var df = feedDefinition[feedAppCat(app,cat)].columns;
+  function getFeedDefinitionType(app,name) {
+    var df = feedDefinition[app].columns;
     for(var i= df.length ; i-- ; ) {
       if(df[i].name==name) {
         return df[i].type
@@ -448,8 +448,8 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     }
     return '';
   }
-  function getFeedDefinitionValue(app,cat,name,key) {
-    var df = feedDefinition[feedAppCat(app,cat)].columns;
+  function getFeedDefinitionValue(app,name,key) {
+    var df = feedDefinition[app].columns;
     for(var i= df.length ; i-- ; ) {
       if(df[i].name==name) {
         if(!df[i].keys)return '';

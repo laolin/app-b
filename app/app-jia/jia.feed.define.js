@@ -3,7 +3,7 @@ angular.module('jia')
 .run(['$log','AppbFeedService',function($log,AppbFeedService){
   $log.log('exbook init ok');
   var feedData=AppbFeedService.getFeedData();
-  feedData.defineFeed('jia','serve','嘉空间服务',[
+  feedData.defineFeed('jia','嘉空间服务',[
     {
       name: 'pics',
       desc:'图片',

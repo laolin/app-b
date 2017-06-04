@@ -2,7 +2,7 @@
 angular.module('jia')
 .run(['$log','AppbFeedService',function($log,AppbFeedService){
   var feedData=AppbFeedService.getFeedData();
-  feedData.defineFeed('jia','comment','嘉空间留言',[
+  feedData.defineFeed('jia_serve_comment','嘉空间留言',[
     {
       name: 'content',
       desc:'留言',
