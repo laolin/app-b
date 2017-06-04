@@ -43,7 +43,11 @@ angular.module('jia')
             $scope.serve=feed1;
             if(feed1.pics) {
               $scope.imgs=feed1.pics.split(',');
+            } else {
+              //TODO 没有图片时待更好地处理
+              $scope.imgs=['jkjlogo.jpg','jkjlogo.jpg'];
             }
+            
           },function(e){
             appData.toastMsg('ErrGetServe:'+e);
             $scope.serve=-2;//mark as Error init
