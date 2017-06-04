@@ -84,7 +84,7 @@ angular.module('jia')
         else if(!+ctrl.feed.access && !pub) {
           ctrl.feedData.changeFeedAccess(ctrl.feedApp,ctrl.feedCat,ctrl.feed.fid,0x10000)
           .then(function(s){
-            ctrl.feed.access=1;
+            ctrl.feed.access=0x10000;
           },function(e){});
         }
       }

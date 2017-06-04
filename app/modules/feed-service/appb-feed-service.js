@@ -368,21 +368,21 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   function changeFeedAccess(app,cat,fid,access) {
     var deferred = $q.defer();
     var api=appData.urlSignApi('feed','change_access');
-    appData.toastLoading();
+    //appData.toastLoading();
     return $http.jsonp(api,{params:{fid:fid,access:access}})
     .then(function(s){
       if(s.data.errcode!=0) {
         var info='E:AccF:'+s.data.errcode+":"+s.data.msg;
         $log.log(info);
-        appData.toastMsg(info,8);
+        //appData.toastMsg(info,8);
         deferred.reject(info);
         return deferred.promise;
       }
-      appData.toastDone(1);
+      //appData.toastDone(1);
       deferred.resolve(1);//随便返回个1
       return deferred.promise;
     },function(e){
-      appData.toastMsg('Ejsonp:AccF',8);
+      //appData.toastMsg('Ejsonp:AccF',8);
       deferred.reject('Ejsonp:AccF');
       return deferred.promise;
     });

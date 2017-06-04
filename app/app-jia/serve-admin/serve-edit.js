@@ -46,17 +46,32 @@ angular.module('jia')
           feedData.getFeed($scope.feedApp,$scope.feedCat,$scope.fid)
           .then(function(feed1){
             $scope.feed=feed1;
+            _init_access_value();
+            $log.log('i-1',$scope.feed);
           },function(e){
             appData.toastMsg('ErrFeed:'+e);
           });
         } else if(!feedData.draftAll[$scope.fcat]) {
           feedData.initDraft($scope.feedApp,$scope.feedCat).then(function(){
             $scope.feed=feedData.draftAll[$scope.fcat];
+            _init_access_value();
+            $log.log('i-2',$scope.feed);
           });
         } else {
           $scope.feed=feedData.draftAll[$scope.fcat];
+          _init_access_value();
+            $log.log('i-3',$scope.feed);
         }
-
+        function _init_access_value() {
+          $log.log('testing: access');
+          if(0x10000 != +$scope.feed.access) {
+            feedData.changeFeedAccess($scope.feedApp,$scope.feedCat,$scope.feed.fid,0x10000)
+            .then(function(s){
+              $scope.feed.access=0x10000;
+              $log.log('re define access');
+            },function(e){});
+          }
+        }
 
       }
     ]
