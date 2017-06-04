@@ -1,14 +1,10 @@
-<appb-ui-oprate-msg 
-  ng-if='!fid'
-  type='warn' title='参数错误'>
-</appb-ui-oprate-msg>
 
 <appb-ui-loading
-  ng-if='fid&&serve == -1'>
+  ng-if='serve == -1'>
 </appb-ui-loading>
 
 <appb-ui-oprate-msg 
-  ng-if='fid&&serve == -2'
+  ng-if='serve == -2'
   type='warn' title='参数错误或网络错误'>
 </appb-ui-oprate-msg>
 
@@ -43,10 +39,10 @@ initial-slide="0"   space-between="0" pagination-clickable="true">
     <div class="countdown">
         <div id="J_CountDownTxt" class="txt">距结束仅剩</div>
         <div class="clockrun">
-            <span class="num" id="J_TimeHour">300</span><span class="dot">:</span>
-            <span class="num" id="J_TimeMin">13</span><span class="dot">:</span>
-            <span class="num" id="J_TimeSec">31</span><span class="dot">.</span>
-            <span class="num" id="J_TimeWSec">11</span>
+            <span class="num" id="J_TimeHour">??</span><span class="dot">:</span>
+            <span class="num" id="J_TimeMin">??</span><span class="dot">:</span>
+            <span class="num" id="J_TimeSec">??</span><span class="dot">.</span>
+            <span class="num" id="J_TimeWSec">??</span>
         </div>
     </div>
 </div>

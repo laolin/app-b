@@ -48,6 +48,20 @@ angular.module('jia')
             appData.toastMsg('ErrGetServe:'+e);
             $scope.serve=-2;//mark as Error init
           });
+        } else {
+          //不指定 fid, 自动获取最新的fid
+          appData.feedData.exploreFeed($scope.feedApp,$scope.feedCat)
+          .then(function(){
+            var fcat=appData.feedData.feedAppCat($scope.feedApp,$scope.feedCat);
+            var fds=appData.feedData.feedAll[fcat];
+            if(!fds)
+               $scope.serve=-2;//mark as Error init
+            else {
+              $scope.serve=fds[0];
+              $scope.fid=fds[0].fid;
+              $location.search({fid:fds[0].fid});
+            }
+          });
         }
 
         ctrl.swiper=false;
