@@ -14,7 +14,7 @@
 
 .statusbar .subleft {
     position: relative;
-    margin-right: 100px;
+    margin-right: 150px;
     height: 54px;
 }
 .statusbar .subleft.avil, .statusbar .subleft.soldout {
@@ -50,7 +50,7 @@
     top: 0;
     display: inline-block;
     color: #fff;
-    width: 150px;
+    width: 170px;
 }
 .statusbar .subleft .information .soldcount {
     display: inline-block;
@@ -84,7 +84,7 @@
     position: absolute;
     right: 0;
     top: 10px;
-    width: 90px;
+    width: 140px;
     height: 54px;
     text-align: center;
 }
@@ -101,7 +101,7 @@
     height: 16px;
     text-align: center;
     line-height: 16px;
-    background: #690b08;
+    background: #e06000;
     border-radius: 3px;
 }
 .statusbar .countdown .clockrun {
@@ -114,11 +114,14 @@
 }
 .statusbar .countdown .clockrun .dot {
     float: left;
-    width: 4px;
+    width: 6px;
     height: 16px;
     line-height: 18px;
     text-align: center;
     color: grey;
+}
+.statusbar .countdown .clockrun .day {
+  width: 14px;
 }
 
 

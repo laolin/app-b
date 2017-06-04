@@ -5,8 +5,8 @@ angular.module('jia')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/serve-home', {
     templateUrl: 'app-jia/serve/serve-home.template.html',
-    controller: ['$scope','$location','$log','$q','AppbFeedService','AppbData',
-      function ($scope,$location,$log,$q,AppbFeedService,AppbData) {
+    controller: ['$scope','$location','$log','$interval','AppbFeedService','AppbData',
+      function ($scope,$location,$log,$interval,AppbFeedService,AppbData) {
 
         var appData=AppbData.getAppData();
         var feedData=appData.feedData;
@@ -41,6 +41,8 @@ angular.module('jia')
           feedData.getFeed($scope.feedApp,$scope.feedCat,$scope.fid)
           .then(function(feed1){
             $scope.serve=feed1;
+            
+            $interval(calTime,78);
             if(feed1.pics) {
               $scope.imgs=feed1.pics.split(',');
             } else {
@@ -68,10 +70,19 @@ angular.module('jia')
           });
         }
 
-        ctrl.swiper=false;
         
 
 
+        function calTime() {
+            $scope.timeDiff=new Date($scope.serve.attr.promoEnd)-new Date();
+
+            
+            $scope.timeDay=Math.floor($scope.timeDiff/1000/3600/24);
+            $scope.timeHour=Math.floor($scope.timeDiff/1000/3600)-$scope.timeDay*24;
+            $scope.timeMin= Math.floor(($scope.timeDiff % (3600*1000))/60000);
+            $scope.timeSec= Math.floor(($scope.timeDiff % (60*1000))/1000);
+            $scope.timeMsec= Math.floor(($scope.timeDiff % 1000)/10);
+        }
 
       }
     ]
