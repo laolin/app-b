@@ -1,0 +1,13 @@
+
+
+<div class="weui-navbar">
+  <div class="weui-navbar__item"
+  ng-repeat='t in $ctrl.tabs'
+  ng-click='$ctrl.goLink(t.link,$index)'
+  ng-class="{'weui-bar__item_on':t.active}" 
+  >
+   {{t.text}}
+  </div>
+</div>
+<div style='height:50px'>
+</div>
