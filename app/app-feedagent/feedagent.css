@@ -15,6 +15,8 @@
   0088dd dark
   33ddff light
 ======================*/
+
+
 .main-header_container {
   background-color:#0099ff;
 }
@@ -108,4 +110,9 @@ div.weui-toast .weui-toast__content {
 
 .weui-icon-success {
   color: #0099ff;
+}
+
+.weui-navbar__item.weui-bar__item_on {
+  color:#fff;
+  background-color: #0099ff;
 }
