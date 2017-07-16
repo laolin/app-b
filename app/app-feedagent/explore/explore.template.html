@@ -1,0 +1,17 @@
+<div class='main-content-wrapper' appb-ui-on-scroll-bottom='$ctrl.showOldMore($ctrl.feedApp,$ctrl.feedCat)'>
+
+<appb-weui-tabs tabs=" $ctrl.tabs">
+</appb-weui-tabs>
+
+<div class="weui-cells" ng-if='! $ctrl.userData.token'>
+  <div class='weui-cell text-center'>
+    请<a href="#!/wx-login">登录</a>
+  </div>
+</div>
+
+<eb-timeline-header user-data='$ctrl.userData'></eb-timeline-header>
+
+<appb-feed-list app-data='$ctrl.appData' feed-data='$ctrl.appData.feedData' feed-app='$ctrl.feedApp' feed-cat='$ctrl.feedCat'></appb-feed-list>
+
+</div>
+
