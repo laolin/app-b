@@ -1,3 +1,13 @@
+/* 把header footer隐藏掉 */
+#main-header ,
+#main-footer {
+  display:none;
+}
+#main-container {
+    top: 0;
+    bottom: 0;
+}
+
 /*====================== 
   color define
   
