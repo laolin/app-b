@@ -34,6 +34,9 @@ angular.module('appb')
         ctrl.appData.inputData.showBar({
           type:'comment',
           id:ctrl.fid,
+          re_cid:0,
+          re_uid:0,
+          placeholder:'',
           onOk:ctrl.cmtData.addComment
         });
       }
