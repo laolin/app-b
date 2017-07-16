@@ -8,6 +8,7 @@ angular.module('appb')
     appData:"<",
     afterPublish:"&", //回调参数名为feed： after-publish='afterPublish(feed)'
     
+    buttonText: "<",
     feedApp:"<",
     feedCat:"<",
     feed: "=",
@@ -86,7 +87,7 @@ angular.module('appb')
         $timeout(wait_feed,10);
         function wait_feed(){
           $log.log('waiting_feed');
-          if(!ctrl.feed)return $timeout(wait_feed,100);
+          if(!ctrl.feed)return $timeout(wait_feed,500);
           init_models_by_feed();
         }
         function init_models_by_feed(){

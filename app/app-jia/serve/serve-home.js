@@ -43,7 +43,7 @@ angular.module('jia')
             $scope.serve=feed1;
             
             $interval(calTime,78);
-            init_comment();
+            init_all_draft();
             if(feed1.pics) {
               $scope.imgs=feed1.pics.split(',');
             } else {
@@ -84,28 +84,36 @@ angular.module('jia')
             $scope.timeSec= Math.floor(($scope.timeDiff % (60*1000))/1000);
             $scope.timeMsec= Math.floor(($scope.timeDiff % 1000)/10);
         }
-        
-        function init_comment() {
+        function init_all_draft(){
           $scope.cm_app='jia_serve_comment';
           $scope.cm_cat='serveid_'+$scope.serve.fid;
-          $scope.cm_fcat=feedData.feedAppCat($scope.cm_app,$scope.cm_cat);
-          $scope.commentForm=false;
           feedData.exploreFeed($scope.cm_app,$scope.cm_cat);//获取评论
-          if(feedData.draftAll[$scope.cm_fcat]) {
-            $scope.jiaComment=feedData.draftAll[$scope.cm_fcat];
-          } else {
-            feedData.initDraft($scope.cm_app,$scope.cm_cat).then(function(){
-              $scope.jiaComment=feedData.draftAll[$scope.cm_fcat];
-            });
-          }
+          feedData.initDraft($scope.cm_app,$scope.cm_cat)
+          .then(function(s){
+              $scope.jiaComment=s;
+          },function(e){});
+
+          $scope.trade_app='jia_trade';
+          $scope.trade_cat='serveid_'+$scope.serve.fid;
+          feedData.initDraft($scope.trade_app,$scope.trade_cat)
+          .then(function(s){
+              $scope.jiaTrade=s;
+          },function(e){});
         }
+        
         $scope.afterComment=function(feed) {
           $log.log(feed);
           feedData.hasNewMore[$scope.cm_fcat]=true;
           feedData.exploreFeed($scope.cm_app,$scope.cm_cat,{newMore:1});//自动刷新新帖
         }
-        $scope.showComment=function() {
-          $scope.commentForm=!$scope.commentForm;
+        $scope.afterTrade=function(feed) {
+          $log.log('afterTrade',feed);
+        }
+        
+        
+        $scope.isOrdering=false;
+        $scope.order=function() {
+          $scope.isOrdering=!$scope.isOrdering;
         }
 
       }

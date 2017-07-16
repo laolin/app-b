@@ -33,8 +33,8 @@
  *  
  *  B : `copy` : 复制 需要的js,img文件到dist-app 目录下
  *  
- *  `runBuild` : = ['build-loader','html-useref','copy']
- *  `default` : 同`runBuild`
+ *  `build` : = ['build-loader','html-useref','copy']
+ *  `default` : 同`dev`
  *  `dev` : = ['build-loader','wiredep']
  */
  
@@ -148,7 +148,7 @@ gulp.task('templatecache', function () {
   //登记到 configObj.injects 中，后面可自动注入
   configObj.injects.push([configObj.path.tmp+'/'+configObj.tplJsName]);
   
-  console.log('tplModule=',configObj.tplModule);
+  //console.log('tplModule=',configObj.tplModule);
   //把模板文件打包成JS文件，放在TMP目录下
   return gulp.src(configObj.tplHtml)
     .pipe(htmlmin({collapseWhitespace: true,removeComments: true}))
@@ -283,11 +283,12 @@ gulp.task('copy', ['copyFonts1','copyImg'], function(){
 });;
 
 
-gulp.task('runBuild', ['build-loader','html-useref','copy'], function(){
+gulp.task('build', ['build-loader','html-useref','copy'], function(){
   fs.writeFile(configObj.path.tmp+'/'+configObj.tplJsName,'//clear after build');
 });
 
-gulp.task('default',['runBuild']);
+gulp.task('bu',['build']);
+gulp.task('default',['dev']);
 gulp.task('dev',['build-loader','wiredep'], function(){
   fs.writeFile(configObj.path.tmp+'/'+configObj.tplJsName,'//clear after build');
 });

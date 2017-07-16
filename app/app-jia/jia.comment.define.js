@@ -6,15 +6,10 @@ angular.module('jia')
     {
       name: 'content',
       desc:'留言',
-      placeholder: '我来说两句',
+      placeholder: '欢迎咨询/留言',
       type: 'mtext',
-      maxlength: 99,
+      maxlength: 140,
       minlength: 2
-    },
-    {
-      name: 'pics',
-      desc:'图片',
-      type: 'pics'
     }
   ]);
 
