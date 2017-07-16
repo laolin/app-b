@@ -16,7 +16,7 @@ ng-if='serve.fid'
 slides-per-view="1" 
 autoplay="1000"
 loop="true"
-XX-pagination='.swiper-pagination'
+pagination='.swp-pg-sv-2'
 show-nav-buttons="false"
 initial-slide="0"   space-between="0" pagination-clickable="true">
     <ks-swiper-slide class="swiper-slide"
@@ -24,7 +24,7 @@ initial-slide="0"   space-between="0" pagination-clickable="true">
     >
       <img class='swiper-img' ng-src="{{appData.filePath}}/{{s}}"/>
     </ks-swiper-slide>
-    
+<div>A<div class='swiper-pagination'>A<a class='swp-pg-sv-2'></a></div></div>
 </ks-swiper-container>
 
 <div class="statusbar">
@@ -58,16 +58,24 @@ initial-slide="0"   space-between="0" pagination-clickable="true">
 
 <p class='weui-btn-area' ng-if='timeDiff>0'>
   <a href class="weui-btn weui-btn_primary"
-    ng-click='order()'>马上预定</a>
+    ng-click='order()'>{{isOrdering?'留言/咨询':'马上预定'}}</a>
 </p>
 
-<div>
+
+<div ng-if='!isOrdering'>
 <appb-feed-list app-data='appData' feed-data='feedData' feed-app='cm_app' feed-cat='cm_cat'></appb-feed-list>
 
   <appb-feed-input
-    ng-if='1'
+    ng-if='jiaComment.fid'
     button-text='"留言/咨询"'
     feed='jiaComment' feed-data='feedData' feed-app='cm_app' feed-cat='cm_cat' app-data='appData' after-publish='afterComment(feed)'>
+  </appb-feed-input>  
+</div>
+<div ng-if='isOrdering'>
+  <appb-feed-input
+    ng-if='1'
+    button-text='"预定"'
+    feed='jiaTrade' feed-data='feedData' feed-app='trade_app' feed-cat='trade_cat' app-data='appData' after-publish='afterTrade(feed)'>
   </appb-feed-input>  
 </div>
 
