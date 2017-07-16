@@ -9,8 +9,8 @@ angular.module('feedagent')
       function ($scope,$http,$log,AppbFeedService,AppbData) {
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
-        AppbData.activeHeader('explore', '浏览评论'); 
-        AppbData.activeFooter('index');
+        //AppbData.activeHeader('explore', '浏览评论'); 
+        //AppbData.activeFooter('index');
 
         //使用ctrl, 后面方便切换为 component
         var ctrl=$scope.$ctrl={};
@@ -21,17 +21,17 @@ angular.module('feedagent')
         appData.requireLogin();
         
         $scope.$on('$viewContentLoaded', function () {
-          ctrl.wxShareData_ori=angular.copy(appData.wxShareData);//备份wxShareData
-          appData.wxShareData.title='我发现了这里有好多题目，速来围观。';
-          appData.wxShareData.desc='这题你会做么？';
-          appData.wxShareData.link=location.href;
+          
 
         });
         $scope.$on('$destroy', function () {
-          angular.extend(appData.wxShareData,ctrl.wxShareData_ori);//还原wxShareData
+          
         });
 
-        
+        ctrl.tabs=[
+          {'text':'发表评论','link':'/compose'},
+          {'text':'浏览评论','link':'/explore',active:1}
+        ];
         ctrl.userData=userData;
         ctrl.appData=appData;
         ctrl.feedApp='feedagent';
