@@ -27,14 +27,17 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="modules/feed-timeline.css">
   <link rel="stylesheet" href="modules/main.css">
-  <link rel="stylesheet" href="app-feedagent/feedagent.css">
+  <link rel="stylesheet" href="app-jia/jia.css">
+  <link rel="stylesheet" href="app-jia/jia.serve.css">
   <!-- endinject -->
   <!-- endbuild -->
 
 </head>
 <body ng-controller='appbCtrl as appb'>
 
-  <appb-ui-header id="main-header" header-data='appb.headerData'></appb-ui-header>
+  <appb-ui-header id="main-header" header-data='appb.headerData'
+  ng-if='!appb.headerData.hide'
+  ></appb-ui-header>
   <div id="main-container" ng-view>
     <h5 class='text-center'>Loading...</h5>
   </div>
@@ -64,13 +67,11 @@
 
   <!-- build:js ../assets/4-appb.js -->
   <!-- inject:js -->
-  <script src="app-feedagent.define.js"></script>
-  <script src="modules/amap-main/amap-main.module.js"></script>
+  <script src="app-jia.define.js"></script>
   <script src="modules/appb/appb.module.js"></script>
+  <script src="modules/amap-main/amap-main.module.js"></script>
   <script src="modules/wx-login/wx-login.module.js"></script>
   <script src="modules/common.js"></script>
-  <script src="modules/amap-main/amap-main.component.js"></script>
-  <script src="modules/amap-main/amap-main.data.service.js"></script>
   <script src="modules/appb/appb-data-api.service.js"></script>
   <script src="modules/appb/appb-data-footer.service.js"></script>
   <script src="modules/appb/appb-data-header.service.js"></script>
@@ -78,6 +79,8 @@
   <script src="modules/appb/appb-data.service.js"></script>
   <script src="modules/appb/appb-log-service.js"></script>
   <script src="modules/appb/appb.controller.js"></script>
+  <script src="modules/amap-main/amap-main.component.js"></script>
+  <script src="modules/amap-main/amap-main.data.service.js"></script>
   <script src="modules/appb-ui-abc/appb-ui-abc.component.js"></script>
   <script src="modules/appb-ui-abc/appb-ui-dialog.component.js"></script>
   <script src="modules/appb-ui-abc/appb-ui-gallery.component.js"></script>
@@ -105,11 +108,19 @@
   <script src="modules/appb-ui/appb-ui-uploader.component.js"></script>
   <script src="modules/appb-ui/appb-weui-cells.component.js"></script>
   <script src="modules/appb-ui/appb-weui-tabs.component.js"></script>
-  <script src="app-feedagent/feedagent.module.js"></script>
-  <script src="app-feedagent/feedagent.feed.data.define.js"></script>
-  <script src="app-feedagent/compose/compose.js"></script>
-  <script src="app-feedagent/explore/explore.js"></script>
-  <script src="../tmp/tpl_feedagent.js"></script>
+  <script src="app-jia/jia.module.js"></script>
+  <script src="app-jia/jia.comment.define.js"></script>
+  <script src="app-jia/jia.feed.define.js"></script>
+  <script src="app-jia/jia.trade.define.js"></script>
+  <script src="app-jia/log-analy/log-analy-user-activity.js"></script>
+  <script src="app-jia/my/my.js"></script>
+  <script src="app-jia/serve-admin/serve-edit.js"></script>
+  <script src="app-jia/serve-admin/serve.js"></script>
+  <script src="app-jia/serve/serve-feed-list.component.js"></script>
+  <script src="app-jia/serve/serve-feed.component.js"></script>
+  <script src="app-jia/serve/serve-home.js"></script>
+  <script src="app-jia/serve/serve-list.js"></script>
+  <script src="../tmp/tpl_jia.js"></script>
   <!-- endinject -->
   <!-- endbuild -->
   

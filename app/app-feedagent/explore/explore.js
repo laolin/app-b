@@ -5,8 +5,8 @@ angular.module('feedagent')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/explore', {
     templateUrl: 'app-feedagent/explore/explore.template.html',
-    controller: ['$scope','$http','$log','AppbFeedService','AppbData',
-      function ($scope,$http,$log,AppbFeedService,AppbData) {
+    controller: ['$scope','$location','$log','FeedAgent','AppbData',
+      function ($scope,$location,$log,FeedAgent,AppbData) {
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
         //AppbData.activeHeader('explore', '浏览评论'); 
@@ -18,7 +18,9 @@ angular.module('feedagent')
         //var ctrl=this;
 
         //要求登录，如果未登录，会自动跳转到登录界面
-        appData.requireLogin();
+        if(!userData.init){
+          $location.path('/init');
+        }
         
         $scope.$on('$viewContentLoaded', function () {
           
@@ -34,8 +36,12 @@ angular.module('feedagent')
         ];
         ctrl.userData=userData;
         ctrl.appData=appData;
-        ctrl.feedApp='feedagent';
-        ctrl.feedCat='exbook';
+        
+        ctrl.feedApp=FeedAgent.getParameterByName('app');
+        if(!ctrl.feedApp)return;
+        ctrl.feedCat=FeedAgent.getParameterByName('cat');
+        if(!ctrl.feedCat)return;
+        
         ctrl.fcat=appData.feedData.feedAppCat(ctrl.feedApp,ctrl.feedCat);
         var feeds=appData.feedData.feedAll[ctrl.fcat];
         if( !feeds || !feeds.length) {

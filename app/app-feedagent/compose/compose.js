@@ -5,15 +5,16 @@ angular.module('feedagent')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/compose', {
     templateUrl: 'app-feedagent/compose/compose.template.html',
-    controller: ['$scope','$timeout','$log','$location','AppbFeedService','AppbData','AppbUiService',
-      function ($scope,$timeout,$log,$location,AppbFeedService,AppbData,AppbUiService) {
+    controller: ['$scope','$timeout','$log','$location','FeedAgent','AppbData','AppbUiService',
+      function ($scope,$timeout,$log,$location,FeedAgent,AppbData,AppbUiService) {
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
         var feedData=appData.feedData;
-        $log.log('feedData @ /compose',feedData);
         
         //要求登录，如果未登录，会自动跳转到登录界面
-        appData.requireLogin();
+        if(!userData.init){
+          $location.path('/init');
+        }
         
         $scope.tabs=[
           {'text':'发表评论','link':'/compose',active:1},
@@ -22,8 +23,17 @@ angular.module('feedagent')
         $scope.userData=userData;
         $scope.appData=appData;
         $scope.feedData=feedData;
-        $scope.feedApp='feedagent';
-        $scope.feedCat='exbook';
+        
+        $scope.feedApp=FeedAgent.getParameterByName('app');
+        if(!$scope.feedApp)return;
+        
+        //feedApp 需要 在 'feedagent.feed.data.define.js'等文件 
+        // 中事先定义类型，否则报错
+        if(!feedData.getFeedDefinition($scope.feedApp))return;
+        
+        $scope.feedCat=FeedAgent.getParameterByName('cat');
+        if(!$scope.feedCat)return;
+
         $scope.fcat=feedData.feedAppCat($scope.feedApp,$scope.feedCat);
         $scope.afterPublish=function(a) {
           $log.log('$scope.afterPublish at compose.js',a);
