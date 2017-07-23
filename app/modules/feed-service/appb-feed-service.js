@@ -205,6 +205,9 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       return deferred.promise;
     })
   }
+  function theFeedIdList(app,cat){
+    return fidList(feedData.feedAll[feedAppCat(app,cat)]);
+  }
   function fidList(feeds) {
     var ids=[];
     for(var i=feeds.length;i--; ) {
@@ -508,6 +511,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   feedData.initDraft=initDraft;
   feedData.getFeed=getFeed;
   feedData.exploreFeed=exploreFeed;
+  feedData.theFeedIdList=theFeedIdList;
   //更新、发布相关：
   feedData.updateFeed=updateFeed;
   feedData.publish=publish;
