@@ -28,7 +28,9 @@
 </head>
 <body ng-controller='appbCtrl as appb'>
 
-  <appb-ui-header id="main-header" header-data='appb.headerData'></appb-ui-header>
+  <appb-ui-header id="main-header" header-data='appb.headerData'
+  ng-if='!appb.headerData.hide'
+  ></appb-ui-header>
   <div id="main-container" ng-view>
     <h5 class='text-center'>Loading...</h5>
   </div>

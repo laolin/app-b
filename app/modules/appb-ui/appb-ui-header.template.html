@@ -1,5 +1,6 @@
     <div class="main-header_container" >
-      <div class='cursor-pointer'
+      <div class='cursor-pointer' 
+        ng-if='$ctrl.headerData.widgets'
         ng-repeat = 'w in $ctrl.headerData.widgets' ng-class='w.side' 
         ng-click='$ctrl.goLink(w.link,w.absUrl)'>
         <a href='' title='{{w.link}}'>
@@ -8,7 +9,7 @@
           <span ng-if='w.text'>{{w.text}}</span> 
         </a>
       </div>
-      <div class="center">
+      <div class="center" ng-if='$ctrl.headerData.title'>
          <span ng-bind='$ctrl.headerData.title'></span>
       </div>
     </div>
