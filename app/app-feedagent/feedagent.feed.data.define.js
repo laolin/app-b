@@ -11,7 +11,7 @@ angular.module('appb')
       type: 'mtext',
       maxlength: 199,
       minlength: 2
-    },
+    }/*,
     {
       name: 'pics',
       desc:'图片',
@@ -23,7 +23,7 @@ angular.module('appb')
       type: 'radio',
       keys: ['x1','x2','x3','x4','x5'],
       values: ['一星','二星','三星','四星','五星']
-    }/*,
+    },
     {
       name: 'd2',//d1~d4,attr,要和数据表的列名对应
       desc: '科目',
