@@ -66,6 +66,10 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       AppbCommentService.getComment({fids:s.data.data.fid});
       if(s.data.data.attr)
         s.data.data.attr=JSON.parse(s.data.data.attr);
+              
+      //用fid作为主键，保存全部feed到feedAllById
+      feedData.feedByFid[s.data.data.fid]=s.data.data;
+
       deferred.resolve(s.data.data);
       return deferred.promise;
     },function(e){
@@ -184,6 +188,10 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
         if(dlist[i].attr) {
           dlist[i].attr=JSON.parse(dlist[i].attr);
         }
+        //用fid作为主键，保存全部feed到feedAllById
+        feedData.feedByFid[dlist[i].fid]=dlist[i];
+        
+        
       }
       deferred.resolve(feedData.feedAll[fcat]);
       return deferred.promise;
@@ -510,6 +518,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   
   feedData.draftAll={};//_draft
   feedData.feedAll={};//feedList
+  feedData.feedByFid={};
   feedData.feedDefinition=feedDefinition;//init by defineFeed()
   feedData.defineFeed=defineFeed;
   feedData.getFeedDefinition=getFeedDefinition;
