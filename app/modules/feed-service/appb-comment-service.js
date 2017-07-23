@@ -66,10 +66,15 @@ function ($log,$http,$timeout,$location,AppbData){
         cmtData.likePublishing=false;
         return;
       }
-      
-      //点赞成功
+      //点赞/评论 成功
       //appData.toastDone(1);
-      getComment({newMore:cmtData.cidMax});
+      
+      //这几行comment倒过来依赖feed，不是很好，先将就
+      //以后comment和feed会合并为同一数据表
+      var feed=appData.feedData.feedByFid[fid];
+      var fids=appData.feedData.theFeedIdList(feed.app,feed.cat);
+      
+      getComment({newMore:cmtData.cidMax,fids:fids.join(',')});
       cmtData.likePublishing=false;
     },function(e){
       appData.toastMsg('Ejsonp:ebcomment',8);
