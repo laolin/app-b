@@ -66,6 +66,10 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       AppbCommentService.getComment({fids:s.data.data.fid});
       if(s.data.data.attr)
         s.data.data.attr=JSON.parse(s.data.data.attr);
+              
+      //用fid作为主键，保存全部feed到feedAllById
+      feedData.feedByFid[s.data.data.fid]=s.data.data;
+
       deferred.resolve(s.data.data);
       return deferred.promise;
     },function(e){
@@ -184,6 +188,10 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
         if(dlist[i].attr) {
           dlist[i].attr=JSON.parse(dlist[i].attr);
         }
+        //用fid作为主键，保存全部feed到feedAllById
+        feedData.feedByFid[dlist[i].fid]=dlist[i];
+        
+        
       }
       deferred.resolve(feedData.feedAll[fcat]);
       return deferred.promise;
@@ -196,6 +204,9 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       deferred.reject(e);
       return deferred.promise;
     })
+  }
+  function theFeedIdList(app,cat){
+    return fidList(feedData.feedAll[feedAppCat(app,cat)]);
   }
   function fidList(feeds) {
     var ids=[];
@@ -332,6 +343,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       })
   }
   
+  
   //删除一条
   function deleteFeed(fid,app,cat) {
     appData.dialogData.confirmDialog('删除此条',function(){_confirmedDeleteFeed(fid,app,cat)});
@@ -363,6 +375,28 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       appData.toastMsg('Ejsonp:DelF',8);
     });
 
+  }
+  function changeFeedAccess(app,cat,fid,access) {
+    var deferred = $q.defer();
+    var api=appData.urlSignApi('feed','change_access');
+    //appData.toastLoading();
+    return $http.jsonp(api,{params:{fid:fid,access:access}})
+    .then(function(s){
+      if(s.data.errcode!=0) {
+        var info='E:AccF:'+s.data.errcode+":"+s.data.msg;
+        $log.log(info);
+        //appData.toastMsg(info,8);
+        deferred.reject(info);
+        return deferred.promise;
+      }
+      //appData.toastDone(1);
+      deferred.resolve(1);//随便返回个1
+      return deferred.promise;
+    },function(e){
+      //appData.toastMsg('Ejsonp:AccF',8);
+      deferred.reject('Ejsonp:AccF');
+      return deferred.promise;
+    });
   }
   
   function initDraft(app,cat) {
@@ -477,15 +511,18 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   feedData.initDraft=initDraft;
   feedData.getFeed=getFeed;
   feedData.exploreFeed=exploreFeed;
+  feedData.theFeedIdList=theFeedIdList;
   //更新、发布相关：
   feedData.updateFeed=updateFeed;
   feedData.publish=publish;
   feedData.publishing=false;
   feedData.feedAppCat=feedAppCat;
   feedData.deleteFeed=deleteFeed;
+  feedData.changeFeedAccess=changeFeedAccess;
   
   feedData.draftAll={};//_draft
   feedData.feedAll={};//feedList
+  feedData.feedByFid={};
   feedData.feedDefinition=feedDefinition;//init by defineFeed()
   feedData.defineFeed=defineFeed;
   feedData.getFeedDefinition=getFeedDefinition;

@@ -76,10 +76,16 @@ start #main-container
 ========================*/
 #main-container{
   height:auto !important;
-  top:44px;
+  top:0px;
   bottom:50px;
   overflow: auto;
   background-color:#eee;
+}
+#main-container {
+  top: 0px;
+}
+#main-header + #main-container {
+  top: 44px;
 }
 
 body{

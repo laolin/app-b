@@ -24,6 +24,12 @@ angular.module('appb', [
       appbCfg.apiWxAuth+"/**",
       'https://res.wx.qq.com/**',
       'https://webapi.amap.com/**',
+      
+      'https://qinggaoshou.com/**',
+      'https://api.qinggaoshou.com/**',
+      'https://linjp.cn/**',
+      'https://api.linjp.cn/**',
+      
       'self'
     ]);
     $locationProvider.hashPrefix('!');

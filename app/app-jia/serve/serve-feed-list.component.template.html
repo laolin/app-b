@@ -26,10 +26,10 @@
     ng-click='$ctrl.feedData.exploreFeed($ctrl.feedApp,$ctrl.feedCat,{oldMore:1})'>
       <div class="weui-cell__bd text-center">加载更多</div>
     </a>
-    <a href class="weui-cell weui-cell_link"
+    <!--a href class="weui-cell weui-cell_link"
     ng-if='$ctrl.feedData.hasOldest[$ctrl.feedAppCat()] && !$ctrl.feedData.oldMoreLoading[$ctrl.feedAppCat()]'>
       <div class="weui-cell__bd text-center">已显示全部</div>
-    </a>
+    </a-->
     
     <div class="weui-cell" ng-if='$ctrl.feedData.oldMoreLoading[$ctrl.feedAppCat()]'>
       <div class="weui-loadmore-XX">

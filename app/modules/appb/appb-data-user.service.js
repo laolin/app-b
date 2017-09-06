@@ -80,6 +80,7 @@ function($http, $window,$location,$log,$timeout,$q)
     return (userData.rights & RIGHTS_ADMIN)
   }
   
+  //独立部署的SERVER for user api
   /**
   *  获取数组各uid 头像图片地址
   *  输入
@@ -122,6 +123,7 @@ function($http, $window,$location,$log,$timeout,$q)
     });
   }
   
+
   function _initUserData() {
     // == prop: ==============
     userData.usersInfo=usersInfo;

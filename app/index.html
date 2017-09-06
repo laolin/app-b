@@ -27,14 +27,16 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="modules/feed-timeline.css">
   <link rel="stylesheet" href="modules/main.css">
-  <link rel="stylesheet" href="app-jia/jia.css">
+  <link rel="stylesheet" href="app-exbook/exbook.css">
   <!-- endinject -->
   <!-- endbuild -->
 
 </head>
 <body ng-controller='appbCtrl as appb'>
 
-  <appb-ui-header id="main-header" header-data='appb.headerData'></appb-ui-header>
+  <appb-ui-header id="main-header" header-data='appb.headerData'
+  ng-if='!appb.headerData.hide'
+  ></appb-ui-header>
   <div id="main-container" ng-view>
     <h5 class='text-center'>Loading...</h5>
   </div>
@@ -64,7 +66,7 @@
 
   <!-- build:js ../assets/4-appb.js -->
   <!-- inject:js -->
-  <script src="app-jia.define.js"></script>
+  <script src="app-exbook.define.js"></script>
   <script src="modules/amap-main/amap-main.module.js"></script>
   <script src="modules/appb/appb.module.js"></script>
   <script src="modules/wx-login/wx-login.module.js"></script>
@@ -83,8 +85,9 @@
   <script src="modules/appb-ui/appb-ui-loading.component.js"></script>
   <script src="modules/appb-ui/appb-ui-on-scroll-bottom.directive.js"></script>
   <script src="modules/appb-ui/appb-ui-oprate-msg.component.js"></script>
-  <script src="modules/appb-ui/appb-ui-panel-cell-small.component.js"></script>
   <script src="modules/appb-ui/appb-ui-uploader.component.js"></script>
+  <script src="modules/appb-ui/appb-weui-cells.component.js"></script>
+  <script src="modules/appb-ui/appb-weui-tabs.component.js"></script>
   <script src="modules/appb-ui-abc/appb-ui-abc.component.js"></script>
   <script src="modules/appb-ui-abc/appb-ui-dialog.component.js"></script>
   <script src="modules/appb-ui-abc/appb-ui-gallery.component.js"></script>
@@ -104,17 +107,19 @@
   <script src="modules/wx-login/wx-login-auth.component.js"></script>
   <script src="modules/wx-login/wx-login-callback.component.js"></script>
   <script src="modules/wx-login/wx-login.route.js"></script>
-  <script src="app-jia/jia.module.js"></script>
-  <script src="app-jia/jia.feed.define.js"></script>
-  <script src="app-jia/log-analy/log-analy-user-activity.js"></script>
-  <script src="app-jia/my/my.js"></script>
-  <script src="app-jia/serve/serve-admin-list.js"></script>
-  <script src="app-jia/serve/serve-edit.js"></script>
-  <script src="app-jia/serve/serve-feed-list.component.js"></script>
-  <script src="app-jia/serve/serve-feed.component.js"></script>
-  <script src="app-jia/serve-pub/serve-home.js"></script>
-  <script src="app-jia/serve-pub/serve.js"></script>
-  <script src="../tmp/tpl_jia.js"></script>
+  <script src="app-exbook/exbook.module.js"></script>
+  <script src="app-exbook/live-community/live-community.module.js"></script>
+  <script src="app-exbook/exbook.feed.data.define.js"></script>
+  <script src="app-exbook/compose/compose.js"></script>
+  <script src="app-exbook/exbook/eb-timeline-header.component.js"></script>
+  <script src="app-exbook/exbook/exbook.js"></script>
+  <script src="app-exbook/explore/explore.js"></script>
+  <script src="app-exbook/live-community/live-community.component.js"></script>
+  <script src="app-exbook/live-community/livec-create.js"></script>
+  <script src="app-exbook/live-community/livec.data.service.js"></script>
+  <script src="app-exbook/log-analy/log-analy-user-activity.js"></script>
+  <script src="app-exbook/my/my.js"></script>
+  <script src="../tmp/tpl_exbook.js"></script>
   <!-- endinject -->
   <!-- endbuild -->
   

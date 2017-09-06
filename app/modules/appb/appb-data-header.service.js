@@ -43,10 +43,14 @@ function($route, $rootScope,$location,$log,AppbConfig) {
   
   //使用指定name的header，也可同时指定 title
   //如果不指定 title, 就用 header[name].title
+  function hideHeader() {
+    headerData.hide=true;
+  }
   function activeHeader(name,title,bTitle) {
     if(!headerAvailable[name]) {
       name='1';//不存在时，用默认的
     }
+    headerData.hide=false;
     headerData.title=title || defTitle;
     headerData.bTitle=bTitle || defBTitle;
     headerData.name=name;
@@ -73,6 +77,7 @@ function($route, $rootScope,$location,$log,AppbConfig) {
   }
   return {    
     addHeader:addHeader,
+    hideHeader:hideHeader,
     activeHeader:activeHeader,
     deleteHeader:deleteHeader,
     
