@@ -1,0 +1,60 @@
+<div class="weui-cells__title"></div>
+
+<div class='text-center' ng-if='! $ctrl.userData.token'>
+  请<a href="#!/wx-login">登录</a>
+</div>
+<div class="weui-panel weui-panel_access" ng-if='$ctrl.userData.token'>
+  <div class="weui-panel__bd">
+    <a href class="weui-media-box weui-media-box_appmsg"
+    ng-swipe-left='$ctrl.swipeLeft()'
+    ng-swipe-right='$ctrl.swipeRight()'>
+      <div class="weui-media-box__hd">
+        <img class="weui-media-box__thumb" ng-src="{{$ctrl.userData.wxinfo.headimgurl}}" alt="">
+      </div>
+      <div class="weui-media-box__bd">
+        <h4 class="weui-media-box__title">
+          <span ng-if='$ctrl.userData.wxinfo'>
+            {{$ctrl.userData.wxinfo.nickname}}
+          </span>
+          <span ng-if='! $ctrl.userData.wxinfo'>
+            {{$ctrl.userData.uname}}
+          </span>
+        </h4>
+        <p class="weui-media-box__desc">如有显示异常，可在此向右滑动重登录试试</p>
+      </div>
+    </a>
+  </div>
+
+</div>
+
+<div ng-if='$ctrl.userData.isAdmin()'> 
+  <appb-weui-cells
+    title='管理员-统计'
+    cells="[
+      {text:'用户活跃度（1小时）',url:'/log-analy-user-activity?hour=1',icon:'university'},
+      {text:'用户活跃度（2小时）',url:'/log-analy-user-activity?hour=2',icon:'university'},
+      {text:'用户活跃度（6小时）',url:'/log-analy-user-activity?hour=6',icon:'university'},
+      {text:'用户活跃度（12小时）',url:'/log-analy-user-activity?hour=12',icon:'university'},
+      {text:'用户活跃度（24小时）',url:'/log-analy-user-activity?hour=24',icon:'university'},
+      {text:'用户活跃度（2天）',url:'/log-analy-user-activity?day=2',icon:'university'},
+      {text:'用户活跃度（7天）',url:'/log-analy-user-activity?day=7',icon:'university'},
+      {text:'用户活跃度（30天）',url:'/log-analy-user-activity?day=30',icon:'university'}
+    ]"
+  >
+  </appb-weui-cells>
+</div>
+
+
+<div ng-if='$ctrl.userData.isAdmin()'> 
+  <appb-weui-cells
+    title='管理功能'
+    cells="[
+     
+      {text:'创建小区',url:'/livec-create',icon:'university',notes:'从地图选择'}
+    ]"
+  >
+  </appb-weui-cells>
+</div>
+
+
+

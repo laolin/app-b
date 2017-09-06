@@ -1,0 +1,13 @@
+.fac-sarch-wrapper {
+  position: absolute;
+  top:0;
+  bottom:0;
+  width:100%;
+}
+.fac-sarch-result {
+  position: absolute;
+  top:408px;/*20 + 44 +44 +300 */
+  bottom:0;
+  width:100%;
+  overflow:auto;
+}
