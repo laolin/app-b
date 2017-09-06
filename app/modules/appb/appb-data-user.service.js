@@ -90,45 +90,6 @@ function($http, $window,$location,$log,$timeout,$q)
   *  如果没有，就用 /wx/get_users/uid1,uid2,uid3 API获取一堆用户的信息   
   */
   function requireUsersInfo(arr) {
-    $log.log('requireUsersInfo_new:',arr);
-    var i;
-    var deferred = $q.defer();
-
-    var ids=[];
-    for(var i=arr.length;i--; ) {
-      if(arr[i]['uid']>0&&
-        !usersInfo[arr[i]['uid']] && 
-        ids.indexOf(arr[i]['uid'])<0)ids.push(arr[i]['uid']);
-    }
-    if(!ids.length) {
-      deferred.resolve(1);
-      return deferred.promise;
-    }
-    var url_user='https://qinggaoshou.com/dev/shop-dist/api/testapi/wx_userinfoByUids?uid='+userData.uid+'&token='+userData.token;
-
-    url_user+='&d='+encodeURIComponent('{"uids":['+ids.join(',')+']}');
-    return $http.jsonp(url_user).then(function(s){
-      if(s.data.errcode!=0) {
-        $log.log('Err:getUsers:',s.data.errcode,s.data.msg);
-        deferred.reject(-2);
-        return deferred.promise;
-      }
-      $log.log('OK d:getUsers:',s.data.datas.info);
-      
-      var d=s.data.datas.info;
-      for(i=d.length;i--; ) {
-        d[i].wxinfo={headimgurl:d[i].headimgurl,nickname:d[i].nickname};
-        dealWxHeadImg(d[i].wxinfo);
-        usersInfo[d[i]['userid']]=d[i];
-      }
-    },function(e){
-      $log.log('Err:getUsers:',e);
-      deferred.reject(e);
-      return deferred.promise;
-    });
-  }
-  
-  function requireUsersInfo_ori(arr) {
     $log.log('requireUsersInfo:',arr);
     var i;
     var deferred = $q.defer();
