@@ -6,16 +6,17 @@ angular.module('steefac')
   bindings: {
     searchData: '='
   },
-  controller:['$scope','$http','$log','$interval','AppbData','FacMap',
-	  function ($scope,$http,$log,$interval,AppbData,FacMap) {
+  controller:['$http','$log','$interval','AppbData','FacMap',
+	  function ($http,$log,$interval,AppbData,FacMap) {
       
       var appData=AppbData.getAppData();
 
-      $scope.searchAddr = function() {
-        FacMap.searchAddr($scope.searchText);
+      var ctrl=this;
+      ctrl.searchAddr = function() {
+        FacMap.searchAddr(ctrl.searchText);
       }
-      $scope.facAddr=FacMap.facAddr;
-      $scope.FacMap=FacMap;
+      ctrl.facAddr=FacMap.facAddr;
+      ctrl.FacMap=FacMap;
     }
   ]
 });
