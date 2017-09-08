@@ -73,22 +73,6 @@ function ($log,$timeout,$http,AppbData,AmapMainData){
     }
   }  
   
-  /* 
-      "latE7"=>5,
-      "lngE7"=>5,
-      "province"=>2,
-      "city"=>2,
-      "district"=>0,
-      "citycode"=>2,
-      "adcode"=>0,
-      "formatted_address"=>4
-      
-            $timeout(function(){
-        
-      },78);
-
-      
-*/
   function _selPosition(lnglat) {
     FacMap.selLnglat=lnglat;
     
