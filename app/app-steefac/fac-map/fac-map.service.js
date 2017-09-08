@@ -9,6 +9,7 @@ function ($log,$timeout,$http,AppbData,AmapMainData){
   var mapData=AmapMainData.getMapData();
 
   var FacMap={
+    loading:true,
     mapData:mapData,
     facAddr:{},
     
@@ -26,6 +27,7 @@ function ($log,$timeout,$http,AppbData,AmapMainData){
     appData.mapData.ready(function(){
       mapData.onClick=onClick;
       mapData.onLocateComplete=onLocateComplete;
+      FacMap.loading=false;
       AMapUI.loadUI(['overlay/AwesomeMarker'], function(AwesomeMarker) {
         FacMap.selMarker=new AwesomeMarker({
           //设置awesomeIcon
@@ -125,7 +127,9 @@ function ($log,$timeout,$http,AppbData,AmapMainData){
   }
   //===================================================
   function searchAddr(addr) {
+    FacMap.loading=true;
     mapData.plugins.geocoder.getLocation(addr, function (stat,res) {
+      FacMap.loading=false;
       if(stat !== 'complete' || res.info !== 'OK') {
         _msg('Err: '+stat);
         return;
