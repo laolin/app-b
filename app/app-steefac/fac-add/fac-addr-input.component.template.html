@@ -1,0 +1,27 @@
+﻿
+<div id="loadinnngToast" ng-if='$ctrl.searchData.searching'>
+  <div class="weui-mask_transparent"></div>
+  <div class="weui-toast">
+      <i class="weui-loading weui-icon_toast"></i>
+      <p class="weui-toast__content">数据加载中</p>
+  </div>
+</div>
+
+<div class="weui-cells weui-cells_form">
+ 
+  <div class="weui-cell weui-cell_vcode">
+    <div class="weui-cell__bd">
+      <input class="weui-input" type="text" placeholder='输入工厂地址后点击“定位”'
+      ng-model="searchText">
+    </div>
+    <div class="weui-cell__ft">
+      <a href="javascript:;" class="weui-vcode-btn"
+      ng-click="searchAddr()">定位</a>
+    </div>
+  </div>
+    
+</div>
+<div class="map-wrapper">
+  <amap-main ></amap-main>
+</div>
+<p ng-if='facAddr.citycode'>{{facAddr.province}}{{facAddr.city}}{{facAddr.district}}</p>
