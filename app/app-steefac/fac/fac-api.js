@@ -6,23 +6,30 @@ angular.module('steefac')
 function ($log,$timeout,$http,$q,AppbData){
   var appData=AppbData.getAppData();
 
-  function createFac(data) {
-    $log.log('FacApi.createFac',data);
+  function createFac(params) {
+    return callApi('steefac','add',params);
+  }
+  function searchFac(params) {
+    return callApi('steefac','search',params);
+  }
+  function callApi(api,call,params) {
+    $log.log('FacApi.createFac',params);
     
     var deferred = $q.defer();
     
-    var url=appData.urlSignApi('steefac','add');
+    var url=appData.urlSignApi(api,call);
     if(!url){
       appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
-      deferred.reject(-1);
+      deferred.reject('needlogin:'+api+'.'+call);
       return deferred.promise;
     }
-    var d=(JSON.stringify(data));// 不需要encodeURIComponent？
-    return $http.jsonp(url, {params:{d:d}})
+
+    return $http.jsonp(url, {params:params})
     .then(function(s){
       if(s.data.errcode!=0) {
-        $log.log('Er:getFeed:',s.data.msg);
-        deferred.reject(-2);
+        var err='Err:'+api+'.'+call+'('+s.data.msg+')';
+        $log.log(err);
+        deferred.reject(err);
         return deferred.promise;
       }
 
@@ -34,14 +41,14 @@ function ($log,$timeout,$http,$q,AppbData){
       return deferred.promise;
     });
     
-    
-    
-    
-    
-  }
+  }//_api
   
+  
+
   return {
-    createFac:createFac
+    searchFac:searchFac,
+    createFac:createFac,
+    callApi:callApi
   }
   
 }]);
