@@ -9,14 +9,18 @@
  *  gulp 任务使用：
  *  ===========================
  *  
- *  1, 使用 `gulp` 或 `gulp default` 构建 默认APP
- *  - `gulp --app XXX` 构建 名为 XXX 的app
- *  - 上面也可简写为 `gulp -a XXX
+ *  0, 支持多APP，默认APP名是：jia
  *  
- *  2, `gulp dev`
+ *  - 通过用参数指定APP，例：`gulp --app XXX` 构建 名为 XXX 的app
+ *  - 也可简写为 `gulp -a XXX
  *  
- *  - 目前还有一个没写完可将就用的自动发布任务:  `gulp dep1`
+ *  1, `gulp dev` 在src目录注入必要的文件，用于调试（任务内容少）
+ *
+ *  2, `gulp bu` 或 `gulp build` 构建APP（任务内容多）
  *  
+ *  3, *** - 目前还有一个没写完可将就用的自动发布任务:  `gulp dep1`
+ *  
+ *  4, `gulp` 或 `gulp default` 相当于 `gulp dev`
  *  
  *  ===========================
  *  详细任务 列表：
