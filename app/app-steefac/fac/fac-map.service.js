@@ -22,7 +22,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     
     creating:false
   };
-  function _newMarker(cssColor,cssSize,icon,position,draggable) {
+  function _newMarker(cssColor,cssSize,icon,position,draggable,text) {
     return new FacMap.AwesomeMarker({
       //设置awesomeIcon
       awesomeIcon: icon, //可用的icons参见： http://fontawesome.io/icons/
@@ -38,6 +38,8 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       },
       iconStyle: 'blue', //设置图标样式
       animation: "AMAP_ANIMATION_DROP",
+      //title:'adfasfdafdsasdf',
+      label:{content:text,offset:[0,0]},
 
       //基础的Marker参数
       map: appData.mapData.map,
@@ -56,7 +58,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       AMapUI.loadUI(['overlay/AwesomeMarker'], function(AwesomeMarker) {
         FacMap.AwesomeMarker=AwesomeMarker;
         FacMap.selMarker=
-          _newMarker('#fff','18px','header',appData.mapData.map.getCenter(),true);
+          _newMarker('#fff','18px','header',appData.mapData.map.getCenter(),true,'可拖动定位');
         
         _selPosition(appData.mapData.map.getCenter());
         FacMap.selMarker.on('dragend',function(msg){
@@ -187,7 +189,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       FacMap.searchMarkers=[];
       //_newMarker('#fff','18px','header',appData.mapData.map.getCenter(),true)
       for(var i=0;i<rs.length;i++) {
-        FacMap.searchMarkers[i]=_newMarker('#fff','16px','road',[rs[i].lngE7/1E7,rs[i].latE7/1E7],false);
+        FacMap.searchMarkers[i]=_newMarker('#fff','16px','road',[rs[i].lngE7/1E7,rs[i].latE7/1E7],false,rs[i].name);
         FacMap.searchMarkers[i].show();
       }
       
