@@ -12,11 +12,19 @@ angular.module('steefac')
         if(! userData || !userData.token) {
           return $location.path( "/wx-login" ).search({pageTo: '/fac-add'});;
         }
+        $scope.$on('$viewContentLoaded', function () {
+          FacMap.showSelMarker(1);
+        });
+        $scope.$on('$destroy', function () {
+          FacMap.showSelMarker(0);
+        });
+
         
         $scope.formDefine=FacDefine;
         $scope.onOk=function(){
           $log.log('/fac-add .onOk');
-          FacApi.createFac(angular.extend(FacDefine.models,FacMap.facAddr))
+          angular.extend(FacDefine.models,FacMap.facAddr);
+          FacApi.createFac({d:JSON.stringify(FacDefine.models)})
           .then(function(s){
             appData.toastMsg('数据已成功保存',2);
             $log.log('sec',s);
