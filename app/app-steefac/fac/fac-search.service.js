@@ -68,7 +68,7 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap) {
         serchPara.lng=Math.floor(5e6*(mapData.southwest.lng + mapData.northeast.lng));
         
         serchPara.dist= Math.floor(5e4*
-          Math.min(
+          Math.max(
             (mapData.northeast.lat- mapData.southwest.lat),
             (mapData.northeast.lng- mapData.southwest.lng)
           )

@@ -37,6 +37,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
         }
       },
       iconStyle: 'blue', //设置图标样式
+      animation: "AMAP_ANIMATION_DROP",
 
       //基础的Marker参数
       map: appData.mapData.map,
@@ -186,7 +187,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       FacMap.searchMarkers=[];
       //_newMarker('#fff','18px','header',appData.mapData.map.getCenter(),true)
       for(var i=0;i<rs.length;i++) {
-        FacMap.searchMarkers[i]=_newMarker('#f29','16px','id-card',[rs[i].lngE7/1E7,rs[i].latE7/1E7],false);
+        FacMap.searchMarkers[i]=_newMarker('#fff','16px','road',[rs[i].lngE7/1E7,rs[i].latE7/1E7],false);
         FacMap.searchMarkers[i].show();
       }
       
