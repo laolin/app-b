@@ -15,10 +15,34 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     
     selLocation:{},
     selName:'',
+    selMarker:false,
     //selLnglat:false,
+    
+    searchMarkers:[],
     
     creating:false
   };
+  function _newMarker(cssColor,cssSize,icon,position,draggable) {
+    return new FacMap.AwesomeMarker({
+      //设置awesomeIcon
+      awesomeIcon: icon, //可用的icons参见： http://fontawesome.io/icons/
+      //下列参数继承自父类
+      visible: false,//可见
+      draggable: draggable,
+      //iconLabel中不能包含innerHTML属性（内部会利用awesomeIcon自动构建）
+      iconLabel: {
+        style: {
+          color: cssColor, //设置颜色
+          fontSize: cssSize //设置字号
+        }
+      },
+      iconStyle: 'blue', //设置图标样式
+
+      //基础的Marker参数
+      map: appData.mapData.map,
+      position: position
+    });
+  }
   function _msg(m,tim) {
     $log.log(m)
     $timeout(function(){appData.toastMsg(m,tim)},78);
@@ -29,25 +53,10 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       mapData.onLocateComplete=onLocateComplete;
       FacMap.loading=false;
       AMapUI.loadUI(['overlay/AwesomeMarker'], function(AwesomeMarker) {
-        FacMap.selMarker=new AwesomeMarker({
-          //设置awesomeIcon
-          awesomeIcon: 'header', //可用的icons参见： http://fontawesome.io/icons/
-          //下列参数继承自父类
-          visible: false,//可见
-          draggable: true,
-          //iconLabel中不能包含innerHTML属性（内部会利用awesomeIcon自动构建）
-          iconLabel: {
-            style: {
-              color: '#fff', //设置颜色
-              fontSize: '18px' //设置字号
-            }
-          },
-          iconStyle: 'blue', //设置图标样式
-
-          //基础的Marker参数
-          map: appData.mapData.map,
-          position: appData.mapData.map.getCenter()
-        });
+        FacMap.AwesomeMarker=AwesomeMarker;
+        FacMap.selMarker=
+          _newMarker('#fff','18px','header',appData.mapData.map.getCenter(),true);
+        
         _selPosition(appData.mapData.map.getCenter());
         FacMap.selMarker.on('dragend',function(msg){
           _selPosition(FacMap.selMarker.getPosition());
@@ -145,6 +154,8 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     });
   }
   
+  //selMarker 是加载完成后插件后自动创建。
+  //可以用来做标记，以安全地创建其他marker
   function _getSelMarker() {
     _getSelMarker.i++;
     $log.log('_getSelMarker-',_getSelMarker.i);
@@ -166,11 +177,34 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     });
   }
   
+  function newSearchMarkers(rs) {
+    //selMarker已ready，说明可以安全地创建其他marker
+    _getSelMarker().then(function(){
+      for(var i=0;i<FacMap.searchMarkers.length;i++) {
+        FacMap.searchMarkers[i].setMap(null);
+      }
+      FacMap.searchMarkers=[];
+      //_newMarker('#fff','18px','header',appData.mapData.map.getCenter(),true)
+      for(var i=0;i<rs.length;i++) {
+        FacMap.searchMarkers[i]=_newMarker('#f29','16px','id-card',[rs[i].lngE7/1E7,rs[i].latE7/1E7],false);
+        FacMap.searchMarkers[i].show();
+      }
+      
+    })
+  }
+  function showSearchMarkers(s) {
+    for(var i=0;i<FacMap.searchMarkers.length;i++) {
+      if(s)FacMap.searchMarkers[i].show();
+      else FacMap.searchMarkers[i].hide();
+    }
+  }
   //===============
   appData.FacMap=FacMap;
   
   FacMap.searchAddr=searchAddr;
   FacMap.showSelMarker=showSelMarker;
+  FacMap.newSearchMarkers=newSearchMarkers;
+  FacMap.showSearchMarkers=showSearchMarkers;
   init();
 
   return  FacMap;

@@ -5,8 +5,8 @@
 
 angular.module('steefac')
 .factory('FacSearch',
-['$location','$log','AppbData','AmapMainData','FacApi',
-function($location,$log,AppbData,AmapMainData,FacApi) {
+['$location','$log','AppbData','AmapMainData','FacApi','FacMap',
+function($location,$log,AppbData,AmapMainData,FacApi,FacMap) {
   
   var FacSearch={};
   var appData=AppbData.getAppData();
@@ -77,14 +77,14 @@ function($location,$log,AppbData,AmapMainData,FacApi) {
       
     }
     $log.log('serchPara ', serchPara);
-    _doSearch(serchPara);
+    return _doSearch(serchPara);
   }
   function _doSearch(serchPara){
     serchPara.count=FacSearch.options.countRes;
     FacSearch.searching=true;
     FacSearch.resultSelected=-1;
     
-    FacApi.callApi('steefac','search',serchPara).then(
+    return FacApi.callApi('steefac','search',serchPara).then(
       function(s){
         FacSearch.searching=false;
         FacSearch.resultTime= +new Date();//用来标记搜索结果是否更新
@@ -107,13 +107,16 @@ function($location,$log,AppbData,AmapMainData,FacApi) {
           minlat=Math.min(minlat,lat);
         }
         if(n&&mapData.map) {
+          
           $log.log('Bounds',{lng:minlng,lat:minlat},{lng:maxlng,lat:maxlat});
           maxlng/=1e7;
           minlng/=1e7;
           maxlat/=1e7;
           minlat/=1e7;
-          mapData.map.setBounds(new AMap.Bounds([minlng,minlat],[maxlng,maxlat]))
+          mapData.map.setBounds(new AMap.Bounds([minlng,minlat],[maxlng,maxlat]));
+          
         }
+        FacMap.newSearchMarkers(FacSearch.result);
       }
     );
 
