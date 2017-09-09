@@ -7,6 +7,8 @@
   </div>
 </div>
 
+<div class="weui-cells__title" ng-hide='1'></div> 
+<!-- 上面加一个隐藏的是为了让weui-cells的margin-top=0 -->
 <div class="weui-cells weui-cells_form">
   <div class="weui-cell weui-cell_switch">
     <div class="weui-cell__bd">在地图范围内搜索</div>
@@ -18,8 +20,8 @@
  
   <div class="weui-cell weui-cell_vcode">
     <div class="weui-cell__bd">
-      <input class="weui-input" type="number" placeholder='输入名称/地址/电话'
-      ng-model="$ctrl.searchData.options.countRes">
+      <input class="weui-input" type="number" placeholder='{{$ctrl.searchData.searchPlaceholder}}'
+      ng-model="$ctrl.searchData.searchWord">
     </div>
     <div class="weui-cell__ft">
       <a href="javascript:;" class="weui-vcode-btn"
