@@ -10,13 +10,21 @@ angular.module('steefac')
           AppbData,FacDefine,FacMap,FacApi) {
         var userData=AppbData.getUserData();
         if(! userData || !userData.token) {
-          return $location.path( "/wx-login" ).search({pageTo: '/mz-user.search'});;
+          return $location.path( "/wx-login" ).search({pageTo: '/fac-add'});;
         }
         
         $scope.formDefine=FacDefine;
         $scope.onOk=function(){
           $log.log('/fac-add .onOk');
-          FacApi.createFac(angular.extend(FacDefine.models,FacMap.facAddr));
+          FacApi.createFac(angular.extend(FacDefine.models,FacMap.facAddr))
+          .then(function(s){
+            appData.toastMsg('数据已成功保存',2);
+            $log.log('sec',s);
+          },function(e){
+            appData.toastMsg('保存失败',8);
+            $log.log('err',e);
+            
+          });
         }
 
       }

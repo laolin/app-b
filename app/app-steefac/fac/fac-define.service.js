@@ -12,8 +12,9 @@ function ($log,$timeout,AppbData){
       name: 'name',
       desc: '厂名',
       type: 'text',
+      placeholder:'4-16字',
       required: 1,
-      minlength: 2,
+      minlength: 4,
       maxlength: 16
     },
     {
@@ -26,10 +27,11 @@ function ($log,$timeout,AppbData){
     },
     {
       name: 'license',
-      desc: '证号',
+      desc: '证书编号',
       type: 'text',
+      placeholder:'4-16字',
       required: 1,
-      minlength: 2,
+      minlength: 4,
       maxlength: 16
     },
     
@@ -183,7 +185,7 @@ function ($log,$timeout,AppbData){
       type: 'number',
       required: 0,
       min: 0,
-      max: 99999
+      max: 99
     },
     {
       name: 'max_duxin',
@@ -192,25 +194,25 @@ function ($log,$timeout,AppbData){
       type: 'number',
       required: 0,
       min: 0,
-      max: 99999
+      max: 99
     },
     {
       name: 'dist_expressway',
       desc: '最近高速距离',
-      placeholder:'0-999(km)',
+      placeholder:'0-9999(km)',
       type: 'number',
       required: 0,
       min: 0,
-      max: 99999
+      max: 9999
     },
     {
-      name: 'near_port',
+      name: 'dist_port',
       desc: '最近港口距离',
-      placeholder:'0-999(km)',
+      placeholder:'0-9999(km)',
       type: 'number',
       required: 0,
       min: 0,
-      max: 99999
+      max: 9999
     },
     
     

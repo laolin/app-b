@@ -4,7 +4,6 @@ angular.module('steefac')
 .component('facAddrInput',{
   templateUrl: 'app-steefac/fac-add/fac-addr-input.component.template.html',
   bindings: {
-    searchData: '='
   },
   controller:['$http','$log','$interval','AppbData','FacMap',
 	  function ($http,$log,$interval,AppbData,FacMap) {
@@ -13,7 +12,7 @@ angular.module('steefac')
 
       var ctrl=this;
       ctrl.searchAddr = function() {
-        FacMap.searchAddr(ctrl.searchText);
+        FacMap.searchAddr(ctrl.facAddr.addr);
       }
       ctrl.facAddr=FacMap.facAddr;
       ctrl.FacMap=FacMap;
