@@ -179,7 +179,7 @@ function ($log,$timeout,AppbData){
     {
       name: 'max_paowan',
       desc: '最大抛丸构件',
-      placeholder:'0-99999(mm)',
+      placeholder:'0-99(m)',
       type: 'number',
       required: 0,
       min: 0,
@@ -188,7 +188,16 @@ function ($log,$timeout,AppbData){
     {
       name: 'max_duxin',
       desc: '最大镀锌构件',
-      placeholder:'0-99999(mm)',
+      placeholder:'0-99(m)',
+      type: 'number',
+      required: 0,
+      min: 0,
+      max: 99999
+    },
+    {
+      name: 'dist_expressway',
+      desc: '最近高速距离',
+      placeholder:'0-999(km)',
       type: 'number',
       required: 0,
       min: 0,
@@ -196,16 +205,7 @@ function ($log,$timeout,AppbData){
     },
     {
       name: 'near_port',
-      desc: '最近港口',
-      placeholder:'',
-      type: 'text',
-      required: 0,
-      min: 2,
-      max: 16
-    },
-    {
-      name: 'dist_expressway',
-      desc: '最近高速距离',
+      desc: '最近港口距离',
       placeholder:'0-999(km)',
       type: 'number',
       required: 0,

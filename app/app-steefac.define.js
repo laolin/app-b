@@ -6,7 +6,7 @@ window.__assetsPath='../assets';
 var cfg=window.appbCfg={
   appName:"钢结构产能分布图",
   
-  appDesc:"欢迎使用错题整理高手",//微信分享时默认文本
+  appDesc:"请高手为您权威解读当前国内钢结构产能情况",//微信分享时默认文本
   appLogo:"https://qinggaoshou.com/images/qgs-log-1.jpg",//微信分享时默认图片
   
   pageTitle:'钢结构产能分布图',//默认的页面上方<ui-header>条的标题
@@ -21,6 +21,7 @@ var cfg=window.appbCfg={
 };
 
 cfg.modDep=[
+  'amap-main',
   'steefac'
 ];
 cfg.defPath='/my';
