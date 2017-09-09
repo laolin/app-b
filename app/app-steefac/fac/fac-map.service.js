@@ -2,8 +2,8 @@
 (function(){
 
 angular.module('steefac')
-.factory('FacMap', ['$log','$timeout','$http','AppbData','AmapMainData',
-function ($log,$timeout,$http,AppbData,AmapMainData){
+.factory('FacMap', ['$log','$timeout','$q','AppbData','AmapMainData',
+function ($log,$timeout,$q,AppbData,AmapMainData){
   var svc=this;
   var appData=AppbData.getAppData();
   var mapData=AmapMainData.getMapData();
@@ -33,7 +33,7 @@ function ($log,$timeout,$http,AppbData,AmapMainData){
           //设置awesomeIcon
           awesomeIcon: 'header', //可用的icons参见： http://fontawesome.io/icons/
           //下列参数继承自父类
-          visible: true,//可见
+          visible: false,//可见
           draggable: true,
           //iconLabel中不能包含innerHTML属性（内部会利用awesomeIcon自动构建）
           iconLabel: {
@@ -144,10 +144,33 @@ function ($log,$timeout,$http,AppbData,AmapMainData){
       
     });
   }
+  
+  function _getSelMarker() {
+    _getSelMarker.i++;
+    $log.log('_getSelMarker-',_getSelMarker.i);
+    var deferred = $q.defer();
+    if(FacMap.selMarker){
+      _getSelMarker.i=0;
+      deferred.resolve(FacMap.selMarker);
+      return deferred.promise;
+    }
+    return $timeout(_getSelMarker,278);
+  }
+  _getSelMarker.i=0;
+  
+  
+  function showSelMarker(s) {
+    _getSelMarker().then(function(){
+      if(s)FacMap.selMarker.show();
+      else FacMap.selMarker.hide();
+    });
+  }
+  
   //===============
   appData.FacMap=FacMap;
   
   FacMap.searchAddr=searchAddr;
+  FacMap.showSelMarker=showSelMarker;
   init();
 
   return  FacMap;
