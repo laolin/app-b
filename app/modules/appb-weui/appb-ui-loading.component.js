@@ -3,7 +3,7 @@
 
 angular.module('appb')
 .component('appbUiLoading',{
-    templateUrl: 'modules/appb-ui/appb-ui-loading.component.template.html',  
+    templateUrl: 'modules/appb-weui/appb-ui-loading.component.template.html',  
     bindings: {
       text: '@'
     },
