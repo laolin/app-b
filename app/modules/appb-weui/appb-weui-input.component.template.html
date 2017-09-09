@@ -1,8 +1,8 @@
-<form name='{{$ctrl.formDefine.formName}}'>
+<form name='{{$ctrl.formName}}'>
 
   <div class="weui-cell "
   ng-class="{'weui-cell_select':cf.type=='radio', 'weui-cell_select-after':cf.type=='radio',
-  'weui-cell_warn':! {{$ctrl.formDefine.formName}}.input_{{cf.name}}.$valid
+  'weui-cell_warn':! {{$ctrl.formName}}.input_{{cf.name}}.$valid
   }"
   ng-repeat='cf in $ctrl.formDefine.inputs'> 
   
@@ -12,7 +12,7 @@
       <textarea class="weui-textarea" placeholder="{{cf.placeholder}}" rows="3"
       name="input_{{cf.name}}"
       ng-model="$ctrl.formDefine.models[cf.name]"
-      ng-change="$ctrl.formDefine.changeModel(cf.name)"
+      ng-change="$ctrl.formDefine.onChange(cf.name)"
       maxlength='{{cf.maxlength}}'
       NOUSE-ng-maxlength='cf.maxlength'
       ng-minlength='cf.minlength'
@@ -31,7 +31,7 @@
     <div class="weui-cell__bd" ng-if="cf.type=='radio'">
       <select class="weui-select" name="input_{{cf.name}}"
       ng-model='$ctrl.formDefine.models[cf.name]' 
-      ng-change="$ctrl.formDefine.changeModel(cf.name)">
+      ng-change="$ctrl.formDefine.onChange(cf.name)">
         <option ng-repeat='key in cf.keys '
           value="{{key}}">{{cf.values[$index]}}</option>
       </select>
@@ -45,7 +45,7 @@
       <input class="weui-input" type="input"  placeholder="{{cf.placeholder}}"
         name="input_{{cf.name}}"
         ng-model='$ctrl.formDefine.models[cf.name]' 
-        ng-change="$ctrl.formDefine.changeModel(cf.name)"
+        ng-change="$ctrl.formDefine.onChange(cf.name)"
         ng-required='cf.required'
         ng-minlength="cf.minlength"
         ng-maxlength="cf.maxlength"
@@ -59,7 +59,7 @@
       <input class="weui-input" type="number"  placeholder="{{cf.placeholder}}"
         name="input_{{cf.name}}"
         ng-model='$ctrl.formDefine.models[cf.name]' 
-        ng-change="$ctrl.formDefine.changeModel(cf.name)"
+        ng-change="$ctrl.formDefine.onChange(cf.name)"
         ng-required='cf.required'
         ng-min="cf.min"
         ng-max="cf.max"
