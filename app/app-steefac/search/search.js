@@ -10,8 +10,12 @@ angular.module('steefac')
         if(! userData || !userData.token) {
           return $location.path( "/wx-login" ).search({pageTo: '/mz-user.search'});;
         }
+        $scope.info='abc';
 
+        
+        var appData=AppbData.getAppData();
+        
       }
-	]
+	  ]
   });
 }]);
