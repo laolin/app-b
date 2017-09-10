@@ -16,7 +16,6 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     selLocation:{},
     selName:'',
     selMarker:false,
-    //selLnglat:false,
     
     searchMarkers:[],
     
@@ -83,7 +82,8 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   //给madData自动回调的
   function onClick(msg) {
     $log.log('--mapData.onClick--',msg);
-    _moveMarker(msg.lnglat)
+    _moveMarker(msg.lnglat);
+
     _selPosition(msg.lnglat);
   }
   function _moveMarker(lnglat) {
@@ -96,7 +96,6 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   }  
   
   function _selPosition(lnglat) {
-    FacMap.selLnglat=lnglat;
     
     mapData.plugins.geocoder.getAddress(lnglat, function(status, result) {
       if (status === 'complete' && result.info === 'OK') {
@@ -240,7 +239,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       iw.setInfoTitle('<strong><%- name %></strong>')
 
       //设置标题内容
-      iw.setInfoBody('<%- level %>级，年产能<%- cap_y %>吨<br>工人<%- workers %>名，工厂面积<%- area_factory %>㎡<br>擅长<%- goodat %> <a href="#!/fac-detail?id=<%- id %>">【详情】</a>')
+      iw.setInfoBody('<%- level %>级，年产能<%- cap_y %>吨<br>工人<%- workers %>名，工厂面积<%- area_factory %>㎡<br>擅长<%- goodat %> <a href="#!/fac-edit?id=<%- id %>">【修改】</a>')
       //iw.setInfoBody('<%- level %>级<br>年产能<%- cap_y %>吨<br>擅长<%- goodat %>')
 
       //设置主体内容

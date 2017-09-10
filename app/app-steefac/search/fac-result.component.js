@@ -25,7 +25,7 @@ angular.module('steefac')
             ctrl.cells[i]={
               text:r[i].name+'-'+ctrl.level[r[i].level]+
                 '('+r[i].license+')'+r[i].province,
-              url:"/fac-detail?id="+r[i].id,
+              url:"/fac-edit?id="+r[i].id,
               icon:'id-card'};
           }
           
