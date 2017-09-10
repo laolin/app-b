@@ -39,7 +39,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       iconStyle: 'blue', //设置图标样式
       animation: "AMAP_ANIMATION_DROP",
       //title:'adfasfdafdsasdf',
-      label:{content:text,offset:[0,0]},
+      label:{content:text,offset:new AMap.Pixel(-12,-19)},
 
       //基础的Marker参数
       map: appData.mapData.map,
