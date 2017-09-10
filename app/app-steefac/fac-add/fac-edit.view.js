@@ -64,6 +64,23 @@ angular.module('steefac')
         
         $scope.formDefine=FacDefine;
         $scope.models={};
+        $scope.onDelete=function(){
+          $log.log('/fac-Del .onOk');
+          FacApi.callApi('steefac','delete',{id:id})
+          .then(function(s){
+            if(s) {
+              appData.toastMsg('数据已删除',2);
+              $location.path( "/search" )
+              
+            } else {
+              appData.toastMsg('删除异常',8);
+            }
+            $log.log('sec',s);
+          },function(e){
+            appData.toastMsg('删除失败',8);
+            $log.log('err',e);
+          });
+        }
         $scope.onUpdate=function(){
           $log.log('/fac-edit .onOk');
           FacApi.callApi('steefac','update',{id:id,d:JSON.stringify(FacMap.addrInput)})
