@@ -20,6 +20,7 @@ controller: ['$scope','$http','$log','$location','AppbData','FacSearch','FacMap'
     });
     $scope.$on('$destroy', function () {
       FacMap.showSearchMarkers(0);
+      FacMap.hideInfoWindow();
     });
     
     
