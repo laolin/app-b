@@ -224,8 +224,22 @@ function ($log,$timeout,AppbData){
   function onChange(key){
     changeMarks[key]= 1;
   }
+
+
+  function formatObj(obj){
+    inputs.forEach(function(inp) {
+      if(!obj.hasOwnProperty(inp.name)){
+        return;
+      }
+      if(inp.type=='number') {
+        obj[inp.name]= + obj[inp.name];
+      }
+    });
+  }
   
   return {
+    formatObj:formatObj,//根据字段定义，转换数据格式
+    
     inputs:inputs,//字段定义
     changeMarks:changeMarks,//字段修改标记
     
