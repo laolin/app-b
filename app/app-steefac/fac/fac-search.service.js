@@ -27,32 +27,6 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap) {
     FacSearch.searchWord='';
   }
   
-  //调用形式： ('118.5,31.1', 500)
-  FacSearch.searchAroundSelected=function(lnglat,dist){
-    dist=dist * 100;// 大约 1米=100
-    var i=FacSearch.resultSelected;
-    if(i<0 || i>=FacSearch.result.data.length)return;
-    lnglat=lnglat.split(',');
-    var serchPara={};//={s:FacSearch.searchWord};
-    serchPara.latlng= //以下算法假定经纬度都不会因为+/-500米后出现无效度数。
-      Math.floor( 1e7 * lnglat[1]-dist ) + ',' +
-      Math.floor( 1e7 * lnglat[0]-dist  ) + ',' +
-      Math.floor( 1e7 * lnglat[1]+dist  ) + ',' +
-      Math.floor( 1e7 * lnglat[0]+dist  );
-    _doSearch(serchPara);
-  }
-  
-  FacSearch.selectResult=function(i) {
-    if(FacSearch.resultSelected==i)i=-1;
-    FacSearch.resultSelected=i;
-    if(!mapData.infoWindow)return;
-    if(i<0)return mapData.infoWindow.close();
-    var lnglat=FacSearch.result.data[i].lnglat.split(',');
-    mapData.infoWindow.setPosition(lnglat);
-    
-    mapData.infoWindow.setContent('['+(1+i)+']'+FacSearch.result.data[i].name);
-    mapData.infoWindow.open(mapData.map);
-  }
   FacSearch.startSearch=function(){
     var bd;
     var serchPara={s:FacSearch.searchWord};

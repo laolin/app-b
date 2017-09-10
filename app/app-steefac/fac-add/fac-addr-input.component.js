@@ -15,7 +15,7 @@ angular.module('steefac')
         FacMap.searchAddr(ctrl.facAddr.addr);
       }
       ctrl.facAddr=FacMap.facAddr;
-      ctrl.FacMap=FacMap;
+
     }
   ]
 });
