@@ -65,6 +65,9 @@ angular.module('steefac')
         $scope.formDefine=FacDefine;
         $scope.models={};
         $scope.onDelete=function(){
+          appData.dialogData.confirmDialog('删除【'+$scope.models.id+'】',_doDel)
+        }
+        function _doDel() {
           $log.log('/fac-Del .onOk');
           FacApi.callApi('steefac','delete',{id:id})
           .then(function(s){
