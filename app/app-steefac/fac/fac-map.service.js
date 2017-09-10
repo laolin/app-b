@@ -169,35 +169,35 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   
   //selMarker 是加载完成后插件后自动创建。
   //可以用来做标记，以安全地创建其他marker
-  function _getSelMarker() {
-    _getSelMarker.i++;
-    $log.log('_getSelMarker-',_getSelMarker.i);
+  function getSelMarker() {
+    getSelMarker.i++;
+    $log.log('getSelMarker-',getSelMarker.i);
     var deferred = $q.defer();
     if(FacMap.selMarker){
-      _getSelMarker.i=0;
+      getSelMarker.i=0;
       deferred.resolve(FacMap.selMarker);
       return deferred.promise;
     }
-    return $timeout(_getSelMarker,278);
+    return $timeout(getSelMarker,278);
   }
-  _getSelMarker.i=0;
+  getSelMarker.i=0;
 
-  function _getInfoWindow() {
-    _getInfoWindow.i++;
-    $log.log('_getInfoWindow-',_getInfoWindow.i);
+  function getInfoWindow() {
+    getInfoWindow.i++;
+    $log.log('getInfoWindow-',getInfoWindow.i);
     var deferred = $q.defer();
     if(FacMap.infoWindow){
-      _getInfoWindow.i=0;
+      getInfoWindow.i=0;
       deferred.resolve(FacMap.infoWindow);
       return deferred.promise;
     }
-    return $timeout(_getInfoWindow,278);
+    return $timeout(getInfoWindow,278);
   }
-  _getInfoWindow.i=0;
+  getInfoWindow.i=0;
   
   
   function showSelMarker(s) {
-    _getSelMarker().then(function(){
+    getSelMarker().then(function(){
       if(s)FacMap.selMarker.show();
       else FacMap.selMarker.hide();
     });
@@ -205,7 +205,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   
   function newSearchMarkers(rs) {
     //selMarker已ready，说明可以安全地创建其他marker
-    _getSelMarker().then(function(){
+    getSelMarker().then(function(){
       for(var i=0;i<FacMap.searchMarkers.length;i++) {
         FacMap.searchMarkers[i].setMap(null);
       }
@@ -230,12 +230,17 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     }
   }
   
+  function hideInfoWindow(){
+    getInfoWindow().then(function(iw){
+      iw.close();
+    });
+  }
   function showInfoWindow(o) {
-    _getInfoWindow().then(function(iw){
-      iw.setInfoTitle('<%- name %>')
+    getInfoWindow().then(function(iw){
+      iw.setInfoTitle('<strong><%- name %></strong>')
 
       //设置标题内容
-      iw.setInfoBody('<%- level %>级，年产能<%- cap_y %>吨<br>工人<%- workers %>名，工厂面积<%- area_factory %>㎡<br>擅长<%- goodat %>')
+      iw.setInfoBody('<%- level %>级，年产能<%- cap_y %>吨<br>工人<%- workers %>名，工厂面积<%- area_factory %>㎡<br>擅长<%- goodat %> <a href="#!/fac-detail?id=<%- id %>">【详情】</a>')
       //iw.setInfoBody('<%- level %>级<br>年产能<%- cap_y %>吨<br>擅长<%- goodat %>')
 
       //设置主体内容
@@ -245,7 +250,8 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
         cap_y:o.cap_y,
         workers:o.workers,
         area_factory:o.area_factory,
-        goodat:o.goodat
+        goodat:o.goodat,
+        id:o.id
       });
       iw.open(mapData.map, [o.lngE7/1e7,o.latE7/1e7]);
     });
@@ -257,10 +263,15 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   appData.FacMap=FacMap;
   
   FacMap.searchAddr=searchAddr;
+  FacMap.getSelMarker=getSelMarker;
   FacMap.showSelMarker=showSelMarker;
+  
   FacMap.newSearchMarkers=newSearchMarkers;
   FacMap.showSearchMarkers=showSearchMarkers;
+  
+  FacMap.getInfoWindow=getInfoWindow;
   FacMap.showInfoWindow=showInfoWindow;
+  FacMap.hideInfoWindow=hideInfoWindow;
   init();
 
   return  FacMap;

@@ -25,12 +25,11 @@ angular.module('steefac')
 
         
         $scope.formDefine=FacDefine;
-        $scope.models={};
+        $scope.models=FacMap.facAddr;
         
         $scope.onOk=function(){
           $log.log('/fac-add .onOk');
-          angular.extend($scope.models,FacMap.facAddr);
-          FacApi.createFac({d:JSON.stringify($scope.models)})
+          FacApi.createFac({d:JSON.stringify(FacMap.facAddr)})
           .then(function(s){
             appData.toastMsg('数据已成功保存',2);
             $log.log('sec',s);
