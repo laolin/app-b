@@ -212,7 +212,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       FacMap.searchMarkers=[];
       //_newMarker('#fff','18px','header',appData.mapData.map.getCenter(),true)
       for(var i=0;i<rs.length;i++) {
-        FacMap.searchMarkers[i]=_newMarker('#fff','16px','road',[rs[i].lngE7/1E7,rs[i].latE7/1E7],false,rs[i].name);
+        FacMap.searchMarkers[i]=_newMarker('#fff','16px','road',[rs[i].lngE7/1E7,rs[i].latE7/1E7],false,(''+rs[i].name).substr(0,4));
         FacMap.searchMarkers[i].show();
         FacMap.searchMarkers[i].facObj=rs[i];
         FacMap.searchMarkers[i].facIndex=i;
