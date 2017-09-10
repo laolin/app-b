@@ -1,4 +1,9 @@
+<div ng-if='noData'>
+  <appb-ui-oprate-msg content='该记录不存在'></appb-ui-oprate-msg>
+</div>
+<div ng-if='models.id'>
   <fac-body form-define='formDefine' models='models'></fac-body>
   <div class="weui-btn-area">
      <a class="weui-btn weui-btn_primary" href ng-click='onUpdate()'>更新</a>
   </div>
+</div>

@@ -19,6 +19,11 @@ angular.module('steefac')
         var id=parseInt(search.id);
         FacApi.callApi('steefac','detail',{id:id}).then(function(s){
           $log.log('detail',s);
+          if(!s) {
+            $scope.models={};
+            $scope.noData=true;
+            return;
+          }
           FacDefine.formatObj(s);
           angular.extend($scope.models,s);
 
@@ -35,7 +40,7 @@ angular.module('steefac')
             mapCenter_bak=FacMap.mapData.map.getCenter();
             mapZoom_bak=FacMap.mapData.map.getZoom();
             FacMap.mapData.map.setZoomAndCenter(16,pos);
-            FacMap.mapData.map.panBy(1,1);//不动一点点有时显示不出来 marker，不知为何
+            FacMap.mapData.map.panBy(0,0);//不动一点点有时显示不出来 marker，不知为何
          });
           
 
@@ -50,8 +55,8 @@ angular.module('steefac')
         $scope.$on('$destroy', function () {
           FacMap.getSelMarker().then(function(m){
             m.hide();
-            m.setPosition(pos_bak);
-            FacMap.mapData.map.setZoomAndCenter(mapZoom_bak,mapCenter_bak);
+            if(pos_bak)m.setPosition(pos_bak);
+            if(mapZoom_bak)FacMap.mapData.map.setZoomAndCenter(mapZoom_bak,mapCenter_bak);
           })
           angular.extend(FacMap.addrInput,addrInput_bak);
         });

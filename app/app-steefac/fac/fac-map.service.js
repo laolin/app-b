@@ -59,7 +59,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
         FacMap.selMarker=
           _newMarker('#fff','18px','header',appData.mapData.map.getCenter(),true,'可拖动定位');
         
-        _selPosition(appData.mapData.map.getCenter());
+        //_selPosition(appData.mapData.map.getCenter());
         FacMap.selMarker.on('dragend',function(msg){
           _selPosition(FacMap.selMarker.getPosition());
         });
@@ -127,7 +127,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   function onLocateComplete(obj,a,b,c) {
     $log.log('LacCmp==',obj);
     obj.lnglat=obj.position;//高德的成员名字不统一。。。
-    _moveMarker(obj.lnglat);
+    //_moveMarker(obj.lnglat);
     _msg('已自动定位到您的位置',7);
   }
   //===================================================
