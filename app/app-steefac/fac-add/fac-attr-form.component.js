@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('steefac')
-.component('facAddForm',{
-  templateUrl: 'app-steefac/fac-add/fac-add-form.component.template.html',
+.component('facAttrForm',{
+  templateUrl: 'app-steefac/fac-add/fac-attr-form.component.template.html',
   bindings: {
     formDefine:"<",
     models:"<"
