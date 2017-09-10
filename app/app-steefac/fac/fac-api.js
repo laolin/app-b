@@ -13,7 +13,7 @@ function ($log,$timeout,$http,$q,AppbData){
     return callApi('steefac','search',params);
   }
   function callApi(api,call,params) {
-    $log.log('FacApi.createFac',params);
+    $log.log('FacApi.callApi ',api,call,params);
     
     var deferred = $q.defer();
     
