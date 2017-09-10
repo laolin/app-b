@@ -12,9 +12,9 @@ angular.module('steefac')
 
       var ctrl=this;
       ctrl.searchAddr = function() {
-        FacMap.searchAddr(ctrl.facAddr.addr);
+        FacMap.searchAddr(ctrl.addrInput.addr);
       }
-      ctrl.facAddr=FacMap.facAddr;
+      ctrl.addrInput=FacMap.addrInput;
 
     }
   ]

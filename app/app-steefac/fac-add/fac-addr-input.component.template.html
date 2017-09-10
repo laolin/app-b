@@ -5,12 +5,12 @@
  
   <div class="weui-cell weui-cell_vcode">
     <div class="weui-cell__bd">
-      <input class="weui-input" type="text" placeholder='输入工厂地址后点击“定位”'
-      ng-model="$ctrl.facAddr.addr">
+      <input class="weui-input" type="text" placeholder='输入地址后点击“自动定位”'
+      ng-model="$ctrl.addrInput.addr">
     </div>
     <div class="weui-cell__ft">
       <a href="javascript:;" class="weui-vcode-btn"
-      ng-click="$ctrl.searchAddr()">定位</a>
+      ng-click="$ctrl.searchAddr()">自动定位</a>
     </div>
   </div>
     
@@ -18,4 +18,4 @@
 <div class="map-wrapper">
   <amap-main ></amap-main>
 </div>
-<p ng-if='$ctrl.facAddr.citycode'>{{$ctrl.facAddr.province}}{{$ctrl.facAddr.city}}{{$ctrl.facAddr.district}}</p>
+<p>{{$ctrl.addrInput.formatted_address}}</p>

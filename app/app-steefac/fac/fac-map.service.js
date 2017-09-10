@@ -11,7 +11,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   var FacMap={
     loading:true,
     mapData:mapData,
-    facAddr:{},
+    addrInput:{},
     
     selLocation:{},
     selName:'',
@@ -109,14 +109,14 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
           
           
           var pos=result.regeocode;
-          FacMap.facAddr.latE7=Math.round(1e7*lnglat.lat);
-          FacMap.facAddr.lngE7=Math.round(1e7*lnglat.lng);
-          FacMap.facAddr.province=pos.addressComponent.province;
-          FacMap.facAddr.city=pos.addressComponent.city;
-          FacMap.facAddr.district=pos.addressComponent.district;
-          FacMap.facAddr.adcode=pos.addressComponent.adcode;
-          FacMap.facAddr.citycode=pos.addressComponent.citycode;
-          FacMap.facAddr.formatted_address=pos.formattedAddress;
+          FacMap.addrInput.latE7=Math.round(1e7*lnglat.lat);
+          FacMap.addrInput.lngE7=Math.round(1e7*lnglat.lng);
+          FacMap.addrInput.province=pos.addressComponent.province;
+          FacMap.addrInput.city=pos.addressComponent.city;
+          FacMap.addrInput.district=pos.addressComponent.district;
+          FacMap.addrInput.adcode=pos.addressComponent.adcode;
+          FacMap.addrInput.citycode=pos.addressComponent.citycode;
+          FacMap.addrInput.formatted_address=pos.formattedAddress;
           
         },1);
       }
@@ -153,14 +153,14 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       //_selPosition(pos.location);
       
       $timeout(function(){
-        FacMap.facAddr.latE7=Math.round(1e7*pos.location.lat);
-        FacMap.facAddr.lngE7=Math.round(1e7*pos.location.lng);
-        FacMap.facAddr.province=pos.addressComponent.province;
-        FacMap.facAddr.city=pos.addressComponent.city;
-        FacMap.facAddr.district=pos.addressComponent.district;
-        FacMap.facAddr.citycode=pos.addressComponent.citycode;
-        FacMap.facAddr.adcode=pos.adcode;
-        FacMap.facAddr.formatted_address=pos.formattedAddress;
+        FacMap.addrInput.latE7=Math.round(1e7*pos.location.lat);
+        FacMap.addrInput.lngE7=Math.round(1e7*pos.location.lng);
+        FacMap.addrInput.province=pos.addressComponent.province;
+        FacMap.addrInput.city=pos.addressComponent.city;
+        FacMap.addrInput.district=pos.addressComponent.district;
+        FacMap.addrInput.citycode=pos.addressComponent.citycode;
+        FacMap.addrInput.adcode=pos.adcode;
+        FacMap.addrInput.formatted_address=pos.formattedAddress;
         
       },78);
       
