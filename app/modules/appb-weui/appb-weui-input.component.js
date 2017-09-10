@@ -5,7 +5,7 @@ angular.module('appb')
 .component('appbWeuiInput',{
   templateUrl: 'modules/appb-weui/appb-weui-input.component.template.html',  
   bindings: { 
-  
+    models:"<",
     formDefine:"<",
   },
   controller: ['$log','$timeout',

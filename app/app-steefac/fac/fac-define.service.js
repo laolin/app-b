@@ -220,7 +220,6 @@ function ($log,$timeout,AppbData){
 
 
   ];
-  var models={};
   var changeMarks={};
   function onChange(key){
     changeMarks[key]= 1;
@@ -228,7 +227,6 @@ function ($log,$timeout,AppbData){
   
   return {
     inputs:inputs,//字段定义
-    models:models,//保存字段当前数值    
     changeMarks:changeMarks,//字段修改标记
     
     onChange:onChange

@@ -13,6 +13,10 @@ angular.module('steefac')
           return $location.path( "/wx-login" ).search({pageTo: '/fac-add'});;
         }
         $scope.$on('$viewContentLoaded', function () {
+          FacMap.getSelMarker().then(function(m){
+            m.setAwesomeIcon('header');
+            m.setLabel({content:'可拖动定位',offset:new AMap.Pixel(-12,-19)})
+          })
           FacMap.showSelMarker(1);
         });
         $scope.$on('$destroy', function () {
@@ -21,10 +25,12 @@ angular.module('steefac')
 
         
         $scope.formDefine=FacDefine;
+        $scope.models={};
+        
         $scope.onOk=function(){
           $log.log('/fac-add .onOk');
-          angular.extend(FacDefine.models,FacMap.facAddr);
-          FacApi.createFac({d:JSON.stringify(FacDefine.models)})
+          angular.extend($scope.models,FacMap.facAddr);
+          FacApi.createFac({d:JSON.stringify($scope.models)})
           .then(function(s){
             appData.toastMsg('数据已成功保存',2);
             $log.log('sec',s);

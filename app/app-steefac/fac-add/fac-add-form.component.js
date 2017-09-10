@@ -5,6 +5,7 @@ angular.module('steefac')
   templateUrl: 'app-steefac/fac-add/fac-add-form.component.template.html',
   bindings: {
     formDefine:"<",
+    models:"<"
   },
   controller:['$http','$log','$interval','FacMap',
 	  function ($http,$log,$interval,FacMap) {
