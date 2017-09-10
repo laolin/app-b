@@ -65,6 +65,16 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
           _selPosition(FacMap.selMarker.getPosition());
         });
       });
+      AMapUI.loadUI(['overlay/SimpleInfoWindow'], function(SimpleInfoWindow) {
+        FacMap.infoWindow = new SimpleInfoWindow({
+          infoTitle: '<strong>这里是标题</strong>',
+          infoBody: '<p>这里是内容。</p>'
+        });
+
+        //显示在map上
+        //infoWindow.open(map, map.getCenter());
+      });
+
     })
   }
   
@@ -171,6 +181,19 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     return $timeout(_getSelMarker,278);
   }
   _getSelMarker.i=0;
+
+  function _getInfoWindow() {
+    _getInfoWindow.i++;
+    $log.log('_getInfoWindow-',_getInfoWindow.i);
+    var deferred = $q.defer();
+    if(FacMap.infoWindow){
+      _getInfoWindow.i=0;
+      deferred.resolve(FacMap.infoWindow);
+      return deferred.promise;
+    }
+    return $timeout(_getInfoWindow,278);
+  }
+  _getInfoWindow.i=0;
   
   
   function showSelMarker(s) {
@@ -191,6 +214,11 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       for(var i=0;i<rs.length;i++) {
         FacMap.searchMarkers[i]=_newMarker('#fff','16px','road',[rs[i].lngE7/1E7,rs[i].latE7/1E7],false,rs[i].name);
         FacMap.searchMarkers[i].show();
+        FacMap.searchMarkers[i].facObj=rs[i];
+        FacMap.searchMarkers[i].facIndex=i;
+        FacMap.searchMarkers[i].on('click', function(e){
+          showInfoWindow(e.target.facObj);
+        });
       }
       
     })
@@ -201,6 +229,30 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       else FacMap.searchMarkers[i].hide();
     }
   }
+  
+  function showInfoWindow(o) {
+    _getInfoWindow().then(function(iw){
+      iw.setInfoTitle('<%- name %>')
+
+      //设置标题内容
+      iw.setInfoBody('<%- level %>级，年产能<%- cap_y %>吨<br>工人<%- workers %>名，工厂面积<%- area_factory %>㎡<br>擅长<%- goodat %>')
+      //iw.setInfoBody('<%- level %>级<br>年产能<%- cap_y %>吨<br>擅长<%- goodat %>')
+
+      //设置主体内容
+      iw.setInfoTplData({
+        name:o.name,
+        level:['特','一','二','三'][o.level],
+        cap_y:o.cap_y,
+        workers:o.workers,
+        area_factory:o.area_factory,
+        goodat:o.goodat
+      });
+      iw.open(mapData.map, [o.lngE7/1e7,o.latE7/1e7]);
+    });
+  }  
+  
+  
+  
   //===============
   appData.FacMap=FacMap;
   
@@ -208,6 +260,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   FacMap.showSelMarker=showSelMarker;
   FacMap.newSearchMarkers=newSearchMarkers;
   FacMap.showSearchMarkers=showSearchMarkers;
+  FacMap.showInfoWindow=showInfoWindow;
   init();
 
   return  FacMap;
