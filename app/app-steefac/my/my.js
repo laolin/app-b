@@ -23,7 +23,7 @@ angular.module('steefac')
         // 使用 component 时
         //var ctrl=this;
         
-        ctrl.user=FacUser.user;
+        ctrl.user=FacUser;
         $log.log('ctrl.user',ctrl.user);
         
         $scope.$on('$viewContentLoaded', function () {

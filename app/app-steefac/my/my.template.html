@@ -30,8 +30,7 @@
   <appb-weui-cells
     title='钢构产能地图'
     cells="[
-      {text:'发现',url:'/search',icon:'search',notes:'搜索钢构产能'},
-      {text:'排行',url:'/stat',icon:'area-chart',notes:'全国概览及各地详情'}
+      {text:'发现',url:'/search',icon:'search',notes:'搜索钢构产能'}
     ]"
   >
   </appb-weui-cells>
@@ -55,10 +54,20 @@
   </appb-weui-cells>
 </div-->
 
-
-<div ng-if='$ctrl.user.isAdmin'> 
+<div ng-if='$ctrl.user.isAdmin()'> 
   <appb-weui-cells
-    title='管理功能'
+    title='普通管理功能'
+    cells="[
+     
+      {text:'排行',url:'/stat',icon:'area-chart',notes:'全国概览及各地详情'}
+    ]"
+  >
+  </appb-weui-cells>
+</div>
+
+<div ng-if='$ctrl.user.isSysAdmin()'> 
+  <appb-weui-cells
+    title='系统管理功能'
     cells="[
      
       {text:'创建钢构厂',url:'/fac-add',icon:'plus',notes:'从地图先定位'}
