@@ -12,7 +12,7 @@ angular.module('steefac')
         if(! userData || !userData.token) {
           return $location.path( "/wx-login" ).search({pageTo: '/fac-add'});;
         }
-        if(!userData.isAdmin()) {
+        if(!FacUser.isSysAdmin()) {
           return $location.path( '/my');;
         }
         $scope.$on('$viewContentLoaded', function () {
