@@ -5,8 +5,8 @@ angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/my', {
     templateUrl: 'app-steefac/my/my.template.html',
-    controller: ['$scope','$timeout','$log','AppbFeedService','AppbData','AppbUiService','AmapMainData',
-      function ($scope,$timeout,$log,AppbFeedService,AppbData,AppbUiService,AmapMainData) {
+    controller: ['$scope','$timeout','$log','AppbFeedService','AppbData','AppbUiService','AmapMainData','FacUser',
+      function ($scope,$timeout,$log,AppbFeedService,AppbData,AppbUiService,AmapMainData,FacUser) {
 
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
@@ -23,6 +23,8 @@ angular.module('steefac')
         // 使用 component 时
         //var ctrl=this;
         
+        ctrl.user=FacUser.user;
+        $log.log('ctrl.user',ctrl.user);
         
         $scope.$on('$viewContentLoaded', function () {
           ctrl.wxShareData_ori=angular.copy(appData.wxShareData);//备份wxShareData
