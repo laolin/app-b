@@ -1,0 +1,47 @@
+﻿
+<div id="loadinnngToast" ng-if='$ctrl.searchData.searching'>
+  <div class="weui-mask_transparent"></div>
+  <div class="weui-toast">
+      <i class="weui-loading weui-icon_toast"></i>
+      <p class="weui-toast__content">数据加载中</p>
+  </div>
+</div>
+
+<div class="weui-cells__title" ng-hide='1'></div> 
+<!-- 上面加一个隐藏的是为了让weui-cells的margin-top=0 -->
+<div class="weui-cells weui-cells_form">
+  <div class="weui-cell weui-cell_switch">
+    <div class="weui-cell__bd">在地图范围内搜索</div>
+    <div class="weui-cell__ft">
+      <input class="weui-switch" type="checkbox"
+      ng-model="$ctrl.searchData.options.searchInsideMap"/>
+    </div>
+  </div>
+ 
+  <div class="weui-cell weui-cell_vcode">
+    <div class="weui-cell__bd">
+      <input class="weui-input" type="text" placeholder='{{$ctrl.searchData.searchPlaceholder}}'
+      ng-model="$ctrl.searchData.searchWord">
+    </div>
+    <div class="weui-cell__ft">
+      <a href="javascript:;" class="weui-vcode-btn"
+      ng-click="$ctrl.searchData.startSearch()">开始搜索</a>
+    </div>
+  </div>
+  
+  
+  <div class="weui-cell" ng-if='$ctrl.searchData.resultSelected >= 0'>
+    <div class="weui-cell__bd">
+      <a class="weui-btn weui-btn_primary" 
+      ng-click="$ctrl.searchData.searchAroundSelected()">
+        搜周边:{{$ctrl.searchData.result.data[$ctrl.searchData.resultSelected].name}}      
+      </a>
+    </div>
+    <div class="weui-cell__ft">
+      <a href="javascript:;" class="weui-vcode-btn"
+      ng-click="$ctrl.searchData.selectResult(-1)">取消</a>
+    </div>
+  </div>
+  
+    
+</div>

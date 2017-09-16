@@ -3,7 +3,7 @@
 
 angular.module('appb')
 .component('appbWeuiCells',{
-    templateUrl: 'modules/appb-ui/appb-weui-cells.component.template.html',  
+    templateUrl: 'modules/appb-weui/appb-weui-cells.component.template.html',  
     bindings: {
       title: "@",
       cells: '<'
