@@ -1,3 +1,7 @@
+
+<div class="weui-cells__title" ng-if='!$ctrl.title' ng-hide='1'></div> 
+<!-- 上面加一个隐藏的是为了让weui-cells的margin-top=0 -->
+
 <div class="weui-cells">
 <div class="weui-cells__title" ng-if='$ctrl.title'>{{$ctrl.title}}</div>
 <a class="weui-cell"

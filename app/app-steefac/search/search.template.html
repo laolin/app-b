@@ -1,9 +1,11 @@
-<div class="fac-sarch-wrapper">
-  <fac-search-options search-data="searchData"></fac-search-options>
-  <div class="map-wrapper">
+<div class="fac-fix-wrapper">
+  <div class="fac-fix-top">
     <amap-main ></amap-main>
   </div>
-  <div class="">
-    <fac-result search-data="searchData" result-time='searchData.resultTime'></fac-result>
+  <div class="fac-fix-scroll">
+    <fac-search-options search-data="searchData"></fac-search-options>
+    <fac-result search-data="searchData" result-time='searchData.resultTime'
+      page-number='searchData.showPageNumber' page-size='searchData.showPageSize'
+    ></fac-result>
   </div>
 </div>

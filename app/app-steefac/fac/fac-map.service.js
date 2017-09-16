@@ -202,7 +202,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     });
   }
   
-  function newSearchMarkers(rs) {
+  function newSearchMarkers(rs,first,len) {
     //selMarker已ready，说明可以安全地创建其他marker
     getSelMarker().then(function(){
       for(var i=0;i<FacMap.searchMarkers.length;i++) {
@@ -210,12 +210,12 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       }
       FacMap.searchMarkers=[];
       //_newMarker('#fff','18px','header',appData.mapData.map.getCenter(),true)
-      for(var i=0;i<rs.length;i++) {
-        FacMap.searchMarkers[i]=_newMarker('#fff','16px','road',[rs[i].lngE7/1E7,rs[i].latE7/1E7],false,(''+rs[i].name).substr(0,4));
-        FacMap.searchMarkers[i].show();
-        FacMap.searchMarkers[i].facObj=rs[i];
-        FacMap.searchMarkers[i].facIndex=i;
-        FacMap.searchMarkers[i].on('click', function(e){
+      for(var i=first,j=0;i<rs.length&&i<first+len;i++,j++) {
+        FacMap.searchMarkers[j]=_newMarker('#fff','16px','road',[rs[i].lngE7/1E7,rs[i].latE7/1E7],false,(''+rs[i].name).substr(0,4));
+        FacMap.searchMarkers[j].show();
+        FacMap.searchMarkers[j].facObj=rs[i];
+        FacMap.searchMarkers[j].facIndex=i;
+        FacMap.searchMarkers[j].on('click', function(e){
           showInfoWindow(e.target.facObj);
         });
       }
