@@ -5,26 +5,23 @@ angular.module('appb')
 .component('appbWeuiPagination',{
     templateUrl: 'modules/appb-weui/appb-weui-pagination.component.template.html',  
     bindings: {
-      tabs: '<'
+      pgData: '<'
     },
     controller: ['$scope','$log','$timeout','$location',
       function ($scope,$log,$timeout,$location){
         var ctrl=this;
-        
+        ctrl.pgData={};
         ctrl.$onInit=function() {
         }
-        ctrl.goLink=function(a,index) {
-          for(var i=ctrl.tabs.length;i--;) {
-            ctrl.tabs[i]['active']= i==index;
+        ctrl.$onChanges=function(chg){
+
+          if(chg.pgData){
+            ctrl.pgData.first='首页';
+            ctrl.pgData.prev='前页';
+            ctrl.pgData.next='后页';
+            ctrl.pgData.last='末页';
           }
-          if(a) {
-            if(typeof a == 'function') {
-              a(index);
-            } else {
-              $location.url(a);
-            }
-          }
-        }//end ctrl.goLink
+        }
       }
     ]
 })
