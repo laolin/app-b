@@ -12,7 +12,7 @@ angular.module('steefac')
         if(! userData || !userData.token) {
           return $location.path( "/wx-login" ).search({pageTo: '/my'});;
         }
-        if(!userData.isAdmin()) {
+        if(!FacUser.isAdmin()) {
           return $location.path( '/my');;
         }
         var addrInput_bak={};
@@ -83,7 +83,7 @@ angular.module('steefac')
             }
             $log.log('sec',s);
           },function(e){
-            appData.toastMsg('删除失败',8);
+            appData.toastMsg(e,8);//'删除失败'+
             $log.log('err',e);
           });
         }
@@ -94,7 +94,7 @@ angular.module('steefac')
             appData.toastMsg('数据已成功更新',2);
             $log.log('sec',s);
           },function(e){
-            appData.toastMsg('更新失败',8);
+            appData.toastMsg(e,8);//'更新失败'+
             $log.log('err',e);
           });
         }
