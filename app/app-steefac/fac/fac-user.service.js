@@ -1,7 +1,7 @@
 'use strict';
 (function(){
 
-//qgsMainApi
+var SYS_ADMIN=0x10000;
 
 angular.module('steefac')
 .factory('FacUser',
@@ -19,8 +19,14 @@ function($location,$log,AppbData,FacApi) {
 
   var user={init:0,isAdmin:0,facMain:0,facCanAdmin:[]};
 
+  //0 : not admin
+  // > :普通
+  // & 0x10000 : 超级管理员
   function isAdmin() {
     return FacUser.user.isAdmin;
+  }
+  function isSysAdmin() {
+    return FacUser.user.isAdmin & SYS_ADMIN;
   }
   function canAdmin(fac) {
     return FacUser.user.facCanAdmin.indexOf(fac)>=0;
@@ -37,6 +43,7 @@ function($location,$log,AppbData,FacApi) {
     });;
     FacUser.user=user;
     FacUser.isAdmin=isAdmin;
+    FacUser.isSysAdmin=isSysAdmin;
     FacUser.canAdmin=canAdmin;
   }
   init();
