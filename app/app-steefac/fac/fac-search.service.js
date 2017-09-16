@@ -14,11 +14,15 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap) {
   
   appData.FacSearch=FacSearch;
 
+  FacSearch.showPageSize=10;//显示满一页多少个
+  FacSearch.showPageNumber=-1;//当前显示第几页
+  FacSearch.showCount=0;//实际显示出来多少个（由于最后一页可能不满页）
+  
   FacSearch.result=0;
   FacSearch.resultSelected=-1;
   FacSearch.searching=0;
   FacSearch.resultTime=0;
-  FacSearch.options={orderBy:'auto',searchInsideMap:0,countRes:20};
+  FacSearch.options={orderBy:'auto',searchInsideMap:0,countRes:1000};
   FacSearch.searchWord='';
   FacSearch.searchPlaceholder='输入名称/地址/...';
   FacSearch.searchList = []; //TODO: values will get from API
@@ -64,37 +68,48 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap) {
         FacSearch.resultTime= +new Date();//用来标记搜索结果是否更新
         $log.log('sreach-res--1',s);
         FacSearch.result=s;
-        var maxlat=-555e7;
-        var maxlng=-555e7;
-        var minlat=555e7;
-        var minlng=555e7;
-
-        var n=0;//for执行完n还是0的话，说明都没有正常的坐标。不执行map.setBounds
-        for(var i=FacSearch.result.length; i-- ; ) {
-          var lng=FacSearch.result[i].lngE7;
-          var lat=FacSearch.result[i].latE7;
-          if(lng==0 && lat==0)continue;
-          n++;
-          maxlng=Math.max(maxlng,lng);
-          minlng=Math.min(minlng,lng);
-          maxlat=Math.max(maxlat,lat);
-          minlat=Math.min(minlat,lat);
-        }
-        if(n&&mapData.map) {
-          
-          $log.log('Bounds',{lng:minlng,lat:minlat},{lng:maxlng,lat:maxlat});
-          maxlng/=1e7;
-          minlng/=1e7;
-          maxlat/=1e7;
-          minlat/=1e7;
-          mapData.map.setBounds(new AMap.Bounds([minlng,minlat],[maxlng,maxlat]));
-          
-        }
-        FacMap.newSearchMarkers(FacSearch.result);
+        FacSearch.showSearchRes(FacSearch.showPageNumber=0);
       }
     );
 
-    //$location.url('/search-result');
+    //$location.url('/search-result');  
+  }
+  FacSearch.showSearchRes=function (pn){
+    
+    var maxlat=-555e7;
+    var maxlng=-555e7;
+    var minlat=555e7;
+    var minlng=555e7;
+
+    FacSearch.showPageNumber=pn;
+    var ps=FacSearch.showPageSize;
+    
+    var ln=FacSearch.result.length;
+    var n=0;//for执行完n还是0的话，说明都没有正常的坐标。不执行map.setBounds
+    for(var i=pn*ps;i<ln &&i<pn*ps+ps; i++ ) {
+      var lng=FacSearch.result[i].lngE7;
+      var lat=FacSearch.result[i].latE7;
+      if(lng==0 && lat==0)continue;
+      n++;
+      maxlng=Math.max(maxlng,lng);
+      minlng=Math.min(minlng,lng);
+      maxlat=Math.max(maxlat,lat);
+      minlat=Math.min(minlat,lat);
+    }
+    FacSearch.showCount=Math.min(ps,ln-pn*ps);
+    $log.log('n=====',n);
+    if(n&&mapData.map) {
+      
+      $log.log('Bounds',{lng:minlng,lat:minlat},{lng:maxlng,lat:maxlat});
+      maxlng/=1e7;
+      minlng/=1e7;
+      maxlat/=1e7;
+      minlat/=1e7;
+      mapData.map.setBounds(new AMap.Bounds([minlng,minlat],[maxlng,maxlat]));
+      
+    }
+    FacMap.newSearchMarkers(FacSearch.result,pn*ps,ps);
+
   }
 
   
