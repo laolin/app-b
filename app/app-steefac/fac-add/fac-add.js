@@ -5,12 +5,15 @@ angular.module('steefac')
   $routeProvider.when('/fac-add', {
     templateUrl: 'app-steefac/fac-add/fac-add.template.html',
     controller: ['$scope','$http','$log','$location',
-        'AppbData','FacDefine','FacMap','FacApi',
+        'AppbData','FacDefine','FacMap','FacApi','FacUser',
       function mzUserSearchCtrl($scope,$http,$log,$location,
-          AppbData,FacDefine,FacMap,FacApi) {
+          AppbData,FacDefine,FacMap,FacApi,FacUser) {
         var userData=AppbData.getUserData();
         if(! userData || !userData.token) {
           return $location.path( "/wx-login" ).search({pageTo: '/fac-add'});;
+        }
+        if(!userData.isAdmin()) {
+          return $location.path( '/my');;
         }
         $scope.$on('$viewContentLoaded', function () {
           FacMap.getSelMarker().then(function(m){
