@@ -249,14 +249,20 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
         FacMap.infoWindow.setInfoTitle('<strong><%- name %></strong>')
 
         //设置标题内容
-        FacMap.infoWindow.setInfoBody('<%- level %>级，年产能<%- cap_y %>吨<br>工人<%- workers %>名，工厂面积<%- area_factory %>㎡<br>擅长<%- goodat %> <a href="#!/fac-edit?id=<%- id %>">【修改】</a>')
+        FacMap.infoWindow.setInfoBody(
+        '剩余产能<%- cap_6m %>吨，厂房面积<%- area_factory %>㎡<br>'+
+        '擅长构件：<%- goodat %><br/>'+
+        '<%- update_at %>更新'+
+        '<a href="#!/fac-detail?id=<%- id %>">【详情】</a><br/>'
+        );
 
         //设置主体内容
+        var dt=new Date(1000*o.update_at);
+        var u_at=(dt.getYear()+1900)+'.'+(dt.getMonth()+1)+'.'+dt.getDate();
         FacMap.infoWindow.setInfoTplData({
           name:o.name,
-          level:['特','一','二','三'][o.level],
-          cap_y:o.cap_y,
-          workers:o.workers,
+          cap_6m:o.cap_6m,
+          update_at:u_at,
           area_factory:o.area_factory,
           goodat:o.goodat,
           id:o.id

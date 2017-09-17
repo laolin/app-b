@@ -64,9 +64,13 @@ angular.module('steefac')
       var pn=ctrl.pageNumber;
       ctrl.cells=[];
       for(var i=0,j=ps*pn;i<ps&&j<r.length;i++,j++){
+        var dt=new Date(1000*r[j].update_at);
+        var u_at=(dt.getYear()+1900)+'.'+(dt.getMonth()+1)+'.'+dt.getDate();
+
         ctrl.cells[i]={
-          text:''+(j+1)+'.'+r[j].name+'-'+ctrl.level[r[j].level]+'-'+r[j].province,
-          url:"/fac-edit?id="+r[j].id,
+          text:''+(j+1)+'.'+r[j].name+'，剩余产能'+r[j].cap_6m+
+          '吨，擅长构件：'+r[j].goodat,
+          url:"/fac-detail?id="+r[j].id,
           icon:'id-card'};
       }
     }
