@@ -36,7 +36,7 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
     var serchPara={s:FacSearch.searchWord};
 
     if(mapData.map) {
-      mapData.infoWindow.close();
+      FacMap.hideInfoWindow()
       bd=mapData.map.getBounds( );
       mapData.northeast=bd.northeast;
       mapData.southwest=bd.southwest;
@@ -75,6 +75,7 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
     //$location.url('/search-result');  
   }
   FacSearch.showSearchRes=function (pn){
+    FacMap.hideInfoWindow()
     
     var maxlat=-555e7;
     var maxlng=-555e7;
