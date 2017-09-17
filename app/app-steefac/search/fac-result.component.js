@@ -26,30 +26,30 @@ angular.module('steefac')
         var allPage=Math.ceil(r.length/ctrl.pageSize);
         var onFirst=function (){
             ctrl.searchData.showSearchRes(ctrl.pageNumber=0);
-            ctrl.pgData.current=ctrl.pageNumber+1;
+            ctrl.pgData.current=ctrl.pageNumber;
             genCells();
         }
         var onLast=function (){
             ctrl.searchData.showSearchRes(ctrl.pageNumber=allPage-1);
-            ctrl.pgData.current=ctrl.pageNumber+1;
+            ctrl.pgData.current=ctrl.pageNumber;
             genCells();
         }
         var onPrev=function (){
           if(ctrl.pageNumber>0){
             ctrl.searchData.showSearchRes(--ctrl.pageNumber);
-            ctrl.pgData.current=ctrl.pageNumber+1;
+            ctrl.pgData.current=ctrl.pageNumber;
             genCells();
           }
         }
         var onNext=function (){
           if(ctrl.pageNumber<allPage-1){
             ctrl.searchData.showSearchRes(++ctrl.pageNumber);
-            ctrl.pgData.current=ctrl.pageNumber+1;
+            ctrl.pgData.current=ctrl.pageNumber;
             genCells();
           }
         }
         ctrl.pgData={
-          current:ctrl.pageNumber+1,max:allPage,
+          current:ctrl.pageNumber,max:allPage,
           onFirst:onFirst,
           onLast:onLast,
           onPrev:onPrev,
