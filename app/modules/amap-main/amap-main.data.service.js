@@ -139,13 +139,15 @@ function ($log,$timeout,$http,$q,AppbData){
       });
       
     }
+    
     function loadMapScript() {
-      return $http.jsonp("https://webapi.amap.com/maps?v=1.3&key=b4a551eacfbb920a6e68b5eca1126dd5" +
+      return $.getScript("https://webapi.amap.com/maps?v=1.3&key=b4a551eacfbb920a6e68b5eca1126dd5" +
       "&plugin=AMap.ToolBar,AMap.Geocoder,AMap.PlaceSearch");
       //,AMap.Autocomplete,AMap.Scale,AMap.OverView";
     }
+    //$http.jsonp经常会 reject，改用jQuery加载地图js
     function loadMapUiScript() {
-      return $http.jsonp("https://webapi.amap.com/ui/1.0/main.js").then(function(){},function(){});
+      return $.getScript("https://webapi.amap.com/ui/1.0/main.js");
     }
   }
 

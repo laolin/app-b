@@ -1,11 +1,7 @@
 ﻿<div class="weui-cells__title" ng-if='$ctrl.searchData.result'>
-{{$ctrl.cellsTitle}}
+{{$ctrl.cellsTitle}} <a href ng-click='$ctrl.searchData.clearResult()'>重新搜索</a>
 </div> 
 
-<appb-weui-pagination
-  pg-data='$ctrl.pgData'
-  ng-if='$ctrl.searchData.result && $ctrl.searchData.result.length>$ctrl.pageSize'>
-</appb-weui-pagination>
 
 <appb-weui-cells title='' cells='$ctrl.cells' ng-if='$ctrl.searchData.result'>
 </appb-weui-cells>
@@ -15,3 +11,8 @@
   ng-if='$ctrl.searchData.result && $ctrl.searchData.result.length>$ctrl.pageSize'
 >
 </appb-weui-pagination>
+
+<div class="weui-footer">
+  <p>&nbsp;</p>
+  <p class="weui-footer__text">Copyright &copy; 2017 请高手</p>
+</div>

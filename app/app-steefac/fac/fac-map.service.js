@@ -67,7 +67,8 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       AMapUI.loadUI(['overlay/SimpleInfoWindow'], function(SimpleInfoWindow) {
         FacMap.infoWindow = new SimpleInfoWindow({
           infoTitle: '<strong>这里是标题</strong>',
-          infoBody: '<p>这里是内容。</p>'
+          infoBody: '<p>这里是内容。</p>',
+          offset: new AMap.Pixel(0, -32)
         });
 
         //显示在map上
@@ -236,23 +237,41 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   }
   function showInfoWindow(o) {
     getInfoWindow().then(function(iw){
-      iw.setInfoTitle('<strong><%- name %></strong>')
+      
+      AMapUI.loadUI(['overlay/SimpleInfoWindow'], function(SimpleInfoWindow)
+      {
 
-      //设置标题内容
-      iw.setInfoBody('<%- level %>级，年产能<%- cap_y %>吨<br>工人<%- workers %>名，工厂面积<%- area_factory %>㎡<br>擅长<%- goodat %> <a href="#!/fac-edit?id=<%- id %>">【修改】</a>')
-      //iw.setInfoBody('<%- level %>级<br>年产能<%- cap_y %>吨<br>擅长<%- goodat %>')
+        FacMap.infoWindow = new SimpleInfoWindow({
+          offset: new AMap.Pixel(0, -32)
+        });
 
-      //设置主体内容
-      iw.setInfoTplData({
-        name:o.name,
-        level:['特','一','二','三'][o.level],
-        cap_y:o.cap_y,
-        workers:o.workers,
-        area_factory:o.area_factory,
-        goodat:o.goodat,
-        id:o.id
-      });
-      iw.open(mapData.map, [o.lngE7/1e7,o.latE7/1e7]);
+          
+        FacMap.infoWindow.setInfoTitle('<strong><%- name %></strong>')
+
+        //设置标题内容
+        FacMap.infoWindow.setInfoBody(
+        '剩余产能<%- cap_6m %>吨，厂房面积<%- area_factory %>㎡<br>'+
+        '擅长构件：<%- goodat %><br/>'+
+        '<%- update_at %>更新'+
+        '<a href="#!/fac-detail?id=<%- id %>">【详情】</a><br/>'
+        );
+
+        //设置主体内容
+        var dt=new Date(1000*o.update_at);
+        var u_at=(dt.getYear()+1900)+'.'+(dt.getMonth()+1)+'.'+dt.getDate();
+        FacMap.infoWindow.setInfoTplData({
+          name:o.name,
+          cap_6m:o.cap_6m,
+          update_at:u_at,
+          area_factory:o.area_factory,
+          goodat:o.goodat,
+          id:o.id
+        });
+        FacMap.infoWindow.open(mapData.map, [o.lngE7/1e7,o.latE7/1e7]);
+      
+      
+        
+      })
     });
   }  
   

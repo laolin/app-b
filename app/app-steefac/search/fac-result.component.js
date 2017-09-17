@@ -26,30 +26,30 @@ angular.module('steefac')
         var allPage=Math.ceil(r.length/ctrl.pageSize);
         var onFirst=function (){
             ctrl.searchData.showSearchRes(ctrl.pageNumber=0);
-            ctrl.pgData.current=ctrl.pageNumber+1;
+            ctrl.pgData.current=ctrl.pageNumber;
             genCells();
         }
         var onLast=function (){
             ctrl.searchData.showSearchRes(ctrl.pageNumber=allPage-1);
-            ctrl.pgData.current=ctrl.pageNumber+1;
+            ctrl.pgData.current=ctrl.pageNumber;
             genCells();
         }
         var onPrev=function (){
           if(ctrl.pageNumber>0){
             ctrl.searchData.showSearchRes(--ctrl.pageNumber);
-            ctrl.pgData.current=ctrl.pageNumber+1;
+            ctrl.pgData.current=ctrl.pageNumber;
             genCells();
           }
         }
         var onNext=function (){
           if(ctrl.pageNumber<allPage-1){
             ctrl.searchData.showSearchRes(++ctrl.pageNumber);
-            ctrl.pgData.current=ctrl.pageNumber+1;
+            ctrl.pgData.current=ctrl.pageNumber;
             genCells();
           }
         }
         ctrl.pgData={
-          current:ctrl.pageNumber+1,max:allPage,
+          current:ctrl.pageNumber,max:allPage,
           onFirst:onFirst,
           onLast:onLast,
           onPrev:onPrev,
@@ -64,10 +64,13 @@ angular.module('steefac')
       var pn=ctrl.pageNumber;
       ctrl.cells=[];
       for(var i=0,j=ps*pn;i<ps&&j<r.length;i++,j++){
+        var dt=new Date(1000*r[j].update_at);
+        var u_at=(dt.getYear()+1900)+'.'+(dt.getMonth()+1)+'.'+dt.getDate();
+
         ctrl.cells[i]={
-          text:r[j].name+'-'+ctrl.level[r[j].level]+
-            '('+r[j].license+')'+r[j].province,
-          url:"/fac-edit?id="+r[j].id,
+          text:''+(j+1)+'.'+r[j].name+'，剩余产能'+r[j].cap_6m+
+          '吨，擅长构件：'+r[j].goodat,
+          url:"/fac-detail?id="+r[j].id,
           icon:'id-card'};
       }
     }

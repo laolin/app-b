@@ -5,8 +5,8 @@
 
 angular.module('steefac')
 .factory('FacSearch',
-['$location','$log','AppbData','AmapMainData','FacApi','FacMap',
-function($location,$log,AppbData,AmapMainData,FacApi,FacMap) {
+['$location','$log','AppbData','AmapMainData','FacApi','FacMap','FacUser',
+function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
   
   var FacSearch={};
   var appData=AppbData.getAppData();
@@ -36,7 +36,7 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap) {
     var serchPara={s:FacSearch.searchWord};
 
     if(mapData.map) {
-      mapData.infoWindow.close();
+      FacMap.hideInfoWindow()
       bd=mapData.map.getBounds( );
       mapData.northeast=bd.northeast;
       mapData.southwest=bd.southwest;
@@ -75,6 +75,7 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap) {
     //$location.url('/search-result');  
   }
   FacSearch.showSearchRes=function (pn){
+    FacMap.hideInfoWindow()
     
     var maxlat=-555e7;
     var maxlng=-555e7;
@@ -110,6 +111,13 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap) {
     }
     FacMap.newSearchMarkers(FacSearch.result,pn*ps,ps);
 
+  }
+  FacSearch.clearResult=function (){
+    FacSearch.result=0;
+    FacSearch.resultSelected=-1;
+    FacSearch.searching=0;
+    FacSearch.resultTime=0;
+    FacMap.newSearchMarkers([],0,0);//清除地图中的标记
   }
 
   
