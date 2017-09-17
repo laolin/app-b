@@ -16,10 +16,10 @@ angular.module('appb')
         ctrl.$onChanges=function(chg){
 
           if(chg.pgData){
-            ctrl.pgData.first='首页';
-            ctrl.pgData.prev='前页';
-            ctrl.pgData.next='后页';
-            ctrl.pgData.last='末页';
+            ctrl.pgData.first='<<';
+            ctrl.pgData.prev='<';
+            ctrl.pgData.next='>';
+            ctrl.pgData.last='>>';
           }
         }
       }
