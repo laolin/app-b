@@ -112,6 +112,13 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
     FacMap.newSearchMarkers(FacSearch.result,pn*ps,ps);
 
   }
+  FacSearch.clearResult=function (){
+    FacSearch.result=0;
+    FacSearch.resultSelected=-1;
+    FacSearch.searching=0;
+    FacSearch.resultTime=0;
+    FacMap.newSearchMarkers([],0,0);//清除地图中的标记
+  }
 
   
   return  FacSearch;
