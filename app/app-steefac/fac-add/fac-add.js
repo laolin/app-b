@@ -35,6 +35,8 @@ angular.module('steefac')
           FacApi.createFac({d:JSON.stringify(FacMap.addrInput)})
           .then(function(s){
             appData.toastMsg('数据已成功保存',2);
+            $location.path('/fac-detail').search({id:s.id});
+            
             $log.log('sec',s);
           },function(e){
             appData.toastMsg('保存失败',8);
