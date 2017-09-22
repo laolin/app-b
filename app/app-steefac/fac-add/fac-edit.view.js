@@ -18,6 +18,7 @@ angular.module('steefac')
         var addrInput_bak={};
         var mapCenter_bak,mapZoom_bak,pos_bak;
         
+        AppbData.activeHeader('home', '修改钢构厂'); 
         var search=$location.search();
         var id=parseInt(search.id);
         FacApi.callApi('steefac','detail',{id:id}).then(function(s){

@@ -13,6 +13,7 @@ templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
       return $location.path( "/wx-login" ).search({pageTo: '/my'});;
     }
 
+    AppbData.activeHeader('home', '钢构厂详情'); 
     
     var search=$location.search();
     var id=parseInt(search.id);
