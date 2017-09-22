@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('steefac')
-.component('facAddrInput',{
-  templateUrl: 'app-steefac/fac-add/fac-addr-input.component.template.html',
+.component('placeAddrInput',{
+  templateUrl: 'app-steefac/place-input/place-addr-input.component.template.html',
   bindings: {
   },
   controller:['$http','$log','$interval','AppbData','FacMap',

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('steefac')
-.component('facBody',{
-  templateUrl: 'app-steefac/fac-add/fac-body.component.template.html',
+.component('placeInput',{
+  templateUrl: 'app-steefac/place-input/place-input.component.template.html',
   bindings: {
     formDefine:"<",
     models:"<"

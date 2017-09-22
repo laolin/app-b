@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('steefac')
-.component('facAttrForm',{
-  templateUrl: 'app-steefac/fac-add/fac-attr-form.component.template.html',
+.component('placeAttrForm',{
+  templateUrl: 'app-steefac/place-input/place-attr-form.component.template.html',
   bindings: {
     formDefine:"<",
     models:"<"
@@ -11,17 +11,6 @@ angular.module('steefac')
 	  function ($http,$log,$interval,FacMap) {
       var ctrl=this;
       ctrl.FacMap=FacMap;
-      //ctrl.formDefine=FacDefine;
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
       
     }
   ]
