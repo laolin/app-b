@@ -34,9 +34,19 @@ templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
       s.goodat.split(',').forEach(function(val,ind){
         $scope.goodat[ind]={text:val,icon:'check-circle'};
       })
-
-
-
+    });
+    FacApi.callApi('stee_user','get_admin_of_fac',{id:id}).then(function(s){
+      $log.log('get_admin_of_fac',s);
+      if(s) {
+        var uids=[];
+        for(var i=s.length;i--; ) {
+          uids.push({uid:s[i].uid});
+        }
+        userData.requireUsersInfo(uids).then(function(){
+          $scope.uids=uids;
+          $scope.usersInfo=userData.usersInfo;          
+        });
+      }
     });
 
     $scope.$on('$viewContentLoaded', function () {

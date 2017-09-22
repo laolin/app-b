@@ -25,7 +25,15 @@
   </div>
 </div>
 
-
+<appb-weui-cells
+title='已关联管理员'
+ng-if='uids.length'
+></appb-weui-cells>
+<fac-ui-user-list
+ ng-if='uids.length'
+ uids='uids' users-info='usersInfo'
+>
+</fac-ui-user-list>
   
 <appb-weui-cells
 title='有效产能'
