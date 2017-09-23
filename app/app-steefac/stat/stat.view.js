@@ -18,6 +18,7 @@ angular.module('steefac')
         });
 
         
+        AppbData.activeHeader('home', '钢构产能统计'); 
         $scope.abc=0;
 
       }

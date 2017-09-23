@@ -129,7 +129,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     $log.log('LacCmp==',obj);
     obj.lnglat=obj.position;//高德的成员名字不统一。。。
     //_moveMarker(obj.lnglat);
-    _msg('已自动定位到您的位置',7);
+    //_msg('已自动定位到您的位置',7);
   }
   //===================================================
   function searchAddr(addr) {

@@ -6,11 +6,11 @@ window.__assetsPath='../assets';
 var cfg=window.appbCfg={
   appName:"钢结构产能分布图",
   
-  appDesc:"请高手为您权威解读当前国内钢结构产能情况",//微信分享时默认文本
+  appDesc:"请高手为您权威提供国内实时钢结构产能情况",//微信分享时默认文本
   appLogo:"https://qinggaoshou.com/images/qgs-log-1.jpg",//微信分享时默认图片
   
   pageTitle:'钢结构产能分布图',//默认的页面上方<ui-header>条的标题
-  htmlTitle:'钢结构产能分布图 - 请高手实用工具',//默认的浏览器的页面标题
+  htmlTitle:'钢结构产能分布图 - 请高手',//默认的浏览器的页面标题
   apiRoot: 'https://api.qinggaoshou.com/api-eb', //一般的API
   apiWxAuth: 'https://qinggaoshou.com/api-1.0', //WX 授权 callback 域名限制的URI
 
@@ -38,8 +38,8 @@ cfg.markWxLoginCallback='cb_xd';//和后端API的约定字符串，在 /wx-login
 
 cfg.tabsAvailable=[
   ['index',[
-    {text:'发现',icon:'compass',href:'/search'},
-    {text:'排行',icon:'area-chart',href:'/stat',active:1},
+    {text:'钢构产能',icon:'cubes',href:'/search'},
+    {text:'钢结构项目',icon:'university',href:'/proj',active:1},
     {text:'我的',icon:'user',href:'/my'}
   ]],
   ['steefac-debug',[
