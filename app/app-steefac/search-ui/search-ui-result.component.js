@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('steefac')
-.component('searchProjResult',{
-  templateUrl: 'app-steefac/search-proj/search-proj-result.component.template.html',
+.component('searchUiResult',{
+  templateUrl: 'app-steefac/search-ui/search-ui-result.component.template.html',
   bindings: {
     pageNumber: '=',
     pageSize: '=',

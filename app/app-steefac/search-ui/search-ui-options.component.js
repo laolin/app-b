@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('steefac')
-.component('searchProjOptions',{
-  templateUrl: 'app-steefac/search-proj/search-proj-options.component.template.html',
+.component('searchUiOptions',{
+  templateUrl: 'app-steefac/search-ui/search-ui-options.component.template.html',
   bindings: {
     searchType:'<',
     searchData: '='
