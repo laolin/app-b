@@ -17,7 +17,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     selName:'',
     selMarker:false,
     
-    searchMarkers:[],
+    searchMarkers:{},
     
     creating:false
   };
@@ -206,27 +206,27 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   function newSearchMarkers(rs,first,len,fn_infoData,type) {
     //selMarker已ready，说明可以安全地创建其他marker
     getSelMarker().then(function(){
-      for(var i=0;i<FacMap.searchMarkers.length;i++) {
-        FacMap.searchMarkers[i].setMap(null);
+      if(FacMap.searchMarkers[type])for(var i=0;i<FacMap.searchMarkers[type].length;i++) {
+        FacMap.searchMarkers[type][i].setMap(null);
       }
-      FacMap.searchMarkers=[];
+      FacMap.searchMarkers[type]=[];
       //_newMarker('#fff','18px','header',appData.mapData.map.getCenter(),true)
       for(var i=first,j=0;i<rs.length&&i<first+len;i++,j++) {
-        FacMap.searchMarkers[j]=_newMarker('#fff','16px','road',[rs[i].lngE7/1E7,rs[i].latE7/1E7],false,(''+rs[i].name).substr(0,4));
-        FacMap.searchMarkers[j].show();
-        FacMap.searchMarkers[j].facObj=rs[i];
-        FacMap.searchMarkers[j].facIndex=i;
-        FacMap.searchMarkers[j].on('click', function(e){
+        FacMap.searchMarkers[type][j]=_newMarker('#fff','16px','road',[rs[i].lngE7/1E7,rs[i].latE7/1E7],false,(''+rs[i].name).substr(0,4));
+        FacMap.searchMarkers[type][j].show();
+        FacMap.searchMarkers[type][j].facObj=rs[i];
+        FacMap.searchMarkers[type][j].facIndex=i;
+        FacMap.searchMarkers[type][j].on('click', function(e){
           showInfoWindow(e.target.facObj,fn_infoData,type);
         });
       }
       
     })
   }
-  function showSearchMarkers(s) {
-    for(var i=0;i<FacMap.searchMarkers.length;i++) {
-      if(s)FacMap.searchMarkers[i].show();
-      else FacMap.searchMarkers[i].hide();
+  function showSearchMarkers(s,type) {
+    if(FacMap.searchMarkers[type])for(var i=0;i<FacMap.searchMarkers[type].length;i++) {
+      if(s)FacMap.searchMarkers[type][i].show();
+      else FacMap.searchMarkers[type][i].hide();
     }
   }
   

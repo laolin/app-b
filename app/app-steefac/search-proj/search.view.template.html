@@ -10,7 +10,7 @@
       ng-if='searchData.searchResult[searchType]'
       search-data="searchData"   search-type='searchType'
       result-ver='searchData.searchResult[searchType+".ver"]'
-      page-number='searchData.showPageNumber' page-size='searchData.showPageSize'
+      page-number='searchData.showPageNumber[searchType]' page-size='searchData.showPageSize'
     ></search-proj-result>
   </div>
 </div>

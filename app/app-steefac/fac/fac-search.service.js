@@ -15,7 +15,7 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
   appData.FacSearch=FacSearch;
 
   FacSearch.showPageSize=10;//显示满一页多少个
-  FacSearch.showPageNumber=-1;//当前显示第几页
+  FacSearch.showPageNumber={};//当前显示第几页
   FacSearch.showCount=0;//实际显示出来多少个（由于最后一页可能不满页）
   
   FacSearch.searchResult={};
@@ -75,7 +75,7 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
         FacSearch.searchResult[type+'.ver']= +new Date();//用来标记搜索结果是否更新
         $log.log('sreach-res--1',s);
         FacSearch.searchResult[type]=s;
-        FacSearch.showSearchRes(type,FacSearch.showPageNumber=0);
+        FacSearch.showSearchRes(type,FacSearch.showPageNumber[type]=0);
       }
     );
 
@@ -89,7 +89,7 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
     var minlat=555e7;
     var minlng=555e7;
 
-    FacSearch.showPageNumber=pn;
+    FacSearch.showPageNumber[type]=pn;
     var ps=FacSearch.showPageSize;
     
     var ln=FacSearch.searchResult[type].length;
@@ -187,7 +187,7 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
     if(type=='steeproj'){
       var omonth={3:'三月内',6:'六月内',12:'一年内',24:'两年内',60:'五年内'}
       return {
-          text:''+obj[j].name+'，用钢量'+obj[j].need_steel+
+          text:''+(j+1)+'.'+obj[j].name+'，用钢量'+obj[j].need_steel+
           '吨，项目规模' +obj[j].size+ '㎡，用钢时间：'+omonth[obj[j].in_month],
           url:"/proj-detail?id="+obj[j].id,
           icon:'id-card'}
