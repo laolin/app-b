@@ -3,10 +3,10 @@
     <amap-main ></amap-main>
   </div>
   <div ng-class='{"fac-fix-scroll":searchData.result.length}'>
-    <fac-search-options search-data="searchData" ng-if='!searchData.result.length'></fac-search-options>
-    <fac-result
+    <search-fac-options search-data="searchData" ng-if='!searchData.result.length'></search-fac-options>
+    <search-fac-result
       search-data="searchData" result-time='searchData.resultTime'
       page-number='searchData.showPageNumber' page-size='searchData.showPageSize'
-    ></fac-result>
+    ></search-fac-result>
   </div>
 </div>

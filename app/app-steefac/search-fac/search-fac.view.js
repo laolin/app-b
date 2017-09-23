@@ -2,8 +2,8 @@
 
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
-$routeProvider.when('/search', {
-templateUrl: 'app-steefac/search/search.template.html',
+$routeProvider.when('/search-fac', {
+templateUrl: 'app-steefac/search-fac/search-fac.view.template.html',
 controller: ['$scope','$http','$log','$location','AppbData','FacSearch','FacMap',
   function ($scope,$http,$log,$location,AppbData,FacSearch,FacMap) {
     var userData=AppbData.getUserData();
