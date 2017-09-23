@@ -38,8 +38,8 @@ cfg.markWxLoginCallback='cb_xd';//和后端API的约定字符串，在 /wx-login
 
 cfg.tabsAvailable=[
   ['index',[
-    {text:'钢构产能',icon:'cubes',href:'/search'},
-    {text:'钢结构项目',icon:'university',href:'/proj',active:1},
+    {text:'钢构产能',icon:'cubes',href:'/search-fac'},
+    {text:'钢结构项目',icon:'university',href:'/search-proj',active:1},
     {text:'我的',icon:'user',href:'/my'}
   ]],
   ['steefac-debug',[

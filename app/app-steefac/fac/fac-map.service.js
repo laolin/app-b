@@ -17,7 +17,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     selName:'',
     selMarker:false,
     
-    searchMarkers:[],
+    searchMarkers:{},
     
     creating:false
   };
@@ -203,30 +203,30 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     });
   }
   
-  function newSearchMarkers(rs,first,len) {
+  function newSearchMarkers(rs,first,len,fn_infoData,type) {
     //selMarker已ready，说明可以安全地创建其他marker
     getSelMarker().then(function(){
-      for(var i=0;i<FacMap.searchMarkers.length;i++) {
-        FacMap.searchMarkers[i].setMap(null);
+      if(FacMap.searchMarkers[type])for(var i=0;i<FacMap.searchMarkers[type].length;i++) {
+        FacMap.searchMarkers[type][i].setMap(null);
       }
-      FacMap.searchMarkers=[];
+      FacMap.searchMarkers[type]=[];
       //_newMarker('#fff','18px','header',appData.mapData.map.getCenter(),true)
       for(var i=first,j=0;i<rs.length&&i<first+len;i++,j++) {
-        FacMap.searchMarkers[j]=_newMarker('#fff','16px','road',[rs[i].lngE7/1E7,rs[i].latE7/1E7],false,(''+rs[i].name).substr(0,4));
-        FacMap.searchMarkers[j].show();
-        FacMap.searchMarkers[j].facObj=rs[i];
-        FacMap.searchMarkers[j].facIndex=i;
-        FacMap.searchMarkers[j].on('click', function(e){
-          showInfoWindow(e.target.facObj);
+        FacMap.searchMarkers[type][j]=_newMarker('#fff','16px','road',[rs[i].lngE7/1E7,rs[i].latE7/1E7],false,(''+rs[i].name).substr(0,4));
+        FacMap.searchMarkers[type][j].show();
+        FacMap.searchMarkers[type][j].facObj=rs[i];
+        FacMap.searchMarkers[type][j].facIndex=i;
+        FacMap.searchMarkers[type][j].on('click', function(e){
+          showInfoWindow(e.target.facObj,fn_infoData,type);
         });
       }
       
     })
   }
-  function showSearchMarkers(s) {
-    for(var i=0;i<FacMap.searchMarkers.length;i++) {
-      if(s)FacMap.searchMarkers[i].show();
-      else FacMap.searchMarkers[i].hide();
+  function showSearchMarkers(s,type) {
+    if(FacMap.searchMarkers[type])for(var i=0;i<FacMap.searchMarkers[type].length;i++) {
+      if(s)FacMap.searchMarkers[type][i].show();
+      else FacMap.searchMarkers[type][i].hide();
     }
   }
   
@@ -235,7 +235,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       iw.close();
     });
   }
-  function showInfoWindow(o) {
+  function showInfoWindow(o,fn_infoData,type) {
     getInfoWindow().then(function(iw){
       
       AMapUI.loadUI(['overlay/SimpleInfoWindow'], function(SimpleInfoWindow)
@@ -245,28 +245,14 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
           offset: new AMap.Pixel(0, -32)
         });
 
-          
-        FacMap.infoWindow.setInfoTitle('<strong><%- name %></strong>')
+        var da=fn_infoData(o,type);
+        FacMap.infoWindow.setInfoTitle(da.infoTitle);
 
         //设置标题内容
-        FacMap.infoWindow.setInfoBody(
-        '剩余产能<%- cap_6m %>吨，厂房面积<%- area_factory %>㎡<br>'+
-        '擅长构件：<%- goodat %><br/>'+
-        '<%- update_at %>更新'+
-        '<a href="#!/fac-detail?id=<%- id %>">【详情】</a><br/>'
-        );
+        FacMap.infoWindow.setInfoBody(da.infoBody);
 
         //设置主体内容
-        var dt=new Date(1000*o.update_at);
-        var u_at=(dt.getYear()+1900)+'.'+(dt.getMonth()+1)+'.'+dt.getDate();
-        FacMap.infoWindow.setInfoTplData({
-          name:o.name,
-          cap_6m:o.cap_6m,
-          update_at:u_at,
-          area_factory:o.area_factory,
-          goodat:o.goodat,
-          id:o.id
-        });
+        FacMap.infoWindow.setInfoTplData(da.infoTplData);
         FacMap.infoWindow.open(mapData.map, [o.lngE7/1e7,o.latE7/1e7]);
       
       

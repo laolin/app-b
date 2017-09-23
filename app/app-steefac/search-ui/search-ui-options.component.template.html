@@ -25,21 +25,7 @@
     </div>
     <div class="weui-cell__ft">
       <a href="javascript:;" class="weui-vcode-btn"
-      ng-click="$ctrl.searchData.startSearch()">开始搜索</a>
-    </div>
-  </div>
-  
-  
-  <div class="weui-cell" ng-if='$ctrl.searchData.resultSelected >= 0'>
-    <div class="weui-cell__bd">
-      <a class="weui-btn weui-btn_primary" 
-      ng-click="$ctrl.searchData.searchAroundSelected()">
-        搜周边:{{$ctrl.searchData.result.data[$ctrl.searchData.resultSelected].name}}      
-      </a>
-    </div>
-    <div class="weui-cell__ft">
-      <a href="javascript:;" class="weui-vcode-btn"
-      ng-click="$ctrl.searchData.selectResult(-1)">取消</a>
+      ng-click="$ctrl.searchData.startSearch($ctrl.searchType)">开始搜索</a>
     </div>
   </div>
   
