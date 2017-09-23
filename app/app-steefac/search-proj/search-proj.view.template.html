@@ -1,0 +1,16 @@
+<div class="fac-fix-wrapper">
+  <div class="fac-fix-top">
+    <amap-main ></amap-main>
+  </div>
+  <div ng-class='{"fac-fix-scroll":searchData.result.length}'>
+    <search-proj-options 
+    search-data="searchData"  search-type='searchType'
+    ng-if='!searchData.searchResult[searchType].length'></search-proj-options>
+    <search-proj-result
+      ng-if='searchData.searchResult[searchType]'
+      search-data="searchData"   search-type='searchType'
+      result-ver='searchData.searchResult[searchType+".ver"]'
+      page-number='searchData.showPageNumber' page-size='searchData.showPageSize'
+    ></search-proj-result>
+  </div>
+</div>
