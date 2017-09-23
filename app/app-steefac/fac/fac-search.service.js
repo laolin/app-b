@@ -31,7 +31,13 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
     FacSearch.searchWord='';
   }
   
-  FacSearch.startSearch=function(){
+  FacSearch.startSearch=function(type){
+    if(type!='steefac'&&type!='steeproj'){
+      $log.log('***err search type: ',type);
+      return;
+    }
+    
+  
     var bd;
     var serchPara={s:FacSearch.searchWord};
 
@@ -55,14 +61,14 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
       
     }
     $log.log('serchPara ', serchPara);
-    return _doSearch(serchPara);
+    return _doSearch(serchPara,type);
   }
-  function _doSearch(serchPara){
+  function _doSearch(serchPara,type){
     serchPara.count=FacSearch.options.countRes;
     FacSearch.searching=true;
     FacSearch.resultSelected=-1;
     
-    return FacApi.callApi('steefac','search',serchPara).then(
+    return FacApi.callApi(type,'search',serchPara).then(
       function(s){
         FacSearch.searching=false;
         FacSearch.resultTime= +new Date();//用来标记搜索结果是否更新
