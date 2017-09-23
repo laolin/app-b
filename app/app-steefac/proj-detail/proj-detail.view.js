@@ -26,6 +26,10 @@ templateUrl: 'app-steefac/proj-detail/proj-detail.view.template.html',
     
     FacApi.callApi('steeproj','detail',{id:id}).then(function(s){
       $log.log('detail',s);
+      if(!s) {
+        $location.path( "/" );
+        return;
+      }
       FacDefine.formatObj(s);
       $scope.detail.obj=s;
       $scope.fac=s;

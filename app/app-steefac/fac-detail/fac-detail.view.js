@@ -26,6 +26,10 @@ templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
     
     FacApi.callApi('steefac','detail',{id:id}).then(function(s){
       $log.log('detail',s);
+      if(!s) {
+        $location.path( "/" );
+        return;
+      }
       FacDefine.formatObj(s);
       $scope.detail.obj=s;
       $scope.fac=s;
@@ -34,21 +38,24 @@ templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
       $scope.goodat=[];
       s.goodat.split(',').forEach(function(val,ind){
         $scope.goodat[ind]={text:val,icon:'check-circle'};
-      })
-    });
-    FacApi.callApi('stee_user','get_admin_of_fac',{id:id}).then(function(s){
-      $log.log('get_admin_of_fac',s);
-      if(s) {
-        var uids=[];
-        for(var i=s.length;i--; ) {
-          uids.push({uid:s[i].uid});
+      });
+      _get_admin_of_fac();
+    })
+    function _get_admin_of_fac(){
+      FacApi.callApi('stee_user','get_admin_of_fac',{id:id}).then(function(s){
+        $log.log('get_admin_of_fac',s);
+        if(s) {
+          var uids=[];
+          for(var i=s.length;i--; ) {
+            uids.push({uid:s[i].uid});
+          }
+          userData.requireUsersInfo(uids).then(function(){
+            $scope.uids=uids;
+            $scope.usersInfo=userData.usersInfo;          
+          });
         }
-        userData.requireUsersInfo(uids).then(function(){
-          $scope.uids=uids;
-          $scope.usersInfo=userData.usersInfo;          
-        });
-      }
-    });
+      });
+    }
 
     $scope.$on('$viewContentLoaded', function () {
     });
