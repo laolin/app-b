@@ -204,6 +204,8 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   }
   
   function newSearchMarkers(rs,first,len,fn_infoData,type) {
+    
+    var icons={steefac:'cubes',steeproj:'university'};
     //selMarker已ready，说明可以安全地创建其他marker
     getSelMarker().then(function(){
       if(FacMap.searchMarkers[type])for(var i=0;i<FacMap.searchMarkers[type].length;i++) {
@@ -228,7 +230,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
           minlat=Math.min(minlat,lat);
         }
       
-        FacMap.searchMarkers[type][j]=_newMarker('#fff','16px','road',[lng/1E7,lat/1E7],false,(''+rs[i].name).substr(0,4));
+        FacMap.searchMarkers[type][j]=_newMarker('#fff','16px',icons[type],[lng/1E7,lat/1E7],false,(''+rs[i].name).substr(0,4));
         FacMap.searchMarkers[type][j].show();
         FacMap.searchMarkers[type][j].facObj=rs[i];
         FacMap.searchMarkers[type][j].facIndex=i;
