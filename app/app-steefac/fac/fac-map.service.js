@@ -138,7 +138,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   }  
   
   function _selPosition(lnglat) {
-    FacMap.selectedPosition=msg.lnglat
+    FacMap.selectedPosition=lnglat
     
     mapData.plugins.geocoder.getAddress(lnglat, function(status, result) {
       if (status === 'complete' && result.info === 'OK') {
