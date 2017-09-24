@@ -52,11 +52,13 @@ angular.module('steefac')
 
         
         $scope.$on('$viewContentLoaded', function () {
+          FacMap.canClick=1;
           //先备份，然后放在models中修改
           angular.extend(addrInput_bak,FacMap.addrInput);
           $scope.models=FacMap.addrInput;
         });
         $scope.$on('$destroy', function () {
+          FacMap.canClick=false;
           FacMap.getSelMarker().then(function(m){
             m.hide();
             if(pos_bak)m.setPosition(pos_bak);

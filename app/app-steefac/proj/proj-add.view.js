@@ -13,6 +13,7 @@ angular.module('steefac')
           return $location.path( '/my');;
         }
         $scope.$on('$viewContentLoaded', function () {
+          FacMap.canClick=1;
           FacMap.getSelMarker().then(function(m){
             m.setAwesomeIcon('header');
             m.setLabel({content:'可拖动定位',offset:new AMap.Pixel(-12,-19)})
@@ -20,6 +21,7 @@ angular.module('steefac')
           FacMap.showSelMarker(1);
         });
         $scope.$on('$destroy', function () {
+          FacMap.canClick=false;
           FacMap.showSelMarker(0);
         });
 

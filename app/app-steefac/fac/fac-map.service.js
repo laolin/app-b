@@ -83,9 +83,8 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   
   //给madData自动回调的
   function onClick(msg) {
-    $log.log('--mapData.onClick--',msg);
+    if(!FacMap.canClick)return;
     _moveMarker(msg.lnglat);
-
     _selPosition(msg.lnglat);
   }
   function _moveMarker(lnglat) {
@@ -290,6 +289,8 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   
   //===============
   appData.FacMap=FacMap;
+  
+  FacMap.canClick=false;
   
   FacMap.searchAddr=searchAddr;
   FacMap.getSelMarker=getSelMarker;
