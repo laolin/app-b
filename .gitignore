@@ -1,3 +1,4 @@
+app/index.html
 app/bower_components
 bower_components
 node_modules
@@ -52,4 +53,3 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
-app/index.html
