@@ -97,7 +97,7 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
     FacSearch.searchResult[type+'.ver']=0;
     FacSearch.resultSelected=-1;
     FacSearch.searching=0;
-    FacMap.newSearchMarkers([],0,0,0,0);//清除地图中的标记
+    FacMap.newSearchMarkers([],0,0,0,type);//清除地图中的标记
   }
   
   //从搜索结果 obj[j] 生成 infoWindow的数据

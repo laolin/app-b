@@ -11,6 +11,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   var FacMap={
     loading:true,
     mapData:mapData,
+    myPosition:{},
     addrInput:{},
     
     selLocation:{},
@@ -53,8 +54,11 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   function init() {
     appData.mapData.ready(function(){
       mapData.onClick=onClick;
+
+      FacMap.myPosition=appData.mapData.map.getCenter();
       mapData.onLocateComplete=onLocateComplete;
       FacMap.loading=false;
+
       AMapUI.loadUI(['overlay/AwesomeMarker'], function(AwesomeMarker) {
         FacMap.AwesomeMarker=AwesomeMarker;
         FacMap.selMarker=
@@ -161,7 +165,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   //给madData自动回调的
   function onLocateComplete(obj,a,b,c) {
     $log.log('LacCmp==',obj);
-    obj.lnglat=obj.position;//高德的成员名字不统一。。。
+    FacMap.myPosition=obj.position;
     //_moveMarker(obj.lnglat);
     //_msg('已自动定位到您的位置',7);
   }
@@ -276,6 +280,10 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       minlng/=1e7;
       maxlat/=1e7;
       minlat/=1e7;
+      if(Math.abs(minlng)>180)minlng=FacMap.myPosition.lng;
+      if(Math.abs(minlat)>180)minlat=FacMap.myPosition.lat;
+      if(Math.abs(maxlng)>180)maxlng=FacMap.myPosition.lng;
+      if(Math.abs(maxlat)>180)maxlat=FacMap.myPosition.lat;
       FacMap.searchMarkersBounds[type]=new AMap.Bounds([minlng,minlat],[maxlng,maxlat]);
       mapData.map.setBounds(FacMap.searchMarkersBounds[type]);
       

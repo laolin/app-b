@@ -13,7 +13,7 @@ angular.module('steefac')
           return $location.path( '/my');;
         }
         $scope.$on('$viewContentLoaded', function () {
-          FacMap.selPositionStart('thumb-tack');
+          FacMap.selPositionStart('university');
 
         });
         $scope.$on('$destroy', function () {
