@@ -20,16 +20,14 @@ controller: ['$scope','$http','$log','$location','AppbData','FacSearch','FacMap'
     
     AppbData.activeHeader('home', '搜索钢构产能'); 
     $scope.$on('$viewContentLoaded', function () {
+      //FacMap.selPositionStart('search');
       FacMap.showSearchMarkers(1,$scope.searchType);
-      FacMap.getSelMarker().then(function(m){
-        FacMap.selPositionStart('search');
-      });
 
     });
     $scope.$on('$destroy', function () {
       FacMap.showSearchMarkers(0,$scope.searchType);
       FacMap.hideInfoWindow();
-      FacMap.selPositionEnd();
+      //FacMap.selPositionEnd();
     });
     
     
