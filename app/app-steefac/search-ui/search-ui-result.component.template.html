@@ -2,6 +2,8 @@
 {{$ctrl.cellsTitle}} <a href ng-click='$ctrl.searchData.clearResult($ctrl.searchType)'>重新搜索</a>
 </div> 
 
+<appb-weui-cells title='' cells='$ctrl.cellsStat' ng-if='$ctrl.cells.length'>
+</appb-weui-cells>
 
 <appb-weui-cells title='' cells='$ctrl.cells' ng-if='$ctrl.cells.length'>
 </appb-weui-cells>
