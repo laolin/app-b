@@ -1,7 +1,8 @@
   <div class="fac-fix-top">
     <amap-main ></amap-main>
   </div>
-  <div ng-class='{"fac-fix-scroll":$ctrl.searchData.result.length}'>
+  <div class='fac-fix-scroll'
+  ng-class='{"fffac-fix-scroll":$ctrl.searchData.result.length}'>
     <search-ui-options 
     search-data="$ctrl.searchData"  search-type='$ctrl.searchType'
     ng-if='!$ctrl.searchData.searchResult[$ctrl.searchType].length'></search-ui-options>
@@ -11,5 +12,5 @@
       result-ver='$ctrl.searchData.searchResult[$ctrl.searchType+".ver"]'
       page-number='$ctrl.searchData.showPageNumber[$ctrl.searchType]' page-size='$ctrl.searchData.showPageSize'
     ></search-ui-result>
+    <fac-ui-copyright></fac-ui-copyright>
   </div>
-  <fac-ui-copyright></fac-ui-copyright>
