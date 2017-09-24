@@ -16,14 +16,10 @@ angular.module('steefac')
           return $location.path( '/my');;
         }
         $scope.$on('$viewContentLoaded', function () {
-          FacMap.getSelMarker().then(function(m){
-            m.setAwesomeIcon('header');
-            m.setLabel({content:'可拖动定位',offset:new AMap.Pixel(-12,-19)})
-          })
-          FacMap.showSelMarker(1);
+          FacMap.selPositionStart('header');
         });
         $scope.$on('$destroy', function () {
-          FacMap.showSelMarker(0);
+          FacMap.selPositionEnd();
         });
 
         AppbData.activeHeader('home', '新钢构厂'); 

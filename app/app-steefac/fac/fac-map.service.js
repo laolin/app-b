@@ -78,14 +78,47 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
 
     })
   }
-  
+    
+  //只在以下两个函数使用的变量：    
+  var _pos_bak=false;
+  function selPositionStart(icon,label,pos) {
+    FacMap.getSelMarker().then(function(m){
+      m.setAwesomeIcon(icon);
+      m.show(1);
+      
+      if(pos){
+        _pos_bak=m.getPosition();
+        m.setPosition(pos);
+      }
+      else pos=m.getPosition();
 
+      if(label)m.setLabel({content:label,offset:new AMap.Pixel(-12,-19)})
+      else m.setLabel({content:'',offset:new AMap.Pixel(-12,-19)});
+
+      FacMap.mapData.map.setZoomAndCenter(16,pos);
+      FacMap.mapData.map.panBy(0,0);//不动一点点有时显示不出来 marker，不知为何
+      
+      FacMap.canClick=true;
+      //angular.extend(addrInput_bak,FacMap.addrInput);
+   });
+  }
+  function selPositionEnd() {
+
+    FacMap.getSelMarker().then(function(m){
+      m.hide();
+      if(_pos_bak){
+        m.setPosition(_pos_bak);
+        _pos_bak=false;
+      }
+      //angular.extend(FacMap.addrInput,addrInput_bak);
+      FacMap.canClick=false;
+    })
+  }
   
   //给madData自动回调的
   function onClick(msg) {
-    $log.log('--mapData.onClick--',msg);
+    if(!FacMap.canClick)return;
     _moveMarker(msg.lnglat);
-
     _selPosition(msg.lnglat);
   }
   function _moveMarker(lnglat) {
@@ -205,6 +238,8 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   }
   
   function newSearchMarkers(rs,first,len,fn_infoData,type) {
+    
+    var icons={steefac:'cubes',steeproj:'university'};
     //selMarker已ready，说明可以安全地创建其他marker
     getSelMarker().then(function(){
       if(FacMap.searchMarkers[type])for(var i=0;i<FacMap.searchMarkers[type].length;i++) {
@@ -229,7 +264,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
           minlat=Math.min(minlat,lat);
         }
       
-        FacMap.searchMarkers[type][j]=_newMarker('#fff','16px','road',[lng/1E7,lat/1E7],false,(''+rs[i].name).substr(0,4));
+        FacMap.searchMarkers[type][j]=_newMarker('#fff','16px',icons[type],[lng/1E7,lat/1E7],false,(''+rs[i].name).substr(0,4));
         FacMap.searchMarkers[type][j].show();
         FacMap.searchMarkers[type][j].facObj=rs[i];
         FacMap.searchMarkers[type][j].facIndex=i;
@@ -290,6 +325,9 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   
   //===============
   appData.FacMap=FacMap;
+  
+  FacMap.selPositionStart=selPositionStart;
+  FacMap.selPositionEnd=selPositionEnd;
   
   FacMap.searchAddr=searchAddr;
   FacMap.getSelMarker=getSelMarker;
