@@ -55,7 +55,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     appData.mapData.ready(function(){
       mapData.onClick=onClick;
 
-      FacMap.myPosition=new AMap.LngLat(121.5044,31.285);//同济大学
+      FacMap.myPosition=appData.mapData.map.getCenter();
       mapData.onLocateComplete=onLocateComplete;
       FacMap.loading=false;
 
