@@ -18,7 +18,7 @@ controller: ['$scope','$http','$log','$location','AppbData','FacSearch','FacMap'
     
     var appData=AppbData.getAppData();
     
-    AppbData.activeHeader('home', '查找钢构产能'); 
+    AppbData.activeHeader('home', '搜索产能需求'); 
     $scope.$on('$viewContentLoaded', function () {
       FacMap.showSearchMarkers(1,$scope.searchType);
     });
