@@ -17,7 +17,8 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     selName:'',
     selMarker:false,
     
-    searchMarkers:{},
+    searchMarkers:{},//搜索结果的AwesomeMarker
+    searchMarkersBounds:{},//搜索结果的AwesomeMarker的范围边界
     
     creating:false
   };
@@ -210,9 +211,25 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
         FacMap.searchMarkers[type][i].setMap(null);
       }
       FacMap.searchMarkers[type]=[];
-      //_newMarker('#fff','18px','header',appData.mapData.map.getCenter(),true)
+
+      var maxlat=-555e7;
+      var maxlng=-555e7;
+      var minlat=555e7;
+      var minlng=555e7;
+      var lng;
+      var lat;
+
       for(var i=first,j=0;i<rs.length&&i<first+len;i++,j++) {
-        FacMap.searchMarkers[type][j]=_newMarker('#fff','16px','road',[rs[i].lngE7/1E7,rs[i].latE7/1E7],false,(''+rs[i].name).substr(0,4));
+        lng=rs[i].lngE7;
+        lat=rs[i].latE7;
+        if(Math.abs(lng)>0.1 &&  Math.abs(lat)>0.1) {
+          maxlng=Math.max(maxlng,lng);
+          minlng=Math.min(minlng,lng);
+          maxlat=Math.max(maxlat,lat);
+          minlat=Math.min(minlat,lat);
+        }
+      
+        FacMap.searchMarkers[type][j]=_newMarker('#fff','16px','road',[lng/1E7,lat/1E7],false,(''+rs[i].name).substr(0,4));
         FacMap.searchMarkers[type][j].show();
         FacMap.searchMarkers[type][j].facObj=rs[i];
         FacMap.searchMarkers[type][j].facIndex=i;
@@ -220,6 +237,12 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
           showInfoWindow(e.target.facObj,fn_infoData,type);
         });
       }
+      maxlng/=1e7;
+      minlng/=1e7;
+      maxlat/=1e7;
+      minlat/=1e7;
+      FacMap.searchMarkersBounds[type]=new AMap.Bounds([minlng,minlat],[maxlng,maxlat]);
+      mapData.map.setBounds(FacMap.searchMarkersBounds[type]);
       
     })
   }
@@ -228,6 +251,8 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       if(s)FacMap.searchMarkers[type][i].show();
       else FacMap.searchMarkers[type][i].hide();
     }
+    if(s&&FacMap.searchMarkersBounds[type])
+      mapData.map.setBounds(FacMap.searchMarkersBounds[type]);
   }
   
   function hideInfoWindow(){
