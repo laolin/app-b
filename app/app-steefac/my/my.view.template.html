@@ -19,8 +19,9 @@
           <span ng-if='! $ctrl.userData.wxinfo'>
             {{$ctrl.userData.uname}}
           </span>
+          
         </h4>
-        <p class="weui-media-box__desc">如有显示异常，可在此向右滑动重登录试试</p>
+        <p class="weui-media-box__desc">UID:{{$ctrl.userData.uid}}</p>
       </div>
     </a>
   </div>
@@ -33,6 +34,17 @@
       {text:'发现',url:'/search',icon:'search',notes:'搜索钢构产能'}
       ,
       {text:'我的钢构厂',url:'/my-fac',icon:'user-circle',notes:''}
+    ]"
+  >
+  </appb-weui-cells>
+</div>
+
+<div ng-if='$ctrl.user.isSysAdmin()'> 
+  <appb-weui-cells
+    title='系统管理功能'
+    cells="[
+      {text:'创建钢构厂',url:'/fac-add',icon:'plus',notes:'从地图先定位'},
+      {text:'增加用钢项目信息',url:'/proj-add',icon:'plus',notes:''}
     ]"
   >
   </appb-weui-cells>
@@ -67,19 +79,5 @@
   </appb-weui-cells>
 </div>
 
-<div ng-if='$ctrl.user.isSysAdmin()'> 
-  <appb-weui-cells
-    title='系统管理功能'
-    cells="[
-      {text:'创建钢构厂',url:'/fac-add',icon:'plus',notes:'从地图先定位'},
-      {text:'增加用钢项目信息',url:'/proj-add',icon:'plus',notes:''}
-    ]"
-  >
-  </appb-weui-cells>
-</div>
 
-
-
-<div class="weui-footer">
-  <p class="weui-footer__text">Copyright &copy; 2017 请高手</p>
-</div>
+<fac-ui-copyright></fac-ui-copyright>

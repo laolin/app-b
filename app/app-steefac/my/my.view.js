@@ -4,7 +4,7 @@
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/my', {
-    templateUrl: 'app-steefac/my/my.template.html',
+    templateUrl: 'app-steefac/my/my.view.template.html',
     controller: ['$scope','$timeout','$log','AppbFeedService','AppbData','AppbUiService','AmapMainData','FacUser',
       function ($scope,$timeout,$log,AppbFeedService,AppbData,AppbUiService,AmapMainData,FacUser) {
 
