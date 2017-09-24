@@ -81,9 +81,6 @@ start #main-container
   overflow: auto;
   background-color:#eee;
 }
-#main-container {
-  top: 0px;
-}
 #main-header + #main-container {
   top: 44px;
 }
