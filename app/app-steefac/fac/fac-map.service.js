@@ -14,7 +14,8 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     myPosition:{},
     addrInput:{},
     
-    selLocation:{},
+    selectedPosition:{},//LngLat对象
+    selectedLocation:{},//解析后的地址信息对象
     selName:'',
     selMarker:false,
     
@@ -123,6 +124,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   function onClick(msg) {
     if(!FacMap.canClick)return;
     _moveMarker(msg.lnglat);
+    FacMap.selectedPosition=msg.lnglat
     _selPosition(msg.lnglat);
   }
   function _moveMarker(lnglat) {
@@ -141,7 +143,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
         result.regeocode.formattedAddress; //返回地址描述
         $log.log('--_selPosition Result->',result.regeocode.addressComponent);
         $timeout(function(){
-          FacMap.selLocation=result.regeocode;
+          FacMap.selectedLocation=result.regeocode;
           FacMap.selName=result.regeocode.formattedAddress;
           
           
