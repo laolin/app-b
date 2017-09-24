@@ -15,8 +15,6 @@ angular.module('steefac')
         if(!FacUser.isAdmin()) {
           return $location.path( '/my');;
         }
-        var addrInput_bak={};
-        var mapCenter_bak,mapZoom_bak,pos_bak;
         
         AppbData.activeHeader('home', '修改用钢项目信息'); 
         var search=$location.search();
@@ -29,42 +27,18 @@ angular.module('steefac')
             return;
           }
           ProjDefine.formatObj(s);
-          angular.extend($scope.models,s);
-
-
-          FacMap.getSelMarker().then(function(m){
-            var pos=new AMap.LngLat(s.lngE7/1e7,s.latE7/1e7);
-            pos_bak=m.getPosition();
-
-            m.setAwesomeIcon('bolt');
-            m.setLabel({content:'',offset:new AMap.Pixel(-12,-19)});
-            m.setPosition(pos);
-            m.show(1);
-
-            mapCenter_bak=FacMap.mapData.map.getCenter();
-            mapZoom_bak=FacMap.mapData.map.getZoom();
-            FacMap.mapData.map.setZoomAndCenter(16,pos);
-            FacMap.mapData.map.panBy(0,0);//不动一点点有时显示不出来 marker，不知为何
-         });
           
+          FacMap.selPositionStart('university','',new AMap.LngLat(s.lngE7/1e7,s.latE7/1e7));
+          angular.extend($scope.models,s);
 
         });
 
         
         $scope.$on('$viewContentLoaded', function () {
-          FacMap.canClick=1;
-          //先备份，然后放在models中修改
-          angular.extend(addrInput_bak,FacMap.addrInput);
           $scope.models=FacMap.addrInput;
         });
         $scope.$on('$destroy', function () {
-          FacMap.canClick=false;
-          FacMap.getSelMarker().then(function(m){
-            m.hide();
-            if(pos_bak)m.setPosition(pos_bak);
-            if(mapZoom_bak)FacMap.mapData.map.setZoomAndCenter(mapZoom_bak,mapCenter_bak);
-          })
-          angular.extend(FacMap.addrInput,addrInput_bak);
+          FacMap.selPositionEnd();
         });
 
         
