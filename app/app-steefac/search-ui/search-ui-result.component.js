@@ -25,7 +25,7 @@ angular.module('steefac')
         genCells();
         var r=ctrl.searchData.searchResult[ctrl.searchType];
         if(!r || !r.length)return;
-        ctrl.cellsTitle='共'+r.length+'个结果';
+        ctrl.cellsTitle='共'+r.length+'项结果';
         var allPage=Math.ceil(r.length/ctrl.pageSize);
         var onFirst=function (){
             ctrl.searchData.showSearchRes(ctrl.searchType,ctrl.pageNumber=0);
@@ -64,15 +64,26 @@ angular.module('steefac')
       
       var r=ctrl.searchData.searchResult[ctrl.searchType];
       ctrl.cells=[];
+      var sum=0;
+      var val;
       if(!r || !r.length)return;
       var ps=ctrl.pageSize;
       var pn=ctrl.pageNumber;
+      
       for(var i=0,j=ps*pn;i<ps&&j<r.length;i++,j++){
         var dt=new Date(1000*r[j].update_at);
         var u_at=(dt.getYear()+1900)+'.'+(dt.getMonth()+1)+'.'+dt.getDate();
 
         ctrl.cells[i]=ctrl.searchData.cellOfObj(r,j,ctrl.searchType);
+        val = ctrl.searchData.valueOfObj(r,j,ctrl.searchType);
+        sum += val.val;
       }
+      var nshow=i;
+      ctrl.cellsStat=[{
+          text:'第'+(ps*pn+1)+'~'+(j)+'项，共计'+val.name+sum+val.unit,
+          url:'',
+          icon:''
+      }];
     }
     
     ctrl.level=['特级','一级','二级','三级'];

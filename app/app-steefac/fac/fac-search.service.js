@@ -14,7 +14,7 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
   
   appData.FacSearch=FacSearch;
 
-  FacSearch.showPageSize=10;//显示满一页多少个
+  FacSearch.showPageSize=5;//显示满一页多少个
   FacSearch.showPageNumber={};//当前显示第几页
   FacSearch.showCount=0;//实际显示出来多少个（由于最后一页可能不满页）
   
@@ -175,7 +175,16 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
     return {text:'err type:'+type,icon:'question'};
 
   }
-
+  //从搜索结果 obj[j] 生成 数字
+  FacSearch.valueOfObj=function(obj,j,type) {
+    if(type=='steeproj'){
+      return {val:+obj[j].size,name:'需求用钢',unit:'吨'};
+    }
+    if(type=='steefac'){
+      return {val:+obj[j].cap_6m,name:'产能',unit:'吨'};
+    }
+    return {};
+  }
   
   return  FacSearch;
   
