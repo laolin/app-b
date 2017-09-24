@@ -57,6 +57,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       mapData.onClick=onClick;
 
       FacMap.myPosition=appData.mapData.map.getCenter();
+      FacMap.selectedPosition=appData.mapData.map.getCenter();
       mapData.onLocateComplete=onLocateComplete;
       FacMap.loading=false;
 
@@ -64,6 +65,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
         FacMap.AwesomeMarker=AwesomeMarker;
         FacMap.selMarker=
           _newMarker('#fff','18px','header',appData.mapData.map.getCenter(),true,'可拖动定位');
+        FacMap.selectedPosition=appData.mapData.map.getCenter();
         
         //_selPosition(appData.mapData.map.getCenter());
         FacMap.selMarker.on('dragend',function(msg){
@@ -124,7 +126,6 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   function onClick(msg) {
     if(!FacMap.canClick)return;
     _moveMarker(msg.lnglat);
-    FacMap.selectedPosition=msg.lnglat
     _selPosition(msg.lnglat);
   }
   function _moveMarker(lnglat) {
@@ -137,6 +138,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   }  
   
   function _selPosition(lnglat) {
+    FacMap.selectedPosition=msg.lnglat
     
     mapData.plugins.geocoder.getAddress(lnglat, function(status, result) {
       if (status === 'complete' && result.info === 'OK') {
@@ -282,12 +284,17 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       minlng/=1e7;
       maxlat/=1e7;
       minlat/=1e7;
-      if(Math.abs(minlng)>180)minlng=FacMap.myPosition.lng;
-      if(Math.abs(minlat)>180)minlat=FacMap.myPosition.lat;
-      if(Math.abs(maxlng)>180)maxlng=FacMap.myPosition.lng;
-      if(Math.abs(maxlat)>180)maxlat=FacMap.myPosition.lat;
+      $log.log('FacMap.selectedPosition######1#',maxlng,FacMap.selectedPosition);
+      
+      //大约显示至 600米 范围
+      if(Math.abs(minlng)>180)minlng=FacMap.selectedPosition.lng-0.003;
+      if(Math.abs(minlat)>180)minlat=FacMap.selectedPosition.lat-0.003;
+      if(Math.abs(maxlng)>180)maxlng=FacMap.selectedPosition.lng+0.003;
+      if(Math.abs(maxlat)>180)maxlat=FacMap.selectedPosition.lat+0.003;
+
       FacMap.searchMarkersBounds[type]=new AMap.Bounds([minlng,minlat],[maxlng,maxlat]);
       mapData.map.setBounds(FacMap.searchMarkersBounds[type]);
+      $log.log('FacMap.selectedPosition######2#',type,[minlng,minlat],[maxlng,maxlat]);
       
     })
   }
