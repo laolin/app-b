@@ -14,7 +14,7 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
   
   appData.FacSearch=FacSearch;
 
-  FacSearch.showPageSize=10;//显示满一页多少个
+  FacSearch.showPageSize=5;//显示满一页多少个
   FacSearch.showPageNumber={};//当前显示第几页
   FacSearch.showCount=0;//实际显示出来多少个（由于最后一页可能不满页）
   
