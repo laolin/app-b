@@ -21,12 +21,12 @@ controller: ['$scope','$http','$log','$location','AppbData','FacSearch','FacMap'
     AppbData.activeHeader('home', '搜索钢构产能'); 
     $scope.$on('$viewContentLoaded', function () {
       //FacMap.selPositionStart('search');
-      FacMap.showSearchMarkers(1,$scope.searchType);
+      FacSearch.showSearchMarkers(1,$scope.searchType);
 
     });
     $scope.$on('$destroy', function () {
-      FacMap.showSearchMarkers(0,$scope.searchType);
-      FacMap.hideInfoWindow();
+      FacSearch.showSearchMarkers(0,$scope.searchType);
+      FacSearch.hideInfoWindow();
       //FacMap.selPositionEnd();
     });
     

@@ -18,8 +18,9 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
   FacSearch.showPageNumber={};//当前显示第几页
   FacSearch.showCount=0;//实际显示出来多少个（由于最后一页可能不满页）
   
+  FacSearch.searchType='';
   FacSearch.searchResult={};
-  FacSearch.resultSelected=-1;//暂未使用
+  FacSearch.resultSelected={};
   FacSearch.searching=0;
   FacSearch.resultTime=0;//准备弃用
   
@@ -43,7 +44,7 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
     var serchPara={s:FacSearch.searchWord};
 
     if(mapData.map) {
-      FacMap.hideInfoWindow()
+      FacSearch.hideInfoWindow()
       bd=mapData.map.getBounds( );
       mapData.northeast=bd.northeast;
       mapData.southwest=bd.southwest;
@@ -67,7 +68,7 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
   function _doSearch(serchPara,type){
     serchPara.count=FacSearch.options.countRes;
     FacSearch.searching=true;
-    FacSearch.resultSelected=-1;
+    delete FacSearch.resultSelected[type];
     
     return FacApi.callApi(type,'search',serchPara).then(
       function(s){
@@ -81,15 +82,19 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
 
     //$location.url('/search-result');  
   }
+
+
   FacSearch.showSearchRes=function (type,pn){
-    FacMap.hideInfoWindow()
+    FacSearch.hideInfoWindow()
+    
+    FacSearch.searchType=type;
     FacSearch.showPageNumber[type]=pn;
     var ps=FacSearch.showPageSize;
     var ln=FacSearch.searchResult[type].length;
     
     FacSearch.showCount=Math.min(ps,ln-pn*ps);
 
-    FacMap.newSearchMarkers(FacSearch.searchResult[type],pn*ps,ps,FacSearch.infoOfObj,type);
+    FacSearch.newSearchMarkers(FacSearch.searchResult[type],pn*ps,ps,FacSearch.infoOfObj,type);
 
   }
   FacSearch.clearResult=function (type){
@@ -97,8 +102,122 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
     FacSearch.searchResult[type+'.ver']=0;
     FacSearch.resultSelected=-1;
     FacSearch.searching=0;
-    FacMap.newSearchMarkers([],0,0,0,type);//清除地图中的标记
+    FacSearch.newSearchMarkers([],0,0,0,type);//清除地图中的标记
   }
+
+
+
+
+
+
+    
+  FacSearch.newSearchMarkers=function(rs,first,len,infoOfObj,type) {
+    
+    var icons={steefac:'cubes',steeproj:'university'};
+    //selMarker已ready，说明可以安全地创建其他marker
+    FacMap.getSelMarker().then(function(){
+      if(FacMap.searchMarkers[type])for(var i=0;i<FacMap.searchMarkers[type].length;i++) {
+        FacMap.searchMarkers[type][i].setMap(null);
+      }
+      FacMap.searchMarkers[type]=[];
+
+      var maxlat=-555e7;
+      var maxlng=-555e7;
+      var minlat=555e7;
+      var minlng=555e7;
+      var lng;
+      var lat;
+
+      for(var i=first,j=0;i<rs.length&&i<first+len;i++,j++) {
+        lng=rs[i].lngE7;
+        lat=rs[i].latE7;
+        if(Math.abs(lng)>0.1 &&  Math.abs(lat)>0.1) {
+          maxlng=Math.max(maxlng,lng);
+          minlng=Math.min(minlng,lng);
+          maxlat=Math.max(maxlat,lat);
+          minlat=Math.min(minlat,lat);
+        }
+      
+        FacMap.searchMarkers[type][j]=FacMap.newMarker('#fff','16px',icons[type],[lng/1E7,lat/1E7],false,(''+rs[i].name).substr(0,4));
+        FacMap.searchMarkers[type][j].show();
+        FacMap.searchMarkers[type][j].facObj=rs[i];
+        FacMap.searchMarkers[type][j].facIndex=i;
+        FacMap.searchMarkers[type][j].on('click', function(e){
+          //fffffff
+          FacSearch.searchType=type;
+          FacSearch.resultSelected[type]=i;
+          FacSearch.showInfoWindow(e.target.facObj,type);
+        });
+      }
+      maxlng/=1e7;
+      minlng/=1e7;
+      maxlat/=1e7;
+      minlat/=1e7;
+      
+      //大约显示至 600米 范围
+      if(Math.abs(minlng)>180)minlng=FacMap.selectedPosition.lng-0.003;
+      if(Math.abs(minlat)>180)minlat=FacMap.selectedPosition.lat-0.003;
+      if(Math.abs(maxlng)>180)maxlng=FacMap.selectedPosition.lng+0.003;
+      if(Math.abs(maxlat)>180)maxlat=FacMap.selectedPosition.lat+0.003;
+
+      FacMap.searchMarkersBounds[type]=new AMap.Bounds([minlng,minlat],[maxlng,maxlat]);
+      mapData.map.setBounds(FacMap.searchMarkersBounds[type]);
+      $log.log('FacMap.selectedPosition######2#',type,[minlng,minlat],[maxlng,maxlat]);
+      
+    })
+  }
+
+
+
+
+  FacSearch.showSearchMarkers=function(s,type) {
+    if(FacMap.searchMarkers[type])for(var i=0;i<FacMap.searchMarkers[type].length;i++) {
+      if(s)FacMap.searchMarkers[type][i].show();
+      else FacMap.searchMarkers[type][i].hide();
+    }
+    if(s&&FacMap.searchMarkersBounds[type])
+      mapData.map.setBounds(FacMap.searchMarkersBounds[type]);
+  }
+
+
+
+
+  
+  FacSearch.hideInfoWindow=function(){
+    FacMap.getInfoWindow().then(function(iw){
+      iw.close();
+    });
+  }
+  FacSearch.showInfoWindow=function(o,type) {
+    FacMap.getInfoWindow().then(function(iw){
+      var da=FacSearch.infoOfObj(o,type);
+      
+      AMapUI.loadUI(['overlay/SimpleInfoWindow'], function(SimpleInfoWindow)
+      {
+
+        
+        FacMap.infoWindow = new SimpleInfoWindow({
+          offset: new AMap.Pixel(0, -32)
+        });
+
+        FacMap.infoWindow.setInfoTitle(da.infoTitle);
+
+        //设置标题内容
+        FacMap.infoWindow.setInfoBody(da.infoBody);
+
+        //设置主体内容
+        FacMap.infoWindow.setInfoTplData(da.infoTplData);
+        FacMap.infoWindow.open(mapData.map, [o.lngE7/1e7,o.latE7/1e7]);
+      
+      
+        
+      })
+    });
+  }  
+  
+  
+
+
   
   //从搜索结果 obj[j] 生成 infoWindow的数据
   FacSearch.infoOfObj=function(o,type) {
