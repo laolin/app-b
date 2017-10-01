@@ -12,7 +12,6 @@ controller: ['$scope','$http','$log','$location','AppbData','FacSearch','FacMap'
     }
     $scope.searchData=FacSearch;
     
-    FacSearch.searchType = 'steeproj';
     
 
     

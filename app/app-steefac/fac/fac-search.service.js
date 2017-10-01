@@ -18,7 +18,7 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
   FacSearch.showPageNumber={};//当前显示第几页
   FacSearch.showCount=0;//实际显示出来多少个（由于最后一页可能不满页）
   
-  FacSearch.searchType='';
+  FacSearch.searchType='steefac';
   FacSearch.searchResult={};
   FacSearch.searchResultSelected=-1;
   FacSearch.searching=0;
