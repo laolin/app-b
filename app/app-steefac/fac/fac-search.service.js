@@ -295,14 +295,16 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
       return {
           text:''+(j+1)+'.'+obj[j].name+'，用钢量'+obj[j].need_steel+
           '吨，项目规模' +obj[j].size+ '㎡，用钢时间：'+omonth[obj[j].in_month],
-          url:"/proj-detail?id="+obj[j].id,
+          url:function(){FacSearch.selectOne(j,type)},
+          //url:"/proj-detail?id="+obj[j].id,
           icon:'id-card'}
     }
     if(type=='steefac'){
       return {
           text:''+(j+1)+'.'+obj[j].name+'，剩余产能'+obj[j].cap_6m+
           '吨，擅长构件：'+obj[j].goodat,
-          url:"/fac-detail?id="+obj[j].id,
+          url:function(){FacSearch.selectOne(j,type)},
+          //url:"/fac-detail?id="+obj[j].id,
           icon:'id-card'}
     }
     return {text:'err type:'+type,icon:'question'};
