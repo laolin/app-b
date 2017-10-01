@@ -93,8 +93,10 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       m.setAwesomeIcon(icon);
       m.show(1);
       
-      if(pos){
+      if(pos && !_pos_bak){
         _pos_bak=m.getPosition();
+      }
+      if(pos){
         m.setPosition(pos);
       }
       else pos=m.getPosition();
