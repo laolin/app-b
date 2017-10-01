@@ -8,7 +8,7 @@
     <!-- 1,搜索选项 -->
     <search-ui-options 
     search-data="$ctrl.searchData"  search-type='$ctrl.searchType'
-    ng-if='!$ctrl.searchData.searchResult[$ctrl.searchType].length'></search-ui-options>
+    ng-if='!$ctrl.searchData.searchResult[$ctrl.searchType+".ver"]'></search-ui-options>
     
     <!-- 2,搜索结果 -->
     <search-ui-result
