@@ -15,7 +15,7 @@ angular.module('appb')
         }
         ctrl.$onChanges=function(chg){
 
-          if(chg.pgData){
+          if(chg.pgData&&ctrl.pgData){
             ctrl.pgData.first='<<';
             ctrl.pgData.prev='<';
             ctrl.pgData.next='>';
