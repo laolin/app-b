@@ -19,12 +19,12 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     selName:'',
     selMarker:false,
     
-    searchMarkers:{},//搜索结果的AwesomeMarker
+    searchMarkers:[],//搜索结果的AwesomeMarker
     searchMarkersBounds:{},//搜索结果的AwesomeMarker的范围边界
     
     creating:false
   };
-  function _newMarker(cssColor,cssSize,icon,position,draggable,text) {
+  FacMap.newMarker=function(cssColor,cssSize,icon,position,draggable,text) {
     return new FacMap.AwesomeMarker({
       //设置awesomeIcon
       awesomeIcon: icon, //可用的icons参见： http://fontawesome.io/icons/
@@ -64,7 +64,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       AMapUI.loadUI(['overlay/AwesomeMarker'], function(AwesomeMarker) {
         FacMap.AwesomeMarker=AwesomeMarker;
         FacMap.selMarker=
-          _newMarker('#fff','18px','header',appData.mapData.map.getCenter(),true,'可拖动定位');
+          FacMap.newMarker('#fff','18px','header',appData.mapData.map.getCenter(),true,'可拖动定位');
         FacMap.selectedPosition=appData.mapData.map.getCenter();
         
         //_selPosition(appData.mapData.map.getCenter());
@@ -93,8 +93,10 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       m.setAwesomeIcon(icon);
       m.show(1);
       
-      if(pos){
+      if(pos && !_pos_bak){
         _pos_bak=m.getPosition();
+      }
+      if(pos){
         m.setPosition(pos);
       }
       else pos=m.getPosition();
@@ -245,99 +247,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     });
   }
   
-  function newSearchMarkers(rs,first,len,fn_infoData,type) {
-    
-    var icons={steefac:'cubes',steeproj:'university'};
-    //selMarker已ready，说明可以安全地创建其他marker
-    getSelMarker().then(function(){
-      if(FacMap.searchMarkers[type])for(var i=0;i<FacMap.searchMarkers[type].length;i++) {
-        FacMap.searchMarkers[type][i].setMap(null);
-      }
-      FacMap.searchMarkers[type]=[];
 
-      var maxlat=-555e7;
-      var maxlng=-555e7;
-      var minlat=555e7;
-      var minlng=555e7;
-      var lng;
-      var lat;
-
-      for(var i=first,j=0;i<rs.length&&i<first+len;i++,j++) {
-        lng=rs[i].lngE7;
-        lat=rs[i].latE7;
-        if(Math.abs(lng)>0.1 &&  Math.abs(lat)>0.1) {
-          maxlng=Math.max(maxlng,lng);
-          minlng=Math.min(minlng,lng);
-          maxlat=Math.max(maxlat,lat);
-          minlat=Math.min(minlat,lat);
-        }
-      
-        FacMap.searchMarkers[type][j]=_newMarker('#fff','16px',icons[type],[lng/1E7,lat/1E7],false,(''+rs[i].name).substr(0,4));
-        FacMap.searchMarkers[type][j].show();
-        FacMap.searchMarkers[type][j].facObj=rs[i];
-        FacMap.searchMarkers[type][j].facIndex=i;
-        FacMap.searchMarkers[type][j].on('click', function(e){
-          showInfoWindow(e.target.facObj,fn_infoData,type);
-        });
-      }
-      maxlng/=1e7;
-      minlng/=1e7;
-      maxlat/=1e7;
-      minlat/=1e7;
-      $log.log('FacMap.selectedPosition######1#',maxlng,FacMap.selectedPosition);
-      
-      //大约显示至 600米 范围
-      if(Math.abs(minlng)>180)minlng=FacMap.selectedPosition.lng-0.003;
-      if(Math.abs(minlat)>180)minlat=FacMap.selectedPosition.lat-0.003;
-      if(Math.abs(maxlng)>180)maxlng=FacMap.selectedPosition.lng+0.003;
-      if(Math.abs(maxlat)>180)maxlat=FacMap.selectedPosition.lat+0.003;
-
-      FacMap.searchMarkersBounds[type]=new AMap.Bounds([minlng,minlat],[maxlng,maxlat]);
-      mapData.map.setBounds(FacMap.searchMarkersBounds[type]);
-      $log.log('FacMap.selectedPosition######2#',type,[minlng,minlat],[maxlng,maxlat]);
-      
-    })
-  }
-  function showSearchMarkers(s,type) {
-    if(FacMap.searchMarkers[type])for(var i=0;i<FacMap.searchMarkers[type].length;i++) {
-      if(s)FacMap.searchMarkers[type][i].show();
-      else FacMap.searchMarkers[type][i].hide();
-    }
-    if(s&&FacMap.searchMarkersBounds[type])
-      mapData.map.setBounds(FacMap.searchMarkersBounds[type]);
-  }
-  
-  function hideInfoWindow(){
-    getInfoWindow().then(function(iw){
-      iw.close();
-    });
-  }
-  function showInfoWindow(o,fn_infoData,type) {
-    getInfoWindow().then(function(iw){
-      
-      AMapUI.loadUI(['overlay/SimpleInfoWindow'], function(SimpleInfoWindow)
-      {
-
-        FacMap.infoWindow = new SimpleInfoWindow({
-          offset: new AMap.Pixel(0, -32)
-        });
-
-        var da=fn_infoData(o,type);
-        FacMap.infoWindow.setInfoTitle(da.infoTitle);
-
-        //设置标题内容
-        FacMap.infoWindow.setInfoBody(da.infoBody);
-
-        //设置主体内容
-        FacMap.infoWindow.setInfoTplData(da.infoTplData);
-        FacMap.infoWindow.open(mapData.map, [o.lngE7/1e7,o.latE7/1e7]);
-      
-      
-        
-      })
-    });
-  }  
-  
   
   
   //===============
@@ -350,12 +260,10 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   FacMap.getSelMarker=getSelMarker;
   FacMap.showSelMarker=showSelMarker;
   
-  FacMap.newSearchMarkers=newSearchMarkers;
-  FacMap.showSearchMarkers=showSearchMarkers;
+
   
   FacMap.getInfoWindow=getInfoWindow;
-  FacMap.showInfoWindow=showInfoWindow;
-  FacMap.hideInfoWindow=hideInfoWindow;
+
   init();
 
   return  FacMap;

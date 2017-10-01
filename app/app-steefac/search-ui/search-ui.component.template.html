@@ -3,14 +3,27 @@
   </div>
   <div class='fac-fix-scroll'
   ng-class='{"fffac-fix-scroll":$ctrl.searchData.result.length}'>
+  
+  
+    <!-- 1,搜索选项 -->
     <search-ui-options 
     search-data="$ctrl.searchData"  search-type='$ctrl.searchType'
-    ng-if='!$ctrl.searchData.searchResult[$ctrl.searchType].length'></search-ui-options>
+    ng-if='!$ctrl.searchData.searchResult[$ctrl.searchType+".ver"]'></search-ui-options>
+    
+    <!-- 2,搜索结果 -->
     <search-ui-result
-      ng-if='$ctrl.searchData.searchResult[$ctrl.searchType]'
+      ng-if='$ctrl.searchData.searchResultSelected <0 '
       search-data="$ctrl.searchData"   search-type='$ctrl.searchType'
       result-ver='$ctrl.searchData.searchResult[$ctrl.searchType+".ver"]'
       page-number='$ctrl.searchData.showPageNumber[$ctrl.searchType]' page-size='$ctrl.searchData.showPageSize'
     ></search-ui-result>
+    
+    <!-- 3,选中一项 -->
+    <search-ui-select-one 
+      ng-if=' $ctrl.searchData.searchResultSelected >=0'
+      search-type='$ctrl.searchType' search-data="$ctrl.searchData"
+      object-selected="$ctrl.searchData.searchResult[$ctrl.searchData.searchType][$ctrl.searchData.searchResultSelected]"
+    ></search-ui-select-one>
+    
     <fac-ui-copyright></fac-ui-copyright>
   </div>

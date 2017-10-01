@@ -1,0 +1,54 @@
+﻿
+
+
+<appb-weui-cells title='{{$ctrl.objectSelected.name}}' cells="[
+  {text:'搜其周边'+$ctrl.searchData.distText[$ctrl.searchData.options.distSelect]+'钢构产能',icon:'search',
+  url:$ctrl.searchFac},
+  {text:'搜其周边'+$ctrl.searchData.distText[$ctrl.searchData.options.distSelect]+'项目信息',icon:'search-plus',
+  url:$ctrl.searchProj },
+]" >
+</appb-weui-cells>
+
+  <div class="weui-cells__title" ng-hide='1'>
+   
+  </div> 
+<div class="weui-cells">
+  <div class="weui-cell weui-cell_select weui-cell_select-after" > 
+    <div class="weui-cell__hd" >
+      <label for="" class="weui-label">搜索距离设置</label>
+    </div>
+    <div class="weui-cell__bd" >
+    
+      <select class="weui-select" name="input_dist"  
+      ng-model='$ctrl.searchData.options.distSelect' >
+        <option ng-repeat='t in $ctrl.searchData.distText '
+          value="{{$index}}">{{t}}</option>
+      </select>
+      
+    </div>    
+  </div>
+</div>
+
+
+
+<appb-weui-cells 
+ng-if='$ctrl.searchType=="steefac"'
+title='' cells="[
+  {text:'剩余产能'+$ctrl.objectSelected.cap_6m+'吨',icon:'book',notes:'详情',
+    url:'/fac-detail?id='+$ctrl.objectSelected.id}
+]" >
+</appb-weui-cells>
+
+<appb-weui-cells 
+ng-if='$ctrl.searchType=="steeproj"'
+title='' cells="[
+  {text:'用钢量'+$ctrl.objectSelected.need_steel+'吨',icon:'book',notes:'详情',
+    url:'/proj-detail?id='+$ctrl.objectSelected.id}
+]" >
+</appb-weui-cells>
+
+<appb-weui-cells title='' cells="[
+  {text:'返回搜索列表',icon:'chevron-left',notes:'',
+    url: $ctrl.searchData.hideInfoWindow},
+]" >
+</appb-weui-cells>

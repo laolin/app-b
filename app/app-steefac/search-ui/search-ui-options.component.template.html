@@ -17,17 +17,35 @@
       ng-model="$ctrl.searchData.options.searchInsideMap"/>
     </div>
   </div>
- 
-  <div class="weui-cell weui-cell_vcode">
+
+  <div class="weui-cell weui-cell_select weui-cell_select-after"
+  ng-if='!$ctrl.searchData.options.searchInsideMap'> 
+    <div class="weui-cell__hd" >
+      <label for="" class="weui-label">搜索周边距离</label>
+    </div>
+    <div class="weui-cell__bd" >
+      <select class="weui-select" name="input_dist"  
+      ng-model='$ctrl.searchData.options.distSelect' >
+        <option ng-repeat='t in $ctrl.searchData.distText '
+          value="{{$index}}">{{t}}</option>
+      </select>
+    </div>    
+  </div>
+
+  
+  <div class="weui-cell">
+    <div class="weui-cell__hd"><label class="weui-label">关键字</label></div>
     <div class="weui-cell__bd">
       <input class="weui-input" type="text" placeholder='{{$ctrl.searchData.searchPlaceholder}}'
       ng-model="$ctrl.searchData.searchWord">
     </div>
-    <div class="weui-cell__ft">
-      <a href="javascript:;" class="weui-vcode-btn"
-      ng-click="$ctrl.searchData.startSearch($ctrl.searchType)">开始搜索</a>
-    </div>
   </div>
-  
+ 
+
+ 
     
+</div>
+<div class="weui-btn-area">
+  <a class="weui-btn weui-btn_primary" href="" ng-click="$ctrl.searchData.startSearch('steefac')">搜索钢构产能</a>
+  <a class="weui-btn weui-btn_primary" href="" ng-click="$ctrl.searchData.startSearch('steeproj')">搜索项目信息</a>
 </div>

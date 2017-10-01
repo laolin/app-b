@@ -2,7 +2,7 @@
 
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
-$routeProvider.when('/search-proj', {
+$routeProvider.when('/search-steeproj', {
 templateUrl: 'app-steefac/search/search.view.template.html',
 controller: ['$scope','$http','$log','$location','AppbData','FacSearch','FacMap',
   function ($scope,$http,$log,$location,AppbData,FacSearch,FacMap) {
@@ -12,19 +12,22 @@ controller: ['$scope','$http','$log','$location','AppbData','FacSearch','FacMap'
     }
     $scope.searchData=FacSearch;
     
-    $scope.searchType = 'steeproj';
     
 
     
     var appData=AppbData.getAppData();
     
-    AppbData.activeHeader('home', '搜索产能需求'); 
+    AppbData.activeHeader('home', '搜索钢结构项目信息'); 
     $scope.$on('$viewContentLoaded', function () {
-      FacMap.showSearchMarkers(1,$scope.searchType);
+      if(!FacMap.searchMarkers.length) 
+        FacMap.selPositionStart('search','选点搜周边');
+      FacSearch.showSearchMarkers(1,FacSearch.searchType);
+      
     });
     $scope.$on('$destroy', function () {
-      FacMap.showSearchMarkers(0,$scope.searchType);
-      FacMap.hideInfoWindow();
+      FacSearch.showSearchMarkers(0,FacSearch.searchType);
+      FacSearch.hideInfoWindow();
+      FacMap.selPositionEnd();
     });
     
     
