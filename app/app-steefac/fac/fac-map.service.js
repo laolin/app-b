@@ -19,7 +19,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     selName:'',
     selMarker:false,
     
-    searchMarkers:{},//搜索结果的AwesomeMarker
+    searchMarkers:[],//搜索结果的AwesomeMarker
     searchMarkersBounds:{},//搜索结果的AwesomeMarker的范围边界
     
     creating:false

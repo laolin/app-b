@@ -66,7 +66,7 @@ angular.module('steefac')
       ctrl.cells=[];
       var sum=0;
       var val;
-      if(!r || !r.length)return;
+      if(!r  )return;
       var ps=ctrl.pageSize;
       var pn=ctrl.pageNumber;
       
@@ -80,7 +80,7 @@ angular.module('steefac')
       }
       var nshow=i;
       ctrl.cellsStat=[{
-          text:'第'+(ps*pn+1)+'~'+(j)+'项，共计'+val.name+sum+val.unit,
+          text:val?'第'+(ps*pn+1)+'~'+(j)+'项，共计'+val.name+sum+val.unit:'无搜索结果',
           url:'',
           icon:''
       }];

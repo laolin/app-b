@@ -29,6 +29,12 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
   FacSearch.searchPlaceholder='输入名称/地址/...';
   FacSearch.searchList = []; //TODO: values will get from API
 
+  FacSearch.options.distSelect='1';
+  FacSearch.distText=['50公里','100公里','200公里','300公里','500公里','不限距离'];
+  FacSearch.distValue=[45,90,180,170,450,99999];
+  //在中国所处的纬度水平，经、纬1度均近似100公里，以下均按此假定判断距离。
+  //^^这里：由于搜索结果是按正方形搜索，不是圆形，故把正方形稍缩小
+
   FacSearch.clearSearchWord=function(){
     FacSearch.searchWord='';
   }
@@ -40,6 +46,7 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
     }
     
   
+    
     var bd;
     var serchPara={s:FacSearch.searchWord};
 
@@ -48,7 +55,8 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
       bd=mapData.map.getBounds( );
       mapData.northeast=bd.northeast;
       mapData.southwest=bd.southwest;
-      if(FacSearch.options.searchInsideMap) {
+      
+      if(FacSearch.options.searchInsideMap&&FacSearch.searchResultSelected<0) {
         // ( * 1e7 / 2 ) => 5e6
         serchPara.lat=Math.floor(5e6*(mapData.southwest.lat + mapData.northeast.lat));
         serchPara.lng=Math.floor(5e6*(mapData.southwest.lng + mapData.northeast.lng));
@@ -59,6 +67,28 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
             (mapData.northeast.lng- mapData.southwest.lng)
           )/2
         );
+        
+        $log.log('ZZZZZZZZZZ serchPara',1)
+      } else {
+        if(FacSearch.searchResultSelected>=0) {
+          //从选中的搜索结果的周边搜索
+          var sel=FacSearch.searchResult[FacSearch.searchType][FacSearch.searchResultSelected];
+          serchPara.lat=sel.latE7;
+          serchPara.lng=sel.lngE7;
+          FacMap.selectedPosition=new AMap.LngLat(sel.lngE7/1e7,sel.latE7/1e7);
+          FacMap.selMarker.setPosition(FacMap.selectedPosition);
+        $log.log('ZZZZZZZZZZ serchPara sel',2,FacMap.selectedPosition)    
+        } else {
+          //从地图选点的周边搜索
+          var pos =FacMap.selectedPosition;          
+          serchPara.lat=Math.floor(1e7*pos.lat);
+          serchPara.lng=Math.floor(1e7*pos.lng); 
+        $log.log('ZZZZZZZZZZ serchPara pos',3,pos) 
+        }
+        
+        
+        //客户端单位是1km，服务器规定的单位是1m
+        serchPara.dist=Math.floor(1e3*FacSearch.distValue[FacSearch.options.distSelect]);
       }
       
     }
@@ -68,14 +98,17 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
   function _doSearch(serchPara,type){
     serchPara.count=FacSearch.options.countRes;
     FacSearch.searching=true;
-    FacSearch.searchResultSelected=-1;
+    //FacSearch.searchResultSelected=-1;
     
     return FacApi.callApi(type,'search',serchPara).then(
       function(s){
         FacSearch.searching=false;
+        FacSearch.searchResultSelected=-1;
+        FacSearch.searchResult={};//由于两个搜索结果页合并，搜索结果要全部清空
         FacSearch.searchResult[type+'.ver']= +new Date();//用来标记搜索结果是否更新
-        $log.log('sreach-res--1',s);
+        //$log.log('sreach-res--1',s);
         FacSearch.searchResult[type]=s;
+        FacSearch.searchType=type;
         FacSearch.showSearchRes(type,FacSearch.showPageNumber[type]=0);
       }
     );
@@ -85,7 +118,9 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
 
 
   FacSearch.showSearchRes=function (type,pn){
-    FacSearch.hideInfoWindow()
+    FacSearch.hideInfoWindow();
+    $log.log('selPositionEnd',1);
+    FacMap.selPositionEnd();
     
     FacSearch.searchType=type;
     FacSearch.showPageNumber[type]=pn;
@@ -98,8 +133,10 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
 
   }
   FacSearch.clearResult=function (type){
-    FacSearch.searchResult[type]=[];
-    FacSearch.searchResult[type+'.ver']=0;
+    FacMap.selPositionStart('search','选点搜周边');
+    //FacSearch.searchResult[type]=[];
+    //FacSearch.searchResult[type+'.ver']=0;
+    FacSearch.searchResult={};//由于两个搜索结果页合并，搜索结果要全部清空
     FacSearch.searchResultSelected=-1;
     FacSearch.searching=0;
     FacSearch.newSearchMarkers([],0,0,0,type);//清除地图中的标记
@@ -116,10 +153,10 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
     var icons={steefac:'cubes',steeproj:'university'};
     //selMarker已ready，说明可以安全地创建其他marker
     FacMap.getSelMarker().then(function(){
-      if(FacMap.searchMarkers[type])for(var i=0;i<FacMap.searchMarkers[type].length;i++) {
-        FacMap.searchMarkers[type][i].setMap(null);
+      for(var i=0;i<FacMap.searchMarkers.length;i++) {
+        FacMap.searchMarkers[i].setMap(null);
       }
-      FacMap.searchMarkers[type]=[];
+      FacMap.searchMarkers=[];
 
       var maxlat=-555e7;
       var maxlng=-555e7;
@@ -138,11 +175,11 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
           minlat=Math.min(minlat,lat);
         }
       
-        FacMap.searchMarkers[type][j]=FacMap.newMarker('#fff','16px',icons[type],[lng/1E7,lat/1E7],false,(''+rs[i].name).substr(0,4));
-        FacMap.searchMarkers[type][j].show();
+        FacMap.searchMarkers[j]=FacMap.newMarker('#fff','16px',icons[type],[lng/1E7,lat/1E7],false,(''+rs[i].name).substr(0,4));
+        FacMap.searchMarkers[j].show();
         
-        FacMap.searchMarkers[type][j].selIndex=i;
-        FacMap.searchMarkers[type][j].on('click', function(e){
+        FacMap.searchMarkers[j].selIndex=i;
+        FacMap.searchMarkers[j].on('click', function(e){
           FacSearch.selectOne(e.target.selIndex,type);
         });
       }
@@ -151,14 +188,17 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
       maxlat/=1e7;
       minlat/=1e7;
       
-      //大约显示至 600米 范围
-      if(Math.abs(minlng)>180)minlng=FacMap.selectedPosition.lng-0.003;
-      if(Math.abs(minlat)>180)minlat=FacMap.selectedPosition.lat-0.003;
-      if(Math.abs(maxlng)>180)maxlng=FacMap.selectedPosition.lng+0.003;
-      if(Math.abs(maxlat)>180)maxlat=FacMap.selectedPosition.lat+0.003;
+      //大约显示至 2km 范围
+      if(Math.abs(minlng)>180)minlng=FacMap.selectedPosition.lng-0.01;
+      if(Math.abs(minlat)>180)minlat=FacMap.selectedPosition.lat-0.01;
+      if(Math.abs(maxlng)>180)maxlng=FacMap.selectedPosition.lng+0.01;
+      if(Math.abs(maxlat)>180)maxlat=FacMap.selectedPosition.lat+0.01;
 
       FacMap.searchMarkersBounds[type]=new AMap.Bounds([minlng,minlat],[maxlng,maxlat]);
       mapData.map.setBounds(FacMap.searchMarkersBounds[type]);
+      mapData.map.panBy(0,12);
+      //由于存在坐标是0的，所以用fit会显示非洲，不好
+      //mapData.map.setFitView(FacMap.searchMarkers);
       $log.log('FacMap.selectedPosition######2#',type,[minlng,minlat],[maxlng,maxlat]);
       
     })
@@ -168,13 +208,22 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
 
 
   FacSearch.showSearchMarkers=function(s,type) {
-    FacSearch.searchType=type;
-    if(FacMap.searchMarkers[type])for(var i=0;i<FacMap.searchMarkers[type].length;i++) {
-      if(s)FacMap.searchMarkers[type][i].show();
-      else FacMap.searchMarkers[type][i].hide();
+    
+    if(s&&FacMap.searchMarkers.length) {
+      $log.log('selPositionEnd',2);
+      FacMap.selPositionEnd();
     }
-    if(s&&FacMap.searchMarkersBounds[type])
+    FacSearch.searchType=type;
+    for(var i=0;i<FacMap.searchMarkers.length;i++) {
+      if(s)FacMap.searchMarkers[i].show();
+      else FacMap.searchMarkers[i].hide();
+    }
+    if(s&&FacMap.searchMarkersBounds[type]) {
       mapData.map.setBounds(FacMap.searchMarkersBounds[type]);
+      mapData.map.panBy(0,12);
+      //由于存在坐标是0的，所以用fit会显示非洲，不好
+      //mapData.map.setFitView(FacMap.searchMarkers);
+    }
   }
 
   FacSearch.selectOne=function(i,type) {
@@ -297,7 +346,7 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
           '吨，项目规模' +obj[j].size+ '㎡，用钢时间：'+omonth[obj[j].in_month],
           url:function(){FacSearch.selectOne(j,type)},
           //url:"/proj-detail?id="+obj[j].id,
-          icon:'id-card'}
+          icon:'university'}
     }
     if(type=='steefac'){
       return {
@@ -305,7 +354,7 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
           '吨，擅长构件：'+obj[j].goodat,
           url:function(){FacSearch.selectOne(j,type)},
           //url:"/fac-detail?id="+obj[j].id,
-          icon:'id-card'}
+          icon:'cube'}
     }
     return {text:'err type:'+type,icon:'question'};
 

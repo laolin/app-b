@@ -12,19 +12,23 @@ controller: ['$scope','$http','$log','$location','AppbData','FacSearch','FacMap'
     }
     $scope.searchData=FacSearch;
     
-    $scope.searchType = 'steeproj';
+    FacSearch.searchType = 'steeproj';
     
 
     
     var appData=AppbData.getAppData();
     
-    AppbData.activeHeader('home', '搜索产能需求'); 
+    AppbData.activeHeader('home', '搜索产能地图'); 
     $scope.$on('$viewContentLoaded', function () {
-      FacSearch.showSearchMarkers(1,$scope.searchType);
+      if(!FacMap.searchMarkers.length) 
+        FacMap.selPositionStart('search','选点搜周边');
+      FacSearch.showSearchMarkers(1,FacSearch.searchType);
+      
     });
     $scope.$on('$destroy', function () {
-      FacSearch.showSearchMarkers(0,$scope.searchType);
+      FacSearch.showSearchMarkers(0,FacSearch.searchType);
       FacSearch.hideInfoWindow();
+      FacMap.selPositionEnd();
     });
     
     

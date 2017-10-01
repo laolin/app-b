@@ -17,6 +17,23 @@
       ng-model="$ctrl.searchData.options.searchInsideMap"/>
     </div>
   </div>
+
+  <div class="weui-cell weui-cell_select weui-cell_select-after"
+  ng-if='!$ctrl.searchData.options.searchInsideMap'> 
+    <div class="weui-cell__hd" >
+      <label for="" class="weui-label">搜索周边距离</label>
+    </div>
+    <div class="weui-cell__bd" >
+      <select class="weui-select" name="input_dist"  
+      ng-model='$ctrl.searchData.options.distSelect' >
+        <option ng-repeat='t in $ctrl.searchData.distText '
+          value="{{$index}}">{{t}}</option>
+      </select>
+    </div>    
+  </div>
+
+  
+ 
  
   <div class="weui-cell weui-cell_vcode">
     <div class="weui-cell__bd">
@@ -25,7 +42,7 @@
     </div>
     <div class="weui-cell__ft">
       <a href="javascript:;" class="weui-vcode-btn"
-      ng-click="$ctrl.searchData.startSearch($ctrl.searchType)">开始搜索</a>
+      ng-click="$ctrl.searchData.startSearch($ctrl.searchType)">搜索&gt;&gt;</a>
     </div>
   </div>
   
