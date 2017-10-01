@@ -173,6 +173,9 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
           minlng=Math.min(minlng,lng);
           maxlat=Math.max(maxlat,lat);
           minlat=Math.min(minlat,lat);
+        } else {
+          lng=1215044340;
+          lat= 312849830;//同济文远楼
         }
       
         FacMap.searchMarkers[j]=FacMap.newMarker('#fff','16px',icons[type],[lng/1E7,lat/1E7],false,(''+rs[i].name).substr(0,4));
@@ -196,9 +199,9 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
 
       FacMap.searchMarkersBounds[type]=new AMap.Bounds([minlng,minlat],[maxlng,maxlat]);
       mapData.map.setBounds(FacMap.searchMarkersBounds[type]);
-      mapData.map.panBy(0,12);
+      //mapData.map.panBy(0,12);
       //由于存在坐标是0的，所以用fit会显示非洲，不好
-      //mapData.map.setFitView(FacMap.searchMarkers);
+      mapData.map.setFitView(FacMap.searchMarkers);
       $log.log('FacMap.selectedPosition######2#',type,[minlng,minlat],[maxlng,maxlat]);
       
     })
@@ -220,9 +223,9 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
     }
     if(s&&FacMap.searchMarkersBounds[type]) {
       mapData.map.setBounds(FacMap.searchMarkersBounds[type]);
-      mapData.map.panBy(0,12);
+      //mapData.map.panBy(0,12);
       //由于存在坐标是0的，所以用fit会显示非洲，不好
-      //mapData.map.setFitView(FacMap.searchMarkers);
+      mapData.map.setFitView(FacMap.searchMarkers);
     }
   }
 
