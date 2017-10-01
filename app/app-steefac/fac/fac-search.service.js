@@ -185,7 +185,7 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
     //178.2这里延时不能小于下面unselectOne，否则选中后，又马上被取消选中
     //另外这里延时绝对数不能太小，否则相当于没有延时，同上。
   }
-  FacSearch.unselectOne=function(type) {
+  FacSearch.unselectOne=function() {
     FacSearch.searchResultSelected=-1;
     $timeout(function(){ 
     },178);//178.1这里延时不能太短，否则从一个选择换到另一个选择会有闪烁
@@ -221,7 +221,7 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
         FacMap.infoWindow.open(mapData.map, [o.lngE7/1e7,o.latE7/1e7]);
       
         FacMap.infoWindow.on('close', function(e){
-          FacSearch.unselectOne(type);
+          FacSearch.unselectOne();
         })
       
         

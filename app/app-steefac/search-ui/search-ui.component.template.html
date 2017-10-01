@@ -20,13 +20,11 @@
     ></search-ui-result>
     
     <!-- 3,选中一项 -->
-    <search-ui-select-one-fac 
-      ng-if=' $ctrl.searchData.searchResultSelected >=0 && $ctrl.searchData.searchType=="steefac" '
-      search-data="$ctrl.searchData"   search-type='$ctrl.searchType'
-    ></search-ui-select-one-fac>
-    <search-ui-select-one-proj 
-      ng-if=' $ctrl.searchData.searchResultSelected >=0 && $ctrl.searchData.searchType=="steeproj" '
-      search-data="$ctrl.searchData"   search-type='$ctrl.searchType'
-    ></search-ui-select-one-proj>
+    <search-ui-select-one 
+      ng-if=' $ctrl.searchData.searchResultSelected >=0'
+      search-type='$ctrl.searchType' search-data="$ctrl.searchData"
+      object-selected="$ctrl.searchData.searchResult[$ctrl.searchData.searchType][$ctrl.searchData.searchResultSelected]"
+    ></search-ui-select-one>
+    
     <fac-ui-copyright></fac-ui-copyright>
   </div>
