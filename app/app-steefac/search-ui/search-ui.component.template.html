@@ -3,14 +3,30 @@
   </div>
   <div class='fac-fix-scroll'
   ng-class='{"fffac-fix-scroll":$ctrl.searchData.result.length}'>
+  
+  
+    <!-- 1,搜索选项 -->
     <search-ui-options 
     search-data="$ctrl.searchData"  search-type='$ctrl.searchType'
     ng-if='!$ctrl.searchData.searchResult[$ctrl.searchType].length'></search-ui-options>
+    
+    <!-- 2,搜索结果 -->
     <search-ui-result
-      ng-if='$ctrl.searchData.searchResult[$ctrl.searchType]'
+      ng-if='$ctrl.searchData.searchResult[$ctrl.searchType] &&
+      $ctrl.searchData.searchResultSelected <0 '
       search-data="$ctrl.searchData"   search-type='$ctrl.searchType'
       result-ver='$ctrl.searchData.searchResult[$ctrl.searchType+".ver"]'
       page-number='$ctrl.searchData.showPageNumber[$ctrl.searchType]' page-size='$ctrl.searchData.showPageSize'
     ></search-ui-result>
+    
+    <!-- 3,选中一项 -->
+    <search-ui-select-one-fac 
+      ng-if=' $ctrl.searchData.searchResultSelected >=0 && $ctrl.searchData.searchType=="steefac" '
+      search-data="$ctrl.searchData"   search-type='$ctrl.searchType'
+    ></search-ui-select-one-fac>
+    <search-ui-select-one-proj 
+      ng-if=' $ctrl.searchData.searchResultSelected >=0 && $ctrl.searchData.searchType=="steeproj" '
+      search-data="$ctrl.searchData"   search-type='$ctrl.searchType'
+    ></search-ui-select-one-proj>
     <fac-ui-copyright></fac-ui-copyright>
   </div>

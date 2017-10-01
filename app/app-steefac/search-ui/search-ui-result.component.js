@@ -7,8 +7,8 @@ angular.module('steefac')
     pageNumber: '=',
     pageSize: '=',
     resultVer: '<',//用来标记搜索结果变化的
-    searchType: '<',
-    searchData: '<'
+    searchType: '=',
+    searchData: '='
   },
   controller:['$http','$log','$timeout',
 	function ($http,$log,$timeout) {
@@ -21,7 +21,7 @@ angular.module('steefac')
     ctrl.$onChanges=function(chg){
       $log.log('facResult.onChanges');
       if(1) {
-        $log.log('searchProjResult$onChanges',ctrl.searchType,ctrl.searchData.searchResult);
+        $log.log('searchProjResult$onChanges',chg,ctrl.searchType,ctrl.searchData.searchResult);
         genCells();
         var r=ctrl.searchData.searchResult[ctrl.searchType];
         if(!r || !r.length)return;

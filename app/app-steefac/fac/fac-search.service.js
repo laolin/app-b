@@ -5,8 +5,8 @@
 
 angular.module('steefac')
 .factory('FacSearch',
-['$location','$log','AppbData','AmapMainData','FacApi','FacMap','FacUser',
-function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
+['$log','$timeout','AppbData','AmapMainData','FacApi','FacMap','FacUser',
+function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
   
   var FacSearch={};
   var appData=AppbData.getAppData();
@@ -20,7 +20,7 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
   
   FacSearch.searchType='';
   FacSearch.searchResult={};
-  FacSearch.resultSelected={};
+  FacSearch.searchResultSelected=-1;
   FacSearch.searching=0;
   FacSearch.resultTime=0;//准备弃用
   
@@ -68,7 +68,7 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
   function _doSearch(serchPara,type){
     serchPara.count=FacSearch.options.countRes;
     FacSearch.searching=true;
-    delete FacSearch.resultSelected[type];
+    FacSearch.searchResultSelected=-1;
     
     return FacApi.callApi(type,'search',serchPara).then(
       function(s){
@@ -100,7 +100,7 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
   FacSearch.clearResult=function (type){
     FacSearch.searchResult[type]=[];
     FacSearch.searchResult[type+'.ver']=0;
-    FacSearch.resultSelected=-1;
+    FacSearch.searchResultSelected=-1;
     FacSearch.searching=0;
     FacSearch.newSearchMarkers([],0,0,0,type);//清除地图中的标记
   }
@@ -140,13 +140,10 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
       
         FacMap.searchMarkers[type][j]=FacMap.newMarker('#fff','16px',icons[type],[lng/1E7,lat/1E7],false,(''+rs[i].name).substr(0,4));
         FacMap.searchMarkers[type][j].show();
-        FacMap.searchMarkers[type][j].facObj=rs[i];
-        FacMap.searchMarkers[type][j].facIndex=i;
+        
+        FacMap.searchMarkers[type][j].selIndex=i;
         FacMap.searchMarkers[type][j].on('click', function(e){
-          //fffffff
-          FacSearch.searchType=type;
-          FacSearch.resultSelected[type]=i;
-          FacSearch.showInfoWindow(e.target.facObj,type);
+          FacSearch.selectOne(e.target.selIndex,type);
         });
       }
       maxlng/=1e7;
@@ -171,6 +168,7 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
 
 
   FacSearch.showSearchMarkers=function(s,type) {
+    FacSearch.searchType=type;
     if(FacMap.searchMarkers[type])for(var i=0;i<FacMap.searchMarkers[type].length;i++) {
       if(s)FacMap.searchMarkers[type][i].show();
       else FacMap.searchMarkers[type][i].hide();
@@ -179,7 +177,19 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
       mapData.map.setBounds(FacMap.searchMarkersBounds[type]);
   }
 
-
+  FacSearch.selectOne=function(i,type) {
+    FacSearch.showInfoWindow(i,type);
+    $timeout(function(){
+      FacSearch.searchResultSelected=i;
+    },178);
+    //178.2这里延时不能小于下面unselectOne，否则选中后，又马上被取消选中
+    //另外这里延时绝对数不能太小，否则相当于没有延时，同上。
+  }
+  FacSearch.unselectOne=function(type) {
+    FacSearch.searchResultSelected=-1;
+    $timeout(function(){ 
+    },178);//178.1这里延时不能太短，否则从一个选择换到另一个选择会有闪烁
+  }
 
 
   
@@ -188,14 +198,15 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
       iw.close();
     });
   }
-  FacSearch.showInfoWindow=function(o,type) {
+  FacSearch.showInfoWindow=function(i,type) {
     FacMap.getInfoWindow().then(function(iw){
+      var o=FacSearch.searchResult[type][i];
       var da=FacSearch.infoOfObj(o,type);
-      
+
       AMapUI.loadUI(['overlay/SimpleInfoWindow'], function(SimpleInfoWindow)
       {
 
-        
+        FacMap.infoWindow.close();
         FacMap.infoWindow = new SimpleInfoWindow({
           offset: new AMap.Pixel(0, -32)
         });
@@ -209,6 +220,9 @@ function($location,$log,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
         FacMap.infoWindow.setInfoTplData(da.infoTplData);
         FacMap.infoWindow.open(mapData.map, [o.lngE7/1e7,o.latE7/1e7]);
       
+        FacMap.infoWindow.on('close', function(e){
+          FacSearch.unselectOne(type);
+        })
       
         
       })

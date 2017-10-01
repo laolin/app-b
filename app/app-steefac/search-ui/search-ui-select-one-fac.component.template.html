@@ -1,0 +1,11 @@
+﻿<div class="weui-cells__title" >
+{{ $ctrl.searchData.searchResultSelected  }} <a href ng-click='$ctrl.searchData.clearResult($ctrl.searchType)'>se ed</a>
+</div> 
+
+<appb-weui-cells title='' cells='$ctrl.cellsStat' ng-if='$ctrl.cells.length'>
+</appb-weui-cells>
+
+<appb-weui-cells title='' cells='$ctrl.cells' ng-if='$ctrl.cells.length'>
+</appb-weui-cells>
+
+
