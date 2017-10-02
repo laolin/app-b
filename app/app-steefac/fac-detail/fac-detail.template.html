@@ -17,9 +17,17 @@
       </p>
     </div>
   </div>
-  <div class="weui-panel__ft" ng-if='user.isSysAdmin()'>
+  <div class="weui-panel__ft" ng-if='FacUser.isSysAdmin()'>
     <a href="#!/fac-edit?id={{id}}" class="weui-cell weui-cell_access weui-cell_link">
       <div class="weui-cell__bd">系统管理员：修改资料</div>
+      <span class="weui-cell__ft"></span>
+    </a>    
+  </div>
+  <div class="weui-panel__ft" ng-if='!uids.length'>
+    <a href="" class="weui-cell weui-cell_access weui-cell_link"
+      ng-click='FacUser.applyFacAdmin(detail.obj)'
+    >
+      <div class="weui-cell__bd">我要成为这个钢构厂的管理员</div>
       <span class="weui-cell__ft"></span>
     </a>    
   </div>

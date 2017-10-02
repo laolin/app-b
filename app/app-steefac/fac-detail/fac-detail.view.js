@@ -6,7 +6,7 @@ $routeProvider.when('/fac-detail', {
 templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
   controller: ['$scope','$http','$log','$location',
     'AppbData','FacDefine','FacMap','FacApi','FacUser',
-  function mzUserSearchCtrl($scope,$http,$log,$location,
+  function ($scope,$http,$log,$location,
     AppbData,FacDefine,FacMap,FacApi,FacUser) {
     var userData=AppbData.getUserData();
     if(! userData || !userData.token) {
@@ -19,7 +19,7 @@ templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
     var id=parseInt(search.id);
     
     $scope.detail={obj:0,init:0};
-    $scope.user=FacUser;
+    $scope.FacUser=FacUser;
     $scope.fac={};
     $scope.id=id;
 
@@ -42,7 +42,7 @@ templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
       _get_admin_of_fac();
     })
     function _get_admin_of_fac(){
-      FacApi.callApi('stee_user','get_admin_of_fac',{id:id}).then(function(s){
+      FacApi.callApi('stee_user','get_admin_of_fac',{facid:id}).then(function(s){
         $log.log('get_admin_of_fac',s);
         if(s) {
           var uids=[];

@@ -1,6 +1,7 @@
 'use strict';
 (function(){
-
+  
+var FAC_ADMIN=0x1;
 var SYS_ADMIN=0x10000;
 
 angular.module('steefac')
@@ -10,6 +11,7 @@ function($location,$log,$q,AppbData,FacApi) {
   
   var FacUser={};
   var appData=AppbData.getAppData();
+  var dialogData=appData.dialogData;
   if(! appData.userData || !appData.userData.token) {
     $location.path( "/wx-login" ).search({pageTo: '/search'});
     return {};
@@ -58,12 +60,37 @@ function($location,$log,$q,AppbData,FacApi) {
       return deferred.promise;
     });
   }
+  
+  
+  
+  //申请管理一个厂
+  FacUser.applyFacAdmin=function(fac) {
+    
+    dialogData.msgBox(
+      '请您确认：您将负责管理维护【'+fac.name+
+      '】的产能数据。',
+      '成为钢构厂的管理员',
+      '确认','取消',
+      function(){
+        return FacApi.callApi('stee_user','apply_fac_admin',
+          {facid:fac.id,userid:appData.userData.uid}
+        ).then(function(s){//成功
+          init();
+          $location.path( "/my-fac" )
+        },function(e){//失败
+          dialogData.msgBox(e,'操作失败');
+        });
+      }
+    );
+  }
+
   function init() {
     FacApi.callApi('stee_user','me').then(function(s){
       user.init=1;
       if(s) {
         user.isAdmin=parseInt(s.is_admin);
         user.facMain=parseInt(s.fac_main);
+        user.uid=parseInt(s.uid);
         user.facCanAdmin=s.fac_can_admin.split(',');
       }
     });
