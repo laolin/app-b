@@ -25,7 +25,8 @@ function ($scope,$http,$log,$location,
   
   userData.requireUsersInfo([{uid:uid}]).then(function(){
     $scope.user=userData.usersInfo[uid];
-    $scope.title=$scope.user.wxinfo.nickname+'管理的钢构厂';
+    if($scope.user)$scope.title=$scope.user.wxinfo.nickname+'管理的钢构厂';
+    else $scope.err='error uid/aid:'+uid+'/'+aid;
   });
   
   FacUser.getAdmins().then(function(a){
@@ -35,7 +36,12 @@ function ($scope,$http,$log,$location,
       $log.log('$scope.facIds/uid,aid:',uid,aid,$scope.facIds);
     } else {
       $log.log('err uid,aid:',uid,aid);
+      $scope.err='error uid/aid:'+uid+'/'+aid;
+      $scope.isLoading=0;
     }
+  },function(e){
+    $scope.isLoading=0;
+    $scope.err=e;
   });
   
   $scope.$on('$viewContentLoaded', function () {
