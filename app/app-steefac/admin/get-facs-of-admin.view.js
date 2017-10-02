@@ -1,0 +1,52 @@
+'use strict';
+
+angular.module('steefac')
+.config(['$routeProvider', function($routeProvider) {
+$routeProvider.when('/get-facs-of-admin', {
+templateUrl: 'app-steefac/admin/get-facs-of-admin.view.template.html',
+controller: ['$scope','$http','$log','$location',
+  'AppbData','FacDefine','FacApi','FacUser','FacSearch',
+function ($scope,$http,$log,$location,
+  AppbData,FacDefine,FacApi,FacUser,FacSearch) {
+  var userData=AppbData.getUserData();
+  if(! userData || !userData.token) {
+    return $location.path( "/wx-login" ).search({pageTo: '/my'});;
+  }
+
+  AppbData.activeHeader('home', '管理的钢构厂'); 
+
+  $scope.isLoading=1;
+  $scope.facIds='';
+  $scope.type="steefac";
+
+  var search=$location.search();
+  var uid=parseInt(search.uid);
+  var aid=parseInt(search.aid);
+  
+  userData.requireUsersInfo([{uid:uid}]).then(function(){
+    $scope.user=userData.usersInfo[uid];
+    $scope.title=$scope.user.wxinfo.nickname+'管理的钢构厂';
+  });
+  
+  FacUser.getAdmins().then(function(a){
+    if(uid==FacUser.admins[aid].uid) {
+      $scope.facIds=FacUser.admins[aid].fac_main+','+FacUser.admins[aid].fac_can_admin;
+      $scope.isLoading=0;
+      $log.log('$scope.facIds/uid,aid:',uid,aid,$scope.facIds);
+    } else {
+      $log.log('err uid,aid:',uid,aid);
+    }
+  });
+  
+  $scope.$on('$viewContentLoaded', function () {
+  });
+  $scope.$on('$destroy', function () {
+  });
+
+        
+        
+
+}]
+
+});
+}]);

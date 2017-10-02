@@ -1,0 +1,13 @@
+<appb-ui-loading ng-if='isLoading'></appb-ui-loading>
+
+<appb-ui-oprate-msg ng-if='err' content='{{err}}'></appb-ui-oprate-msg>
+
+<fac-ui-user-list
+  ng-if='!isLoading'
+  title=' "钢构厂管理员列表" '
+  uids='FacUser.admins' links='adminLinks'
+>
+</fac-ui-user-list>
+  
+
+

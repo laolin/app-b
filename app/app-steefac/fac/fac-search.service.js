@@ -341,22 +341,25 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
   }  
   
   //从搜索结果 obj[j] 生成 weui-cells的数据
-  FacSearch.cellOfObj=function(obj,j,type) {
+  FacSearch.cellOfObj=function(obj,j,type,linkToDet) {
     if(type=='steeproj'){
       var omonth={3:'三月内',6:'六月内',12:'一年内',24:'两年内',60:'五年内'}
       return {
           text:''+(j+1)+'.'+obj[j].name+'，用钢量'+obj[j].need_steel+
           '吨，项目规模' +obj[j].size+ '㎡，用钢时间：'+omonth[obj[j].in_month],
-          url:function(){FacSearch.selectOne(j,type)},
-          //url:"/proj-detail?id="+obj[j].id,
+          url:linkToDet ?
+            "/proj-detail?id="+obj[j].id :
+            function(){FacSearch.selectOne(j,type)},
+          //url:,
           icon:'university'}
     }
     if(type=='steefac'){
       return {
           text:''+(j+1)+'.'+obj[j].name+'，剩余产能'+obj[j].cap_6m+
           '吨，擅长构件：'+obj[j].goodat,
-          url:function(){FacSearch.selectOne(j,type)},
-          //url:"/fac-detail?id="+obj[j].id,
+          url:linkToDet ?
+            "/fac-detail?id="+obj[j].id :
+            function(){FacSearch.selectOne(j,type)},
           icon:'cube'}
     }
     return {text:'err type:'+type,icon:'question'};

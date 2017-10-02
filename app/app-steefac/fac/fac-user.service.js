@@ -5,8 +5,8 @@ var SYS_ADMIN=0x10000;
 
 angular.module('steefac')
 .factory('FacUser',
-['$location','$log','AppbData','FacApi',
-function($location,$log,AppbData,FacApi) {
+['$location','$log','$q','AppbData','FacApi',
+function($location,$log,$q,AppbData,FacApi) {
   
   var FacUser={};
   var appData=AppbData.getAppData();
@@ -18,20 +18,46 @@ function($location,$log,AppbData,FacApi) {
   appData.FacUser=FacUser;
 
   var user={init:0,isAdmin:0,facMain:0,facCanAdmin:[]};
+  FacUser.user=user;
+  FacUser.admins=[];
 
   //0 : not admin
   // > :普通
   // & 0x10000 : 超级管理员
-  function isAdmin() {
+  FacUser.isAdmin=function isAdmin() {
     return FacUser.user.isAdmin;
   }
-  function isSysAdmin() {
+  FacUser.isSysAdmin=function isSysAdmin() {
     return FacUser.user.isAdmin & SYS_ADMIN;
   }
-  function canAdmin(fac) {
+  FacUser.canAdmin=function canAdmin(fac) {
     return FacUser.user.facCanAdmin.indexOf(fac)>=0;
   }
 
+  FacUser.getAdmins=function() {
+    var deferred = $q.defer();
+    if(FacUser.admins.length) {
+      deferred.resolve(FacUser.admins);
+      return deferred.promise;
+    }
+    return FacApi.callApi('stee_user','get_admins').then(function(s){
+      $log.log('get_admins',s);
+      if(!s) {
+        deferred.reject('noData');
+        return deferred.promise;
+      }
+      
+      
+      FacUser.admins=s;
+      return appData.userData.requireUsersInfo(s).then(function(){
+        deferred.resolve(FacUser.admins);
+        return deferred.promise;
+      });
+    },function(e){
+      deferred.reject(e);
+      return deferred.promise;
+    });
+  }
   function init() {
     FacApi.callApi('stee_user','me').then(function(s){
       user.init=1;
@@ -40,11 +66,7 @@ function($location,$log,AppbData,FacApi) {
         user.facMain=parseInt(s.fac_main);
         user.facCanAdmin=s.fac_can_admin.split(',');
       }
-    });;
-    FacUser.user=user;
-    FacUser.isAdmin=isAdmin;
-    FacUser.isSysAdmin=isSysAdmin;
-    FacUser.canAdmin=canAdmin;
+    });
   }
   init();
  
