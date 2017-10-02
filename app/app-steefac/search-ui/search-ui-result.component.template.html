@@ -13,3 +13,7 @@
   ng-if='$ctrl.searchData.searchResult[$ctrl.searchType] && $ctrl.searchData.searchResult[$ctrl.searchType].length>$ctrl.pageSize'
 >
 </appb-weui-pagination>
+
+<div class="weui-cells__title" ng-if='$ctrl.searchData.searchResult[$ctrl.searchType+".ver"]'>
+{{$ctrl.cellsTitle}} <a href ng-click='$ctrl.searchData.clearResult($ctrl.searchType)'>清除搜索结果</a>
+</div> 
