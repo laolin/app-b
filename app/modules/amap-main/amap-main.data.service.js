@@ -2,8 +2,8 @@
 (function(){
 
 angular.module('amap-main')
-.factory('AmapMainData', ['$log','$timeout','$http','AppbData',
-function ($log,$timeout,$http,AppbData){
+.factory('AmapMainData', ['$log','$timeout','$http','$q','AppbData',
+function ($log,$timeout,$http,$q,AppbData){
   var svc=this;
   var mapData={
     options:{zoom: 15,isHotspot:1},
@@ -58,13 +58,43 @@ function ($log,$timeout,$http,AppbData){
     
     if(typeof(options)=='object')setMapOptions(options);
     
-    loadMapScript()
+    function waitMap() {
+      waitMap.i++;
+      $log.log('waitMap-',waitMap.i);
+      var deferred = $q.defer();
+      if('undefined'!=typeof AMap && 'undefined'!=typeof AMap.Geocoder){
+        waitMap.i=0;
+        deferred.resolve(1);
+        return deferred.promise;
+      }
+      return $timeout(waitMap,278);
+    }
+    waitMap.i=0;
+
+    function waitMapUI() {
+      waitMapUI.i++;
+      $log.log('waitMapUI-',waitMapUI.i);
+      var deferred = $q.defer();
+      if('undefined'!=typeof AMapUI && 'undefined'!=typeof AMapUI.loadUI){
+        waitMapUI.i=0;
+        deferred.resolve(1);
+        return deferred.promise;
+      }
+      return $timeout(waitMapUI,278);
+    }
+    waitMapUI.i=0;
+
+
+    loadMapScript();
+    
+    waitMap()
     .then(function(d1){
       _init_map();
       svc.showLocateButton();
     },function(e){$log.log('Error loadMapScript',e)})
     .then(function(d2){
-      loadMapUiScript().then(function(d3){
+      loadMapUiScript();
+      waitMapUI().then(function(d3){
         mapData.readyMarks[0]=1;
         $log.log('mapData.readyMarks',mapData.readyMarks);
       },function(e){
@@ -109,13 +139,15 @@ function ($log,$timeout,$http,AppbData){
       });
       
     }
+    
     function loadMapScript() {
-      return $http.jsonp("https://webapi.amap.com/maps?v=1.3&key=b4a551eacfbb920a6e68b5eca1126dd5" +
+      return $.getScript("https://webapi.amap.com/maps?v=1.3&key=b4a551eacfbb920a6e68b5eca1126dd5" +
       "&plugin=AMap.ToolBar,AMap.Geocoder,AMap.PlaceSearch");
       //,AMap.Autocomplete,AMap.Scale,AMap.OverView";
     }
+    //$http.jsonp经常会 reject，改用jQuery加载地图js
     function loadMapUiScript() {
-      return $http.jsonp("https://webapi.amap.com/ui/1.0/main.js");
+      return $.getScript("https://webapi.amap.com/ui/1.0/main.js");
     }
   }
 

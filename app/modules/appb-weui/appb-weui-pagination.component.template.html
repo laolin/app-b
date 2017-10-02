@@ -1,0 +1,28 @@
+<div class="weui-pagination" ng-if='$ctrl.pgData'>
+  <div class="weui-pagination__item weui-pagination__prev">
+    <a class="weui-btn weui-btn_primary weui-btn_mini"
+      ng-click='$ctrl.pgData.onFirst()'
+      ng-class='{"weui-btn_disabled":$ctrl.pgData.current==0}'
+    >{{$ctrl.pgData.first}}</a>
+  </div>
+  <div class="weui-pagination__item weui-pagination__prev">
+    <a class="weui-btn weui-btn_primary weui-btn_mini"
+      ng-click='$ctrl.pgData.onPrev()'
+      ng-class='{"weui-btn_disabled":$ctrl.pgData.current==0}'
+    ><i class="iconfont icon-left"></i> {{$ctrl.pgData.prev}}</a>
+  </div>
+  <div class="weui-pagination__item weui-pagination__num">{{$ctrl.pgData.current+1}}/{{$ctrl.pgData.max}}</div>
+  <div class="weui-pagination__item weui-pagination__next">
+    <a class="weui-btn weui-btn_primary weui-btn_mini"
+      ng-click='$ctrl.pgData.onNext()'
+      ng-class='{"weui-btn_disabled":$ctrl.pgData.current==$ctrl.pgData.max-1}'
+    >{{$ctrl.pgData.next}} <i class="iconfont icon-right"></i></a>
+  </div>
+  <div class="weui-pagination__item weui-pagination__next">
+    <a class="weui-btn weui-btn_primary weui-btn_mini"
+      ng-click='$ctrl.pgData.onLast()'
+      ng-class='{"weui-btn_disabled":$ctrl.pgData.current==$ctrl.pgData.max-1}'
+    >{{$ctrl.pgData.last}}</i></a>
+  </div>
+</div>
+    

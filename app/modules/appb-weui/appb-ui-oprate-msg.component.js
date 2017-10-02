@@ -3,7 +3,7 @@
 
 angular.module('appb')
 .component('appbUiOprateMsg',{
-    templateUrl: 'modules/appb-ui/appb-ui-oprate-msg.component.template.html',  
+    templateUrl: 'modules/appb-weui/appb-ui-oprate-msg.component.template.html',  
     bindings: { 
       title: "@",
       content: "@",

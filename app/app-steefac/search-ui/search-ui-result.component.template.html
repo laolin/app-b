@@ -1,0 +1,19 @@
+﻿<div class="weui-cells__title" ng-if='$ctrl.searchData.searchResult[$ctrl.searchType+".ver"]'>
+{{$ctrl.cellsTitle}} <a href ng-click='$ctrl.searchData.clearResult($ctrl.searchType)'>重新搜索</a>
+</div> 
+
+<appb-weui-cells title='' cells='$ctrl.cellsStat' ng-if=' $ctrl.searchData.searchResult[$ctrl.searchType+".ver"]'>
+</appb-weui-cells>
+
+<appb-weui-cells title='' cells='$ctrl.cells' ng-if='1||$ctrl.cells.length'>
+</appb-weui-cells>
+
+<appb-weui-pagination
+  pg-data='$ctrl.pgData'
+  ng-if='$ctrl.searchData.searchResult[$ctrl.searchType] && $ctrl.searchData.searchResult[$ctrl.searchType].length>$ctrl.pageSize'
+>
+</appb-weui-pagination>
+
+<div class="weui-cells__title" ng-if='$ctrl.searchData.searchResult[$ctrl.searchType+".ver"]'>
+{{$ctrl.cellsTitle}} <a href ng-click='$ctrl.searchData.clearResult($ctrl.searchType)'>清除搜索结果</a>
+</div> 

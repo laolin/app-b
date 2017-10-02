@@ -3,7 +3,7 @@
 
 angular.module('appb')
 .component('appbWeuiCells',{
-    templateUrl: 'modules/appb-ui/appb-weui-cells.component.template.html',  
+    templateUrl: 'modules/appb-weui/appb-weui-cells.component.template.html',  
     bindings: {
       title: "@",
       cells: '<'
@@ -15,6 +15,7 @@ angular.module('appb')
         ctrl.$onInit=function() {
         }
         ctrl.goLink=function(a) {
+          if(typeof a == 'function') return a();
           if(a)$location.url(a);
         }
       }

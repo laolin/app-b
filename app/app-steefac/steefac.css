@@ -1,0 +1,18 @@
+.fac-fix-wrapper {
+  position: absolute;
+  top:0;
+  bottom:0;
+  width:100%;
+}
+.fac-fix-top {
+  width:100%;
+  height:220px;
+}
+
+.fac-fix-scroll {
+  position: absolute;
+  top:220px;/*  */
+  bottom:0;
+  width:100%;
+  overflow:auto;
+}

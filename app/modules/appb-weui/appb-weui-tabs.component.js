@@ -3,7 +3,7 @@
 
 angular.module('appb')
 .component('appbWeuiTabs',{
-    templateUrl: 'modules/appb-ui/appb-weui-tabs.component.template.html',  
+    templateUrl: 'modules/appb-weui/appb-weui-tabs.component.template.html',  
     bindings: {
       tabs: '<'
     },
