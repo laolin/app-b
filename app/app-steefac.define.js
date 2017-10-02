@@ -38,7 +38,7 @@ cfg.markWxLoginCallback='cb_xd';//和后端API的约定字符串，在 /wx-login
 
 cfg.tabsAvailable=[
   ['index',[
-    {text:'产能地图',icon:'cubes',href:'/search-steefac',active:1},
+    {text:'产能地图',icon:'cubes',href:'/search',active:1},
     //{text:'钢构项目',icon:'university',href:'/search-steeproj'},
     {text:'我的',icon:'user',href:'/my'}
   ]],
