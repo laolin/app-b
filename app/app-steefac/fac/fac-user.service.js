@@ -40,17 +40,19 @@ function($location,$log,$q,AppbData,FacApi) {
       deferred.resolve(FacUser.admins);
       return deferred.promise;
     }
-    
-
     return FacApi.callApi('stee_user','get_admins').then(function(s){
       $log.log('get_admins',s);
       if(!s) {
         deferred.reject('noData');
         return deferred.promise;
       }
+      
+      
       FacUser.admins=s;
-      deferred.resolve(FacUser.admins);
-      return deferred.promise;
+      return appData.userData.requireUsersInfo(s).then(function(){
+        deferred.resolve(FacUser.admins);
+        return deferred.promise;
+      });
     },function(e){
       deferred.reject(e);
       return deferred.promise;
