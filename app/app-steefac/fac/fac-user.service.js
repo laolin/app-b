@@ -19,21 +19,21 @@ function($location,$log,$q,AppbData,FacApi) {
 
   appData.FacUser=FacUser;
 
-  var user={init:0,isAdmin:0,facMain:0,facCanAdmin:[]};
-  FacUser.user=user;
+  var myData={init:0,isAdmin:0,facMain:0,facCanAdmin:[]};
+  FacUser.myData=myData;
   FacUser.admins=[];
 
   //0 : not admin
   // > :普通
   // & 0x10000 : 超级管理员
   FacUser.isAdmin=function isAdmin() {
-    return FacUser.user.isAdmin;
+    return FacUser.myData.isAdmin;
   }
   FacUser.isSysAdmin=function isSysAdmin() {
-    return FacUser.user.isAdmin & SYS_ADMIN;
+    return FacUser.myData.isAdmin & SYS_ADMIN;
   }
   FacUser.canAdmin=function canAdmin(fac) {
-    return FacUser.user.facCanAdmin.indexOf(fac)>=0;
+    return FacUser.myData.facCanAdmin.indexOf(fac)>=0;
   }
 
   FacUser.getAdmins=function() {
@@ -75,7 +75,8 @@ function($location,$log,$q,AppbData,FacApi) {
         return FacApi.callApi('stee_user','apply_fac_admin',
           {facid:fac.id,userid:appData.userData.uid}
         ).then(function(s){//成功
-          init();
+          myData.init=0;
+          gFacUser.getMy();
           $location.path( "/my-fac" )
         },function(e){//失败
           dialogData.msgBox(e,'操作失败');
@@ -84,18 +85,28 @@ function($location,$log,$q,AppbData,FacApi) {
     );
   }
 
-  function init() {
-    FacApi.callApi('stee_user','me').then(function(s){
-      user.init=1;
+  FacUser.getMy=function() {
+    var deferred = $q.defer();
+    if(myData.init) {
+      deferred.resolve(myData);
+      return deferred.promise;
+    }
+    return FacApi.callApi('stee_user','me').then(function(s){
+      myData.init=1;
       if(s) {
-        user.isAdmin=parseInt(s.is_admin);
-        user.facMain=parseInt(s.fac_main);
-        user.uid=parseInt(s.uid);
-        user.facCanAdmin=s.fac_can_admin.split(',');
+        myData.isAdmin=parseInt(s.is_admin);
+        myData.facMain=parseInt(s.fac_main);
+        myData.uid=parseInt(s.uid);
+        myData.facCanAdmin=s.fac_can_admin.split(',');
       }
+      deferred.resolve(myData);
+      return deferred.promise;
+    },function(e){
+      deferred.reject(e);
+      return deferred.promise;
     });
   }
-  init();
+  FacUser.getMy();
  
   return  FacUser;
   
