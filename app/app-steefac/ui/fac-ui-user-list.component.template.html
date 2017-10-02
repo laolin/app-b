@@ -1,7 +1,8 @@
 ﻿<div class="weui-panel weui-panel_access" ng-if='$ctrl.uids.length'>
   <div class="weui-panel__bd">
     <a href class="weui-media-box weui-media-box_appmsg"
-    ng-repeat='ua in $ctrl.uids track by $index'>
+    ng-repeat='ua in $ctrl.uids track by $index'
+    ng-click='$ctrl.goLink($ctrl.links[$index])'>
       <div class="weui-media-box__hd">
         <img class="weui-media-box__thumb" ng-src="{{$ctrl.usersInfo[ua.uid].wxinfo.headimgurl}}" alt="">
       </div>
