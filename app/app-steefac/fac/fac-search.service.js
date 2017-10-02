@@ -110,7 +110,7 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
         FacSearch.searchResult[type]=s;
         FacSearch.searchType=type;
         FacSearch.showSearchRes(type,FacSearch.showPageNumber[type]=0);
-        $location.url('/search-'+type);  
+        //$location.url('/search-'+type);  
       }
     );
 
