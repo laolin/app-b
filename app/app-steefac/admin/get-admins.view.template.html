@@ -1,0 +1,14 @@
+<appb-ui-loading ng-if='isLoading'></appb-ui-loading>
+
+<appb-weui-cells
+title='钢构厂管理员列表'
+ng-if='!isLoading'
+></appb-weui-cells>
+<fac-ui-user-list
+ ng-if='!isLoading' users-info='usersInfo'
+ uids='FacUser.admins' links='adminLinks'
+>
+</fac-ui-user-list>
+  
+
+
