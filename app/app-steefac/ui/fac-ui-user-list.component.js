@@ -8,8 +8,8 @@ angular.module('steefac')
     links: "<",
     uids: '<'
   },
-  controller:['$log','AppbData',
-	function ($log,AppbData) {
+  controller:['$log','$location','AppbData',
+	function ($log,$location,AppbData) {
     var ctrl=this;
     var userData=AppbData.getUserData();
     ctrl.usersInfo=userData.usersInfo;
