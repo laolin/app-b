@@ -4,6 +4,7 @@ angular.module('steefac')
 .component('facUiUserList',{
   templateUrl: 'app-steefac/ui/fac-ui-user-list.component.template.html',
   bindings: {
+    title:'<',
     usersInfo: "<",
     links: "<",
     uids: '<'

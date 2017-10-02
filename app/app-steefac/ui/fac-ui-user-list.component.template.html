@@ -1,4 +1,5 @@
 ﻿<div class="weui-panel weui-panel_access" ng-if='$ctrl.uids.length'>
+  <div class="weui-panel__hd" ng-if='$ctrl.title'>{{$ctrl.title}}</div>
   <div class="weui-panel__bd">
     <a href class="weui-media-box weui-media-box_appmsg"
     ng-repeat='ua in $ctrl.uids track by $index'
