@@ -22,6 +22,7 @@ angular.module('appb')
     svc.dialogData.showDialog=showDialog;
     svc.dialogData.hideDialog=hideDialog;
     svc.dialogData.confirmDialog=confirmDialog;
+    svc.dialogData.confirmDialog2=confirmDialog2;
     
     function getDialogData() {
       return svc.dialogData;
@@ -42,6 +43,17 @@ angular.module('appb')
     }
     function hideDialog() {
       svc.dialogData.show=false;
+    }
+    function confirmDialog2(actionText,content,onOk,onCancle) {
+      svc.dialogData.title='确定要'+actionText+'吗?';
+      svc.dialogData.content=(content?content:'请选择');
+      svc.dialogData.btn1=actionText;
+      svc.dialogData.btn2=actionText.substr(0,2)=='取消'?'不':'取消';
+      svc.dialogData.fn1=onOk;
+      svc.dialogData.fn2=onCancle;
+      
+      svc.dialogData.show=true;
+      svc.dialogData.answer=0;
     }
     function confirmDialog(actionText,onOk,onCancle) {
       svc.dialogData.title='提示';
