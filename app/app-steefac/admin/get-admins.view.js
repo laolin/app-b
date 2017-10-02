@@ -17,19 +17,13 @@ function ($scope,$http,$log,$location,
   
   $scope.FacUser=FacUser;
   $scope.isLoading=1;
-  $scope.usersInfo=userData.usersInfo;
 
   FacUser.getAdmins().then(function(a){
     $scope.isLoading=0;
     //$log.log('===============getAdmins ok');
     $scope.adminLinks=[];
     for(var i=0;i<FacUser.admins.length;i++) {
-      $scope.adminLinks[i]=function(){
-        var j=i;
-        return function(){
-          $log.log('linkAdmin',i,j,FacUser.admins[j]);
-        }
-      }();
+      $scope.adminLinks[i]='/get-facs-of-admin?aid='+i+'&uid='+FacUser.admins[i].uid;
     }
   });
 

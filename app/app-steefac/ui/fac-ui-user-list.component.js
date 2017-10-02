@@ -5,13 +5,15 @@ angular.module('steefac')
   templateUrl: 'app-steefac/ui/fac-ui-user-list.component.template.html',
   bindings: {
     title:'<',
-    usersInfo: "<",
     links: "<",
     uids: '<'
   },
-  controller:['$scope','$location','$log','$interval',
-	function ($scope,$location,$log,$interval) {
+  controller:['$log','AppbData',
+	function ($log,AppbData) {
     var ctrl=this;
+    var userData=AppbData.getUserData();
+    ctrl.usersInfo=userData.usersInfo;
+    
     ctrl.goLink=function(a) {
       if(typeof a == 'function') return a();
       if(a)$location.url(a);
