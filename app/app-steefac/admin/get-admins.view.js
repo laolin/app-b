@@ -25,6 +25,9 @@ function ($scope,$http,$log,$location,
     for(var i=0;i<FacUser.admins.length;i++) {
       $scope.adminLinks[i]='/get-facs-of-admin?aid='+i+'&uid='+FacUser.admins[i].uid;
     }
+  },function(e){
+    $scope.isLoading=0;
+    $scope.err=e;
   });
 
   $scope.$on('$viewContentLoaded', function () {
