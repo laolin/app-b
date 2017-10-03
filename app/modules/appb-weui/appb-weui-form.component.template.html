@@ -1,7 +1,7 @@
 <form name='{{$ctrl.formName}}'>
 
-  <div class="weui-cell "
-  ng-class="{'weui-cell_select':cf.type=='radio', 'weui-cell_select-after':cf.type=='radio',
+  <div class=" "
+  ng-class="{
   'weui-cell_warn':! {{$ctrl.formName}}.input_{{cf.name}}.$valid
   }"
   ng-repeat='cf in $ctrl.formDefine.inputs'

@@ -8,6 +8,12 @@ angular.module('appb')
   scope: { 
     inputDefine:"<appbInputDefine",
   },
+  controller: ['$scope', '$log','$element', function($scope,$log,$element){
+    var cls='weui-cell'
+    if($scope.inputDefine.type=='radio')
+       cls+=' weui-cell_select weui-cell_select-after';
+    $element.attr('class',cls);
+  }]
 }})
 
 
