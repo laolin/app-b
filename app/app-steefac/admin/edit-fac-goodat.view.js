@@ -12,24 +12,15 @@ function ($scope,$http,$log,$location,
   var userData=AppbData.getUserData();
   appData.setPageTitle('编辑擅长构件');
 
-  $scope.isLoading=1;
   var search=$location.search();
-  var id=parseInt(search.id);
+  $scope.id=parseInt(search.id);
+  $scope.isLoading=0;
   
   //==================
-  
-  $scope.goodatObj={};
+
   
 
   
-  FacApi.callApi('steefac','detail',{id:id}).then(function(s){
-    $log.log('detail',s);
-    if(!s) {
-      return appData.showInfoPage('参数错误','Err id: '+id,'/search')
-    }
-    $scope.goodatObj.goodat=s.goodat;
-    $scope.isLoading=0;
-  });
 
 
   

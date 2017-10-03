@@ -1,3 +1,12 @@
 <appb-weui-checkbox ng-if='$ctrl.checkData'
   check-data='$ctrl.checkData'
 ></appb-weui-checkbox>
+
+<div class="weui-btn-area">
+  <button class="weui-btn weui-btn_primary" 
+  ng-class="{'weui-btn_disabled':$ctrl.nSel<$ctrl.minSel || $ctrl.nSel>$ctrl.maxSel}"
+  ng-disabled='$ctrl.nSel<$ctrl.minSel || $ctrl.nSel>$ctrl.maxSel'
+  ng-click="$ctrl.onOk()">更新擅长构件</button>
+</div>
+<div class="weui-cells__tips">正在编辑【{{$ctrl.det.name}}】的擅长构件</div>
+
