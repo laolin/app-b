@@ -22,6 +22,14 @@ function ($scope,$log,AppbData,FacUser) {
   //var ctrl=this;
   
   ctrl.FacUser=FacUser;
+  ctrl.isLoading=1;
+  ctrl.facTitle='我管理的钢构厂';
+  ctrl.facType='steefac';
+  
+  FacUser.getMyData().then(function (me) {
+    ctrl.facIds=me.facCanAdmin.join(',');
+    ctrl.isLoading=0;
+  });
   
   $scope.$on('$viewContentLoaded', function () {
   });
