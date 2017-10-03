@@ -255,6 +255,8 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     errorCount:errorCount,
     errorMsg:errorMsg,
     
+    setPageTitle:AppbDataHeader.setPageTitle,
+    
     headerData:headerData,
     footerData:footerData,
     userData:userData,
