@@ -2,7 +2,7 @@
 
 angular.module('steefac')
 .component('facList',{
-  templateUrl: 'app-steefac/admin/fac-list.component.template.html',
+  templateUrl: 'app-steefac/component/fac-list.component.template.html',
   bindings: {
     facList:"=",
     type:"=",

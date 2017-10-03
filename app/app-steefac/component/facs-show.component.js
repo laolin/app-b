@@ -2,7 +2,7 @@
 
 angular.module('steefac')
 .component('facsShow',{
-templateUrl: 'app-steefac/admin/facs-show.component.template.html',
+templateUrl: 'app-steefac/component/facs-show.component.template.html',
 bindings: {
   title:'<',
   type:'<',
