@@ -54,6 +54,8 @@ templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
             $scope.usersInfo=userData.usersInfo;          
           });
         }
+      },function(e){
+        $log.log('get_admin_of_fac Err',e);
       });
     }
 
