@@ -1,3 +1,4 @@
+<appb-ui-loading ng-if='$ctrl.isLoading'></appb-ui-loading>
 
 <div ng-if='1'> 
   <appb-weui-cells
@@ -11,15 +12,15 @@
   </appb-weui-cells>
 </div>
 
+<facs-show
+  ng-if='$ctrl.facIds'
+  
+  title='$ctrl.facTitle'
+  type='$ctrl.facType'
+  fac-ids='$ctrl.facIds'
+>
+</facs-show>
 
-<div ng-if='0 && $ctrl.user.isAdmin()'> 
-  <appb-weui-cells
-    title='普通管理功能'
-    cells="[
-     
-      {text:'排行',url:'/stat',icon:'area-chart',notes:'全国概览及各地详情'}
-    ]"
-  >
-  </appb-weui-cells>
-</div>
+
+<fac-ui-copyright></fac-ui-copyright>
 

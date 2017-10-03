@@ -3,54 +3,46 @@
 
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/my-fac', {
-    templateUrl: 'app-steefac/my/my-fac.template.html',
-    controller: ['$scope','$timeout','$log','AppbFeedService','AppbData','AppbUiService','AmapMainData','FacUser',
-      function ($scope,$timeout,$log,AppbFeedService,AppbData,AppbUiService,AmapMainData,FacUser) {
+$routeProvider.when('/my-fac', {
+templateUrl: 'app-steefac/my/my-fac.view.template.html',
+controller: ['$scope','$log','AppbData','FacUser',
+function ($scope,$log,AppbData,FacUser) {
 
-        var userData=AppbData.getUserData();
-        var appData=AppbData.getAppData();
-        AppbData.activeHeader('home', '我的钢构厂'); 
-        AppbData.activeFooter('index');
-        
-        
-        //要求登录，如果未登录，会自动跳转到登录界面
-        appData.requireLogin();
+  var userData=AppbData.getUserData();
+  var appData=AppbData.getAppData();
+  AppbData.activeHeader('home', '我的钢构厂'); 
+  AppbData.activeFooter('index');
+  
+  //要求登录，如果未登录，会自动跳转到登录界面
+  appData.requireLogin();
 
-        //使用ctrl, 后面方便切换为 component
-        var ctrl=$scope.$ctrl={};
-        
-        // 使用 component 时
-        //var ctrl=this;
-        
-        ctrl.user=FacUser;
-        $log.log('ctrl.user',ctrl.user);
-        
-        $scope.$on('$viewContentLoaded', function () {
-          ctrl.wxShareData_ori=angular.copy(appData.wxShareData);//备份wxShareData
-          appData.wxShareData.title='错题本-我的';
-          appData.wxShareData.desc='错题本-我的-说明';
+  //使用ctrl, 后面方便切换为 component
+  var ctrl=$scope.$ctrl={};
+  // 使用 component 时
+  //var ctrl=this;
+  
+  ctrl.FacUser=FacUser;
+  ctrl.isLoading=1;
+  ctrl.facTitle='我管理的钢构厂';
+  ctrl.facType='steefac';
+  
+  FacUser.getMyData().then(function (me) {
+    ctrl.facIds=me.facCanAdmin.join(',');
+    ctrl.isLoading=0;
+  });
+  
+  $scope.$on('$viewContentLoaded', function () {
+  });
+  $scope.$on('$destroy', function () {
+  });
 
-        });
-        $scope.$on('$destroy', function () {
-          angular.extend(appData.wxShareData,ctrl.wxShareData_ori);//还原wxShareData
-        });
+  
+  ctrl.userData=userData;
+  ctrl.appData=appData;
+  
 
-        
-        ctrl.userData=userData;
-        ctrl.appData=appData;
-        
-        ctrl.swipeLeft=function() {
-          appData.toastMsg('左滑',2);
-        }
-        ctrl.swipeRight=function() {
-          appData.toastMsg('重登录',2);
-          appData.setUserData({});
-          appData.requireLogin();
-        }
-      }
-    ]
-  })
+}]
+})
 }]);
 
 //___________________________________

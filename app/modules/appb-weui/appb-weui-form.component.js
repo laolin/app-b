@@ -2,8 +2,8 @@
 (function(){
 
 angular.module('appb')
-.component('appbWeuiInput',{
-  templateUrl: 'modules/appb-weui/appb-weui-input.component.template.html',  
+.component('appbWeuiForm',{
+  templateUrl: 'modules/appb-weui/appb-weui-form.component.template.html',  
   bindings: { 
     models:"<",
     formDefine:"<",
