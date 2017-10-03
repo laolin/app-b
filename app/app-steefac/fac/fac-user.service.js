@@ -76,7 +76,7 @@ function($location,$log,$q,AppbData,FacApi) {
           {facid:fac.id,userid:appData.userData.uid}
         ).then(function(s){//成功
           myData.init=0;
-          gFacUser.getMy();
+          gFacUser.getMyData();
           $location.path( "/my-fac" )
         },function(e){//失败
           dialogData.msgBox(e,'操作失败');
@@ -85,7 +85,7 @@ function($location,$log,$q,AppbData,FacApi) {
     );
   }
 
-  FacUser.getMy=function() {
+  FacUser.getMyData=function() {
     var deferred = $q.defer();
     if(myData.init) {
       deferred.resolve(myData);
@@ -106,7 +106,7 @@ function($location,$log,$q,AppbData,FacApi) {
       return deferred.promise;
     });
   }
-  FacUser.getMy();
+  FacUser.getMyData();
  
   return  FacUser;
   
