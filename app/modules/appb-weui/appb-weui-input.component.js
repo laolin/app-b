@@ -2,23 +2,13 @@
 (function(){
 
 angular.module('appb')
-.component('appbWeuiInput',{
+.directive('appbWeuiInput',function() {return {
+  restrict: 'AE',
   templateUrl: 'modules/appb-weui/appb-weui-input.component.template.html',  
-  bindings: { 
-    models:"<",
-    formDefine:"<",
-  },
-  controller: ['$log','$timeout',
-    function ($log,$timeout){
-      var ctrl=this;
-      ctrl.formName='fawi'+(+new Date);
-
-      
-      
-      
-    }
-  ]
-})
+  scope: { 
+    inputDefine:"<appbInputDefine",
+  }
+}})
 
 
 //___________________________________

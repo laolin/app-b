@@ -1,0 +1,32 @@
+<form name='{{$ctrl.formName}}'>
+
+  <div class="weui-cell "
+  ng-class="{'weui-cell_select':cf.type=='radio', 'weui-cell_select-after':cf.type=='radio',
+  'weui-cell_warn':! {{$ctrl.formName}}.input_{{cf.name}}.$valid
+  }"
+  ng-repeat='cf in $ctrl.formDefine.inputs'
+  appb-weui-input 
+  appb-input-define='{
+        type:cf.type,
+        name:cf.name,
+        desc:cf.desc,
+        keys:cf.keys,
+        values:cf.values,
+        onChange:$ctrl.formDefine.onChange,
+        models:$ctrl.models,
+        
+        placeholder:cf.placeholder,
+        maxlength:cf.maxlength,
+        minlength:cf.minlength,
+        required:cf.required,
+        min:cf.min,
+        max:cf.max,
+        
+      }'
+  > 
+  
+    
+
+
+  </div>
+</form>

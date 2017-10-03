@@ -1,74 +1,60 @@
-<form name='{{$ctrl.formName}}'>
+<div class="weui-cell__hd" ng-if="inputDefine.type=='radio'">
+  <label for="" class="weui-label">{{inputDefine.desc}}</label>
+</div>
+<div class="weui-cell__bd" ng-if="inputDefine.type=='radio'">
+  <select class="weui-select" name="input_{{inputDefine.name}}"
+  ng-model='inputDefine.models[inputDefine.name]' 
+  ng-change="inputDefine.onChange(inputDefine.name)">
+    <option ng-repeat='key in inputDefine.keys '
+      value="{{key}}">{{inputDefine.values[$index]}}</option>
+  </select>
+</div>    
 
-  <div class="weui-cell "
-  ng-class="{'weui-cell_select':cf.type=='radio', 'weui-cell_select-after':cf.type=='radio',
-  'weui-cell_warn':! {{$ctrl.formName}}.input_{{cf.name}}.$valid
-  }"
-  ng-repeat='cf in $ctrl.formDefine.inputs'> 
   
-  
-    <!-- 1  cf.type =="mtext" -->  
-    <div class="weui-cell__bd" ng-if=' cf.type =="mtext"'>
-      <textarea class="weui-textarea" placeholder="{{cf.placeholder}}" rows="3"
-      name="input_{{cf.name}}"
-      ng-model="$ctrl.models[cf.name]"
-      ng-change="$ctrl.formDefine.onChange(cf.name)"
-      maxlength='{{cf.maxlength}}'
-      NOUSE-ng-maxlength='cf.maxlength'
-      ng-minlength='cf.minlength'
-      ></textarea>
-      <div class="weui-textarea-counter"
-      ng-if='$ctrl.models[cf.name].length/cf.maxlength > 0.9'
-      ><span>{{$ctrl.models[cf.name].length}}</span>/{{cf.maxlength}}</div>
-    </div>
-
+<!-- 1  cf.type =="mtext" -->  
+<div class="weui-cell__bd" ng-if=' inputDefine.type =="mtext"'>
+  <textarea class="weui-textarea"
+    placeholder="{{inputDefine.placeholder}}" rows="3"
+  name="input_{{inputDefine.name}}"
+  ng-model="inputDefine.models[inputDefine.name]"
+  ng-change="inputDefine.onChange(inputDefine.name)"
+  maxlength='{{inputDefine.maxlength}}'
+  ng-minlength='inputDefine.minlength'
+  ></textarea>
+  <div class="weui-textarea-counter"
+  ng-if='inputDefine.models[inputDefine.name].length/inputDefine.maxlength > 0.9'
+  ><span>{{inputDefine.models[inputDefine.name].length}}</span>/{{inputDefine.maxlength}}</div>
+</div>
 
     
-    <!-- 3， cf.type = radio -->  
-    <div class="weui-cell__hd" ng-if="cf.type=='radio'">
-      <label for="" class="weui-label">{{cf.desc}}</label>
-    </div>
-    <div class="weui-cell__bd" ng-if="cf.type=='radio'">
-      <select class="weui-select" name="input_{{cf.name}}"
-      ng-model='$ctrl.models[cf.name]' 
-      ng-change="$ctrl.formDefine.onChange(cf.name)">
-        <option ng-repeat='key in cf.keys '
-          value="{{key}}">{{cf.values[$index]}}</option>
-      </select>
-    </div>    
+<!-- 4， cf.type = input -->  
+<div class="weui-cell__hd" ng-if="inputDefine.type=='text'">
+  <label class="weui-label">{{inputDefine.desc}}</label>
+</div>
+<div class="weui-cell__bd" ng-if="inputDefine.type=='text'">
+  <input class="weui-input" type="input"
+    placeholder="{{inputDefine.placeholder}}"
+    name="input_{{inputDefine.name}}"
+    ng-model='inputDefine.models[inputDefine.name]' 
+    ng-change="inputDefine.onChange(inputDefine.name)"
+    ng-required='inputDefine.required'
+    ng-minlength="inputDefine.minlength"
+    ng-maxlength="inputDefine.maxlength"
+  >
+</div>
 
-    <!-- 4， cf.type = input -->  
-    <div class="weui-cell__hd" ng-if="cf.type=='text'">
-      <label class="weui-label">{{cf.desc}}</label>
-    </div>
-    <div class="weui-cell__bd" ng-if="cf.type=='text'">
-      <input class="weui-input" type="input"  placeholder="{{cf.placeholder}}"
-        name="input_{{cf.name}}"
-        ng-model='$ctrl.models[cf.name]' 
-        ng-change="$ctrl.formDefine.onChange(cf.name)"
-        ng-required='cf.required'
-        ng-minlength="cf.minlength"
-        ng-maxlength="cf.maxlength"
-      >
-    </div>
-    <!-- 4a， cf.type = number -->  
-    <div class="weui-cell__hd" ng-if="cf.type=='number'">
-      <label class="weui-label">{{cf.desc}}</label>
-    </div>
-    <div class="weui-cell__bd" ng-if="cf.type=='number'">
-      <input class="weui-input" type="number"  placeholder="{{cf.placeholder}}"
-        name="input_{{cf.name}}"
-        ng-model='$ctrl.models[cf.name]' 
-        ng-change="$ctrl.formDefine.onChange(cf.name)"
-        ng-required='cf.required'
-        ng-min="cf.min"
-        ng-max="cf.max"
-      >
-    </div>
-    
-
-    
-
-
-  </div>
-</form>
+<!-- 4a， cf.type = number -->  
+<div class="weui-cell__hd" ng-if="inputDefine.type=='number'">
+  <label class="weui-label">{{inputDefine.desc}}</label>
+</div>
+<div class="weui-cell__bd" ng-if="inputDefine.type=='number'">
+  <input class="weui-input" type="number"
+    placeholder="{{inputDefine.placeholder}}"
+    name="input_{{inputDefine.name}}"
+    ng-model='inputDefine.models[inputDefine.name]' 
+    ng-change="inputDefine.onChange(inputDefine.name)"
+    ng-required='inputDefine.required'
+    ng-min="inputDefine.min"
+    ng-max="inputDefine.max"
+  >
+</div>
