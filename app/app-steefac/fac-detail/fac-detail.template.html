@@ -1,6 +1,6 @@
-<appb-ui-loading ng-if='!detail.init'></appb-ui-loading>
+<appb-ui-loading ng-if='isLoading>0'></appb-ui-loading>
 
-<div  ng-if='detail.init'>
+<div  ng-if='isLoading<=0'>
 <div class="weui-panel weui-panel_access">
   <div class="weui-panel__bd">
     <div class="weui-media-box weui-media-box_text">
@@ -25,7 +25,7 @@
   </div>
   <div class="weui-panel__ft" ng-if='!uids.length'>
     <a href="" class="weui-cell weui-cell_access weui-cell_link"
-      ng-click='FacUser.applyFacAdmin(detail.obj)'
+      ng-click='FacUser.applyFacAdmin(fac)'
     >
       <div class="weui-cell__bd">我要成为这个钢构厂的管理员</div>
       <span class="weui-cell__ft"></span>
@@ -35,7 +35,7 @@
 
 <fac-ui-user-list
  ng-if='uids.length'
-title='"已关联管理员"'
+title='"管理员："'
  uids='uids' users-info='usersInfo'
 >
 </fac-ui-user-list>
@@ -56,6 +56,7 @@ title='擅长构件'
 cells="goodat"
 >
 </appb-weui-cells>
+<div class="weui-cells__tips" ng-if='canEdit'><a href class="weui-btn weui-btn_mini weui-btn_primary">编辑擅长构件</a></div>
 
 <appb-weui-cells
 title='厂房设备'
