@@ -46,9 +46,10 @@ function($route, $rootScope,$location,$log,AppbConfig) {
   function hideHeader() {
     headerData.hide=true;
   }
-  function setPageTitle(title,bTitle) {
+  function setPageTitle(title) {
     headerData.title=title || defTitle;
-    headerData.bTitle=bTitle?bTitle:title +'-'+ defBTitle;
+    headerData.bTitle= title +'-'+ defBTitle;
+    $rootScope.pageTitle=headerData.bTitle;
   }
   function activeHeader(name,title,bTitle) {
     if(!headerAvailable[name]) {
