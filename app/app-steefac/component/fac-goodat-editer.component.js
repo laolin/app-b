@@ -12,10 +12,10 @@ function ($http,$log,AppbData,FacApi) {
   
   var options=['轻型','管结构','十字柱','箱形柱','BH','桁架','网架','减震产品','其它'];
   
+  var allSel=options.length;
   ctrl.nSel=0;
   ctrl.minSel=1;
-  ctrl.maxSel=3;
-  var allSel=options.length;
+  ctrl.maxSel=allSel;
   
   var goodat;
   ctrl.det;
