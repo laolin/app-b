@@ -76,7 +76,8 @@ function($location,$log,$q,AppbData,FacApi) {
           {facid:fac.id,userid:appData.userData.uid}
         ).then(function(s){//成功
           myData.init=0;
-          gFacUser.getMyData();
+          appData.toastMsg('已成为该钢构厂管理员',3);
+          FacUser.getMyData();
           $location.path( "/my-fac" )
         },function(e){//失败
           dialogData.msgBox(e,'操作失败');
