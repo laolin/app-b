@@ -6,9 +6,9 @@ var KEY_CLIENTID=appbCfg.keyClientId;
 angular.module('appb')
 .factory('AppbData',
 ['$route','$rootScope','$location','$log','$timeout','$http','$window',
-  'AppbConfig','AppbDataHeader','AppbDataFooter','AppbDataUser','AppbUiService','AppbDataApi','moment',
+  'AppbConfig','AppbDataHeader','AppbDataFooter','AppbDataUser','AppbUiService','AppbDataApi','moment','AppbErrorInfo',
 function($route, $rootScope,$location,$log,$timeout,$http,$window,
-  AppbConfig,AppbDataHeader,AppbDataFooter,AppbDataUser,AppbUiService,AppbDataApi,moment) 
+  AppbConfig,AppbDataHeader,AppbDataFooter,AppbDataUser,AppbUiService,AppbDataApi,moment,AppbErrorInfo) 
 {
   
   var appCfg=AppbConfig();
@@ -254,6 +254,9 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     filePath: '',// see: init()
     errorCount:errorCount,
     errorMsg:errorMsg,
+    
+    setPageTitle:AppbDataHeader.setPageTitle,
+    showInfoPage:AppbErrorInfo.showInfoPage,
     
     headerData:headerData,
     footerData:footerData,

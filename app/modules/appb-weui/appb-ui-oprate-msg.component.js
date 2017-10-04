@@ -5,6 +5,7 @@ angular.module('appb')
 .component('appbUiOprateMsg',{
     templateUrl: 'modules/appb-weui/appb-ui-oprate-msg.component.template.html',  
     bindings: { 
+      type: '@',
       title: "@",
       content: "@",
       btn1: "@",

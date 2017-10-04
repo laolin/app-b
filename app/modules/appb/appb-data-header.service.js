@@ -46,13 +46,18 @@ function($route, $rootScope,$location,$log,AppbConfig) {
   function hideHeader() {
     headerData.hide=true;
   }
+  function setPageTitle(title) {
+    headerData.title=title || defTitle;
+    headerData.bTitle= title +'-'+ defBTitle;
+    $rootScope.pageTitle=headerData.bTitle;
+  }
   function activeHeader(name,title,bTitle) {
     if(!headerAvailable[name]) {
       name='1';//不存在时，用默认的
     }
     headerData.hide=false;
     headerData.title=title || defTitle;
-    headerData.bTitle=bTitle || defBTitle;
+    headerData.bTitle=bTitle?bTitle:title +'-'+ defBTitle;
     headerData.name=name;
     headerData.widgets=headerAvailable[name];
 
@@ -79,6 +84,7 @@ function($route, $rootScope,$location,$log,AppbConfig) {
     addHeader:addHeader,
     hideHeader:hideHeader,
     activeHeader:activeHeader,
+    setPageTitle:setPageTitle,
     deleteHeader:deleteHeader,
     
     setHeader:setHeader,

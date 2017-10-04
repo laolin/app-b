@@ -1,0 +1,23 @@
+<fac-ui-user-list ng-if='user'
+  title=''
+  uids='[user]' links='[]'
+>
+</fac-ui-user-list>
+
+<appb-ui-loading ng-if='isLoading'></appb-ui-loading>
+
+<appb-ui-oprate-msg ng-if='err' content='{{err}}'></appb-ui-oprate-msg>
+
+
+
+<facs-show
+  ng-if='facIds'
+  
+  title='title'
+  type='type'
+  fac-ids='facIds'
+>
+</facs-show>
+  
+
+

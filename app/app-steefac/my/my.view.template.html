@@ -39,12 +39,13 @@
   </appb-weui-cells>
 </div>
 
-<div ng-if='$ctrl.user.isSysAdmin()'> 
+<div ng-if='$ctrl.FacUser.isSysAdmin()'> 
   <appb-weui-cells
     title='系统管理功能'
     cells="[
       {text:'创建钢构厂',url:'/fac-add',icon:'plus',notes:'从地图先定位'},
-      {text:'增加用钢项目信息',url:'/proj-add',icon:'plus',notes:''}
+      {text:'增加用钢项目信息',url:'/proj-add',icon:'plus',notes:''},
+      {text:'钢构厂管理员列表',url:'/get-admins',icon:'user-o',notes:''}
     ]"
   >
   </appb-weui-cells>
@@ -68,9 +69,9 @@
   </appb-weui-cells>
 </div-->
 
-<div ng-if='$ctrl.user.isAdmin()'> 
+<div ng-if='$ctrl.FacUser.isSysAdmin()'> 
   <appb-weui-cells
-    title='普通管理功能'
+    title='系统管理功能'
     cells="[
      
       {text:'排行',url:'/stat',icon:'area-chart',notes:'全国概览及各地详情'}

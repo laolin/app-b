@@ -23,8 +23,7 @@ angular.module('steefac')
         // 使用 component 时
         //var ctrl=this;
         
-        ctrl.user=FacUser;
-        $log.log('ctrl.user',ctrl.user);
+        ctrl.FacUser=FacUser;
         
         $scope.$on('$viewContentLoaded', function () {
           ctrl.wxShareData_ori=angular.copy(appData.wxShareData);//备份wxShareData

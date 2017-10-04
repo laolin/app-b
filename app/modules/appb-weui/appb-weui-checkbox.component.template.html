@@ -1,0 +1,31 @@
+
+<div class="weui-cells__title" ng-if='$ctrl.checkData.title'>
+  {{$ctrl.checkData.title}}
+</div>
+
+<div class="weui-cells weui-cells_checkbox">
+
+  <label class="weui-cell weui-check__label"
+    for="{{$ctrl.checkData.namePrefix}}{{$index}}"
+    ng-repeat='op in $ctrl.checkData.options'
+  >
+    <div class="weui-cell__hd">
+      <input type="checkbox" class="weui-check"
+        name="{{$ctrl.checkData.namePrefix}}{{$index}}"
+        id="{{$ctrl.checkData.namePrefix}}{{$index}}"
+        ng-model='$ctrl.checkData.values[$index]'
+        ng-change='$ctrl.checkData.onChange($index)'
+      >
+      <i class="weui-icon-checked"></i>
+    </div>
+    <div class="weui-cell__bd">
+      <p>{{op}}</p>
+    </div>
+  </label>
+  
+  <a href="{{$ctrl.checkData.footerLink}}" class="weui-cell weui-cell_link"
+    ng-if='$ctrl.checkData.footerText'
+  >
+    <div class="weui-cell__bd">{{$ctrl.checkData.footerText}}</div>
+  </a>
+</div>
