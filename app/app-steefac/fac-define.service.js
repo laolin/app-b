@@ -6,6 +6,7 @@ angular.module('steefac')
 function ($log,$timeout,AppbData){
 
 
+  var goodatOptions=['轻型','管结构','十字柱','箱形柱','BH','桁架','网架','减震产品','其它'];
 
   var inputs=[
     {
@@ -139,14 +140,14 @@ function ($log,$timeout,AppbData){
 
     
     
-    {
+    /*{
       name: 'goodat',
       desc: '擅长构件',
       type: 'radio',
       required: 1,
-      keys: ['轻型','管结构','十字柱','箱形柱','BH','桁架','网架','减震产品','其它'],
-      values: ['轻型','管结构','十字柱','箱形柱','BH','桁架','网架','减震产品','其它']
-    },
+      keys: goodatOptions,
+      values: goodatOptions
+    },*/
     
     
     {
@@ -227,6 +228,19 @@ function ($log,$timeout,AppbData){
 
 
   function formatObj(obj){
+    
+    //计算平均加工费
+    var sum=0;
+    if(obj.fee) {
+      obj.feeObj=JSON.parse(obj.fee);
+      for(var i=goodatOptions.length;i--; ) {
+        sum+= +obj.feeObj[i];
+      }
+      obj.feeObj.aver= Math.round(sum/goodatOptions.length);
+    }
+    else
+      obj.feeObj={aver:''}
+    
     inputs.forEach(function(inp) {
       if(!obj.hasOwnProperty(inp.name)){
         return;
@@ -238,12 +252,14 @@ function ($log,$timeout,AppbData){
   }
   
   return {
+    inputs:inputs,//字段定义
+    onChange:onChange,
+    
+    
     formatObj:formatObj,//根据字段定义，转换数据格式
     
-    inputs:inputs,//字段定义
     changeMarks:changeMarks,//字段修改标记
-    
-    onChange:onChange
+    goodatOptions:goodatOptions,
   }
   
 }]);

@@ -18,7 +18,7 @@ function ($http,$log,AppbData,FacApi) {
   ctrl.maxSel=allSel;
   
   var goodat;
-  ctrl.det;
+  ctrl.det={};
   
   function onChange(n) {
     var i,sum=0,sel='';

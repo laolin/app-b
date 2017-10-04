@@ -15,6 +15,7 @@ templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
     }
 
     AppbData.activeHeader('home', '钢构厂详情'); 
+    var options=FacDefine.goodatOptions;
     
     var search=$location.search();
     var id=parseInt(search.id);
@@ -31,18 +32,20 @@ templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
 
     
     FacApi.callApi('steefac','detail',{id:id}).then(function(s){
-      $log.log('detail',s);
       if(!s) {
         return appData.showInfoPage('参数错误','Err id: '+id,'/search')
       }
       FacDefine.formatObj(s);
       $scope.fac=s;
+      $log.log('detail',s);
       $scope.isLoading--;
-      
+      var fee;
       $scope.goodat=[];
       if(s.goodat) {
         s.goodat.split(',').forEach(function(val,ind){
           $scope.goodat[ind]={text:val,icon:'check-circle'};
+          fee=s.feeObj[options.indexOf(val)];
+          if(fee)$scope.goodat[ind]['notes']='加工费'+fee+'元/吨';
         });
       }
       _get_admin_of_fac();

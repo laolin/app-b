@@ -7,7 +7,7 @@
       <h4 class="weui-media-box__title">{{fac.name}}</h4>
       <p class="weui-media-box__desc">
       {{['特','一','二','三'][fac.level]}}级资质，
-      加工费: {{fac.fee}}元/吨<br/>
+      加工费: 平均{{fac.feeObj.aver}}元/吨<br/>
 
       
       更新于<a am-time-ago='1000*fac.update_at'
@@ -23,6 +23,7 @@
       <span class="weui-cell__ft"></span>
     </a>    
   </div>
+  
   <div class="weui-panel__ft" ng-if='!uids.length'>
     <a href="" class="weui-cell weui-cell_access weui-cell_link"
       ng-click='FacUser.applyFacAdmin(fac)'
@@ -32,6 +33,7 @@
     </a>    
   </div>
 </div>
+<div class="weui-cells__tips" ng-if='canEdit'></div>
 
 <fac-ui-user-list
  ng-if='uids.length'
@@ -52,11 +54,14 @@ cells="[
 </appb-weui-cells>
 
 <appb-weui-cells
-title='擅长构件'
+title='擅长构件及加工费'
 cells="goodat"
 >
 </appb-weui-cells>
-<div class="weui-cells__tips" ng-if='canEdit'><a href='#!/edit-fac-goodat?id={{id}}' class="weui-btn weui-btn_mini weui-btn_primary">编辑擅长构件</a></div>
+<div class="weui-cells__tips" ng-if='canEdit'>
+  <a href='#!/edit-fac-goodat?id={{id}}' class="weui-btn weui-btn_mini weui-btn_primary">编辑擅长构件</a>
+  <a href='#!/edit-fac-fee?id={{id}}' class="weui-btn weui-btn_mini weui-btn_primary">编辑加工费</a>
+</div>
 
 <appb-weui-cells
 title='厂房设备'
