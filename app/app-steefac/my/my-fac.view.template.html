@@ -1,12 +1,11 @@
 <appb-ui-loading ng-if='$ctrl.isLoading'></appb-ui-loading>
 
-<div ng-if='1'> 
+<div ng-if='!$ctrl.isLoading && !$ctrl.facIds'> 
   <appb-weui-cells
     title='我的钢构厂'
     cells="[
-      {text:'产能更新',url:'/search',icon:'search',notes:'感谢及时更新'}
+      {text:'暂无',url:'/search',icon:'info',notes:'搜索并管理您的钢构厂'}
       ,
-      {text:'我的钢构厂',url:'/my-fac',icon:'user-circle',notes:'修改资料'}
     ]"
   >
   </appb-weui-cells>
