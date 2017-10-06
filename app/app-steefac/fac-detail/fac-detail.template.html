@@ -64,6 +64,14 @@ cells="goodat"
 </div>
 
 <appb-weui-cells
+title='业绩'
+cells="[
+  {text:'业绩',url:'/case-show?id='+id,icon:'flag',notes:''}
+]"
+>
+</appb-weui-cells>
+
+<appb-weui-cells
 title='厂房设备'
 cells="[
   {text:'厂房面积',url:'',icon:'cog',notes:fac.area_factory+'㎡'},
@@ -111,3 +119,5 @@ cells="[
 
 
 </div>
+
+<fac-ui-copyright></fac-ui-copyright>
