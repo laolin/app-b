@@ -5,24 +5,35 @@ angular.module('appb')
 .component('appbFeedList',{
   templateUrl: 'modules/feed/appb-feed-list.component.template.html',  
   bindings: { 
-    feedData:"<",
+    //feedData:"<",
     feedApp:"<",
     feedCat:"<",
-    appData:"<"
+    //appData:"<"
   },
-  controller: ['$log','$timeout','$interval','$scope','$document',
-    function ($log,$timeout,$interval,$scope,$document){
+  controller: ['$log','$timeout','AppbData',
+    function ($log,$timeout,AppbData,){
       var ctrl=this;
       
-      ctrl.$onInit=function(){
-      }
-      ctrl.$onChanges =function(chg){
-      }
-      ctrl.$onDestroy=function(){
-      }
-      ctrl.feedAppCat=function(){
-        return ctrl.feedData.feedAppCat(ctrl.feedApp,ctrl.feedCat);
-      }
+      
+      
+
+  var appData=AppbData.getAppData();
+  var feedData=appData.feedData;
+  ctrl.appData=appData;
+  ctrl.feedData=feedData;
+  
+  
+  ctrl.$onInit=function(){
+    ctrl.feedAppCat= ctrl.feedData.feedAppCat;
+    ctrl.fcat=feedData.feedAppCat(ctrl.feedApp,ctrl.feedCat);
+    if( !feedData.feedAll[ctrl.fcat] || !feedData.feedAll[ctrl.fcat].length) {
+      appData.feedData.exploreFeed(ctrl.feedApp,ctrl.feedCat);
+    }
+  }
+  ctrl.$onChanges =function(chg){
+  }
+  ctrl.$onDestroy=function(){
+  }
       
 
       
