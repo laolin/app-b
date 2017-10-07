@@ -30,7 +30,8 @@ function($location,$log,$q,AppbData,FacApi) {
     return FacUser.myData.isAdmin;
   }
   FacUser.isSysAdmin=function isSysAdmin() {
-    return FacUser.myData.isAdmin & SYS_ADMIN;
+    return FacUser.myData.isAdmin & SYS_ADMIN && 
+      !FacUser.myData.disableSysAdmin ;
   }
   FacUser.canAdmin=function canAdmin(fac) {
     return FacUser.myData.facCanAdmin.indexOf(fac)>=0;

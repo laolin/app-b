@@ -39,6 +39,24 @@
   </appb-weui-cells>
 </div>
 
+<!-- 
+注意，这里由于ng-if 不允许位操作： xx & 0x10000
+所以用:  xx % 0x20000 >=0x10000 
+这两个是等价的
+-->
+<div class='weui-cells' ng-if='($ctrl.FacUser.myData.isAdmin % (2*65536))>=65536'> 
+  <div class="weui-cells__title">系统管理员</div> 
+
+  <div class="weui-cell weui-cell_switch">
+    <div class="weui-cell__bd">模拟为普通用户</div>
+    <div class="weui-cell__ft">
+      <input class="weui-switch" type="checkbox"
+      ng-model="$ctrl.FacUser.myData.disableSysAdmin"/>
+    </div>
+  </div>
+</div>
+
+
 <div ng-if='$ctrl.FacUser.isSysAdmin()'> 
   <appb-weui-cells
     title='系统管理功能'

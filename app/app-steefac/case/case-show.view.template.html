@@ -2,7 +2,7 @@
   <div class="weui-panel__bd">
     <div class="weui-media-box weui-media-box_text">
       <h4 class="weui-media-box__title">{{fac.name}}</h4>
-      <a href='#!/fac-detail?id={{id}}' ng-if='canEdit' class="weui-btn weui-btn_mini weui-btn_primary pull-right">详情</a>
+      <a href='#!/fac-detail?id={{id}}' class="weui-btn weui-btn_mini weui-btn_primary pull-right">详情</a>
       <p class="weui-media-box__desc">
       {{['特','一','二','三'][fac.level]}}级资质，
       加工费: 平均{{fac.feeObj.aver}}元/吨<br/>
@@ -34,6 +34,8 @@
 </div>
 
 <appb-feed-list  
+  hide-poster="hidePoster",
+
   feed-app='feedApp' 
   feed-cat='feedCat'>
 </appb-feed-list>

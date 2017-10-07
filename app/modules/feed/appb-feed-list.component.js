@@ -5,6 +5,7 @@ angular.module('appb')
 .component('appbFeedList',{
   templateUrl: 'modules/feed/appb-feed-list.component.template.html',  
   bindings: { 
+    hidePoster: "<",
     //feedData:"<",
     feedApp:"<",
     feedCat:"<",
