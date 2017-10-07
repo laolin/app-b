@@ -60,3 +60,33 @@
     ng-max="inputDefine.max"
   >
 </div>
+
+<!-- 4b， cf.type = email -->  
+<div class="weui-cell__hd" ng-if="inputDefine.type=='email'">
+  <label class="weui-label">{{inputDefine.desc}}</label>
+</div>
+<div class="weui-cell__bd" ng-if="inputDefine.type=='email'">
+  <input class="weui-input" type="email"
+    placeholder="{{inputDefine.placeholder}}"
+    name="input_{{inputDefine.name}}"
+    ng-model='inputDefine.models[inputDefine.name]' 
+    ng-change="inputDefine.onChange(inputDefine.name)"
+    ng-required='inputDefine.required'
+    ng-pattern='/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/'
+  >
+</div>
+
+<!-- 4c， cf.type = tel -->  
+<div class="weui-cell__hd" ng-if="inputDefine.type=='tel'">
+  <label class="weui-label">{{inputDefine.desc}}</label>
+</div>
+<div class="weui-cell__bd" ng-if="inputDefine.type=='tel'">
+  <input class="weui-input" type="text"
+    placeholder="{{inputDefine.placeholder}}"
+    name="input_{{inputDefine.name}}"
+    ng-model='inputDefine.models[inputDefine.name]' 
+    ng-change="inputDefine.onChange(inputDefine.name)"
+    ng-required='inputDefine.required'
+    ng-pattern='/(^(([0\+]\d{2,3}-?)?(0\d{2,3})-?)((\d{7,8})|(\d{3}-\d{4,5})|(\d{4}-\d{3,4}))(-(\d{1,}))?$)|(^0{0,1}1[3|4|5|6|7|8|9]\d-?((\d{8})|(\d{3}-\d{5})|(\d{4}-\d{4}))$)/'
+  >
+</div>
