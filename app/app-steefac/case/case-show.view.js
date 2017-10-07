@@ -38,10 +38,14 @@ function ($scope,$http,$log,$location,
   });
 
   $scope.canEdit=false;
+  $scope.hidePoster=true;
   _get_admin_of_fac();
     function _get_admin_of_fac(){
       FacUser.getMyData().then(function(s){
-        if(FacUser.isSysAdmin())$scope.canEdit=true;
+        if(FacUser.isSysAdmin()) {
+          $scope.canEdit=true;
+          $scope.hidePoster=false;
+        }
       },function(e){$log.log('Err:',e)});
       FacApi.callApi('stee_user','get_admin_of_fac',{facid:$scope.id}).then(function(s){
         $log.log('get_admin_of_fac',s);
