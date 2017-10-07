@@ -11,7 +11,7 @@ angular.module('appb')
     //appData:"<"
   },
   controller: ['$log','$timeout','AppbData',
-    function ($log,$timeout,AppbData,){
+    function ($log,$timeout,AppbData){
       var ctrl=this;
       
       
