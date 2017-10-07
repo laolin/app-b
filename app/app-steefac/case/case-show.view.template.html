@@ -1,0 +1,43 @@
+<div class="weui-panel weui-panel_access">
+  <div class="weui-panel__bd">
+    <div class="weui-media-box weui-media-box_text">
+    <a href='#!/fac-detail?id={{id}}' ng-if='canEdit' class="weui-btn weui-btn_mini weui-btn_primary pull-right">详情</a>
+      <h4 class="weui-media-box__title">{{fac.name}}</h4>
+      <p class="weui-media-box__desc">
+      {{['特','一','二','三'][fac.level]}}级资质，
+      加工费: 平均{{fac.feeObj.aver}}元/吨<br/>
+
+      
+      更新于<a am-time-ago='1000*fac.update_at'
+        href=''></a>
+      
+        
+      </p>
+    </div>
+  </div>
+  <div class="weui-panel__ft" ng-if='FacUser.isSysAdmin()'>
+    <a href="#!/fac-detail?id={{id}}" class="weui-cell weui-cell_access weui-cell_link">
+      <div class="weui-cell__bd">详情</div>
+      <span class="weui-cell__ft"></span>
+    </a>    
+  </div>
+
+</div>
+
+
+<div class="weui-cells">
+
+
+  <div class="weui-cells__title" ng-if='1'>业绩展示
+  <a href='#!/case-add?id={{id}}' ng-if='canEdit' class="weui-btn weui-btn_mini weui-btn_primary pull-right">增加业绩</a>
+  </div>
+</div>
+
+<appb-feed-list  
+  feed-app='feedApp' 
+  feed-cat='feedCat'>
+</appb-feed-list>
+
+
+
+<fac-ui-copyright></fac-ui-copyright>
