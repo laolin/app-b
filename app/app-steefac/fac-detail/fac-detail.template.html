@@ -63,17 +63,7 @@ cells="goodat"
   <a href='#!/edit-fac-fee?id={{id}}' class="weui-btn weui-btn_mini weui-btn_primary">编辑加工费</a>
 </div>
 
-<appb-weui-cells
-title='业绩'
-cells="[
-  {text:'业绩',url:'/case-show?id='+id,icon:'flag',notes:''}
-]"
->
-</appb-weui-cells>
 
-<div class="weui-cells__tips" ng-if='canEdit'>
-  <a href='#!/case-add?id={{id}}' class="weui-btn weui-btn_mini weui-btn_primary">增加业绩</a>
-</div>
 
 
 <appb-weui-cells
@@ -114,13 +104,16 @@ cells="[
 title='联系方式'
 cells="[
   {text:fac.formatted_address,url:'',icon:'address-card',notes:''},
-  {text:'联系人',url:'',icon:'user-circle',notes:fac.contactor},
+  {text:'联系人',url:'',icon:'user-circle',notes:fac.contact_person},
   {text:'联系电话',url:'',icon:'phone',notes:fac.contact_tel},
   {text:'联系邮箱',url:'',icon:'envelope',notes:fac.contact_email},
 ]"
 >
 </appb-weui-cells>
 
+<div class="weui-cells__tips" ng-if='canEdit'>
+  <a href='#!/edit-fac-contact?id={{id}}' class="weui-btn weui-btn_mini weui-btn_primary">编辑联系方式</a>
+</div>
 
 
 </div>
