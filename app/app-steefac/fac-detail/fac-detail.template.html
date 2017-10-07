@@ -36,9 +36,9 @@
 </div>
 
 <fac-ui-user-list
- ng-if='uids.length'
-title='"管理员："'
- uids='uids' users-info='usersInfo'
+  ng-if='canEdit && uids.length'
+  title='"管理员："'
+  uids='uids' users-info='usersInfo'
 >
 </fac-ui-user-list>
   
