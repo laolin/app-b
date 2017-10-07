@@ -167,6 +167,11 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       $log.log('fids',fids);
       AppbCommentService.getComment({fids:fids.join(',')});
       //
+      
+      //返回长度小于请求的长度，说明没有更多旧内容可加载的
+      if(s.data.data.length<pdata.count) {
+        feedData.hasOldest[fcat]=true;
+      }
       if(pdata.oldmore) { //oldMore
         feedData.feedAll[fcat]=feedData.feedAll[fcat].concat(s.data.data);
         feedData.oldMoreLoading[fcat]=false;
