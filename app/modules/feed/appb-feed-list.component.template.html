@@ -1,4 +1,5 @@
-<div class="ebfeed-list" ng-if='$ctrl.fcat'>
+
+<div class="ebfeed-list" ng-if='1'>
 
   <div class="weui-cells"
     ng-if='$ctrl.feedData.hasNewMore[$ctrl.fcat] && 
@@ -8,12 +9,14 @@
       <div class="weui-cell__bd text-center">有新内容，点此刷新</div>
     </div>
   </div>
-  
   <appb-ui-loading
-    ng-if='$ctrl.feedData.newMoreLoading[$ctrl.fcat]'>
+    ng-if='$ctrl.feedData.newMoreLoading[$ctrl.fcat]
+    || $ctrl.isLoading'>
   </appb-ui-loading>
-
-
+ 
+  <div  class="weui-cells__title" ng-if='!$ctrl.feedData.feedAll[$ctrl.fcat].length&&!$ctrl.isLoading'>
+    暂无内容
+  </div>
   <div ng-repeat='feed in $ctrl.feedData.feedAll[$ctrl.fcat]'>  
     <appb-feed app-data='$ctrl.appData' feed-data='$ctrl.feedData'
     feed-app='$ctrl.feedApp' feed-cat='$ctrl.feedCat'

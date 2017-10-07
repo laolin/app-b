@@ -27,7 +27,12 @@ angular.module('appb')
     ctrl.feedAppCat= ctrl.feedData.feedAppCat;
     ctrl.fcat=feedData.feedAppCat(ctrl.feedApp,ctrl.feedCat);
     if( !feedData.feedAll[ctrl.fcat] || !feedData.feedAll[ctrl.fcat].length) {
-      appData.feedData.exploreFeed(ctrl.feedApp,ctrl.feedCat);
+      ctrl.isLoading=1;
+      appData.feedData.exploreFeed(ctrl.feedApp,ctrl.feedCat).then(function(){
+        ctrl.isLoading=0;
+      },function(e){
+        ctrl.isLoading=0;
+      });
     }
   }
   ctrl.$onChanges =function(chg){
