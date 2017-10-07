@@ -11,7 +11,7 @@ function ($scope,$http,$log,$location,
   var appData=AppbData.getAppData();
   var userData=AppbData.getUserData();
         
-  appData.setPageTitle('显示钢构厂业绩');
+  appData.setPageTitle('钢构厂业绩');
 
   var search=$location.search();
   $scope.id=parseInt(search.id);
@@ -23,7 +23,6 @@ function ($scope,$http,$log,$location,
     return appData.showInfoPage('参数错误','Err id: '+$scope.id,'/search')
   }
   //==================
-  $scope.title='钢构厂业绩';
   $scope.feedApp='steeFacCase';
   $scope.feedCat='fac_case_'+$scope.id;
   $scope.nextPage="/case-show?id="  + $scope.id;
@@ -34,7 +33,6 @@ function ($scope,$http,$log,$location,
       return appData.showInfoPage('参数错误','Err id: '+$scope.id,'/search')
     }
     $scope.fac=s;
-    $scope.title='显示'+s.name + '的业绩';
   },function(e){
     return appData.showInfoPage('发生错误',e+', id:'+$scope.id,'/search')
   });
