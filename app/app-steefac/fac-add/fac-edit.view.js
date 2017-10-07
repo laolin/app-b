@@ -18,18 +18,24 @@ angular.module('steefac')
         var addrInput_bak={};
         var mapCenter_bak,mapZoom_bak,pos_bak;
         
-        AppbData.activeHeader('home', '修改钢构厂'); 
+        appData.setPageTitle('修改钢构厂'); 
+        
+        $scope.isLoading=1;
+        $scope.models={};
         var search=$location.search();
         var id=parseInt(search.id);
         FacApi.callApi('steefac','detail',{id:id}).then(function(s){
           $log.log('detail',s);
+          $scope.isLoading=0;
           if(!s) {
-            $scope.models={};
+            $scope.models=false;
             $scope.noData=true;
             return;
           }
           FacDefine.formatObj(s);
-          angular.extend($scope.models,s);
+          for(var i=FacDefine.inputs.length;i--; ) {
+            $scope.models[FacDefine.inputs[i].name]=s[FacDefine.inputs[i].name];
+          }
           FacMap.selPositionStart('cube','',new AMap.LngLat(s.lngE7/1e7,s.latE7/1e7));
 
         });
