@@ -15,8 +15,16 @@ angular.module('appb')
         ctrl.$onInit=function() {
         }
         ctrl.goLink=function(a) {
-          if(typeof a == 'function') return a();
-          if(a)$location.url(a);
+          if(typeof a == 'function') {
+            a();
+            return false;
+          }
+          if(a.indexOf(':')>0){
+            window.location=a;
+          } else if(a) {
+            $location.url(a);
+            return false;
+          }
         }
       }
     ]

@@ -105,8 +105,8 @@ title='联系方式'
 cells="[
   {text:fac.formatted_address,url:'',icon:'address-card',notes:''},
   {text:'联系人',url:'',icon:'user-circle',notes:fac.contact_person},
-  {text:'联系电话',url:'',icon:'phone',notes:fac.contact_tel},
-  {text:'联系邮箱',url:'',icon:'envelope',notes:fac.contact_email},
+  {text:'联系电话',url:fac.contact_tel?'tel:'+fac.contact_tel:'',icon:'phone',notes:fac.contact_tel},
+  {text:'联系邮箱',url:fac.contact_email?'mailto:'+fac.contact_email:'',icon:'envelope',notes:fac.contact_email},
 ]"
 >
 </appb-weui-cells>
