@@ -1,0 +1,15 @@
+<div class="weui-cells__title" ng-if='$ctrl.det'>{{$ctrl.det.name}}的联系方式</div>
+<div class="weui-cells weui-cells_form">
+  <appb-weui-form 
+    form-define='$ctrl.formDefine' models='$ctrl.models'>
+  </appb-weui-form>
+</div>
+
+<div class="weui-btn-area">
+  <button class="weui-btn weui-btn_primary" 
+  ng-class="{'weui-btn_disabled':!$ctrl.dataOK}"
+  ng-disabled='!$ctrl.dataOK'
+  ng-click="$ctrl.onOk()">更新联系方式</button>
+</div>
+<div class="weui-cells__tips">正在编辑【{{$ctrl.det.name}}】的联系方式</div>
+

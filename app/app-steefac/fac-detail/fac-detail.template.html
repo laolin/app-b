@@ -4,8 +4,8 @@
 <div class="weui-panel weui-panel_access">
   <div class="weui-panel__bd">
     <div class="weui-media-box weui-media-box_text">
-      <a href='#!/case-show?id={{id}}' ng-if='canEdit' class="weui-btn weui-btn_mini weui-btn_primary pull-right">查看业绩</a>
       <h4 class="weui-media-box__title">{{fac.name}}</h4>
+      <a href='#!/case-show?id={{id}}' ng-if='canEdit' class="weui-btn weui-btn_mini weui-btn_primary pull-right">查看业绩</a>
       <p class="weui-media-box__desc">
       {{['特','一','二','三'][fac.level]}}级资质，
       加工费: 平均{{fac.feeObj.aver}}元/吨<br/>
@@ -63,17 +63,7 @@ cells="goodat"
   <a href='#!/edit-fac-fee?id={{id}}' class="weui-btn weui-btn_mini weui-btn_primary">编辑加工费</a>
 </div>
 
-<appb-weui-cells
-title='业绩'
-cells="[
-  {text:'业绩',url:'/case-show?id='+id,icon:'flag',notes:''}
-]"
->
-</appb-weui-cells>
 
-<div class="weui-cells__tips" ng-if='canEdit'>
-  <a href='#!/case-add?id={{id}}' class="weui-btn weui-btn_mini weui-btn_primary">增加业绩</a>
-</div>
 
 
 <appb-weui-cells
@@ -114,13 +104,16 @@ cells="[
 title='联系方式'
 cells="[
   {text:fac.formatted_address,url:'',icon:'address-card',notes:''},
-  {text:'联系人',url:'',icon:'user-circle',notes:fac.contactor},
+  {text:'联系人',url:'',icon:'user-circle',notes:fac.contact_person},
   {text:'联系电话',url:'',icon:'phone',notes:fac.contact_tel},
   {text:'联系邮箱',url:'',icon:'envelope',notes:fac.contact_email},
 ]"
 >
 </appb-weui-cells>
 
+<div class="weui-cells__tips" ng-if='canEdit'>
+  <a href='#!/edit-fac-contact?id={{id}}' class="weui-btn weui-btn_mini weui-btn_primary">编辑联系方式</a>
+</div>
 
 
 </div>
