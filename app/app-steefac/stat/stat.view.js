@@ -18,7 +18,7 @@ angular.module('steefac')
         });
 
         
-        AppbData.activeHeader('home', '钢构产能统计'); 
+        appData.setPageTitle('钢构产能统计'); 
         $scope.abc=0;
 
       }

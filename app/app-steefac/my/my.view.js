@@ -10,8 +10,7 @@ angular.module('steefac')
 
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
-        AppbData.activeHeader('home', '我的'); 
-        AppbData.activeFooter('index');
+        appData.setPageTitle('我的');
         
         
         //要求登录，如果未登录，会自动跳转到登录界面
