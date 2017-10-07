@@ -33,7 +33,6 @@
     </a>    
   </div>
 </div>
-<div class="weui-cells__tips" ng-if='canEdit'></div>
 
 <fac-ui-user-list
  ng-if='uids.length'
@@ -70,6 +69,11 @@ cells="[
 ]"
 >
 </appb-weui-cells>
+
+<div class="weui-cells__tips" ng-if='canEdit'>
+  <a href='#!/case-add?id={{id}}' class="weui-btn weui-btn_mini weui-btn_primary">增加业绩</a>
+</div>
+
 
 <appb-weui-cells
 title='厂房设备'
