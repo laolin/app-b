@@ -5,9 +5,9 @@ angular.module('steefac')
   $routeProvider.when('/fac-edit', {
     templateUrl: 'app-steefac/fac-add/fac-edit.template.html',
     controller: ['$scope','$http','$log','$location',
-        'AppbData','FacDefine','FacMap','FacApi','FacUser',
+        'AppbData','FacDefine','FacMap','FacApi','FacUser','FacSearch',
       function mzUserSearchCtrl($scope,$http,$log,$location,
-          AppbData,FacDefine,FacMap,FacApi,FacUser) {
+          AppbData,FacDefine,FacMap,FacApi,FacUser,FacSearch) {
         var userData=AppbData.getUserData();
         if(! userData || !userData.token) {
           return $location.path( "/wx-login" ).search({pageTo: '/my'});;
@@ -24,20 +24,20 @@ angular.module('steefac')
         $scope.models={};
         var search=$location.search();
         var id=parseInt(search.id);
-        FacApi.callApi('steefac','detail',{id:id}).then(function(s){
-          $log.log('detail',s);
+        FacSearch.getDetail('steefac',id).then(function(s){
           $scope.isLoading=0;
           if(!s) {
             $scope.models=false;
             $scope.noData=true;
             return;
           }
-          FacDefine.formatObj(s);
           for(var i=FacDefine.inputs.length;i--; ) {
             $scope.models[FacDefine.inputs[i].name]=s[FacDefine.inputs[i].name];
           }
           FacMap.selPositionStart('cube','',new AMap.LngLat(s.lngE7/1e7,s.latE7/1e7));
 
+        },function(e){
+          return appData.toastMsg(e,3);
         });
 
         
@@ -59,15 +59,16 @@ angular.module('steefac')
           FacApi.callApi('steefac','delete',{id:id})
           .then(function(s){
             if(s) {
+              delete FacSearch.datailCache['steefac'+id];
               appData.toastMsg('数据已删除',2);
               $location.path( "/search" )
               
             } else {
-              appData.toastMsg('删除异常',8);
+              appData.toastMsg('删除异常',3);
             }
             $log.log('sec',s);
           },function(e){
-            appData.toastMsg(e,8);//'删除失败'+
+            appData.toastMsg(e,3);//'删除失败'+
             $log.log('err',e);
           });
         }
@@ -75,10 +76,11 @@ angular.module('steefac')
           $log.log('/fac-edit .onOk');
           FacApi.callApi('steefac','update',{id:id,d:JSON.stringify(FacMap.addrInput)})
           .then(function(s){
+            delete FacSearch.datailCache['steefac'+id];
             appData.toastMsg('数据已成功更新',2);
             $log.log('sec',s);
           },function(e){
-            appData.toastMsg(e,8);//'更新失败'+
+            appData.toastMsg(e,3);//'更新失败'+
             $log.log('err',e);
           });
         }

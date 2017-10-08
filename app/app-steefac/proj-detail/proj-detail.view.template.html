@@ -1,6 +1,6 @@
-<appb-ui-loading ng-if='!detail.init'></appb-ui-loading>
+<appb-ui-loading ng-if='isLoading'></appb-ui-loading>
 
-<div  ng-if='detail.init'>
+<div  ng-if='!isLoading'>
 <div class="weui-panel weui-panel_access">
   <div class="weui-panel__bd">
     <div class="weui-media-box weui-media-box_text">

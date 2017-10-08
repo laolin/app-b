@@ -5,9 +5,9 @@ angular.module('steefac')
 $routeProvider.when('/case-add', {
 templateUrl: 'app-steefac/case/case-add.view.template.html',
 controller: ['$scope','$http','$log','$location',
-  'AppbData','FacApi','FacUser','AppbFeedService',
+  'AppbData','FacSearch','FacApi','FacUser','AppbFeedService',
 function ($scope,$http,$log,$location,
-  AppbData,FacApi,FacUser,AppbFeedService) {
+  AppbData,FacSearch,FacApi,FacUser,AppbFeedService) {
   var appData=AppbData.getAppData();
         
   appData.setPageTitle('钢构厂业绩');
@@ -26,7 +26,7 @@ function ($scope,$http,$log,$location,
   
   $scope.nextPage="/case-show?id="  + $scope.id;
 
-  FacApi.callApi('steefac','detail',{id:$scope.id}).then(function(s){
+  FacSearch.getDetail('steefac',$scope.id).then(function(s){
     $scope.isLoading=0;
     if(!s) {
       return appData.showInfoPage('参数错误','Err id: '+$scope.id,'/search')

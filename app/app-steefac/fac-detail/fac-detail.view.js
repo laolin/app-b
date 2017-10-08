@@ -5,9 +5,9 @@ angular.module('steefac')
 $routeProvider.when('/fac-detail', {
 templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
   controller: ['$scope','$http','$log','$location',
-    'AppbData','FacDefine','FacMap','FacApi','FacUser',
+    'AppbData','FacDefine','FacSearch','FacApi','FacUser',
   function ($scope,$http,$log,$location,
-    AppbData,FacDefine,FacMap,FacApi,FacUser) {
+    AppbData,FacDefine,FacSearch,FacApi,FacUser) {
     var appData=AppbData.getAppData();
     var userData=AppbData.getUserData();
     if(! userData || !userData.token) {
@@ -21,7 +21,7 @@ templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
     var id=parseInt(search.id);
     var myUid=appData.userData.uid;
     
-    // 1,'steefac','detail'| 2,'stee_user','get_admin_of_fac'
+    // 1,'steefac-detail'| 2,'stee_user-get_admin_of_fac'
     $scope.isLoading=2;
     
     $scope.FacUser=FacUser;
@@ -31,14 +31,12 @@ templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
     $scope.id=id;
 
     
-    FacApi.callApi('steefac','detail',{id:id}).then(function(s){
+    FacSearch.getDetail('steefac',id).then(function(s){
       if(!s) {
         return appData.showInfoPage('参数错误','Err id: '+id,'/search')
       } 
-      FacDefine.formatObj(s);
       appData.setPageTitle(s.name);
       $scope.fac=s;
-      $log.log('detail',s);
       $scope.isLoading--;
       var fee;
       $scope.goodat=[];

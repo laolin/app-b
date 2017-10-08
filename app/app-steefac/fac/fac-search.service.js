@@ -5,8 +5,8 @@
 
 angular.module('steefac')
 .factory('FacSearch',
-['$log','$timeout','AppbData','AmapMainData','FacApi','FacMap','FacUser',
-function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
+['$log','$timeout','$q','AppbData','AmapMainData','FacApi','FacMap','FacUser','FacDefine','ProjDefine',
+function($log,$timeout,$q,AppbData,AmapMainData,FacApi,FacMap,FacUser,FacDefine,ProjDefine) {
   
   var FacSearch={};
   var appData=AppbData.getAppData();
@@ -23,6 +23,8 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
   FacSearch.searchResultSelected=-1;
   FacSearch.searching=0;
   FacSearch.resultTime=0;//准备弃用
+  
+  FacSearch.datailCache={};//数据详情缓存
   
   FacSearch.options={orderBy:'auto',searchInsideMap:0,countRes:1000};
   FacSearch.searchWord='';
@@ -281,6 +283,33 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
     });
   }  
   
+  FacSearch.getDetail=function(type,id) {
+    var deferred = $q.defer();
+    if(type!='steefac' && type!='steeproj') {
+      deferred.reject('errType');
+      return deferred.promise;
+    }
+    if(FacSearch.datailCache[type+id]) {
+      deferred.resolve(FacSearch.datailCache[type+id]);
+      return deferred.promise;
+    }
+    
+    return FacApi.callApi(type,'detail',{id:id}).then(function(s){
+      $log.log('detail-',type,s);
+      if(!s) {
+        deferred.reject('noData');
+        return deferred.promise;
+      }
+      var defObj={steefac:FacDefine,steeproj:ProjDefine};
+      defObj[type].formatObj(s);
+      FacSearch.datailCache[type+id]=s;      
+      deferred.resolve(FacSearch.datailCache[type+id]);
+      return deferred.promise;
+    },function(e){
+      deferred.reject(e);
+      return deferred.promise;
+    });
+  }
   
 
 
