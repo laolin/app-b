@@ -31,7 +31,7 @@ function ($scope,$http,$log,$location,
   
   FacUser.getAdmins().then(function(a){
     if(uid==FacUser.admins[aid].uid) {
-      $scope.facIds=FacUser.admins[aid].fac_main+','+FacUser.admins[aid].fac_can_admin;
+      $scope.facIds=FacUser.admins[aid].fac_can_admin;
       $scope.isLoading=0;
       $log.log('$scope.facIds/uid,aid:',uid,aid,$scope.facIds);
     } else {
