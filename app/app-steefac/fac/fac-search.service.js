@@ -296,7 +296,8 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
       '剩余产能<%- cap_6m %>吨，厂房面积<%- area_factory %>㎡<br>'+
       '擅长构件：<%- goodat %><br/>'+
       '<%- update_at %>更新'+
-      '<a href="#!/fac-detail?id=<%- id %>">【详情】</a><br/>'
+      '<a href="#!/case-show?id=<%- id %>">【业绩】</a>'+
+      '<a href="#!/fac-detail?id=<%- id %>">【详情】</a>'
       ;
 
       //设置主体内容
@@ -341,15 +342,13 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
   }  
   
   //从搜索结果 obj[j] 生成 weui-cells的数据
-  FacSearch.cellOfObj=function(obj,j,type,linkToDet) {
+  FacSearch.cellOfObj=function(obj,j,type,linkUrl_Or_fnOnCLick) {
     if(type=='steeproj'){
       var omonth={3:'三月内',6:'六月内',12:'一年内',24:'两年内',60:'五年内'}
       return {
           text:''+(j+1)+'.'+obj[j].name+'，用钢量'+obj[j].need_steel+
           '吨，项目规模' +obj[j].size+ '㎡，用钢时间：'+omonth[obj[j].in_month],
-          url:linkToDet ?
-            "/proj-detail?id="+obj[j].id :
-            function(){FacSearch.selectOne(j,type)},
+          url:linkUrl_Or_fnOnCLick,
           //url:,
           icon:'university'}
     }
@@ -357,9 +356,7 @@ function($log,$timeout,AppbData,AmapMainData,FacApi,FacMap,FacUser) {
       return {
           text:''+(j+1)+'.'+obj[j].name+'，剩余产能'+obj[j].cap_6m+
           '吨，擅长构件：'+obj[j].goodat,
-          url:linkToDet ?
-            "/fac-detail?id="+obj[j].id :
-            function(){FacSearch.selectOne(j,type)},
+          url:linkUrl_Or_fnOnCLick,
           icon:'cube'}
     }
     return {text:'err type:'+type,icon:'question'};

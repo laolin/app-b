@@ -1,37 +1,41 @@
+
 <div class="ebfeed-list" ng-if='1'>
 
   <div class="weui-cells"
-    ng-if='$ctrl.feedData.hasNewMore[$ctrl.feedAppCat()] && 
-    !$ctrl.feedData.newMoreLoading[$ctrl.feedAppCat()]'
+    ng-if='$ctrl.feedData.hasNewMore[$ctrl.fcat] && 
+    !$ctrl.feedData.newMoreLoading[$ctrl.fcat]'
     ng-click='$ctrl.feedData.exploreFeed($ctrl.feedApp,$ctrl.feedCat,{newMore:1})'>
     <div class='weui-cell text-center'>
       <div class="weui-cell__bd text-center">有新内容，点此刷新</div>
     </div>
   </div>
-  
   <appb-ui-loading
-    ng-if='$ctrl.feedData.newMoreLoading[$ctrl.feedAppCat()]'>
+    ng-if='$ctrl.feedData.newMoreLoading[$ctrl.fcat]
+    || $ctrl.isLoading'>
   </appb-ui-loading>
-
-
-  <div ng-repeat='feed in $ctrl.feedData.feedAll[$ctrl.feedAppCat()]'>  
+ 
+  <div  class="weui-cells__title" ng-if='!$ctrl.feedData.feedAll[$ctrl.fcat].length&&!$ctrl.isLoading'>
+    暂无内容
+  </div>
+  <div ng-repeat='feed in $ctrl.feedData.feedAll[$ctrl.fcat]'>  
     <appb-feed app-data='$ctrl.appData' feed-data='$ctrl.feedData'
     feed-app='$ctrl.feedApp' feed-cat='$ctrl.feedCat'
+    hide-poster='$ctrl.hidePoster'
     feed=feed></appb-feed>
   </div>
   
   <div class="weui-cells">
     <a href class="weui-cell weui-cell_link"
-    ng-if='!$ctrl.feedData.hasOldest[$ctrl.feedAppCat()] && !$ctrl.feedData.oldMoreLoading[$ctrl.feedAppCat()]'
+    ng-if='!$ctrl.feedData.hasOldest[$ctrl.fcat] && !$ctrl.feedData.oldMoreLoading[$ctrl.fcat]'
     ng-click='$ctrl.feedData.exploreFeed($ctrl.feedApp,$ctrl.feedCat,{oldMore:1})'>
       <div class="weui-cell__bd text-center">加载更多</div>
     </a>
     <!--a href class="weui-cell weui-cell_link"
-    ng-if='$ctrl.feedData.hasOldest[$ctrl.feedAppCat()] && !$ctrl.feedData.oldMoreLoading[$ctrl.feedAppCat()]'>
+    ng-if='$ctrl.feedData.hasOldest[$ctrl.fcat] && !$ctrl.feedData.oldMoreLoading[$ctrl.fcat)]'>
       <div class="weui-cell__bd text-center">已显示全部</div>
     </a-->
     
-    <div class="weui-cell" ng-if='$ctrl.feedData.oldMoreLoading[$ctrl.feedAppCat()]'>
+    <div class="weui-cell" ng-if='$ctrl.feedData.oldMoreLoading[$ctrl.fcat]'>
       <div class="weui-loadmore-XX">
         <i class="weui-loading"></i>
         <span class="weui-loadmore__tips">正在加载</span>

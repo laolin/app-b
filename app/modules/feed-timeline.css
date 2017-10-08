@@ -132,8 +132,11 @@
     margin-left: 10px
 }
 
-.eb-po-cmt {
+.eb-po-avt-wrap  + .eb-po-cmt  {
     padding-left: 60px;
+}
+.eb-po-cmt {
+    padding-left: 10px;
     padding-right: 10px;
     width: 100%;
     box-sizing: border-box;

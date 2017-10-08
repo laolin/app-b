@@ -1,7 +1,7 @@
 <div ng-if='noData'>
   <appb-ui-oprate-msg content='该记录不存在'></appb-ui-oprate-msg>
 </div>
-<div ng-if='models.id'>
+<div ng-if='!isLoading'>
   <place-input form-define='formDefine' models='models'></place-input>
   <div class="weui-btn-area">
      <a class="weui-btn weui-btn_primary" href ng-click='onUpdate()'>更新</a>

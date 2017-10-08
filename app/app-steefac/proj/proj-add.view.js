@@ -20,7 +20,7 @@ angular.module('steefac')
           FacMap.selPositionEnd();
         });
 
-        AppbData.activeHeader('home', '新用钢项目'); 
+        appData.setPageTitle('新增用钢项目'); 
         
         $scope.formDefine=ProjDefine;
         $scope.models=FacMap.addrInput;

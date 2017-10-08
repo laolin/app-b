@@ -16,7 +16,7 @@ angular.module('steefac')
           return $location.path( '/my');;
         }
         
-        AppbData.activeHeader('home', '修改用钢项目信息'); 
+        appData.setPageTitle('修改用钢项目信息'); 
         var search=$location.search();
         var id=parseInt(search.id);
         FacApi.callApi('steeproj','detail',{id:id}).then(function(s){

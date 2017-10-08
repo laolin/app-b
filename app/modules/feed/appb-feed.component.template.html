@@ -1,5 +1,5 @@
   <div class="ebfeed-unit">
-    <div class="eb-po-avt-wrap">
+    <div class="eb-po-avt-wrap" ng-if='!$ctrl.hidePoster'>
       <img class="eb-po-avt" ng-src="{{
         $ctrl.feedData.usersInfo[$ctrl.feed.uid].wxinfo?
         $ctrl.feedData.usersInfo[$ctrl.feed.uid].wxinfo.headimgurl :
@@ -8,7 +8,7 @@
     </div>
     <div class="eb-po-cmt">
       <div class="eb-po-body">
-        <div>
+        <div ng-if='!$ctrl.hidePoster'>
           <span class="eb-po-name">{{
             $ctrl.feedData.usersInfo[$ctrl.feed.uid].wxinfo?
             $ctrl.feedData.usersInfo[$ctrl.feed.uid].wxinfo.nickname :

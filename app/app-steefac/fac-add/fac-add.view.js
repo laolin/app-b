@@ -22,7 +22,7 @@ angular.module('steefac')
           FacMap.selPositionEnd();
         });
 
-        AppbData.activeHeader('home', '新钢构厂'); 
+        appData.setPageTitle('新增钢构厂'); 
         
         $scope.formDefine=FacDefine;
         $scope.models=FacMap.addrInput;

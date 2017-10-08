@@ -13,7 +13,7 @@ templateUrl: 'app-steefac/proj-detail/proj-detail.view.template.html',
       return $location.path( "/wx-login" ).search({pageTo: '/my'});;
     }
 
-    AppbData.activeHeader('home', '用钢项目详情'); 
+    appData.setPageTitle('用钢项目详情'); 
     
     var search=$location.search();
     var id=parseInt(search.id);

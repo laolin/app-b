@@ -13,7 +13,7 @@ function ($scope,$http,$log,$location,
     return $location.path( "/wx-login" ).search({pageTo: '/my'});;
   }
 
-  AppbData.activeHeader('home', '钢构厂管理员列表'); 
+  appData.setPageTitle('钢构厂管理员列表'); 
   
   $scope.FacUser=FacUser;
   $scope.isLoading=1;

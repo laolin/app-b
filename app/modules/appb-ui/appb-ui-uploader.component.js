@@ -35,14 +35,14 @@ angular.module('appb')
           if(ctrl.imgs.length >= ctrl.maxCount)return;
           if(1 && !ctrl.appData.isWeixinBrowser) {
             // TODO 电脑上处理上传图片 
-            var n1=ctrl.imgs.length;
-            
-            //模拟上传图片，返回图片ID：imgid
-            var imgid='like.png';
-            ctrl.imgs[n1]=imgid;
-            //把数据写回
-            ctrl.updateImg({imgs:ctrl.imgs});
-            return;
+            return ctrl.appData.toastMsg('要上传图片请在微信内打开',3);
+            //var n1=ctrl.imgs.length;
+            // 模拟上传图片，返回图片ID：imgid
+            //var imgid='like.png';
+            //ctrl.imgs[n1]=imgid;
+            // 把数据写回
+            //ctrl.updateImg({imgs:ctrl.imgs});
+            //return;
           }
           wx.ready(function () {
             wx.chooseImage({
