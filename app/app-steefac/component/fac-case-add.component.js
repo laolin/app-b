@@ -46,7 +46,7 @@ function ($log,$location,AppbData) {
     $log.log('ctrl.afterPublish-case',a);
     
     $location.url( ctrl.nextPage);
-    if(feedData.feedAll[ctrl.fcat].length) {
+    if(feedData.feedAll[ctrl.fcat]&&feedData.feedAll[ctrl.fcat].length) {
       feedData.hasNewMore[ctrl.fcat]=true;
       feedData.exploreFeed(ctrl.feedApp,ctrl.feedCat,{newMore:1});//自动刷新新帖
     }//原先没有任何feed时,跳到/explore后会自己取，故不需要刷新新帖
