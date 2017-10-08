@@ -5,9 +5,9 @@ angular.module('steefac')
 $routeProvider.when('/case-show', {
 templateUrl: 'app-steefac/case/case-show.view.template.html',
 controller: ['$scope','$http','$log','$location',
-  'AppbData','FacApi','FacUser','FacDefine',
+  'AppbData','FacSearch','FacApi','FacUser','FacDefine',
 function ($scope,$http,$log,$location,
-  AppbData,FacApi,FacUser,FacDefine) {
+  AppbData,FacSearch,FacApi,FacUser,FacDefine) {
   var appData=AppbData.getAppData();
   var userData=AppbData.getUserData();
         
@@ -27,7 +27,7 @@ function ($scope,$http,$log,$location,
   $scope.feedCat='fac_case_'+$scope.id;
   $scope.nextPage="/case-show?id="  + $scope.id;
 
-  FacApi.callApi('steefac','detail',{id:$scope.id}).then(function(s){
+  FacSearch.getDetail('steefac',$scope.id).then(function(s){
     $scope.isLoading=0;
     if(!s) {
       return appData.showInfoPage('参数错误','Err id: '+$scope.id,'/search')

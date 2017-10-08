@@ -1,9 +1,10 @@
-<appb-ui-loading ng-if='!detail.init'></appb-ui-loading>
+<appb-ui-loading ng-if='isLoading'></appb-ui-loading>
 
-<div  ng-if='detail.init'>
+<div  ng-if='!isLoading'>
 <div class="weui-panel weui-panel_access">
   <div class="weui-panel__bd">
     <div class="weui-media-box weui-media-box_text">
+      <a class='pull-right' href='#!/stee-feed-show?type=steeproj&id={{id}}'><i class="fa fa-comments" aria-hidden="true"></i></a>
       <h4 class="weui-media-box__title">{{fac.name}}</h4>
       <p class="weui-media-box__desc">
       {{fac.addr}}<br ng-if='fac.addr'/>

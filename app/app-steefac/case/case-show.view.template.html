@@ -1,6 +1,7 @@
 <div class="weui-panel weui-panel_access">
   <div class="weui-panel__bd">
     <div class="weui-media-box weui-media-box_text">
+      <a class='pull-right' href='#!/stee-feed-show?type=steefac&id={{id}}'><i class="fa fa-comments" aria-hidden="true"></i></a>
       <h4 class="weui-media-box__title">{{fac.name}}</h4>
       <a href='#!/fac-detail?id={{id}}' class="weui-btn weui-btn_mini weui-btn_primary pull-right">详情</a>
       <p class="weui-media-box__desc">
@@ -14,12 +15,6 @@
         
       </p>
     </div>
-  </div>
-  <div class="weui-panel__ft" ng-if='FacUser.isSysAdmin()'>
-    <a href="#!/fac-detail?id={{id}}" class="weui-cell weui-cell_access weui-cell_link">
-      <div class="weui-cell__bd">详情</div>
-      <span class="weui-cell__ft"></span>
-    </a>    
   </div>
 
 </div>

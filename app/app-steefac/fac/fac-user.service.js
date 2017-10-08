@@ -97,7 +97,7 @@ function($location,$log,$q,AppbData,FacApi) {
       myData.init=1;
       if(s) {
         myData.isAdmin=parseInt(s.is_admin);
-        myData.facMain=parseInt(s.fac_main);
+        myData.update_at=parseInt(s.update_at);
         myData.uid=parseInt(s.uid);
         myData.facCanAdmin=s.fac_can_admin.split(',');
       }

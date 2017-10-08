@@ -25,4 +25,27 @@ angular.module('appb')
     }*/
   ]);
 
+  
+  feedData.defineFeed('steeComment','钢构厂，项目的评论',[
+    {
+      name: 'd1',//d1~d4,attr,要和数据表的列名对应
+      desc: '评分',
+      type: 'radio',
+      keys: ["",'1','2','3','4','5'],
+      values: ['未评分','一星(极差)','二星(较差)','三星(一般)','四星(较好)','五星(极好)']
+    },
+    {
+      name: 'content',
+      desc:'留言',
+      placeholder: '留言千古事，得失寸心知。',
+      type: 'mtext',
+      maxlength: 999,
+      minlength: 3
+    },
+    {
+      name: 'pics',
+      desc:'图片',
+      type: 'pics'
+    },
+  ]);
 }]);

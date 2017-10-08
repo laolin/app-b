@@ -1,23 +1,23 @@
 'use strict';
 
 angular.module('steefac')
-.component('facCaseAdd',{
-templateUrl: 'app-steefac/component/fac-case-add.component.template.html',
+.component('steeFeedAdd',{
+templateUrl: 'app-steefac/feed/stee-feed-add.component.template.html',
 bindings: {
 
-  feedApp:'<',
-  feedCat:'<',
+  type:'<',
+  id:'<',
   
-  nextPage:'<',
+  nextPage:'<'
 },
-controller:['$log','$location','AppbData',
-function ($log,$location,AppbData) {
+controller:['$log','$location','AppbData','FacSearch',
+function ($log,$location,AppbData,FacSearch) {
   var ctrl=this;
   var appData=AppbData.getAppData();
   var feedData=appData.feedData;
 
   
-  ctrl.isLoading=1;
+  ctrl.isLoading=2;
   
   ctrl.appData=appData;
   ctrl.feedData=feedData;
@@ -26,25 +26,31 @@ function ($log,$location,AppbData) {
   ctrl.det=false;
   
   ctrl.$onInit=function(){
+    FacSearch.getDetail (ctrl.type,ctrl.id).then(function(s){
+      ctrl.det=s;
+      ctrl.isLoading--;
+    },function(e){
+      return appData.showInfoPage('参数错误',
+        e+'(type='+ctrl.type+',id='+ctrl.id+')','/search')
+    });
+      
+    ctrl.feedApp='steeComment',
+    ctrl.feedCat=ctrl.type+ctrl.id;
     ctrl.fcat=feedData.feedAppCat(ctrl.feedApp,ctrl.feedCat);
     if(!feedData.draftAll[ctrl.fcat]) {
       feedData.initDraft(ctrl.feedApp,ctrl.feedCat).then(function(){
         ctrl.feed=feedData.draftAll[ctrl.fcat];
-        $log.log('feed---------1',ctrl.feed);
       });
     } else {
       ctrl.feed=feedData.draftAll[ctrl.fcat];
-        $log.log('feed---------2',ctrl.feed);
     }
-    ctrl.isLoading=0;
+    ctrl.isLoading--;
   }
   ctrl.$onChanges=function(chg){
 
   }
   
   ctrl.afterPublish=function(a) {
-    $log.log('ctrl.afterPublish-case',a);
-    
     $location.url( ctrl.nextPage);
     if(feedData.feedAll[ctrl.fcat]&&feedData.feedAll[ctrl.fcat].length) {
       feedData.hasNewMore[ctrl.fcat]=true;

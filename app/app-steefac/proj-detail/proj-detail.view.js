@@ -5,9 +5,9 @@ angular.module('steefac')
 $routeProvider.when('/proj-detail', {
 templateUrl: 'app-steefac/proj-detail/proj-detail.view.template.html',
   controller: ['$scope','$http','$log','$location',
-    'AppbData','FacDefine','FacMap','FacApi','FacUser',
+    'AppbData','FacDefine','FacSearch','FacApi','FacUser',
   function mzUserSearchCtrl($scope,$http,$log,$location,
-    AppbData,FacDefine,FacMap,FacApi,FacUser) {
+    AppbData,FacDefine,FacSearch,FacApi,FacUser) {
     var userData=AppbData.getUserData();
     if(! userData || !userData.token) {
       return $location.path( "/wx-login" ).search({pageTo: '/my'});;
@@ -18,26 +18,22 @@ templateUrl: 'app-steefac/proj-detail/proj-detail.view.template.html',
     var search=$location.search();
     var id=parseInt(search.id);
     
-    $scope.detail={obj:0,init:0};
+    $scope.isLoading=1;
     $scope.user=FacUser;
     $scope.fac={};
     $scope.id=id;
 
     
-    FacApi.callApi('steeproj','detail',{id:id}).then(function(s){
-      $log.log('detail',s);
+    FacSearch.getDetail('steeproj',id).then(function(s){
       if(!s) {
-        $location.path( "/" );
-        return;
+        return appData.showInfoPage('参数错误','Err id: '+id,'/search')
       }
-      FacDefine.formatObj(s);
-      $scope.detail.obj=s;
+      $scope.isLoading=0;
       appData.setPageTitle(s.name);
       $scope.fac=s;
       var omonth={3:'三月内',6:'六月内',12:'一年内',24:'两年内',60:'五年内'}
 
       s.in_month_t=omonth[s.in_month]
-      $scope.detail.init= + new Date;
 
       
     });

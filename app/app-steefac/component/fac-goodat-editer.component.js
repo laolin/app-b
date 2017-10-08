@@ -5,8 +5,8 @@ templateUrl: 'app-steefac/component/fac-goodat-editer.component.template.html',
 bindings: {
   id:'<'
 },
-controller:['$http','$log','AppbData','FacApi',
-function ($http,$log,AppbData,FacApi) {
+controller:['$http','$log','AppbData','FacApi','FacSearch',
+function ($http,$log,AppbData,FacApi,FacSearch) {
   var appData=AppbData.getAppData();
   var ctrl=this;
   
@@ -51,6 +51,7 @@ function ($http,$log,AppbData,FacApi) {
       if(!s) {
         return appData.toastMsg('未修改',3);
       }
+      delete FacSearch.datailCache['steefac'+ctrl.id];
       return appData.toastMsg('已修改',3);
     },function(e){
       return appData.toastMsg(e,3);
@@ -61,7 +62,7 @@ function ($http,$log,AppbData,FacApi) {
   
   
   ctrl.$onInit=function(){
-    FacApi.callApi('steefac','detail',{id:ctrl.id}).then(function(s){
+    FacSearch.getDetail('steefac',ctrl.id).then(function(s){
       if(!s) {
         return appData.showInfoPage('参数错误','Err id: '+ctrl.id,'/search')
       }
