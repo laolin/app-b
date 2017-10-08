@@ -33,6 +33,7 @@ function ($scope,$http,$log,$location,
       return appData.showInfoPage('参数错误','Err id: '+$scope.id,'/search')
     }
     FacDefine.formatObj(s);
+    appData.setPageTitle(s.name);
     $scope.fac=s;
   },function(e){
     return appData.showInfoPage('发生错误',e+', id:'+$scope.id,'/search')

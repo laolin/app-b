@@ -34,8 +34,9 @@ templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
     FacApi.callApi('steefac','detail',{id:id}).then(function(s){
       if(!s) {
         return appData.showInfoPage('参数错误','Err id: '+id,'/search')
-      }
+      } 
       FacDefine.formatObj(s);
+      appData.setPageTitle(s.name);
       $scope.fac=s;
       $log.log('detail',s);
       $scope.isLoading--;

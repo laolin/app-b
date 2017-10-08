@@ -32,6 +32,7 @@ templateUrl: 'app-steefac/proj-detail/proj-detail.view.template.html',
       }
       FacDefine.formatObj(s);
       $scope.detail.obj=s;
+      appData.setPageTitle(s.name);
       $scope.fac=s;
       var omonth={3:'三月内',6:'六月内',12:'一年内',24:'两年内',60:'五年内'}
 

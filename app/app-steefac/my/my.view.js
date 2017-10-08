@@ -25,13 +25,8 @@ angular.module('steefac')
         ctrl.FacUser=FacUser;
         
         $scope.$on('$viewContentLoaded', function () {
-          ctrl.wxShareData_ori=angular.copy(appData.wxShareData);//备份wxShareData
-          appData.wxShareData.title='错题本-我的';
-          appData.wxShareData.desc='错题本-我的-说明';
-
         });
         $scope.$on('$destroy', function () {
-          angular.extend(appData.wxShareData,ctrl.wxShareData_ori);//还原wxShareData
         });
 
         
