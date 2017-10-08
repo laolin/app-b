@@ -5,9 +5,9 @@ angular.module('steefac')
 $routeProvider.when('/case-show', {
 templateUrl: 'app-steefac/case/case-show.view.template.html',
 controller: ['$scope','$http','$log','$location',
-  'AppbData','FacApi','FacUser','AppbFeedService',
+  'AppbData','FacApi','FacUser','FacDefine',
 function ($scope,$http,$log,$location,
-  AppbData,FacApi,FacUser,AppbFeedService) {
+  AppbData,FacApi,FacUser,FacDefine) {
   var appData=AppbData.getAppData();
   var userData=AppbData.getUserData();
         
@@ -32,6 +32,7 @@ function ($scope,$http,$log,$location,
     if(!s) {
       return appData.showInfoPage('参数错误','Err id: '+$scope.id,'/search')
     }
+    FacDefine.formatObj(s);
     $scope.fac=s;
   },function(e){
     return appData.showInfoPage('发生错误',e+', id:'+$scope.id,'/search')

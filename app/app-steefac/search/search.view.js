@@ -15,7 +15,7 @@ controller: ['$scope','$http','$log','$location','AppbData','FacSearch','FacMap'
     
     var appData=AppbData.getAppData();
     
-    AppbData.activeHeader('home', '搜索钢构地图'); 
+    appData.setPageTitle('搜索钢构地图'); 
     $scope.$on('$viewContentLoaded', function () {
       if(!FacMap.searchMarkers.length) 
         FacMap.selPositionStart('search','选点搜周边');

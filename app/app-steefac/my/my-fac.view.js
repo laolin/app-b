@@ -10,8 +10,7 @@ function ($scope,$log,AppbData,FacUser) {
 
   var userData=AppbData.getUserData();
   var appData=AppbData.getAppData();
-  AppbData.activeHeader('home', '我的钢构厂'); 
-  AppbData.activeFooter('index');
+  appData.setPageTitle('我管理的钢构厂');
   
   //要求登录，如果未登录，会自动跳转到登录界面
   appData.requireLogin();

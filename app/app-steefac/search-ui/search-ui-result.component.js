@@ -74,7 +74,12 @@ angular.module('steefac')
         var dt=new Date(1000*r[j].update_at);
         var u_at=(dt.getYear()+1900)+'.'+(dt.getMonth()+1)+'.'+dt.getDate();
 
-        ctrl.cells[i]=ctrl.searchData.cellOfObj(r,j,ctrl.searchType);
+        ctrl.cells[i]=ctrl.searchData.cellOfObj(r,j,ctrl.searchType,
+          function(){//注意这里要使用工厂函数，否则j的数值会不对
+            var jj=j;
+            return function(){ctrl.searchData.selectOne(jj,ctrl.searchType)}
+          }()
+        );
         val = ctrl.searchData.valueOfObj(r,j,ctrl.searchType);
         sum += val.val;
       }

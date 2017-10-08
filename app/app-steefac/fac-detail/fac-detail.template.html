@@ -18,12 +18,6 @@
       </p>
     </div>
   </div>
-  <div class="weui-panel__ft" ng-if='FacUser.isSysAdmin()'>
-    <a href="#!/fac-edit?id={{id}}" class="weui-cell weui-cell_access weui-cell_link">
-      <div class="weui-cell__bd">系统管理员：修改资料</div>
-      <span class="weui-cell__ft"></span>
-    </a>    
-  </div>
   
   <div class="weui-panel__ft" ng-if='!uids.length'>
     <a href="" class="weui-cell weui-cell_access weui-cell_link"
@@ -36,9 +30,9 @@
 </div>
 
 <fac-ui-user-list
- ng-if='uids.length'
-title='"管理员："'
- uids='uids' users-info='usersInfo'
+  ng-if='canEdit && uids.length'
+  title='"管理员："'
+  uids='uids' users-info='usersInfo'
 >
 </fac-ui-user-list>
   
@@ -115,6 +109,13 @@ cells="[
   <a href='#!/edit-fac-contact?id={{id}}' class="weui-btn weui-btn_mini weui-btn_primary">编辑联系方式</a>
 </div>
 
+<appb-weui-cells ng-if='canEdit'
+title='高级管理功能'
+cells="[
+  {text:'修改更多资料',url:'/fac-edit?id='+id,icon:'user-plus',notes:''},
+]"
+>
+</appb-weui-cells>
 
 </div>
 
