@@ -83,61 +83,6 @@ function ($log,$timeout,AppbData){
       max: 999999
     },
     
-    {
-      name: 'workers',
-      desc: '工人总数',
-      placeholder:'0-99999',
-      type: 'number',
-      required: 0,
-      min: 0,
-      max: 99999
-    },
-    {
-      name: 'workers_hangong',
-      desc: '焊工人数',
-      placeholder:'0-99999',
-      type: 'number',
-      required: 0,
-      min: 0,
-      max: 99999
-    },
-    {
-      name: 'workers_maogong',
-      desc: '铆工人数',
-      placeholder:'0-99999',
-      type: 'number',
-      required: 0,
-      min: 0,
-      max: 99999
-    },
-    {
-      name: 'workers_gongyi',
-      desc: '工艺人员',
-      placeholder:'0-99999',
-      type: 'number',
-      required: 0,
-      min: 0,
-      max: 99999
-    },
-    {
-      name: 'workers_xiangtu',
-      desc: '详图人员',
-      placeholder:'0-99999',
-      type: 'number',
-      required: 0,
-      min: 0,
-      max: 99999
-    },
-    {
-      name: 'workers_other',
-      desc: '其他人员',
-      placeholder:'0-99999',
-      type: 'number',
-      required: 0,
-      min: 0,
-      max: 99999
-    },
-
     
     
     /*{
@@ -217,6 +162,61 @@ function ($log,$timeout,AppbData){
     },
     
     
+    {
+      name: 'workers',
+      desc: '工人总数',
+      placeholder:'0-99999',
+      type: 'number',
+      required: 0,
+      min: 0,
+      max: 99999
+    },
+    {
+      name: 'workers_hangong',
+      desc: '焊工人数',
+      placeholder:'0-99999',
+      type: 'number',
+      required: 0,
+      min: 0,
+      max: 99999
+    },
+    {
+      name: 'workers_maogong',
+      desc: '铆工人数',
+      placeholder:'0-99999',
+      type: 'number',
+      required: 0,
+      min: 0,
+      max: 99999
+    },
+    {
+      name: 'workers_gongyi',
+      desc: '工艺人员',
+      placeholder:'0-99999',
+      type: 'number',
+      required: 0,
+      min: 0,
+      max: 99999
+    },
+    {
+      name: 'workers_xiangtu',
+      desc: '详图人员',
+      placeholder:'0-99999',
+      type: 'number',
+      required: 0,
+      min: 0,
+      max: 99999
+    },
+    {
+      name: 'workers_other',
+      desc: '其他人员',
+      placeholder:'0-99999',
+      type: 'number',
+      required: 0,
+      min: 0,
+      max: 99999
+    },
+
     
 
 
