@@ -51,6 +51,7 @@
     <div class="weui-cell__bd">模拟为普通用户</div>
     <div class="weui-cell__ft">
       <input class="weui-switch" type="checkbox"
+      ng-change='$ctrl.onDisableSysAdmin()'
       ng-model="$ctrl.FacUser.myData.disableSysAdmin"/>
     </div>
   </div>

@@ -32,6 +32,18 @@ angular.module('steefac')
         
         ctrl.userData=userData;
         ctrl.appData=appData;
+        ctrl.onDisableSysAdmin=function() {
+          var me;
+          me=appData.userData.wxinfo;
+          me.nickname='请高手用户';
+          me.headimgurl='https://api.qinggaoshou.com/api-eb/uploads/wx_ee6518de6283518eac17ba8d10eb5da41947f3a2.jpg';
+          
+          me=appData.userData.usersInfo[appData.userData.uid];
+          if(me) {
+            me.wxinfo.nickname='请高手用户';
+            me.wxinfo.headimgurl='https://api.qinggaoshou.com/api-eb/uploads/wx_ee6518de6283518eac17ba8d10eb5da41947f3a2.jpg';
+          }
+        }
         
         ctrl.swipeLeft=function() {
           appData.toastMsg('左滑',2);
