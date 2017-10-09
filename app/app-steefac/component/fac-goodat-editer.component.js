@@ -76,7 +76,8 @@ function ($http,$log,AppbData,FacApi,FacSearch) {
   function initCheckbox(){
   
     $log.log('facGoodatEditer onInit',goodat);
-    var ga=goodat.split(',');
+    var ga=[];
+    if(goodat)ga=goodat.split(',');
     ctrl.checkData= {
       title: ctrl.det.name+'的擅长构件',
       namePrefix: 'goodat_', //自会动命名为：goodat_0 , goodat_1
