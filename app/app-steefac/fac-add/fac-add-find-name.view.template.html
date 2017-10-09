@@ -23,22 +23,27 @@
 <div class="weui-btn-area">
   <button class="weui-btn weui-btn_primary"
   ng-click="onFindFac()"
-  ng-class="{'weui-btn_disabled':!FacMap.addrInput.name}"
-  ng-disabled='!FacMap.addrInput.name'
+  ng-class="{'weui-btn_disabled':!FacMap.addrInput.name || isLoading>0}"
+  ng-disabled='!FacMap.addrInput.name || isLoading>0'
   >搜索是否已有数据
   </button>
 </div>
 
+<appb-ui-loading ng-if='isLoading>0'></appb-ui-loading>
 
+<div ng-if='searchDone && facList.length==0'>
 <appb-weui-cells
-  ng-if='searchDone && facList.length==0'
   title='未找以下钢构厂的数据'
   cells="[
     {text:FacMap.addrInput.name,url:onNewFac,icon:'plus',notes:'点击此处创建'},
   ]"
 >
 </appb-weui-cells>
-
+  <button class="weui-btn weui-btn_primary"
+  ng-click="onNewFac()"
+  >创建
+  </button>
+</div>
 
 <fac-list
   ng-if='facList.length' 

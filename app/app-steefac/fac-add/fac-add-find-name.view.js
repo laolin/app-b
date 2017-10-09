@@ -28,6 +28,7 @@ angular.module('steefac')
         
 
         $scope.facList=[];
+        $scope.isLoading=false;
         $scope.searchDone=false;
         $scope.FacMap=FacMap;
         $scope.onChange=function(){
@@ -49,15 +50,18 @@ angular.module('steefac')
           
           $scope.facList=[];
           $scope.searchDone=false;
+          $scope.isLoading=1;
           
           FacApi.callApi('steefac','search',{s:FacMap.addrInput.name,count:10})
           .then(function(s){
             $scope.searchDone=1;
+            $scope.isLoading=0;
             $scope.facList=s;
             $log.log('sec',s);
           },function(e){
             appData.toastMsg('搜索失败',3);
             $log.log('err',e);
+            $scope.isLoading=0;
           });
         }
 
