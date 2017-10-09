@@ -42,7 +42,7 @@ templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
       $scope.goodat=[];
       if(s.goodat) {
         s.goodat.split(',').forEach(function(val,ind){
-          $scope.goodat[ind]={text:val,icon:'check-circle'};
+          $scope.goodat[ind]={text:val,icon:'check-circle',url:''};
           fee=s.feeObj[options.indexOf(val)];
           if(fee)$scope.goodat[ind]['notes']='加工费'+fee+'元/吨';
         });

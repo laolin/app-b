@@ -5,8 +5,8 @@ templateUrl: 'app-steefac/component/fac-goodat-editer.component.template.html',
 bindings: {
   id:'<'
 },
-controller:['$http','$log','AppbData','FacApi','FacSearch',
-function ($http,$log,AppbData,FacApi,FacSearch) {
+controller:['$location','$log','AppbData','FacApi','FacSearch',
+function ($location,$log,AppbData,FacApi,FacSearch) {
   var appData=AppbData.getAppData();
   var ctrl=this;
   
@@ -52,6 +52,7 @@ function ($http,$log,AppbData,FacApi,FacSearch) {
         return appData.toastMsg('未修改',3);
       }
       delete FacSearch.datailCache['steefac'+ctrl.id];
+      $location.path('/fac-detail').search({id:ctrl.id});
       return appData.toastMsg('已修改',3);
     },function(e){
       return appData.toastMsg(e,3);
@@ -76,7 +77,8 @@ function ($http,$log,AppbData,FacApi,FacSearch) {
   function initCheckbox(){
   
     $log.log('facGoodatEditer onInit',goodat);
-    var ga=goodat.split(',');
+    var ga=[];
+    if(goodat)ga=goodat.split(',');
     ctrl.checkData= {
       title: ctrl.det.name+'的擅长构件',
       namePrefix: 'goodat_', //自会动命名为：goodat_0 , goodat_1

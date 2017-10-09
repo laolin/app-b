@@ -34,6 +34,9 @@ angular.module('steefac')
           for(var i=FacDefine.inputs.length;i--; ) {
             $scope.models[FacDefine.inputs[i].name]=s[FacDefine.inputs[i].name];
           }
+          $scope.models.addr=s.addr;
+          $scope.facName=s.name;
+          
           FacMap.selPositionStart('cube','',new AMap.LngLat(s.lngE7/1e7,s.latE7/1e7));
 
         },function(e){
@@ -52,7 +55,7 @@ angular.module('steefac')
         $scope.formDefine=FacDefine;
         $scope.models={};
         $scope.onDelete=function(){
-          appData.dialogData.confirmDialog('删除【'+$scope.models.id+'】',_doDel)
+          appData.dialogData.msgBox('请您确认要删除【'+$scope.facName+'】么？','确认删除钢构厂','删除','取消',_doDel)
         }
         function _doDel() {
           $log.log('/fac-Del .onOk');

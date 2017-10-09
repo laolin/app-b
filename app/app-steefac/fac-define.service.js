@@ -9,7 +9,7 @@ function ($log,$timeout,AppbData){
   var goodatOptions=['轻型','管结构','十字柱','箱形柱','BH','桁架','网架','减震产品','其它'];
 
   var inputs=[
-    {
+    /*{
       name: 'name',
       desc: '厂名',
       type: 'text',
@@ -17,7 +17,7 @@ function ($log,$timeout,AppbData){
       required: 1,
       minlength: 4,
       maxlength: 16
-    },
+    },*/
     {
       name: 'level',
       desc: '资质',

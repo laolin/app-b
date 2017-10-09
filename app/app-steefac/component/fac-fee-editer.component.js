@@ -5,8 +5,8 @@ templateUrl: 'app-steefac/component/fac-fee-editer.component.template.html',
 bindings: {
   id:'<'
 },
-controller:['$http','$log','AppbData','FacApi','FacDefine','FacSearch',
-function ($http,$log,AppbData,FacApi,FacDefine,FacSearch) {
+controller:['$location','$log','AppbData','FacApi','FacDefine','FacSearch',
+function ($location,$log,AppbData,FacApi,FacDefine,FacSearch) {
   var appData=AppbData.getAppData();
   var ctrl=this;
   
@@ -50,6 +50,7 @@ function ($http,$log,AppbData,FacApi,FacDefine,FacSearch) {
         return appData.toastMsg('未修改',3);
       }
       delete FacSearch.datailCache['steefac'+ctrl.id];
+      $location.path('/fac-detail').search({id:ctrl.id});
       return appData.toastMsg('已修改',3);
     },function(e){
       return appData.toastMsg(e,3);
