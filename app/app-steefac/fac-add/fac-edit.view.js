@@ -35,6 +35,7 @@ angular.module('steefac')
             $scope.models[FacDefine.inputs[i].name]=s[FacDefine.inputs[i].name];
           }
           $scope.models.addr=s.addr;
+          $scope.facName=s.name;
           
           FacMap.selPositionStart('cube','',new AMap.LngLat(s.lngE7/1e7,s.latE7/1e7));
 
