@@ -55,7 +55,7 @@ angular.module('steefac')
         $scope.formDefine=FacDefine;
         $scope.models={};
         $scope.onDelete=function(){
-          appData.dialogData.confirmDialog('删除【'+id+'】',_doDel)
+          appData.dialogData.msgBox('请您确认要删除【'+$scope.facName+'】么？','确认删除钢构厂','删除','取消',_doDel)
         }
         function _doDel() {
           $log.log('/fac-Del .onOk');
