@@ -12,9 +12,9 @@ angular.module('steefac')
         if(! userData || !userData.token) {
           return $location.path( "/wx-login" ).search({pageTo: '/fac-add'});;
         }
-        if(!FacUser.isSysAdmin()) {
-          return $location.path( '/my');;
-        }
+        //if(!FacUser.isSysAdmin()) {
+        //  return $location.path( '/my');;
+        //}
         $scope.$on('$viewContentLoaded', function () {
           FacMap.selPositionStart('header');
         });
@@ -23,6 +23,10 @@ angular.module('steefac')
         });
 
         appData.setPageTitle('新增钢构厂'); 
+
+        if(!FacMap.addrInput.name) {
+          return $location.path('/fac-add-find-name')
+        }
         
         $scope.formDefine=FacDefine;
         $scope.models=FacMap.addrInput;
