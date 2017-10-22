@@ -106,7 +106,6 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
       function(s){
         FacSearch.searching=false;
         FacSearch.searchResultSelected=-1;
-        FacSearch.searchResult={};//由于两个搜索结果页合并，搜索结果要全部清空
         FacSearch.searchResult[type+'.ver']= +new Date();//用来标记搜索结果是否更新
         //$log.log('sreach-res--1',s);
         FacSearch.searchResult[type]=s;
@@ -136,9 +135,8 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   }
   FacSearch.clearResult=function (type){
     FacMap.selPositionStart('search','选点搜周边');
-    //FacSearch.searchResult[type]=[];
-    //FacSearch.searchResult[type+'.ver']=0;
-    FacSearch.searchResult={};//由于两个搜索结果页合并，搜索结果要全部清空
+    FacSearch.searchResult[type]=[];
+    FacSearch.searchResult[type+'.ver']=0;
     FacSearch.searchResultSelected=-1;
     FacSearch.searching=0;
     FacSearch.newSearchMarkers([],0,0,0,type);//清除地图中的标记
