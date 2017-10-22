@@ -5,9 +5,9 @@ angular.module('steefac')
 $routeProvider.when('/proj-detail', {
 templateUrl: 'app-steefac/proj-detail/proj-detail.view.template.html',
   controller: ['$scope','$http','$log','$location',
-    'AppbData','FacDefine','FacSearch','FacApi','FacUser',
+    'AppbData','FacDefine','FacSearch','FacUser',
   function mzUserSearchCtrl($scope,$http,$log,$location,
-    AppbData,FacDefine,FacSearch,FacApi,FacUser) {
+    AppbData,FacDefine,FacSearch,FacUser) {
     var userData=AppbData.getUserData();
     if(! userData || !userData.token) {
       return $location.path( "/wx-login" ).search({pageTo: '/my'});;

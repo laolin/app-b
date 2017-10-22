@@ -5,9 +5,9 @@ angular.module('steefac')
   $routeProvider.when('/proj-edit', {
     templateUrl: 'app-steefac/proj/proj-edit.template.html',
     controller: ['$scope','$http','$log','$location',
-        'AppbData','ProjDefine','FacMap','FacApi','FacUser','FacSearch',
+        'AppbData','ProjDefine','FacMap','AppbAPI','FacUser','FacSearch',
       function mzUserSearchCtrl($scope,$http,$log,$location,
-          AppbData,ProjDefine,FacMap,FacApi,FacUser,FacSearch) {
+          AppbData,ProjDefine,FacMap,AppbAPI,FacUser,FacSearch) {
         var userData=AppbData.getUserData();
         if(! userData || !userData.token) {
           return $location.path( "/wx-login" ).search({pageTo: '/my'});;
@@ -45,7 +45,7 @@ angular.module('steefac')
         }
         function _doDel() {
           $log.log('/proj-Del .onOk');
-          FacApi.callApi('steeproj','delete',{id:id})
+          AppbAPI('steeproj','delete',{id:id})
           .then(function(s){
             if(s) {
               delete FacSearch.datailCache['steeproj'+id];
@@ -63,7 +63,7 @@ angular.module('steefac')
         }
         $scope.onUpdate=function(){
           $log.log('/proj-edit .onOk');
-          FacApi.callApi('steeproj','update',{id:id,d:JSON.stringify(FacMap.addrInput)})
+          AppbAPI('steeproj','update',{id:id,d:JSON.stringify(FacMap.addrInput)})
           .then(function(s){
             delete FacSearch.datailCache['steeproj'+id];
             appData.toastMsg('数据已成功更新',2);

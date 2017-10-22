@@ -5,8 +5,8 @@ templateUrl: 'app-steefac/component/fac-fee-editer.component.template.html',
 bindings: {
   id:'<'
 },
-controller:['$location','$log','AppbData','FacApi','FacDefine','FacSearch',
-function ($location,$log,AppbData,FacApi,FacDefine,FacSearch) {
+controller:['$location','$log','AppbData','AppbAPI','FacDefine','FacSearch',
+function ($location,$log,AppbData,AppbAPI,FacDefine,FacSearch) {
   var appData=AppbData.getAppData();
   var ctrl=this;
   
@@ -45,7 +45,7 @@ function ($location,$log,AppbData,FacApi,FacDefine,FacSearch) {
   //确定按钮事件
   ctrl.onOk=function() {
     var d={fee:feeStr}
-    FacApi.callApi('steefac','update',{id:ctrl.id,d:JSON.stringify(d)}).then(function(s){
+    AppbAPI('steefac','update',{id:ctrl.id,d:JSON.stringify(d)}).then(function(s){
       if(!s) {
         return appData.toastMsg('未修改',3);
       }

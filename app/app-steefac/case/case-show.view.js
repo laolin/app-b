@@ -5,9 +5,9 @@ angular.module('steefac')
 $routeProvider.when('/case-show', {
 templateUrl: 'app-steefac/case/case-show.view.template.html',
 controller: ['$scope','$http','$log','$location',
-  'AppbData','FacSearch','FacApi','FacUser','FacDefine',
+  'AppbData','FacSearch','AppbAPI','FacUser','FacDefine',
 function ($scope,$http,$log,$location,
-  AppbData,FacSearch,FacApi,FacUser,FacDefine) {
+  AppbData,FacSearch,AppbAPI,FacUser,FacDefine) {
   var appData=AppbData.getAppData();
   var userData=AppbData.getUserData();
         
@@ -49,7 +49,7 @@ function ($scope,$http,$log,$location,
           $scope.hidePoster=false;
         }
       },function(e){$log.log('Err:',e)});
-      FacApi.callApi('stee_user','get_admin_of_fac',{facid:$scope.id}).then(function(s){
+      AppbAPI('stee_user','get_admin_of_fac',{facid:$scope.id}).then(function(s){
         $log.log('get_admin_of_fac',s);
         $scope.isLoading--;
         if(s) {

@@ -5,8 +5,8 @@
 
 angular.module('steefac')
 .factory('FacSearch',
-['$log','$timeout','$q','AppbData','AmapMainData','FacApi','FacMap','FacUser','FacDefine','ProjDefine',
-function($log,$timeout,$q,AppbData,AmapMainData,FacApi,FacMap,FacUser,FacDefine,ProjDefine) {
+['$log','$timeout','$q','AppbData','AmapMainData','AppbAPI','FacMap','FacUser','FacDefine','ProjDefine',
+function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine,ProjDefine) {
   
   var FacSearch={};
   var appData=AppbData.getAppData();
@@ -102,7 +102,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,FacApi,FacMap,FacUser,FacDefine,
     FacSearch.searching=true;
     //FacSearch.searchResultSelected=-1;
     
-    return FacApi.callApi(type,'search',serchPara).then(
+    return AppbAPI(type,'search',serchPara).then(
       function(s){
         FacSearch.searching=false;
         FacSearch.searchResultSelected=-1;
@@ -294,7 +294,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,FacApi,FacMap,FacUser,FacDefine,
       return deferred.promise;
     }
     
-    return FacApi.callApi(type,'detail',{id:id}).then(function(s){
+    return AppbAPI(type,'detail',{id:id}).then(function(s){
       $log.log('detail-',type,s);
       if(!s) {
         deferred.reject('noData');

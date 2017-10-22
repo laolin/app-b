@@ -2,12 +2,12 @@
 (function(){
 
 angular.module('appb')
-.factory('appbAPI', ['$log','$timeout','$http','$q','AppbData',
+.factory('AppbAPI', ['$log','$timeout','$http','$q','AppbData',
 function ($log,$timeout,$http,$q,AppbData){
   var appData=AppbData.getAppData();
 
-  function appbApi(api,call,params) {
-    $log.log('appbApi.callApi ',api,call,params);
+  function AppbAPI(api,call,params) {
+    $log.log('AppbAPI.callApi ',api,call,params);
     
     var deferred = $q.defer();
     
@@ -39,7 +39,7 @@ function ($log,$timeout,$http,$q,AppbData){
   
   
 
-  return  appbApi;
+  return  AppbAPI;
   
 }]);
 

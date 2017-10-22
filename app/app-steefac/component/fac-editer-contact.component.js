@@ -5,8 +5,8 @@ templateUrl: 'app-steefac/component/fac-editer-contact.component.template.html',
 bindings: {
   id:'<'
 },
-controller:['$location','$log','AppbData','FacApi','FacSearch',
-function ($location,$log,AppbData,FacApi,FacSearch) {
+controller:['$location','$log','AppbData','AppbAPI','FacSearch',
+function ($location,$log,AppbData,AppbAPI,FacSearch) {
   var appData=AppbData.getAppData();
   var ctrl=this;
   
@@ -43,7 +43,7 @@ function ($location,$log,AppbData,FacApi,FacSearch) {
   //确定按钮事件
   ctrl.onOk=function() {
     var d=ctrl.data;
-    FacApi.callApi('steefac','update',{id:ctrl.id,d:JSON.stringify(d)}).then(function(s){
+    AppbAPI('steefac','update',{id:ctrl.id,d:JSON.stringify(d)}).then(function(s){
       if(!s) {
         return appData.toastMsg('未修改',3);
       }
