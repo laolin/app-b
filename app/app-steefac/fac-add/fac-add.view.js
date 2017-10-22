@@ -37,7 +37,7 @@ angular.module('steefac')
           .then(function(s){
             appData.toastMsg('数据已成功保存',2);
             $location.path('/fac-detail').search({id:s.id});
-            
+            FacUser.getMyData(1);
             $log.log('sec',s);
           },function(e){
             appData.toastMsg('保存失败',8);

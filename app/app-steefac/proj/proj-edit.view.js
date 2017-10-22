@@ -51,7 +51,7 @@ angular.module('steefac')
               delete FacSearch.datailCache['steeproj'+id];
               appData.toastMsg('数据已删除',2);
               $location.path( "/search" )
-              
+              FacUser.getMyData(1);
             } else {
               appData.toastMsg('删除异常',3);
             }
