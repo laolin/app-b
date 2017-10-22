@@ -87,9 +87,9 @@ function($location,$log,$q,AppbData,AppbAPI) {
     );
   }
 
-  FacUser.getMyData=function() {
+  FacUser.getMyData=function(reNew) {
     var deferred = $q.defer();
-    if(myData.init) {
+    if(!reNew && myData.init) {
       deferred.resolve(myData);
       return deferred.promise;
     }
@@ -100,6 +100,9 @@ function($location,$log,$q,AppbData,AppbAPI) {
         myData.update_at=parseInt(s.me.update_at);
         myData.uid=parseInt(s.me.uid);
         myData.facCanAdmin=s.me.fac_can_admin.split(',');
+        myData.counter={};
+        myData.counter.nFac=s.nFac;
+        myData.counter.nProj=s.nProj;
       }
       deferred.resolve(myData);
       return deferred.promise;
