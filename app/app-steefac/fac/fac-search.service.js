@@ -1,7 +1,13 @@
 'use strict';
 (function(){
 
-//qgsMainApi
+//一些常量定义
+
+var PAGE_SIZE = 5;
+var SEARCH_SIZE = 50;
+var SEARCH_SIZE_SYSADMIN = 5000;
+    
+
 
 angular.module('steefac')
 .factory('FacSearch',
@@ -14,7 +20,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   
   appData.FacSearch=FacSearch;
 
-  FacSearch.showPageSize=5;//显示满一页多少个
+  FacSearch.showPageSize=PAGE_SIZE;//显示满一页多少个
   FacSearch.showPageNumber={};//当前显示第几页
   FacSearch.showCount=0;//实际显示出来多少个（由于最后一页可能不满页）
   
@@ -26,7 +32,8 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   
   FacSearch.datailCache={};//数据详情缓存
   
-  FacSearch.options={orderBy:'auto',searchInsideMap:0,countRes:1000};
+  //注，服务器已限制countRes不大于50
+  FacSearch.options={orderBy:'auto',searchInsideMap:0,countRes:SEARCH_SIZE};
   FacSearch.searchWord='';
   FacSearch.searchPlaceholder='输入名称/地址/...';
   FacSearch.searchList = []; //TODO: values will get from API
@@ -99,6 +106,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   }
   function _doSearch(serchPara,type){
     serchPara.count=FacSearch.options.countRes;
+    if(FacUser.isSysAdmin())serchPara.count=SEARCH_SIZE_SYSADMIN;
     FacSearch.searching=true;
     //FacSearch.searchResultSelected=-1;
     
