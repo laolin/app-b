@@ -5,9 +5,9 @@ angular.module('steefac')
   $routeProvider.when('/proj-add', {
     templateUrl: 'app-steefac/proj/proj-add.template.html',
     controller: ['$scope','$http','$log','$location',
-        'AppbData','ProjDefine','FacMap','FacApi','FacUser',
+        'AppbData','ProjDefine','FacMap','AppbAPI','FacUser',
       function mzUserSearchCtrl($scope,$http,$log,$location,
-          AppbData,ProjDefine,FacMap,FacApi,FacUser) {
+          AppbData,ProjDefine,FacMap,AppbAPI,FacUser) {
         var userData=AppbData.getUserData();
         if(!FacUser.isSysAdmin()) {
           return $location.path( '/my');;
@@ -27,11 +27,11 @@ angular.module('steefac')
         
         $scope.onOk=function(){
           $log.log('/proj-add .onOk');
-          FacApi.callApi('steeproj','add',{d:JSON.stringify($scope.models)})
+          AppbAPI('steeproj','add',{d:JSON.stringify($scope.models)})
           .then(function(s){
             appData.toastMsg('数据已成功保存',2);
             $location.path('/proj-detail').search({id:s.id});
-            
+            FacUser.getMyData(1);
             $log.log('proj-add.sec',s);
           },function(e){
             appData.toastMsg('保存失败',8);

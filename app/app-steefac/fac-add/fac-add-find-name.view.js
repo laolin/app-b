@@ -5,9 +5,9 @@ angular.module('steefac')
   $routeProvider.when('/fac-add-find-name', {
     templateUrl: 'app-steefac/fac-add/fac-add-find-name.view.template.html',
     controller: ['$scope','$http','$log','$location',
-        'AppbData','FacDefine','FacMap','FacApi','FacUser',
+        'AppbData','FacDefine','FacMap','AppbAPI','FacUser',
       function mzUserSearchCtrl($scope,$http,$log,$location,
-          AppbData,FacDefine,FacMap,FacApi,FacUser) {
+          AppbData,FacDefine,FacMap,AppbAPI,FacUser) {
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
         if(! userData || !userData.token) {
@@ -36,10 +36,12 @@ angular.module('steefac')
         }
         $scope.onNewFac=function(){
           appData.dialogData.msgBox(
-            '请您确认：您将创建的钢构厂名为【'+FacMap.addrInput.name+
-            '】',
+            '请您确认：您将创建钢构厂的正式的全名为【'+
+            FacMap.addrInput.name+
+            '】，创建后不能修改名字。',
+            
             '准备创建钢构厂',
-            '确认','返回修改',
+            '确认全名','修改全名',
             function(){
               $location.path('/fac-add')
             }
@@ -52,7 +54,7 @@ angular.module('steefac')
           $scope.searchDone=false;
           $scope.isLoading=1;
           
-          FacApi.callApi('steefac','search',{s:FacMap.addrInput.name,count:10})
+          AppbAPI('steefac','search',{s:FacMap.addrInput.name,count:10})
           .then(function(s){
             $scope.searchDone=1;
             $scope.isLoading=0;

@@ -1,12 +1,18 @@
 'use strict';
 (function(){
 
-//qgsMainApi
+//一些常量定义
+
+var PAGE_SIZE = 5;
+var SEARCH_SIZE = 50;
+var SEARCH_SIZE_SYSADMIN = 5000;
+    
+
 
 angular.module('steefac')
 .factory('FacSearch',
-['$log','$timeout','$q','AppbData','AmapMainData','FacApi','FacMap','FacUser','FacDefine','ProjDefine',
-function($log,$timeout,$q,AppbData,AmapMainData,FacApi,FacMap,FacUser,FacDefine,ProjDefine) {
+['$log','$timeout','$q','AppbData','AmapMainData','AppbAPI','FacMap','FacUser','FacDefine','ProjDefine',
+function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine,ProjDefine) {
   
   var FacSearch={};
   var appData=AppbData.getAppData();
@@ -14,7 +20,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,FacApi,FacMap,FacUser,FacDefine,
   
   appData.FacSearch=FacSearch;
 
-  FacSearch.showPageSize=5;//显示满一页多少个
+  FacSearch.showPageSize=PAGE_SIZE;//显示满一页多少个
   FacSearch.showPageNumber={};//当前显示第几页
   FacSearch.showCount=0;//实际显示出来多少个（由于最后一页可能不满页）
   
@@ -26,7 +32,8 @@ function($log,$timeout,$q,AppbData,AmapMainData,FacApi,FacMap,FacUser,FacDefine,
   
   FacSearch.datailCache={};//数据详情缓存
   
-  FacSearch.options={orderBy:'auto',searchInsideMap:0,countRes:1000};
+  //注，服务器已限制countRes不大于50
+  FacSearch.options={orderBy:'auto',searchInsideMap:0,countRes:SEARCH_SIZE};
   FacSearch.searchWord='';
   FacSearch.searchPlaceholder='输入名称/地址/...';
   FacSearch.searchList = []; //TODO: values will get from API
@@ -99,14 +106,14 @@ function($log,$timeout,$q,AppbData,AmapMainData,FacApi,FacMap,FacUser,FacDefine,
   }
   function _doSearch(serchPara,type){
     serchPara.count=FacSearch.options.countRes;
+    if(FacUser.isSysAdmin())serchPara.count=SEARCH_SIZE_SYSADMIN;
     FacSearch.searching=true;
     //FacSearch.searchResultSelected=-1;
     
-    return FacApi.callApi(type,'search',serchPara).then(
+    return AppbAPI(type,'search',serchPara).then(
       function(s){
         FacSearch.searching=false;
         FacSearch.searchResultSelected=-1;
-        FacSearch.searchResult={};//由于两个搜索结果页合并，搜索结果要全部清空
         FacSearch.searchResult[type+'.ver']= +new Date();//用来标记搜索结果是否更新
         //$log.log('sreach-res--1',s);
         FacSearch.searchResult[type]=s;
@@ -136,9 +143,8 @@ function($log,$timeout,$q,AppbData,AmapMainData,FacApi,FacMap,FacUser,FacDefine,
   }
   FacSearch.clearResult=function (type){
     FacMap.selPositionStart('search','选点搜周边');
-    //FacSearch.searchResult[type]=[];
-    //FacSearch.searchResult[type+'.ver']=0;
-    FacSearch.searchResult={};//由于两个搜索结果页合并，搜索结果要全部清空
+    FacSearch.searchResult[type]=[];
+    FacSearch.searchResult[type+'.ver']=0;
     FacSearch.searchResultSelected=-1;
     FacSearch.searching=0;
     FacSearch.newSearchMarkers([],0,0,0,type);//清除地图中的标记
@@ -294,7 +300,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,FacApi,FacMap,FacUser,FacDefine,
       return deferred.promise;
     }
     
-    return FacApi.callApi(type,'detail',{id:id}).then(function(s){
+    return AppbAPI(type,'detail',{id:id}).then(function(s){
       $log.log('detail-',type,s);
       if(!s) {
         deferred.reject('noData');

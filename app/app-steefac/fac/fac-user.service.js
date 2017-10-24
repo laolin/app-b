@@ -6,8 +6,8 @@ var SYS_ADMIN=0x10000;
 
 angular.module('steefac')
 .factory('FacUser',
-['$location','$log','$q','AppbData','FacApi',
-function($location,$log,$q,AppbData,FacApi) {
+['$location','$log','$q','AppbData','AppbAPI',
+function($location,$log,$q,AppbData,AppbAPI) {
   
   var FacUser={};
   var appData=AppbData.getAppData();
@@ -43,7 +43,7 @@ function($location,$log,$q,AppbData,FacApi) {
       deferred.resolve(FacUser.admins);
       return deferred.promise;
     }
-    return FacApi.callApi('stee_user','get_admins').then(function(s){
+    return AppbAPI('stee_user','get_admins').then(function(s){
       $log.log('get_admins',s);
       if(!s) {
         deferred.reject('noData');
@@ -73,7 +73,7 @@ function($location,$log,$q,AppbData,FacApi) {
       '成为钢构厂的管理员',
       '确认','取消',
       function(){
-        return FacApi.callApi('stee_user','apply_fac_admin',
+        return AppbAPI('stee_user','apply_fac_admin',
           {facid:fac.id,userid:appData.userData.uid}
         ).then(function(s){//成功
           myData.init=0;
@@ -87,19 +87,22 @@ function($location,$log,$q,AppbData,FacApi) {
     );
   }
 
-  FacUser.getMyData=function() {
+  FacUser.getMyData=function(reNew) {
     var deferred = $q.defer();
-    if(myData.init) {
+    if(!reNew && myData.init) {
       deferred.resolve(myData);
       return deferred.promise;
     }
-    return FacApi.callApi('stee_user','me').then(function(s){
+    return AppbAPI('steesys','info').then(function(s){
       myData.init=1;
       if(s) {
-        myData.isAdmin=parseInt(s.is_admin);
-        myData.update_at=parseInt(s.update_at);
-        myData.uid=parseInt(s.uid);
-        myData.facCanAdmin=s.fac_can_admin.split(',');
+        myData.isAdmin=parseInt(s.me.is_admin);
+        myData.update_at=parseInt(s.me.update_at);
+        myData.uid=parseInt(s.me.uid);
+        myData.facCanAdmin=s.me.fac_can_admin.split(',');
+        myData.counter={};
+        myData.counter.nFac=s.nFac;
+        myData.counter.nProj=s.nProj;
       }
       deferred.resolve(myData);
       return deferred.promise;

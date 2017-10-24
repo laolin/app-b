@@ -31,7 +31,7 @@ function ($log,$timeout,AppbData){
       desc: '证书编号',
       type: 'text',
       placeholder:'4-16字',
-      required: 1,
+      required: 0,
       minlength: 4,
       maxlength: 16
     },
@@ -42,7 +42,7 @@ function ($log,$timeout,AppbData){
       desc: '年产能(t)',
       placeholder:'0-999999(t)',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 999999
     },
@@ -51,7 +51,7 @@ function ($log,$timeout,AppbData){
       desc: '下月剩余产能',
       placeholder:'0-999999(t)',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 999999
     },
@@ -60,7 +60,7 @@ function ($log,$timeout,AppbData){
       desc: '下两月剩余',
       placeholder:'0-999999(t)',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 999999
     },
@@ -69,7 +69,7 @@ function ($log,$timeout,AppbData){
       desc: '下三月剩余',
       placeholder:'0-999999(t)',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 999999
     },
@@ -78,7 +78,7 @@ function ($log,$timeout,AppbData){
       desc: '下六月剩余',
       placeholder:'0-999999(t)',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 999999
     },
@@ -100,7 +100,7 @@ function ($log,$timeout,AppbData){
       desc: '厂房面积(㎡)',
       placeholder:'0-999999',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 999999
     },
@@ -109,7 +109,7 @@ function ($log,$timeout,AppbData){
       desc: '堆场面积(㎡)',
       placeholder:'0-999999',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 999999
     },
@@ -119,7 +119,7 @@ function ($log,$timeout,AppbData){
       desc: '最大行车(T)',
       placeholder:'0-99999',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 99999
     },
@@ -127,18 +127,18 @@ function ($log,$timeout,AppbData){
     {
       name: 'max_paowan',
       desc: '最大抛丸构件',
-      placeholder:'0-99(m)',
+      placeholder:'尺寸：0-99(m)',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 99
     },
     {
       name: 'max_duxin',
       desc: '最大镀锌构件',
-      placeholder:'0-99(m)',
+      placeholder:'长度：0-99(m)',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 99
     },
@@ -147,7 +147,7 @@ function ($log,$timeout,AppbData){
       desc: '最近高速距离',
       placeholder:'0-9999(km)',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 9999
     },
@@ -156,7 +156,7 @@ function ($log,$timeout,AppbData){
       desc: '最近港口距离',
       placeholder:'0-9999(km)',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 9999
     },
@@ -167,7 +167,7 @@ function ($log,$timeout,AppbData){
       desc: '工人总数',
       placeholder:'0-99999',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 99999
     },
@@ -176,7 +176,7 @@ function ($log,$timeout,AppbData){
       desc: '焊工人数',
       placeholder:'0-99999',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 99999
     },
@@ -185,7 +185,7 @@ function ($log,$timeout,AppbData){
       desc: '铆工人数',
       placeholder:'0-99999',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 99999
     },
@@ -194,7 +194,7 @@ function ($log,$timeout,AppbData){
       desc: '工艺人员',
       placeholder:'0-99999',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 99999
     },
@@ -203,7 +203,7 @@ function ($log,$timeout,AppbData){
       desc: '详图人员',
       placeholder:'0-99999',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 99999
     },
@@ -212,7 +212,7 @@ function ($log,$timeout,AppbData){
       desc: '其他人员',
       placeholder:'0-99999',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 99999
     },

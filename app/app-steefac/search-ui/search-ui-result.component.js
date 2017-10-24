@@ -24,8 +24,12 @@ angular.module('steefac')
         $log.log('searchProjResult$onChanges',chg,ctrl.searchType,ctrl.searchData.searchResult);
         genCells();
         var r=ctrl.searchData.searchResult[ctrl.searchType];
-        if(!r || !r.length)return;
-        ctrl.cellsTitle='共'+r.length+'项结果';
+        if(!r)return;
+        if(r.length>=50)
+          ctrl.cellsTitle='显示前'+r.length+'项结果';
+        else
+          ctrl.cellsTitle='共'+r.length+'项结果';
+        if(!r.length)return;
         var allPage=Math.ceil(r.length/ctrl.pageSize);
         var onFirst=function (){
             ctrl.searchData.showSearchRes(ctrl.searchType,ctrl.pageNumber=0);

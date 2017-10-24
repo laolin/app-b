@@ -1,19 +1,13 @@
 'use strict';
 (function(){
 
-angular.module('steefac')
-.factory('FacApi', ['$log','$timeout','$http','$q','AppbData',
+angular.module('appb')
+.factory('AppbAPI', ['$log','$timeout','$http','$q','AppbData',
 function ($log,$timeout,$http,$q,AppbData){
   var appData=AppbData.getAppData();
 
-  function createFac(params) {
-    return callApi('steefac','add',params);
-  }
-  function searchFac(params) {
-    return callApi('steefac','search',params);
-  }
-  function callApi(api,call,params) {
-    $log.log('FacApi.callApi ',api,call,params);
+  function AppbAPI(api,call,params) {
+    $log.log('AppbAPI.callApi ',api,call,params);
     
     var deferred = $q.defer();
     
@@ -45,11 +39,7 @@ function ($log,$timeout,$http,$q,AppbData){
   
   
 
-  return {
-    searchFac:searchFac,
-    createFac:createFac,
-    callApi:callApi
-  }
+  return  AppbAPI;
   
 }]);
 

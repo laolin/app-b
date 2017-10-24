@@ -5,9 +5,9 @@ angular.module('steefac')
 $routeProvider.when('/fac-detail', {
 templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
   controller: ['$scope','$http','$log','$location',
-    'AppbData','FacDefine','FacSearch','FacApi','FacUser',
+    'AppbData','FacDefine','FacSearch','AppbAPI','FacUser',
   function ($scope,$http,$log,$location,
-    AppbData,FacDefine,FacSearch,FacApi,FacUser) {
+    AppbData,FacDefine,FacSearch,AppbAPI,FacUser) {
     var appData=AppbData.getAppData();
     var userData=AppbData.getUserData();
     if(! userData || !userData.token) {
@@ -56,7 +56,7 @@ templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
       FacUser.getMyData().then(function(s){
         if(FacUser.isSysAdmin())$scope.canEdit=true;
       },function(e){$log.log('Err:',e)});
-      FacApi.callApi('stee_user','get_admin_of_fac',{facid:id}).then(function(s){
+      AppbAPI('stee_user','get_admin_of_fac',{facid:id}).then(function(s){
         $log.log('get_admin_of_fac',s);
         $scope.isLoading--;
         if(s) {

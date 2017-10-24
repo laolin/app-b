@@ -5,9 +5,9 @@ angular.module('steefac')
   $routeProvider.when('/fac-edit', {
     templateUrl: 'app-steefac/fac-add/fac-edit.template.html',
     controller: ['$scope','$http','$log','$location',
-        'AppbData','FacDefine','FacMap','FacApi','FacUser','FacSearch',
+        'AppbData','FacDefine','FacMap','AppbAPI','FacUser','FacSearch',
       function mzUserSearchCtrl($scope,$http,$log,$location,
-          AppbData,FacDefine,FacMap,FacApi,FacUser,FacSearch) {
+          AppbData,FacDefine,FacMap,AppbAPI,FacUser,FacSearch) {
         var userData=AppbData.getUserData();
         if(! userData || !userData.token) {
           return $location.path( "/wx-login" ).search({pageTo: '/my'});;
@@ -59,13 +59,13 @@ angular.module('steefac')
         }
         function _doDel() {
           $log.log('/fac-Del .onOk');
-          FacApi.callApi('steefac','delete',{id:id})
+          AppbAPI('steefac','delete',{id:id})
           .then(function(s){
             if(s) {
               delete FacSearch.datailCache['steefac'+id];
               appData.toastMsg('数据已删除',2);
               $location.path( "/search" )
-              
+              FacUser.getMyData(1);
             } else {
               appData.toastMsg('删除异常',3);
             }
@@ -77,7 +77,7 @@ angular.module('steefac')
         }
         $scope.onUpdate=function(){
           $log.log('/fac-edit .onOk');
-          FacApi.callApi('steefac','update',{id:id,d:JSON.stringify(FacMap.addrInput)})
+          AppbAPI('steefac','update',{id:id,d:JSON.stringify(FacMap.addrInput)})
           .then(function(s){
             delete FacSearch.datailCache['steefac'+id];
             appData.toastMsg('数据已成功更新',2);

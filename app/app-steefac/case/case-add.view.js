@@ -5,9 +5,9 @@ angular.module('steefac')
 $routeProvider.when('/case-add', {
 templateUrl: 'app-steefac/case/case-add.view.template.html',
 controller: ['$scope','$http','$log','$location',
-  'AppbData','FacSearch','FacApi','FacUser','AppbFeedService',
+  'AppbData','FacSearch','FacUser','AppbFeedService',
 function ($scope,$http,$log,$location,
-  AppbData,FacSearch,FacApi,FacUser,AppbFeedService) {
+  AppbData,FacSearch,FacUser,AppbFeedService) {
   var appData=AppbData.getAppData();
         
   appData.setPageTitle('钢构厂业绩');

@@ -5,9 +5,9 @@ angular.module('steefac')
 $routeProvider.when('/stee-feed-show', {
 templateUrl: 'app-steefac/feed/stee-feed-show.view.template.html',
 controller: ['$scope','$http','$log','$location',
-  'AppbData','FacSearch','FacApi','FacUser','FacDefine',
+  'AppbData','FacSearch','FacUser','FacDefine',
 function ($scope,$http,$log,$location,
-  AppbData,FacSearch,FacApi,FacUser,FacDefine) {
+  AppbData,FacSearch,FacUser,FacDefine) {
   var appData=AppbData.getAppData();
   var userData=AppbData.getUserData();
         
