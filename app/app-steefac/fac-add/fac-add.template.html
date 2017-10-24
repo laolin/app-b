@@ -2,8 +2,8 @@
   <place-input form-define='formDefine' models='models'></place-input>
   <div class="weui-btn-area">
      <button class="weui-btn weui-btn_primary" href  ng-click='onOk()'
-      ng-class="{'weui-btn_disabled':!models.formatted_address}"
-      ng-disabled='!models.formatted_address'
+      ng-class="{'weui-btn_disabled':!models.formatted_address||!isValid()}"
+      ng-disabled='!models.formatted_address || !isValid()'
      >确定</button>
   </div>
   <p>将要创建的钢构厂：{{models.name}}

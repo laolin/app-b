@@ -31,6 +31,11 @@ angular.module('steefac')
         $scope.formDefine=FacDefine;
         $scope.models=FacMap.addrInput;
         
+        $scope.isValid=function(){
+          $log.log('mmmmmm $scope.isValid==',$scope.formDefine._formObj,$scope.formDefine._formObj .$valid);
+          
+          return $scope.formDefine._formObj .$valid
+        }
         $scope.onOk=function(){
           $log.log('/fac-add .onOk');
           AppbAPI('steefac','add',{d:JSON.stringify(FacMap.addrInput)})
