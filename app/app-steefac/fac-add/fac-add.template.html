@@ -6,4 +6,5 @@
       ng-disabled='!models.formatted_address || !formDefine._formObj.$valid'
      >确定</button>
   </div>
-  <p>将要创建的钢构厂：{{models.name}}
+  <p>将要创建的钢构厂：{{models.name}}。
+  <a class='weui-cell_warn' ng-if='!formDefine._formObj.$valid'>提交前请正确填写数据，谢谢！</a></p>
