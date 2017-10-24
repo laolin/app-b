@@ -36,10 +36,12 @@ angular.module('steefac')
         }
         $scope.onNewFac=function(){
           appData.dialogData.msgBox(
-            '请您确认：您将创建的钢构厂名为【'+FacMap.addrInput.name+
-            '】',
+            '请您确认：您将创建钢构厂的正式的全名为【'+
+            FacMap.addrInput.name+
+            '】，创建后不能修改名字。',
+            
             '准备创建钢构厂',
-            '确认','返回修改',
+            '确认全名','修改全名',
             function(){
               $location.path('/fac-add')
             }
