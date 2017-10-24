@@ -31,7 +31,7 @@ function ($log,$timeout,AppbData){
       desc: '证书编号',
       type: 'text',
       placeholder:'4-16字',
-      required: 1,
+      required: 0,
       minlength: 4,
       maxlength: 16
     },
@@ -78,7 +78,7 @@ function ($log,$timeout,AppbData){
       desc: '下六月剩余',
       placeholder:'0-999999(t)',
       type: 'number',
-      required: 0,
+      required: 1,
       min: 0,
       max: 999999
     },
