@@ -7,10 +7,11 @@ angular.module('steefac')
     formDefine:"<",
     models:"<"
   },
-  controller:['$http','$log','$interval',
-	  function ($http,$log,$interval) {
+  controller:['$http','$log','$interval','FacMap',
+	  function ($http,$log,$interval,FacMap) {
       var ctrl=this;
       
+      ctrl.FacMap=FacMap;
       
     }
   ]
