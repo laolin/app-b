@@ -1,21 +1,21 @@
 <div class="weui-cells">
   <div class="weui-cells__title" ng-if='1'>
-  请先输入钢构厂名字，搜索是否已有数据
+  请先输入{{objName}}名字，搜索是否已有数据
   </div>
   <div class="weui-cell">
 
     <div class="weui-cell__hd">
-      <label class="weui-label ng-binding">钢构厂：</label>
+      <label class="weui-label ng-binding">{{objName}}：</label>
     </div>
 
 
     <div class="weui-cell__bd">
-      <input class="weui-input" type="input" placeholder="请输入钢构厂全名" name="input_name"
+      <input class="weui-input" type="input" placeholder="请输入{{objName}}名字" name="input_name"
       ng-minlength='4'
       ng-maxlength='16'
 
       ng-change='onChange()'
-      ng-model="FacMap.addrInput.name" >
+      ng-model="FacMap.addrInput[objType+'name']" >
     </div>
   </div>
 </div>
@@ -23,8 +23,8 @@
 <div class="weui-btn-area">
   <button class="weui-btn weui-btn_primary"
   ng-click="onFindFac()"
-  ng-class="{'weui-btn_disabled':!FacMap.addrInput.name || isLoading>0}"
-  ng-disabled='!FacMap.addrInput.name || isLoading>0'
+  ng-class="{'weui-btn_disabled':!FacMap.addrInput[objType+'name'] || isLoading>0}"
+  ng-disabled='!FacMap.addrInput[objType+"name"] || isLoading>0'
   >搜索是否已有数据
   </button>
 </div>
@@ -33,9 +33,9 @@
 
 <div ng-if='searchDone && facList.length==0'>
 <appb-weui-cells
-  title='未找以下钢构厂的数据'
+  title='未找以下{{objName}}}的数据'
   cells="[
-    {text:FacMap.addrInput.name,url:onNewFac,icon:'plus',notes:'点击此处创建'},
+    {text:FacMap.addrInput[objType+'name'],url:onNewFac,icon:'plus',notes:'点击此处创建'},
   ]"
 >
 </appb-weui-cells>
@@ -46,10 +46,10 @@
 </div>
 
 <fac-list
-  ng-if='facList.length' 
+  ng-if='searchDone && facList.length' 
   
   title='"已找到以下数据"'
-  type=' "steefac" '
+  type=' "stee"+objType '
   fac-list='facList'
   
   page-number= '0'
