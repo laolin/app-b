@@ -16,7 +16,7 @@ angular.module('steefac')
         //  return $location.path( '/my');;
         //}
         $scope.$on('$viewContentLoaded', function () {
-          FacMap.selPositionStart('header');
+          FacMap.selPositionStart('header','钢构厂定位');
         });
         $scope.$on('$destroy', function () {
           FacMap.selPositionEnd();

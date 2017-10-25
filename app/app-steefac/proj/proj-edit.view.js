@@ -23,7 +23,7 @@ angular.module('steefac')
           if(!s) {
             return appData.showInfoPage('参数错误','Err id: '+id,'/search')
           }
-          FacMap.selPositionStart('university','',new AMap.LngLat(s.lngE7/1e7,s.latE7/1e7));
+          FacMap.selPositionStart('university','项目位置',new AMap.LngLat(s.lngE7/1e7,s.latE7/1e7));
           angular.extend($scope.models,s);
         },function(e){
           return appData.toastMsg(e,3);
