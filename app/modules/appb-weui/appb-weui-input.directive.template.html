@@ -6,9 +6,11 @@
 <div class="weui-cell__bd" ng-if="inputDefine.type=='radio'">
   <select class="weui-select" name="input_{{inputDefine.name}}"
   ng-model='inputDefine.models[inputDefine.name]' 
-  ng-change="inputDefine.onChange(inputDefine.name)">
-    <option ng-repeat='key in inputDefine.keys '
-      value="{{key}}">{{inputDefine.values[$index]}}</option>
+  ng-change="inputDefine.onChange(inputDefine.name)"
+  ng-required='inputDefine.required'
+  ng-options='inputDefine.values[$index] for ($index, key) in inputDefine.keys '
+  >
+    <option value="">-- 请选择 --</option>
   </select>
 </div>    
 

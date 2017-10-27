@@ -37,7 +37,7 @@ angular.module('steefac')
           $scope.models.addr=s.addr;
           $scope.facName=s.name;
           
-          FacMap.selPositionStart('cube','',new AMap.LngLat(s.lngE7/1e7,s.latE7/1e7));
+          FacMap.selPositionStart('header','钢构厂定位',new AMap.LngLat(s.lngE7/1e7,s.latE7/1e7));
 
         },function(e){
           return appData.toastMsg(e,3);

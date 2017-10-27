@@ -10,8 +10,20 @@ angular.module('steefac')
           AppbData,FacDefine,FacMap,AppbAPI,FacUser) {
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
+        
+        var types=['fac','proj'];
+        var names={fac:'钢构厂',proj:'项目信息'};
+        
+        $scope.objType=$location.search().type;        
+        if(! names[$scope.objType] ) {
+          $scope.objType='fac';
+        }
+        
+        $scope.objName=names[$scope.objType];
+        
         if(! userData || !userData.token) {
-          return $location.path( "/wx-login" ).search({pageTo: '/fac-add'});;
+          return $location.path( "/wx-login" ).
+            search({pageTo: '/'+$scope.objType+'-add'});;
         }
         //if(!FacUser.isSysAdmin()) {
         //  return $location.path( '/my');;
@@ -24,7 +36,7 @@ angular.module('steefac')
         // });
         
 
-        appData.setPageTitle('新增钢构厂'); 
+        appData.setPageTitle('新增'+$scope.objName); 
         
 
         $scope.facList=[];
@@ -36,14 +48,14 @@ angular.module('steefac')
         }
         $scope.onNewFac=function(){
           appData.dialogData.msgBox(
-            '请您确认：您将创建钢构厂的正式的全名为【'+
-            FacMap.addrInput.name+
+            '请您确认：您将创建的'+$scope.objName+'正式的全名为【'+
+            FacMap.addrInput[$scope.objType+'name']+
             '】，创建后不能修改名字。',
             
-            '准备创建钢构厂',
+            '准备创建'+$scope.objName,
             '确认全名','修改全名',
             function(){
-              $location.path('/fac-add')
+              $location.path('/fac-add').search({type:$scope.objType});
             }
           );
           
@@ -54,7 +66,7 @@ angular.module('steefac')
           $scope.searchDone=false;
           $scope.isLoading=1;
           
-          AppbAPI('steefac','search',{s:FacMap.addrInput.name,count:10})
+          AppbAPI('stee'+$scope.objType,'search',{s:FacMap.addrInput[$scope.objType+'name'],count:10})
           .then(function(s){
             $scope.searchDone=1;
             $scope.isLoading=0;

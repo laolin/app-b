@@ -28,8 +28,14 @@ title='项目信息'
 cells="[
   {text:'项目类型',url:'',icon:'area-chart',notes:fac.type+''},
   {text:'项目规模',url:'',icon:'area-chart',notes:fac.size+'㎡'},
-  {text:'估计用钢量',url:'',icon:'area-chart',notes:fac.need_steel+'吨'},
-  {text:'用钢周期',url:'',icon:'area-chart',notes:fac.in_month_t+''},
+  {text:'采购量',url:'',icon:'area-chart',notes:fac.need_steel+'吨'},
+  {text:'主要构件形式',url:'',icon:'area-chart',notes:fac.steel_shape+''},
+  {text:'主材牌号',url:'',icon:'area-chart',notes:fac.steel_Qxxx+''},
+  {text:'首批供货时间',url:'',icon:'area-chart',notes:fac.in_month_t+''},
+  {text:'基准单吨价',url:'',icon:'area-chart',notes:fac.stee_price+'元/吨'},
+  {text:'预付款比例',url:'',icon:'area-chart',notes:fac.advance_pay*100+'%'},
+  {text:'供主材',url:'',icon:'area-chart',notes:fac.provide_raw?'是':'否'},
+  {text:'合格供应商',url:'',icon:'area-chart',notes:fac.require_check+''},
 ]"
 >
 </appb-weui-cells>
@@ -38,13 +44,20 @@ cells="[
 title='联系方式'
 cells="[
   {text:fac.formatted_address,url:'',icon:'address-card',notes:''},
-  {text:'联系人',url:'',icon:'user-circle',notes:fac.contactor},
+  {text:'联系人',url:'',icon:'user-circle',notes:fac.contact_person},
   {text:'联系电话',url:'',icon:'phone',notes:fac.contact_tel},
   {text:'联系邮箱',url:'',icon:'envelope',notes:fac.contact_email},
 ]"
 >
 </appb-weui-cells>
 
+<appb-weui-cells
+title='补充说明'
 
+cells="[
+  {text:fac.notes,url:'',icon:'commenting-o',notes:''},
+]"
+>
+</appb-weui-cells>
 
 <div>
