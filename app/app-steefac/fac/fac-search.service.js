@@ -49,7 +49,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   }
   
   FacSearch.startSearch=function(type){
-    if(type!='steefac'&&type!='steeproj'){
+    if(type!='fac'&&type!='proj'){
       $log.log('***err search type: ',type);
       return;
     }
@@ -110,7 +110,8 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
     FacSearch.searching=true;
     //FacSearch.searchResultSelected=-1;
     
-    return AppbAPI(type,'search',serchPara).then(
+    serchPara.type=type;
+    return AppbAPI('steeobj','search',serchPara).then(
       function(s){
         FacSearch.searching=false;
         FacSearch.searchResultSelected=-1;
@@ -323,7 +324,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   //从搜索结果 obj[j] 生成 infoWindow的数据
   FacSearch.infoOfObj=function(o,type) {
     var data={};
-    if(type=='steefac'){
+    if(type=='fac'){
       data.infoTitle='<strong><%- name %></strong>';
 
       //设置标题内容
@@ -347,7 +348,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
         id:o.id
       };
     }
-    if(type=='steeproj'){
+    if(type=='proj'){
       data.infoTitle='<strong><%- name %></strong>';
 
       //设置标题内容
@@ -378,7 +379,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   
   //从搜索结果 obj[j] 生成 weui-cells的数据
   FacSearch.cellOfObj=function(obj,j,type,linkUrl_Or_fnOnCLick) {
-    if(type=='steeproj'){
+    if(type=='proj'){
       var omonth={3:'三月内',6:'六月内',12:'一年内',24:'两年内',60:'五年内'}
       return {
           text:''+(j+1)+'.'+obj[j].name+'，用钢量'+obj[j].need_steel+
@@ -387,7 +388,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
           //url:,
           icon:'university'}
     }
-    if(type=='steefac'){
+    if(type=='fac'){
       return {
           text:''+(j+1)+'.'+obj[j].name+'，剩余产能'+obj[j].cap_6m+
           '吨，擅长构件：'+obj[j].goodat,
@@ -399,13 +400,13 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   }
   //从搜索结果 obj[j] 生成 数字
   FacSearch.valueOfObj=function(obj,j,type) {
-    if(type=='steeproj'){
+    if(type=='proj'){
       return {val:+obj[j].need_steel,name:'需求用钢',unit:'吨'};
     }
-    if(type=='steefac'){
+    if(type=='fac'){
       return {val:+obj[j].cap_6m,name:'产能',unit:'吨'};
     }
-    return {};
+    return {val:0,name:'undef',unit:''};
   }
   
   return  FacSearch;
