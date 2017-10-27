@@ -15,10 +15,10 @@ angular.module('steefac')
     ctrl.$onInit=function(){
       
       ctrl.searchFac=function(){
-        ctrl.searchData.startSearch('fac');
+        ctrl.searchData.startSearch('steefac');
       };
       ctrl.searchProj=function(){
-        ctrl.searchData.startSearch('proj');
+        ctrl.searchData.startSearch('steeproj');
       };
     }
     ctrl.$onChanges=function(chg){
