@@ -2,8 +2,8 @@
 
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
-$routeProvider.when('/proj-detail', {
-templateUrl: 'app-steefac/proj-detail/proj-detail.view.template.html',
+$routeProvider.when('/steeproj-detail', {
+templateUrl: 'app-steefac/detail/steeproj-detail.view.template.html',
   controller: ['$scope','$http','$log','$location',
     'AppbData','FacDefine','FacSearch','FacUser',
   function mzUserSearchCtrl($scope,$http,$log,$location,

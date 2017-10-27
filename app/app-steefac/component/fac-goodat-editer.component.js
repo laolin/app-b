@@ -52,7 +52,7 @@ function ($location,$log,AppbData,AppbAPI,FacSearch) {
         return appData.toastMsg('未修改',3);
       }
       delete FacSearch.datailCache['steefac'+ctrl.id];
-      $location.path('/fac-detail').search({id:ctrl.id});
+      $location.path('/steefac-detail').search({id:ctrl.id});
       return appData.toastMsg('已修改',3);
     },function(e){
       return appData.toastMsg(e,3);

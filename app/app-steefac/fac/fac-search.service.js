@@ -342,7 +342,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
       '擅长构件：<%- goodat %><br/>'+
       '<%- update_at %>更新'+
       '<a href="#!/case-show?id=<%- id %>">【业绩】</a>'+
-      '<a href="#!/fac-detail?id=<%- id %>">【详情】</a>'
+      '<a href="#!/'+type+'-detail?id=<%- id %>">【详情】</a>'
       ;
 
       //设置主体内容
@@ -366,7 +366,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
       '采购量<%- need_steel %>吨<br>'+
       '供货时间：<%- in_month %><br/>'+
       '<%- update_at %>更新'+
-      '<a href="#!/proj-detail?id=<%- id %>">【详情】</a><br/>'
+      '<a href="#!/'+type+'-detail?id=<%- id %>">【详情】</a><br/>'
       ;
 
       //设置主体内容

@@ -2,8 +2,8 @@
 
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
-$routeProvider.when('/fac-detail', {
-templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
+$routeProvider.when('/steefac-detail', {
+templateUrl: 'app-steefac/detail/steefac-detail.view.template.html',
   controller: ['$scope','$http','$log','$location',
     'AppbData','FacDefine','FacSearch','AppbAPI','FacUser',
   function ($scope,$http,$log,$location,
@@ -53,9 +53,10 @@ templateUrl: 'app-steefac/fac-detail/fac-detail.template.html',
       return appData.showInfoPage('获取数据错误',e,'/search')
     });
     function _get_admin_of_fac(){
-      FacUser.getMyData().then(function(s){
+      FacUser.getMyData(false).then(function(s){
         if(FacUser.isSysAdmin())$scope.canEdit=true;
       },function(e){$log.log('Err:',e)});
+      
       AppbAPI('stee_user','get_admin_of_fac',{facid:id}).then(function(s){
         $log.log('get_admin_of_fac',s);
         $scope.isLoading--;
