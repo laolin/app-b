@@ -11,19 +11,19 @@ angular.module('steefac')
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
         
-        var types=['fac','proj'];
-        var names={fac:'钢构厂',proj:'项目信息'};
+        var types=['steefac','steeproj'];
+        var names={steefac:'钢构厂',steeproj:'项目信息'};
         
         $scope.objType=$location.search().type;        
         if(! names[$scope.objType] ) {
-          $scope.objType='fac';
+          $scope.objType='steefac';
         }
         
         $scope.objName=names[$scope.objType];
         
         if(! userData || !userData.token) {
           return $location.path( "/wx-login" ).
-            search({pageTo: '/'+$scope.objType+'-add'});;
+            search({pageTo: '/fac-add'});;
         }
         //if(!FacUser.isSysAdmin()) {
         //  return $location.path( '/my');;
@@ -66,7 +66,7 @@ angular.module('steefac')
           $scope.searchDone=false;
           $scope.isLoading=1;
           
-          AppbAPI('stee'+$scope.objType,'search',{s:FacMap.addrInput[$scope.objType+'name'],count:10})
+          AppbAPI('steeobj','search',{type:$scope.objType,s:FacMap.addrInput[$scope.objType+'name'],count:10})
           .then(function(s){
             $scope.searchDone=1;
             $scope.isLoading=0;

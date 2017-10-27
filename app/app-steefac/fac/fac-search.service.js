@@ -27,9 +27,14 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   var objTypes=[
     'steefac','steeproj',
   ];
+  var objNames={steefac:'钢构厂',steeproj:'项目信息'};
   var objIcons={steefac:'cubes',steeproj:'university'};
   var objDefines={steefac:FacDefine,steeproj:ProjDefine};
 
+  FacSearch.objNames=objNames;
+  FacSearch.objIcons=objIcons;
+  FacSearch.objDefines=objDefines;
+  
   FacSearch.isTypeValid=function(type) {
     return objTypes.indexOf(type)>=0;
   }

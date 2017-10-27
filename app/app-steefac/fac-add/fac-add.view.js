@@ -13,13 +13,13 @@ angular.module('steefac')
           return $location.path( "/wx-login" ).search({pageTo: '/fac-add'});;
         }
         
-        var types=['fac','proj'];
-        var names={fac:'钢构厂',proj:'项目信息'};
-        var defines={fac:FacDefine,proj:ProjDefine};
+        var types=['steefac','steeproj'];
+        var names={steefac:'钢构厂',steeproj:'项目信息'};
+        var defines={steefac:FacDefine,steeproj:ProjDefine};
         
         $scope.objType=$location.search().type;        
         if(! names[$scope.objType] ) {
-          $scope.objType='fac';
+          $scope.objType=types[0];
         }
         $scope.objName=names[$scope.objType];
         
@@ -63,7 +63,7 @@ angular.module('steefac')
             dd[k]=FacMap.addrInput[k]
             $log.log('FacMap.addrInput[k]',k,FacMap.addrInput[k]);
           }
-          AppbAPI('stee'+$scope.objType,'add',{d:JSON.stringify(dd)})
+          AppbAPI('steeobj','add',{type:$scope.objType,d:JSON.stringify(dd)})
           .then(function(s){
             appData.toastMsg('数据已成功保存',2);
             $location.path('/'+$scope.objType+'-detail').search({id:s.id});
