@@ -104,7 +104,7 @@ angular.module('steefac')
           .then(function(s){
             delete FacSearch.datailCache[objtype+id];
             appData.toastMsg('数据已成功更新',2);
-            $location.path( "/"+objtype+"-detail" ).search({id: id});
+            $location.path( "/obj-detail" ).search({id: id,type:objtype});
             $log.log('sec',s);
           },function(e){
             appData.toastMsg(e,3);//'更新失败'+
