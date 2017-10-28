@@ -125,7 +125,7 @@ function ($log){
       desc: '联系邮箱',
       type: 'email',
       placeholder:'请输入邮箱地址',
-      required: 0
+      required: 1
     },
     {//----------------------------
       name: 'notes',
