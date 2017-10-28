@@ -1,0 +1,16 @@
+<appb-ui-loading ng-if='isLoading>0'></appb-ui-loading>
+
+<div ng-if='isLoading<=0'>
+  <place-input form-define='formDefine' models='models'></place-input>
+  <div class="weui-btn-area">
+    <button class="weui-btn weui-btn_primary" 
+      ng-click='onUpdate()'
+      ng-class="{'weui-btn_disabled':!formDefine._formObj.$valid}"
+      ng-disabled='!formDefine._formObj.$valid'
+
+    >更新</button>
+    <button class="weui-btn weui-btn_warn"
+    ng-if='isSysAdmin'
+    ng-click='onDelete()'>删除</button>
+  </div>
+</div>

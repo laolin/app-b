@@ -24,7 +24,24 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   FacSearch.showPageNumber={};//当前显示第几页
   FacSearch.showCount=0;//实际显示出来多少个（由于最后一页可能不满页）
   
-  FacSearch.searchType='steefac';
+  var objTypes=[
+    'steefac','steeproj',
+  ];
+  var objNames={steefac:'钢构厂',steeproj:'项目信息'};
+  var objIcons={steefac:'cubes',steeproj:'university'};
+  var objDefines={steefac:FacDefine,steeproj:ProjDefine};
+
+
+  FacSearch.objTypes=objTypes;
+  FacSearch.objNames=objNames;
+  FacSearch.objIcons=objIcons;
+  FacSearch.objDefines=objDefines;
+  
+  FacSearch.isTypeValid=function(type) {
+    return objTypes.indexOf(type)>=0;
+  }
+  
+  FacSearch.searchType=objTypes[0];
   FacSearch.searchResult={};
   FacSearch.searchResultSelected=-1;
   FacSearch.searching=0;
@@ -49,8 +66,8 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   }
   
   FacSearch.startSearch=function(type){
-    if(type!='steefac'&&type!='steeproj'){
-      $log.log('***err search type: ',type);
+    if(!FacSearch.isTypeValid(type)){
+      $log.log('**err search type:',type);
       return;
     }
     
@@ -110,7 +127,8 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
     FacSearch.searching=true;
     //FacSearch.searchResultSelected=-1;
     
-    return AppbAPI(type,'search',serchPara).then(
+    serchPara.type=type;
+    return AppbAPI('steeobj','search',serchPara).then(
       function(s){
         FacSearch.searching=false;
         FacSearch.searchResultSelected=-1;
@@ -158,7 +176,6 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
     
   FacSearch.newSearchMarkers=function(rs,first,len,infoOfObj,type) {
     
-    var icons={steefac:'cubes',steeproj:'university'};
     //selMarker已ready，说明可以安全地创建其他marker
     FacMap.getSelMarker().then(function(){
       for(var i=0;i<FacMap.searchMarkers.length;i++) {
@@ -186,7 +203,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
           lat= 312849830;//同济文远楼
         }
       
-        FacMap.searchMarkers[j]=FacMap.newMarker('#fff','16px',icons[type],[lng/1E7,lat/1E7],false,(''+rs[i].name).substr(0,4));
+        FacMap.searchMarkers[j]=FacMap.newMarker('#fff','16px',objIcons[type],[lng/1E7,lat/1E7],false,(''+rs[i].name).substr(0,4));
         FacMap.searchMarkers[j].show();
         
         FacMap.searchMarkers[j].selIndex=i;
@@ -291,7 +308,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   
   FacSearch.getDetail=function(type,id) {
     var deferred = $q.defer();
-    if(type!='steefac' && type!='steeproj') {
+    if( !FacSearch.isTypeValid(type) ) {
       deferred.reject('errType');
       return deferred.promise;
     }
@@ -300,14 +317,13 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
       return deferred.promise;
     }
     
-    return AppbAPI(type,'detail',{id:id}).then(function(s){
-      $log.log('detail-',type,s);
+    return AppbAPI('steeobj','detail',{type:type,id:id}).then(function(s){
+      $log.log('detail-',type,id,s);
       if(!s) {
         deferred.reject('noData');
         return deferred.promise;
       }
-      var defObj={steefac:FacDefine,steeproj:ProjDefine};
-      defObj[type].formatObj(s);
+      objDefines[type].formatObj(s);
       FacSearch.datailCache[type+id]=s;      
       deferred.resolve(FacSearch.datailCache[type+id]);
       return deferred.promise;
@@ -332,7 +348,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
       '擅长构件：<%- goodat %><br/>'+
       '<%- update_at %>更新'+
       '<a href="#!/case-show?id=<%- id %>">【业绩】</a>'+
-      '<a href="#!/fac-detail?id=<%- id %>">【详情】</a>'
+      '<a href="#!/obj-detail?type=steefac&id=<%- id %>">【详情】</a>'
       ;
 
       //设置主体内容
@@ -353,22 +369,21 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
       //设置标题内容
       //，项目规模<%- size %>㎡
       data.infoBody=
-      '用钢量<%- need_steel %>吨<br>'+
-      '用钢时间：<%- in_month %><br/>'+
+      '采购量<%- need_steel %>吨<br>'+
+      '供货时间：<%- in_month %><br/>'+
       '<%- update_at %>更新'+
-      '<a href="#!/proj-detail?id=<%- id %>">【详情】</a><br/>'
+      '<a href="#!/obj-detail?type=steeproj&id=<%- id %>">【详情】</a><br/>'
       ;
 
       //设置主体内容
       var dt=new Date(1000*o.update_at);
       var u_at=(dt.getYear()+1900)+'.'+(dt.getMonth()+1)+'.'+dt.getDate();
-      var omonth={3:'三月内',6:'六月内',12:'一年内',24:'两年内',60:'五年内'}
       data.infoTplData={
         name:o.name,
         need_steel:o.need_steel,
         size:o.size,
         update_at:u_at,
-        in_month:omonth[o.in_month],
+        in_month:ProjDefine.objReqInMonth[o.in_month],
         id:o.id
       };
     }
@@ -379,10 +394,9 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   //从搜索结果 obj[j] 生成 weui-cells的数据
   FacSearch.cellOfObj=function(obj,j,type,linkUrl_Or_fnOnCLick) {
     if(type=='steeproj'){
-      var omonth={3:'三月内',6:'六月内',12:'一年内',24:'两年内',60:'五年内'}
       return {
-          text:''+(j+1)+'.'+obj[j].name+'，用钢量'+obj[j].need_steel+
-          '吨，项目规模' +obj[j].size+ '㎡，用钢时间：'+omonth[obj[j].in_month],
+          text:''+(j+1)+'.'+obj[j].name+'，采购量'+obj[j].need_steel+
+          '吨，首批供货时间：'+ProjDefine.objReqInMonth[obj[j].in_month],
           url:linkUrl_Or_fnOnCLick,
           //url:,
           icon:'university'}
@@ -405,7 +419,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
     if(type=='steefac'){
       return {val:+obj[j].cap_6m,name:'产能',unit:'吨'};
     }
-    return {};
+    return {val:0,name:'undef',unit:''};
   }
   
   return  FacSearch;

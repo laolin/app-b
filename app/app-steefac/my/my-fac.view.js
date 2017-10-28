@@ -5,8 +5,8 @@ angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
 $routeProvider.when('/my-fac', {
 templateUrl: 'app-steefac/my/my-fac.view.template.html',
-controller: ['$scope','$log','AppbData','FacUser',
-function ($scope,$log,AppbData,FacUser) {
+controller: ['$scope','$log','AppbData','FacSearch','FacUser',
+function ($scope,$log,AppbData,FacSearch,FacUser) {
 
   var userData=AppbData.getUserData();
   var appData=AppbData.getAppData();
@@ -22,11 +22,17 @@ function ($scope,$log,AppbData,FacUser) {
   
   ctrl.FacUser=FacUser;
   ctrl.isLoading=1;
-  ctrl.facTitle='我管理的钢构厂';
-  ctrl.facType='steefac';
-  
+  ctrl.objTypes=FacSearch.objTypes;
+  ctrl.objNames=FacSearch.objNames;
+  ctrl.facIds={};
+  ctrl.noIds=true;
+ 
   FacUser.getMyData().then(function (me) {
-    ctrl.facIds=me.facCanAdmin.join(',');
+    for(var i=ctrl.objTypes.length;i--; ) {
+      ctrl.facIds[ctrl.objTypes[i]]=me.objCanAdmin[ctrl.objTypes[i]].join(',');
+      if(ctrl.facIds[ctrl.objTypes[i]].length)ctrl.noIds=false;
+    }
+    $log.log('me.objCanAdmin',ctrl.facIds);
     ctrl.isLoading=0;
   });
   

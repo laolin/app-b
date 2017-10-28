@@ -35,7 +35,7 @@
 ng-if='$ctrl.searchType=="steefac"'
 title='' cells="[
   {text:'剩余产能'+$ctrl.objectSelected.cap_6m+'吨',icon:'book',notes:'详情',
-    url:'/fac-detail?id='+$ctrl.objectSelected.id},
+    url:'/obj-detail?type=steefac&id='+$ctrl.objectSelected.id},
   {text:'了解该公司的业绩',icon:'flag',notes:'业绩',
     url:'/case-show?id='+$ctrl.objectSelected.id}
 ]" >
@@ -44,8 +44,8 @@ title='' cells="[
 <appb-weui-cells 
 ng-if='$ctrl.searchType=="steeproj"'
 title='' cells="[
-  {text:'用钢量'+$ctrl.objectSelected.need_steel+'吨',icon:'book',notes:'详情',
-    url:'/proj-detail?id='+$ctrl.objectSelected.id}
+  {text:'采购量'+$ctrl.objectSelected.need_steel+'吨',icon:'book',notes:'详情',
+    url:'/obj-detail?type=steeproj&id='+$ctrl.objectSelected.id}
 ]" >
 </appb-weui-cells>
 

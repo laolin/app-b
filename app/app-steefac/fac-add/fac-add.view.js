@@ -5,25 +5,23 @@ angular.module('steefac')
   $routeProvider.when('/fac-add', {
     templateUrl: 'app-steefac/fac-add/fac-add.view.template.html',
     controller: ['$scope','$http','$log','$location',
-        'AppbData','FacDefine','ProjDefine','FacMap','AppbAPI','FacUser',
+        'AppbData','FacDefine','ProjDefine','FacMap','AppbAPI','FacUser','FacSearch',
       function mzUserSearchCtrl($scope,$http,$log,$location,
-          AppbData,FacDefine,ProjDefine,FacMap,AppbAPI,FacUser) {
+          AppbData,FacDefine,ProjDefine,FacMap,AppbAPI,FacUser,FacSearch) {
         var userData=AppbData.getUserData();
         if(! userData || !userData.token) {
           return $location.path( "/wx-login" ).search({pageTo: '/fac-add'});;
         }
         
-        var types=['fac','proj'];
-        var names={fac:'钢构厂',proj:'项目信息'};
-        var defines={fac:FacDefine,proj:ProjDefine};
+        $scope.objType=$location.search().type; 
         
-        $scope.objType=$location.search().type;        
-        if(! names[$scope.objType] ) {
-          $scope.objType='fac';
+        if(!FacSearch.isTypeValid($scope.objType)) {
+          return appData.showInfoPage('类型错误','E:type:'+$scope.objType,'/my');
         }
-        $scope.objName=names[$scope.objType];
         
-        $scope.formDefine=defines[$scope.objType];
+        $scope.objName=FacSearch.objNames[$scope.objType];
+        
+        $scope.formDefine=FacSearch.objDefines[$scope.objType];
         
         //if(!FacUser.isSysAdmin()) {
         //  return $location.path( '/my');;
@@ -50,6 +48,7 @@ angular.module('steefac')
           dd.name=FacMap.addrInput[$scope.objType+'name'];
           dd.addr=FacMap.addrInput.addr;
           dd.lngE7=FacMap.addrInput.lngE7;
+          dd.latE7=FacMap.addrInput.latE7;
           dd.province=FacMap.addrInput.province;
           dd.city=FacMap.addrInput.city;
           dd.district=FacMap.addrInput.district;
@@ -63,10 +62,10 @@ angular.module('steefac')
             dd[k]=FacMap.addrInput[k]
             $log.log('FacMap.addrInput[k]',k,FacMap.addrInput[k]);
           }
-          AppbAPI('stee'+$scope.objType,'add',{d:JSON.stringify(dd)})
+          AppbAPI('steeobj','add',{type:$scope.objType,d:JSON.stringify(dd)})
           .then(function(s){
             appData.toastMsg('数据已成功保存',2);
-            $location.path('/'+$scope.objType+'-detail').search({id:s.id});
+            $location.path('/obj-detail').search({id:s.id,type:$scope.objType});
             FacUser.getMyData(1);
             $log.log('sec',s);
           },function(e){

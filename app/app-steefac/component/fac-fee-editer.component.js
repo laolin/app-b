@@ -45,12 +45,12 @@ function ($location,$log,AppbData,AppbAPI,FacDefine,FacSearch) {
   //确定按钮事件
   ctrl.onOk=function() {
     var d={fee:feeStr}
-    AppbAPI('steefac','update',{id:ctrl.id,d:JSON.stringify(d)}).then(function(s){
+    AppbAPI('steeobj','update',{type:'steefac',id:ctrl.id,d:JSON.stringify(d)}).then(function(s){
       if(!s) {
         return appData.toastMsg('未修改',3);
       }
       delete FacSearch.datailCache['steefac'+ctrl.id];
-      $location.path('/fac-detail').search({id:ctrl.id});
+      $location.path( "/obj-detail" ).search({id: id,type:'steefac'});
       return appData.toastMsg('已修改',3);
     },function(e){
       return appData.toastMsg(e,3);

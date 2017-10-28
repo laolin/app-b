@@ -5,25 +5,25 @@ angular.module('steefac')
   $routeProvider.when('/fac-add-find-name', {
     templateUrl: 'app-steefac/fac-add/fac-add-find-name.view.template.html',
     controller: ['$scope','$http','$log','$location',
-        'AppbData','FacDefine','FacMap','AppbAPI','FacUser',
+        'AppbData','FacDefine','FacMap','AppbAPI','FacSearch',
       function mzUserSearchCtrl($scope,$http,$log,$location,
-          AppbData,FacDefine,FacMap,AppbAPI,FacUser) {
+          AppbData,FacDefine,FacMap,AppbAPI,FacSearch) {
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
         
-        var types=['fac','proj'];
-        var names={fac:'钢构厂',proj:'项目信息'};
+        $scope.objType=$location.search().type; 
         
-        $scope.objType=$location.search().type;        
-        if(! names[$scope.objType] ) {
-          $scope.objType='fac';
+        if(!FacSearch.isTypeValid($scope.objType)) {
+          return appData.showInfoPage('类型错误','E:type:'+$scope.objType,'/my');
         }
         
-        $scope.objName=names[$scope.objType];
+        $scope.objName=FacSearch.objNames[$scope.objType];
+        
+        
         
         if(! userData || !userData.token) {
           return $location.path( "/wx-login" ).
-            search({pageTo: '/'+$scope.objType+'-add'});;
+            search({pageTo: '/fac-add'});;
         }
         //if(!FacUser.isSysAdmin()) {
         //  return $location.path( '/my');;
@@ -66,7 +66,7 @@ angular.module('steefac')
           $scope.searchDone=false;
           $scope.isLoading=1;
           
-          AppbAPI('stee'+$scope.objType,'search',{s:FacMap.addrInput[$scope.objType+'name'],count:10})
+          AppbAPI('steeobj','search',{type:$scope.objType,s:FacMap.addrInput[$scope.objType+'name'],count:10})
           .then(function(s){
             $scope.searchDone=1;
             $scope.isLoading=0;

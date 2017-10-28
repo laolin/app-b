@@ -19,9 +19,12 @@ function($location,$log,$q,AppbData,AppbAPI) {
 
   appData.FacUser=FacUser;
 
-  var myData={init:0,isAdmin:0,facMain:0,facCanAdmin:[]};
+  var myData={init:0,isAdmin:0,facMain:0,objCanAdmin:{}};
   FacUser.myData=myData;
   FacUser.admins=[];
+
+
+  var objTypes=['steefac','steeproj'];
 
   //0 : not admin
   // > :普通
@@ -33,8 +36,8 @@ function($location,$log,$q,AppbData,AppbAPI) {
     return FacUser.myData.isAdmin & SYS_ADMIN && 
       !FacUser.myData.disableSysAdmin ;
   }
-  FacUser.canAdmin=function canAdmin(fac) {
-    return FacUser.myData.facCanAdmin.indexOf(fac)>=0;
+  FacUser.canAdminObj=function canAdminObj(type,id) {
+    return FacUser.myData.objCanAdmin[type].indexOf(''+id)>=0;
   }
 
   FacUser.getAdmins=function() {
@@ -64,20 +67,23 @@ function($location,$log,$q,AppbData,AppbAPI) {
   
   
   
-  //申请管理一个厂
   FacUser.applyFacAdmin=function(fac) {
+    return FacUser.applyAdmin('steefac',fac);
+  }
+  //申请管理一个厂
+  FacUser.applyAdmin=function(type,fac) {
     
     dialogData.msgBox(
       '请您确认：您将负责管理维护【'+fac.name+
-      '】的产能数据。',
-      '成为钢构厂的管理员',
+      '】的数据。',
+      '管理员申请',
       '确认','取消',
       function(){
-        return AppbAPI('stee_user','apply_fac_admin',
-          {facid:fac.id,userid:appData.userData.uid}
+        return AppbAPI('stee_user','apply_admin',
+          {type:type,facid:fac.id,userid:appData.userData.uid}
         ).then(function(s){//成功
           myData.init=0;
-          appData.toastMsg('已成为该钢构厂管理员',3);
+          appData.toastMsg('申请管理员成功',3);
           FacUser.getMyData();
           $location.path( "/my-fac" )
         },function(e){//失败
@@ -99,7 +105,10 @@ function($location,$log,$q,AppbData,AppbAPI) {
         myData.isAdmin=parseInt(s.me.is_admin);
         myData.update_at=parseInt(s.me.update_at);
         myData.uid=parseInt(s.me.uid);
-        myData.facCanAdmin=s.me.fac_can_admin.split(',');
+        myData.objCanAdmin={};
+        for(var i=objTypes.length;i--; ) {
+          myData.objCanAdmin[objTypes[i]]=s.me[objTypes[i]+'_can_admin'].split(',')
+        }
         myData.counter={};
         myData.counter.nFac=s.nFac;
         myData.counter.nProj=s.nProj;
