@@ -31,6 +31,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   var objIcons={steefac:'cubes',steeproj:'university'};
   var objDefines={steefac:FacDefine,steeproj:ProjDefine};
 
+  FacSearch.objTypes=objTypes;
   FacSearch.objNames=objNames;
   FacSearch.objIcons=objIcons;
   FacSearch.objDefines=objDefines;
