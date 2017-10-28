@@ -5,9 +5,9 @@ angular.module('steefac')
   $routeProvider.when('/fac-add', {
     templateUrl: 'app-steefac/fac-add/fac-add.view.template.html',
     controller: ['$scope','$http','$log','$location',
-        'AppbData','FacDefine','ProjDefine','FacMap','AppbAPI','FacUser',
+        'AppbData','FacDefine','ProjDefine','FacMap','AppbAPI','FacUser','FacSearch',
       function mzUserSearchCtrl($scope,$http,$log,$location,
-          AppbData,FacDefine,ProjDefine,FacMap,AppbAPI,FacUser) {
+          AppbData,FacDefine,ProjDefine,FacMap,AppbAPI,FacUser,FacSearch) {
         var userData=AppbData.getUserData();
         if(! userData || !userData.token) {
           return $location.path( "/wx-login" ).search({pageTo: '/fac-add'});;
@@ -65,7 +65,7 @@ angular.module('steefac')
           AppbAPI('steeobj','add',{type:$scope.objType,d:JSON.stringify(dd)})
           .then(function(s){
             appData.toastMsg('数据已成功保存',2);
-            $location.path('/'+$scope.objType+'-detail').search({id:s.id});
+            $location.path('/obj-detail').search({id:s.id,type:$scope.objType});
             FacUser.getMyData(1);
             $log.log('sec',s);
           },function(e){
