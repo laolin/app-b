@@ -1,24 +1,24 @@
 <appb-ui-loading ng-if='$ctrl.isLoading'></appb-ui-loading>
 
-<div ng-if='!$ctrl.isLoading && !$ctrl.facIds'> 
-  <appb-weui-cells
-    title='我的钢构厂'
-    cells="[
-      {text:'暂无',url:'/search',icon:'info',notes:'搜索并管理您的钢构厂'}
-      ,
-    ]"
-  >
-  </appb-weui-cells>
-</div>
-
 <facs-show
-  ng-if='$ctrl.facIds'
+  ng-repeat='type in $ctrl.objTypes'
+  ng-if='$ctrl.facIds[type]'
   
-  title='$ctrl.facTitle'
-  type='$ctrl.facType'
-  fac-ids='$ctrl.facIds'
+  title=' "我管理的" +$ctrl.objNames[type]'
+  type='type'
+  fac-ids='$ctrl.facIds[type]'
 >
 </facs-show>
+
+<appb-weui-cells
+  ng-repeat='type in $ctrl.objTypes'
+  ng-if='! $ctrl.facIds[type]'
+  title='暂无我管理的{{$ctrl.objNames[type]}}'
+  cells="[
+    {text:'添加我的'+$ctrl.objNames[type],url:'/fac-add-find-name?type='+type,icon:'plus',notes:'查找或创建'},
+  ]"
+>
+</appb-weui-cells>
 
 
 <fac-ui-copyright></fac-ui-copyright>

@@ -25,18 +25,25 @@ angular.module('steefac')
         ctrl.FacUser=FacUser;
         
         $scope.$on('$viewContentLoaded', function () {
-          ctrl.wxShareData_ori=angular.copy(appData.wxShareData);//备份wxShareData
-          appData.wxShareData.title='错题本-我的';
-          appData.wxShareData.desc='错题本-我的-说明';
-
         });
         $scope.$on('$destroy', function () {
-          angular.extend(appData.wxShareData,ctrl.wxShareData_ori);//还原wxShareData
         });
 
         
         ctrl.userData=userData;
         ctrl.appData=appData;
+        ctrl.onDisableSysAdmin=function() {
+          var me;
+          me=appData.userData.wxinfo;
+          me.nickname='请高手用户';
+          me.headimgurl='https://api.qinggaoshou.com/api-eb/uploads/wx_ee6518de6283518eac17ba8d10eb5da41947f3a2.jpg';
+          
+          me=appData.userData.usersInfo[appData.userData.uid];
+          if(me) {
+            me.wxinfo.nickname='请高手用户';
+            me.wxinfo.headimgurl='https://api.qinggaoshou.com/api-eb/uploads/wx_ee6518de6283518eac17ba8d10eb5da41947f3a2.jpg';
+          }
+        }
         
         ctrl.swipeLeft=function() {
           appData.toastMsg('左滑',2);

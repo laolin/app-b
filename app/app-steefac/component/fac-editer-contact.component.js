@@ -5,10 +5,12 @@ templateUrl: 'app-steefac/component/fac-editer-contact.component.template.html',
 bindings: {
   id:'<'
 },
-controller:['$http','$log','AppbData','FacApi','FacDefine',
-function ($http,$log,AppbData,FacApi,FacDefine) {
+controller:['$location','$log','AppbData','AppbAPI','FacSearch',
+function ($location,$log,AppbData,AppbAPI,FacSearch) {
   var appData=AppbData.getAppData();
   var ctrl=this;
+  
+  var objType='steefac';
   
   var options=['contact_person','contact_tel','contact_email'];
   ctrl.models={};
@@ -43,10 +45,12 @@ function ($http,$log,AppbData,FacApi,FacDefine) {
   //确定按钮事件
   ctrl.onOk=function() {
     var d=ctrl.data;
-    FacApi.callApi('steefac','update',{id:ctrl.id,d:JSON.stringify(d)}).then(function(s){
+    AppbAPI('steeobj','update',{type:objType,id:ctrl.id,d:JSON.stringify(d)}).then(function(s){
       if(!s) {
         return appData.toastMsg('未修改',3);
       }
+      delete FacSearch.datailCache[objType+ctrl.id];
+      $location.path( "/obj-detail" ).search({id: id,type:objtype});
       return appData.toastMsg('已修改',3);
     },function(e){
       return appData.toastMsg(e,3);
@@ -60,7 +64,7 @@ function ($http,$log,AppbData,FacApi,FacDefine) {
   
   
   ctrl.$onInit=function(){
-    FacApi.callApi('steefac','detail',{id:ctrl.id}).then(function(s){
+    FacSearch.getDetail(objType,ctrl.id).then(function(s){
       if(!s) {
         return appData.showInfoPage('参数错误','Err id: '+ctrl.id,'/search')
       }

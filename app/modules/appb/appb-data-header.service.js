@@ -8,6 +8,7 @@ angular.module('appb')
 .factory('AppbDataHeader',
 ['$route','$rootScope','$location','$log','AppbConfig',
 function($route, $rootScope,$location,$log,AppbConfig) {
+  var appCfg=AppbConfig();
 
   var headerData={};
   this.headerData=headerData;
@@ -46,10 +47,31 @@ function($route, $rootScope,$location,$log,AppbConfig) {
   function hideHeader() {
     headerData.hide=true;
   }
+  
+  
+  function initWxShareData() {
+    var wxShareData={};
+    wxShareData.title= headerData.bTitle, // 分享标题
+    wxShareData.desc= appCfg.appDesc,
+    wxShareData.link= location.href;
+    wxShareData.imgUrl= appCfg.appLogo, // 分享图标
+    wxShareData.success= function () { 
+    },
+    wxShareData.cancel= function () { 
+    }
+    wx.ready(function () {
+      wx.onMenuShareAppMessage( wxShareData ); 
+      wx.onMenuShareTimeline( wxShareData ); 
+    }); 
+  }
+
+  
+  
   function setPageTitle(title) {
     headerData.title=title || defTitle;
     headerData.bTitle= title +'-'+ defBTitle;
     $rootScope.pageTitle=headerData.bTitle;
+    initWxShareData();
   }
   function activeHeader(name,title,bTitle) {
     if(!headerAvailable[name]) {
@@ -62,6 +84,7 @@ function($route, $rootScope,$location,$log,AppbConfig) {
     headerData.widgets=headerAvailable[name];
 
     $rootScope.pageTitle=headerData.bTitle;
+    initWxShareData();
   }
   function deleteHeader(name) {
     return delete headerAvailable[name];

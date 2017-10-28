@@ -1,5 +1,11 @@
 <div class="fac-body-wrapper">
+  <div class="weui-cells__title" ng-if='!$ctrl.models.formatted_address'>
+  请输入地址，然后点击“自动定位”
+  </div>
+
   <place-addr-input></place-addr-input>
-  <place-attr-form form-define='$ctrl.formDefine' models='$ctrl.models'></place-attr-form>
+  <place-attr-form form-define='$ctrl.formDefine' 
+  ng-if='1||$ctrl.FacMap.addrInput.formatted_address'
+  models='$ctrl.models'></place-attr-form>
   
 </div>

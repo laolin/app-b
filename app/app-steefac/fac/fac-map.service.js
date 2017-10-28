@@ -106,8 +106,8 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
 
       FacMap.mapData.map.setZoomAndCenter(16,pos);
       FacMap.mapData.map.panBy(0,0);//不动一点点有时显示不出来 marker，不知为何
-      
       FacMap.canClick=true;
+      _selPosition(pos);
       //angular.extend(addrInput_bak,FacMap.addrInput);
    });
   }

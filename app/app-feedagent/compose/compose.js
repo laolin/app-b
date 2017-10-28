@@ -39,7 +39,7 @@ angular.module('feedagent')
           $log.log('$scope.afterPublish at compose.js',a);
           
           $location.path( "/explore" );
-          if(feedData.feedAll[$scope.fcat].length) {
+          if(feedData.feedAll[$scope.fcat]&&feedData.feedAll[$scope.fcat].length) {
             feedData.hasNewMore[$scope.fcat]=true;
             feedData.exploreFeed($scope.feedApp,$scope.feedCat,{newMore:1});//自动刷新新帖
           }//原先没有任何feed时,跳到/explore后会自己取，故不需要刷新新帖

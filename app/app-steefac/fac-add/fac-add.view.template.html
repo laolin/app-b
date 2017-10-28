@@ -1,0 +1,10 @@
+
+  <place-input form-define='formDefine' models='models'></place-input>
+  <div class="weui-btn-area">
+     <button class="weui-btn weui-btn_primary" href  ng-click='onOk()'
+      ng-class="{'weui-btn_disabled':!models.formatted_address||!formDefine._formObj.$valid}"
+      ng-disabled='!models.formatted_address || !formDefine._formObj.$valid'
+     >确定</button>
+  </div>
+  <p>将要创建的{{objName}}：{{models[objType+'name']}}。
+  <a class='weui-cell_warn' ng-if='!formDefine._formObj.$valid'>提交前请正确填写数据，谢谢！</a></p>

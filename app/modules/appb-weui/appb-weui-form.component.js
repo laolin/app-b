@@ -8,11 +8,16 @@ angular.module('appb')
     models:"<",
     formDefine:"<",
   },
-  controller: ['$log','$timeout',
-    function ($log,$timeout){
+  controller: ['$log','$scope','$timeout',
+    function ($log,$scope,$timeout){
       var ctrl=this;
       ctrl.formName='fawi'+(+new Date);
 
+      ctrl.$onInit=function(){
+        $timeout(function(){
+          ctrl.formDefine._formObj=$scope[ctrl.formName];
+        },1000);
+      }
       
       
       

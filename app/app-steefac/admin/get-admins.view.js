@@ -5,9 +5,9 @@ angular.module('steefac')
 $routeProvider.when('/get-admins', {
 templateUrl: 'app-steefac/admin/get-admins.view.template.html',
 controller: ['$scope','$http','$log','$location',
-  'AppbData','FacDefine','FacApi','FacUser',
+  'AppbData','FacDefine','FacUser',
 function ($scope,$http,$log,$location,
-  AppbData,FacDefine,FacApi,FacUser) {
+  AppbData,FacDefine,FacUser) {
   var userData=AppbData.getUserData();
   if(! userData || !userData.token) {
     return $location.path( "/wx-login" ).search({pageTo: '/my'});;

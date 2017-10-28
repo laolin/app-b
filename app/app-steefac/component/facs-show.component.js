@@ -8,8 +8,8 @@ bindings: {
   type:'<',
   facIds:'<',
 },
-controller:['$log','AppbData','FacUser','FacApi',
-function ($log,AppbData,FacUser,FacApi) {
+controller:['$log','AppbData','FacUser','AppbAPI',
+function ($log,AppbData,FacUser,AppbAPI) {
   var ctrl=this;
   var userData=AppbData.getUserData();
   
@@ -21,14 +21,15 @@ function ($log,AppbData,FacUser,FacApi) {
   
   ctrl.$onInit=function(){
     $log.log('===============facsShow',ctrl.facIds);
-    getList(ctrl.facIds);
+    if(ctrl.facIds) getList(ctrl.facIds);
+    else ctrl.isLoading=0;
   }
   ctrl.$onChanges=function(chg){
 
   }
   
   function getList(facIds) {
-    return FacApi.callApi('steefac','li',{ids:facIds}).then(function(s){
+    return AppbAPI('steeobj','li',{type:ctrl.type,ids:facIds}).then(function(s){
       ctrl.isLoading=0;
       $log.log('===============steefac li ok',s);
       ctrl.facList=s;

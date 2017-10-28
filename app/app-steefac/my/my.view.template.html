@@ -31,9 +31,11 @@
   <appb-weui-cells
     title='钢构产能地图'
     cells="[
-      {text:'发现',url:'/search',icon:'search',notes:'搜索钢构产能'}
-      ,
-      {text:'我的钢构厂',url:'/my-fac',icon:'user-circle',notes:''}
+      {text:'共有'+$ctrl.FacUser.myData.counter.nFac+'个钢构厂',url:'/search',icon:'search',notes:'搜索产能'},
+      {text:'共有'+$ctrl.FacUser.myData.counter.nProj+'个项目信息',url:'/search',icon:'search',notes:'搜索项目'},
+      {text:'我的钢构厂',url:'/my-fac',icon:'user-circle',notes:''},
+      {text:'创建钢构厂',url:'/fac-add-find-name?type=steefac',icon:'plus',notes:'新增钢构厂'},
+      {text:'创建项目信息',url:'/fac-add-find-name?type=steeproj',icon:'plus',notes:'新增用钢信息'},
     ]"
   >
   </appb-weui-cells>
@@ -51,6 +53,7 @@
     <div class="weui-cell__bd">模拟为普通用户</div>
     <div class="weui-cell__ft">
       <input class="weui-switch" type="checkbox"
+      ng-change='$ctrl.onDisableSysAdmin()'
       ng-model="$ctrl.FacUser.myData.disableSysAdmin"/>
     </div>
   </div>
@@ -61,8 +64,6 @@
   <appb-weui-cells
     title='系统管理功能'
     cells="[
-      {text:'创建钢构厂',url:'/fac-add',icon:'plus',notes:'从地图先定位'},
-      {text:'增加用钢项目信息',url:'/proj-add',icon:'plus',notes:''},
       {text:'钢构厂管理员列表',url:'/get-admins',icon:'user-o',notes:''}
     ]"
   >

@@ -5,8 +5,8 @@ templateUrl: 'app-steefac/component/fac-goodat-editer.component.template.html',
 bindings: {
   id:'<'
 },
-controller:['$http','$log','AppbData','FacApi',
-function ($http,$log,AppbData,FacApi) {
+controller:['$location','$log','AppbData','AppbAPI','FacSearch',
+function ($location,$log,AppbData,AppbAPI,FacSearch) {
   var appData=AppbData.getAppData();
   var ctrl=this;
   
@@ -47,10 +47,12 @@ function ($http,$log,AppbData,FacApi) {
   //确定按钮事件
   ctrl.onOk=function() {
     var d={goodat:goodat}
-    FacApi.callApi('steefac','update',{id:ctrl.id,d:JSON.stringify(d)}).then(function(s){
+    AppbAPI('steeobj','update',{type:'steefac',id:ctrl.id,d:JSON.stringify(d)}).then(function(s){
       if(!s) {
         return appData.toastMsg('未修改',3);
       }
+      delete FacSearch.datailCache['steefac'+ctrl.id];
+      $location.path( "/obj-detail" ).search({id: id,type:'steefac'});
       return appData.toastMsg('已修改',3);
     },function(e){
       return appData.toastMsg(e,3);
@@ -61,7 +63,7 @@ function ($http,$log,AppbData,FacApi) {
   
   
   ctrl.$onInit=function(){
-    FacApi.callApi('steefac','detail',{id:ctrl.id}).then(function(s){
+    FacSearch.getDetail('steefac',ctrl.id).then(function(s){
       if(!s) {
         return appData.showInfoPage('参数错误','Err id: '+ctrl.id,'/search')
       }
@@ -75,7 +77,8 @@ function ($http,$log,AppbData,FacApi) {
   function initCheckbox(){
   
     $log.log('facGoodatEditer onInit',goodat);
-    var ga=goodat.split(',');
+    var ga=[];
+    if(goodat)ga=goodat.split(',');
     ctrl.checkData= {
       title: ctrl.det.name+'的擅长构件',
       namePrefix: 'goodat_', //自会动命名为：goodat_0 , goodat_1
