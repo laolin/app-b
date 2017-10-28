@@ -5,16 +5,16 @@ angular.module('steefac')
   $routeProvider.when('/fac-add-find-name', {
     templateUrl: 'app-steefac/fac-add/fac-add-find-name.view.template.html',
     controller: ['$scope','$http','$log','$location',
-        'AppbData','FacDefine','FacMap','AppbAPI','FacUser',
+        'AppbData','FacDefine','FacMap','AppbAPI','FacSearch',
       function mzUserSearchCtrl($scope,$http,$log,$location,
-          AppbData,FacDefine,FacMap,AppbAPI,FacUser) {
+          AppbData,FacDefine,FacMap,AppbAPI,FacSearch) {
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
         
         $scope.objType=$location.search().type; 
         
         if(!FacSearch.isTypeValid($scope.objType)) {
-          return appData.showInfoPage('类型错误','E:type:'+objtype,'/my');
+          return appData.showInfoPage('类型错误','E:type:'+$scope.objType,'/my');
         }
         
         $scope.objName=FacSearch.objNames[$scope.objType];
