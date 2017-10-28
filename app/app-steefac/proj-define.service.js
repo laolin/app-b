@@ -7,6 +7,7 @@ function ($log){
 
   var goodatOptions=['轻型','管结构','十字柱','箱形柱','BH','桁架','网架','减震产品','其它'];
   var steelTypes=['Q235B','Q345B','Q345C','其他'];
+  var objReqInMonth={3:'三月内',6:'六月内',12:'一年内',24:'两年内',60:'五年内'}
 
   var inputs=[
     /*{
@@ -160,7 +161,9 @@ function ($log){
     inputs:inputs,//字段定义
     changeMarks:changeMarks,//字段修改标记
     
-    onChange:onChange
+    onChange:onChange,
+    
+    objReqInMonth : objReqInMonth,
   }
   
 }]);

@@ -31,6 +31,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   var objIcons={steefac:'cubes',steeproj:'university'};
   var objDefines={steefac:FacDefine,steeproj:ProjDefine};
 
+
   FacSearch.objTypes=objTypes;
   FacSearch.objNames=objNames;
   FacSearch.objIcons=objIcons;
@@ -334,7 +335,6 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   
 
 
-  var oTextInMonth={3:'三月内',6:'六月内',12:'一年内',24:'两年内',60:'五年内'}
   
   //从搜索结果 obj[j] 生成 infoWindow的数据
   FacSearch.infoOfObj=function(o,type) {
@@ -383,7 +383,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
         need_steel:o.need_steel,
         size:o.size,
         update_at:u_at,
-        in_month:oTextInMonth[o.in_month],
+        in_month:ProjDefine.objReqInMonth[o.in_month],
         id:o.id
       };
     }
@@ -396,7 +396,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
     if(type=='steeproj'){
       return {
           text:''+(j+1)+'.'+obj[j].name+'，采购量'+obj[j].need_steel+
-          '吨，首批供货时间：'+oTextInMonth[obj[j].in_month],
+          '吨，首批供货时间：'+ProjDefine.objReqInMonth[obj[j].in_month],
           url:linkUrl_Or_fnOnCLick,
           //url:,
           icon:'university'}
