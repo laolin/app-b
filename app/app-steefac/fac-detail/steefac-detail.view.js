@@ -3,7 +3,7 @@
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
 $routeProvider.when('/steefac-detail', {
-templateUrl: 'app-steefac/detail/steefac-detail.view.template.html',
+templateUrl: 'app-steefac/fac-detail/steefac-detail.view.template.html',
   controller: ['$scope','$http','$log','$location',
     'AppbData','FacDefine','FacSearch','AppbAPI','FacUser',
   function ($scope,$http,$log,$location,
