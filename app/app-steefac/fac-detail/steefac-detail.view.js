@@ -14,6 +14,8 @@ templateUrl: 'app-steefac/fac-detail/steefac-detail.view.template.html',
       return $location.path( "/wx-login" ).search({pageTo: '/my'});;
     }
 
+    var objType='steefac';
+    
     appData.setPageTitle('钢构厂详情'); 
     var options=FacDefine.goodatOptions;
     
@@ -31,7 +33,7 @@ templateUrl: 'app-steefac/fac-detail/steefac-detail.view.template.html',
     $scope.id=id;
 
     
-    FacSearch.getDetail('steefac',id).then(function(s){
+    FacSearch.getDetail(objType,id).then(function(s){
       if(!s) {
         return appData.showInfoPage('参数错误','Err id: '+id,'/search')
       } 
@@ -57,8 +59,8 @@ templateUrl: 'app-steefac/fac-detail/steefac-detail.view.template.html',
         if(FacUser.isSysAdmin())$scope.canEdit=true;
       },function(e){$log.log('Err:',e)});
       
-      AppbAPI('stee_user','get_admin_of_fac',{facid:id}).then(function(s){
-        $log.log('get_admin_of_fac',s);
+      AppbAPI('stee_user','get_admin_of_obj',{type:objType,facid:id}).then(function(s){
+        $log.log('get_admin_of:',objType,s);
         $scope.isLoading--;
         if(s) {
           var uids=[];
@@ -73,6 +75,7 @@ templateUrl: 'app-steefac/fac-detail/steefac-detail.view.template.html',
         }
       },function(e){
         $log.log('get_admin_of_fac Err',e);
+        return appData.showInfoPage('数据错误',e,'/search')
       });
     }
 
