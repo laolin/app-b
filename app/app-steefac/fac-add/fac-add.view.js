@@ -50,6 +50,7 @@ angular.module('steefac')
           dd.name=FacMap.addrInput[$scope.objType+'name'];
           dd.addr=FacMap.addrInput.addr;
           dd.lngE7=FacMap.addrInput.lngE7;
+          dd.latE7=FacMap.addrInput.latE7;
           dd.province=FacMap.addrInput.province;
           dd.city=FacMap.addrInput.city;
           dd.district=FacMap.addrInput.district;
