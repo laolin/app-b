@@ -9,15 +9,16 @@
 <appb-ui-oprate-msg ng-if='err' content='{{err}}'></appb-ui-oprate-msg>
 
 
-
 <facs-show
-  ng-if='facIds'
+  ng-repeat='type in objTypes'
+  ng-if='facIds[type]'
   
-  title='title'
+  title=' "管理的" +objNames[type]'
   type='type'
-  fac-ids='facIds'
+  fac-ids='facIds[type]'
 >
 </facs-show>
-  
+
+ 
 
 
