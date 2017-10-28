@@ -45,7 +45,7 @@ function ($location,$log,AppbData,AppbAPI,FacDefine,FacSearch) {
   //确定按钮事件
   ctrl.onOk=function() {
     var d={fee:feeStr}
-    AppbAPI('steefac','update',{id:ctrl.id,d:JSON.stringify(d)}).then(function(s){
+    AppbAPI('steeobj','update',{type:'steefac',id:ctrl.id,d:JSON.stringify(d)}).then(function(s){
       if(!s) {
         return appData.toastMsg('未修改',3);
       }
