@@ -13,17 +13,15 @@ angular.module('steefac')
           return $location.path( "/wx-login" ).search({pageTo: '/fac-add'});;
         }
         
-        var types=['steefac','steeproj'];
-        var names={steefac:'钢构厂',steeproj:'项目信息'};
-        var defines={steefac:FacDefine,steeproj:ProjDefine};
+        $scope.objType=$location.search().type; 
         
-        $scope.objType=$location.search().type;        
-        if(! names[$scope.objType] ) {
-          $scope.objType=types[0];
+        if(!FacSearch.isTypeValid($scope.objType)) {
+          return appData.showInfoPage('类型错误','E:type:'+objtype,'/my');
         }
-        $scope.objName=names[$scope.objType];
         
-        $scope.formDefine=defines[$scope.objType];
+        $scope.objName=FacSearch.objNames[$scope.objType];
+        
+        $scope.formDefine=FacSearch.objDefines[$scope.objType];
         
         //if(!FacUser.isSysAdmin()) {
         //  return $location.path( '/my');;

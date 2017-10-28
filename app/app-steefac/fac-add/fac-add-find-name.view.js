@@ -11,15 +11,15 @@ angular.module('steefac')
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
         
-        var types=['steefac','steeproj'];
-        var names={steefac:'钢构厂',steeproj:'项目信息'};
+        $scope.objType=$location.search().type; 
         
-        $scope.objType=$location.search().type;        
-        if(! names[$scope.objType] ) {
-          $scope.objType='steefac';
+        if(!FacSearch.isTypeValid($scope.objType)) {
+          return appData.showInfoPage('类型错误','E:type:'+objtype,'/my');
         }
         
-        $scope.objName=names[$scope.objType];
+        $scope.objName=FacSearch.objNames[$scope.objType];
+        
+        
         
         if(! userData || !userData.token) {
           return $location.path( "/wx-login" ).
