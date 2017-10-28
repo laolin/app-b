@@ -16,7 +16,7 @@ angular.module('steefac')
         $scope.objType=$location.search().type; 
         
         if(!FacSearch.isTypeValid($scope.objType)) {
-          return appData.showInfoPage('类型错误','E:type:'+objtype,'/my');
+          return appData.showInfoPage('类型错误','E:type:'+$scope.objType,'/my');
         }
         
         $scope.objName=FacSearch.objNames[$scope.objType];
