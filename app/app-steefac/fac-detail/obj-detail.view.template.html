@@ -1,0 +1,24 @@
+<appb-ui-loading ng-if='isLoading>0'></appb-ui-loading>
+
+<steefac-detail
+  ng-if='objType=="steefac" && isLoading<=0'
+  
+  fac='fac'
+  
+  can-edit='canEdit'
+  uids='uids'
+  users-info='usersInfo'
+></steefac-detail>
+
+<steeproj-detail
+  ng-if='objType=="steeproj" && isLoading<=0'
+  
+  fac='fac'
+  
+  can-edit='canEdit'
+  uids='uids'
+  users-info='usersInfo'
+></steeproj-detail>
+
+
+<fac-ui-copyright></fac-ui-copyright>

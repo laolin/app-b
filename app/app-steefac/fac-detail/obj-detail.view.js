@@ -2,8 +2,8 @@
 
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
-$routeProvider.when('/steefac-detail', {
-templateUrl: 'app-steefac/fac-detail/steefac-detail.view.template.html',
+$routeProvider.when('/obj-detail', {
+templateUrl: 'app-steefac/fac-detail/obj-detail.view.template.html',
   controller: ['$scope','$http','$log','$location',
     'AppbData','FacDefine','FacSearch','AppbAPI','FacUser',
   function ($scope,$http,$log,$location,
@@ -14,32 +14,39 @@ templateUrl: 'app-steefac/fac-detail/steefac-detail.view.template.html',
       return $location.path( "/wx-login" ).search({pageTo: '/my'});;
     }
 
-    var objType='steefac';
     
-    appData.setPageTitle('钢构厂详情'); 
     var options=FacDefine.goodatOptions;
     
     var search=$location.search();
     var id=parseInt(search.id);
+    var objType=search.type;
     var myUid=appData.userData.uid;
+    
+    if(!FacSearch.isTypeValid(objType)) {
+      return appData.showInfoPage('类型错误','E:type:'+objType,'/my');
+    }
+    var objName=FacSearch.objNames[$scope.objType];
+
+    appData.setPageTitle( objName+'详情'); 
     
     // 1,'steefac-detail'| 2,'stee_user-get_admin_of_fac'
     $scope.isLoading=2;
     
     $scope.FacUser=FacUser;
     $scope.fac={};
+    $scope.objType=objType;
     $scope.id=id;
     $scope.canEdit=false;
-    $scope.id=id;
 
     
     FacSearch.getDetail(objType,id).then(function(s){
       if(!s) {
         return appData.showInfoPage('参数错误','Err id: '+id,'/search')
       } 
-      appData.setPageTitle(s.name);
+      appData.setPageTitle(s.name+'-详情');
       $scope.fac=s;
       $scope.isLoading--;
+      /*
       var fee;
       $scope.goodat=[];
       if(s.goodat) {
@@ -48,13 +55,13 @@ templateUrl: 'app-steefac/fac-detail/steefac-detail.view.template.html',
           fee=s.feeObj[options.indexOf(val)];
           if(fee)$scope.goodat[ind]['notes']='加工费'+fee+'元/吨';
         });
-      }
-      _get_admin_of_fac();
+      }*/
+      get_admin_of_obj();
     },function(e){
       $log.log('detail Err',e);
       return appData.showInfoPage('获取数据错误',e,'/search')
     });
-    function _get_admin_of_fac(){
+    function get_admin_of_obj(){
       FacUser.getMyData(false).then(function(s){
         if(FacUser.isSysAdmin())$scope.canEdit=true;
       },function(e){$log.log('Err:',e)});
@@ -74,7 +81,7 @@ templateUrl: 'app-steefac/fac-detail/steefac-detail.view.template.html',
           });
         }
       },function(e){
-        $log.log('get_admin_of_fac Err',e);
+        $log.log('get_admin_of_obj Err',e);
         return appData.showInfoPage('数据错误',e,'/search')
       });
     }
