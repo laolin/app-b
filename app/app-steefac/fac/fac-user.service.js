@@ -67,20 +67,23 @@ function($location,$log,$q,AppbData,AppbAPI) {
   
   
   
-  //申请管理一个厂
   FacUser.applyFacAdmin=function(fac) {
+    return FacUser.applyAdmin('steefac',fac);
+  }
+  //申请管理一个厂
+  FacUser.applyAdmin=function(type,fac) {
     
     dialogData.msgBox(
       '请您确认：您将负责管理维护【'+fac.name+
-      '】的产能数据。',
-      '成为钢构厂的管理员',
+      '】的数据。',
+      '管理员申请',
       '确认','取消',
       function(){
-        return AppbAPI('stee_user','apply_fac_admin',
-          {facid:fac.id,userid:appData.userData.uid}
+        return AppbAPI('stee_user','apply_admin',
+          {type:type,facid:fac.id,userid:appData.userData.uid}
         ).then(function(s){//成功
           myData.init=0;
-          appData.toastMsg('已成为该钢构厂管理员',3);
+          appData.toastMsg('申请管理员成功',3);
           FacUser.getMyData();
           $location.path( "/my-fac" )
         },function(e){//失败
