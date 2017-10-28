@@ -2,8 +2,8 @@
 
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/proj-edit', {
-    templateUrl: 'app-steefac/proj/proj-edit.template.html',
+  $routeProvider.when('/fac-edit', {
+    templateUrl: 'app-steefac/fac-edit/fac-edit.view.template.html',
     controller: ['$scope','$http','$log','$location',
         'AppbData','ProjDefine','FacMap','AppbAPI','FacUser','FacSearch',
       function mzUserSearchCtrl($scope,$http,$log,$location,
@@ -12,43 +12,78 @@ angular.module('steefac')
         if(! userData || !userData.token) {
           return $location.path( "/wx-login" ).search({pageTo: '/my'});;
         }
-        if(!FacUser.isAdmin()) {
-          return $location.path( '/my');;
-        }
+
+        $scope.isLoading=2;
         
-        appData.setPageTitle('修改用钢项目信息'); 
+
+
+        
+        //var objtype;
+        //objtype='steeproj';
+        
+        
+
         var search=$location.search();
         var id=parseInt(search.id);
-        FacSearch.getDetail('steeproj',id).then(function(s){
+        var objtype=search.type;
+        if(!FacSearch.isTypeValid(objtype)) {
+          return appData.showInfoPage('类型错误','E:type:'+objtype,'/my');
+        }
+
+        appData.setPageTitle('修改'+FacSearch.objNames[objtype]); 
+        
+        $scope.formDefine=FacSearch.objDefines[objtype];
+        $scope.models={};
+
+        //1 获取个人数据
+        FacUser.getMyData(false).then(function(s){
+          $scope.isSysAdmin=FacUser.isSysAdmin();
+          if($scope.isSysAdmin)$scope.canEdit=true;
+          else $scope.canEdit=FacUser.canAdminObj(objtype,id)
+          if(!$scope.canEdit) {
+            appData.showInfoPage('错误','没有编辑权限','/my');
+          }
+          $scope.isLoading--;
+          
+        },function(e){
+          appData.showInfoPage('获取数据错误',e,'/search');
+        });
+        
+        //2 获取 编辑对象数据
+        FacSearch.getDetail(objtype,id).then(function(s){
           if(!s) {
             return appData.showInfoPage('参数错误','Err id: '+id,'/search')
           }
-          FacMap.selPositionStart('university','项目位置',new AMap.LngLat(s.lngE7/1e7,s.latE7/1e7));
+          $scope.isLoading--;
+          FacMap.selPositionStart(FacSearch.objIcons[objtype],s.name.substr(0,4),new AMap.LngLat(s.lngE7/1e7,s.latE7/1e7));
           angular.extend($scope.models,s);
         },function(e){
-          return appData.toastMsg(e,3);
+          return appData.showInfoPage('获取数据错误',e,'/search');
         });
 
         
         $scope.$on('$viewContentLoaded', function () {
-          $scope.models=FacMap.addrInput;
         });
         $scope.$on('$destroy', function () {
           FacMap.selPositionEnd();
         });
 
         
-        $scope.formDefine=ProjDefine;
-        $scope.models={};
         $scope.onDelete=function(){
-          appData.dialogData.confirmDialog('删除【'+$scope.models.id+'】',_doDel)
+          appData.dialogData.msgBox(
+            '请您确认：您将删除'+
+            '【'+$scope.models.name+'】(id='+id+')。',
+            '删除'+FacSearch.objNames[objtype],
+            '删除','取消',_doDel);
+          
+          
         }
         function _doDel() {
-          $log.log('/proj-Del .onOk');
-          AppbAPI('steeproj','delete',{id:id})
+          $log.log('/obj-Del .onOk');
+          AppbAPI('steeobj','delete',{type:objtype,id:id})
           .then(function(s){
             if(s) {
-              delete FacSearch.datailCache['steeproj'+id];
+              delete FacSearch.datailCache[objtype+id];
               appData.toastMsg('数据已删除',2);
               $location.path( "/search" )
               FacUser.getMyData(1);
@@ -62,11 +97,14 @@ angular.module('steefac')
           });
         }
         $scope.onUpdate=function(){
-          $log.log('/proj-edit .onOk');
-          AppbAPI('steeproj','update',{id:id,d:JSON.stringify(FacMap.addrInput)})
+          $log.log('/obj-edit .onOk');
+          
+          //TODO 没有更新的数据别上传
+          AppbAPI('steeobj','update',{type:objtype,id:id,d:JSON.stringify($scope.models)})
           .then(function(s){
-            delete FacSearch.datailCache['steeproj'+id];
+            delete FacSearch.datailCache[objtype+id];
             appData.toastMsg('数据已成功更新',2);
+            $location.path( "/"+objtype+"-detail" ).search({id: id});
             $log.log('sec',s);
           },function(e){
             appData.toastMsg(e,3);//'更新失败'+
