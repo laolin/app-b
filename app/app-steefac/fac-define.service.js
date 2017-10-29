@@ -116,12 +116,18 @@ function ($log,$timeout,AppbData){
     
     {
       name: 'max_hangche',
-      desc: '最大行车(T)',
+      desc: '最大行车',
+      
+      type: 'radio',
+      required: 1,
+      keys: ['5','10','15','35','50','100'],
+      values: ['5吨','10吨','15吨','35吨','50吨','100吨']
+      /*
       placeholder:'0-99999',
       type: 'number',
       required: 1,
       min: 0,
-      max: 99999
+      max: 99999*/
     },
     
     {
