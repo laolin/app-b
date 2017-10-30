@@ -79,7 +79,7 @@ function ($log){
       values: ['是','否']
     },
     {
-      name: 'stee_pricea',
+      name: 'stee_price',
       desc: '基准单吨价',
       placeholder:'供主材时为加工费(99-90000)',
       type: 'number',
