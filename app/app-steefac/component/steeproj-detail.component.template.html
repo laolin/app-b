@@ -53,9 +53,9 @@ cells="[
   {text:'主要构件形式',url:'',icon:'area-chart',notes:$ctrl.fac.steel_shape+''},
   {text:'主材牌号',url:'',icon:'area-chart',notes:$ctrl.fac.steel_Qxxx+''},
   {text:'首批供货时间',url:'',icon:'area-chart',notes:$ctrl.reqInMonth+''},
-  {text:'基准单吨价',url:'',icon:'area-chart',notes:$ctrl.fac.stee_price+'元/吨'},
-  {text:'预付款比例',url:'',icon:'area-chart',notes:$ctrl.fac.advance_pay*100+'%'},
   {text:'供主材',url:'',icon:'area-chart',notes:$ctrl.fac.provide_raw?'是':'否'},
+  {text:'基准单吨价'+($ctrl.fac.provide_raw?'(加工费)':'(含主材)'),url:'',icon:'area-chart',notes:$ctrl.fac.stee_price+'元/吨'},
+  {text:'预付款比例',url:'',icon:'area-chart',notes:$ctrl.fac.advance_pay*100+'%'},
   {text:'合格供应商',url:'',icon:'area-chart',notes:$ctrl.fac.require_check+''},
 ]"
 >
