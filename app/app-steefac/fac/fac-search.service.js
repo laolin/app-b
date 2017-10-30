@@ -255,8 +255,11 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   }
 
   FacSearch.selectOne=function(i,type) {
+    
     FacSearch.showInfoWindow(i,type);
     $timeout(function(){
+      if(FacSearch.options.distSelect>4)//不限距离时，
+        FacSearch.options.distSelect='1';//下次自动改为100km
       FacSearch.searchResultSelected=i;
     },178);
     //178.2这里延时不能小于下面unselectOne，否则选中后，又马上被取消选中
