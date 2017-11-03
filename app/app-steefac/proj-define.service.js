@@ -6,8 +6,9 @@ angular.module('steefac')
 function ($log){
 
   var goodatOptions=['轻型','管结构','十字柱','箱形柱','BH','桁架','网架','减震产品','其它'];
-  var steelTypes=['Q235B','Q345B','Q345C','其他'];
-  var objReqInMonth={3:'三月内',6:'六月内',12:'一年内',24:'两年内',60:'五年内'}
+  var steelTypes=['Q235','Q345','Q390','Q420','Q460','其他'];
+  var objReqInMonth={ 0.5:'两周内',1:'一个月内',2:'两个月内',
+    3:'三个月内',6:'半年内',12:'一年内',24:'两年内',60:'五年内'}
 
   var inputs=[
     /*{
@@ -66,27 +67,9 @@ function ($log){
       desc: '首批供货时间',
       type: 'radio',
       required: 1,
-      keys: ['3','6','12','24','60'],
-      values: ['三月内','半年内','一年内','两年内','五年内']
+      keys: ['0.5','1','2','3','6','12','24','60'],
+      values: ['两周内','一个月内','两个月内','三个月内','半年内','一年内','两年内','五年内']
     },
-    {//----------------------------
-      name: 'stee_price',
-      desc: '基准单吨价',
-      placeholder:'1500-2500(元/吨)',
-      type: 'number',
-      required: 1,
-      min: 1500,
-      max: 2500
-    },
-    {
-      name: 'advance_pay',
-      desc: '预付款比例',
-      type: 'radio',
-      required: 1,
-      keys: ['0','0.05','0.1','0.15','-1'],
-      values: ['0','5%','10%','15%','待定']
-    },
-    
     {
       name: 'provide_raw',
       desc: '供主材',
@@ -95,6 +78,24 @@ function ($log){
       keys: ['1','0'],
       values: ['是','否']
     },
+    {
+      name: 'stee_price',
+      desc: '基准单吨价',
+      placeholder:'供主材时为加工费(99-90000)',
+      type: 'number',
+      required: 1,
+      min: 99,
+      max: 90000
+    },
+    {
+      name: 'advance_pay',
+      desc: '预付款比例',
+      type: 'radio',
+      required: 1,
+      keys: ['0','0.05','0.1','0.15','0.2','0.3','0.4','0.5'],
+      values: ['0%','5%','10%','15%','20%','30%','40%','50%']
+    },
+    
     {
       name: 'require_check',
       desc: '合格供应商',
@@ -114,14 +115,14 @@ function ($log){
       minlength: 2,
       maxlength: 16
     },
-    {//----------------------------
+    {
       name: 'contact_tel',
       desc: '联系电话',
       type: 'tel',
       placeholder:'建议输入手机号',
       required: 1
     },
-    {//----------------------------
+    {
       name: 'contact_email',
       desc: '联系邮箱',
       type: 'email',
@@ -135,7 +136,7 @@ function ($log){
       placeholder:'补充说明',
       required: 0,
       minlength: 0,
-      maxlength: 140
+      maxlength: 999
     },
   ];
   var changeMarks={};

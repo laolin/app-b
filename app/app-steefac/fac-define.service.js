@@ -236,16 +236,26 @@ function ($log,$timeout,AppbData){
   function formatObj(obj){
     
     //计算平均加工费
-    var sum=0;
+    if(obj.goodat) {
+      obj.goodatArr=obj.goodat.split(',');
+    } else {
+      obj.goodatArr=[];
+    }
     if(obj.fee) {
       obj.feeObj=JSON.parse(obj.fee);
-      for(var i=goodatOptions.length;i--; ) {
-        sum+= +obj.feeObj[i];
-      }
-      obj.feeObj.aver= Math.round(sum/goodatOptions.length);
-    }
-    else
+      obj.feeObj.aver='';
+    } else {
       obj.feeObj={aver:''}
+    }
+    if(obj.goodatArr.length) {
+      var sum=0,i,j;
+      goodatOptions
+      for(i=obj.goodatArr.length;i--; ) {
+        j=goodatOptions.indexOf(obj.goodatArr[i]);
+        if(j>=0) sum+= (+obj.feeObj[j]);
+      }
+      obj.feeObj.aver= Math.round(sum/obj.goodatArr.length);
+    }
     
     inputs.forEach(function(inp) {
       if(!obj.hasOwnProperty(inp.name)){

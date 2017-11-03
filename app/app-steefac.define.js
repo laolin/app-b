@@ -12,7 +12,7 @@ var cfg=window.appbCfg={
   pageTitle:'钢结构产能地图',//默认的页面上方<ui-header>条的标题
   htmlTitle:'钢结构产能地图 - 请高手',//默认的浏览器的页面标题
   apiRoot: 'https://api.qinggaoshou.com/api-eb', //一般的API
-  apiWxAuth: 'https://qinggaoshou.com/api-1.0', //WX 授权 callback 域名限制的URI
+  apiWxAuth: 'https://qinggaoshou.com/api-eb', //WX 授权 callback 域名限制的URI
 
   //assetsRoot 的取值（__assetsPath）由 gulp 构建时自动替换
   assetsRoot: window.__assetsPath,//可在本地部署静态文件 或 跨域部署静态文件

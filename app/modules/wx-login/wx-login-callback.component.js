@@ -22,8 +22,11 @@ angular.module('wx-login')
         $http.jsonp(url).then(function(data) {
           if(data.data.errcode!=0) {
             $log.log('Recall Error!',data.data.errcode,data.data.msg);
-            $location.path( pageTo );
+            //$location.path( pageTo );
+            return appData.dialogData.msgBox(data.data.msg,'登录出错');
           } else {
+            if(!data.data.data.token)
+              return appData.dialogData.msgBox(JSON.stringify(data.data.data),'数据出错');
             $log.log('Recall OK!',data.data.data);
             appData.setUserData(data.data.data);
             $location.path( pageTo ).search({});

@@ -90,14 +90,36 @@
 
 <div ng-if='$ctrl.FacUser.isSysAdmin()'> 
   <appb-weui-cells
-    title='系统管理功能'
+    title='系统管理功能(测试中)'
     cells="[
-     
+     {text:'发消息',url:'/send-msg',icon:'comments',notes:'待办提醒模板消息'},
       {text:'排行',url:'/stat',icon:'area-chart',notes:'全国概览及各地详情'}
     ]"
   >
   </appb-weui-cells>
 </div>
 
+<div class='weui-article'>
+
+  <div
+  ng-if='$ctrl.userData.wxinfo && $ctrl.isWeixinBrowser'>
+    <a ng-if='$ctrl.isGz'> 感谢您关注请高手，关注时间：<span am-time-ago='1000*$ctrl.gzTime'></span>。</a>
+    <a ng-if='!$ctrl.isGz'>您尚未关注“请高手”，欢迎您请识别二维码关注“请高手”以便我们更好地为您服务。如果您已关注，可以<span class="weui-btn weui-btn_mini weui-btn_primary" ng-click='$ctrl.swipeRight()'>重登录</span>试试，谢谢。
+    <br/>
+    <img ng-src='{{$ctrl.assetsRoot}}/img/stee-qgs-qrcode.png'/>
+    </a>
+  </div>
+  
+  <div 
+  ng-if='$ctrl.userData.wxinfo && !$ctrl.isWeixinBrowser'>
+    <div>用手机扫描二维码关注“请高手”，以便我们更好地为您服务。
+    </div>
+    <div>
+    <img class='' 
+    ng-src='{{$ctrl.assetsRoot}}/img/stee-qgs-qrcode.png'/>
+    </div>
+  </div>
+  
+</div>
 
 <fac-ui-copyright></fac-ui-copyright>

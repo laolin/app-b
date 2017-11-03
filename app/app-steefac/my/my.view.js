@@ -32,6 +32,13 @@ angular.module('steefac')
         
         ctrl.userData=userData;
         ctrl.appData=appData;
+        ctrl.assetsRoot=appData.appCfg.assetsRoot;
+        ctrl.isWeixinBrowser=appData.isWeixinBrowser;
+        ctrl.isGz=userData.wxinfo.subscribe;
+        ctrl.gzTime=userData.wxinfo.subscribe_time;
+       
+        
+        
         ctrl.onDisableSysAdmin=function() {
           var me;
           me=appData.userData.wxinfo;
