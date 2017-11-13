@@ -14,10 +14,13 @@ angular.module('steefac')
     
     ctrl.$onInit=function(){
       
+      //搜索周边时，不能用原来的关键字搜索。
       ctrl.searchFac=function(){
+        ctrl.searchData.searchWord='';
         ctrl.searchData.startSearch('steefac');
       };
       ctrl.searchProj=function(){
+        ctrl.searchData.searchWord='';
         ctrl.searchData.startSearch('steeproj');
       };
     }

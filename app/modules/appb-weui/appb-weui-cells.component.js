@@ -8,24 +8,13 @@ angular.module('appb')
       title: "@",
       cells: '<'
     },
-    controller: ['$scope','$log','$timeout','$location',
-      function ($scope,$log,$timeout,$location){
+    controller: ['$log','$location','AppbData',
+      function ($log,$location,AppbData){
         var ctrl=this;
         
         ctrl.$onInit=function() {
         }
-        ctrl.goLink=function(a) {
-          if(typeof a == 'function') {
-            a();
-            return false;
-          }
-          if(a.indexOf(':')>0){
-            window.location=a;
-          } else if(a) {
-            $location.url(a);
-            return false;
-          }
-        }
+        ctrl.goLink =AppbData.getAppData().goLink;
       }
     ]
 })

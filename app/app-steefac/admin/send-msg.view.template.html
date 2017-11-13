@@ -1,0 +1,9 @@
+<appb-ui-loading ng-if='isLoading'></appb-ui-loading>
+
+<a ng-if='!isLoading'>{{msg}}</a>
+
+<button class="weui-btn weui-btn_primary" 
+  ng-class="{'weui-btn_disabled': 0 }"
+  ng-disabled=' 0 '
+  ng-click="startSend()">发送</button>
+

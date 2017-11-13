@@ -7,7 +7,6 @@ angular.module('appb')
   bindings: { 
     day:"<",
     hour:"<",
-    logdddddData:"<"
   },
   controller: ['$log','$timeout','AppbData',
     function ($log,$timeout,AppbData){

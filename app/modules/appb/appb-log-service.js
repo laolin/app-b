@@ -36,7 +36,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbDataUser){
         appData.toastMsg('Er:getLog:'+s.data.msg+":"+s.data.errcode);
         //有错等几秒重试
         logData.activityLoading=false;
-        return $timeout(function(){getLog_n(para)},8000);
+        return $timeout(function(){getLogActivity(para)},8000);
       }
       
       logData.activityList=s.data.data;
@@ -46,7 +46,7 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbDataUser){
       
     },function(e){
       // error
-      $log.log('error at getLog_n',e);
+      $log.log('error at getLogActivity',e);
       deferred.reject(e);
       logData.activityLoading=false;
       return deferred.promise;

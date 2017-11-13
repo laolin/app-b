@@ -55,7 +55,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   FacSearch.searchPlaceholder='输入名称/地址/...';
   FacSearch.searchList = []; //TODO: values will get from API
 
-  FacSearch.options.distSelect='1';
+  FacSearch.options.distSelect='5';
   FacSearch.distText=['50公里','100公里','200公里','300公里','500公里','不限距离'];
   FacSearch.distValue=[45,90,180,170,450,99999];
   //在中国所处的纬度水平，经、纬1度均近似100公里，以下均按此假定判断距离。
@@ -255,8 +255,11 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   }
 
   FacSearch.selectOne=function(i,type) {
+    
     FacSearch.showInfoWindow(i,type);
     $timeout(function(){
+      //if(FacSearch.options.distSelect>4)//不限距离时，
+      //  FacSearch.options.distSelect='1';//下次自动改为100km
       FacSearch.searchResultSelected=i;
     },178);
     //178.2这里延时不能小于下面unselectOne，否则选中后，又马上被取消选中

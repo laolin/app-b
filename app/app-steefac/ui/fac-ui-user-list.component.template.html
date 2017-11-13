@@ -4,19 +4,29 @@
     <a href class="weui-media-box weui-media-box_appmsg"
     ng-repeat='ua in $ctrl.uids track by $index'
     ng-click='$ctrl.goLink($ctrl.links[$index])'>
-      <div class="weui-media-box__hd">
-        <img class="weui-media-box__thumb" ng-src="{{$ctrl.usersInfo[ua.uid].wxinfo.headimgurl}}" alt="">
+      <div class="weui-media-box__hd"  
+      appb-weui-badge='{show:$ctrl.usersInfo[ua.uid].wxinfo.subscribe!="0",text:"已关注"}'
+        >
+        <img class="weui-media-box__thumb" 
+        ng-src="{{$ctrl.usersInfo[ua.uid].wxinfo.headimgurl}}" alt="" >
       </div>
       <div class="weui-media-box__bd">
-        <h4 class="weui-media-box__title">
+        <h4 class="weui-media-box__title"
+         
+        >{{$index+1}}. 
           <span ng-if='$ctrl.usersInfo[ua.uid].wxinfo'>
             {{$ctrl.usersInfo[ua.uid].wxinfo.nickname}}
           </span>
-          <span ng-if='! $ctrl.usersInfo[ua.uid].wxinfo'>
+          <span ng-if='! $ctrl.usersInfo[ua.uid].wxinfo'
+          >
             {{$ctrl.usersInfo[ua.uid].uname}}
           </span>
+          
+
         </h4>
-        <p class="weui-media-box__desc">ID:{{ua.uid}}</p>
+        <p class="weui-media-box__desc">id={{ua.uid}} 
+        
+        {{$ctrl.texts[$index]}}</p>
       </div>
     </a>
   </div>

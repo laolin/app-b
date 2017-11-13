@@ -33,7 +33,7 @@ angular.module('steefac')
         appData.setPageTitle('修改'+FacSearch.objNames[objtype]); 
         
         $scope.formDefine=FacSearch.objDefines[objtype];
-        $scope.models={};
+        $scope.models=FacMap.addrInput;
 
         //1 获取个人数据
         FacUser.getMyData(false).then(function(s){
@@ -57,6 +57,7 @@ angular.module('steefac')
           $scope.isLoading--;
           FacMap.selPositionStart(FacSearch.objIcons[objtype],s.name.substr(0,4),new AMap.LngLat(s.lngE7/1e7,s.latE7/1e7));
           angular.extend($scope.models,s);
+          FacMap.addrInput[objtype+'name']=s.name;
         },function(e){
           return appData.showInfoPage('获取数据错误',e,'/search');
         });
@@ -98,9 +99,34 @@ angular.module('steefac')
         }
         $scope.onUpdate=function(){
           $log.log('/obj-edit .onOk');
+
+          var dd={}
+          dd.name=FacMap.addrInput[objtype+'name'];
+          dd.addr=FacMap.addrInput.addr;
+          dd.lngE7=FacMap.addrInput.lngE7;
+          dd.latE7=FacMap.addrInput.latE7;
+          dd.province=FacMap.addrInput.province;
+          dd.city=FacMap.addrInput.city;
+          dd.district=FacMap.addrInput.district;
+          dd.citycode=FacMap.addrInput.citycode;
+          dd.adcode=FacMap.addrInput.adcode;
+          dd.formatted_address=FacMap.addrInput.formatted_address;
+
+          var k,i;
+          for(var i=$scope.formDefine.inputs.length;i--;){
+            k=$scope.formDefine.inputs[i].name;
+            dd[k]=FacMap.addrInput[k]
+            $log.log('FacMap.addrInput[k]',k,FacMap.addrInput[k]);
+          }
+
+
+
+
+
+
           
           //TODO 没有更新的数据别上传
-          AppbAPI('steeobj','update',{type:objtype,id:id,d:JSON.stringify($scope.models)})
+          AppbAPI('steeobj','update',{type:objtype,id:id,d:JSON.stringify(dd)})
           .then(function(s){
             delete FacSearch.datailCache[objtype+id];
             appData.toastMsg('数据已成功更新',2);
