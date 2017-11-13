@@ -64,7 +64,8 @@
   <appb-weui-cells
     title='系统管理功能'
     cells="[
-      {text:'钢构厂管理员列表',url:'/get-admins',icon:'user-o',notes:''}
+      {text:'钢构厂管理员列表',url:'/get-admins?type=steefac',icon:'user-o',notes:''},
+      {text:'采购商列表',url:'/get-admins?type=steeproj',icon:'user-o',notes:''}
     ]"
   >
   </appb-weui-cells>
@@ -114,7 +115,7 @@
   
   <div 
   ng-if='$ctrl.userData.wxinfo && !$ctrl.isWeixinBrowser'>
-    <div>用手机扫描二维码关注“请高手”，以便我们更好地为您服务。
+    <div>当前不是使用微信打开，可用手机扫描二维码关注“请高手”后用微信打开，以便我们更好地为您服务。
     </div>
     <div>
     <img class='' 
