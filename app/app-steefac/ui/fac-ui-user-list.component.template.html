@@ -5,7 +5,7 @@
     ng-repeat='ua in $ctrl.uids track by $index'
     ng-click='$ctrl.goLink($ctrl.links[$index])'>
       <div class="weui-media-box__hd"  
-      appb-weui-badge='{show:$ctrl.usersInfo[ua.uid].wxinfo.subscribe,text:"已关注"}'
+      appb-weui-badge='{show:$ctrl.usersInfo[ua.uid].wxinfo.subscribe!="0",text:"已关注"}'
         >
         <img class="weui-media-box__thumb" 
         ng-src="{{$ctrl.usersInfo[ua.uid].wxinfo.headimgurl}}" alt="" >
@@ -18,7 +18,6 @@
             {{$ctrl.usersInfo[ua.uid].wxinfo.nickname}}
           </span>
           <span ng-if='! $ctrl.usersInfo[ua.uid].wxinfo'
-          appb-weui-badge='{show:1}'
           >
             {{$ctrl.usersInfo[ua.uid].uname}}
           </span>
