@@ -71,7 +71,7 @@
 </div>
 
 
-<!--div ng-if='$ctrl.userData.isAdmin()'> 
+<div ng-if='$ctrl.userData.isAdmin()'> 
   <appb-weui-cells
     title='管理员-统计'
     cells="[
@@ -82,11 +82,13 @@
       {text:'用户活跃度（24小时）',url:'/log-analy-user-activity?hour=24',icon:'university'},
       {text:'用户活跃度（2天）',url:'/log-analy-user-activity?day=2',icon:'university'},
       {text:'用户活跃度（7天）',url:'/log-analy-user-activity?day=7',icon:'university'},
-      {text:'用户活跃度（30天）',url:'/log-analy-user-activity?day=30',icon:'university'}
+      {text:'用户活跃度（30天）',url:'/log-analy-user-activity?day=30',icon:'university'},
+      {text:'用户活跃度（90天）',url:'/log-analy-user-activity?day=90',icon:'university'},
+      {text:'用户活跃度（365天）',url:'/log-analy-user-activity?day=365',icon:'university'}
     ]"
   >
   </appb-weui-cells>
-</div-->
+</div>
 
 <div ng-if='$ctrl.FacUser.isSysAdmin()'> 
   <appb-weui-cells

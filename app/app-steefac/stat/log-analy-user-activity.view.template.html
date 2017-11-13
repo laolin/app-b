@@ -1,0 +1,11 @@
+<appb-ui-loading ng-if='$ctrl.isLoading>0'></appb-ui-loading>
+
+<fac-ui-user-list
+  ng-if='$ctrl.isLoading<=0'
+  title=' ($ctrl.day?$ctrl.day+"天":"")+($ctrl.hour?$ctrl.hour+"小时":"") + "用户活跃度("+ $ctrl.logData.activityList.length+"人)" '
+  uids='$ctrl.logData.activityList' texts='$ctrl.texts' links='$ctrl.links'
+>
+</fac-ui-user-list>
+  
+
+  
