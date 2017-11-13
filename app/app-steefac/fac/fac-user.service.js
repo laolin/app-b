@@ -114,7 +114,7 @@ function($location,$log,$q,AppbData,AppbAPI,AppbDataUser) {
         myData.counter.nProj=s.nProj;
       } else { // 客户端的登录信息有误，要求重新登录。
         AppbDataUser.setUserData({});
-        $location.path( "/wx-login" ).search({pageTo: currPath});
+        $location.path( "/wx-login" ).search({pageTo: '/'});
       }
       deferred.resolve(myData);
       return deferred.promise;

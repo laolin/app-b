@@ -34,8 +34,8 @@ angular.module('steefac')
         ctrl.appData=appData;
         ctrl.assetsRoot=appData.appCfg.assetsRoot;
         ctrl.isWeixinBrowser=appData.isWeixinBrowser;
-        ctrl.isGz=userData.wxinfo.subscribe;
-        ctrl.gzTime=userData.wxinfo.subscribe_time;
+        ctrl.isGz=userData.wxinfo && userData.wxinfo.subscribe;
+        ctrl.gzTime=userData.wxinfo && userData.wxinfo.subscribe_time;
        
         
         
