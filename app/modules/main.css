@@ -126,10 +126,13 @@ start #main-footer
   padding-top:4px;
 }
 .main-tab a,
-.main-tab span,
-.main-tab  i{
+.main-tab span{
   color:#222;
   display:block;
+  font-size:16px;
+}
+.main-tab  i{
+  color:#222;
   font-size:16px;
 }
 .main-tab_active a,

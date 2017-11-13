@@ -6,6 +6,7 @@ angular.module('steefac')
   bindings: {
     title:'<',
     links: "<",
+    texts: "<",
     uids: '<'
   },
   controller:['$log','$location','AppbData',

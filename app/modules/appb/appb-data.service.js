@@ -130,6 +130,18 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   function errorMsg() {
     return lastError.msg;
   }
+  function goLink(a) {
+    if(typeof a == 'function') {
+      a();
+      return false;
+    }
+    if(a.indexOf(':')>0){
+      window.location=a;
+    } else if(a) {
+      $location.url(a);
+      return false;
+    }
+  }
   //---------------------------------------------
   // END: factory functions
   //---------------------------------------------
@@ -271,6 +283,7 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     inputData:AppbUiService.getInputData(),
     menuData:AppbUiService.getMenuData(),
 
+    goLink:goLink,
     wxShareData:wxShareData,//微信分享的显示信息
     appCfg:appCfg
   }
