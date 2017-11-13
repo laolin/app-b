@@ -15,6 +15,7 @@ function ($scope,$log,$location,AppbData,AppbErrorInfo) {
   $scope.type=err.type;
   $scope.title=err.title;
   $scope.content=err.content;
+  $scope.contentMore=err.contentMore;
   $scope.fn1=function(){$location.path(err.nextPage)};
   
   $scope.$on('$viewContentLoaded', function () {
