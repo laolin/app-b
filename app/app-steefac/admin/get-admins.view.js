@@ -41,9 +41,9 @@ function ($scope,$http,$log,$location,
       if(FacUser.admins[i][objType+'_can_admin']) {
         $scope.typeAdmins[j]=FacUser.admins[i];
         $log.log('OK. j=',j)
+        $scope.adminLinks[j]='/get-facs-of-admin?aid='+i+'&uid='+FacUser.admins[i].uid;
         j++;
       }
-      $scope.adminLinks[i]='/get-facs-of-admin?aid='+i+'&uid='+FacUser.admins[i].uid;
     }
   },function(e){
     $scope.isLoading=0;
