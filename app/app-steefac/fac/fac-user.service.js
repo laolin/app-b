@@ -6,8 +6,8 @@ var SYS_ADMIN=0x10000;
 
 angular.module('steefac')
 .factory('FacUser',
-['$location','$log','$q','AppbData','AppbAPI',
-function($location,$log,$q,AppbData,AppbAPI) {
+['$location','$log','$q','AppbData','AppbAPI','AppbDataUser',
+function($location,$log,$q,AppbData,AppbAPI,AppbDataUser) {
   
   var FacUser={};
   var appData=AppbData.getAppData();
@@ -101,7 +101,7 @@ function($location,$log,$q,AppbData,AppbAPI) {
     }
     return AppbAPI('steesys','info').then(function(s){
       myData.init=1;
-      if(s) {
+      if(s && s.me) {
         myData.isAdmin=parseInt(s.me.is_admin);
         myData.update_at=parseInt(s.me.update_at);
         myData.uid=parseInt(s.me.uid);
@@ -112,6 +112,9 @@ function($location,$log,$q,AppbData,AppbAPI) {
         myData.counter={};
         myData.counter.nFac=s.nFac;
         myData.counter.nProj=s.nProj;
+      } else { // 客户端的登录信息有误，要求重新登录。
+        AppbDataUser.setUserData({});
+        $location.path( "/wx-login" ).search({pageTo: currPath});
       }
       deferred.resolve(myData);
       return deferred.promise;
