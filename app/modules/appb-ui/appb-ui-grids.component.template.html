@@ -1,7 +1,7 @@
 <div class="weui-cells__title" ng-if='$ctrl.title'>{{$ctrl.title}}</div>
 
 <div class="appb-grids">
-  <a class="appb-grid"
+  <a class="appb-grid appb-grid_n{{a.nCol}}"
     href
     ng-repeat='a in $ctrl.gridsData'
     ng-click="$ctrl.goLink(a.link)" 
