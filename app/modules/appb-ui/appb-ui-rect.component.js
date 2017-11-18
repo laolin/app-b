@@ -4,6 +4,7 @@ angular.module('appb')
 .component('appbUiRect',{
   templateUrl: 'modules/appb-ui/appb-ui-rect.component.template.html',
   bindings: {
+    h:"<",
     img:"<",
   },
   controller:['$log',

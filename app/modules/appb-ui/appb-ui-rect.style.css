@@ -7,7 +7,30 @@
 .appb-ui-rect:before {
 	content: "";
 	display: block;
+}
+
+.appb-ui-rect:before,
+.appb-ui-rect_h:before,
+.appb-ui-rect_h100:before {
 	padding-top: 100%; 	/* initial ratio of 1:x*/
+}
+.appb-ui-rect_h200:before {
+	padding-top: 200%; 	/* initial ratio of 1:x*/
+}
+.appb-ui-rect_h150:before {
+	padding-top: 150%; 	/* initial ratio of 1:x*/
+}
+.appb-ui-rect_h120:before {
+	padding-top: 120%; 	/* initial ratio of 1:x*/
+}
+.appb-ui-rect_h80:before {
+	padding-top: 80%; 	/* initial ratio of 1:x*/
+}
+.appb-ui-rect_h60:before {
+	padding-top: 60%; 	/* initial ratio of 1:x*/
+}
+.appb-ui-rect_h50:before {
+	padding-top: 50%; 	/* initial ratio of 1:x*/
 }
 
 /* 3, 里面子元素绝对定位，上下左右绝对位置都是0，
