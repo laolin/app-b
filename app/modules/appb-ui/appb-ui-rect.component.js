@@ -5,6 +5,7 @@ angular.module('appb')
   templateUrl: 'modules/appb-ui/appb-ui-rect.component.template.html',
   bindings: {
     h:"<",
+    maxHeight:"<",
     img:"<",
   },
   controller:['$log',
