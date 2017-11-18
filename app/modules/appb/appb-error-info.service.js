@@ -22,8 +22,15 @@ function($location,$log) {
     AppbErrorInfo.errIndex++;
     if(AppbErrorInfo.errIndex>=MAX_LOG)AppbErrorInfo.errIndex=0;
     
+    var contentMore='Url:'+$location.url();
+    contentMore+='. Time：' + new Date;
+    contentMore+='. User:'+appData.userData.uid;
+    contentMore+=', '+appData.userData.tokenid;
+    contentMore+=', '+appData.userData.token;
+    contentMore+='. ';
     AppbErrorInfo.errData[AppbErrorInfo.errIndex]={
       content: content,
+      contentMore: contentMore,
       title: title,
       nextPage:nextPage||'/',
       type:type

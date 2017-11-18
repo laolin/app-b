@@ -6,8 +6,8 @@ var SYS_ADMIN=0x10000;
 
 angular.module('steefac')
 .factory('FacUser',
-['$location','$log','$q','AppbData','AppbAPI',
-function($location,$log,$q,AppbData,AppbAPI) {
+['$location','$log','$q','AppbData','AppbAPI','AppbDataUser',
+function($location,$log,$q,AppbData,AppbAPI,AppbDataUser) {
   
   var FacUser={};
   var appData=AppbData.getAppData();
@@ -101,7 +101,15 @@ function($location,$log,$q,AppbData,AppbAPI) {
     }
     return AppbAPI('steesys','info').then(function(s){
       myData.init=1;
-      if(s) {
+      if(!s || !s.me) { // 客户端的登录信息有误，要求重新登录。
+        AppbDataUser.setUserData({});
+        $location.path( "/wx-login" ).search({pageTo: '/'});
+        return;
+      }
+      myData.counter={};
+      myData.counter.nFac=s.nFac;
+      myData.counter.nProj=s.nProj;
+      if(s.me.uid) {
         myData.isAdmin=parseInt(s.me.is_admin);
         myData.update_at=parseInt(s.me.update_at);
         myData.uid=parseInt(s.me.uid);
@@ -109,9 +117,6 @@ function($location,$log,$q,AppbData,AppbAPI) {
         for(var i=objTypes.length;i--; ) {
           myData.objCanAdmin[objTypes[i]]=s.me[objTypes[i]+'_can_admin'].split(',')
         }
-        myData.counter={};
-        myData.counter.nFac=s.nFac;
-        myData.counter.nProj=s.nProj;
       }
       deferred.resolve(myData);
       return deferred.promise;
