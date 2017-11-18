@@ -24,6 +24,7 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser) {
   ctrl.appData=appData;
   ctrl.FacUser=FacUser;
   ctrl.isLoading=3;
+  ctrl.headImg=appData.appCfg.assetsRoot+'/img-steefac/stee-title-1.jpg';
 
   FacUser.getMyData().then(function (me) {
     ctrl.isLoading--;
