@@ -6,6 +6,7 @@ angular.module('appb')
   bindings: {
     img:"<",
     text:"<",
+    h:"<",
   },
   controller:['$log',
 	function ($log) {
