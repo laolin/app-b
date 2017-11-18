@@ -1,0 +1,13 @@
+<div class="weui-cells__title" ng-if='$ctrl.title'>{{$ctrl.title}}</div>
+
+<div class="appb-grids">
+  <a class="appb-grid"
+    href
+    ng-repeat='a in $ctrl.gridsData'
+    ng-click="$ctrl.goLink(a.link)" 
+    ng-style=" a.line && {'width':''+(100/a.line)+'%'}"
+  >
+    <appb-ui-grid img='a.img' text='a.text'>
+    </appb-ui-grid>
+  </a>
+</div>
