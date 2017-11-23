@@ -55,7 +55,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   FacSearch.searchPlaceholder='输入名称/地址/...';
   FacSearch.searchList = []; //TODO: values will get from API
 
-  FacSearch.options.distSelect='5';
+  FacSearch.options.distSelect='0';
   FacSearch.distText=['50公里','100公里','200公里','300公里','500公里','不限距离'];
   FacSearch.distValue=[45,90,180,170,450,99999];
   //在中国所处的纬度水平，经、纬1度均近似100公里，以下均按此假定判断距离。
