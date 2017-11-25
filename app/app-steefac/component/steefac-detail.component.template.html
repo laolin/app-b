@@ -29,6 +29,24 @@
   </div>
 </div>
 
+<div class="weui-panel weui-panel_access"
+  ng-if='$ctrl.oldDay>=14'
+>
+  <div class="weui-panel__bd">
+    <div class="weui-media-box weui-media-box_text">
+      <h4 class="weui-media-box__title">管理员暂未更新数据</h4>
+      <a href='' class="weui-btn weui-btn_mini weui-btn_warn pull-right"
+      ng-click='$ctrl.oldDay=0'>显示旧数据</a>
+      <p class="weui-media-box__desc">
+      本页数据管理员已超过14天未更新<br/>较旧的数据可能有误，请知悉。
+        
+      </p>
+    </div>
+  </div>
+  
+</div>
+
+
 <appb-weui-cells ng-if='$ctrl.canEdit'
 title='高级管理功能'
 cells="[
@@ -45,6 +63,7 @@ cells="[
 </fac-ui-user-list>
   
 <appb-weui-cells
+ng-if='$ctrl.oldDay<14'
 title='有效产能'
 cells="[
   {text:'下一个月剩余产能',url:'',icon:'area-chart',notes:$ctrl.fac.cap_1m+'吨'},
@@ -56,10 +75,13 @@ cells="[
 </appb-weui-cells>
 
 <appb-weui-cells
+ng-if='$ctrl.oldDay<14'
 title='擅长构件及加工费'
 cells="$ctrl.goodat"
 >
 </appb-weui-cells>
+
+
 <div class="weui-cells__tips" ng-if='$ctrl.canEdit'>
   <a href='#!/edit-fac-goodat?id={{$ctrl.id}}' class="weui-btn weui-btn_mini weui-btn_primary">编辑擅长构件</a>
   <a href='#!/edit-fac-fee?id={{$ctrl.id}}' class="weui-btn weui-btn_mini weui-btn_primary">编辑加工费</a>
@@ -69,6 +91,7 @@ cells="$ctrl.goodat"
 
 
 <appb-weui-cells
+ng-if='$ctrl.oldDay<14'
 title='厂房设备'
 cells="[
   {text:'厂房面积',url:'',icon:'cog',notes:$ctrl.fac.area_factory+'㎡'},
@@ -81,6 +104,7 @@ cells="[
 </appb-weui-cells>
 
 <appb-weui-cells
+ng-if='$ctrl.oldDay<14'
 title='物流'
 cells="[
   {text:'最近高速距离',url:'',icon:'truck',notes:$ctrl.fac.dist_expressway+'km'},
@@ -90,6 +114,7 @@ cells="[
 </appb-weui-cells>
 
 <appb-weui-cells
+ng-if='$ctrl.oldDay<14'
 title='员工人数'
 cells="[
   {text:'工人总数',url:'',icon:'user-plus',notes:$ctrl.fac.workers+'人'},
