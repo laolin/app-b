@@ -11,8 +11,8 @@
       加工费: 平均{{$ctrl.fac.feeObj.aver}}元/吨<br/>
 
       
-      更新于<a am-time-ago='1000*$ctrl.fac.update_at'
-        href=''></a>
+      <span ng-if='$ctrl.fac.update_at>123456789'>更新于<a am-time-ago='1000*$ctrl.fac.update_at'
+        href=''></a></span>
       
         
       </p>
