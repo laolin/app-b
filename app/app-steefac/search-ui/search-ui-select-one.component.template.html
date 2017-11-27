@@ -1,21 +1,50 @@
 ﻿
 
 
-<appb-weui-cells title='{{$ctrl.objectSelected.name}}' cells="[
+  <div class="weui-cells__title" ng-hide='1'>
+   
+  </div> 
+
+
+<appb-weui-cells 
+ng-if='$ctrl.searchType=="steefac"'
+ title='{{$ctrl.objectSelected.name}}' cells="[
+  {text:'剩余产能'+$ctrl.objectSelected.cap_6m+'吨',icon:'book',notes:'详情',
+    url:'/obj-detail?type=steefac&id='+$ctrl.objectSelected.id},
+  {text:'了解该公司的业绩',icon:'flag',notes:'业绩',
+    url:'/case-show?id='+$ctrl.objectSelected.id}
+]" >
+</appb-weui-cells>
+
+<appb-weui-cells 
+ng-if='$ctrl.searchType=="steeproj"'
+title='{{$ctrl.objectSelected.name}}' cells="[
+  {text:'采购量'+$ctrl.objectSelected.need_steel+'吨',icon:'book',notes:'详情',
+    url:'/obj-detail?type=steeproj&id='+$ctrl.objectSelected.id}
+]" >
+</appb-weui-cells>
+
+
+
+<div class="weui-cells">
+
+
+<!--appb-weui-cells cells="[
   {text:'搜其周边'+$ctrl.searchData.distText[$ctrl.searchData.options.distSelect]+'钢构产能',icon:'search',
   url:$ctrl.searchFac},
   {text:'搜其周边'+$ctrl.searchData.distText[$ctrl.searchData.options.distSelect]+'项目信息',icon:'search-plus',
   url:$ctrl.searchProj },
 ]" >
-</appb-weui-cells>
+</appb-weui-cells-->
 
-  <div class="weui-cells__title" ng-hide='1'>
-   
-  </div> 
-<div class="weui-cells">
+<div class="weui-btn-area">
+  <a class="weui-btn weui-btn_primary" href="" ng-click="$ctrl.searchFac('steefac')">搜其周边{{$ctrl.searchData.distText[$ctrl.searchData.options.distSelect]}}钢构产能</a>
+  <a class="weui-btn weui-btn_primary" href="" ng-click="$ctrl.searchProj('steeproj')">搜其周边{{$ctrl.searchData.distText[$ctrl.searchData.options.distSelect]}}项目信息</a>
+</div>
+
   <div class="weui-cell weui-cell_select weui-cell_select-after" > 
     <div class="weui-cell__hd" >
-      <label for="" class="weui-label">*周边设置&raquo;</label>
+      <label for="" class="weui-label">搜索周边距离</label>
     </div>
     <div class="weui-cell__bd" >
     
@@ -28,27 +57,6 @@
     </div>    
   </div>
 </div>
-
-
-
-<appb-weui-cells 
-ng-if='$ctrl.searchType=="steefac"'
-title='' cells="[
-  {text:'剩余产能'+$ctrl.objectSelected.cap_6m+'吨',icon:'book',notes:'详情',
-    url:'/obj-detail?type=steefac&id='+$ctrl.objectSelected.id},
-  {text:'了解该公司的业绩',icon:'flag',notes:'业绩',
-    url:'/case-show?id='+$ctrl.objectSelected.id}
-]" >
-</appb-weui-cells>
-
-<appb-weui-cells 
-ng-if='$ctrl.searchType=="steeproj"'
-title='' cells="[
-  {text:'采购量'+$ctrl.objectSelected.need_steel+'吨',icon:'book',notes:'详情',
-    url:'/obj-detail?type=steeproj&id='+$ctrl.objectSelected.id}
-]" >
-</appb-weui-cells>
-
 <appb-weui-cells title='' cells="[
   {text:'返回搜索列表',icon:'chevron-left',notes:'',
     url: $ctrl.searchData.hideInfoWindow},
