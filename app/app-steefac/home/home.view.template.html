@@ -1,4 +1,12 @@
 <appb-ui-rect img="$ctrl.headImg" h='60' max-height='"300px"'></appb-ui-rect>
+<buyer-grids
+  ng-if='!$ctrl.isLoading' 
+  
+  title='$ctrl.title0'
+  buyer-list='$ctrl.buyerList'
+  links='$ctrl.links'
+>
+</buyer-grids>
 
 <fac-grids
   ng-if='!$ctrl.isLoading' 

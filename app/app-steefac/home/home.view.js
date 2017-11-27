@@ -5,8 +5,8 @@ angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
 $routeProvider.when('/home', {
 templateUrl: 'app-steefac/home/home.view.template.html',
-controller: ['$scope','$log','AppbData','AppbAPI','FacSearch','FacUser',
-function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser) {
+controller: ['$scope','$log','AppbData','AppbAPI','FacSearch','FacUser','SteeBuyer',
+function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
 
   var userData=AppbData.getUserData();
   var appData=AppbData.getAppData();
@@ -29,12 +29,18 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser) {
   FacUser.getMyData().then(function (me) {
     ctrl.isLoading--;
   });
+  ctrl.buyerList=SteeBuyer.buyerList;
+  ctrl.links=[];
+  ctrl.title0='最新采购商';
+  for(var i= ctrl.buyerList.length;i--;) {
+    ctrl.links[i]='/buyer?id='+ctrl.buyerList[i].oid;
+  }
   
   ctrl.type1='steefac';
-  AppbAPI('steeobj','search',{type:ctrl.type1,count:12}).then(
+  AppbAPI('steeobj','search',{type:ctrl.type1,count:6}).then(
     function(s){
       ctrl.facList1=s;
-      ctrl.title1='最新钢构厂能';
+      ctrl.title1='最新钢构产能';
       ctrl.isLoading--;  
     }
   );

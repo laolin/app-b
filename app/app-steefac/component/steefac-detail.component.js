@@ -35,6 +35,8 @@ function ($log,AppbData,FacUser,FacDefine) {
         if(fee)ctrl.goodat[ind]['notes']='加工费'+fee+'元/吨';
       });
     }
+    
+    ctrl.oldDay=((+new Date)/1000 - ctrl.fac.update_at)/3600/24  ;
 
     
   }
