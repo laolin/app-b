@@ -19,7 +19,7 @@ function($location,$log,$q,AppbData,AppbAPI) {
     {oid:103,kName:'中建八局',kPic:defImg},
     {oid:104,kName:'中建三局',kPic:defImg},
     {oid:105,kName:'上海机施',kPic:defImg},
-    {oid:106,kName:'宝钢钢松',kPic:defImg},
+    {oid:106,kName:'宝钢钢构',kPic:defImg},
     {oid:107,kName:'中建钢构',kPic:defImg},
     {oid:108,kName:'上海七建',kPic:defImg},
     {oid:109,kName:'南通二建',kPic:defImg},

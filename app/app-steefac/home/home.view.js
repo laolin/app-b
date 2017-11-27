@@ -30,10 +30,14 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
     ctrl.isLoading--;
   });
   ctrl.buyerList=SteeBuyer.buyerList;
+  ctrl.links=[];
   ctrl.title0='最新采购商';
+  for(var i= ctrl.buyerList.length;i--;) {
+    ctrl.links[i]='/buyer?id='+ctrl.buyerList[i].oid;
+  }
   
   ctrl.type1='steefac';
-  AppbAPI('steeobj','search',{type:ctrl.type1,count:12}).then(
+  AppbAPI('steeobj','search',{type:ctrl.type1,count:6}).then(
     function(s){
       ctrl.facList1=s;
       ctrl.title1='最新钢构产能';

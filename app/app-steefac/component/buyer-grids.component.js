@@ -5,6 +5,7 @@ angular.module('steefac')
   templateUrl: 'app-steefac/component/buyer-grids.component.template.html',
   bindings: {
     buyerList:"=",
+    links:"=",
     resultVer: '<',//用来标记搜索结果变化的
     
     title:'<',
@@ -39,7 +40,7 @@ angular.module('steefac')
       var nCol=2;
       for(var i=0,j=ps*pn;i<ps&&j<r.length;i++,j++){
         cells[i]={
-          link:"/buyer?id="+r[j].id,
+          link:ctrl.links&&ctrl.links[j]||'',
           img:r[j].kPic || SteeBuyer.defImg,
           text:r[j].kName,
           nCol:nCol,
