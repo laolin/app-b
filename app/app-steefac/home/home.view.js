@@ -53,7 +53,6 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
       { name: '钢构厂', n: me.counter.nFac, t: '个'},
       { name: '采购商', n: 999, t: '家'}
     ];
-    $scope.$apply();
   });
   ctrl.buyerList=SteeBuyer.buyerList;
   ctrl.links=[];
