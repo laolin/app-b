@@ -24,7 +24,7 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
   $scope.dataInfo = [
     { name: '项目信息', n: 153, t: '个'},
     { name: '钢构厂', n: 1714, t: '个'},
-    { name: '采购商', n: 999, t: '家'}
+    { name: '采购商', n: '...', t: '家'}
   ];
 
 
@@ -51,7 +51,7 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
     $scope.dataInfo = [
       { name: '项目信息', n: me.counter.nProj, t: '个'},
       { name: '钢构厂', n: me.counter.nFac, t: '个'},
-      { name: '采购商', n: 999, t: '家'}
+      { name: '采购商', n: '...', t: '家'}
     ];
   });
   ctrl.buyerList=SteeBuyer.buyerList;
