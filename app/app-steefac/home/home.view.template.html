@@ -47,18 +47,19 @@
 </div>
 
 
+
 <!-- 最新项目列表 -->
 <div class="main-fac-list" ng-if='$ctrl.isLoading <=0'>
   <div class="title weui-cell_access">
     <span class="title-text">{{$ctrl.title2}}</span>
     <div class="weui-cell__ft">查看更多</div>
   </div>
-  <div class="col2">
-    <a class="item2" ng-repeat="item in $ctrl.facList2 track by $index" ng-if="$index<8">
-      <img ng-src="../assets/img/img-steefac/def-steeproj.jpg" alt="">
-      <div class="text">{{item.name}}，{{item.addr}}，{{item.goodat}}</div>
-    </a>
-  </div>
+  <fac-grids
+    fac-list='$ctrl.facList2'
+    type='"steeproj"'
+  >
+  </fac-grids>
+
 </div>
 
 
