@@ -1,4 +1,23 @@
 <appb-ui-rect img="$ctrl.headImg" h='60' max-height='"300px"'></appb-ui-rect>
+
+<div class="main-modules">
+  <div class="module"><div class='icon bk1'><i class="fa fa-thumbs-o-up"></i></div><span>行业高手</span></div>
+  <div class="module"><div class='icon bk2'><i class="fa fa-trophy"></i></div><span>新技术榜</span></div>
+  <div class="module"><div class='icon bk3'><i class="fa fa-graduation-cap"></i></div><span>诚信评级</span></div>
+  <div class="module"><div class='icon bk4'><i class="fa fa-file-archive-o"></i></div><span>顾问报告</span></div>
+</div>
+
+<div class="main-datainfo">
+  <div class="item" ng-repeat="item in dataInfo">
+    <div class="name">{{item.name}}</div>
+    <div class="info"><div class="n">{{item.n}}</div><div class="t">{{item.t}}</div></div>
+  </div>
+</div>
+
+
+
+
+
 <buyer-grids
   ng-if='!$ctrl.isLoading' 
   

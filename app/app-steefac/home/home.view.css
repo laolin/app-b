@@ -1,0 +1,66 @@
+.main-modules{
+  display: flex;
+  background: #f7f7f7;
+  border-top: solid 1px #ccc;
+  padding: 0.6em;
+}
+.main-modules .module{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.main-modules .module>*{
+  align-self: center;
+}
+.main-modules .module>.icon{
+  display: flex;
+  justify-content: center;
+  width: 3.2em;
+  height: 3.2em;
+  color: #fff;
+  border-radius: 100%;
+}
+.main-modules .module>.icon .fa{
+  display: flex;
+  align-self: center;
+  font-size: 1.6em;
+}
+.main-modules .module> span{
+  padding: 0.3em 0 0 0;
+}
+
+.main-modules .bk1{ background: #66f;}
+.main-modules .bk2{ background: #dd0;}
+.main-modules .bk3{ background: #f83;}
+.main-modules .bk4{ background: #d50;}
+
+.main-datainfo{
+  display: flex;
+  background: #eee;
+  padding: 0.6em;
+}
+.main-datainfo >*{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex-grow: 1;
+  margin: 0.5em;
+  background: #fff;
+  border-radius: 0.3em;
+  box-shadow: 2px 2px 2px #ccc;
+  padding: 0.8em 0;
+}
+.main-datainfo >* >*{
+  display: flex;
+  align-self: center;
+}
+.main-datainfo >* >.name{
+  color: #888;
+}
+.main-datainfo >* >.info{
+  color: #33f;
+  align-items: baseline;
+}
+.main-datainfo >* .n{
+  font-size: 1.5em;
+}
