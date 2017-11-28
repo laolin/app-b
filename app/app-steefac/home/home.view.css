@@ -1,6 +1,7 @@
+/* 主页面 */
 .main-modules{
   display: flex;
-  background: #f7f7f7;
+  background: #fff;
   border-top: solid 1px #ccc;
   padding: 0.6em;
 }
@@ -12,31 +13,19 @@
 .main-modules .module>*{
   align-self: center;
 }
-.main-modules .module>.icon{
-  display: flex;
-  justify-content: center;
+.main-modules .module>img{
   width: 3.2em;
   height: 3.2em;
-  color: #fff;
-  border-radius: 100%;
-}
-.main-modules .module>.icon .fa{
-  display: flex;
-  align-self: center;
-  font-size: 1.6em;
 }
 .main-modules .module> span{
-  padding: 0.3em 0 0 0;
+  padding: 0.5em 0 0 0;
 }
 
-.main-modules .bk1{ background: #66f;}
-.main-modules .bk2{ background: #dd0;}
-.main-modules .bk3{ background: #f83;}
-.main-modules .bk4{ background: #d50;}
 
+/* 数据模块 */
 .main-datainfo{
   display: flex;
-  background: #eee;
+  background: #F3F8FC;
   padding: 0.6em;
 }
 .main-datainfo >*{
@@ -55,10 +44,10 @@
   align-self: center;
 }
 .main-datainfo >* >.name{
-  color: #888;
+  color: #666666;
 }
 .main-datainfo >* >.info{
-  color: #33f;
+  color: #3f81f2;
   align-items: baseline;
 }
 .main-datainfo >* .n{

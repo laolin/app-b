@@ -26,7 +26,7 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
   var ctrl=$scope.$ctrl={};
   // 使用 component 时
   //var ctrl=this;
-  
+
   ctrl.userData=userData;
   ctrl.appData=appData;
   ctrl.FacUser=FacUser;
@@ -35,6 +35,12 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
 
   FacUser.getMyData().then(function (me) {
     ctrl.isLoading--;
+    $scope.dataInfo = [
+      { name: '项目信息', n: me.counter.nProj, t: '个'},
+      { name: '钢构厂', n: me.counter.nFac, t: '个'},
+      { name: '采购商', n: 999, t: '家'}
+    ];
+    $scope.$apply();
   });
   ctrl.buyerList=SteeBuyer.buyerList;
   ctrl.links=[];
