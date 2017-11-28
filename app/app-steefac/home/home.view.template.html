@@ -31,10 +31,11 @@
   </div>
   <a class="item" ng-repeat="item in $ctrl.facList1">
     <div class="">
-      <h4 class="text">{{item.name}}，{{item.addr}}，{{item.goodat}}</h4>
-      <i class="fa fa-clock-o"> 一年内</i>
+      <h4 class="text">{{item.name}}，产能{{item.cap_6m}}吨，擅长构件：{{item.goodat}}</h4>
+      <i class="fa fa-clock-o"> </i>&nbsp;<span ng-if='item.update_at>123456789'><span am-time-ago='1000*item.update_at'
+        href=''></span></span>
     </div>
-    <img ng-src="../assets/img/img-steefac/def-steefac.jpg" alt="">
+    <img ng-src="{{item.picMain ||   '../assets/img/img-steefac/def-steefac.jpg' }} " alt="">
   </a>
 </div>
 
