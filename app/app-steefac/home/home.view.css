@@ -53,3 +53,48 @@
 .main-datainfo >* .n{
   font-size: 1.5em;
 }
+
+/* 最新产能列表 */
+.main-fac-list{
+  background: #fff;
+}
+.main-fac-list .title{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+.main-fac-list .title-text{
+  font-size: 16px;
+  border-left: solid 3px #3F81F2;
+  padding-left: 6px;
+  line-height: 0.8;
+  height: 16px;
+}
+
+.main-fac-list .item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-top: solid 1px #efefef;
+}
+
+.main-fac-list .item .text{
+  color: #303030;
+  padding: 0.3em;
+  height: 2.6em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.main-fac-list .item .fa-clock-o{
+  color: #666666;
+  padding-top: 10px;
+}
+
+.main-fac-list img{
+  width: 10em;
+  height: 5em;
+}

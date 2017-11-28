@@ -8,6 +8,12 @@ templateUrl: 'app-steefac/home/home.view.template.html',
 controller: ['$scope','$log','AppbData','AppbAPI','FacSearch','FacUser','SteeBuyer',
 function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
 
+  $scope.moduleInfo = [
+    {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/hygs.png", text:"行业高手"},
+    {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/xjsb.png", text:"新技术榜"},
+    {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/cxpj.png", text:"诚信评级"},
+    {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/gwbg.png", text:"顾问报告"}
+  ];
   $scope.dataInfo = [
     { name: '项目信息', n: 153, t: '个'},
     { name: '钢构厂', n: 1714, t: '个'},
@@ -53,7 +59,7 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
   AppbAPI('steeobj','search',{type:ctrl.type1,count:6}).then(
     function(s){
       ctrl.facList1=s;
-      ctrl.title1='最新钢构产能';
+      ctrl.title1='最新产能列表';
       ctrl.isLoading--;  
     }
   );
