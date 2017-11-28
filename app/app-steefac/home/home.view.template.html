@@ -1,4 +1,11 @@
-<appb-ui-rect img="$ctrl.headImg" h='60' max-height='"300px"'></appb-ui-rect>
+
+<!-- 轮播 -->
+<ks-swiper-container initial-slide="1" loop="true" show-nav-buttons="false" slides-per-view="1" space-between="5" pagination-clickable="false">
+  <ks-swiper-slide class="swiper-slide" ng-repeat="item in topInfo">
+    <img ng-src="{{item.src}}">
+  </ks-swiper-slide>
+</ks-swiper-container>
+
 
 <div class="main-modules">
   <div class="module" ng-repeat="item in moduleInfo">

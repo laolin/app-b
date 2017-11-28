@@ -8,6 +8,13 @@ templateUrl: 'app-steefac/home/home.view.template.html',
 controller: ['$scope','$log','AppbData','AppbAPI','FacSearch','FacUser','SteeBuyer',
 function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
 
+  /* 轮播数据 */
+  $scope.topInfo = [
+    {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-1.jpg", text:"一"},
+    {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-2.jpg", text:"二"},
+    {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-3.jpg", text:"三"}
+  ];
+
   $scope.moduleInfo = [
     {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/hygs.png", text:"行业高手"},
     {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/xjsb.png", text:"新技术榜"},
