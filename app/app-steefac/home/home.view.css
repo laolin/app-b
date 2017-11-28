@@ -1,4 +1,30 @@
 /* 主页面 */
+
+/* 轮播 */
+.main-swiper{
+  padding: 1em 0 0;
+}
+.main-swiper .box{
+  width: 100%;
+  height: 40vw;
+}
+.main-swiper .box.swiper-slide-next{
+  left: -15%;
+}
+.main-swiper .box.swiper-slide-prev{
+  left: 15%;
+}
+.main-swiper .box img{
+  width: 80%;
+  height: 90%;
+  margin: 0 10% ;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px #ccc;
+  object-fit:cover;
+}
+
+
+/* 模块功能条 */
 .main-modules{
   display: flex;
   background: #fff;

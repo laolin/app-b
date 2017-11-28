@@ -1,10 +1,12 @@
 
 <!-- 轮播 -->
-<ks-swiper-container initial-slide="1" loop="true" show-nav-buttons="false" slides-per-view="1" space-between="5" pagination-clickable="false">
-  <ks-swiper-slide class="swiper-slide" ng-repeat="item in topInfo">
-    <img ng-src="{{item.src}}">
-  </ks-swiper-slide>
-</ks-swiper-container>
+<div class="main-swiper">
+  <ks-swiper-container initial-slide="1" loop="true" autoplay="5000" show-nav-buttons="false" slides-per-view="1" space-between="5" pagination-clickable="false">
+    <ks-swiper-slide class="swiper-slide box" ng-repeat="item in topInfo">
+      <img class="" ng-src="{{item.src}}">
+    </ks-swiper-slide>
+  </ks-swiper-container>
+</div>
 
 
 <div class="main-modules">
