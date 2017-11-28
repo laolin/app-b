@@ -81,7 +81,7 @@
 }
 
 .main-fac-list .item .text{
-  color: #303030;
+  color: #666666;
   padding: 0.3em;
   height: 2.6em;
   display: -webkit-box;
@@ -90,11 +90,11 @@
   overflow: hidden;
 }
 .main-fac-list .item .fa-clock-o{
-  color: #666666;
+  color: #808080;
   padding-top: 10px;
 }
 
 .main-fac-list img{
-  width: 10em;
-  height: 5em;
+  width: 9.25em;
+  height: 5.75em;
 }
