@@ -81,8 +81,11 @@
 }
 
 /* 最新产能列表 */
+/* 最新项目列表 */
 .main-fac-list{
   background: #fff;
+  margin: 10px 0;
+  border-bottom: solid 1px #efefef;
 }
 .main-fac-list .title{
   display: flex;
@@ -103,16 +106,18 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border-top: solid 1px #efefef;
+  border-bottom: solid 1px #efefef;
 }
 
-.main-fac-list .item .text{
+.main-fac-list .item .text,
+.main-fac-list .item2 .text{
   color: #666666;
-  padding: 0.3em;
-  height: 2.6em;
+  padding: 0.2em 0;
+  height: 2.0em;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  line-height: 1.2;
   overflow: hidden;
 }
 .main-fac-list .item .fa-clock-o{
@@ -123,4 +128,43 @@
 .main-fac-list img{
   width: 9.25em;
   height: 5.75em;
+}
+
+
+.main-fac-list .col2{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+
+.main-fac-list .col2>*{
+  width: 45vw;
+  margin: 10px;
+}
+
+
+.main-fac-list .col2>*>img{
+  width: 45vw;
+  height: 45vw;
+}
+
+
+
+
+/* 采购商 */
+.main-cgs{
+}
+.main-cgs .title{
+  text-align: center;
+  color: #FC9744;
+  font-size: 20px;
+  font-weight: 900;
+  padding: 20px;
+}
+.main-cgs .title .text{
+  color: #3F81F2;
+}
+.main-cgs img{
+  width: 100%;
 }

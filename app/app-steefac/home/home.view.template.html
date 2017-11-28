@@ -39,24 +39,28 @@
 </div>
 
 
+<!-- 最新项目列表 -->
+<div class="main-fac-list">
+  <div class="title weui-cell_access">
+    <span class="title-text">{{$ctrl.title2}}</span>
+    <div class="weui-cell__ft">查看更多</div>
+  </div>
+  <div class="col2">
+    <a class="item2" ng-repeat="item in $ctrl.facList2 track by $index" ng-if="$index<8">
+      <img ng-src="../assets/img/img-steefac/def-steeproj.jpg" alt="">
+      <div class="text">{{item.name}}，{{item.addr}}，{{item.goodat}}</div>
+    </a>
+  </div>
+</div>
 
-<buyer-grids
-  ng-if='!$ctrl.isLoading' 
-  
-  title='$ctrl.title0'
-  buyer-list='$ctrl.buyerList'
-  links='$ctrl.links'
->
-</buyer-grids>
 
 
-<fac-grids
-  ng-if='!$ctrl.isLoading' 
-  
-  title='$ctrl.title2'
-  type='$ctrl.type2'
-  fac-list='$ctrl.facList2'
->
-</fac-grids>
+<!-- 采购商 -->
+<div class="main-cgs">
+  <div class="title">
+    <span>—</span><span class="text">　采购商　</span><span>—</span>
+  </div>
+  <img src="http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/cgs.jpg">
+</div>
 
 <fac-ui-copyright></fac-ui-copyright>

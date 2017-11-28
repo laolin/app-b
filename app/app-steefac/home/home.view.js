@@ -75,7 +75,7 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
   AppbAPI('steeobj','search',{type:ctrl.type2,count:9}).then(
     function(s){
       ctrl.facList2=s;
-      ctrl.title2='最新项目信息';
+      ctrl.title2='最新项目列表';
       ctrl.isLoading--;  
     }
   );
