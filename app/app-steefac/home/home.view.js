@@ -62,7 +62,7 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
   }
   
   ctrl.type1='steefac';
-  AppbAPI('steeobj','search',{type:ctrl.type1,count:6}).then(
+  AppbAPI('steeobj','search',{type:ctrl.type1,count:4}).then(
     function(s){
       ctrl.facList1=s;
       ctrl.title1='最新产能列表';
@@ -71,7 +71,7 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
   );
   
   ctrl.type2='steeproj';
-  AppbAPI('steeobj','search',{type:ctrl.type2,count:9}).then(
+  AppbAPI('steeobj','search',{type:ctrl.type2,count:6}).then(
     function(s){
       ctrl.facList2=s;
       ctrl.title2='最新项目列表';
