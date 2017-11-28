@@ -1,29 +1,77 @@
-<appb-ui-rect img="$ctrl.headImg" h='60' max-height='"300px"'></appb-ui-rect>
-<buyer-grids
-  ng-if='!$ctrl.isLoading' 
-  
-  title='$ctrl.title0'
-  buyer-list='$ctrl.buyerList'
-  links='$ctrl.links'
->
-</buyer-grids>
 
-<fac-grids
-  ng-if='!$ctrl.isLoading' 
-  
-  title='$ctrl.title1'
-  type='$ctrl.type1'
+<!-- 轮播 -->
+<div class="main-swiper">
+  <ks-swiper-container initial-slide="1" loop="true" autoplay="1500" show-nav-buttons="false" slides-per-view="1" space-between="5" pagination-clickable="false">
+    <ks-swiper-slide class="swiper-slide box" ng-repeat="item in topInfo">
+      <img class="" ng-src="{{item.src}}">
+    </ks-swiper-slide>
+  </ks-swiper-container>
+</div>
+
+
+<div class="main-modules">
+  <div class="module" ng-repeat="item in moduleInfo">
+    <img ng-src="{{item.src}}">
+    <span>{{item.text}}</span>
+  </div>
+</div>
+
+<div class="main-datainfo">
+  <div class="item" ng-repeat="item in dataInfo">
+    <div class="name">{{item.name}}</div>
+    <div class="info"><div class="n">{{item.n}}</div><div class="t">{{item.t}}</div></div>
+  </div>
+</div>
+
+<appb-ui-loading ng-if='$ctrl.isLoading>0'></appb-ui-loading>
+
+<!-- 最新产能列表 -->
+<div class="main-fac-list" ng-if='$ctrl.isLoading <=0'>
+  <div class="title weui-cell_access">
+    <span class="title-text">{{$ctrl.title1}}</span>
+    <div class="weui-cell__ft">查看更多</div>
+  </div>
+  <!--fac-grids
   fac-list='$ctrl.facList1'
->
-</fac-grids>
+  type='"steefac"'
+  >
+  </fac-grids-->
+  <a class="item" ng-repeat="item in $ctrl.facList1"
+    ng-href='#!/obj-detail?type=steefac&id={{item.id}}'
+  >
+    <div class="">
+      <h4 class="text">{{item.name}}，产能{{item.cap_6m}}吨，擅长构件：{{item.goodat}}</h4>
+      <i class="fa fa-clock-o"> </i>&nbsp;<span ng-if='item.update_at>123456789'><span am-time-ago='1000*item.update_at'
+        href=''></span></span>
+    </div>
+    <img ng-src="{{item.picMain ||   '../assets/img/img-steefac/def-steefac.jpg' }} " alt="">
+  </a>
+</div>
 
-<fac-grids
-  ng-if='!$ctrl.isLoading' 
-  
-  title='$ctrl.title2'
-  type='$ctrl.type2'
-  fac-list='$ctrl.facList2'
->
-</fac-grids>
+
+
+<!-- 最新项目列表 -->
+<div class="main-fac-list" ng-if='$ctrl.isLoading <=0'>
+  <div class="title weui-cell_access">
+    <span class="title-text">{{$ctrl.title2}}</span>
+    <div class="weui-cell__ft">查看更多</div>
+  </div>
+  <fac-grids
+    fac-list='$ctrl.facList2'
+    type='"steeproj"'
+  >
+  </fac-grids>
+
+</div>
+
+
+
+<!-- 采购商 -->
+<div class="main-cgs">
+  <div class="title">
+    <span>—</span><span class="text">　采购商　</span><span>—</span>
+  </div>
+  <img src="http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/cgs.jpg">
+</div>
 
 <fac-ui-copyright></fac-ui-copyright>

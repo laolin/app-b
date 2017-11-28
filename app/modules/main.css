@@ -83,6 +83,7 @@ start #main-container
 }
 #main-header + #main-container {
   top: 44px;
+  -webkit-overflow-scrolling : touch;
 }
 
 body{

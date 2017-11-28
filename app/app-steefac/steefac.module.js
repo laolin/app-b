@@ -3,6 +3,7 @@
 
 angular.module('steefac',[
   'amap-main',
+  'ksSwiper',
   'ngRoute'
 ])
 .run(['$log','AppbData',function($log,AppbData){
