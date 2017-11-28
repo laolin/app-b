@@ -24,12 +24,18 @@
 </div>
 
 <appb-ui-loading ng-if='$ctrl.isLoading>0'></appb-ui-loading>
+
 <!-- 最新产能列表 -->
-<div class="main-fac-list">
+<div class="main-fac-list" ng-if='$ctrl.isLoading <=0'>
   <div class="title weui-cell_access">
     <span class="title-text">{{$ctrl.title1}}</span>
     <div class="weui-cell__ft">查看更多</div>
   </div>
+  <!--fac-grids
+  fac-list='$ctrl.facList1'
+  type='"steefac"'
+  >
+  </fac-grids-->
   <a class="item" ng-repeat="item in $ctrl.facList1">
     <div class="">
       <h4 class="text">{{item.name}}，产能{{item.cap_6m}}吨，擅长构件：{{item.goodat}}</h4>
@@ -42,7 +48,7 @@
 
 
 <!-- 最新项目列表 -->
-<div class="main-fac-list">
+<div class="main-fac-list" ng-if='$ctrl.isLoading <=0'>
   <div class="title weui-cell_access">
     <span class="title-text">{{$ctrl.title2}}</span>
     <div class="weui-cell__ft">查看更多</div>
