@@ -30,7 +30,7 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
 
   var userData=AppbData.getUserData();
   var appData=AppbData.getAppData();
-  appData.setPageTitle('首页');
+  appData.setPageTitle('钢结构产能地图CMOSS');
   
   //要求登录，如果未登录，会自动跳转到登录界面
   appData.requireLogin();

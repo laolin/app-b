@@ -6,11 +6,11 @@ window.__assetsPath='../assets';
 var cfg=window.appbCfg={
   appName:"钢结构产能地图",
   
-  appDesc:"请高手为您权威提供国内实时钢结构产能情况",//微信分享时默认文本
-  appLogo:"https://qinggaoshou.com/images/qgs-log-1.jpg",//微信分享时默认图片
+  appDesc:"精准产能，采购达人",//微信分享时默认文本
+  appLogo:"https://qinggaoshou.com/images/qgs-log-cmoss.jpg",//微信分享时默认图片
   
   pageTitle:'钢结构产能地图',//默认的页面上方<ui-header>条的标题
-  htmlTitle:'钢结构产能地图 - 请高手',//默认的浏览器的页面标题
+  htmlTitle:'钢结构产能地图',//默认的浏览器的页面标题
   apiRoot: 'https://api.qinggaoshou.com/api-eb', //一般的API
   apiWxAuth: 'https://qinggaoshou.com/api-eb', //WX 授权 callback 域名限制的URI
 
