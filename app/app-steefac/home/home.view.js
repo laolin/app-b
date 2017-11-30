@@ -22,8 +22,8 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
     {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/gwbg.png", text:"顾问报告"}
   ];
   $scope.dataInfo = [
-    { name: '项目信息', n: 153, t: '个'},
-    { name: '钢构厂', n: 1714, t: '个'},
+    { name: '项目信息', n: '...', t: '个'},
+    { name: '钢构厂', n: '...', t: '个'},
     { name: '采购商', n: '...', t: '家'}
   ];
 
