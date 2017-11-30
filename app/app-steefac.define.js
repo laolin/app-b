@@ -6,7 +6,7 @@ window.__assetsPath='../assets';
 var cfg=window.appbCfg={
   appName:"钢结构产能地图",
   
-  appDesc:"精准产能，采购达人",//微信分享时默认文本
+  appDesc:"精准产能，采购达人——全球钢构采购参谋。",//微信分享时默认文本
   appLogo:"https://qinggaoshou.com/images/qgs-log-cmoss.jpg",//微信分享时默认图片
   
   pageTitle:'钢结构产能地图',//默认的页面上方<ui-header>条的标题

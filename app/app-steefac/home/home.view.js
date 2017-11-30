@@ -7,10 +7,12 @@ $routeProvider.when('/home', {
 templateUrl: 'app-steefac/home/home.view.template.html',
 controller: ['$scope','$log','AppbData','AppbAPI','FacSearch','FacUser','SteeBuyer',
 function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
+  var userData=AppbData.getUserData();
+  var appData=AppbData.getAppData();
 
   /* 轮播数据 */
   $scope.topInfo = [
-    {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-1.jpg", text:"一"},
+    {src:appData.appCfg.assetsRoot+"/img/img-steefac/top-1.jpg", text:"一"},
     {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-2.jpg", text:"二"},
     {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-3.jpg", text:"三"}
   ];
@@ -27,10 +29,7 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
     { name: '采购商', n: '...', t: '家'}
   ];
 
-
-  var userData=AppbData.getUserData();
-  var appData=AppbData.getAppData();
-  appData.setPageTitle('钢结构产能地图CMOSS');
+  appData.setPageTitle('CMOSS：可信、严肃、专业');
   
   //要求登录，如果未登录，会自动跳转到登录界面
   appData.requireLogin();
