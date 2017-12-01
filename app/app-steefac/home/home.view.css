@@ -3,6 +3,7 @@
 /* 轮播 */
 .main-swiper{
   padding: 1em 0;
+  background: #fff;
 }
 .main-swiper .box{
   width: 100%;
@@ -30,7 +31,7 @@
   display: flex;
   background: #fff;
   border-top: solid 1px #ccc;
-  padding: 0.6em;
+  padding: 15px;
 }
 .main-modules .module{
   display: flex;
@@ -52,15 +53,15 @@
 /* 数据模块 */
 .main-datainfo{
   display: flex;
+  justify-content: space-between;
   background: #F3F8FC;
-  padding: 0.6em;
+  padding: 15px;
 }
 .main-datainfo >*{
+  width: calc(33.3333% - 10px);
   display: flex;
   justify-content: center;
   flex-direction: column;
-  flex-grow: 1;
-  margin: 0.5em;
   background: #fff;
   border-radius: 0.3em;
   box-shadow: 2px 2px 2px #ccc;
@@ -85,36 +86,44 @@
 /* 最新项目列表 */
 .main-fac-list{
   background: #fff;
-  margin: 10px 0;
   border-bottom: solid 1px #efefef;
 }
 .main-fac-list .title{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 15px;
+  border-bottom: solid 1px #efefef;
 }
 .main-fac-list .title-text{
-  font-size: 16px;
+  font-size: 18px;
   border-left: solid 3px #3F81F2;
   padding-left: 6px;
   line-height: 0.8;
-  height: 16px;
+  height: 18px;
 }
 
 .main-fac-list .item{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 15px;
   border-bottom: solid 1px #efefef;
+}
+
+.main-fac-list .item .left{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding-right:15px;
+  font-size: 15px;
 }
 
 .main-fac-list .item .text,
 .main-fac-list .item2 .text{
   color: #666666;
   padding: 0.2em 0;
-  height: 2.0em;
+  height: 2.1em;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -123,7 +132,7 @@
 }
 .main-fac-list .item .fa-clock-o{
   color: #808080;
-  padding-top: 10px;
+  padding-top: 15px;
 }
 
 .main-fac-list img{
@@ -142,7 +151,7 @@
 
 .main-fac-list .col2>*{
   width: 43vw;
-  margin: 10px;
+  margin: 15px;
 }
 
 
@@ -152,6 +161,12 @@
 }
 
 
+.main-fac-list.list2{
+  margin-top: 15px;
+}  
+.main-fac-list.list2  .items {
+  padding: 5px 10px;
+}
 
 
 /* 采购商 */
@@ -162,7 +177,7 @@
   color: #FC9744;
   font-size: 20px;
   font-weight: 900;
-  padding: 20px;
+  padding: 10px;
 }
 .main-cgs .title .text{
   color: #3F81F2;

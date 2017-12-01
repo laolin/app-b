@@ -42,10 +42,12 @@
   <a class="item" ng-repeat="item in $ctrl.facList1"
     ng-href='#!/obj-detail?type=steefac&id={{item.id}}'
   >
-    <div class="">
+    <div class="left">
       <h4 class="text">{{item.name}}，产能{{item.cap_6m}}吨，擅长构件：{{item.goodat}}</h4>
+      <div>
       <i class="fa fa-clock-o"> </i>&nbsp;<span ng-if='item.update_at>123456789'><span am-time-ago='1000*item.update_at'
         href=''></span></span>
+      </div>
     </div>
     <img ng-src="{{item.picMain ||   '../assets/img/img-steefac/def-steefac.jpg' }} " alt="">
   </a>
@@ -54,16 +56,18 @@
 
 
 <!-- 最新项目列表 -->
-<div class="main-fac-list" ng-if='$ctrl.isLoading <=0'>
+<div class="main-fac-list list2" ng-if='$ctrl.isLoading <=0'>
   <div class="title weui-cell_access">
     <span class="title-text">{{$ctrl.title2}}</span>
     <div class="weui-cell__ft">查看更多</div>
   </div>
-  <fac-grids
-    fac-list='$ctrl.facList2'
-    type='"steeproj"'
-  >
-  </fac-grids>
+  <div class="items">
+    <fac-grids
+      fac-list='$ctrl.facList2'
+      type='"steeproj"'
+    >
+    </fac-grids>
+  </div>
 
 </div>
 

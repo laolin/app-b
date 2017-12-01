@@ -24,7 +24,7 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
       loop: true,
       initialSlide: 1,
       showNavButtons: false,
-      slidesPerView: 1.2
+      slidesPerView: 1.15
     },
     onReady: function(swiper){
       swiper.on('slideChangeEnd', function () {
