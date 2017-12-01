@@ -7,6 +7,8 @@ $routeProvider.when('/home', {
 templateUrl: 'app-steefac/home/home.view.template.html',
 controller: ['$scope','$log','AppbData','AppbAPI','FacSearch','FacUser','SteeBuyer',
 function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
+  var userData=AppbData.getUserData();
+  var appData=AppbData.getAppData();
 
   /* 轮播数据 */
   var slider = $scope.slider = {
@@ -39,7 +41,6 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
     }
   };
 
-
   $scope.moduleInfo = [
     {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/hygs.png", text:"行业高手"},
     {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/xjsb.png", text:"新技术榜"},
@@ -47,15 +48,12 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
     {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/gwbg.png", text:"顾问报告"}
   ];
   $scope.dataInfo = [
-    { name: '项目信息', n: 153, t: '个'},
-    { name: '钢构厂', n: 1714, t: '个'},
+    { name: '项目信息', n: '...', t: '个'},
+    { name: '钢构厂', n: '...', t: '个'},
     { name: '采购商', n: '...', t: '家'}
   ];
 
-
-  var userData=AppbData.getUserData();
-  var appData=AppbData.getAppData();
-  appData.setPageTitle('首页');
+  appData.setPageTitle('CMOSS：可信、严肃、专业');
   
   //要求登录，如果未登录，会自动跳转到登录界面
   appData.requireLogin();
