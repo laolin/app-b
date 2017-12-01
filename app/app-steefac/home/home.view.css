@@ -2,22 +2,23 @@
 
 /* 轮播 */
 .main-swiper{
-  padding: 1em 0 0;
+  padding: 1em 0;
 }
 .main-swiper .box{
   width: 100%;
   height: 40vw;
+  padding:0 0 5px 0;
 }
-.main-swiper .box.swiper-slide-next{
-  left: -15%;
-}
-.main-swiper .box.swiper-slide-prev{
-  left: 15%;
-}
+/* .main-swiper .box.swiper-slide-next{ */
+  /* left: -15%; */
+/* } */
+/* .main-swiper .box.swiper-slide-prev{ */
+  /* left: 15%; */
+/* } */
 .main-swiper .box img{
-  width: 80%;
-  height: 90%;
-  margin: 0 10% ;
+  width: 100%;
+  height: 100%;
+  /* margin: 0 10% ; */
   border-radius: 10px;
   box-shadow: 5px 5px 5px #ccc;
   object-fit:cover;
@@ -139,14 +140,14 @@
 
 
 .main-fac-list .col2>*{
-  width: 45vw;
+  width: 43vw;
   margin: 10px;
 }
 
 
 .main-fac-list .col2>*>img{
-  width: 45vw;
-  height: 45vw;
+  width: 43vw;
+  height: 43vw;
 }
 
 

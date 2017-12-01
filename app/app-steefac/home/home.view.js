@@ -9,11 +9,36 @@ controller: ['$scope','$log','AppbData','AppbAPI','FacSearch','FacUser','SteeBuy
 function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
 
   /* 轮播数据 */
-  $scope.topInfo = [
-    {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-1.jpg", text:"一"},
-    {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-2.jpg", text:"二"},
-    {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-3.jpg", text:"三"}
-  ];
+  var slider = $scope.slider = {
+    frames: [
+      {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-1.jpg", text:"一"},
+      {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-2.jpg", text:"二"},
+      {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-3.jpg", text:"三"}
+    ],
+    params: {
+      centeredSlides: true,
+      spaceBetween: 20,
+      autoplay: 600,
+      loop: true,
+      initialSlide: 1,
+      showNavButtons: false,
+      slidesPerView: 1.2
+    },
+    onReady: function(swiper){
+      swiper.on('slideChangeEnd', function () {
+        if(swiper.params.autoplay < 1500){
+          // 越来越慢，直到1.5秒/帧
+          swiper.params.autoplay += 300;
+          swiper.startAutoplay();
+        }else{
+          // 如果想在手动滑一下后停下来，就注释下面代码
+          swiper.startAutoplay();
+        }
+      });
+      swiper.slideNext();
+    }
+  };
+
 
   $scope.moduleInfo = [
     {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/hygs.png", text:"行业高手"},
@@ -53,7 +78,6 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
       { name: '钢构厂', n: me.counter.nFac, t: '个'},
       { name: '采购商', n: 999, t: '家'}
     ];
-    $scope.$apply();
   });
   ctrl.buyerList=SteeBuyer.buyerList;
   ctrl.links=[];

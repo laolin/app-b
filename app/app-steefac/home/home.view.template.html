@@ -1,8 +1,11 @@
 
 <!-- 轮播 -->
 <div class="main-swiper">
-  <ks-swiper-container initial-slide="1" loop="true" autoplay="5000" show-nav-buttons="false" slides-per-view="1" space-between="5" pagination-clickable="false">
-    <ks-swiper-slide class="swiper-slide box" ng-repeat="item in topInfo">
+  <ks-swiper-container
+    override-parameters="slider.params"
+    on-ready="slider.onReady(swiper)"
+  >
+    <ks-swiper-slide class="box" ng-repeat="item in slider.frames">
       <img class="" ng-src="{{item.src}}">
     </ks-swiper-slide>
   </ks-swiper-container>
