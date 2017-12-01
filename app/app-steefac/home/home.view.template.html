@@ -43,13 +43,12 @@
     ng-href='#!/obj-detail?type=steefac&id={{item.id}}'
   >
     <div class="left">
-      <h4 class="text">{{item.name}}，产能{{item.cap_6m}}吨，擅长构件：{{item.goodat}}</h4>
-      <div>
-      <i class="fa fa-clock-o"> </i>&nbsp;<span ng-if='item.update_at>123456789'><span am-time-ago='1000*item.update_at'
-        href=''></span></span>
-      </div>
+      <div class="text">{{item.name}}，产能{{item.cap_6m}}吨，擅长构件：{{item.goodat}}</div>
+      <i class="fa fa-clock-o">&nbsp;
+        <span ng-if='item.update_at>123456789' am-time-ago='1000*item.update_at' ></span>
+      </i>
     </div>
-    <img ng-src="{{item.picMain ||   '../assets/img/img-steefac/def-steefac.jpg' }} " alt="">
+    <img ng-src="{{item.picMain || '../assets/img/img-steefac/def-steefac.jpg' }} " alt="">
   </a>
 </div>
 
