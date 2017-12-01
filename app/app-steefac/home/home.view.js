@@ -49,7 +49,7 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
   $scope.dataInfo = [
     { name: '项目信息', n: 153, t: '个'},
     { name: '钢构厂', n: 1714, t: '个'},
-    { name: '采购商', n: 999, t: '家'}
+    { name: '采购商', n: '...', t: '家'}
   ];
 
 
@@ -76,7 +76,7 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
     $scope.dataInfo = [
       { name: '项目信息', n: me.counter.nProj, t: '个'},
       { name: '钢构厂', n: me.counter.nFac, t: '个'},
-      { name: '采购商', n: 999, t: '家'}
+      { name: '采购商', n: '...', t: '家'}
     ];
   });
   ctrl.buyerList=SteeBuyer.buyerList;
@@ -87,7 +87,7 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
   }
   
   ctrl.type1='steefac';
-  AppbAPI('steeobj','search',{type:ctrl.type1,count:6}).then(
+  AppbAPI('steeobj','search',{type:ctrl.type1,count:4}).then(
     function(s){
       ctrl.facList1=s;
       ctrl.title1='最新产能列表';
@@ -96,7 +96,7 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
   );
   
   ctrl.type2='steeproj';
-  AppbAPI('steeobj','search',{type:ctrl.type2,count:9}).then(
+  AppbAPI('steeobj','search',{type:ctrl.type2,count:6}).then(
     function(s){
       ctrl.facList2=s;
       ctrl.title2='最新项目列表';

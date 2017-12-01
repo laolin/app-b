@@ -129,6 +129,7 @@
 .main-fac-list img{
   width: 9.25em;
   height: 5.75em;
+  object-fit:cover;
 }
 
 

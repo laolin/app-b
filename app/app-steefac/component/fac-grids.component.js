@@ -13,8 +13,8 @@ angular.module('steefac')
     title:'<',
     
   },
-  controller:['$http','$log','FacSearch',
-	function ($http,$log,FacSearch) {
+  controller:['$http','$log','FacSearch','ProjDefine',
+	function ($http,$log,FacSearch,ProjDefine) {
     var ctrl=this;
     
     ctrl.cells=[];
@@ -38,13 +38,21 @@ angular.module('steefac')
       if(!r  )return;
       var ps=ctrl.pageSize;
       var pn=ctrl.pageNumber;
-      var hImg={'steefac':50,'steeproj':120};
-      var nCol={'steefac':2,'steeproj':3};
+      var hImg={'steefac':120,'steeproj':80};
+      var nCol={'steefac':2,'steeproj':2};
+      function _text_of_obj(o,type) {
+        if(type=='steefac') {
+          return o.name+'，产能'+o.cap_6m+'吨，擅长构件：'+o.goodat;
+        }
+        if(type=='steeproj') {
+          return o.name+'，采购'+o.need_steel+'吨，首批供货时间：'+ProjDefine.objReqInMonth[o.in_month];
+        }
+      }
       for(var i=0,j=ps*pn;i<ps&&j<r.length;i++,j++){
         cells[i]={
           link:"/obj-detail?type="+ctrl.type+"&id="+r[j].id,
           img:r[j].picMain || '../assets/img/img-steefac/def-'+ctrl.type+'.jpg',
-          text:r[j].name,
+          text:_text_of_obj(r[j],ctrl.type),
           nCol:nCol[ctrl.type],
           h:hImg[ctrl.type]
         }
