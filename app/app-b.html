@@ -26,16 +26,9 @@
   <!-- endbuild -->
 
 </head>
-<body ng-controller='appbCtrl as appb'>
+<body>
 
-  <appb-ui-header id="main-header" header-data='appb.headerData'
-  ng-if='!appb.headerData.hide'
-  ></appb-ui-header>
-  <div id="main-container" ng-view>
-    <h5 class='text-center'>Loading...</h5>
-  </div>
-  <appb-ui-footer id="main-footer" footer-data='appb.footerData'></appb-ui-footer>
-  <appb-ui-abc app-data='appb.appData'></appb-ui-abc>
+  <my-app></my-app>
   
   <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
   
