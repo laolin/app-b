@@ -1,0 +1,13 @@
+
+/* 根据 weui-grids 修改调整 */
+.ask-for-gz-wx {
+  z-index: 19999;
+  top:10rem;
+  width: 100%;
+  margin-left:-50%;
+  padding:1rem 0;
+}
+.ask-for-gz-wx * {
+  font-size: 14px;
+  max-width: 80%;
+}

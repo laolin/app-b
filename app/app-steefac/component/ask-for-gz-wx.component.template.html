@@ -1,0 +1,10 @@
+<div class='' ng-if='$ctrl.show && !$ctrl.closed'>
+  <div class="weui-mask_transparent"></div>
+  <div class="weui-toast  ask-for-gz-wx" ng-click=''>
+    <a ng-if='!$ctrl.userData.wxinfo.subscribe'>您未关注“请高手”公众号，请扫描识别二维码关注，以便我们更好地为您服务，谢谢。
+    <br/>
+    <img ng-src='{{$ctrl.assetsRoot}}/img/img-steefac/stee-qgs-qrcode.png'/>
+    </a>
+    <div class='text-right' ng-if='$ctrl.canClose'><a ng-click='$ctrl.close()'>close</a></div>
+  </div>
+</div>
