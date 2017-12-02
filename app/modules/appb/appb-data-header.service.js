@@ -69,7 +69,8 @@ function($route, $rootScope,$location,$log,AppbConfig) {
   
   function setPageTitle(title) {
     headerData.title=title || defTitle;
-    headerData.bTitle= title +'-'+ defBTitle;
+    //headerData.bTitle= title +'-'+ defBTitle;
+    headerData.bTitle= defBTitle;
     $rootScope.pageTitle=headerData.bTitle;
     initWxShareData();
   }
@@ -79,7 +80,8 @@ function($route, $rootScope,$location,$log,AppbConfig) {
     }
     headerData.hide=false;
     headerData.title=title || defTitle;
-    headerData.bTitle=bTitle?bTitle:title +'-'+ defBTitle;
+    //headerData.bTitle=bTitle?bTitle:title +'-'+ defBTitle;
+    headerData.bTitle=bTitle?bTitle:defBTitle;
     headerData.name=name;
     headerData.widgets=headerAvailable[name];
 

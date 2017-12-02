@@ -10,7 +10,7 @@ var cfg=window.appbCfg={
   appLogo:"https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/share-1.jpg",//微信分享时默认图片
   
   pageTitle:'钢结构产能地图',//默认的页面上方<ui-header>条的标题
-  htmlTitle:'钢结构产能地图',//默认的浏览器的页面标题
+  htmlTitle:'钢结构产能地图CMOSS',//默认的浏览器的页面标题
   apiRoot: 'https://api.qinggaoshou.com/api-eb', //一般的API
   apiWxAuth: 'https://qinggaoshou.com/api-eb', //WX 授权 callback 域名限制的URI
 
