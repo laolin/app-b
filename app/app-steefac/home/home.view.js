@@ -13,9 +13,9 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
   /* 轮播数据 */
   var slider = $scope.slider = {
     frames: [
-      {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-1.jpg", text:"一"},
-      {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-2.jpg", text:"二"},
-      {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-3.jpg", text:"三"}
+      {src: "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-1.jpg", text:"一"},
+      {src: "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-2.jpg", text:"二"},
+      {src: "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-3.jpg", text:"三"}
     ],
     params: {
       centeredSlides: true,
@@ -42,10 +42,10 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
   };
 
   $scope.moduleInfo = [
-    {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/hygs.png", text:"行业高手"},
-    {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/xjsb.png", text:"新技术榜"},
-    {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/cxpj.png", text:"诚信评级"},
-    {src: "http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/gwbg.png", text:"顾问报告"}
+    {src: "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/hygs.png", text:"行业高手"},
+    {src: "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/xjsb.png", text:"新技术榜"},
+    {src: "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/cxpj.png", text:"诚信评级"},
+    {src: "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/gwbg.png", text:"顾问报告"}
   ];
   $scope.dataInfo = [
     { name: '项目信息', n: '...', t: '个'},
@@ -84,7 +84,7 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
     ctrl.links[i]='/buyer?id='+ctrl.buyerList[i].oid;
   }
   
-  var pa='http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/'
+  var pa='https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/'
   ctrl.type1='steefac';
   AppbAPI('steeobj','search',{type:ctrl.type1,count:4}).then(
     function(s){
