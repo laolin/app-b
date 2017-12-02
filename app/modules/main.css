@@ -77,8 +77,9 @@ start #main-header
 start #main-container 
 ========================*/
 #main-container{
+  position: absolute;
   height:auto !important;
-  top:0px;
+  top: 44px;
   bottom:55px;
   overflow: auto;
   background-color:#eee;
