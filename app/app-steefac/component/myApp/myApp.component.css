@@ -11,3 +11,7 @@ my-app > .main-container{
   overflow: auto;
   -webkit-overflow-scrolling : touch;
 }
+
+my-app appb-ui-footer{
+  border-top: solid 1px #ccc;
+}
