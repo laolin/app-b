@@ -84,10 +84,15 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
     ctrl.links[i]='/buyer?id='+ctrl.buyerList[i].oid;
   }
   
+  var pa='http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/'
   ctrl.type1='steefac';
   AppbAPI('steeobj','search',{type:ctrl.type1,count:4}).then(
     function(s){
       ctrl.facList1=s;
+      s[0].picMain=pa+'101.jpg';
+      s[1].picMain=pa+'102.jpg';
+      s[2].picMain=pa+'103.jpg';
+      s[3].picMain=pa+'104.jpg';
       ctrl.title1='最新产能列表';
       ctrl.isLoading--;  
     }
@@ -97,6 +102,12 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
   AppbAPI('steeobj','search',{type:ctrl.type2,count:6}).then(
     function(s){
       ctrl.facList2=s;
+      s[0].picMain=pa+'201.jpg';
+      s[1].picMain=pa+'202.jpg';
+      s[2].picMain=pa+'203.jpg';
+      s[3].picMain=pa+'204.jpg';
+      s[4].picMain=pa+'205.jpg';
+      s[5].picMain=pa+'206.jpg';
       ctrl.title2='最新项目列表';
       ctrl.isLoading--;  
     }
