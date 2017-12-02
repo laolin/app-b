@@ -1,10 +1,12 @@
 body,html{height:100%;-webkit-tap-highlight-color:transparent}
 html {
-  font-size: 14px !important;
+  /* font-size: 14px !important; */
+}
+body, div, span {
+  font-family: -apple-system-font,"Helvetica Neue","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
 }
 body {
-  font-family: -apple-system-font,"Helvetica Neue","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  font-size: 14px;
+  /* font-size: 14px; */
   overflow: auto;
   background-color:#fbf9fe;
   margin-bottom: 0px;/* Margin bottom by footer height */
@@ -75,9 +77,10 @@ start #main-header
 start #main-container 
 ========================*/
 #main-container{
+  position: absolute;
   height:auto !important;
-  top:0px;
-  bottom:50px;
+  top: 44px;
+  bottom:55px;
   overflow: auto;
   background-color:#eee;
 }
@@ -109,7 +112,7 @@ start #main-footer
 #main-footer{
   z-index: 500;
   bottom: 0;
-  height:49px;
+  height:54px;
   border-top:1px solid #ddd;
   background-color:#fff;
 }

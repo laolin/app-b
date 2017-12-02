@@ -1,3 +1,14 @@
+/*竖屏*/
+@media only screen and (orientation:portrait ) {
+  html, body{ font-size: 3.2vw; }
+}
+/*横屏*/
+@media only screen and (orientation:landscape) {
+  html, body{ font-size: 3.2vh; }
+}
+
+
+
 .fac-fix-wrapper {
   position: absolute;
   top:0;
