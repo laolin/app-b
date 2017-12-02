@@ -15,3 +15,11 @@ my-app > .main-container{
 my-app appb-ui-footer{
   border-top: solid 1px #ccc;
 }
+
+search-ui{
+  display: flex;
+  flex-direction:column;
+}
+search-ui amap-main{
+  height: 200px;
+}
