@@ -1,0 +1,13 @@
+/* 主框架 */
+
+my-app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+my-app > .main-container{
+  flex-grow: 1;
+  overflow: auto;
+  -webkit-overflow-scrolling : touch;
+}
