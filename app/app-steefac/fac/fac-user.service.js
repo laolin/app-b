@@ -12,10 +12,8 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser) {
   var FacUser={};
   var appData=AppbData.getAppData();
   var dialogData=appData.dialogData;
-  if(! appData.userData || !appData.userData.token) {
-    $location.path( "/wx-login" ).search({pageTo: '/search'});
-    return {};
-  }
+  
+  appData.requireLogin();
 
   appData.FacUser=FacUser;
 
@@ -118,7 +116,13 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser) {
       myData.counter={};
       myData.counter.nFac=s.nFac;
       myData.counter.nProj=s.nProj;
-      if(s.me.uid) {
+      if(s.wx && s.wx.openid) {
+        AppbDataUser.dealWxHeadImg(s.wx);
+        myData.wx=s.wx;
+        angular.extend(appData.userData.wxinfo,s.wx)
+        AppbDataUser.saveUserDataToLocalStorage();
+      }
+      if(s.me && s.me.uid) {
         myData.isAdmin=parseInt(s.me.is_admin);
         myData.update_at=parseInt(s.me.update_at);
         myData.uid=parseInt(s.me.uid);
