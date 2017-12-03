@@ -5,8 +5,8 @@ angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
 $routeProvider.when('/home', {
 templateUrl: 'app-steefac/home/home.view.template.html',
-controller: ['$scope','$log','AppbData','AppbAPI','FacSearch','FacUser','SteeBuyer',
-function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
+controller: ['$scope','$log','$location','AppbData','AppbAPI','FacSearch','FacUser','SteeBuyer',
+function ($scope,$log,$location,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
   var userData=AppbData.getUserData();
   var appData=AppbData.getAppData();
 
@@ -48,15 +48,27 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
     {src: "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/gwbg.png", text:"顾问报告"}
   ];
   $scope.dataInfo = [
-    { name: '项目信息', n: '...', t: '个'},
-    { name: '钢构厂', n: '...', t: '个'},
-    { name: '采购商', n: '...', t: '家'}
+    { type:'steeproj', name: '项目信息', n: '...', t: '个'},
+    { type:'steefac', name: '钢构厂', n: '...', t: '个'},
+    { type:'', name: '采购商', n: '...', t: '家'}
   ];
 
   appData.setPageTitle('CMOSS：可信、严肃、专业');
   
   //要求登录，如果未登录，会自动跳转到登录界面
   appData.requireLogin();
+  
+  $scope.goSearch=function(type) {
+    if(!type)return;
+    var serchPara={
+      type:type,
+      count:50,
+      dist:45,// ~=50km
+    };
+    $log.log('ggggggggg-serchPara',serchPara);
+    FacSearch.doSearch(serchPara,type);
+    $location.path('/search');
+  }
 
   //使用ctrl, 后面方便切换为 component
   var ctrl=$scope.$ctrl={};
@@ -71,11 +83,9 @@ function ($scope,$log,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
 
   FacUser.getMyData().then(function (me) {
     ctrl.isLoading--;
-    $scope.dataInfo = [
-      { name: '项目信息', n: me.counter.nProj, t: '个'},
-      { name: '钢构厂', n: me.counter.nFac, t: '个'},
-      { name: '采购商', n: '...', t: '家'}
-    ];
+    $scope.dataInfo[0].n=me.counter.nProj;
+    $scope.dataInfo[1].n=me.counter.nFac;
+    //$scope.dataInfo[2].n='...';
   });
   ctrl.buyerList=SteeBuyer.buyerList;
   ctrl.links=[];

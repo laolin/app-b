@@ -20,7 +20,9 @@
 </div>
 
 <div class="main-datainfo">
-  <div class="item" ng-repeat="item in dataInfo">
+  <div class="item" ng-repeat="item in dataInfo"
+    ng-click='goSearch(item.type)'
+  >
     <div class="name">{{item.name}}</div>
     <div class="info"><div class="n">{{item.n}}</div><div class="t">{{item.t}}</div></div>
   </div>
