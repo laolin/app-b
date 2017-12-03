@@ -34,7 +34,7 @@
 <div class="main-fac-list" ng-if='$ctrl.isLoading <=0'>
   <div class="title weui-cell_access">
     <span class="title-text">{{$ctrl.title1}}</span>
-    <div class="weui-cell__ft">查看更多</div>
+    <div class="weui-cell__ft" ng-click='goSearch("steefac")'>查看更多</div>
   </div>
   <!--fac-grids
   fac-list='$ctrl.facList1'
@@ -60,7 +60,7 @@
 <div class="main-fac-list list2" ng-if='$ctrl.isLoading <=0'>
   <div class="title weui-cell_access">
     <span class="title-text">{{$ctrl.title2}}</span>
-    <div class="weui-cell__ft">查看更多</div>
+    <div class="weui-cell__ft" ng-click='goSearch("steeproj")'>查看更多</div>
   </div>
   <div class="items">
     <fac-grids
