@@ -1,0 +1,12 @@
+<div class='' ng-if='$ctrl.show && !$ctrl.closed'>
+  <div class="weui-mask_transparent"></div>
+  <div class="weui-toast  ask-for-gz-wx" ng-click=''>
+    <div class='ask-for-gz-wx-title' ng-if='$ctrl.canClose'><a ng-click='$ctrl.close()'>x</a></div>
+    <div class='ask-for-gz-wx-content'>
+      <a ng-if='!$ctrl.userData.wxinfo.subscribe'>为了我们更好地为您服务<br/>敬请关注“请高手”公众号
+      <br/>
+      <img ng-src='{{$ctrl.assetsRoot}}/img/img-steefac/stee-qgs-qrcode.png'/>
+      </a>
+    </div>
+  </div>
+</div>

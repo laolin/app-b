@@ -6,11 +6,11 @@ window.__assetsPath='../assets';
 var cfg=window.appbCfg={
   appName:"钢结构产能地图",
   
-  appDesc:"请高手为您权威提供国内实时钢结构产能情况",//微信分享时默认文本
-  appLogo:"https://qinggaoshou.com/images/qgs-log-1.jpg",//微信分享时默认图片
+  appDesc:"精准产能，采购达人——全球钢构采购参谋。",//微信分享时默认文本
+  appLogo:"https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/share-1.jpg",//微信分享时默认图片
   
   pageTitle:'钢结构产能地图',//默认的页面上方<ui-header>条的标题
-  htmlTitle:'钢结构产能地图 - 请高手',//默认的浏览器的页面标题
+  htmlTitle:'钢结构产能地图CMOSS',//默认的浏览器的页面标题
   apiRoot: 'https://api.qinggaoshou.com/api-eb', //一般的API
   apiWxAuth: 'https://qinggaoshou.com/api-eb', //WX 授权 callback 域名限制的URI
 
@@ -24,7 +24,7 @@ cfg.modDep=[
   'amap-main',
   'steefac'
 ];
-cfg.defPath='/my';
+cfg.defPath='/home';
 
 cfg.wxApp=[
     {name:'qgs-web',id:'wx8fb342a27567fee7'},
@@ -38,7 +38,7 @@ cfg.markWxLoginCallback='cb_xd';//和后端API的约定字符串，在 /wx-login
 
 cfg.tabsAvailable=[
   ['index',[
-    //{text:'首页',icon:'home',href:'/home',active:1,badge:0},
+    {text:'首页',icon:'home',href:'/home',active:1,badge:0},
     {text:'产能地图',icon:'cubes',href:'/search',badge:0},
     {text:'我的',icon:'user',href:'/my'}
   ]],

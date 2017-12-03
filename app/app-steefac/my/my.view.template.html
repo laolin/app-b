@@ -91,23 +91,14 @@
 <div class='weui-article'>
 
   <div
-  ng-if='$ctrl.userData.wxinfo && $ctrl.isWeixinBrowser'>
-    <a ng-if='$ctrl.isGz'> 感谢您关注请高手，关注时间：<span am-time-ago='1000*$ctrl.gzTime'></span>。</a>
-    <a ng-if='!$ctrl.isGz'>您尚未关注“请高手”，欢迎您请识别二维码关注“请高手”以便我们更好地为您服务。如果您已关注，可以<span class="weui-btn weui-btn_mini weui-btn_primary" ng-click='$ctrl.swipeRight()'>重登录</span>试试，谢谢。
+  ng-if='1'>
+    <a ng-if='$ctrl.userData.wxinfo.subscribe'> 感谢您关注请高手，关注时间：<span am-time-ago='1000*$ctrl.userData.wxinfo.subscribe_time'></span>。</a>
+    <a ng-if='!$ctrl.userData.wxinfo.subscribe'>请扫描识别二维码关注“请高手”公众号，以便我们更好地为您服务，谢谢。
     <br/>
     <img ng-src='{{$ctrl.assetsRoot}}/img/img-steefac/stee-qgs-qrcode.png'/>
     </a>
   </div>
   
-  <div 
-  ng-if='$ctrl.userData.wxinfo && !$ctrl.isWeixinBrowser'>
-    <div>当前不是使用微信打开，可用手机扫描二维码关注“请高手”后用微信打开，以便我们更好地为您服务。
-    </div>
-    <div>
-    <img class='' 
-    ng-src='{{$ctrl.assetsRoot}}/img/img-steefac/stee-qgs-qrcode.png'/>
-    </div>
-  </div>
   
 </div>
 

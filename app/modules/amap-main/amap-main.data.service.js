@@ -209,7 +209,7 @@ function ($log,$timeout,$http,$q,AppbData){
       mapData.map.addControl(svc.geolocation);
       AMap.event.addListener(svc.geolocation, 'complete', _onLocateComplete);//返回定位信息
       AMap.event.addListener(svc.geolocation, 'error', _onLocateError);  
-      getCurrentPosition();//自动定位到当前位置
+      //getCurrentPosition();//自动定位到当前位置
       mapData.plugins.geolocation=svc.geolocation;
     });
     mapData.map.plugin('AMap.Geocoder', function () {

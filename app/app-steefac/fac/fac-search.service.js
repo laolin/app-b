@@ -118,12 +118,12 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
       }
       
     }
-    $log.log('serchPara ', serchPara);
-    return _doSearch(serchPara,type);
-  }
-  function _doSearch(serchPara,type){
     serchPara.count=FacSearch.options.countRes;
     if(FacUser.isSysAdmin())serchPara.count=SEARCH_SIZE_SYSADMIN;
+    $log.log('serchPara ', serchPara);
+    return FacSearch.doSearch(serchPara,type);
+  }
+  FacSearch.doSearch=function(serchPara,type){
     FacSearch.searching=true;
     //FacSearch.searchResultSelected=-1;
     
