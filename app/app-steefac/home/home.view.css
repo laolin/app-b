@@ -7,14 +7,16 @@
 }
 .main-swiper .box{
   width: 100%;
-  height: 40vw;
+  height: 36vw;
+  max-height: 200px;
   padding:0;
 }
 /*横屏*/
 @media only screen and (orientation:landscape) {
   .main-swiper .box{
     width: 100%;
-    height: 40vh;
+    height: 36vw;
+    max-height: 200px;
     padding:0;
   }
 }
