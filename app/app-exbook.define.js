@@ -1,7 +1,6 @@
 'use strict';
 (function(){
   
-window.__assetsPath='../assets';
 //加个全局变量 appbCfg
 var cfg=window.appbCfg={
   appName:"错题整理高手",
@@ -15,7 +14,7 @@ var cfg=window.appbCfg={
   apiWxAuth: 'https://qinggaoshou.com/api-1.0', //WX 授权 callback 域名限制的URI
 
   //assetsRoot 的取值（__assetsPath）由 gulp 构建时自动替换
-  assetsRoot: window.__assetsPath,//可在本地部署静态文件 或 跨域部署静态文件
+  assetsRoot: window.__assetsPath||'../assets',//可在本地部署静态文件 或 跨域部署静态文件
 
   version: 'exbook.78.101.101.a'
 };
