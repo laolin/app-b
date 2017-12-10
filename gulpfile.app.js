@@ -19,8 +19,9 @@ module.exports = function(app_name) { return {
     
     // assets_dep_at 是运行时的路径（相对于index.html的路径）
     // 注assets可部署在本地，也可跨域部署在独立的机器上(需要配置字体跨域支持)
-    "assets_dep_at":"../assets" //部署在本地
-    //"assets_dep_at":"https://app.linjp.cn/static/assets-b" //部署在独立的机器上
+    //"assets_dep_at":"../assets" //部署在本地
+    "assets_dep_at":'https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets'
+    //部署在独立的机器上
   },
   
   //【template 模板 处理】 ---------------------------- 

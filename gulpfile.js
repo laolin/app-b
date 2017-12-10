@@ -99,28 +99,22 @@ var gulp = require('gulp'),
 
 
 /*
-1. dist/APP_NAME 目录下放的文件有5个
-  1, index0.html
-  2, index.html
-  3, loader.js
-  4, css.json
-  5, js.json
+1. dist/APP_NAME 目录下放的文件有:
+  (1), index0.html (运行时没有用)
+  (2), index.html
+  (3), css.json (运行时没有用)
+  (4), js.json (运行时没有用)
+  (5), loader.js
   
-  正常只要有index0.html一个文件就够了
-  但是由于 微信会缓存文件，所以把变化的内容都移出来留下的内容放在2,3文件中
-  4和5的内容是变化的（css,js文件名列表）
-  loader.js负责动态加载，避免微信缓存
+  正常只要有(1)index0.html一个文件就够了
+  但是由于 微信会缓存文件，
+    所以把变化的文件名都移出来，
+    放在(3),(4)文件中，
+    留下不变的内容为文件(2)index.html
+  然后通过 gulp 构建时
+    通过读3,4文件把文件名写入(5)loader.js
   
-  
-2. 各APP的 ASSETS 目录名是固定的 (dist/assest) (这样多APP可共用assest)
-   ASSETS 目录放 js 文件
-   ASSETS/css 目录放 css 文件
-   ASSETS/fonts 目录放字体文件
-   ASSETS/img 目录放图片
-   
-   为方便开发，APP中约定上述4个子目录固定，不能变化。
-   
-   保持 css 和 fonts 相对路径不变。
+  详见 loader.js 中的注解。
 
 */
 
@@ -152,9 +146,11 @@ gulp.task('templatecache', function () {
   //登记到 configObj.injects 中，后面可自动注入
   configObj.injects.push([configObj.path.tmp+'/'+configObj.tplJsName]);
   
+  
   //console.log('tplModule=',configObj.tplModule);
   //把模板文件打包成JS文件，放在TMP目录下
   return gulp.src(configObj.tplHtml)
+    //.pipe(order(['app/**.html'])) //无法排序，不修改每次重建结果也都不一样 :(
     .pipe(htmlmin({collapseWhitespace: true,removeComments: true}))
     //指定templatecache生成的目录、文件名，以便合并到 useref 指定的js文件中
     .pipe(templateCache(configObj.tplJsName,{module: configObj.tplModule}))
@@ -210,26 +206,30 @@ gulp.task('html-useref',['wiredep'], function(){
         .pipe(gulpif('*.html', htmlmin({collapseWhitespace: true,removeComments: true})))
 
 
-        .pipe(gulpif('*.js', replace("window.__assetsPath='../assets'",
-          "window.__assetsPath='"+configObj.path.assets_dep_at+"'")))
         .pipe(gulpif('*.js',  uglify({compress: { drop_console: true }})))
         .pipe(rev()) 
         .pipe(revReplace()) 
         .pipe(gulpif('*.html', rename(configObj.dist_html)))
+        .pipe(debug({title:'userefFiles : '})) 
         .pipe(gulp.dest(configObj.path.dist_app)) 
       
-        .pipe(debug({title:'a1 -'})) 
+        //.pipe(debug({title:'a1 -'})) 
         .pipe(flatten())
         
         .pipe(jsFilter) 
+        //.pipe(debug({title:'BBB1 -'})) 
         .pipe(filelist('js.json',{ relative: true }))
         .pipe(jsFilter.restore) 
+        //.pipe(debug({title:'bbbbbbb1 @@'})) 
         
         
         .pipe(cssFilter) 
+        //.pipe(debug({title:'BBBBBBBBB2 -'})) 
         .pipe(filelist('css.json',{ relative: true }))
         .pipe(cssFilter.restore)
+        //.pipe(debug({title:'bbbbbbbbbbbbbbbbbb2 @@'})) 
         
+        //.pipe(debug({title:'a2 -'})) 
         .pipe(gulp.dest(configObj.path.dist_app)) 
       
       
@@ -238,30 +238,66 @@ gulp.task('html-useref',['wiredep'], function(){
 
 /**
  *  s5: build-loader
- *  app-b.html 中仅注入 loader.js 的 index.html 版本
- *  其他css,js 都通过 loader.js 动态加载
+ *  app-b.html 中仅注入 loader()函数 生成 index.html
+ *  其他css,js 都是通过 loader.js 来动态加载
  */
-gulp.task('build-loader', function () {
+gulp.task('build-loader', ['html-useref'], function () {
   var src=configObj.path.app + '/'+configObj.html_src;
-  
   var loaderJs=configObj.path.app + '/'+'loader.js';
   
-  //1, 把loader.js里的路径替换掉，然后写入dist目录
+  //------------------------------------------------
+  //1, 把loader.js里的css,js文件列表替换掉，然后写入dist目录
+  var alljs =require ( './'+configObj.path.dist_app+'/js.json');
+  var allcss =require ( './'+configObj.path.dist_app+'/css.json');
+  
+  //获取真实的js,css文件名
+  //确保加载顺序，库的文件名是1-xxx.js，项目的文件名是2-xxx.js
+  alljs.sort();
+  allcss.sort();
+  alljs=JSON.stringify(alljs);
+  allcss=JSON.stringify(allcss);
+
   gulp.src(loaderJs)
-    .pipe(replace("window.__assetsPath='../assets'",
-        "window.__assetsPath='"+configObj.path.assets_dep_at+"'"))
+    //替换 真实的js,css文件名
+    .pipe(replace("[];/*!!__ALLJS__!!*/",alljs))
+    .pipe(replace("[];/*!!__ALLCSS__!!*/",allcss))
     .pipe(uglify({compress: { drop_console: true }}))
     .pipe(gulp.dest(configObj.path.dist_app))
   
-  //2, app-b.html 文件只注入loader.js，然后写入dist/imdex.html
-  // (注，app-b.html注入全部js,css文件后，并用usref合并压缩的，
+  
+  //------------------------------------------------
+  //2, app-b.html 文件只注入loader()函数，
+  //   然后写入dist/imdex.html
+  //
+  // (注，app-b.html注入全部js,css后，
+  //   是app/index.html
+  //   用于调试。
+  // app/index.html用usref合并压缩后，
   //   是写入dist/imdex0.html，属于备用文件)
+  var depAss=configObj.path.assets_dep_at;
+  
+  var loader=function(){
+    return function(ass,app){
+      window.__assetsPath=ass;
+      var el=document.createElement("script")
+      el.setAttribute("type","text/javascript")
+      el.setAttribute("src", ass+'/../'+app+'/loader.js?_'+(+new Date))
+      document.getElementsByTagName("head")[0].appendChild(el)
+    }
+  }();
+  
+  var jsDep="<script>("+
+    loader.toString()+
+  ")('"+depAss+"','"+app_name+"')</script>";
   return gulp.src( src )
-    .pipe(inject(gulp.src(loaderJs, {read: false}), {relative: true}))
+    .pipe(replace("</body>",
+        jsDep+"</body>"))//在 index.html 最后添加<srcipt>
+        
+    .pipe(htmlmin({collapseWhitespace: true,removeComments: true,minifyJS:true}))
     .pipe(rename(configObj.dist_loader))
-    .pipe(htmlmin({collapseWhitespace: true,removeComments: true}))
     .pipe(gulp.dest(configObj.path.dist_app))
 });
+
 
 
 
@@ -293,6 +329,6 @@ gulp.task('build', ['build-loader','html-useref','copy'], function(){
 
 gulp.task('bu',['build']);
 gulp.task('default',['dev']);
-gulp.task('dev',['build-loader','wiredep'], function(){
+gulp.task('dev',['wiredep'], function(){
   fs.writeFile(configObj.path.tmp+'/'+configObj.tplJsName,'//clear after build');
 });
