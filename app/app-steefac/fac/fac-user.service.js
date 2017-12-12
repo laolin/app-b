@@ -13,6 +13,8 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser) {
   var appData=AppbData.getAppData();
   var dialogData=appData.dialogData;
   
+  appData.headerData.hide=true;//说不要页面顶部的标题栏了
+  
   appData.requireLogin();
 
   appData.FacUser=FacUser;
