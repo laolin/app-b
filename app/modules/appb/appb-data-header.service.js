@@ -68,9 +68,11 @@ function($route, $rootScope,$location,$log,AppbConfig) {
   
   
   function setPageTitle(title) {
-    headerData.title=title || defTitle;
-    //headerData.bTitle= title +'-'+ defBTitle;
-    headerData.bTitle= defBTitle;
+    headerData.title=title || defTitle; //页面内上方的标题
+    if(headerData.hide)
+      headerData.bTitle= title +'-'+ defBTitle; //更改浏览器的标题
+    else 
+      headerData.bTitle= defBTitle;// 固定浏览器的标题
     $rootScope.pageTitle=headerData.bTitle;
     initWxShareData();
   }
