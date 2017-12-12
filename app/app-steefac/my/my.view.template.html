@@ -53,6 +53,15 @@
   >
   </appb-weui-cells>
 </div>
+<div class='weui-cells'>
+  <div class="weui-cell weui-cell_switch">
+    <div class="weui-cell__bd">隐藏页面标题栏</div>
+    <div class="weui-cell__ft">
+      <input class="weui-switch" type="checkbox"
+      ng-model="$ctrl.appData.headerData.hide"/>
+    </div>
+  </div>
+</div>
 
 <div class='weui-article'
   ng-if='$ctrl.isLoading<=0'>
