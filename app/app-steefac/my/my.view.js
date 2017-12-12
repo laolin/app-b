@@ -5,8 +5,8 @@ angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/my', {
     templateUrl: 'app-steefac/my/my.view.template.html',
-    controller: ['$scope','$timeout','$log','AppbFeedService','AppbData','AppbUiService','AmapMainData','FacUser',
-      function ($scope,$timeout,$log,AppbFeedService,AppbData,AppbUiService,AmapMainData,FacUser) {
+    controller: ['$scope','$timeout','$log','AppbFeedService','AppbData','AppbUiService','AmapMainData','FacUser','FacSearch',
+      function ($scope,$timeout,$log,AppbFeedService,AppbData,AppbUiService,AmapMainData,FacUser,FacSearch) {
 
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
@@ -23,6 +23,20 @@ angular.module('steefac')
         //var ctrl=this;
         
         ctrl.FacUser=FacUser;
+        ctrl.isLoading=1;
+        ctrl.objTypes=FacSearch.objTypes;
+        ctrl.objNames=FacSearch.objNames;
+        ctrl.facIds={};
+        ctrl.noIds=true;
+       
+        FacUser.getMyData().then(function (me) {
+          for(var i=ctrl.objTypes.length;i--; ) {
+            ctrl.facIds[ctrl.objTypes[i]]=me.objCanAdmin[ctrl.objTypes[i]].join(',');
+            if(ctrl.facIds[ctrl.objTypes[i]].length)ctrl.noIds=false;
+          }
+          $log.log('me.objCanAdmin',ctrl.facIds);
+          ctrl.isLoading=0;
+        });
         
         $scope.$on('$viewContentLoaded', function () {
         });
@@ -49,7 +63,7 @@ angular.module('steefac')
         }
         
         ctrl.swipeLeft=function() {
-          appData.toastMsg('左滑',2);
+          //appData.toastMsg('左滑',2);
         }
         ctrl.swipeRight=function() {
           appData.toastMsg('重登录',2);
