@@ -336,26 +336,29 @@ gulp.task('html-useref',['wiredep'], function(){
  *  app-b.html 中仅注入 loader()函数 生成 index.html
  *  其他css,js 都是通过 loader.js 来动态加载
  */
-gulp.task('build-loader', ['html-useref'], function () {
+gulp.task('build-loader_safe', ['html-useref'],build_loader);
+gulp.task('build-loader', build_loader);
+function build_loader() {
   var src=configObj.path.app + '/'+configObj.html_src;
   var loaderJs=configObj.path.app + '/'+'loader.js';
   
   //------------------------------------------------
   //1, 把loader.js里的css,js文件列表替换掉，然后写入dist目录
-  var alljs =require ( './'+configObj.path.dist_app+'/js.json');
-  var allcss =require ( './'+configObj.path.dist_app+'/css.json');
+  var allJs =require ( './'+configObj.path.dist_app+'/js.json');
+  var allCss =require ( './'+configObj.path.dist_app+'/css.json');
   
   //获取真实的js,css文件名
   //确保加载顺序，库的文件名是1-xxx.js，项目的文件名是2-xxx.js
-  alljs.sort();
-  allcss.sort();
-  alljs=JSON.stringify(alljs);
-  allcss=JSON.stringify(allcss);
+  allJs.sort();
+  allCss.sort();
+  allJs=JSON.stringify(allJs);
+  allCss=JSON.stringify(allCss);
 
   gulp.src(loaderJs)
     //替换 真实的js,css文件名
-    .pipe(replace("[];/*!!__ALLJS__!!*/",alljs))
-    .pipe(replace("[];/*!!__ALLCSS__!!*/",allcss))
+    .pipe(replace(
+      "(document,__allJs__,__allCss__,__buildTime__)",
+      "(document,"+allJs+","+allCss+",'"+(new Date).toLocaleString()+"')"))
     .pipe(uglify({compress: { drop_console: true }}))
     .pipe(gulp.dest(configObj.path.dist_app))
   
@@ -391,8 +394,7 @@ gulp.task('build-loader', ['html-useref'], function () {
     .pipe(htmlmin({collapseWhitespace: true,removeComments: true,minifyJS:true}))
     .pipe(rename(configObj.dist_loader))
     .pipe(gulp.dest(configObj.path.dist_app))
-});
-
+}
 
 
 
@@ -418,7 +420,7 @@ gulp.task('copy', ['copyFonts1','copyImg'], function(){
 });;
 
 
-gulp.task('build', ['build-loader','html-useref','copy'], function(){
+gulp.task('build', ['build-loader_safe','html-useref','copy'], function(){
   fs.writeFile(configObj.path.tmp+'/'+configObj.tplJsName,'//clear after build');
 });
 

@@ -1,16 +1,12 @@
 /*
 说明见 gulp.js 
 */
-(function (document){
+(function (document,allJs,allCss,buildTime){
 
 
   //window.__assetsPath 在 index.html 中定义
   var __assetsPath=window.__assetsPath||'../assets'; 
-  // gulp构建时会根据构建结果文件名修改下2行真正的值
-  var allJs=[];/*!!__ALLJS__!!*/
-  var allCss=[];/*!!__ALLCSS__!!*/
-  //上面这一行在gulp构建APP时会被自动替换掉。
-  //不能随便加空格，否则可能替换失败。
+  window.__buildTime=buildTime; 
   
   //allCss.sort();
   loadAllCss(allCss);
@@ -59,4 +55,6 @@
     }
   }
   
-})(document);
+})(document,__allJs__,__allCss__,__buildTime__);
+  // gulp构建时会根据构建结果文件名修改上行真正的值
+  // 故上面括号里的任何字符不可以修改，否则会替换失效。
