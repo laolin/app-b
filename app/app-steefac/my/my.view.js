@@ -61,9 +61,10 @@ angular.module('steefac')
             me.wxinfo.headimgurl='https://api.qinggaoshou.com/api-eb/uploads/wx_ee6518de6283518eac17ba8d10eb5da41947f3a2.jpg';
           }
         }
-        
+        ctrl.swipeCount=0;
         ctrl.swipeLeft=function() {
-          //appData.toastMsg('左滑',2);
+          if( ctrl.swipeCount++ < 8 )return;
+          appData.toastMsg(window.__buildTime,2);
         }
         ctrl.swipeRight=function() {
           appData.toastMsg('重登录',2);
