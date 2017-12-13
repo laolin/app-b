@@ -19,14 +19,9 @@
     </div>
   </div>
   
-  <div class="weui-panel__ft" ng-if='!$ctrl.uids.length'>
-    <a href="" class="weui-cell weui-cell_access weui-cell_link"
-      ng-click='$ctrl.FacUser.applyAdmin("steefac",$ctrl.fac)'
-    >
-      <div class="weui-cell__bd">我要成为这个钢构厂的管理员</div>
-      <span class="weui-cell__ft"></span>
-    </a>    
-  </div>
+</div>
+<div class="weui-btn-area" ng-if='!$ctrl.uids.length'>
+  <a class="weui-btn weui-btn_primary" href="" ng-click='$ctrl.FacUser.applyAdmin("steefac",$ctrl.fac)'>我要成为这个钢构厂的管理员</a>
 </div>
 
 <div class="weui-panel weui-panel_access"
