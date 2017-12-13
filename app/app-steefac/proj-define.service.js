@@ -21,23 +21,6 @@ function ($log){
       maxlength: 16
     },*/
     {
-      name: 'size',
-      desc: '项目规模(㎡)',
-      placeholder:'100-999999',
-      type: 'number',
-      required: 1,
-      min: 100,
-      max: 999999
-    },
-    { 
-      name: 'type',
-      desc: '项目类型',
-      type: 'radio',
-      required: 1,
-      keys: ['商业','办公','住宅','酒店','剧院','体育建筑','医疗建筑','厂房','其他'],
-      values: ['商业','办公','住宅','酒店','剧院','体育建筑','医疗建筑','厂房','其他']
-    },
-    {
       name: 'need_steel',
       desc: '采购量(t)',
       placeholder:'1-999999(t)',
@@ -45,22 +28,6 @@ function ($log){
       required: 1,
       min: 1,
       max: 999999
-    },
-    {//----------------------------
-      name: 'steel_shape',
-      desc: '主要构件形式',
-      type: 'radio',
-      required: 1,
-      keys: goodatOptions,
-      values: goodatOptions
-    },
-    {//----------------------------
-      name: 'steel_Qxxx',
-      desc: '主材牌号',
-      type: 'radio',
-      required: 1,
-      keys: steelTypes,
-      values: steelTypes
     },
     {
       name: 'in_month',
@@ -71,27 +38,60 @@ function ($log){
       values: ['两周内','一个月内','两个月内','三个月内','半年内','一年内','两年内','五年内']
     },
     {
+      name: 'size',
+      desc: '项目规模(㎡)',
+      placeholder:'0-999999',
+      type: 'number',
+      required: 0,
+      min: 0,
+      max: 999999
+    },
+    { 
+      name: 'type',
+      desc: '项目类型',
+      type: 'radio',
+      required: 0,
+      keys: ['商业','办公','住宅','酒店','剧院','体育建筑','医疗建筑','厂房','其他'],
+      values: ['商业','办公','住宅','酒店','剧院','体育建筑','医疗建筑','厂房','其他']
+    },
+    {//----------------------------
+      name: 'steel_shape',
+      desc: '主要构件形式',
+      type: 'radio',
+      required: 0,
+      keys: goodatOptions,
+      values: goodatOptions
+    },
+    {//----------------------------
+      name: 'steel_Qxxx',
+      desc: '主材牌号',
+      type: 'radio',
+      required: 0,
+      keys: steelTypes,
+      values: steelTypes
+    },
+    {
       name: 'provide_raw',
       desc: '供主材',
       type: 'radio',
-      required: 1,
+      required: 0,
       keys: ['1','0'],
       values: ['是','否']
     },
     {
       name: 'stee_price',
       desc: '基准单吨价',
-      placeholder:'供主材时为加工费(99-90000)',
+      placeholder:'供主材时为加工费(0-90000)',
       type: 'number',
-      required: 1,
-      min: 99,
+      required: 0,
+      min: 0,
       max: 90000
     },
     {
       name: 'advance_pay',
       desc: '预付款比例',
       type: 'radio',
-      required: 1,
+      required: 0,
       keys: ['0','0.05','0.1','0.15','0.2','0.3','0.4','0.5'],
       values: ['0%','5%','10%','15%','20%','30%','40%','50%']
     },
@@ -100,7 +100,7 @@ function ($log){
       name: 'require_check',
       desc: '合格供应商',
       type: 'radio',
-      required: 1,
+      required: 0,
       keys: ['需要','补办','不需要'],
       values: ['需要','补办','不需要']
     },
@@ -111,7 +111,7 @@ function ($log){
       desc: '联系人',
       type: 'text',
       placeholder:'请输入联系人',
-      required: 1,
+      required: 0,
       minlength: 2,
       maxlength: 16
     },
@@ -120,14 +120,14 @@ function ($log){
       desc: '联系电话',
       type: 'tel',
       placeholder:'建议输入手机号',
-      required: 1
+      required: 0
     },
     {
       name: 'contact_email',
       desc: '联系邮箱',
       type: 'email',
       placeholder:'请输入邮箱地址',
-      required: 1
+      required: 0
     },
     {//----------------------------
       name: 'notes',
