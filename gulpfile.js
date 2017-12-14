@@ -499,11 +499,12 @@ gulp.task('dep_test', function () {
   })
 })
 
+function clearTplFile(){
+  fs.writeFile(configObj.path.tmp+'/'+configObj.tplJsName,'//clear after build');
+};
 
 gulp.task('build', ['bu','copy']);
-gulp.task('bu',['dev','build-loader_safe']);
-gulp.task('dev',['wiredep'], function(){
-  fs.writeFile(configObj.path.tmp+'/'+configObj.tplJsName,'//clear after build');
-});
+gulp.task('bu',['build-loader_safe'],clearTplFile);
+gulp.task('dev',['wiredep'], clearTplFile);
 
 gulp.task('default',['dev']);
