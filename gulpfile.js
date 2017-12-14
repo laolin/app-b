@@ -420,9 +420,6 @@ gulp.task('copy', ['copyFonts1','copyImg'], function(){
 });;
 
 
-gulp.task('build', ['build-loader_safe','html-useref','copy'], function(){
-  fs.writeFile(configObj.path.tmp+'/'+configObj.tplJsName,'//clear after build');
-});
 
 
 //自动发布代码
@@ -503,8 +500,10 @@ gulp.task('dep_test', function () {
 })
 
 
-gulp.task('bu',['build']);
-gulp.task('default',['dev']);
+gulp.task('build', ['bu','copy']);
+gulp.task('bu',['dev','build-loader_safe']);
 gulp.task('dev',['wiredep'], function(){
   fs.writeFile(configObj.path.tmp+'/'+configObj.tplJsName,'//clear after build');
 });
+
+gulp.task('default',['dev']);
