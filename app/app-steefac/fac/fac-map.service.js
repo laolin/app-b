@@ -38,7 +38,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
           fontSize: cssSize //设置字号
         }
       },
-      iconStyle: 'blue', //设置图标样式
+      iconStyle: 'black',//'darkblue', //设置图标样式
       animation: "AMAP_ANIMATION_DROP",
       //title:'adfasfdafdsasdf',
       label:{content:text,offset:new AMap.Pixel(-12,-19)},
