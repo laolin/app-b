@@ -50,6 +50,7 @@
   flex-grow: 1;
 }
 .main-modules .module>*{
+  cursor: pointer; 
   align-self: center;
 }
 .main-modules .module>img{
@@ -70,6 +71,7 @@
   font-size: 0.9rem;
 }
 .main-datainfo >*{
+  cursor: pointer; 
   width: calc(33.3333% - 5px);
   display: flex;
   justify-content: center;

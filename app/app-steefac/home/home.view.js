@@ -64,6 +64,8 @@ function ($scope,$log,$location,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
 
   
   $scope.goSearch=function(type) {
+    
+    /*
     if(!type)return;
     var serchPara={
       type:type,
@@ -73,6 +75,8 @@ function ($scope,$log,$location,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
     $log.log('ggggggggg-serchPara',serchPara);
     FacSearch.doSearch(serchPara,type);
     $location.path('/search');
+    */
+    if(type)$location.path('/stat').search({type:type});
   }
 
   //使用ctrl, 后面方便切换为 component
