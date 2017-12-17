@@ -137,7 +137,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
         FacSearch.searchResult[type]=s;
         FacSearch.searchType=type;
         FacSearch.showSearchRes(type,FacSearch.showPageNumber[type]=0);
-        //$location.url('/search-'+type);  
+        $location.path('/search');  
       }
     );
 
