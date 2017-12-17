@@ -13,7 +13,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     mapData:mapData,
     myPosition:{},
     addrInput:{},
-    
+    canClick:false,
     selectedPosition:{},//LngLat对象
     selectedLocation:{},//解析后的地址信息对象
     selName:'',
