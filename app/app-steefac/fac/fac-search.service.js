@@ -11,8 +11,8 @@ var SEARCH_SIZE_SYSADMIN = 5000;
 
 angular.module('steefac')
 .factory('FacSearch',
-['$log','$timeout','$q','AppbData','AmapMainData','AppbAPI','FacMap','FacUser','FacDefine','ProjDefine',
-function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine,ProjDefine) {
+['$log','$timeout','$q','$location','AppbData','AmapMainData','AppbAPI','FacMap','FacUser','FacDefine','ProjDefine',
+function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine,ProjDefine) {
   
   var FacSearch={};
   var appData=AppbData.getAppData();
@@ -279,16 +279,20 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
     });
   }
   FacSearch.showInfoWindow=function(i,type) {
+    var o=FacSearch.searchResult[type][i];
+    FacSearch.showObjInfoWindow(o,type,-32);
+  }  
+  FacSearch.showObjInfoWindow=function(obj,type,offsetY) {
+    var da=FacSearch.infoOfObj(obj,type);
+    
     FacMap.getInfoWindow().then(function(iw){
-      var o=FacSearch.searchResult[type][i];
-      var da=FacSearch.infoOfObj(o,type);
 
       AMapUI.loadUI(['overlay/SimpleInfoWindow'], function(SimpleInfoWindow)
       {
 
         FacMap.infoWindow.close();
         FacMap.infoWindow = new SimpleInfoWindow({
-          offset: new AMap.Pixel(0, -32)
+          offset: new AMap.Pixel(0, offsetY)
         });
 
         FacMap.infoWindow.setInfoTitle(da.infoTitle);
@@ -298,12 +302,11 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
 
         //设置主体内容
         FacMap.infoWindow.setInfoTplData(da.infoTplData);
-        FacMap.infoWindow.open(mapData.map, [o.lngE7/1e7,o.latE7/1e7]);
+        FacMap.infoWindow.open(mapData.map, [obj.lngE7/1e7,obj.latE7/1e7]);
       
         FacMap.infoWindow.on('close', function(e){
           FacSearch.unselectOne();
         })
-      
         
       })
     });
