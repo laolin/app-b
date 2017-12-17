@@ -10,8 +10,14 @@ my-app > .main-container{
   flex-grow: 1;
   overflow: auto;
   -webkit-overflow-scrolling : touch;
+  display: flex;
+  flex-direction: column;
 }
-
+[ng-view],
+ng-view { 
+  flex-grow: 1; 
+  height: 100%;
+}
 my-app appb-ui-footer{
   border-top: solid 1px #ccc;
 }
