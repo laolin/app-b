@@ -95,8 +95,6 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
             (mapData.northeast.lng- mapData.southwest.lng)
           )/2
         );
-        
-        $log.log('ZZZZZZZZZZ serchPara',1)
       } else {
         if(FacSearch.searchResultSelected>=0) {
           //从选中的搜索结果的周边搜索
@@ -105,13 +103,11 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
           serchPara.lng=sel.lngE7;
           FacMap.selectedPosition=new AMap.LngLat(sel.lngE7/1e7,sel.latE7/1e7);
           FacMap.selMarker.setPosition(FacMap.selectedPosition);
-        $log.log('ZZZZZZZZZZ serchPara sel',2,FacMap.selectedPosition)    
         } else {
           //从地图选点的周边搜索
           var pos =FacMap.selectedPosition;          
           serchPara.lat=Math.floor(1e7*pos.lat);
           serchPara.lng=Math.floor(1e7*pos.lng); 
-        $log.log('ZZZZZZZZZZ serchPara pos',3,pos) 
         }
         
         
@@ -122,7 +118,6 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
     }
     serchPara.count=FacSearch.options.countRes;
     if(FacUser.isSysAdmin())serchPara.count=SEARCH_SIZE_SYSADMIN;
-    $log.log('serchPara ', serchPara);
     return FacSearch.doSearch(serchPara,type);
   }
   FacSearch.doSearch=function(serchPara,type){
@@ -140,6 +135,7 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
         FacSearch.searchType=type;
         FacSearch.showSearchRes(type,FacSearch.showPageNumber[type]=0);
         $location.path('/search');  
+        return $q.resolve(s);
       }
     );
 
@@ -148,7 +144,6 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
 
   FacSearch.showSearchRes=function (type,pn){
     FacSearch.hideInfoWindow();
-    $log.log('selPositionEnd',1);
     FacMap.selPositionEnd();
     
     FacSearch.searchType=type;
@@ -229,7 +224,7 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
       //mapData.map.panBy(0,12);
       //由于存在坐标是0的，所以用fit会显示非洲，不好
       mapData.map.setFitView(FacMap.searchMarkers);
-      $log.log('FacMap.selectedPosition######2#',type,[minlng,minlat],[maxlng,maxlat]);
+      //$log.log('FacMap.selectedPosition######2#',type,[minlng,minlat],[maxlng,maxlat]);
       
     })
   }
@@ -240,7 +235,6 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
   FacSearch.showSearchMarkers=function(s,type) {
     
     if(s&&FacMap.searchMarkers.length) {
-      $log.log('selPositionEnd',2);
       FacMap.selPositionEnd();
     }
     FacSearch.searchType=type;

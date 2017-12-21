@@ -170,7 +170,6 @@ function ($log,$timeout,$http,$q,AppbData){
     $timeout(callback,1);
   }
   function _onMove(msg) {
-    $log.log('onMove',msg);
     var bd=mapData.map.getBounds( );
     mapData.northeast=bd.northeast;
     mapData.southwest=bd.southwest;
