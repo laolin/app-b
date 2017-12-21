@@ -61,6 +61,8 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
   //在中国所处的纬度水平，经、纬1度均近似100公里，以下均按此假定判断距离。
   //^^这里：由于搜索结果是按正方形搜索，不是圆形，故把正方形稍缩小
 
+  FacSearch.levelDick = ['特级','一级','二级','三级'];
+
   FacSearch.clearSearchWord=function(){
     FacSearch.searchWord='';
   }
@@ -68,7 +70,7 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
   FacSearch.startSearch=function(type){
     if(!FacSearch.isTypeValid(type)){
       $log.log('**err search type:',type);
-      return;
+      return $q.reject('**err search type:' + type);
     }
     
   
