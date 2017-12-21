@@ -1,0 +1,67 @@
+/* 搜索组件 */
+
+search-form > .form{
+  font-size: 1.1rem;
+  padding: 1em;
+}
+
+search-form .gray{
+  color: #888;
+}
+
+search-form > .form > *{
+  height: 3.0em;
+}
+
+search-form input{
+  border: 0px;
+  background: rgba(0,0,0,0);
+}
+search-form input.w5em{
+  width: 5em;
+}
+
+/* 搜索结果列表 */
+.result-items{ padding: 0 2em; background: #ccc; }
+.result-items>*{
+  border-bottom: solid 1px #888;
+}
+.result-items>*:last-child{
+  border-bottom: solid 0px;
+}
+.result-items .next.fa{
+  font-size: 2em;
+  color: #888;
+  padding: 0 0 0 0.5em;
+}
+.result-items .result-item{
+  font-size: 0.8em;
+  padding: 0.8em 0;
+}
+.result-items .result-item .name{
+  font-size: 1.5em;
+  font-weight: 900;
+  height: 1.5em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  line-height: 1.5;
+  overflow: hidden;
+}
+.result-items .result-item .level{
+  border: solid 1px #888;
+  color: #888;
+  margin-left: 0.3em;
+  padding: 0 0.2em;
+}
+.result-items .result-item .update{
+  padding: 0 0 0 0.5em;
+}
+.result-items .result-item .row-2{
+  color: #555;
+}
+.result-items .result-item .row-3{
+  color: #888;
+}
+
+

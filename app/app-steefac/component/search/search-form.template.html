@@ -1,0 +1,52 @@
+﻿<!-- 搜索表单组件 -->
+<div id="loadinnngToast" ng-if='$ctrl.searchData.searching'>
+  <div class="weui-mask_transparent"></div>
+  <div class="weui-toast">
+      <i class="weui-loading weui-icon_toast"></i>
+      <p class="weui-toast__content">数据加载中</p>
+  </div>
+</div>
+
+
+<div class="form">
+  <div class="flex flex-v-center bb-888">
+    <div class="em-12 b-900">{{$ctrl.searchData.options.currentCity||'尚未定位'}}</div>
+    <div class="flex gray">
+      <i class="fa fa-sun-o"> 我的位置</i>
+      <div class=""> </div>
+    </div>
+  </div>
+  <div class="flex flex-v-center bb-888 ">
+    <div class="gray">搜索半径</div>
+    <div class="em-12 weui-cell weui-cell_select weui-cell_select-after">
+      <div class="weui-cell__bd">
+        <select class="weui-select b-900 " name="input_dist"
+        ng-model="$ctrl.searchData.options.distSelect" >
+          <option ng-repeat="t in $ctrl.searchData.distText"
+            value="{{$index}}">{{t}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-v-center bb-888 ">
+    <div class="gray">项目周期</div>
+    <div class="em-12 weui-cell weui-cell_select weui-cell_select-after">
+      <month-between class="em-12" ng-model="$ctrl.searchData.options.monthBetween"></month-between>
+    </div>
+  </div>
+  <div class="flex flex-v-center bb-888 ">
+    <div class="gray">产能需求</div>
+    <div class="flex flex-bottom">
+      <input class="em-12 b-900 w5em" ng-model="$ctrl.searchData.options.cnxq" placeholder="所需产能">
+      <div class="em-05 gray">
+        单位：吨
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-v-center bb-888 ">
+    <input class="em-12 b-900" ng-model="$ctrl.searchData.searchWord" placeholder="关键词/名称/地址">
+  </div>
+
+
+
+</div>
