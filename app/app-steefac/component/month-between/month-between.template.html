@@ -1,0 +1,19 @@
+﻿<!-- 月份到月份选择组件 -->
+<div class="element flex" ng-click="pick()">
+  <div class="b">{{b}}</div>
+  <div class="sep"><div>共{{n}}个月</div></div>
+  <div class="e">{{e}}</div>
+</div>
+
+<div class="pick" ng-if="picking">
+  <div class="title">选择周期</div>
+  <div class="years">
+    <div class="year" ng-repeat="year in years">
+      <div class="title">{{year}} 年</div>
+      <div class="months">
+        <div class="month {{cssMonth(year*12+month-1)}}" ng-repeat="month in months" ng-click="clickMonth(year, month)">{{month}}</div>
+      </div>
+    </div>
+  </div>
+
+</div>
