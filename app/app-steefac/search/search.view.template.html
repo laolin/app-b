@@ -1,3 +1,40 @@
-<search-ui search-data="searchData"  search-type='searchData.searchType'
-></search-ui>
+<!-- 搜索页面 -->
+<div class="page-search-view flex-grow" ng-if="!searching">
+  <img ng-src="{{appData.appCfg.assetsRoot + '/img/img-steefac/top-3.jpg'}}">
 
+  <search-form search-data="FacSearch"></search-form>
+
+  <div class="weui-btn-area">
+    <a class="weui-btn weui-btn_primary" href="" ng-click="research('steefac')">搜索钢构产能</a>
+    <a class="weui-btn weui-btn_primary" href="" ng-click="research('steeproj')">搜索项目信息</a>
+  </div>
+</div>
+
+<div class="page-search-view flex-grow" ng-if="searching">
+  <amap-main ng-hide="hideMap"></amap-main>
+
+  <div class="flex result-toolbar">
+    <div class="flex-cc">
+      <select class="weui-select" ng-model="search.distSelect" ng-change="research()">
+        <option ng-repeat="t in FacSearch.distText" value="{{$index}}">{{t}}</option>
+      </select>
+    </div>
+    <div class="flex-cc">
+      <select class="weui-select" ng-model="search.level" ng-change="research()">
+        <option value="all">资质不限</option>
+        <option ng-repeat="t in FacSearch.levelDick" value="{{$index}}">{{t}}资质</option>
+      </select>
+    </div>
+    <div class="flex-cc">
+      <select class="weui-select" ng-model="search.orderBy" ng-change="research()">
+        <option>按距离排序</option>
+        <option>按产能排序</option>
+        <option>按更新排序</option>
+      </select>
+    </div>
+    <div class="flex-cc" ng-click="hideMap=!hideMap">折叠地图</div>
+  </div>
+
+  <search-result result="searchResult"></search-result>
+
+</div>

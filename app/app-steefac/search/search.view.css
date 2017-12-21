@@ -1,0 +1,43 @@
+/* 搜索页面 */
+
+
+.page-search-view{
+  display: flex;
+  flex-direction: column;
+  background:#ddd;
+}
+.page-search-view > img{
+  width: 100%;
+}
+
+.page-search-view > search-form{
+  padding: 1em;
+}
+.page-search-view > .weui-btn-area{
+  padding: 1.5em;
+}
+
+/* 搜索结果 */
+.page-search-view > amap-main{
+  height: 200px;
+}
+.page-search-view > .result-toolbar{
+  background:#f8f8f8;
+  padding: 0.5em 0;
+}
+.page-search-view > .result-toolbar>*{
+  border-left: solid 1px #fff;
+  border-right: solid 1px #888;
+  padding: 0.3em 0;
+  flex:1;
+}
+.page-search-view > .result-toolbar>*:first-child{
+  border-left: solid 0;
+}
+.page-search-view > .result-toolbar>*:last-child{
+  border-right: solid 0;
+}
+.page-search-view > .result-toolbar select.weui-select{
+  height: 1em;
+  line-height: 1;
+}
