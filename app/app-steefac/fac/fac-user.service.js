@@ -93,27 +93,31 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser) {
     );
   }
 
-  
-  var _isRuning_getMyData=false;
+
+  /**
+   * 申请用户数据，返回一个承诺
+   * @param reNew: 是否强制要求更新
+   * 开始申请时, FacUser.getMyData.result 被置为一个承诺，发出请求后，立即返回该承诺
+   *   下次再执行本函数时，若正在请求，将立即返回它
+   * 请求成功后，请求结果保存到 FacUser.getMyData.result，
+   *   下次再执行本函数时，若不是强制要求强制更新，将立即返回它(作为承诺的结果)
+   * 请求失败，则将 FacUser.getMyData.result 置为 false, 下次将再次发起请求
+   * 本函数可以多次调用，不用考虑是否正在请求
+   */
   FacUser.getMyData=function(reNew) {
-    if(_isRuning_getMyData) {
-      return $timeout(function(){
-        return FacUser.getMyData(reNew)
-      },200);
+    if(!reNew && FacUser.getMyData.result){
+      // 不管 FacUser.getMyData.result 现在是承诺或实际数据，作为承诺的数据，返回
+      return $q.when(FacUser.getMyData.result);
     }
     var deferred = $q.defer();
-    if(!reNew && myData.init) {
-      deferred.resolve(myData);
-      return deferred.promise;
-    }
-    _isRuning_getMyData=true;
-    return AppbAPI('steesys','info').then(function(s){
+    AppbAPI('steesys','info').then(function(s){
       myData.init=1;
-      _isRuning_getMyData=false;
       if(!s) { // 客户端的登录信息有误，要求重新登录。
         AppbDataUser.setUserData({});
         $location.path( "/wx-login" ).search({pageTo: '/'});
-        return;
+        // 错误了，就要重置一下，并告诉承诺不能兑现的原因
+        FacUser.getMyData.result = false;
+        return $q.reject("客户端的登录信息有误，要求重新登录。");
       }
       myData.counter={};
       myData.counter.nFac=s.nFac;
@@ -133,12 +137,15 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser) {
           myData.objCanAdmin[objTypes[i]]=s.me[objTypes[i]+'_can_admin'].split(',')
         }
       }
-      deferred.resolve(myData);
-      return deferred.promise;
+      // 请求成功，将 FacUser.getMyData.result 原为承诺，改为实际数据，
+      deferred.resolve(FacUser.getMyData.result = myData);
     },function(e){
+      // 请求失败，以后要数据时，将再次调用 AppbAPI
+      FacUser.getMyData.result = false;
       deferred.reject(e);
-      return deferred.promise;
     });
+    // 发出请求后，保存并立即返回该承诺
+    return FacUser.getMyData.result = deferred.promise;
   }
   FacUser.getMyData();
  

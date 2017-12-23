@@ -1,0 +1,24 @@
+﻿<!-- 搜索结果组件 -->
+<div class="weui-cells__title" ng-if="0 && $ctrl.searchData.searchResult[$ctrl.searchType+'.ver']">
+{{$ctrl.cellsTitle}} <a href ng-click='$ctrl.searchData.clearResult($ctrl.searchType)'>重新搜索</a>
+</div>
+
+<div class="result-items">
+  <div class="flex" ng-repeat="item in list track by $index" ng-click="clickItem(item)">
+    <div class="result-item">
+      <div class="flex">
+        <div class="flex">
+          <div class="name">{{item.name}}</div>
+          <div class="level shrink0">{{FacSearch.levelDick[item.level]}}资质</div>
+        </div>
+        <div class="update shrink0">{{item.update_at|timespan:'MM月d日更新'}}</div>
+      </div>
+      <div class="row-2">剩余产能：<span>{{item.area_factory}}吨</span></div>
+      <div class="flex row-3">
+        <div class="">擅长：<span>{{item.goodat}}</span></div>
+        <div class="">1.2KM</div>
+      </div>
+    </div>
+    <i class="next fa fa-angle-right"></i>
+  </div>
+</div>

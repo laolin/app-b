@@ -215,7 +215,6 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   //可以用来做标记，以安全地创建其他marker
   function getSelMarker() {
     getSelMarker.i++;
-    $log.log('getSelMarker-',getSelMarker.i);
     var deferred = $q.defer();
     if(FacMap.selMarker){
       getSelMarker.i=0;
@@ -228,7 +227,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
 
   function getInfoWindow() {
     getInfoWindow.i++;
-    $log.log('getInfoWindow-',getInfoWindow.i);
+    //$log.log('getInfoWindow-',getInfoWindow.i);
     var deferred = $q.defer();
     if(FacMap.infoWindow){
       getInfoWindow.i=0;

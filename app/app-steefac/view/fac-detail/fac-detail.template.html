@@ -1,0 +1,10 @@
+<!-- 公司详情页面 -->
+
+<amap-main ng-hide="hideMap"></amap-main>
+<div class="page-fac-detail flex-grow">
+  <tab-bar list="tab.list" tab-click="tab.click($n)"></tab-bar>
+  <div class="detail">
+    <fac-detail-profile fac="fac" ng-if="tab.active==0"></fac-detail-profile>
+    <div ng-if="tab.active!=0">其它详情</div>
+  </div>
+</div>

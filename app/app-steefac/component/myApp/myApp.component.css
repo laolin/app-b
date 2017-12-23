@@ -14,9 +14,16 @@ my-app > .main-container{
   flex-direction: column;
 }
 [ng-view],
-ng-view { 
+ng-view {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1; 
+  width: 100%;
   height: 100%;
+}
+[ng-view] >*,
+ng-view >*{
+  flex-shrink: 0
 }
 my-app appb-ui-footer{
   border-top: solid 1px #ccc;
@@ -29,3 +36,42 @@ search-ui{
 search-ui amap-main{
   height: 200px;
 }
+
+amap-main { height: 200px;}
+/* 一些通用CSS */
+.b-900 { font-weight: 900; }
+
+.bb-ccc{ border-bottom: 1px solid #ccc; }
+.bb-888{ border-bottom: 1px solid #888; }
+
+.em-01{ font-size: 0.1em;}  .rem-01{ font-size: 0.1rem;}
+.em-02{ font-size: 0.2em;}  .rem-02{ font-size: 0.2rem;}
+.em-03{ font-size: 0.3em;}  .rem-03{ font-size: 0.3rem;}
+.em-04{ font-size: 0.4em;}  .rem-04{ font-size: 0.4rem;}
+.em-05{ font-size: 0.5em;}  .rem-05{ font-size: 0.5rem;}
+.em-06{ font-size: 0.6em;}  .rem-06{ font-size: 0.6rem;}
+.em-07{ font-size: 0.7em;}  .rem-07{ font-size: 0.7rem;}
+.em-08{ font-size: 0.8em;}  .rem-08{ font-size: 0.8rem;}
+.em-09{ font-size: 0.9em;}  .rem-09{ font-size: 0.9rem;}
+.em-10{ font-size: 1.0em;}  .rem-10{ font-size: 1.0rem;}
+.em-11{ font-size: 1.1em;}  .rem-11{ font-size: 1.1rem;}
+.em-12{ font-size: 1.2em;}  .rem-12{ font-size: 1.2rem;}
+.em-13{ font-size: 1.3em;}  .rem-13{ font-size: 1.3rem;}
+.em-14{ font-size: 1.4em;}  .rem-14{ font-size: 1.4rem;}
+.em-15{ font-size: 1.5em;}  .rem-15{ font-size: 1.5rem;}
+.em-16{ font-size: 1.6em;}  .rem-16{ font-size: 1.6rem;}
+.em-17{ font-size: 1.7em;}  .rem-17{ font-size: 1.7rem;}
+.em-18{ font-size: 1.8em;}  .rem-18{ font-size: 1.8rem;}
+.em-19{ font-size: 1.9em;}  .rem-19{ font-size: 1.9rem;}
+.em-20{ font-size: 2.0em;}  .rem-20{ font-size: 2.0rem;}
+.em-30{ font-size: 3.0em;}  .rem-30{ font-size: 3.0rem;}
+.em-40{ font-size: 4.0em;}  .rem-40{ font-size: 4.0rem;}
+.em-50{ font-size: 5.0em;}  .rem-50{ font-size: 5.0rem;}
+.em-60{ font-size: 6.0em;}  .rem-60{ font-size: 6.0rem;}
+.em-70{ font-size: 7.0em;}  .rem-70{ font-size: 7.0rem;}
+.em-80{ font-size: 8.0em;}  .rem-80{ font-size: 8.0rem;}
+.em-90{ font-size: 9.0em;}  .rem-90{ font-size: 9.0rem;}
+
+
+
+
