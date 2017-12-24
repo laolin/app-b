@@ -32,9 +32,117 @@ AppbData,AppbAPI,AmapMainData,FacSearch) {
     ctrl.objType='steefac';
   }
 
+ //style-3
+  var renderOptions_def3 = {
+    "drawQuadTree": false,
+    "drawPositionPoint": false,
+    "drawShadowPoint": true,
+    "disableHardcoreWhenPointsNumBelow": 0,
+    "pointStyle": {//点
+      "content": "circle",
+      "width": 5,
+      "height": 5,
+      "fillStyle": "#2e25c0",
+      "lineWidth": 1,
+      "strokeStyle": null
+    },
+    "topNAreaStyle": {//TopN区域
+      "autoGlobalAlphaAlpha": true,
+      "content": "rect",
+      "fillStyle": "#e25c5d",
+      "lineWidth": 1,
+      "strokeStyle": null
+    },
+    "pointHardcoreStyle": {//点的硬核部分
+      "content": "rect",
+      "width": 2,
+      "height": 2,
+      "lineWidth": 1,
+      "fillStyle": null,
+      "strokeStyle": null
+    },
+    "pointPositionStyle": {//定位点
+      "content": "circle",
+      "width": 5,
+      "height": 5,
+      "lineWidth": 1,
+      "strokeStyle": null,
+      "fillStyle": "#cc0000"
+    },
+    "pointHoverStyle": {//鼠标hover时的覆盖点
+      "width": 5,
+      "height": 5,
+      "content": "circle",
+      "fillStyle": null,
+      "lineWidth": 2,
+      "strokeStyle": "#ff2828"
+    },
+    "shadowPointStyle": {//空间被占用的点
+      "fillStyle": "rgba(188,0,0,0.2)",
+      "content": "circle",
+      "width": 5,
+      "height": 5,
+      "lineWidth": 1,
+      "strokeStyle": null
+    }
+  }; 
   
- 
+  //style 2:
   var renderOptions_def = {
+    "drawQuadTree": false,
+    "drawPositionPoint": false,
+    "drawShadowPoint": true,
+    "disableHardcoreWhenPointsNumBelow": 0,
+    "pointStyle": {//点
+      "content": "circle",
+      "width": 15,
+      "height": 15,
+      "fillStyle": "#2e25c0",
+      "lineWidth": 1,
+      "strokeStyle": null
+    },
+    "topNAreaStyle": {//TopN区域
+      "autoGlobalAlphaAlpha": true,
+      "content": "rect",
+      "fillStyle": "#e25c5d",
+      "lineWidth": 1,
+      "strokeStyle": null
+    },
+    "pointHardcoreStyle": {//点的硬核部分
+      "content": "rect",
+      "width": 15,
+      "height": 15,
+      "lineWidth": 1,
+      "fillStyle": null,
+      "strokeStyle": null
+    },
+    "pointPositionStyle": {//定位点
+      "content": "circle",
+      "width": 15,
+      "height": 15,
+      "lineWidth": 1,
+      "strokeStyle": null,
+      "fillStyle": "#cc0000"
+    },
+    "pointHoverStyle": {//鼠标hover时的覆盖点
+      "width": 15,
+      "height": 15,
+      "content": "circle",
+      "fillStyle": null,
+      "lineWidth": 2,
+      "strokeStyle": "#ff2828"
+    },
+    "shadowPointStyle": {//空间被占用的点
+      "fillStyle": "rgba(188,0,0,0.2)",
+      "content": "circle",
+      "width": 15,
+      "height": 15,
+      "lineWidth": 1,
+      "strokeStyle": null
+    }
+  };  
+ 
+  var renderOptions_def1 = {
     "drawQuadTree": false,
     "drawPositionPoint": false,
     "drawShadowPoint": true,
