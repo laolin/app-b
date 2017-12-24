@@ -39,7 +39,7 @@ cfg.markWxLoginCallback='cb_xd';//和后端API的约定字符串，在 /wx-login
 cfg.tabsAvailable=[
   ['index',[
     {text:'首页',icon:'home',href:'/home',active:1,badge:0},
-    {text:'产能地图',icon:'cubes',href:'/search-old',badge:0},
+    {text:'产能地图',icon:'cubes',href:'/search',badge:0},
     {text:'我的',icon:'user',href:'/my'}
   ]],
   ['steefac-debug',[
