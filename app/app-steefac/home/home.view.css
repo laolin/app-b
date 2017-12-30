@@ -2,7 +2,7 @@
 
 /* 轮播 */
 .main-swiper{
-  padding: 0.5rem 0;
+  padding: 0.05rem 0;
   background: #fff;
 }
 .main-swiper .box{
@@ -30,7 +30,7 @@
   width: 100%;
   height: 100%;
   /* margin: 0 10% ; */
-  border-radius: 0.5rem;
+  border-radius: 0.05rem;
   box-shadow: 5px 5px 5px #ccc;
   object-fit:cover;
 }
@@ -41,8 +41,8 @@
   display: flex;
   background: #fff;
   border-top: solid 2px #ccc;
-  padding: 0.5rem 0.732rem;
-  font-size: 0.9rem;
+  padding: 0.05rem 0.0732rem;
+  font-size: 0.10rem;
 }
 .main-modules .module{
   display: flex;
@@ -54,11 +54,11 @@
   align-self: center;
 }
 .main-modules .module>img{
-  width: 3.2rem;
-  height: 3.2rem;
+  width: 0.38rem;
+  height: 0.38rem;
 }
 .main-modules .module> span{
-  padding: 0.3rem 0 0 0;
+  padding: 0.03rem 0 0 0;
 }
 
 
@@ -67,8 +67,8 @@
   display: flex;
   justify-content: space-between;
   background: #F3F8FC;
-  padding: 0.5rem 0.732rem;
-  font-size: 0.9rem;
+  padding: 0.05rem 0.0732rem;
+  font-size: 0.12rem;
 }
 .main-datainfo >*{
   cursor: pointer; 
@@ -77,10 +77,10 @@
   justify-content: center;
   flex-direction: column;
   background: #fff;
-  border-radius: 0.2rem;
+  border-radius: 0.02rem;
   box-shadow: 2px 2px 2px #ccc;
   padding: 0;
-  height: 5.6rem;
+  height: 0.56rem;
   justify-content: space-around;
 }
 .main-datainfo >* >*{
@@ -104,13 +104,13 @@
 .main-fac-list{
   background: #fff;
   border-bottom: solid 1px #efefef;
-  font-size: 1rem;
+  font-size: 0.1rem;
 }
 .main-fac-list .title{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem .732em;
+  padding: 0.05rem .0732rem;
   border-bottom: solid 1px #efefef;
 }
 .main-fac-list .title-text{
@@ -127,7 +127,7 @@
   display: flex;
   justify-content: space-between;
   align-items: stretch;
-  padding: 0.5rem .732em;
+  padding: 0.05rem .0732rem;
   border-bottom: solid 1px #efefef;
 }
 
@@ -135,8 +135,8 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  padding-right: 0.732rem;
-  font-size: 1.15rem;
+  padding-right: 0.0732rem;
+  font-size: 0.115rem;
 }
 
 .main-fac-list .item .text{
@@ -164,18 +164,18 @@
 
 /* 最新项目列表 */
 .main-fac-list.list2{
-  margin-top: 1.2rem;
+  margin-top: 0.12rem;
 }  
 .main-fac-list.list2  .items {
-  padding: 0.5rem calc(.732em - 5px);
+  padding: 0.05rem calc(.0732rem - 5px);
 }
 .main-fac-list.list2 .appb-grid{
-  padding-bottom: 1rem;
+  padding-bottom: 0.1rem;
 }
 .main-fac-list.list2 .appb-grid--name{
   text-align: left;
   color: #666666;
-  font-size: 1.1rem;
+  font-size: 0.11rem;
   height: 2.5em;
   line-height: 1.3;
   padding:0;
@@ -188,7 +188,7 @@
 .main-cgs .title{
   text-align: center;
   color: #FC9744;
-  font-size: 1.667rem;
+  font-size: 0.1667rem;
   font-weight: 900;
   padding: 10px;
 }
@@ -200,6 +200,6 @@
 }
 .main-cgs-more{
   text-align: center;
-  font-size: 1.2rem;
-  padding: 1rem;
+  font-size: 0.12rem;
+  padding: 0.1rem;
 }
