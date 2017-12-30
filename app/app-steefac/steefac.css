@@ -1,10 +1,12 @@
 /*竖屏*/
 @media only screen and (orientation:portrait ) {
-  html, body{ font-size: 3.2vw; }
+  html, body{ font-size: 26.666vw; }
+  *{ font-size: 0.12rem; }
 }
 /*横屏*/
 @media only screen and (orientation:landscape) {
-  html, body{ font-size: 3.2vh; }
+  html, body{ font-size: 26.666vh; }
+  *{ font-size: 0.12rem; }
 }
 
 
@@ -27,3 +29,57 @@
   width:100%;
   overflow:auto;
 }
+
+
+
+amap-main { height: 200px;}
+
+
+
+/* 一些通用CSS */
+.b-900 { font-weight: 900; }
+
+.bb-ccc{ border-bottom: 1px solid #ccc; }
+.bb-888{ border-bottom: 1px solid #888; }
+
+.em-01{ font-size: 0.1em;}  .rem-01{ font-size: .01rem;}
+.em-02{ font-size: 0.2em;}  .rem-02{ font-size: .02rem;}
+.em-03{ font-size: 0.3em;}  .rem-03{ font-size: .03rem;}
+.em-04{ font-size: 0.4em;}  .rem-04{ font-size: .04rem;}
+.em-05{ font-size: 0.5em;}  .rem-05{ font-size: .05rem;}
+.em-06{ font-size: 0.6em;}  .rem-06{ font-size: .06rem;}
+.em-07{ font-size: 0.7em;}  .rem-07{ font-size: .07rem;}
+.em-08{ font-size: 0.8em;}  .rem-08{ font-size: .08rem;}
+.em-09{ font-size: 0.9em;}  .rem-09{ font-size: .09rem;}
+.em-10{ font-size: 1.0em;}  .rem-10{ font-size: .10rem;}
+.em-11{ font-size: 1.1em;}  .rem-11{ font-size: .11rem;}
+.em-12{ font-size: 1.2em;}  .rem-12{ font-size: .12rem;}
+.em-13{ font-size: 1.3em;}  .rem-13{ font-size: .13rem;}
+.em-14{ font-size: 1.4em;}  .rem-14{ font-size: .14rem;}
+.em-15{ font-size: 1.5em;}  .rem-15{ font-size: .15rem;}
+.em-16{ font-size: 1.6em;}  .rem-16{ font-size: .16rem;}
+.em-17{ font-size: 1.7em;}  .rem-17{ font-size: .17rem;}
+.em-18{ font-size: 1.8em;}  .rem-18{ font-size: .18rem;}
+.em-19{ font-size: 1.9em;}  .rem-19{ font-size: .19rem;}
+.em-20{ font-size: 2.0em;}  .rem-20{ font-size: .20rem;}
+.em-30{ font-size: 3.0em;}  .rem-30{ font-size: .30rem;}
+.em-40{ font-size: 4.0em;}  .rem-40{ font-size: .40rem;}
+.em-50{ font-size: 5.0em;}  .rem-50{ font-size: .50rem;}
+.em-60{ font-size: 6.0em;}  .rem-60{ font-size: .60rem;}
+.em-70{ font-size: 7.0em;}  .rem-70{ font-size: .70rem;}
+.em-80{ font-size: 8.0em;}  .rem-80{ font-size: .80rem;}
+.em-90{ font-size: 9.0em;}  .rem-90{ font-size: .90rem;}
+
+
+/* 一些通用颜色 */
+
+.c-00 { color: #000000; }
+.c-ff { color: #FFFFFF; }
+.c-51 { color: #515151; }
+.c-6b { color: #6B6B6B; }
+.c-ae { color: #AEAEAE; }
+.c-06c{ color: #0066cc; }
+.c-36c{ color: #3366cc; }
+
+.bk-36c { background-color: #3366cc; }
+
