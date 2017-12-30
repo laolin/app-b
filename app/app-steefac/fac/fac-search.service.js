@@ -67,7 +67,7 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
     FacSearch.searchWord='';
   }
   
-  FacSearch.startSearch=function(type){
+  FacSearch.startSearch=function(type, dontReLocation){
     if(!FacSearch.isTypeValid(type)){
       $log.log('**err search type:',type);
       return $q.reject('**err search type:' + type);
@@ -118,9 +118,9 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
     }
     serchPara.count=FacSearch.options.countRes;
     if(FacUser.isSysAdmin())serchPara.count=SEARCH_SIZE_SYSADMIN;
-    return FacSearch.doSearch(serchPara,type);
+    return FacSearch.doSearch(serchPara,type, dontReLocation);
   }
-  FacSearch.doSearch=function(serchPara,type){
+  FacSearch.doSearch=function(serchPara,type, dontReLocation){
     FacSearch.searching=true;
     //FacSearch.searchResultSelected=-1;
     
@@ -134,7 +134,7 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
         FacSearch.searchResult[type]=s;
         FacSearch.searchType=type;
         FacSearch.showSearchRes(type,FacSearch.showPageNumber[type]=0);
-        $location.path('/search');  
+        if(!dontReLocation)$location.path('/search');
         return $q.resolve(s);
       }
     );
