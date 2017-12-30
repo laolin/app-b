@@ -37,7 +37,7 @@
         if(FacUser.isSysAdmin())$scope.canEdit=true;
       },
       function(e){
-        $log.log('detail Err',e);
+        console.log('detail Err',e);
         return appData.showInfoPage('获取数据错误',e,'/search')
       }
     );
