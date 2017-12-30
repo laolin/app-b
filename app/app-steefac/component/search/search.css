@@ -22,7 +22,7 @@ search-form input.w5em{
 }
 
 /* 搜索结果列表 */
-.result-items{ padding: 0 2em; background: #ccc; }
+.result-items{ padding: 0; }
 .result-items>*{
   border-bottom: solid 1px #888;
 }
@@ -32,15 +32,14 @@ search-form input.w5em{
 .result-items .next.fa{
   font-size: 2em;
   color: #888;
-  padding: 0 0 0 0.5em;
+  padding: 0 0 0 .05rem;
 }
 .result-items .result-item{
-  font-size: 0.8em;
-  padding: 0.8em 0;
+  padding: .03rem 0;
 }
 .result-items .result-item .name{
-  font-size: 1.5em;
-  font-weight: 900;
+  font-size: .14rem;
+  color: #000;
   height: 1.5em;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -50,12 +49,16 @@ search-form input.w5em{
 }
 .result-items .result-item .update{
   padding: 0 0 0 0.5em;
+  font-size: .10rem;
+  color: #6B6B6B;
 }
 .result-items .result-item .row-2{
-  color: #555;
+  font-size: .12rem;
+  color: #6B6B6B;
 }
 .result-items .result-item .row-3{
-  color: #888;
+  font-size: .12rem;
+  color: #6B6B6B;
 }
 
 

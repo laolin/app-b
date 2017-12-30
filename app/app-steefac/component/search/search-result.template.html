@@ -5,8 +5,8 @@
 
 <div class="result-items">
   <div class="flex" ng-repeat="item in list track by $index" ng-click="clickItem(item)">
-    <div class="result-item">
-      <div class="flex">
+    <div class="result-item flex-grow">
+      <div class="flex flex-between">
         <div class="flex">
           <div class="name">{{item.name}}</div>
           <level-box class="shrink0" level="item.level"></level-box>
@@ -19,6 +19,6 @@
         <div class="">1.2KM</div>
       </div>
     </div>
-    <i class="next fa fa-angle-right"></i>
+    <i class="shrink0 next fa fa-angle-right"></i>
   </div>
 </div>

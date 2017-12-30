@@ -47,7 +47,7 @@
      */
     $scope.clickItem = function(item){
       console.log(item);
-      return $location.path("/fac-detail/" + item.id);;
+      return $location.path("/fac-detail/" + item.id).search({});;
 
     }
   }

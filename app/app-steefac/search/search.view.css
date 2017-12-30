@@ -28,7 +28,7 @@
 }
 .page-search-view > .result-toolbar{
   background:#f8f8f8;
-  padding: 0.5em 0;
+  padding: .03rem 0;
 }
 .page-search-view > .result-toolbar>*{
   border-left: solid 1px #fff;
@@ -43,6 +43,17 @@
   border-right: solid 0;
 }
 .page-search-view > .result-toolbar select.weui-select{
-  height: 1em;
-  line-height: 1;
+  height: 1.1em;
+  line-height: 1.1;
+  width: auto;
+  padding-left: 0;
+  font-size: .13rem;
+  color: #6B6B6B;
 }
+
+.page-search-view > search-result{
+  border-top: solid 3px #ccc;
+  padding: .05rem .3rem;
+  background:#fff;
+}
+
