@@ -107,11 +107,17 @@
         $scope.picking.e = month
       }
       if($scope.picking.b && $scope.picking.e){
-        $ctrl.ngModel.from = $scope.b = be2str(data.b = $scope.picking.b);
-        $ctrl.ngModel.to   = $scope.e = be2str(data.e = $scope.picking.e);
-        $ctrl.ngModel.n    = $scope.n = data.e - data.b + 1;
-        $scope.picking = false;
+        $scope.ok();
       }
+    }
+    $scope.ok = function(){
+      $ctrl.ngModel.from = $scope.b = be2str(data.b = $scope.picking.b||data.b);
+      $ctrl.ngModel.to   = $scope.e = be2str(data.e = $scope.picking.e||data.e);
+      $ctrl.ngModel.n    = $scope.n = data.e - data.b + 1;
+      $scope.picking = false;
+    }
+    $scope.cancel = function(){
+      $scope.picking = false;
     }
   }
 })(window, angular);

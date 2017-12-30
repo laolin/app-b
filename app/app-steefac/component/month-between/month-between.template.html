@@ -7,9 +7,9 @@
 
 <div class="pick" ng-if="picking">
   <div class="flex flex-arround title rem-18 b-900" c="36c">
-    <i class="rem-18 fa fa-chevron-left"></i>
+    <i class="pick-cancel fa fa-chevron-left" ng-click="cancel()"></i>
     <div class="rem-18">选择周期</div>
-    <i class="rem-18 fa fa-check"></i>
+    <i class="pick-ok fa fa-check" ng-click="ok()"></i>
   </div>
   <div class="years">
     <div class="year" ng-repeat="year in years">

@@ -36,6 +36,11 @@ month-between > .pick{
   display: flex;
   flex-direction: column;
 }
+month-between .pick-cancel,
+month-between .pick-ok{
+  padding: 0.1em 1em;
+  font-size: .22rem;
+}
 month-between > .pick > .title{
   text-align: center;
   padding: 0.6em;
