@@ -6,12 +6,18 @@
 </div>
 
 <div class="pick" ng-if="picking">
-  <div class="title">选择周期</div>
+  <div class="flex flex-arround title rem-18 b-900" c="36c">
+    <i class="rem-18 fa fa-chevron-left"></i>
+    <div class="rem-18">选择周期</div>
+    <i class="rem-18 fa fa-check"></i>
+  </div>
   <div class="years">
     <div class="year" ng-repeat="year in years">
       <div class="title">{{year}} 年</div>
       <div class="months">
-        <div class="month {{cssMonth(year*12+month-1)}}" ng-repeat="month in months" ng-click="clickMonth(year, month)">{{month}}</div>
+        <div class="month {{cssMonth(year*12+month-1)}}" ng-repeat="month in months" ng-click="clickMonth(year, month)">
+          {{month}}
+        </div>
       </div>
     </div>
   </div>

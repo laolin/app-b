@@ -81,8 +81,11 @@
       var b = $scope.picking.b || data.b;
       var e = $scope.picking.e || data.e;
       return (month >= b && month <= e? "y":"")
-       + (month%12 == 0 || month == b ? ' b' : '')
-       + (month%12 == 11 || month == e ? ' e' : '');
+       + (month <b ? " last":"")
+       + (month%4 == 0 ? ' left' : '')
+       + (month%4 == 3 ? ' right' : '')
+       + (month == b ? ' b' : '')
+       + (month == e ? ' e' : '');
     }
     /**
      * 事件响应
