@@ -1,0 +1,14 @@
+/* tab条组件 */
+
+level-box span{
+  border: solid 0;
+  border-radius: 0.3em;
+  color: #fff;
+  margin-left: 0.3em;
+  padding: 0 0.2em;
+}
+level-box span.level-0{ background: #CCB95A;}
+level-box span.level-1{ background: #AFB5BC;}
+level-box span.level-2{ background: #B5A07C;}
+level-box span.level-3{ background: #9AB786;}
+

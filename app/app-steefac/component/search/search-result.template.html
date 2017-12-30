@@ -9,7 +9,7 @@
       <div class="flex">
         <div class="flex">
           <div class="name">{{item.name}}</div>
-          <div class="level shrink0">{{FacSearch.levelDick[item.level]}}资质</div>
+          <level-box class="shrink0" level="item.level"></level-box>
         </div>
         <div class="update shrink0">{{item.update_at|timespan:'MM月d日更新'}}</div>
       </div>

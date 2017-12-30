@@ -4,7 +4,7 @@
   <div class="flex-grow">
     <div class="flex">
       <div class="fac-name">{{fac.name}}</div>
-      <div class="fac-level shrink0">{{FacSearch.levelDick[fac.level]}}资质</div>
+      <level-box class="shrink0" level="fac.level"></level-box>
     </div>
     <div class="update bb-ccc">{{fac.update_at|timespan:'MM月d日更新'}}</div>
     <div class="row-2">剩余产能：<span>{{fac.area_factory}}吨</span></div>

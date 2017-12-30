@@ -22,13 +22,6 @@ fac-detail-profile .box-1 > .headimg{
   overflow: hidden;
 }
 
-.fac-level{
-  border: solid 1px #888;
-  color: #888;
-  margin-left: 0.3em;
-  padding: 0 0.2em;
-}
-
 fac-detail-profile .box-2 > .title{
   color: #333;
   font-size: 1.5em;

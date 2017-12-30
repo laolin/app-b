@@ -48,12 +48,6 @@ search-form input.w5em{
   line-height: 1.5;
   overflow: hidden;
 }
-.result-items .result-item .level{
-  border: solid 1px #888;
-  color: #888;
-  margin-left: 0.3em;
-  padding: 0 0.2em;
-}
 .result-items .result-item .update{
   padding: 0 0 0 0.5em;
 }
