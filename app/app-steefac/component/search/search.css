@@ -1,8 +1,8 @@
 /* 搜索组件 */
 
 search-form > .form{
-  font-size: 1.1rem;
-  padding: 1em;
+  font-size: .12rem;
+  padding: .12em;
 }
 
 search-form .gray{
@@ -10,7 +10,7 @@ search-form .gray{
 }
 
 search-form > .form > *{
-  height: 3.0em;
+  height: .40rem;
 }
 
 search-form input{

@@ -1,9 +1,13 @@
 /* 月份到月份选择组件 */
 
-month-between > .element{
+month-between{ display: inline-block; }
+month-between,
+month-between > .element,
+month-between > .element > *{
+  font-size: 1em;
 }
 month-between > .element .sep{
-  font-size: 0.5em;
+  font-size: 0.75em;
   position: relative;
   width: 4.5em;
   margin: 0.3em;
@@ -14,7 +18,7 @@ month-between > .element .sep>*{
   border-bottom: solid 1px #888;
   position: absolute;
   bottom: 0;
-  opacity: 0.5;
+  /* opacity: 0.5; */
 }
 
 /* 选择部分 */

@@ -10,11 +10,16 @@
   width: 100%;
 }
 
-.page-search-view > search-form{
-  padding: 1em;
+.page-search-view > search-form,
+.page-search-view > .btns{
+  padding: .1rem .3rem;
 }
-.page-search-view > .weui-btn-area{
-  padding: 1.5em;
+.page-search-view > .btns > *{
+  padding: .8em;
+  border-radius: 0.3em;
+  color: #fff;
+  text-align: center;
+  margin: 1em 0;
 }
 
 /* 搜索结果 */
