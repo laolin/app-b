@@ -37,6 +37,16 @@ amap-main { height: 200px;}
 
 
 /* 一些通用CSS */
+
+/* 单行，太长省略号 */
+.line___1{
+  height: 1.5em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  line-height: 1.5;
+  overflow: hidden;
+}
 .b-900 { font-weight: 900; }
 
 .bb-ccc{ border-bottom: 1px solid #ccc; }
