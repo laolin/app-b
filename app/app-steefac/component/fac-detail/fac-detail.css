@@ -6,13 +6,15 @@ fac-detail-profile{
   color: #888;
 }
 fac-detail-profile .box-1 > .headimg{
-  width: 8em;
-  height: 8em;
+  width: .75rem;
+  height: .75rem;
+  background: #ccc;
+  margin: 0 0 0 .2rem;
 }
 
 .fac-name{
-  color: #333;
-  font-size: 1.5em;
+  color: #333333;
+  font-size: .14rem;
   font-weight: 900;
   height: 1.5em;
   display: -webkit-box;
@@ -23,38 +25,44 @@ fac-detail-profile .box-1 > .headimg{
 }
 
 fac-detail-profile .box-2 > .title{
-  color: #333;
-  font-size: 1.5em;
+  color: #333333;
+  font-size: .12rem;
   font-weight: 900;
-  margin-top: 1em;
+  margin: .1rem 0;
 }
 
 .btn-box{
-  border: solid 1px #888;
-  margin: 0.2em;
+  padding: .03rem .05rem;
+  background: #3366cc;
+  color: #ffffff;
+  border-radius: .03rem;
+  font-size: .10rem;
 }
 
 fac-detail-profile .btns{
-  padding: 0.3em;
-  margin: 0 0 0.5em;
+  padding: .03rem 0;
 }
 fac-detail-profile .btns > *{
-  padding: 0.3em 1em;
-  background:#fff;
-  color:#888;
+  padding: .05rem .20rem .05rem 0;
+  color:#3366cc;
   margin-right: 0.8em;
   border: solid 0;
 }
+fac-detail-profile .btns > div > img {
+  width: .18rem;
+  height: .18rem;
+  margin: 0 .03rem 0 0;
+}
 
 .search-btns{
-  padding: 2em 0;
-  font-size: 1.6em;
+  padding: .2rem 0;
 }
 .search-btns > *{
-  width: 42%;
-  padding: 0.5em 0;
+  width: 45%;
+  padding: .10rem 0;
   text-align: center;
-  background: #888;
-  color: #333;
+  background: #3366CC;
+  color: #FFFFFF;
+  border-radius: .03rem;
 }
 

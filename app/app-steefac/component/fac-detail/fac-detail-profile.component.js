@@ -13,11 +13,12 @@
     bindings: {
       fac: '<'
     },
-    controller:['$scope', '$element', 'FacSearch', ctrl]
+    controller:['$scope', '$element', 'FacSearch', 'AppbData', ctrl]
   });
 
 
-  function ctrl($scope, $element, FacSearch) {
+  function ctrl($scope, $element, FacSearch, AppbData) {
+    $scope.appData = AppbData.getAppData();
     $scope.FacSearch = FacSearch;
     var ctrl = this;
     this.$onChanges=function(chg){
