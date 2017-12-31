@@ -1,13 +1,13 @@
 /*====================== 
   color define
   
-  原蓝色 /HuZP-black/ZhangC-blue
-  x0099ff/x474b51/x3f81f2 main-color
-  x0088dd/x??????/x0d52c6 dark
-  x33ddff/x646871/x79a8f7 light
+               原蓝色 /胡zp黑 /张C-蓝 /张Y-蓝
+  main-color : x0099ff/x474b51/x3f81f2/x3366cc
+  light-color: x33ddff/x646871/x79a8f7/x4670d0
+  dark(未用) : x0088dd/x2b2e33/x0d52c6/x2c56af
 ======================*/
 .main-header_container {
-  background-color:#474b51;
+  background-color:#3366cc;
 }
 .main-header_container ,
 .main-header_container a{
@@ -17,7 +17,7 @@
 .main-tab_active a,
 .main-tab_active span,
 .main-tab_active i{
-  color:#474b51;
+  color:#3366cc;
 }
 
 /*======================
@@ -29,7 +29,7 @@
 }
 
 .hilight {
-  background-color: #646871;
+  background-color: #4670d0;
 }
 .cursor-pointer { 
   cursor:pointer;
@@ -54,37 +54,37 @@
   background-color: #888;
 }
 div.weui-toast .weui-toast__content {
-  color:#474b51 !important;
+  color:#3366cc !important;
 }
 
 
 .weui-cells_radio .weui-check:checked + .weui-icon-checked:before ,
 .weui-cells_checkbox .weui-check:checked + .weui-icon-checked:before {
-  color: #474b51;
+  color: #3366cc;
 }
 
 .weui-btn_primary {
-  background-color: #474b51;
+  background-color: #3366cc;
 }
 .weui-dialog__btn_primary {
-  color: #474b51;
+  color: #3366cc;
 }
 .appb-input-bar-icon {
-  color: #474b51;
+  color: #3366cc;
 }
 .appb-btn-main {
   font-size:20px;
-  color: #474b51;
+  color: #3366cc;
 }
 .weui-btn_primary:not(.weui-btn_disabled):active {
-  background-color: #646871;
+  background-color: #4670d0;
 }
 
 
 .weui-switch:checked,
 .weui-switch-cp__input:checked ~ .weui-switch-cp__box {
-    border-color: #474b51;
-    background-color: #474b51;
+    border-color: #3366cc;
+    background-color: #3366cc;
 }
 
 .weui-loadmore_line .weui-loadmore__tips {
@@ -94,9 +94,9 @@ div.weui-toast .weui-toast__content {
 /* .weui-cell__hd 图标右侧没留空，我们采用I做图标，故用此CSS修正一下*/
 .weui-cell__hd i {
   padding-right:10px;
-  color:#474b51;
+  color:#3366cc;
 }
 
 .weui-icon-success {
-  color: #474b51;
+  color: #3366cc;
 }
