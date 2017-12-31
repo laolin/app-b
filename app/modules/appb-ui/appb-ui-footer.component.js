@@ -7,8 +7,9 @@ angular.module('appb')
     bindings: {
       footerData: '='
     },
-    controller: ['$scope','$log','$timeout',
-      function ($scope,$log,$timeout){
+    controller: ['$scope', 'AppbData',
+      function ($scope, AppbData){
+        $scope.appData = AppbData.getAppData();
 
       }
     ]
