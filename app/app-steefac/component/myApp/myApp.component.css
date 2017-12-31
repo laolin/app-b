@@ -38,3 +38,16 @@ search-ui amap-main{
 }
 
 
+
+/* 非手机 */
+my-app .pc{
+  width: 100%;
+  text-align: center;
+  padding-top: 50px;
+  font-size: 20px;
+  color: #333333;
+}
+my-app .pc>h3{
+  font-size: 20px;
+  color: #f80;
+}
