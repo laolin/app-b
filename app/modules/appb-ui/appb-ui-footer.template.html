@@ -3,7 +3,10 @@
     class="main-tab" ng-class="{'main-tab_active' : tb.active }" >
   <a href='#!{{tb.href}}'>
     <i class="fa fa-{{tb.icon}}" aria-hidden="true"
+    ng-if="tb.icon"
     appb-weui-badge='{show:tb.badge}'
+    ></i>
+    <img class="" ng-src="{{appData.appCfg.assetsRoot}}/img/img-steefac/{{tb.active&&tb.assetsImgActive||tb.assetsImg}}" ng-if="tb.assetsImg"
     ></i>
     <span ng-bind='tb.text'></span>
   </a>

@@ -25,9 +25,6 @@ ng-view {
 ng-view >*{
   flex-shrink: 0
 }
-my-app appb-ui-footer{
-  border-top: solid 1px #ccc;
-}
 
 search-ui{
   display: flex;
@@ -37,4 +34,36 @@ search-ui amap-main{
   height: 200px;
 }
 
+/* footer */
 
+my-app appb-ui-footer{
+  border-top: solid 1px #ccc;
+}
+
+my-app appb-ui-footer .main-tab img{
+  width: .25rem;
+  height: .25rem;
+}
+my-app appb-ui-footer .main-tab_active img{
+}
+my-app appb-ui-footer .main-tab a span{
+  color: #6B6B6B;
+  font-size:.12rem;
+}
+my-app appb-ui-footer .main-tab_active a span{
+  color: #3366CC;
+}
+
+
+/* 非手机 */
+my-app .pc{
+  width: 100%;
+  text-align: center;
+  padding-top: 50px;
+  font-size: 20px;
+  color: #333333;
+}
+my-app .pc>h3{
+  font-size: 20px;
+  color: #f80;
+}

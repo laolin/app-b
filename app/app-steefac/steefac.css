@@ -10,6 +10,10 @@
 }
 
 
+@media (min-width: 768px) {
+  html, body{ font-size: 100px; }
+  *{ font-size: 0.12rem; }
+}
 
 .fac-fix-wrapper {
   position: absolute;

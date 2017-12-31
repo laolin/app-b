@@ -16,6 +16,11 @@ angular.module('steefac')
     appb.startPathMonitor=AppbData.startPathMonitor;
     //监控路由变化
     appb.startPathMonitor();
+
+    $scope.url = encodeURI(location.href);
+    $scope.sj = true;
+    // 使用下面这一行代码，将简单关闭PC界面
+    //$scope.sj = document.body.clientWidth < 768;
   }]
 })
 .filter('timespan', function() { //可以注入依赖
