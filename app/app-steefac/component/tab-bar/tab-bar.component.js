@@ -14,6 +14,7 @@
       templateUrl: 'app-steefac/component/tab-bar/tab-bar.template.html',
       scope: {
         list: '=',
+        itemCss: '@',
         activeCss: '@',
         tabClick: '&',
       },

@@ -3,6 +3,6 @@
 <div class="flex-cc {{active==$index&&(activeCss||'active')}}"
   ng-repeat="item in list track by $index"
   ng-click="clickTab($index)">
-  <span>{{item.text||item}}</span>
+  <span class="{{item.css||itemCss||''}}">{{item.text||item}}</span>
 </div>
 
