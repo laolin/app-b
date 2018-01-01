@@ -87,13 +87,17 @@ amap-main { height: 200px;}
 
 /* 一些通用颜色 */
 
-.c-00 { color: #000000; }
-.c-ff { color: #FFFFFF; }
-.c-51 { color: #515151; }
-.c-6b { color: #6B6B6B; }
-.c-ae { color: #AEAEAE; }
-.c-06c{ color: #0066cc; }
-.c-36c{ color: #3366cc; }
+.box-primary      { color: #FFFFFF; background-color: rgba(51, 102, 204, 1.0); }
+.box-primary-thin { color: #FFFFFF; background-color: rgba(51, 102, 204, 0.5); }
+.text-primary-light { color: #006699;}
+.text-0    { color: #000000; }
+.text-3    { color: #333333; }
+.text-5    { color: #515151; }
+.text-gray { color: #6B6B6B; }
+.text-warning { color: #AA0000; }
+.text-active,.active.text-gray, .active>.text-gray { color: #3366CC; }
 
-.bk-36c { background-color: #3366cc; }
+.text-default { color: #333333; background-color: rgba(0,0,0,0); }
+.text-dark    { color: #000000; background-color: rgba(0,0,0,0); }
+.box-primary-light { color: #FFFFFF; background-color: rgba(51, 102, 204, .5); } .text-primary-light { color: #006699; background-color: rgba(0,0,0,0); }
 
