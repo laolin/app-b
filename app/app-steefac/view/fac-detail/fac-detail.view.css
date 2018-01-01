@@ -23,10 +23,6 @@
   border-right: solid 0;
   border-bottom: solid .03rem rgba(0,0,0,0);
   font-size: .13rem;
-  color: #6B6B6B;
-}
-.page-fac-detail tab-bar > .active span{
-  color: #3366CC;
 }
 
 .page-fac-detail .detail{
