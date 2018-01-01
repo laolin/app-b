@@ -3,16 +3,16 @@
 <div class="flex box-1">
   <div class="flex-grow">
     <div class="flex">
-      <div class="fac-name">{{fac.name}}</div>
+      <div class="fac-name text-3">{{fac.name}}</div>
       <level-box class="shrink0" level="fac.level"></level-box>
     </div>
     <div class="flex bb-ccc">
       <div class="rem-10" c="6B">{{fac.update_at|timespan:'MM月d日更新'}}</div>
       <div class="rem-10" c="6B">1.2KM</div>
     </div>
-    <div class="row-2">剩余产能：<span>{{fac.area_factory}}吨</span></div>
-    <div class="row-2">加工费:<span>{{fac.area_factory}}吨</span></div>
-    <div class="line___1">擅长：<span>{{fac.goodat}}</span></div>
+    <div class="text-gray">剩余产能：<span class="text-warning">{{fac.area_factory}}</span>吨</div>
+    <div class="text-gray">加工费:<span>{{fac.area_factory}}吨</span></div>
+    <div class="text-gray line___1">擅长：<span>{{fac.goodat}}</span></div>
   </div>
   <div class="headimg shrink0">
     <img ng-src="">
@@ -20,21 +20,21 @@
 </div>
 
 <div class="flex-v bb-ccc box-2">
-  <div class="title bb-ccc">联系方式</div>
+  <div class="title text-3 bb-ccc">联系方式</div>
   <div class="flex flex-top">
     <div class="">
-      <div class="name line___1">地址：<span>{{fac.addr}}</span></div>
-      <div class="">联系人：<span>张三</span></div>
+      <div class="text-gray line___1">地址：<span>{{fac.addr}}</span></div>
+      <div class="text-gray">联系人：<span>张三</span></div>
     </div>
-    <div class="btn-box shrink0">申请成为管理员</div>
+    <div class="btn-box box-primary shrink0">申请成为管理员</div>
   </div>
   <div class="btns flex flex-left">
-    <div class="flex flex-v-center"><img ng-src="{{appData.appCfg.assetsRoot}}/img/img-steefac/tel.png"><span>拨打电话</span></div>
-    <div class="flex flex-v-center"><img ng-src="{{appData.appCfg.assetsRoot}}/img/img-steefac/mail.png"><span>发送邮件</span></div>
+    <div class="flex text-active flex-v-center"><img ng-src="{{appData.appCfg.assetsRoot}}/img/img-steefac/tel.png"><span>拨打电话</span></div>
+    <div class="flex text-active flex-v-center"><img ng-src="{{appData.appCfg.assetsRoot}}/img/img-steefac/mail.png"><span>发送邮件</span></div>
   </div>
 </div>
 
 <div class="search-btns flex">
-  <div>搜索附近产能</div>
-  <div>搜索附近项目</div>
+  <div class="box-primary">搜索附近产能</div>
+  <div class="box-primary">搜索附近项目</div>
 </div>
