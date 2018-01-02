@@ -13,12 +13,14 @@
     bindings: {
       result: '<'
     },
-    controller:['$scope', '$location', 'FacSearch', ctrl]
+    controller:['$scope', '$location', 'FacSearch', 'ProjDefine', ctrl]
   });
 
-	function ctrl($scope, $location, FacSearch) {
+	function ctrl($scope, $location, FacSearch, ProjDefine) {
     $scope.FacSearch = FacSearch;
+    $scope.ProjDefine = ProjDefine;
     var ctrl=this;
+      console.log('搜索结果组件');
     ctrl.$onChanges=function(chg){
       initPage();
     }
@@ -45,9 +47,14 @@
     /**
      * 分页
      */
+    var routers = {
+      steefac: '/fac-detail/',
+      steeproj: '/project-detail/',
+    }
     $scope.clickItem = function(item){
       console.log(item);
-      return $location.path("/fac-detail/" + item.id).search({});;
+      //return $location.path("/fac-detail/" + item.id).search({});
+      return $location.path(routers[FacSearch.searchType] + item.id).search({});
 
     }
   }

@@ -3,7 +3,7 @@
 {{$ctrl.cellsTitle}} <a href ng-click='$ctrl.searchData.clearResult($ctrl.searchType)'>重新搜索</a>
 </div>
 
-<div class="result-items">
+<div class="result-items" ng-if="FacSearch.searchType=='steefac'">
   <div class="flex" ng-repeat="item in list track by $index" ng-click="clickItem(item)">
     <div class="result-item flex-grow">
       <div class="flex flex-between">
@@ -18,6 +18,22 @@
         <div class="">擅长：<span>{{item.goodat}}</span></div>
         <div class="">1.2KM</div>
       </div>
+    </div>
+    <i class="shrink0 next fa fa-angle-right"></i>
+  </div>
+</div>
+
+<div class="result-items" ng-if="FacSearch.searchType=='steeproj'">
+  <div class="flex" ng-repeat="item in list track by $index" ng-click="clickItem(item)">
+    <div class="result-item flex-grow">
+      <div class="flex flex-between">
+        <div class="flex">
+          <div class="name">{{item.name}}</div>
+        </div>
+        <div class="update shrink0">{{item.update_at|timespan:'MM月d日更新'}}</div>
+      </div>
+      <div class="row-2">采购量：<span>{{item.need_steel}}吨</span></div>
+      <div class="row-2">首批供货时间：<span>{{ProjDefine.objReqInMonth[item.in_month]}}</span></div>
     </div>
     <i class="shrink0 next fa fa-angle-right"></i>
   </div>
