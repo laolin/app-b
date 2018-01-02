@@ -1,0 +1,11 @@
+<!-- 项目详情页面 -->
+
+<amap-main ng-hide="hideMap"></amap-main>
+<div class="page-project-detail flex-grow">
+  <tab-bar list="tab.list" active="{{tab.active}}" tab-click="tab.click($n)" item-css="text-gray"></tab-bar>
+  <div class="detail">
+    <project-detail-profile fac="fac" ng-if="tab.active==0"></project-detail-profile>
+    <project-detail-capacity fac="fac" ng-if="tab.active==1"></project-detail-capacity>
+    <div ng-if="tab.active>1">{{tab.list[tab.active]}}</div>
+  </div>
+</div>
