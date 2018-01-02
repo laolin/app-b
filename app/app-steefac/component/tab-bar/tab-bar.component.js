@@ -14,6 +14,7 @@
       templateUrl: 'app-steefac/component/tab-bar/tab-bar.template.html',
       scope: {
         list: '=',
+        active: '@',
         itemCss: '@',
         activeCss: '@',
         tabClick: '&',
@@ -24,10 +25,9 @@
 
 
   function ctrl($scope, $element) {
-    $scope.$watch("list", function(vNew){
-
+    $scope.$watch("active", function(vNew){
+      $scope.active = vNew || 0;
     });
-    $scope.active = 0;
     $scope.clickTab = function(index){
       $scope.active = index;
       $scope.tabClick && $scope.tabClick({$n: index});
