@@ -2,9 +2,10 @@
 
 <amap-main ng-hide="hideMap"></amap-main>
 <div class="page-fac-detail flex-grow">
-  <tab-bar list="tab.list" tab-click="tab.click($n)" item-css="text-gray"></tab-bar>
+  <tab-bar list="tab.list" active="{{tab.active}}" tab-click="tab.click($n)" item-css="text-gray"></tab-bar>
   <div class="detail">
     <fac-detail-profile fac="fac" ng-if="tab.active==0"></fac-detail-profile>
-    <div ng-if="tab.active!=0">其它详情</div>
+    <fac-detail-capacity fac="fac" ng-if="tab.active==1"></fac-detail-capacity>
+    <div ng-if="tab.active>1">其它详情</div>
   </div>
 </div>

@@ -11,11 +11,11 @@
   .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/fac-detail/:id', {
       templateUrl: 'app-steefac/view/fac-detail/fac-detail.template.html',
-      controller: ['$scope', '$routeParams', '$q', 'AppbData','FacDefine','FacSearch','AppbAPI','FacUser', ctrl]
+      controller: ['$scope', '$routeParams', '$location', 'AppbData','$q','FacSearch','AppbAPI','FacUser', ctrl]
     });
   }]);
 
-  function ctrl($scope, $routeParams, $q, AppbData,FacDefine,FacSearch,AppbAPI,FacUser) {
+  function ctrl($scope, $routeParams, $location, AppbData,$q,FacSearch,AppbAPI,FacUser) {
     var appData=AppbData.getAppData();
     var userData=AppbData.getUserData();
     if(! userData || !userData.token) {
@@ -57,10 +57,11 @@
         "公司业绩",
         "评论详情",
       ],
-      active: 0,
+      active: $routeParams.tabIndex||0,
       click: function(index){
         tab.active = index;
         console.log('tab 控制', index);
+        $location.replace('/fac-detail/:id', facId).search({tabIndex: index});
       }
     }
   }
