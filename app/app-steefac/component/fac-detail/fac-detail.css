@@ -57,3 +57,10 @@ fac-detail-profile .btns > div > img {
   border-radius: .03rem;
 }
 
+
+fac-detail-capacity .box{
+  padding: .08rem 0;
+}
+fac-detail-capacity .box > *{
+  padding: .06rem 0;
+}
