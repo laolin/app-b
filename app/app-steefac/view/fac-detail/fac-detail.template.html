@@ -6,6 +6,6 @@
   <div class="detail">
     <fac-detail-profile fac="fac" ng-if="tab.active==0"></fac-detail-profile>
     <fac-detail-capacity fac="fac" ng-if="tab.active==1"></fac-detail-capacity>
-    <div ng-if="tab.active>1">其它详情</div>
+    <div ng-if="tab.active>1">{{tab.list[tab.active]}}</div>
   </div>
 </div>
