@@ -3,11 +3,17 @@
 
 fac-detail-profile{
 }
+project-detail-profile .box-1 > .headimg,
 fac-detail-profile .box-1 > .headimg{
   width: .75rem;
   height: .75rem;
   background: #ccc;
   margin: 0 0 0 .2rem;
+}
+project-detail-profile .box-1 > .headimg img,
+fac-detail-profile .box-1 > .headimg img{
+  width: .75rem;
+  height: .75rem;
 }
 
 .fac-name{
@@ -21,6 +27,7 @@ fac-detail-profile .box-1 > .headimg{
   overflow: hidden;
 }
 
+project-detail-profile .box-2 > .title,
 fac-detail-profile .box-2 > .title{
   font-size: .12rem;
   font-weight: 900;
@@ -33,14 +40,17 @@ fac-detail-profile .box-2 > .title{
   font-size: .10rem;
 }
 
+project-detail-profile .btns,
 fac-detail-profile .btns{
   padding: .03rem 0;
 }
+project-detail-profile .btns > *,
 fac-detail-profile .btns > *{
   padding: .05rem .20rem .05rem 0;
   margin-right: 0.8em;
   border: solid 0;
 }
+project-detail-profile .btns > div > img,
 fac-detail-profile .btns > div > img {
   width: .18rem;
   height: .18rem;
@@ -58,9 +68,11 @@ fac-detail-profile .btns > div > img {
 }
 
 
+project-detail-capacity .box,
 fac-detail-capacity .box{
   padding: .08rem 0;
 }
+project-detail-capacity .box > *,
 fac-detail-capacity .box > *{
   padding: .06rem 0;
 }
