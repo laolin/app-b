@@ -87,7 +87,7 @@
       $scope.searchResult = [];
       $scope.search = FacSearch.options;
       angular.extend(FacSearch.options, {
-        currentCity: "上海市杨浦区",
+        currentCity: "上海市 上海城区 杨浦区",
         monthBetween: {from:'2017.12', to:'2018.3'},
         level: "all",
         orderBy: '按距离排序'

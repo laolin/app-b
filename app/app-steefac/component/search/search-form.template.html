@@ -10,8 +10,13 @@
 
 <div class="form">
   <div class="flex flex-v-center bb-888">
-    <div class="flex flex-grow rem-16 b-900" c="51" next="right">
-      {{$ctrl.searchData.options.currentCity||'尚未定位'}}
+    <div class="flex flex-grow rem-16 b-900" next="right">
+      <span class=" rem-16 b-900" c="51" ng-click="$ctrl.pickingCity=true">{{$ctrl.searchData.options.currentCity||'尚未定位'}}</span>
+      <div china-address class="pick-city-box" ng-if="$ctrl.pickingCity"
+        close="$ctrl.pickingCity=false;$ctrl.searchData.options.currentCity=$value"
+        dismiss="$ctrl.pickingCity=false"
+        address="{{$ctrl.searchData.options.currentCity}}"
+      ></div>
     </div>
     <div class="flex gray rem-12" c="06c">
       　<i class="fa fa-sun-o"> 我的位置</i>
