@@ -181,6 +181,18 @@ var gulp = require('gulp'),
     useref = require('gulp-useref'),
     gulpif = require('gulp-if'),
 
+
+    /**
+     * ES6 支持
+     * 需安装：
+       npm install --save-dev gulp-babel
+       npm install --save-dev babel-preset-es2015
+       npm install --save-dev babel-core
+     *
+     */
+    babel = require("gulp-babel"),
+
+
     concat = require('gulp-concat'),
     filter = require('gulp-filter'),
     flatten = require('gulp-flatten'),
@@ -299,6 +311,10 @@ gulp.task('html-useref',['wiredep'], function(){
         .pipe(useref())
         .pipe(gulpif('*.css', cleanCSS()))
         .pipe(gulpif('*.html', htmlmin({collapseWhitespace: true,removeComments: true})))
+
+
+        /* ES6支持 */
+        .pipe(gulpif('*.js',  babel({presets: ['es2015']})))
 
 
         .pipe(gulpif('*.js',  uglify({compress: { drop_console: true }})))
