@@ -4,7 +4,7 @@
 .page-search-view{
   display: flex;
   flex-direction: column;
-  background:#ddd;
+  background:#ffffff;
 }
 .page-search-view > img{
   width: 100%;
