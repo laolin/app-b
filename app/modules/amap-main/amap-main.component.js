@@ -3,22 +3,16 @@
 
 angular.module('amap-main')
 .component('amapMain',{
-    template: 'Map Loading...',  
+    template: 'Map Loading...',
     bindings: {
-
-    
     },
-    controller: ['$scope','$log','$timeout','$element','AmapMainData',
-      function ($scope,$log,$timeout,$element,AmapMainData){
-        var ctrl=this;
-        var markData;
-        
-        AmapMainData.showMapTo($element[0]);
-        
-        ctrl.$onInit=function() {
+    controller: ['$scope', '$element','AmapMainData', 'FacMap',
+      function ($scope, $element, AmapMainData, FacMap){
+        console.log("隐藏所有地图标志！");
+        for(var i = FacMap.searchMarkers.length - 1; i>=0; i--) {
+          FacMap.searchMarkers[i].hide();
         }
-
-          
+        AmapMainData.showMapTo($element[0]);
       }
     ]
 })
