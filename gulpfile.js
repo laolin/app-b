@@ -314,8 +314,11 @@ gulp.task('html-useref',['wiredep'], function(){
 
 
         /* ES6支持 */
-        .pipe(gulpif('*.js',  babel({presets: ['es2015']})))
-
+        .pipe(gulpif(/4.*\.js/,  babel({presets: ['es2015']})))
+        .on('error', function(err) {
+          console.log('babel 转换错误：', err);
+          this.end();
+        })
 
         .pipe(gulpif('*.js',  uglify({compress: { drop_console: true }})))
         .pipe(rev()) 
