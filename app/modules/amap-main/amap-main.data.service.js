@@ -152,7 +152,7 @@ function ($log,$timeout,$http,$q,AppbData){
 
     function loadMapScript() {
       return $.getScript("https://webapi.amap.com/maps?v=1.3&key=b4a551eacfbb920a6e68b5eca1126dd5" +
-      "&plugin=AMap.ToolBar,AMap.Geocoder,AMap.PlaceSearch,AMap.DistrictSearch");
+      "&plugin=AMap.ToolBar,AMap.Geocoder,AMap.PlaceSearch,AMap.DistrictSearch,AMap.CitySearch");
       //,AMap.Autocomplete,AMap.Scale,AMap.OverView";
     }
     //$http.jsonp经常会 reject，改用jQuery加载地图js
@@ -286,6 +286,22 @@ function ($log,$timeout,$http,$q,AppbData){
     }
 
     /**
+     * 当前用户所在城市
+     * 返回 承诺
+     */
+    function getLocalCity(){
+      if(getLocalCity.promise) return $q.when(getLocalCity.promise);
+      var deferred = $q.defer();
+      getLocalCity.promise = deferred.promise;
+      $q.when(onAmap, (amap) => {
+        new AMap.CitySearch().getLocalCity((status, city) =>{
+          deferred.resolve(getLocalCity.promise = city)
+        });
+      });
+      return getLocalCity.promise;
+    }
+
+    /**
      * 根据名称，查城市数据
      */
     function findCity(cityList, names){
@@ -310,6 +326,7 @@ function ($log,$timeout,$http,$q,AppbData){
         return findCity(cityList, names);
       });
     }
+
     /**
      * 在获取成功全国城市列表后，方可调用
      */
@@ -331,15 +348,12 @@ function ($log,$timeout,$http,$q,AppbData){
     }
 
     return {
+      getLocalCity: getLocalCity,
       getCity   : getCity   ,
       getSubCity: getSubCity,
       getAllCity: getAllCity
     }
   })();
-
-  china.getAllCity().then(json=>{
-    console.log('中华人民共和国,', json)
-  });
 
 
   return {
