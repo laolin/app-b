@@ -32,7 +32,7 @@
      * 搜索
      */
     $scope.research = function(searchType){
-      console.log($scope.search);
+      var monthBetween = $scope.search.monthBetween || {};
       var param = {
         searchType : searchType || FacSearch.searchType,
         distSelect : $scope.search.distSelect  ,
@@ -40,8 +40,8 @@
         orderBy    : $scope.search.orderBy     ,
         currentCity: $scope.search.currentCity ,
         searchWord : $scope.search.searchWord||'',
-        monthFrom  : $scope.search.monthBetween.from||'',
-        monthTo    : $scope.search.monthBetween.to||'',
+        monthFrom  : monthBetween.from||'',
+        monthTo    : monthBetween.to||'',
       };
       if($location.$$path == "/search"){
         $location.path('/search/searching').search(param);
