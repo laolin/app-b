@@ -18,7 +18,7 @@
   }]);
 
   function ctrl($scope, $routeParams,$log,$location,AppbData,FacSearch,FacMap) {
-
+    appData.setPageTitle('搜索');
 
     $scope.appData = AppbData.getAppData();
 
@@ -73,30 +73,11 @@
 
     else{
       $scope.searching = false;
-      FacSearch.d = {
-        currentCity: "上海市杨浦区",
-        monthBetween: {from:'2017.12', to:'2018.3'}
-      }
-
-      var appData=AppbData.getAppData();
-
-      appData.setPageTitle('搜索钢构产能');
-      $scope.$on('$viewContentLoaded', function () {
-        if(!FacMap.searchMarkers.length)
-          FacMap.selPositionStart('search','选点搜周边');
-        FacSearch.showSearchMarkers(1,FacSearch.searchType);
-
-      });
-      $scope.$on('$destroy', function () {
-        FacSearch.showSearchMarkers(0,FacSearch.searchType);
-        FacSearch.hideInfoWindow();
-        FacMap.selPositionEnd();
-      });
 
       $scope.searchResult = [];
       $scope.search = FacSearch.options;
       angular.extend(FacSearch.options, {
-        currentCity: "上海市 上海城区 杨浦区",
+        currentCity: FacSearch.options.currentCity || "上海市 上海城区 杨浦区",
         monthBetween: {from:'2017.12', to:'2018.3'},
         level: "all",
         orderBy: '按距离排序'

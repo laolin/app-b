@@ -75,15 +75,20 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
 
     /**
      * 根据城市名称搜索
+     *
+     * 在执行搜索时，如果有经纬度，就不管城市而按该位置查询
+     * 如果只有城市，没有经纬度，就按城市搜索
      */
-    if(FacSearch.options.currentCity){
+    if(FacSearch.options.currentCity && (!FacSearch.options.lat || ! FacSearch.options.lng)){
       return AmapMainData.china.getCity(FacSearch.options.currentCity).then(
         city => {
           console.log('查到城市：', city);
           FacSearch.options.lat = city.center.lat;
           FacSearch.options.lng = city.center.lng;
-          FacSearch.options.currentCity = '';
-          return FacSearch.startSearch(type, dontReLocation);
+          return FacSearch.startSearch(type, dontReLocation).then( res => {
+            FacSearch.options.lat = FacSearch.options.lng = false;
+            return res;
+          });
         },
         (e) => {
           console.log('无效的城市？', e);
