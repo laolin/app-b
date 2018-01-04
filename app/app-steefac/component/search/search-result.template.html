@@ -21,6 +21,11 @@
     </div>
     <i class="shrink0 next fa fa-angle-right"></i>
   </div>
+  <div class="text-3 rem-12" padding=".20rem" scroll-refresh="checkTop($isTopMost)" on-visible="loadMore($element, $top, $isTopMost)" ng-if="page.minSize < page.totle">
+    <span class="text-warning" ng-if="page.size < page.totle">已加载 {{page.size}}/{{page.totle}} 条数据，正在加载...</span>
+    <span class="text-3" ng-if="page.size >= page.totle">{{allLoaded>3 && '还拉呀！ 这真的是底线啦' || allLoaded>1 && '别再拉了！　这是底线' || '哦，到底了'}}</span>
+    <div goto-top-most ng-if="!isTopMost">要回到顶部！</div>
+  </div>
   <div class="text-3 rem-12" padding=".20rem" ng-if="!list.length">
     没找到
   </div>
@@ -39,6 +44,11 @@
       <div class="row-2">首批供货时间：<span>{{ProjDefine.objReqInMonth[item.in_month]}}</span></div>
     </div>
     <i class="shrink0 next fa fa-angle-right"></i>
+  </div>
+  <div class="text-3 rem-12" padding=".20rem" scroll-refresh="checkTop($isTopMost)" on-visible="loadMore($element, $top, $isTopMost)" ng-if="page.minSize < page.totle">
+    <span class="text-warning" ng-if="page.size < page.totle">已加载 {{page.size}}/{{page.totle}} 条数据，正在加载...</span>
+    <span class="text-3" ng-if="page.size >= page.totle">{{allLoaded>3 && '还拉呀！ 这真的是底线啦' || allLoaded>1 && '别再拉了！　这是底线' || '哦，到底了'}}</span>
+    <div goto-top-most ng-if="!isTopMost">要回到顶部！</div>
   </div>
   <div class="text-3 rem-12" padding=".20rem" ng-if="!list.length">
     没找到

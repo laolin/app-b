@@ -28,24 +28,43 @@
     /**
      * 分页
      */
+    $scope.dataReady = false;
     $scope.list = [];
     var page = $scope.page = {
+      totle: 0,
       current: 0,
-      size: 6
+      minSize: 8,
+      size: 8
     }
-    function initPage(nthPage){
-      nthPage = nthPage || 0;
+    function initPage(){
       $scope.list = [];
-      var result = ctrl.result;
-      if(!result) return;
-      for(var i = 0; i< page.size; i++){
-        if(nthPage * page.size + i < result.length)
-        $scope.list.push(result[nthPage * page.size + i]);
+      if(!ctrl.result) return;
+      page.totle = ctrl.result.length || 0;
+      page.size = page.minSize;
+      for(var i = 0; i < page.size && i < page.totle; i++){
+        $scope.list.push(ctrl.result[i]);
+      }
+    }
+    /**
+     * 下拉刷新
+     */
+    $scope.isTopMost = true;
+    $scope.checkTop = function(isTopMost){
+      $scope.isTopMost = isTopMost;
+    }
+    $scope.allLoaded = 0;
+    $scope.loadMore = function(event, top, isTopMost){
+      console.log('分页, top=', top, ',isTopMost=', isTopMost);
+      if(page.size >= page.totle){
+        $scope.allLoaded ++;
+      }
+      for(var i = 0 ; i< page.minSize && page.size < page.totle; i++, page.size++){
+        $scope.list.push(ctrl.result[page.size]);
       }
     }
 
     /**
-     * 分页
+     * 点击
      */
     var routers = {
       steefac: '/fac-detail/',
@@ -53,9 +72,7 @@
     }
     $scope.clickItem = function(item){
       console.log(item);
-      //return $location.path("/fac-detail/" + item.id).search({});
       return $location.path(routers[FacSearch.searchType] + item.id).search({});
-
     }
   }
 })(window, angular);
