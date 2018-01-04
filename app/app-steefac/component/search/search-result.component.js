@@ -20,8 +20,8 @@
     $scope.FacSearch = FacSearch;
     $scope.ProjDefine = ProjDefine;
     var ctrl=this;
-      console.log('搜索结果组件');
     ctrl.$onChanges=function(chg){
+      $scope.dataReady = !!ctrl.result;
       initPage();
     }
 

@@ -53,7 +53,7 @@
 
     if($routeParams.ac == 'searching'){
       $scope.searching = true;
-      $scope.searchResult = [];
+      $scope.searchResult = '';
       $scope.search = FacSearch.options;
       angular.extend(FacSearch.options, {
         //currentCity: "上海市杨浦区",
