@@ -355,6 +355,10 @@ function ($log,$timeout,$http,$q,AppbData){
     }
   })();
 
+  china.getAllCity().then(json=>{
+    //console.log('提前获取全国数据！', json)
+  });
+
 
   return {
     china: china,
