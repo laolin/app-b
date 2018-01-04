@@ -284,6 +284,32 @@ function ($log,$timeout,$http,$q,AppbData){
       });
       return getAllCity.promise;
     }
+
+    /**
+     * 根据名称，查城市数据
+     */
+    function findCity(cityList, names){
+      let city;
+      for(let name of names){
+        if(!name || !cityList) return {};
+        city = cityList.find(subCity => {
+          return subCity.name == name;
+        });
+        if(!city) return {};
+        cityList = city.districtList;
+      }
+      return city;
+    }
+
+    /**
+     * 在获取成功全国城市列表后，方可调用
+     */
+    function getCity(cityName){
+      let names = cityName ? cityName.split(' ') : [];
+      return getAllCity().then( cityList => {
+        return findCity(cityList, names);
+      });
+    }
     /**
      * 在获取成功全国城市列表后，方可调用
      */
@@ -305,6 +331,7 @@ function ($log,$timeout,$http,$q,AppbData){
     }
 
     return {
+      getCity   : getCity   ,
       getSubCity: getSubCity,
       getAllCity: getAllCity
     }
