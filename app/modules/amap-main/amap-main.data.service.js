@@ -269,7 +269,7 @@ function ($log,$timeout,$http,$q,AppbData){
     var levelName = ['country', 'province', 'city', 'district', 'biz_area'];
 
     function getAllCity(){
-      if(getAllCity.promise) return $q.resolve(getAllCity.promise);
+      if(getAllCity.promise) return $q.when(getAllCity.promise);
       var deferred = $q.defer();
       getAllCity.promise = deferred.promise;
       $q.when(onAmap, (amap) => {
