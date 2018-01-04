@@ -38,6 +38,14 @@
   });
 
   /**
+   * padding
+   */
+  simpleStyle('padding', function(val, element, attr) {
+    if(!("" + val))return;
+    element[0].style['padding'] = val;
+  });
+
+  /**
    * 后随箭头
    */
   simpleStyle('next', function(val, element, attr) {
