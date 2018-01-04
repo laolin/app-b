@@ -7,7 +7,7 @@
 !(function (window, angular, undefined){
   'use strict';
   var config = {
-    templateUrl: 'app-steefac/search/search.view.template.html',
+    templateUrl: 'app-steefac/view/search/search.view.template.html',
     controller: ['$scope','$routeParams','$log','$location','AppbData','FacSearch','FacMap',ctrl]
   }
   angular.module('steefac')
@@ -32,11 +32,16 @@
      * 搜索
      */
     $scope.research = function(searchType){
+      console.log($scope.search);
       var param = {
-        searchType: searchType || FacSearch.searchType,
-        distSelect: $scope.search.distSelect,
-        level     : $scope.search.level     ,
-        orderBy   :$scope.search.orderBy    ,
+        searchType : searchType || FacSearch.searchType,
+        distSelect : $scope.search.distSelect  ,
+        level      : $scope.search.level       ,
+        orderBy    : $scope.search.orderBy     ,
+        currentCity: $scope.search.currentCity ,
+        searchWord : $scope.search.searchWord||'',
+        monthFrom  : $scope.search.monthBetween.from||'',
+        monthTo    : $scope.search.monthBetween.to||'',
       };
       if($location.$$path == "/search"){
         $location.path('/search/searching').search(param);
@@ -53,9 +58,13 @@
       angular.extend(FacSearch.options, {
         //currentCity: "上海市杨浦区",
         //monthBetween: {from:'2017.12', to:'2018.3'},
-        distSelect: $location.$$search.distSelect,
-        level     : $location.$$search.level     ,
-        orderBy   : $location.$$search.orderBy   ,
+        distSelect : $location.$$search.distSelect  ,
+        level      : $location.$$search.level       ,
+        orderBy    : $location.$$search.orderBy     ,
+        currentCity: $location.$$search.currentCity ,
+        searchWord : $location.$$search.searchWord  ,
+        monthFrom  : $location.$$search.monthFrom   ,
+        monthTo    : $location.$$search.monthTo     ,
       });
       FacSearch.startSearch($location.$$search.searchType || FacSearch.searchType, 'dontReLocation').then(function(res){
         $scope.searchResult = res;
