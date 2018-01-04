@@ -21,6 +21,9 @@
     </div>
     <i class="shrink0 next fa fa-angle-right"></i>
   </div>
+  <div class="text-3 rem-12" padding=".20rem" ng-if="!list.length">
+    没找到
+  </div>
 </div>
 
 <div class="result-items" ng-if="FacSearch.searchType=='steeproj'">
@@ -36,5 +39,8 @@
       <div class="row-2">首批供货时间：<span>{{ProjDefine.objReqInMonth[item.in_month]}}</span></div>
     </div>
     <i class="shrink0 next fa fa-angle-right"></i>
+  </div>
+  <div class="text-3 rem-12" padding=".20rem" ng-if="!list.length">
+    没找到
   </div>
 </div>
