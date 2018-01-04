@@ -20,6 +20,11 @@ search-form input{
 search-form input.w5em{
   width: 5em;
 }
+search-form .my-city{
+  margin: 0 .08rem;
+  width: .12rem;
+  height:.12rem;
+}
 
 /* 搜索结果列表 */
 .result-items{ padding: 0; }

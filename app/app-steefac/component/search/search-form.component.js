@@ -13,9 +13,14 @@
     bindings: {
       searchData: '='
     },
-    controller:['$http','$log','$interval',
-    function ($http,$log,$interval) {
-
+    controller:['$scope', 'AmapMainData', 'AppbData', function ($scope, AmapMainData, AppbData) {
+      var ctrl = this;
+      $scope.appData = AppbData.getAppData();
+      $scope.getMyCity = function(){
+        AmapMainData.china.getLocalCity().then( (city) =>{
+          ctrl.searchData.options.currentCity = city.province + ' ' + city.city;
+        });
+      }
     }]
   });
 })(window, angular);
