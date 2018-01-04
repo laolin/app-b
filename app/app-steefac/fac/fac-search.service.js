@@ -72,11 +72,34 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
       $log.log('**err search type:',type);
       return $q.reject('**err search type:' + type);
     }
-    
-  
+
+    /**
+     * 根据城市名称搜索
+     */
+    if(FacSearch.options.currentCity){
+      return AmapMainData.china.getCity(FacSearch.options.currentCity).then(
+        city => {
+          console.log('查到城市：', city);
+          FacSearch.options.lat = city.center.lat;
+          FacSearch.options.lng = city.center.lng;
+          FacSearch.options.currentCity = '';
+          return FacSearch.startSearch(type, dontReLocation);
+        },
+        (e) => {
+          console.log('无效的城市？', e);
+          // 无效的城市？
+          FacSearch.options.currentCity = '';
+          return FacSearch.startSearch(type, dontReLocation);
+        }
+      );
+    }
     
     var bd;
-    var serchPara={s:FacSearch.searchWord};
+    var serchPara={
+      s: FacSearch.searchWord || FacSearch.options.searchWord,
+      orderBy: FacSearch.options.orderBy,
+      dist   : Math.floor(1e3*FacSearch.distValue[FacSearch.options.distSelect]),
+    };
 
     if(mapData.map) {
       FacSearch.hideInfoWindow()
@@ -95,6 +118,9 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
             (mapData.northeast.lng- mapData.southwest.lng)
           )/2
         );
+      } else if(FacSearch.options.lat && FacSearch.options.lng){
+        serchPara.lat = Math.floor(1e7 * FacSearch.options.lat);
+        serchPara.lng = Math.floor(1e7 * FacSearch.options.lng);
       } else {
         if(FacSearch.searchResultSelected>=0) {
           //从选中的搜索结果的周边搜索
@@ -123,7 +149,6 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
   FacSearch.doSearch=function(serchPara,type, dontReLocation){
     FacSearch.searching=true;
     //FacSearch.searchResultSelected=-1;
-    
     serchPara.type=type;
     return AppbAPI('steeobj','search',serchPara).then(
       function(s){
