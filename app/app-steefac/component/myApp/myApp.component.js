@@ -29,6 +29,14 @@ angular.module('steefac')
     d.setTime(timespan * 1000);
     return timeFormat(d, format || "yyyy-mm-dd");
   }
+})
+.filter('distance', function() { //可以注入依赖
+  return function(distance) {
+    distance = + distance;
+    if(distance < 1000) return Math.round(distance) + " m";
+    distance = Math.round(distance/100) + "";
+    return Math.floor(distance / 10) + '.' + distance%10 + ' Km';
+  }
 });
 
 /** * 对Date的扩展，将 Date 转化为指定格式的String * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
