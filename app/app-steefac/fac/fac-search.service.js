@@ -148,8 +148,21 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
     }
     serchPara.count=FacSearch.options.countRes;
     if(FacUser.isSysAdmin())serchPara.count=SEARCH_SIZE_SYSADMIN;
-    return FacSearch.doSearch(serchPara,type, dontReLocation);
+    return FacSearch.doSearch(serchPara,type, dontReLocation)
+    .then(list => {
+      /**
+       * 计算点到最后搜索基点的距离
+       */
+      var serchPos = new AMap.LngLat(serchPara.lng/1e7, serchPara.lat/1e7);
+      list.map( item => {
+        item.distance = serchPos.distance([item.lngE7/1e7, item.latE7/1e7]);
+      });
+      console.log('serchPara = ', serchPara);
+      console.log('serchPos = ', serchPos);
+      return list;
+    });
   }
+
   FacSearch.doSearch=function(serchPara,type, dontReLocation){
     FacSearch.searching=true;
     //FacSearch.searchResultSelected=-1;
