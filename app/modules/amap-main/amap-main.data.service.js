@@ -361,6 +361,7 @@ function ($log,$timeout,$http,$q,AppbData){
 
 
   return {
+    onAmap: onAmap,
     china: china,
     showMapTo:showMapTo,
     getMapData:function () {return mapData}

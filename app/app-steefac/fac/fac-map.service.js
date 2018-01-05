@@ -8,8 +8,10 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   var appData=AppbData.getAppData();
   var mapData=AmapMainData.getMapData();
 
+  var AwesomeMarkerDeferred = $q.defer();
   var FacMap={
     loading:true,
+    AwesomeMarker: AwesomeMarkerDeferred.promise,
     mapData:mapData,
     myPosition:{},
     addrInput:{},
@@ -62,6 +64,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       FacMap.loading=false;
 
       AMapUI.loadUI(['overlay/AwesomeMarker'], function(AwesomeMarker) {
+        AwesomeMarkerDeferred.resolve(AwesomeMarker);
         FacMap.AwesomeMarker=AwesomeMarker;
         FacMap.selMarker=
           FacMap.newMarker('#fff','18px','header',appData.mapData.map.getCenter(),true,'可拖动定位');
