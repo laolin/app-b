@@ -61,11 +61,20 @@
         distSelect : $location.$$search.distSelect  ,
         level      : $location.$$search.level       ,
         orderBy    : $location.$$search.orderBy     ,
-        currentCity: $location.$$search.currentCity ,
         searchWord : $location.$$search.searchWord  ,
         monthFrom  : $location.$$search.monthFrom   ,
         monthTo    : $location.$$search.monthTo     ,
       });
+      if($location.$$search.currentCity){
+        FacSearch.options.currentCity = $location.$$search.currentCity;
+        FacSearch.options.lng = '';
+        FacSearch.options.lat = '';
+      }
+      else if($location.$$search.lng){
+        FacSearch.options.currentCity = '';
+        FacSearch.options.lng = $location.$$search.lng;
+        FacSearch.options.lat = $location.$$search.lat;
+      }
       FacSearch.startSearch($location.$$search.searchType || FacSearch.searchType, 'dontReLocation').then(function(res){
         $scope.searchResult = res;
       });
