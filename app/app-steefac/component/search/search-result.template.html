@@ -16,7 +16,7 @@
       <div class="row-2">剩余产能：<span>{{item.area_factory}}吨</span></div>
       <div class="flex row-3">
         <div class="">擅长：<span>{{item.goodat}}</span></div>
-        <div class="">1.2KM</div>
+        <div class="">{{item.distance|distance}}</div>
       </div>
     </div>
     <i class="shrink0 next fa fa-angle-right"></i>
@@ -41,7 +41,10 @@
         <div class="update shrink0">{{item.update_at|timespan:'MM月d日更新'}}</div>
       </div>
       <div class="row-2">采购量：<span>{{item.need_steel}}吨</span></div>
-      <div class="row-2">首批供货时间：<span>{{ProjDefine.objReqInMonth[item.in_month]}}</span></div>
+      <div class="flex row-3">
+        <div class="">首批供货时间：<span>{{ProjDefine.objReqInMonth[item.in_month]}}</span></div>
+        <div class="">{{item.distance|distance}}</div>
+      </div>
     </div>
     <i class="shrink0 next fa fa-angle-right"></i>
   </div>
