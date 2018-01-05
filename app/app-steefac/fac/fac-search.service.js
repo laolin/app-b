@@ -104,8 +104,12 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
       orderBy: FacSearch.options.orderBy,
       dist   : Math.floor(1e3*FacSearch.distValue[FacSearch.options.distSelect]),
     };
-
-    if(mapData.map) {
+    if(FacSearch.options.lat && FacSearch.options.lng){
+      serchPara.lat = Math.floor(1e7 * FacSearch.options.lat);
+      serchPara.lng = Math.floor(1e7 * FacSearch.options.lng);
+      serchPara.dist= Math.floor(1e3*FacSearch.distValue[FacSearch.options.distSelect||0]);
+    }
+    else if(mapData.map) {
       FacSearch.hideInfoWindow()
       bd=mapData.map.getBounds( );
       mapData.northeast=bd.northeast;
@@ -122,9 +126,6 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
             (mapData.northeast.lng- mapData.southwest.lng)
           )/2
         );
-      } else if(FacSearch.options.lat && FacSearch.options.lng){
-        serchPara.lat = Math.floor(1e7 * FacSearch.options.lat);
-        serchPara.lng = Math.floor(1e7 * FacSearch.options.lng);
       } else {
         if(FacSearch.searchResultSelected>=0) {
           //从选中的搜索结果的周边搜索
