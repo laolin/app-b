@@ -45,6 +45,7 @@
     function resolveFac(fac){
       appData.setPageTitle(fac.name+'-详情');
       $scope.fac = fac;
+      FacSearch.markObj(fac, 'steeproj');
     }
 
     /**
