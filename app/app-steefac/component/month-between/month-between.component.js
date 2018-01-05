@@ -45,7 +45,6 @@
       $scope.b = be2str(data.b);
       $scope.e = be2str(data.e);
       $scope.n = data.e - data.b + 1;
-      console.log('111')
     };
 
     /**
@@ -75,7 +74,6 @@
       $scope.lastYear = Math.floor(data.e/12) + 1;
       $scope.years = [];
       for(var i = $scope.firstYear ; i<= $scope.lastYear; i++)$scope.years.push(i);
-      console.log("选吧");
     }
     $scope.cssMonth = function(month){
       var b = $scope.picking.b || data.b;
