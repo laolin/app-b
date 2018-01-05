@@ -82,7 +82,6 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
     if(FacSearch.options.currentCity && (!FacSearch.options.lat || ! FacSearch.options.lng)){
       return AmapMainData.china.getCity(FacSearch.options.currentCity).then(
         city => {
-          console.log('查到城市：', city);
           FacSearch.options.lat = city.center.lat;
           FacSearch.options.lng = city.center.lng;
           return FacSearch.startSearch(type, dontReLocation).then( res => {
@@ -196,7 +195,22 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
   }
 
 
-
+  /**
+   * 显示产能或项目到地图上
+   * 显示内容：图标 + 文字
+   * 在地图及UI备妥（承诺）后，才显示
+   */
+  FacSearch.markObj = function(obj, type) {
+    $q.when(FacMap.AwesomeMarker, ()=>{
+      var pos = [obj.lngE7/1E7, obj.latE7/1E7];
+      var mark = FacMap.newMarker('#fff','16px',objIcons[type],pos,false,(''+ obj.name).substr(0,4));
+      FacMap.searchMarkers = [mark];
+      mark.show();
+      mark.selIndex = 0;
+      FacSearch.showObjInfoWindow(obj, type, -32);
+      mapData.map.setZoomAndCenter(10, pos);
+    });
+  }
 
 
 
@@ -350,7 +364,6 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
     }
     
     return AppbAPI('steeobj','detail',{type:type,id:id}).then(function(s){
-      $log.log('detail-',type,id,s);
       if(!s) {
         deferred.reject('noData');
         return deferred.promise;
