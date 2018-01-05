@@ -365,29 +365,23 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
     });
   }  
   
-  FacSearch.getDetail=function(type,id) {
-    var deferred = $q.defer();
+  FacSearch.getDetail = function(type, id, reRequest) {
     if( !FacSearch.isTypeValid(type) ) {
-      deferred.reject('errType');
-      return deferred.promise;
+      return $q.reject('errType');
     }
-    if(FacSearch.datailCache[type+id]) {
-      deferred.resolve(FacSearch.datailCache[type+id]);
-      return deferred.promise;
+    if(!reRequest && FacSearch.datailCache[type + id]) {
+      return $q.resolve(FacSearch.datailCache[type+id]);
     }
-    
+
     return AppbAPI('steeobj','detail',{type:type,id:id}).then(function(s){
       if(!s) {
-        deferred.reject('noData');
-        return deferred.promise;
+        return $q.reject('noData');
       }
       objDefines[type].formatObj(s);
       FacSearch.datailCache[type+id]=s;      
-      deferred.resolve(FacSearch.datailCache[type+id]);
-      return deferred.promise;
+      return FacSearch.datailCache[type+id];
     },function(e){
-      deferred.reject(e);
-      return deferred.promise;
+      return $q.reject(e);
     });
   }
   
