@@ -27,7 +27,7 @@
      * 初始化
      */
     $q.all([
-      FacSearch.getDetail("steeproj", facId),
+      FacSearch.getDetail("steeproj", facId, true),
       FacUser.getMyData()
     ]).then(
       function(results){
