@@ -66,6 +66,68 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
   FacSearch.clearSearchWord=function(){
     FacSearch.searchWord='';
   }
+
+  /**
+   * 再写一个新的搜索函数
+   * 1. 不污染其它数据
+   * 2. 不依赖原搜索
+   * 3. 不依赖地图
+   */
+  FacSearch.search = function(param, type){
+    if(!FacSearch.isTypeValid(type)){
+      return $q.reject('**err search type:' + type);
+    }
+
+    /**
+     * 根据城市名称搜索 ( 转换为经纬度后，递归 )
+     *
+     * 在执行搜索时，如果有经纬度，就不管城市而按该位置查询
+     * 如果只有城市，没有经纬度，就按城市搜索
+     */
+    if(param.currentCity && (!param.lat || ! param.lng)){
+      return AmapMainData.china.getCity(param.currentCity).then(
+        city => {
+          console.log('城市？', city);
+          return FacSearch.search(angular.extend(param, {lng: city.center.lng, lat: city.center.lat}), type)
+        },
+        (e) => {
+          console.log('无效的城市？', e);
+          // 无效的城市？
+          return FacSearch.search(angular.extend(param, {currentCity: ''}), type);
+        }
+      );
+    }
+
+    /* 固定参数 */
+    var serchPara = {
+      count  : FacSearch.options.countRes,
+      type   : type,
+      orderBy: param.orderBy,
+      lat    : Math.floor(1e7 * param.lat), // 为什么不直接传递？( (''+lat).substr(0, 11) )
+      lng    : Math.floor(1e7 * param.lng),
+      dist   : Math.floor(1e3*FacSearch.distValue[param.distSelect || 0]),
+    };
+    /* 可选参数 */
+    if(param.searchWord) serchPara.s         = param.searchWord;
+    if(param.level     ) serchPara.level     = param.level     ;
+    if(param.monthFrom ) serchPara.monthFrom = param.monthFrom ;
+    if(param.monthTo   ) serchPara.monthTo   = param.monthTo   ;
+
+    /* 开始搜索 */
+    return AppbAPI('steeobj','search',serchPara)
+    .then(list => {
+      /**
+       * 计算点到最后搜索基点的距离
+       */
+      var serchPos = new AMap.LngLat(param.lng, param.lat);
+      list.map( item => {
+        item.distance = serchPos.distance([item.lngE7/1e7, item.latE7/1e7]);
+      });
+      console.log('serchPara = ', serchPara);
+      console.log('serchPos = ', serchPos);
+      return {list, pos: serchPos};
+    });
+  }
   
   FacSearch.startSearch=function(type, dontReLocation){
     if(!FacSearch.isTypeValid(type)){
@@ -223,6 +285,28 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
       mark.selIndex = 0;
       FacSearch.showObjInfoWindow(obj, type, -32);
       mapData.map.setZoomAndCenter(10, pos);
+    });
+  }
+  /**
+   * 显示产能或项目到地图上(多个)
+   * 显示内容：图标 + 文字
+   * 在地图及UI备妥（承诺）后，才显示
+   */
+  FacSearch.markObjList = function(list, type, scale, center){
+    FacSearch.searching = false;
+    if(!list || !list.length) return;
+    $q.when(FacMap.AwesomeMarker, ()=>{
+      FacMap.searchMarkers = [];
+      list.map((obj, index) => {
+        var pos = [obj.lngE7/1E7, obj.latE7/1E7];
+        center = center || pos; // 未指定中心，就使用第一个位置
+        var mark = FacMap.newMarker('#fff','16px',objIcons[type],pos,false,(''+ obj.name).substr(0,4));
+        FacMap.searchMarkers.push(mark);
+        mark.show();
+        //mark.selIndex = index;
+        //FacSearch.showObjInfoWindow(obj, type, -32);
+      })
+      mapData.map.setZoomAndCenter(8 - scale * 1, center);
     });
   }
 
