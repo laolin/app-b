@@ -26,6 +26,19 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     
     creating:false
   };
+
+  /**
+   * 清除所有标志
+   */
+  FacMap.clearAllMark = function() {
+    for(var i = FacMap.searchMarkers.length - 1; i>=0; i--) {
+      FacMap.searchMarkers[i].hide();
+      FacMap.searchMarkers[i].setMap(null);
+    }
+    FacMap.searchMarkers = [];
+    FacMap.infoWindow && FacMap.infoWindow.close();
+  };
+
   FacMap.newMarker=function(cssColor,cssSize,icon,position,draggable,text) {
     return new FacMap.AwesomeMarker({
       //设置awesomeIcon
