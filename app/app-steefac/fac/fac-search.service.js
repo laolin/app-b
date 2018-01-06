@@ -278,6 +278,7 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
    */
   FacSearch.markObj = function(obj, type) {
     $q.when(FacMap.AwesomeMarker, ()=>{
+      FacMap.clearAllMark();
       var pos = [obj.lngE7/1E7, obj.latE7/1E7];
       var mark = FacMap.newMarker('#fff','16px',objIcons[type],pos,false,(''+ obj.name).substr(0,4));
       FacMap.searchMarkers = [mark];
@@ -296,6 +297,7 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
     FacSearch.searching = false;
     if(!list || !list.length) return;
     $q.when(FacMap.AwesomeMarker, ()=>{
+      FacMap.clearAllMark();
       FacMap.searchMarkers = [];
       list.map((obj, index) => {
         var pos = [obj.lngE7/1E7, obj.latE7/1E7];
@@ -317,10 +319,7 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
     
     //selMarker已ready，说明可以安全地创建其他marker
     FacMap.getSelMarker().then(function(){
-      for(var i=0;i<FacMap.searchMarkers.length;i++) {
-        FacMap.searchMarkers[i].setMap(null);
-      }
-      FacMap.searchMarkers=[];
+      FacMap.FacMap.clearAllMark();
 
       var maxlat=-555e7;
       var maxlng=-555e7;
