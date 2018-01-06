@@ -123,8 +123,8 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
       list.map( item => {
         item.distance = serchPos.distance([item.lngE7/1e7, item.latE7/1e7]);
       });
-      console.log('serchPara = ', serchPara);
-      console.log('serchPos = ', serchPos);
+      //console.log('serchPara = ', serchPara);
+      //console.log('serchPos = ', serchPos);
       return {list, pos: serchPos};
     });
   }
@@ -293,25 +293,20 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
    * 显示内容：图标 + 文字
    * 在地图及UI备妥（承诺）后，才显示
    */
-  FacSearch.markObjList = function(list, type, scale, center){
+  FacSearch.markObjList = function(list, type){
     FacSearch.searching = false;
-    if(!list || !list.length) return;
-    $q.when(FacMap.AwesomeMarker, ()=>{
+    if(!list || !list.length) return $q.when(1);
+    return $q.when(FacMap.AwesomeMarker, ()=>{
       FacMap.clearAllMark();
       FacMap.searchMarkers = [];
-      list.map((obj, index) => {
+      for(let obj of list) {
         var pos = [obj.lngE7/1E7, obj.latE7/1E7];
-        center = center || pos; // 未指定中心，就使用第一个位置
         var mark = FacMap.newMarker('#fff','16px',objIcons[type],pos,false,(''+ obj.name).substr(0,4));
         FacMap.searchMarkers.push(mark);
         mark.show();
-        //mark.selIndex = index;
-        //FacSearch.showObjInfoWindow(obj, type, -32);
-      })
-      mapData.map.setZoomAndCenter(8 - scale * 1, center);
+      }
     });
   }
-
 
 
     
