@@ -73,7 +73,7 @@
     }
     $scope.clickItem = function(item){
       console.log(item);
-      return $location.path(routers[FacSearch.searchType] + item.id).search({});
+      return $location.path(routers[ctrl.type] + item.id).search({});
     }
   }
 })(window, angular);
