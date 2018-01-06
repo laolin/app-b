@@ -2,8 +2,8 @@
 (function(){
 
 angular.module('amap-main')
-.factory('AmapMainData', ['$log','$timeout','$http','$q','AppbData',
-function ($log,$timeout,$http,$q,AppbData){
+.factory('AmapMainData', ['$log', '$rootScope', '$timeout','$http','$q','AppbData',
+function ($log, $rootScope, $timeout,$http,$q,AppbData){
   var svc=this;
   var amapDeferred = $q.defer();
   var onAmap = amapDeferred.promise;
@@ -180,13 +180,14 @@ function ($log,$timeout,$http,$q,AppbData){
     $timeout(callback,1);
   }
   function _onMove(msg) {
+    $rootScope.$broadcast('AMap.OnMove', msg);
     var bd=mapData.map.getBounds( );
     mapData.northeast=bd.northeast;
     mapData.southwest=bd.southwest;
     if('function'==typeof mapData.onMove)mapData.onMove(msg);
   }
   function _onClick(msg) {
-    $log.log('_onClick',msg);
+    $rootScope.$broadcast('AMap.OnClick', msg);
     if('function'==typeof mapData.onClick)mapData.onClick(msg);
   }
   function _onLocateComplete(msg) {
