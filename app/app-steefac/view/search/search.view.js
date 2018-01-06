@@ -8,7 +8,7 @@
   'use strict';
   var config = {
     templateUrl: 'app-steefac/view/search/search.view.template.html',
-    controller: ['$scope','$routeParams','$log','$location','AppbData','FacSearch','FacMap',ctrl]
+    controller: ['$scope','$routeParams','$q','$location','AppbData','FacSearch', 'FacMap', 'AmapMainData',ctrl]
   }
   angular.module('steefac')
   .config(['$routeProvider', function($routeProvider) {
@@ -17,7 +17,7 @@
       .when('/search/:ac', config);
   }]);
 
-  function ctrl($scope, $routeParams,$log,$location,AppbData,FacSearch,FacMap) {
+  function ctrl($scope, $routeParams,$q,$location,AppbData,FacSearch, FacMap, AmapMainData) {
     appData.setPageTitle('搜索');
 
     $scope.appData = AppbData.getAppData();
@@ -86,8 +86,7 @@
       var type = $scope.type = $location.$$search.searchType || FacSearch.searchType;
       FacSearch.search($scope.search, type)
       .then(function(json){
-        FacSearch.markObjList(json.list, type, +$location.$$search.distSelect -2, json.pos);
-        $scope.searchResult = json.list;
+        setSearchResult(json.list, json.pos, 3);
       });
       $scope.$on('AMap.OnClick', (event, msg) => {
         console.log('地图点击, lng = ', msg.lnglat.lng);
@@ -104,6 +103,24 @@
         monthBetween: {from:'2017.12', to:'2018.3'},
         level: "all",
         orderBy: '按距离排序'
+      });
+    }
+
+    function setSearchResult(list, pos, insideCount){
+      insideCount = insideCount || 5;
+      $scope.searchResult = list;
+      $scope.searchResult.sort( (a, b) => {
+        return a.distance > b.distance ? 1 : -1;
+      });
+      // 全部标志, 但地图放大到最大，等下再缩小
+      FacSearch.markObjList($scope.searchResult, type)
+      .then(()=>{
+        // 显示前 insideCount  个标志
+        $q.when(AmapMainData.onAmap, (amap)=> {
+          window.amap = amap; // 调试用！！！
+          var insideMarkers = FacMap.searchMarkers.slice(0, insideCount);
+          amap.setFitView(insideMarkers);
+        });
       });
     }
   }
