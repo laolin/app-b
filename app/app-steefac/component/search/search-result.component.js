@@ -11,7 +11,8 @@
   .component('searchResult', {
     templateUrl: 'app-steefac/component/search/search-result.template.html',
     bindings: {
-      result: '<'
+      result: '<',
+      type: '<'
     },
     controller:['$scope', '$location', 'FacSearch', 'ProjDefine', ctrl]
   });

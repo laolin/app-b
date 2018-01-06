@@ -3,7 +3,7 @@
 {{$ctrl.cellsTitle}} <a href ng-click='$ctrl.searchData.clearResult($ctrl.searchType)'>重新搜索</a>
 </div>
 
-<div class="result-items" ng-if="FacSearch.searchType=='steefac' && dataReady">
+<div class="result-items" ng-if="$ctrl.type=='steefac' && dataReady">
   <div class="flex" ng-repeat="item in list track by $index" ng-click="clickItem(item)">
     <div class="result-item flex-grow">
       <div class="flex flex-between">
@@ -31,7 +31,7 @@
   </div>
 </div>
 
-<div class="result-items" ng-if="FacSearch.searchType=='steeproj' && dataReady">
+<div class="result-items" ng-if="$ctrl.type=='steeproj' && dataReady">
   <div class="flex" ng-repeat="item in list track by $index" ng-click="clickItem(item)">
     <div class="result-item flex-grow">
       <div class="flex flex-between">
