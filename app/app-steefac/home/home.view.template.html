@@ -48,7 +48,9 @@
         <span ng-if='item.update_at>123456789' am-time-ago='1000*item.update_at' ></span>
       </i>
     </div>
-    <img ng-src="{{item.picMain || '../assets/img/img-steefac/def-steefac.jpg' }} " alt="">
+    <div class="shrink0 img">
+      <img ng-src="{{item.picMain || '../assets/img/img-steefac/def-steefac.jpg' }} " alt="">
+    </div>
   </a>
 </div>
 
