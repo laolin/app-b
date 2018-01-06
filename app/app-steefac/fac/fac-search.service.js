@@ -478,8 +478,8 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
       '剩余产能<%- cap_6m %>吨，厂房面积<%- area_factory %>㎡<br>'+
       '擅长构件：<%- goodat %><br/>'+
       '<%- update_at %>更新'+
-      '<a href="#!/case-show?id=<%- id %>">【业绩】</a>'+
-      '<a href="#!/obj-detail?type=steefac&id=<%- id %>">【详情】</a>'
+      '<a href="#!/fac-detail/<%- id %>?tabIndex=2">【业绩】</a>'+
+      '<a href="#!/fac-detail/<%- id %>">【详情】</a>'
       ;
 
       //设置主体内容
@@ -503,7 +503,7 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
       '采购量<%- need_steel %>吨<br>'+
       '供货时间：<%- in_month %><br/>'+
       '<%- update_at %>更新'+
-      '<a href="#!/obj-detail?type=steeproj&id=<%- id %>">【详情】</a><br/>'
+      '<a href="#!/project-detail/<%- id %>">【详情】</a><br/>'
       ;
 
       //设置主体内容
