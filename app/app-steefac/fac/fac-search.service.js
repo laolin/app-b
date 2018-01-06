@@ -286,6 +286,9 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
       mark.selIndex = 0;
       FacSearch.showObjInfoWindow(obj, type, -32);
       mapData.map.setZoomAndCenter(10, pos);
+      mark.on('click', function(e){
+        FacSearch.showObjInfoWindow(obj, type, -32);
+      });
     });
   }
   /**
@@ -304,6 +307,9 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
         var mark = FacMap.newMarker('#fff','16px',objIcons[type],pos,false,(''+ obj.name).substr(0,4));
         FacMap.searchMarkers.push(mark);
         mark.show();
+        mark.on('click', function(e){
+          FacSearch.showObjInfoWindow(obj, type, -32);
+        });
       }
     });
   }
