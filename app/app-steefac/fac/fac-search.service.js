@@ -314,7 +314,7 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
     
     //selMarker已ready，说明可以安全地创建其他marker
     FacMap.getSelMarker().then(function(){
-      FacMap.FacMap.clearAllMark();
+      FacMap.clearAllMark();
 
       var maxlat=-555e7;
       var maxlng=-555e7;
