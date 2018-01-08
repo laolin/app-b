@@ -1,4 +1,14 @@
 ﻿<!-- 项目详情-简介组件 -->
 
-<div class="box-primary" ng-click="search('steefac')">搜索附近产能</div>
-<div class="box-primary" ng-click="search('steeproj')">搜索附近项目</div>
+<div class="box-primary btn">
+  <span>搜索附近产能</span>
+  <select class="weui-select" ng-model="dist" ng-change="search('steefac')">
+    <option ng-repeat="t in FacSearch.distText" value="{{$index}}">{{t}}</option>
+  </select>
+</div>
+<div class="box-primary btn">
+  <span>搜索附近项目</span>
+  <select class="weui-select" ng-model="dist" ng-change="search('steeproj')">
+    <option ng-repeat="t in FacSearch.distText" value="{{$index}}">{{t}}</option>
+  </select>
+</div>

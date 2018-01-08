@@ -13,19 +13,21 @@
     bindings: {
       fac: '<'
     },
-    controller:['$scope', '$location', ctrl]
+    controller:['$scope', '$location', 'FacSearch', ctrl]
   });
 
 
-  function ctrl($scope, $location) {
+  function ctrl($scope, $location, FacSearch) {
     var ctrl = this;
+    $scope.FacSearch = FacSearch;
+    $scope.dist = -1;
     /**
      * 搜索
      */
     $scope.search = function(searchType){
       var param = {
         searchType : searchType,
-        distSelect : 1,
+        distSelect : $scope.dist,
         lat: ctrl.fac.latE7/1E7,
         lng: ctrl.fac.lngE7/1E7,
       };
