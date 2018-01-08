@@ -22,7 +22,14 @@
     $scope.FacSearch = FacSearch;
     var ctrl = this;
     this.$onChanges=function(chg){
-      $scope.fac = ctrl.fac;
+      $scope.fac = ctrl.fac || {};
+      $scope.fee = (function(){
+        let fees = Object.values(JSON.parse($scope.fac.fee || '{}'));
+        console.log('fees=', fees);
+        let totle = 0;
+        for(let v of fees) totle += +v;
+        return Math.floor(totle / (fees.length || 1));
+      })();
     }
   }
 })(window, angular);
