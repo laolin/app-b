@@ -76,7 +76,7 @@
       $scope.search = angular.extend({}, FacSearch.options);
       angular.extend($scope.search, {
         distSelect : "" + $location.$$search.distSelect || "0", // 数字，下拉框居然不认！
-        level      : "" + $location.$$search.level      || 'all',
+        level      : $location.$$search.level      || 'all',
         orderBy    : $location.$$search.orderBy    || '按距离排序' ,
         searchWord : $location.$$search.searchWord  ,
         monthFrom  : $location.$$search.monthFrom   ,
