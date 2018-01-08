@@ -24,7 +24,8 @@ angular.module('appb')
   ctrl.feedData=feedData;
   
   
-  ctrl.$onInit=function(){
+  ctrl.$onInit=init
+  function init(){
     ctrl.feedAppCat= ctrl.feedData.feedAppCat;
     ctrl.fcat=feedData.feedAppCat(ctrl.feedApp,ctrl.feedCat);
     if( !feedData.feedAll[ctrl.fcat] || !feedData.feedAll[ctrl.fcat].length) {
@@ -36,8 +37,7 @@ angular.module('appb')
       });
     }
   }
-  ctrl.$onChanges =function(chg){
-  }
+  ctrl.$onChanges =init
   ctrl.$onDestroy=function(){
   }
       
