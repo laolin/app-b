@@ -6,6 +6,15 @@
   <div class="detail">
     <fac-detail-profile fac="fac" ng-if="tab.active==0"></fac-detail-profile>
     <fac-detail-capacity fac="fac" ng-if="tab.active==1"></fac-detail-capacity>
-    <div ng-if="tab.active>1">{{tab.list[tab.active]}}</div>
+    <appb-feed-list ng-if="tab.active==2"
+      hide-poster="hidePoster",
+      feed-app="'steeComment'"
+      feed-cat="'steefac' + fac.id">
+    </appb-feed-list>
+    <appb-feed-list ng-if="tab.active==3"
+      hide-poster="hidePoster",
+      feed-app="'steeFacCase'"
+      feed-cat="'fac_case_' +fac.id">
+    </appb-feed-list>
   </div>
 </div>

@@ -46,6 +46,7 @@
       appData.setPageTitle(fac.name+'-详情');
       $scope.fac = fac;
       FacSearch.markObj(fac, 'steefac');
+      $scope.hidePoster = !FacUser.isSysAdmin();
     }
 
     /**
