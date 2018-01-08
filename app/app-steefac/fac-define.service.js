@@ -168,15 +168,15 @@ function ($log,$timeout,AppbData){
     },
     
     
-    {
-      name: 'workers',
-      desc: '工人总数',
-      placeholder:'0-99999',
-      type: 'number',
-      required: 0,
-      min: 0,
-      max: 99999
-    },
+    //  {
+    //    name: 'workers',
+    //    desc: '工人总数',
+    //    placeholder:'0-99999',
+    //    type: 'number',
+    //    required: 0,
+    //    min: 0,
+    //    max: 99999
+    //  },
     {
       name: 'workers_hangong',
       desc: '焊工人数',
