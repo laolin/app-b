@@ -76,7 +76,7 @@
       $scope.search = angular.extend({}, FacSearch.options);
       angular.extend($scope.search, {
         distSelect : "" + $location.$$search.distSelect || "0", // 数字，下拉框居然不认！
-        level      : $location.$$search.level      || 'all',
+        level      : "" + $location.$$search.level      || 'all',
         orderBy    : $location.$$search.orderBy    || '按距离排序' ,
         searchWord : $location.$$search.searchWord  ,
         monthFrom  : $location.$$search.monthFrom   ,
@@ -86,6 +86,11 @@
       var type = $scope.type = $location.$$search.searchType || FacSearch.searchType;
       FacSearch.search($scope.search, type)
       .then(function(json){
+        if($scope.search.level != 'all'){
+          json.list = json.list.filter( item => {
+            return item.level == $scope.search.level;
+          });
+        }
         setSearchResult(json.list, json.pos, 3);
       });
       $scope.$on('AMap.OnClick', (event, msg) => {
