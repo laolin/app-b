@@ -31,7 +31,7 @@ angular.module('steefac')
        
         FacUser.getMyData().then(function (me) {
           for(var i=ctrl.objTypes.length;i--; ) {
-            ctrl.facIds[ctrl.objTypes[i]]=me.objCanAdmin[ctrl.objTypes[i]].join(',');
+            ctrl.facIds[ctrl.objTypes[i]] = (me.objCanAdmin[ctrl.objTypes[i]] || []).join(',');
             if(ctrl.facIds[ctrl.objTypes[i]].length)ctrl.noIds=false;
           }
           $log.log('me.objCanAdmin',ctrl.facIds);
