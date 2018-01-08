@@ -111,12 +111,15 @@
       });
     }
 
+    var sortBy = {
+      '按产能排序': function (a, b) { return +a.cap_y > +b.cap_y ? -1 : 1;},
+      '按更新排序': function (a, b) { return a.update_at > b.update_at ? -1 : 1;},
+      '按距离排序': function (a, b) { return a.distance > b.distance ? 1 : -1;}
+    }
     function setSearchResult(list, pos, insideCount){
       insideCount = insideCount || 5;
       $scope.searchResult = list;
-      $scope.searchResult.sort( (a, b) => {
-        return a.distance > b.distance ? 1 : -1;
-      });
+      $scope.searchResult.sort( sortBy[$scope.search.orderBy]);
       // 全部标志, 但地图放大到最大，等下再缩小
       FacSearch.markObjList($scope.searchResult, type)
       .then(()=>{
