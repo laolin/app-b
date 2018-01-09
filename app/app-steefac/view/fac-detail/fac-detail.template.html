@@ -12,7 +12,7 @@
       feed-app="'steeFacCase'"
       feed-cat="'fac_case_' +fac.id">
     </appb-feed-list>
-    <div class="float-rb" ng-if="tab.active==2">
+    <div class="float-rb" ng-if="tab.active==2 && canEdit">
       <a ng-href="#!/case-add?id={{fac.id}}" class="my-btn box-primary">添加业绩</a>
     </div>
 
@@ -21,7 +21,7 @@
       feed-app="'steeComment'"
       feed-cat="'steefac' + fac.id">
     </appb-feed-list>
-    <div class="float-rb" ng-if="tab.active==3 && canEdit">
+    <div class="float-rb" ng-if="tab.active==3">
       <a ng-href="#!/stee-feed-add?type=steefac&id={{fac.id}}" class="my-btn box-primary">我要评论</a>
     </div>
   </div>
