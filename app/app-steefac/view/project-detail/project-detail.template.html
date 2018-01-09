@@ -7,9 +7,12 @@
     <project-detail-profile fac="fac" ng-if="tab.active==0"></project-detail-profile>
     <project-detail-capacity fac="fac" ng-if="tab.active==1"></project-detail-capacity>
     <appb-feed-list ng-if="tab.active==2"
-      hide-poster="hidePoster",
+      hide-poster="0",
       feed-app="'steeFacCase'"
       feed-cat="'fac_case_' +fac.id">
     </appb-feed-list>
+    <div class="float-rb" ng-if="tab.active==2">
+      <a ng-href="#!/case-add?id={{fac.id}}" class="my-btn box-primary">我要评论</a>
+    </div>
   </div>
 </div>
