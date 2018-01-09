@@ -33,8 +33,6 @@
       function(results){
         // 处理公司数据
         resolveFac(results[0]);
-        // 是否管理员
-        if(FacUser.isSysAdmin())$scope.canEdit=true;
       },
       function(e){
         console.log('detail Err',e);
@@ -47,6 +45,8 @@
       $scope.fac = fac;
       FacSearch.markObj(fac, 'steefac');
       $scope.hidePoster = !FacUser.isSysAdmin();
+      // 是否管理员
+      $scope.canEdit = FacUser.canAdminObj('steefac', fac.id);
     }
 
     /**
