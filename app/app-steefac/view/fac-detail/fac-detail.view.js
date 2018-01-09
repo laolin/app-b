@@ -56,7 +56,7 @@
       list: [
         "公司简介",
         "产能详情",
-        "公司业绩",
+        {text: "公司业绩", disabled: true},
         "评论",
       ],
       active: $routeParams.tabIndex||0,

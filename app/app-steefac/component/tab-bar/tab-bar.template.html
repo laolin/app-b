@@ -1,6 +1,7 @@
 ﻿<!-- tab条组件 -->
 
 <div class="flex-cc {{active==$index&&(activeCss||'active')}}"
+  ng-if="!item.disabled"
   ng-repeat="item in list track by $index"
   ng-click="clickTab($index)">
   <span class="{{item.css||itemCss||''}}">{{item.text||item}}</span>
