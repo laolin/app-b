@@ -57,7 +57,7 @@
         "公司简介",
         "产能详情",
         "公司业绩",
-        "评论详情",
+        "评论",
       ],
       active: $routeParams.tabIndex||0,
       click: function(index){

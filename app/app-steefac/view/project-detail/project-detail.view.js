@@ -55,7 +55,7 @@
       list: [
         "项目详情",
         "项目信息",
-        "评论详情",
+        "评论",
       ],
       active: $routeParams.tabIndex||0,
       click: function(index){
