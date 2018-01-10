@@ -89,6 +89,7 @@ amap-main { height: 200px;}
 
 .box-primary      { color: #FFFFFF; background-color: rgba(51, 102, 204, 1.0); }
 .box-primary-thin { color: #FFFFFF; background-color: rgba(51, 102, 204, 0.5); }
+.box-gray      { color: #FFFFFF; background-color: #6B6B6B; }
 .text-primary-light { color: #006699;}
 .text-0    { color: #000000; }
 .text-3    { color: #333333; }
