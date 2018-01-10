@@ -25,7 +25,8 @@
     this.$onChanges=function(chg){
       $scope.fac = ctrl.fac || {};
       // 是否管理员
-      $scope.isAdmin = FacUser.canAdminObj('steeproj', $scope.fac.id);
+      $scope.isSuperAdmin = FacUser.isAdmin();
+      $scope.isThisAdmin = FacUser.canAdminObj('steeproj', $scope.fac.id);
     }
   }
 })(window, angular);

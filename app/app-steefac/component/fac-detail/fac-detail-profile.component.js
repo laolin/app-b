@@ -24,10 +24,10 @@
     this.$onChanges=function(chg){
       $scope.fac = ctrl.fac || {};
       // 是否管理员
-      $scope.isAdmin = FacUser.canAdminObj('steefac', $scope.fac.id);
+      $scope.isSuperAdmin = FacUser.isAdmin();
+      $scope.isThisAdmin = FacUser.canAdminObj('steefac', $scope.fac.id);
       $scope.fee = (function(){
         let fees = Object.values(JSON.parse($scope.fac.fee || '{}'));
-        console.log('fees=', fees);
         let totle = 0;
         for(let v of fees) totle += +v;
         return Math.floor(totle / (fees.length || 1));
