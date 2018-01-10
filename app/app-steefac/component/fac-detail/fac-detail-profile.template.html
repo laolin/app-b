@@ -1,6 +1,6 @@
 ﻿<!-- 公司详情-简介组件 -->
 
-<div class="flex box-1">
+<div class="flex box-1" ng-if="fac.id">
   <div class="flex-grow">
     <div class="flex">
       <div class="fac-name text-3">{{fac.name}}</div>
@@ -19,14 +19,14 @@
   </div>
 </div>
 
-<div class="flex-v bb-ccc box-2">
+<div class="flex-v bb-ccc box-2" ng-if="fac.id">
   <div class="title text-3 bb-ccc"><span edit-url="{{(isSuperAdmin || isThisAdmin) && ('#!/edit-fac-contact?id=' + fac.id) || ''}}">联系方式</span></div>
   <div class="flex flex-top">
     <div class="">
       <div class="text-gray line___1">地址：<span>{{fac.addr}}</span></div>
       <div class="text-gray">联系人：<span>{{fac.contact_person}}</span></div>
     </div>
-    <div class="btn-box box-primary shrink0" tobe-admin="steefac" fac="fac">申请成为管理员</div>
+    <div class="btn-box box-primary shrink0" tobe-admin="steefac" fac="fac" ng-if="canAddAdmin && !isSuperAdmin">申请成为管理员</div>
   </div>
   <div class="btns flex flex-left">
     <tel-box  class="text-active" val="fac.contact_tel"></tel-box>
