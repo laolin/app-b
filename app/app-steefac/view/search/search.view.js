@@ -49,7 +49,6 @@
         searchType : searchType || FacSearch.searchType,
         distSelect : $scope.search.distSelect  ,
         level      : $scope.search.level       ,
-        orderBy    : $scope.search.orderBy     ,
       };
       if($routeParams.ac == 'searching'){
         paramSearchCityOrLngLat(param, $location.$$search);
@@ -77,7 +76,7 @@
       angular.extend($scope.search, {
         distSelect : "" + $location.$$search.distSelect || "0", // 数字，下拉框居然不认！
         level      : $location.$$search.level      || 'all',
-        orderBy    : $location.$$search.orderBy    || '按距离排序' ,
+        orderBy    : $location.$$search.orderBy    || (pageState.datas.param&&pageState.datas.param.orderBy) ||'按更新排序' ,
         searchWord : $location.$$search.searchWord  ,
         monthFrom  : $location.$$search.monthFrom   ,
         monthTo    : $location.$$search.monthTo     ,
@@ -106,8 +105,7 @@
       angular.extend(FacSearch.options, {
         currentCity: FacSearch.options.currentCity || "上海市 上海城区 杨浦区",
         monthBetween: {from:'2017.12', to:'2018.3'},
-        level: "all",
-        orderBy: '按距离排序'
+        level: "all"
       });
     }
 
