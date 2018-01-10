@@ -45,8 +45,8 @@
       $scope.fac = fac;
       FacSearch.markObj(fac, 'steefac');
       $scope.hidePoster = !FacUser.isSysAdmin();
-      // 是否管理员
-      $scope.canEdit = FacUser.canAdminObj('steefac', fac.id);
+      // 是否可以添加业绩
+      $scope.canEdit = FacUser.canAdminObj('steefac', fac.id) || FacUser.isAdmin();
     }
 
     /**
