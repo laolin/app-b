@@ -50,7 +50,7 @@ function ($location,$log,AppbData,AppbAPI,FacSearch) {
         return appData.toastMsg('未修改',3);
       }
       delete FacSearch.datailCache[objType+ctrl.id];
-      $location.path( "/obj-detail" ).search({id:ctrl.id,type:objType});
+      $location.path( "/fac-detail/" + ctrl.id);
       return appData.toastMsg('已修改',3);
     },function(e){
       return appData.toastMsg(e,3);
