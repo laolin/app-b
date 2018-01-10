@@ -40,7 +40,7 @@ angular.module('steefac')
       var pn=ctrl.pageNumber;
       
       for(var i=0,j=ps*pn;i<ps&&j<r.length;i++,j++){
-        cells[i]=FacSearch.cellOfObj(r,j,ctrl.type,"/obj-detail?type="+ctrl.type+"&id="+r[j].id);
+        cells[i]=FacSearch.cellOfObj(r,j,ctrl.type,"/" + (ctrl.type=='steefac'&&'fac'||'project') + "-detail/"+r[j].id);
       }
       return cells;
     }
