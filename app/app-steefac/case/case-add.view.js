@@ -24,7 +24,7 @@ function ($scope,$http,$log,$location,
   $scope.feedApp='steeFacCase';
   $scope.feedCat='fac_case_'+$scope.id;
   
-  $scope.nextPage="/case-show?id="  + $scope.id;
+  $scope.nextPage = '/fac-detail/' + $scope.id;
 
   FacSearch.getDetail('steefac',$scope.id).then(function(s){
     $scope.isLoading=0;
