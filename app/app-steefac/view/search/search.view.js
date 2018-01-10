@@ -17,8 +17,48 @@
       .when('/search/:ac', config);
   }]);
 
+
+  var pageState = {
+    datas: {},
+    save: function(data){
+      this.datas = data;
+    },
+    clear: function(){
+      this.datas = {};
+    }
+  };
+
+
   function ctrl($scope, $routeParams,$q,$location,AppbData,FacSearch, FacMap, AmapMainData) {
     appData.setPageTitle('搜索');
+    $scope.$on('$routeChangeStart', function(evt, next, current) {
+      //console.log('搜索:页面离开');
+      if(current.$$route.originalPath == '/search/:ac'){
+        //console.log('搜索:保存页面状态');
+        pageState.save({
+          param: $scope.search
+        });
+      }
+      else{
+        //console.log('搜索:未保存页面状态');
+      }
+    })
+    $scope.$on('$routeChangeSuccess', function(evt, current, prev) {
+      //console.log('搜索:页面成功');
+      if(prev && current.$$route.originalPath == '/search'){
+        if(prev.$$route.originalPath == '/search/:ac'){
+          //console.log('搜索:清除页面状态');
+          pageState.clear();
+        }
+        else if(pageState.datas.param){
+          //console.log('搜索:恢复页面状态');
+          $location.path('/search/searching').search(pageState.datas.param).replace();
+        }
+      }
+      else{
+        //console.log('搜索:无已保存的页面状态');
+      }
+    })
 
     $scope.appData = AppbData.getAppData();
 
