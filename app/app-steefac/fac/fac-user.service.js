@@ -37,7 +37,7 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser) {
       !FacUser.myData.disableSysAdmin ;
   }
   FacUser.canAdminObj=function canAdminObj(type,id) {
-    return FacUser.myData.objCanAdmin[type].indexOf(''+id)>=0;
+    return FacUser.myData.objCanAdmin[type] && FacUser.myData.objCanAdmin[type].indexOf(''+id)>=0;
   }
 
   FacUser.getAdmins=function() {
