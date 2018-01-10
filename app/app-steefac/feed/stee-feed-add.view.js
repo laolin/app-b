@@ -20,7 +20,10 @@ function ($scope,$http,$log,$location,
   $scope.isLoading=1;
   
   
-  $scope.nextPage="/stee-feed-show?type="+$scope.type+"&id="  + $scope.id;
+  //$scope.nextPage="/stee-feed-show?type="+$scope.type+"&id="  + $scope.id;
+  $scope.nextPage = $scope.type=='steefac'
+    && "/fac-detail/" + $scope.id + "?tabIndex=3"
+    || "/project-detail/" + $scope.id + "?tabIndex=2";
   
   FacSearch.getDetail ($scope.type,$scope.id).then(function(s){
     $scope.fac=s;
