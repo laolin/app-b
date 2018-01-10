@@ -6,7 +6,7 @@
       <div class="fac-name text-3">{{fac.name}}</div>
     </div>
     <div class="flex bb-ccc">
-      <div class="rem-10" c="6B"><span edit-url="{{isAdmin && ('#!/fac-edit?type=steeproj&id=' + fac.id)}}">{{fac.update_at|timespan:'MM月d日更新'}}</span></div>
+      <div class="rem-10" c="6B"><span edit-url="{{(isSuperAdmin || isThisAdmin) && ('#!/fac-edit?type=steeproj&id=' + fac.id) || ''}}">{{fac.update_at|timespan:'MM月d日更新'}}</span></div>
       <div class="rem-10" c="6B">1.2KM</div>
     </div>
     <div class="text-gray">采购量：<span class="text-3">{{fac.need_steel}}</span>吨</div>
