@@ -13,17 +13,19 @@
     bindings: {
       fac: '<'
     },
-    controller:['$scope', '$element', 'FacSearch', 'AppbData', 'ProjDefine', ctrl]
+    controller:['$scope', '$element', 'FacSearch', 'AppbData', 'ProjDefine', 'FacUser', ctrl]
   });
 
 
-  function ctrl($scope, $element, FacSearch, AppbData, ProjDefine) {
+  function ctrl($scope, $element, FacSearch, AppbData, ProjDefine, FacUser) {
     $scope.appData = AppbData.getAppData();
     $scope.FacSearch = FacSearch;
     $scope.ProjDefine = ProjDefine;
     var ctrl = this;
     this.$onChanges=function(chg){
-      $scope.fac = ctrl.fac;
+      $scope.fac = ctrl.fac || {};
+      // 是否管理员
+      $scope.isAdmin = FacUser.canAdminObj('steeproj', $scope.fac.id);
     }
   }
 })(window, angular);
