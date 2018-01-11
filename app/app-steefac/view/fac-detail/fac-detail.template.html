@@ -8,7 +8,7 @@
     <fac-detail-capacity fac="fac" ng-if="tab.active==1"></fac-detail-capacity>
 
     <appb-feed-list ng-if="tab.active==2"
-      hide-poster="0",
+      hide-poster="hidePoster",
       feed-app="'steeFacCase'"
       feed-cat="'fac_case_' +fac.id">
     </appb-feed-list>
@@ -17,7 +17,7 @@
     </div>
 
     <appb-feed-list ng-if="tab.active==3"
-      hide-poster="hidePoster",
+      hide-poster="0",
       feed-app="'steeComment'"
       feed-cat="'steefac' + fac.id">
     </appb-feed-list>
