@@ -26,7 +26,7 @@
       $scope.fac = ctrl.fac || {};
       if(!$scope.fac.id)return;
       // 是否管理员
-      $scope.isSuperAdmin = !!FacUser.isAdmin();
+      $scope.isSuperAdmin = !!FacUser.isSysAdmin();
       $scope.isThisAdmin = FacUser.canAdminObj('steefac', $scope.fac.id);
 
       $scope.fee = (function(){
