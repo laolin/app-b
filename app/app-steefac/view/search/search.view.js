@@ -8,7 +8,7 @@
   'use strict';
   var config = {
     templateUrl: 'app-steefac/view/search/search.view.template.html',
-    controller: ['$scope','$routeParams','$q','$location','AppbData','FacSearch', 'FacMap', 'AmapMainData',ctrl]
+    controller: ['$scope','$log','$routeParams','$q','$location','AppbData','FacSearch', 'FacMap', 'AmapMainData',ctrl]
   }
   angular.module('steefac')
   .config(['$routeProvider', function($routeProvider) {
@@ -29,7 +29,7 @@
   };
 
 
-  function ctrl($scope, $routeParams,$q,$location,AppbData,FacSearch, FacMap, AmapMainData) {
+  function ctrl($scope,$log, $routeParams,$q,$location,AppbData,FacSearch, FacMap, AmapMainData) {
     appData.setPageTitle('搜索');
     $scope.$on('$routeChangeStart', function(evt, next, current) {
       //console.log('搜索:页面离开');
@@ -89,6 +89,7 @@
         searchType : searchType || FacSearch.searchType,
         distSelect : $scope.search.distSelect  ,
         level      : $scope.search.level       ,
+        orderBy    : $scope.search.orderBy,
       };
       if($routeParams.ac == 'searching'){
         paramSearchCityOrLngLat(param, $location.$$search);
