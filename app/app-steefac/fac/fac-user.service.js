@@ -4,6 +4,9 @@
 var FAC_ADMIN=0x1;
 var SYS_ADMIN=0x10000;
 
+
+
+
 angular.module('steefac')
 .factory('FacUser',
 ['$location','$log','$q','$timeout','AppbData','AppbAPI','AppbDataUser',
@@ -65,7 +68,22 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser) {
     });
   }
   
-  
+
+  FacUser.getRights=function(userid) {
+    var deferred = $q.defer();
+    return AppbAPI('stee_user','get_user_rights',{userid:userid}).then(function(s){
+      $log.log('get_user_rights',s);
+      if(!s) {
+        deferred.reject('noData');
+        return deferred.promise;
+      }
+      deferred.resolve(s.data);
+      return deferred.promise;
+    },function(e){
+      deferred.reject(e);
+      return deferred.promise;
+    });
+  }  
   
   FacUser.applyFacAdmin=function(fac) {
     return FacUser.applyAdmin('steefac',fac);

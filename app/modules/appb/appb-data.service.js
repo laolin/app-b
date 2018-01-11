@@ -135,12 +135,12 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
       a();
       return false;
     }
-    if(a.indexOf(':')>0){
+    if(a && a.indexOf(':')>0){
       window.location=a;
     } else if(a) {
       $location.url(a);
-      return false;
     }
+    return false;
   }
   //---------------------------------------------
   // END: factory functions
