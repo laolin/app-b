@@ -151,7 +151,7 @@
     }
 
     var sortBy = {
-      '按产能排序': function (a, b) { return +a.cap_y > +b.cap_y ? -1 : 1;},
+      '按产能排序': function (a, b) { return +a.cap_6m > +b.cap_6m ? -1 : 1;},
       '按更新排序': function (a, b) { return a.update_at > b.update_at ? -1 : 1;},
       '按距离排序': function (a, b) { return a.distance > b.distance ? 1 : -1;}
     }
