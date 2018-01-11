@@ -113,7 +113,8 @@
     if($routeParams.ac == 'searching'){
       $scope.searching = true;
       $scope.searchResult = '';
-      $scope.search = angular.extend({}, FacSearch.options);
+      //$scope.search = angular.extend({}, FacSearch.options);
+      $scope.search =  FacSearch.options;
       angular.extend($scope.search, {
         distSelect : "" + $location.$$search.distSelect || "0", // 数字，下拉框居然不认！
         level      : $location.$$search.level      || 'all',
@@ -158,7 +159,7 @@
     function setSearchResult(list, pos, insideCount){
       insideCount = insideCount || 5;
       $scope.searchResult = list;
-      $scope.searchResult.sort( sortBy[$scope.search.orderBy]);
+      sortBy[$scope.search.orderBy] && $scope.searchResult.sort( sortBy[$scope.search.orderBy]);
       // 全部标志, 但地图放大到最大，等下再缩小
       FacSearch.markObjList($scope.searchResult, type)
       .then(()=>{

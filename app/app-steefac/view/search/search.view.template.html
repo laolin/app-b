@@ -27,9 +27,10 @@
     </div>
     <div class="flex-cc flex-center" next="down">
       <select class="weui-select" ng-model="search.orderBy" ng-change="research()">
+        <option value='auto'>智能排序</option>
+        <option>按更新排序</option>
         <option>按距离排序</option>
         <option>按产能排序</option>
-        <option>按更新排序</option>
       </select>
     </div>
     <div class="flex-cc rem-13" ng-click="hideMap=!hideMap" c="6B">折叠地图</div>
