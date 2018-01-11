@@ -4,10 +4,10 @@ angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
 $routeProvider.when('/log-analy-user-activity', {
 templateUrl: 'app-steefac/stat/log-analy-user-activity.view.template.html',
-controller: ['$scope','$http','$log','$location',
-  'AppbData','AppbLogService',
-function ($scope,$http,$log,$location,
-  AppbData,AppbLogService) {
+controller: ['$scope','$q','$log','$location',
+  'AppbData','AppbLogService', 'FacUser','AppbAPI',
+function ($scope,$q,$log,$location,
+  AppbData,AppbLogService,FacUser,AppbAPI) {
   var appData=AppbData.getAppData();
   var userData=AppbData.getUserData();
   appData.setPageTitle('用户活跃度');
@@ -40,11 +40,15 @@ function ($scope,$http,$log,$location,
   ctrl.hour=hour;
   ctrl.isLoading=1;
   
+  
   ctrl.logData.getLogActivity(para).then(function(s){
     ctrl.texts=[];
     ctrl.links=[];
     for( var i=0;i<ctrl.logData.activityList.length;i++) {
       ctrl.texts[i]='活跃度:'+ctrl.logData.activityList[i].n;
+      ctrl.links[i]=function(_uid){
+        return function(){popUserMenu(_uid);}
+      }(ctrl.logData.activityList[i].uid)
     }
     ctrl.isLoading=0;
     $log.log('OK-logData.getLogActivity',s);
@@ -53,6 +57,19 @@ function ($scope,$http,$log,$location,
     $log.log('E-logData.getLogActivity',e);
   });
 
+  function popUserMenu(uid) {
+    //菜单
+    appData.menuData.showMenu([
+      {text:'详细记录',onClick:function(){menuUserLogs(uid,day,hour)}},
+      {text:'查看其权限',onClick:function(){menuUserRights(uid)}},
+    ],0);
+  }
+  function menuUserLogs(uid,day,hour) {
+    $location.path('/log-user').search({uid:uid,day:day,hour:hour})
+  }
+  function menuUserRights(uid) {
+    FacUser.getRights(uid)
+  }
 
 
   
