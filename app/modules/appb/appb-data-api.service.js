@@ -48,7 +48,6 @@ function($http,$log,AppbConfig) {
     dat.uid=uid;
     dat.tokenid=tokenid;
     dat.timestamp=tim;
-    $log.log('genApiSign of:',api+call+uid+token+tim);
     dat.api_signature=md5(api+call+uid+token+tim);
     return dat;
   }  

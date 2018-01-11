@@ -27,19 +27,55 @@
   </div>
 
 </div>
+
+<facs-show
+  ng-repeat='type in $ctrl.objTypes'
+  ng-if='$ctrl.isLoading<=0 && $ctrl.facIds[type] '
+  
+  title=' "我管理的" +$ctrl.objNames[type]'
+  type='type'
+  fac-ids='$ctrl.facIds[type]'
+>
+</facs-show>
+<div class='weui-article'
+  ng-if='!$ctrl.facIds["steefac"]&&!$ctrl.facIds["steeproj"]'>
+  暂无您管理的钢构厂或项目信息。
+</div>
+
+
 <div ng-if='1'> 
   <appb-weui-cells
-    title='钢构产能地图'
+    title='创建'
     cells="[
-      {text:'共有'+$ctrl.FacUser.myData.counter.nFac+'个钢构厂',url:'/search',icon:'search',notes:'搜索产能'},
-      {text:'共有'+$ctrl.FacUser.myData.counter.nProj+'个项目信息',url:'/search',icon:'search',notes:'搜索项目'},
-      {text:'我的钢构厂',url:'/my-fac',icon:'user-circle',notes:''},
       {text:'创建钢构厂',url:'/fac-add-find-name?type=steefac',icon:'plus',notes:'新增钢构厂'},
       {text:'创建项目信息',url:'/fac-add-find-name?type=steeproj',icon:'plus',notes:'新增用钢信息'},
     ]"
   >
   </appb-weui-cells>
 </div>
+<div class='weui-cells' ng-if='$ctrl.swipeCount % 2 '>
+  <div class="weui-cell weui-cell_switch">
+    <div class="weui-cell__bd">隐藏页面标题栏</div>
+    <div class="weui-cell__ft">
+      <input class="weui-switch" type="checkbox"
+      ng-model="$ctrl.appData.headerData.hide"/>
+    </div>
+  </div>
+</div>
+
+<div class='weui-article'
+  ng-if='$ctrl.isLoading<=0'>
+
+  <div>
+    <a ng-if='$ctrl.userData.wxinfo.subscribe'> 感谢您关注钢构产能地图CMOSS！<br/>关注时间：<span am-time-ago='1000*$ctrl.userData.wxinfo.subscribe_time'></span>。</a>
+    <a ng-if='!$ctrl.userData.wxinfo.subscribe'>请扫描识别二维码关注“钢构产能地图CMOSS”公众号，以便我们更好地为您服务，谢谢。
+    <br/>
+    <img ng-src='{{$ctrl.assetsRoot}}/img/img-steefac/stee-cmoss-qrcode.png'/>
+    </a>
+  </div>
+</div>
+
+<!-- ==【admin:】================================== -->
 
 <!-- 
 注意，这里由于ng-if 不允许位操作： xx & 0x10000
@@ -80,26 +116,12 @@
   <appb-weui-cells
     title='系统管理功能(测试中)'
     cells="[
+     {text:'搜索（测试版）',url:'/search-old',icon:'search',notes:''},
      {text:'发消息',url:'/send-msg',icon:'comments',notes:'待办提醒模板消息'},
-     {text:'测试首页',url:'/home',icon:'home',notes:'测试中'},
-      {text:'排行',url:'/stat',icon:'area-chart',notes:'全国概览及各地详情'}
     ]"
   >
   </appb-weui-cells>
 </div>
 
-<div class='weui-article'>
-
-  <div
-  ng-if='1'>
-    <a ng-if='$ctrl.userData.wxinfo.subscribe'> 感谢您关注请高手，关注时间：<span am-time-ago='1000*$ctrl.userData.wxinfo.subscribe_time'></span>。</a>
-    <a ng-if='!$ctrl.userData.wxinfo.subscribe'>请扫描识别二维码关注“请高手”公众号，以便我们更好地为您服务，谢谢。
-    <br/>
-    <img ng-src='{{$ctrl.assetsRoot}}/img/img-steefac/stee-qgs-qrcode.png'/>
-    </a>
-  </div>
-  
-  
-</div>
 
 <fac-ui-copyright></fac-ui-copyright>

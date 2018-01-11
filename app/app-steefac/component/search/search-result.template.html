@@ -1,0 +1,59 @@
+﻿<!-- 搜索结果组件 -->
+<div class="weui-cells__title" ng-if="0 && $ctrl.searchData.searchResult[$ctrl.searchType+'.ver']">
+{{$ctrl.cellsTitle}} <a href ng-click='$ctrl.searchData.clearResult($ctrl.searchType)'>重新搜索</a>
+</div>
+
+<div class="result-items" ng-if="$ctrl.type=='steefac' && dataReady">
+  <div class="flex" ng-repeat="item in list track by $index" ng-click="clickItem(item)">
+    <div class="result-item flex-grow">
+      <div class="flex flex-between">
+        <div class="flex">
+          <div class="name">{{item.name}}</div>
+          <level-box class="shrink0" level="item.level"></level-box>
+        </div>
+        <div class="update shrink0">{{item.update_at|timespan:'MM月d日更新'}}</div>
+      </div>
+      <div class="row-2">剩余产能：<span>{{item.cap_6m}}吨</span></div>
+      <div class="flex row-3">
+        <div class="">擅长：<span>{{item.goodat}}</span></div>
+        <div class="">{{item.distance|distance}}</div>
+      </div>
+    </div>
+    <i class="shrink0 next fa fa-angle-right"></i>
+  </div>
+  <div class="text-3 rem-12" padding=".20rem" scroll-refresh="checkTop($isTopMost)" on-visible="loadMore($element, $top, $isTopMost)" ng-if="page.minSize < page.totle">
+    <span class="text-warning" ng-if="page.size < page.totle">已加载 {{page.size}}/{{page.totle}} 条数据，正在加载...</span>
+    <span class="text-3" ng-if="page.size >= page.totle">{{allLoaded>3 && '还拉呀！ 这真的是底线啦' || allLoaded>1 && '别再拉了！　这是底线' || '哦，到底了'}}</span>
+    <div goto-top-most ng-if="!isTopMost">要回到顶部！</div>
+  </div>
+  <div class="text-3 rem-12" padding=".20rem" ng-if="!list.length">
+    没找到
+  </div>
+</div>
+
+<div class="result-items" ng-if="$ctrl.type=='steeproj' && dataReady">
+  <div class="flex" ng-repeat="item in list track by $index" ng-click="clickItem(item)">
+    <div class="result-item flex-grow">
+      <div class="flex flex-between">
+        <div class="flex">
+          <div class="name">{{item.name}}</div>
+        </div>
+        <div class="update shrink0">{{item.update_at|timespan:'MM月d日更新'}}</div>
+      </div>
+      <div class="row-2">采购量：<span>{{item.need_steel}}吨</span></div>
+      <div class="flex row-3">
+        <div class="">首批供货时间：<span>{{ProjDefine.objReqInMonth[item.in_month]}}</span></div>
+        <div class="">{{item.distance|distance}}</div>
+      </div>
+    </div>
+    <i class="shrink0 next fa fa-angle-right"></i>
+  </div>
+  <div class="text-3 rem-12" padding=".20rem" scroll-refresh="checkTop($isTopMost)" on-visible="loadMore($element, $top, $isTopMost)" ng-if="page.minSize < page.totle">
+    <span class="text-warning" ng-if="page.size < page.totle">已加载 {{page.size}}/{{page.totle}} 条数据，正在加载...</span>
+    <span class="text-3" ng-if="page.size >= page.totle">{{allLoaded>3 && '还拉呀！ 这真的是底线啦' || allLoaded>1 && '别再拉了！　这是底线' || '哦，到底了'}}</span>
+    <div goto-top-most ng-if="!isTopMost">要回到顶部！</div>
+  </div>
+  <div class="text-3 rem-12" padding=".20rem" ng-if="!list.length">
+    没找到
+  </div>
+</div>

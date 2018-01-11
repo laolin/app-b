@@ -1,0 +1,91 @@
+/* 公司详情组件 */
+
+
+fac-detail-profile{
+}
+project-detail-profile .box-1 > .headimg,
+fac-detail-profile .box-1 > .headimg{
+  width: .75rem;
+  height: .75rem;
+  background: #ccc;
+  margin: 0 0 0 .2rem;
+}
+project-detail-profile .box-1 > .headimg img,
+fac-detail-profile .box-1 > .headimg img{
+  width: .75rem;
+  height: .75rem;
+}
+
+.fac-name{
+  font-size: .14rem;
+  font-weight: 900;
+  height: 1.5em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+project-detail-profile .box-2 > .title,
+fac-detail-profile .box-2 > .title{
+  font-size: .12rem;
+  font-weight: 900;
+  margin: .1rem 0;
+}
+
+.btn-box{
+  padding: .03rem .05rem;
+  border-radius: .03rem;
+  font-size: .10rem;
+}
+
+project-detail-profile .btns,
+fac-detail-profile .btns{
+  padding: .03rem 0;
+}
+project-detail-profile .btns > *,
+fac-detail-profile .btns > *{
+  padding: .05rem .20rem .05rem 0;
+  margin-right: 0.8em;
+  border: solid 0;
+}
+project-detail-profile .btns > div > img,
+fac-detail-profile .btns > div > img {
+  width: .18rem;
+  height: .18rem;
+  margin: 0 .03rem 0 0;
+}
+
+.search-btns{
+  padding: .2rem 0;
+}
+.search-btns > *{
+  width: 45%;
+  padding: .10rem 0;
+  text-align: center;
+  border-radius: .03rem;
+}
+
+
+project-detail-capacity .box,
+fac-detail-capacity .box{
+  padding: .08rem 0;
+}
+project-detail-capacity .box > *,
+fac-detail-capacity .box > *{
+  padding: .06rem 0;
+}
+
+search-nearby .btn{
+  position: relative;
+}
+search-nearby .btn > select{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  opacity: 0;
+}
+

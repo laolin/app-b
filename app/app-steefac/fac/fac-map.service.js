@@ -8,12 +8,14 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   var appData=AppbData.getAppData();
   var mapData=AmapMainData.getMapData();
 
+  var AwesomeMarkerDeferred = $q.defer();
   var FacMap={
     loading:true,
+    AwesomeMarker: AwesomeMarkerDeferred.promise,
     mapData:mapData,
     myPosition:{},
     addrInput:{},
-    
+    canClick:false,
     selectedPosition:{},//LngLat对象
     selectedLocation:{},//解析后的地址信息对象
     selName:'',
@@ -24,6 +26,19 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     
     creating:false
   };
+
+  /**
+   * 清除所有标志
+   */
+  FacMap.clearAllMark = function() {
+    for(var i = FacMap.searchMarkers.length - 1; i>=0; i--) {
+      FacMap.searchMarkers[i].hide();
+      FacMap.searchMarkers[i].setMap(null);
+    }
+    FacMap.searchMarkers = [];
+    FacMap.infoWindow && FacMap.infoWindow.close();
+  };
+
   FacMap.newMarker=function(cssColor,cssSize,icon,position,draggable,text) {
     return new FacMap.AwesomeMarker({
       //设置awesomeIcon
@@ -38,7 +53,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
           fontSize: cssSize //设置字号
         }
       },
-      iconStyle: 'blue', //设置图标样式
+      iconStyle: 'darkblue',//'black',//'blue', //设置图标样式
       animation: "AMAP_ANIMATION_DROP",
       //title:'adfasfdafdsasdf',
       label:{content:text,offset:new AMap.Pixel(-12,-19)},
@@ -62,6 +77,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
       FacMap.loading=false;
 
       AMapUI.loadUI(['overlay/AwesomeMarker'], function(AwesomeMarker) {
+        AwesomeMarkerDeferred.resolve(AwesomeMarker);
         FacMap.AwesomeMarker=AwesomeMarker;
         FacMap.selMarker=
           FacMap.newMarker('#fff','18px','header',appData.mapData.map.getCenter(),true,'可拖动定位');
@@ -215,7 +231,6 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   //可以用来做标记，以安全地创建其他marker
   function getSelMarker() {
     getSelMarker.i++;
-    $log.log('getSelMarker-',getSelMarker.i);
     var deferred = $q.defer();
     if(FacMap.selMarker){
       getSelMarker.i=0;
@@ -228,7 +243,7 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
 
   function getInfoWindow() {
     getInfoWindow.i++;
-    $log.log('getInfoWindow-',getInfoWindow.i);
+    //$log.log('getInfoWindow-',getInfoWindow.i);
     var deferred = $q.defer();
     if(FacMap.infoWindow){
       getInfoWindow.i=0;

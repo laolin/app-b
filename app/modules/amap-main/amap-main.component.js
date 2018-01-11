@@ -3,22 +3,13 @@
 
 angular.module('amap-main')
 .component('amapMain',{
-    template: 'Map Loading...',  
+    template: 'Map Loading...',
     bindings: {
-
-    
     },
-    controller: ['$scope','$log','$timeout','$element','AmapMainData',
-      function ($scope,$log,$timeout,$element,AmapMainData){
-        var ctrl=this;
-        var markData;
-        
+    controller: ['$scope', '$element','AmapMainData', 'FacMap',
+      function ($scope, $element, AmapMainData, FacMap){
+        FacMap.clearAllMark();
         AmapMainData.showMapTo($element[0]);
-        
-        ctrl.$onInit=function() {
-        }
-
-          
       }
     ]
 })

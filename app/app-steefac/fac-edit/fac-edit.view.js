@@ -130,8 +130,10 @@ angular.module('steefac')
           .then(function(s){
             delete FacSearch.datailCache[objtype+id];
             appData.toastMsg('数据已成功更新',2);
-            $location.path( "/obj-detail" ).search({id: id,type:objtype});
-            $log.log('sec',s);
+            var nextPage = objtype=='steefac'
+              && "/fac-detail/" + id
+              || "/project-detail/" + id;
+            $location.path(nextPage);
           },function(e){
             appData.toastMsg(e,3);//'更新失败'+
             $log.log('err',e);

@@ -50,7 +50,7 @@ function ($location,$log,AppbData,AppbAPI,FacSearch) {
         return appData.toastMsg('未修改',3);
       }
       delete FacSearch.datailCache[objType+ctrl.id];
-      $location.path( "/obj-detail" ).search({id:ctrl.id,type:objType});
+      $location.path( "/fac-detail/" + ctrl.id);
       return appData.toastMsg('已修改',3);
     },function(e){
       return appData.toastMsg(e,3);
@@ -82,7 +82,7 @@ function ($location,$log,AppbData,AppbAPI,FacSearch) {
         desc: '联系人',
         type: 'text',
         placeholder:'请输入联系人',
-        required: 1,
+        required: 0,
         minlength: 2,
         maxlength: 16
       },{
@@ -90,13 +90,13 @@ function ($location,$log,AppbData,AppbAPI,FacSearch) {
         desc: '联系电话',
         type: 'tel',
         placeholder:'建议输入手机号',
-        required: 1
+        required: 0
       },{
         name: 'contact_email',
         desc: '电子邮箱',
         type: 'email',
         placeholder:'请输入电子邮箱',
-        required: 1
+        required: 0
       }
     ];
     ctrl.formDefine={onChange:ctrl.onChange,inputs:ctrl.inputs};

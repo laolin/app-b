@@ -1,11 +1,15 @@
 
-  <appb-ui-header header-data='appb.headerData' ng-if='!appb.headerData.hide' ></appb-ui-header>
-  <div class="main-container">
+  <appb-ui-header header-data='appb.headerData' ng-if="!appb.headerData.hide && sj"></appb-ui-header>
+  <div class="main-container" scroll-parent ng-if="sj">
     <div ng-view>
       <h5 class='text-center'>Loading...</h5>
     </div>
   </div>
-  <appb-ui-footer footer-data='appb.footerData'></appb-ui-footer>
+  <appb-ui-footer footer-data='appb.footerData' ng-if="sj"></appb-ui-footer>
 
   <!-- 迟早要删除的，呵呵 -->
-  <appb-ui-abc app-data='appb.appData'></appb-ui-abc>
+  <appb-ui-abc app-data='appb.appData' ng-if="sj"></appb-ui-abc>
+<div class="pc" ng-if="!sj">
+  <h3>请在手机微信中打开</h3>
+  <img src="http://qr.liantu.com/api.php?text={{url}}">
+</div>

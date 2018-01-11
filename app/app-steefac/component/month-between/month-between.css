@@ -1,0 +1,97 @@
+/* 月份到月份选择组件 */
+
+month-between{ display: inline-block; }
+month-between,
+month-between > .element,
+month-between > .element > *{
+  font-size: 1em;
+}
+month-between > .element .sep{
+  font-size: 0.75em;
+  position: relative;
+  width: 4.5em;
+  margin: 0.3em;
+}
+month-between > .element .sep>*{
+  width: 100%;
+  text-align: center;
+  border-bottom: solid 1px #888;
+  position: absolute;
+  bottom: 0;
+  /* opacity: 0.5; */
+}
+
+/* 选择部分 */
+month-between > .pick{
+  position: fixed;
+  z-index:100;
+  color: #333;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background:#fff;
+  opacity: 0.95;
+
+  display: flex;
+  flex-direction: column;
+}
+month-between .pick-cancel,
+month-between .pick-ok{
+  padding: 0.1em 1em;
+  font-size: .22rem;
+}
+month-between > .pick > .title{
+  text-align: center;
+  padding: 0.6em;
+  border-bottom: solid 1px #888;
+}
+month-between > .pick > .years{
+  flex: 1;
+  overflow: auto;
+  padding: 0.1rem 0.3rem;
+}
+month-between > .pick > .years > .year{
+  border-bottom: solid 1px #888;
+}
+month-between > .pick > .years > .year >.title{
+  text-align: center;
+  font-size: .14rem;
+  padding: 1em;
+}
+month-between > .pick > .years > .year >.months{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+month-between > .pick > .years > .year >.months > .month{
+  width: 25%;
+  padding: 0.5em 0;
+  margin: 0.2em 0;
+  text-align: center;
+  font-size: .18rem;
+  font-weight: 900;
+  color:#333333;
+}
+month-between > .pick > .years > .year >.months > .month.last{
+  color:#A1A1A1;
+}
+month-between > .pick > .years > .year >.months > .month.y{
+  background:#66AAFF;
+  color:#fff;
+}
+month-between > .pick > .years > .year >.months > .month.y.b,
+month-between > .pick > .years > .year >.months > .month.y.e{
+  background:#3366CC;
+}
+month-between > .pick > .years > .year >.months > .month.left,
+month-between > .pick > .years > .year >.months > .month.b{
+  border-top-left-radius: 0.5em;
+  border-bottom-left-radius: 0.5em;
+}
+month-between > .pick > .years > .year >.months > .month.right,
+month-between > .pick > .years > .year >.months > .month.e{
+  border-top-right-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+}
+

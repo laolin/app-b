@@ -7,8 +7,6 @@ function ($log,$timeout,$http,$q,AppbData){
   var appData=AppbData.getAppData();
 
   function AppbAPI(api,call,params) {
-    $log.log('AppbAPI.callApi ',api,call,params);
-    
     var deferred = $q.defer();
     
     var url=appData.urlSignApi(api,call);

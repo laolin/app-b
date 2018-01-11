@@ -10,12 +10,21 @@ function ($scope,$log,$location,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
   var userData=AppbData.getUserData();
   var appData=AppbData.getAppData();
 
+  //要求登录，如果未登录，会自动跳转到登录界面
+  appData.requireLogin();
+  appData.setPageTitle('CMOSS：可信、严肃、专业');
+  
+
+  var pa=appData.appCfg.assetsRoot+'/img/img-steefac/'
+
+  $scope.pathImg=pa;
+
   /* 轮播数据 */
   var slider = $scope.slider = {
     frames: [
-      {src: "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-1.jpg", text:"一"},
-      {src: "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-2.jpg", text:"二"},
-      {src: "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/top-3.jpg", text:"三"}
+      {src: pa+"top-1.jpg", text:"一"},
+      {src: pa+"top-2.jpg", text:"二"},
+      {src: pa+"top-3.jpg", text:"三"}
     ],
     params: {
       centeredSlides: true,
@@ -42,10 +51,10 @@ function ($scope,$log,$location,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
   };
 
   $scope.moduleInfo = [
-    {src: "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/hygs.png", text:"行业高手"},
-    {src: "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/xjsb.png", text:"新技术榜"},
-    {src: "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/cxpj.png", text:"诚信评级"},
-    {src: "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/gwbg.png", text:"顾问报告"}
+    {src: pa+"hygs.png", text:"行业高手"},
+    {src: pa+"xjsb.png", text:"新技术榜"},
+    {src: pa+"cxpj.png", text:"诚信评级"},
+    {src: pa+"gwbg.png", text:"顾问报告"}
   ];
   $scope.dataInfo = [
     { type:'steeproj', name: '项目信息', n: '...', t: '个'},
@@ -53,12 +62,10 @@ function ($scope,$log,$location,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
     { type:'', name: '采购商', n: '...', t: '家'}
   ];
 
-  appData.setPageTitle('CMOSS：可信、严肃、专业');
-  
-  //要求登录，如果未登录，会自动跳转到登录界面
-  appData.requireLogin();
   
   $scope.goSearch=function(type) {
+    
+    /*
     if(!type)return;
     var serchPara={
       type:type,
@@ -68,6 +75,8 @@ function ($scope,$log,$location,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
     $log.log('ggggggggg-serchPara',serchPara);
     FacSearch.doSearch(serchPara,type);
     $location.path('/search');
+    */
+    if(type)$location.path('/stat').search({type:type});
   }
 
   //使用ctrl, 后面方便切换为 component
@@ -79,7 +88,6 @@ function ($scope,$log,$location,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
   ctrl.appData=appData;
   ctrl.FacUser=FacUser;
   ctrl.isLoading=3;
-  ctrl.headImg=appData.appCfg.assetsRoot+'/img/img-steefac/stee-title-1.jpg';
 
   FacUser.getMyData().then(function (me) {
     ctrl.isLoading--;
@@ -94,7 +102,7 @@ function ($scope,$log,$location,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
     ctrl.links[i]='/buyer?id='+ctrl.buyerList[i].oid;
   }
   
-  var pa='https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/'
+  
   ctrl.type1='steefac';
   AppbAPI('steeobj','search',{type:ctrl.type1,count:4}).then(
     function(s){

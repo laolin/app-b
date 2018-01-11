@@ -1,0 +1,35 @@
+﻿<!-- 项目详情-简介组件 -->
+
+<div class="flex box-1">
+  <div class="flex-grow">
+    <div class="flex">
+      <div class="fac-name text-3">{{fac.name}}</div>
+    </div>
+    <div class="flex bb-ccc">
+      <div class="rem-10" c="6B"><span edit-url="{{(isSuperAdmin || isThisAdmin) && ('#!/fac-edit?type=steeproj&id=' + fac.id) || ''}}">{{fac.update_at|timespan:'MM月d日更新'}}</span></div>
+      <div class="rem-10" c="6B">1.2KM</div>
+    </div>
+    <div class="text-gray">采购量：<span class="text-3">{{fac.need_steel}}</span>吨</div>
+    <div class="text-gray">首批供货时间：<span>{{ProjDefine.objReqInMonth[fac.in_month]}}</span></div>
+  </div>
+  <div class="headimg shrink0">
+    <img ng-src="">
+  </div>
+</div>
+
+<div class="flex-v bb-ccc box-2">
+  <div class="title text-3 bb-ccc">联系方式</div>
+  <div class="flex flex-top">
+    <div class="">
+      <div class="text-gray line___1">地址：<span>{{fac.addr}}</span></div>
+      <div class="text-gray">联系人：<span>{{fac.contact_person}}</span></div>
+    </div>
+    <div class="btn-box box-primary shrink0" tobe-admin="steeproj" fac="fac" ng-if="canAddAdmin && !isSuperAdmin">申请成为管理员</div>
+  </div>
+  <div class="btns flex flex-left">
+    <tel-box  class="text-active" val="fac.contact_tel"></tel-box>
+    <mail-box class="text-active" val="fac.contact_email"></mail-box>
+  </div>
+</div>
+
+<search-nearby class="search-btns flex" fac="fac"></search-nearby>

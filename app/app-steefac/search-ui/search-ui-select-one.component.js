@@ -5,23 +5,22 @@ angular.module('steefac')
   templateUrl: 'app-steefac/search-ui/search-ui-select-one.component.template.html',
   bindings: {
     searchType: '<',
-    searchData: '<',
     objectSelected: '<'
   },
-  controller:['$http','$log','$timeout',
-	function ($http,$log,$timeout) {
+  controller:['$http','$log','$timeout','FacSearch',
+	function ($http,$log,$timeout,FacSearch) {
     var ctrl=this;
     
     ctrl.$onInit=function(){
       
       //搜索周边时，不能用原来的关键字搜索。
       ctrl.searchFac=function(){
-        ctrl.searchData.searchWord='';
-        ctrl.searchData.startSearch('steefac');
+        FacSearch.searchWord='';
+        FacSearch.startSearch('steefac');
       };
       ctrl.searchProj=function(){
-        ctrl.searchData.searchWord='';
-        ctrl.searchData.startSearch('steeproj');
+        FacSearch.searchWord='';
+        FacSearch.startSearch('steeproj');
       };
     }
     ctrl.$onChanges=function(chg){
@@ -30,7 +29,7 @@ angular.module('steefac')
       }
     }// end onChanges
 
-    
+    ctrl.searchData=FacSearch;
     ctrl.level=['特级','一级','二级','三级'];
   }]
 });

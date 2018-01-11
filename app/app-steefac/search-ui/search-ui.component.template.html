@@ -18,9 +18,19 @@
     <!-- 3,选中一项 -->
     <search-ui-select-one 
       ng-if=' $ctrl.searchData.searchResultSelected >=0'
-      search-type='$ctrl.searchType' search-data="$ctrl.searchData"
+      search-type='$ctrl.searchType'
       object-selected="$ctrl.searchData.searchResult[$ctrl.searchData.searchType][$ctrl.searchData.searchResultSelected]"
     ></search-ui-select-one>
-    
+    <appb-weui-cells 
+      ng-if=' $ctrl.searchData.searchResultSelected >=0'
+      title='' cells="[
+      {text:'返回搜索列表',icon:'chevron-left',notes:'',
+        url: $ctrl.searchData.hideInfoWindow},
+      ]" 
+    >
+    </appb-weui-cells>
+
+
+
     <fac-ui-copyright></fac-ui-copyright>
   </div>

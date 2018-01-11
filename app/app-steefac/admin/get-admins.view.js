@@ -34,13 +34,11 @@ function ($scope,$http,$log,$location,
   
   FacUser.getAdmins().then(function(a){
     $scope.isLoading=0;
-    $log.log('===============getAdmins ok',a);
+    //$log.log('===============getAdmins ok',a);
     $scope.adminLinks=[];
     for(var i=0,j=0;i<FacUser.admins.length;i++) {
-      $log.log('FacUser.admins[i]',i,FacUser.admins[i][objType+'_can_admin'])
       if(FacUser.admins[i][objType+'_can_admin']) {
         $scope.typeAdmins[j]=FacUser.admins[i];
-        $log.log('OK. j=',j)
         $scope.adminLinks[j]='/get-facs-of-admin?aid='+i+'&uid='+FacUser.admins[i].uid;
         j++;
       }

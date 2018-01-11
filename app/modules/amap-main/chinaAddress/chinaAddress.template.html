@@ -1,0 +1,28 @@
+<!-- 省市区选择组件 -->
+
+<div class="china-address-box ">
+  <div class="flex flex-arround title rem-18 b-900" c="36c">
+    <i class="pick-cancel fa fa-chevron-left" ng-click="cancel()"></i>
+    <div class="rem-18">选择城市</div>
+    <i class="pick-ok fa fa-check" ng-click="ok()"></i>
+  </div>
+  <div class="shrink0 flex flex-grow flex-stretch list-box">
+    <div class="high-light-box">
+    </div>
+    <div class="flex-w1 shrink0" my-scroll="D.changeA($pos, $event)" my-scroll-top="D.scrollTopA">
+      <div class="list-abc">
+        <div class="flex flex-cc {{D.activeA == $index && 'active text-3'||'text-gray'}} " ng-repeat="item in D.listA track by $index">{{item}}</div>
+      </div>
+    </div>
+    <div class="flex-w1 shrink0" my-scroll="D.changeB($pos, $event)" my-scroll-top="D.scrollTopB">
+      <div class="list-abc">
+        <div class="flex flex-cc {{D.activeB == $index && 'active text-3'||'text-gray'}}" ng-repeat="item in D.listB track by $index">{{item}}</div>
+      </div>
+    </div>
+    <div class="flex-w1 shrink0" my-scroll="D.changeC($pos, $event)" my-scroll-top="D.scrollTopC">
+      <div class="list-abc">
+        <div class="flex flex-cc {{D.activeC == $index && 'active text-3'||'text-gray'}}" ng-repeat="item in D.listC track by $index">{{item}}</div>
+      </div>
+    </div>
+  </div>
+</div>

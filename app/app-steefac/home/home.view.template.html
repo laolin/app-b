@@ -41,16 +41,16 @@
   type='"steefac"'
   >
   </fac-grids-->
-  <a class="item" ng-repeat="item in $ctrl.facList1"
-    ng-href='#!/obj-detail?type=steefac&id={{item.id}}'
-  >
-    <div class="left">
+  <a class="flex item" ng-repeat="item in $ctrl.facList1" ng-href="#!/fac-detail/{{item.id}}">
+    <div class="left flex-v flex-between flex-grow">
       <div class="text">{{item.name}}，产能{{item.cap_6m}}吨，擅长构件：{{item.goodat}}</div>
       <i class="fa fa-clock-o">&nbsp;
         <span ng-if='item.update_at>123456789' am-time-ago='1000*item.update_at' ></span>
       </i>
     </div>
-    <img ng-src="{{item.picMain || '../assets/img/img-steefac/def-steefac.jpg' }} " alt="">
+    <div class="shrink0 img">
+      <img ng-src="{{item.picMain || '../assets/img/img-steefac/def-steefac.jpg' }} " alt="">
+    </div>
   </a>
 </div>
 
@@ -79,7 +79,7 @@
   <div class="title">
     <span>—</span><span class="text">　采购商　</span><span>—</span>
   </div>
-  <img src="https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/images/cgs.jpg">
+  <img ng-src="{{pathImg}}cgs.jpg">
 </div>
 <div class="main-cgs-more weui-cell_access">
   <span class="weui-cell__ft">查看更多</span>

@@ -54,6 +54,7 @@ function($route, $rootScope,$location,$log,AppbConfig) {
   function activeTabByPath(p) {
     $log.log('activeTabByPath',p);
     for(var i=footerData.tabs.length;i--; ){
+      footerData.tabs[i].active = false;
       if(footerData.tabs[i].href==p)break;
     }
     if(i<0)return true;

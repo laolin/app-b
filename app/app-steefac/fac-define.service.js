@@ -22,7 +22,7 @@ function ($log,$timeout,AppbData){
       name: 'level',
       desc: '资质',
       type: 'radio',
-      required: 1,
+      required: 0,
       keys: ['0','1','2','3'],
       values: ['特级','一级','二级','三级']
     },
@@ -100,7 +100,7 @@ function ($log,$timeout,AppbData){
       desc: '厂房面积(㎡)',
       placeholder:'0-999999',
       type: 'number',
-      required: 1,
+      required: 0,
       min: 0,
       max: 999999
     },
@@ -109,7 +109,7 @@ function ($log,$timeout,AppbData){
       desc: '堆场面积(㎡)',
       placeholder:'0-999999',
       type: 'number',
-      required: 1,
+      required: 0,
       min: 0,
       max: 999999
     },
@@ -119,7 +119,7 @@ function ($log,$timeout,AppbData){
       desc: '最大行车',
       
       type: 'radio',
-      required: 1,
+      required: 0,
       keys: ['5','10','15','35','50','100'],
       values: ['5吨','10吨','15吨','35吨','50吨','100吨']
       /*
@@ -135,7 +135,7 @@ function ($log,$timeout,AppbData){
       desc: '最大抛丸构件',
       placeholder:'尺寸：0-99(m)',
       type: 'number',
-      required: 1,
+      required: 0,
       min: 0,
       max: 99
     },
@@ -144,7 +144,7 @@ function ($log,$timeout,AppbData){
       desc: '最大镀锌构件',
       placeholder:'长度：0-99(m)',
       type: 'number',
-      required: 1,
+      required: 0,
       min: 0,
       max: 99
     },
@@ -153,7 +153,7 @@ function ($log,$timeout,AppbData){
       desc: '最近高速距离',
       placeholder:'0-9999(km)',
       type: 'number',
-      required: 1,
+      required: 0,
       min: 0,
       max: 9999
     },
@@ -162,27 +162,27 @@ function ($log,$timeout,AppbData){
       desc: '最近港口距离',
       placeholder:'0-9999(km)',
       type: 'number',
-      required: 1,
+      required: 0,
       min: 0,
       max: 9999
     },
     
     
-    {
-      name: 'workers',
-      desc: '工人总数',
-      placeholder:'0-99999',
-      type: 'number',
-      required: 1,
-      min: 0,
-      max: 99999
-    },
+    //  {
+    //    name: 'workers',
+    //    desc: '工人总数',
+    //    placeholder:'0-99999',
+    //    type: 'number',
+    //    required: 0,
+    //    min: 0,
+    //    max: 99999
+    //  },
     {
       name: 'workers_hangong',
       desc: '焊工人数',
       placeholder:'0-99999',
       type: 'number',
-      required: 1,
+      required: 0,
       min: 0,
       max: 99999
     },
@@ -191,7 +191,7 @@ function ($log,$timeout,AppbData){
       desc: '铆工人数',
       placeholder:'0-99999',
       type: 'number',
-      required: 1,
+      required: 0,
       min: 0,
       max: 99999
     },
@@ -200,7 +200,7 @@ function ($log,$timeout,AppbData){
       desc: '工艺人员',
       placeholder:'0-99999',
       type: 'number',
-      required: 1,
+      required: 0,
       min: 0,
       max: 99999
     },
@@ -209,7 +209,7 @@ function ($log,$timeout,AppbData){
       desc: '详图人员',
       placeholder:'0-99999',
       type: 'number',
-      required: 1,
+      required: 0,
       min: 0,
       max: 99999
     },
@@ -218,7 +218,7 @@ function ($log,$timeout,AppbData){
       desc: '其他人员',
       placeholder:'0-99999',
       type: 'number',
-      required: 1,
+      required: 0,
       min: 0,
       max: 99999
     },

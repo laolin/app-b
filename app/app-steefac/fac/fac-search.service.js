@@ -11,8 +11,8 @@ var SEARCH_SIZE_SYSADMIN = 5000;
 
 angular.module('steefac')
 .factory('FacSearch',
-['$log','$timeout','$q','AppbData','AmapMainData','AppbAPI','FacMap','FacUser','FacDefine','ProjDefine',
-function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine,ProjDefine) {
+['$log','$timeout','$q','$location','AppbData','AmapMainData','AppbAPI','FacMap','FacUser','FacDefine','ProjDefine',
+function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine,ProjDefine) {
   
   var FacSearch={};
   var appData=AppbData.getAppData();
@@ -57,26 +57,121 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
 
   FacSearch.options.distSelect='0';
   FacSearch.distText=['50公里','100公里','200公里','300公里','500公里','不限距离'];
-  FacSearch.distValue=[45,90,180,170,450,99999];
+  FacSearch.distValue=[45,90,180,270,450,99999];
   //在中国所处的纬度水平，经、纬1度均近似100公里，以下均按此假定判断距离。
   //^^这里：由于搜索结果是按正方形搜索，不是圆形，故把正方形稍缩小
+
+  FacSearch.levelDick = ['特级','一级','二级','三级'];
 
   FacSearch.clearSearchWord=function(){
     FacSearch.searchWord='';
   }
+
+  /**
+   * 再写一个新的搜索函数
+   * 1. 不污染其它数据
+   * 2. 不依赖原搜索
+   * 3. 不依赖地图
+   */
+  FacSearch.search = function(param, type){
+    if(!FacSearch.isTypeValid(type)){
+      return $q.reject('**err search type:' + type);
+    }
+
+    /**
+     * 根据城市名称搜索 ( 转换为经纬度后，递归 )
+     *
+     * 在执行搜索时，如果有经纬度，就不管城市而按该位置查询
+     * 如果只有城市，没有经纬度，就按城市搜索
+     */
+    if(param.currentCity && (!param.lat || ! param.lng)){
+      return AmapMainData.china.getCity(param.currentCity).then(
+        city => {
+          console.log('城市？', city);
+          return FacSearch.search(angular.extend(param, {lng: city.center.lng, lat: city.center.lat}), type)
+        },
+        (e) => {
+          console.log('无效的城市？', e);
+          // 无效的城市？
+          return FacSearch.search(angular.extend(param, {currentCity: ''}), type);
+        }
+      );
+    }
+
+    /* 固定参数 */
+    var serchPara = {
+      count  : FacSearch.options.countRes,
+      type   : type,
+      orderBy: param.orderBy,
+      lat    : Math.floor(1e7 * param.lat), // 为什么不直接传递？( (''+lat).substr(0, 11) )
+      lng    : Math.floor(1e7 * param.lng),
+      dist   : Math.floor(1e3*FacSearch.distValue[param.distSelect || 0]),
+    };
+    /* 可选参数 */
+    if(param.searchWord) serchPara.s         = param.searchWord;
+    if(param.level     ) serchPara.level     = param.level     ;
+    if(param.monthFrom ) serchPara.monthFrom = param.monthFrom ;
+    if(param.monthTo   ) serchPara.monthTo   = param.monthTo   ;
+
+    /* 开始搜索 */
+    return AppbAPI('steeobj','search',serchPara)
+    .then(list => {
+      /**
+       * 计算点到最后搜索基点的距离
+       */
+      var serchPos = new AMap.LngLat(param.lng, param.lat);
+      list.map( item => {
+        item.distance = serchPos.distance([item.lngE7/1e7, item.latE7/1e7]);
+      });
+      //console.log('serchPara = ', serchPara);
+      //console.log('serchPos = ', serchPos);
+      return {list, pos: serchPos};
+    });
+  }
   
-  FacSearch.startSearch=function(type){
+  FacSearch.startSearch=function(type, dontReLocation){
     if(!FacSearch.isTypeValid(type)){
       $log.log('**err search type:',type);
-      return;
+      return $q.reject('**err search type:' + type);
+    }
+
+    /**
+     * 根据城市名称搜索
+     *
+     * 在执行搜索时，如果有经纬度，就不管城市而按该位置查询
+     * 如果只有城市，没有经纬度，就按城市搜索
+     */
+    if(FacSearch.options.currentCity && (!FacSearch.options.lat || ! FacSearch.options.lng)){
+      return AmapMainData.china.getCity(FacSearch.options.currentCity).then(
+        city => {
+          FacSearch.options.lat = city.center.lat;
+          FacSearch.options.lng = city.center.lng;
+          return FacSearch.startSearch(type, dontReLocation).then( res => {
+            FacSearch.options.lat = FacSearch.options.lng = false;
+            return res;
+          });
+        },
+        (e) => {
+          console.log('无效的城市？', e);
+          // 无效的城市？
+          FacSearch.options.currentCity = '';
+          return FacSearch.startSearch(type, dontReLocation);
+        }
+      );
     }
     
-  
-    
     var bd;
-    var serchPara={s:FacSearch.searchWord};
-
-    if(mapData.map) {
+    var serchPara={
+      s: FacSearch.searchWord || FacSearch.options.searchWord,
+      orderBy: FacSearch.options.orderBy,
+      dist   : Math.floor(1e3*FacSearch.distValue[FacSearch.options.distSelect]),
+    };
+    if(FacSearch.options.lat && FacSearch.options.lng){
+      serchPara.lat = Math.floor(1e7 * FacSearch.options.lat);
+      serchPara.lng = Math.floor(1e7 * FacSearch.options.lng);
+      serchPara.dist= Math.floor(1e3*FacSearch.distValue[FacSearch.options.distSelect||0]);
+    }
+    else if(mapData.map) {
       FacSearch.hideInfoWindow()
       bd=mapData.map.getBounds( );
       mapData.northeast=bd.northeast;
@@ -93,8 +188,6 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
             (mapData.northeast.lng- mapData.southwest.lng)
           )/2
         );
-        
-        $log.log('ZZZZZZZZZZ serchPara',1)
       } else {
         if(FacSearch.searchResultSelected>=0) {
           //从选中的搜索结果的周边搜索
@@ -103,13 +196,11 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
           serchPara.lng=sel.lngE7;
           FacMap.selectedPosition=new AMap.LngLat(sel.lngE7/1e7,sel.latE7/1e7);
           FacMap.selMarker.setPosition(FacMap.selectedPosition);
-        $log.log('ZZZZZZZZZZ serchPara sel',2,FacMap.selectedPosition)    
         } else {
           //从地图选点的周边搜索
           var pos =FacMap.selectedPosition;          
           serchPara.lat=Math.floor(1e7*pos.lat);
           serchPara.lng=Math.floor(1e7*pos.lng); 
-        $log.log('ZZZZZZZZZZ serchPara pos',3,pos) 
         }
         
         
@@ -120,13 +211,24 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
     }
     serchPara.count=FacSearch.options.countRes;
     if(FacUser.isSysAdmin())serchPara.count=SEARCH_SIZE_SYSADMIN;
-    $log.log('serchPara ', serchPara);
-    return FacSearch.doSearch(serchPara,type);
+    return FacSearch.doSearch(serchPara,type, dontReLocation)
+    .then(list => {
+      /**
+       * 计算点到最后搜索基点的距离
+       */
+      var serchPos = new AMap.LngLat(serchPara.lng/1e7, serchPara.lat/1e7);
+      list.map( item => {
+        item.distance = serchPos.distance([item.lngE7/1e7, item.latE7/1e7]);
+      });
+      console.log('serchPara = ', serchPara);
+      console.log('serchPos = ', serchPos);
+      return list;
+    });
   }
-  FacSearch.doSearch=function(serchPara,type){
+
+  FacSearch.doSearch=function(serchPara,type, dontReLocation){
     FacSearch.searching=true;
     //FacSearch.searchResultSelected=-1;
-    
     serchPara.type=type;
     return AppbAPI('steeobj','search',serchPara).then(
       function(s){
@@ -137,7 +239,8 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
         FacSearch.searchResult[type]=s;
         FacSearch.searchType=type;
         FacSearch.showSearchRes(type,FacSearch.showPageNumber[type]=0);
-        //$location.url('/search-'+type);  
+        if(!dontReLocation)$location.path('/search-old');
+        return $q.resolve(s);
       }
     );
 
@@ -146,7 +249,6 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
 
   FacSearch.showSearchRes=function (type,pn){
     FacSearch.hideInfoWindow();
-    $log.log('selPositionEnd',1);
     FacMap.selPositionEnd();
     
     FacSearch.searchType=type;
@@ -169,8 +271,48 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   }
 
 
-
-
+  /**
+   * 显示产能或项目到地图上
+   * 显示内容：图标 + 文字
+   * 在地图及UI备妥（承诺）后，才显示
+   */
+  FacSearch.markObj = function(obj, type) {
+    $q.when(FacMap.AwesomeMarker, ()=>{
+      FacMap.clearAllMark();
+      var pos = [obj.lngE7/1E7, obj.latE7/1E7];
+      var mark = FacMap.newMarker('#fff','16px',objIcons[type],pos,false,(''+ obj.name).substr(0,4));
+      FacMap.searchMarkers = [mark];
+      mark.show();
+      mark.selIndex = 0;
+      FacSearch.showObjInfoWindow(obj, type, -32);
+      mapData.map.setZoomAndCenter(10, pos);
+      mark.on('click', function(e){
+        FacSearch.showObjInfoWindow(obj, type, -32);
+      });
+    });
+  }
+  /**
+   * 显示产能或项目到地图上(多个)
+   * 显示内容：图标 + 文字
+   * 在地图及UI备妥（承诺）后，才显示
+   */
+  FacSearch.markObjList = function(list, type){
+    FacSearch.searching = false;
+    if(!list || !list.length) return $q.when(1);
+    return $q.when(FacMap.AwesomeMarker, ()=>{
+      FacMap.clearAllMark();
+      FacMap.searchMarkers = [];
+      for(let obj of list) {
+        var pos = [obj.lngE7/1E7, obj.latE7/1E7];
+        var mark = FacMap.newMarker('#fff','16px',objIcons[type],pos,false,(''+ obj.name).substr(0,4));
+        FacMap.searchMarkers.push(mark);
+        mark.show();
+        mark.on('click', function(e){
+          FacSearch.showObjInfoWindow(obj, type, -32);
+        });
+      }
+    });
+  }
 
 
     
@@ -178,10 +320,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
     
     //selMarker已ready，说明可以安全地创建其他marker
     FacMap.getSelMarker().then(function(){
-      for(var i=0;i<FacMap.searchMarkers.length;i++) {
-        FacMap.searchMarkers[i].setMap(null);
-      }
-      FacMap.searchMarkers=[];
+      FacMap.clearAllMark();
 
       var maxlat=-555e7;
       var maxlng=-555e7;
@@ -227,7 +366,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
       //mapData.map.panBy(0,12);
       //由于存在坐标是0的，所以用fit会显示非洲，不好
       mapData.map.setFitView(FacMap.searchMarkers);
-      $log.log('FacMap.selectedPosition######2#',type,[minlng,minlat],[maxlng,maxlat]);
+      //$log.log('FacMap.selectedPosition######2#',type,[minlng,minlat],[maxlng,maxlat]);
       
     })
   }
@@ -238,7 +377,6 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
   FacSearch.showSearchMarkers=function(s,type) {
     
     if(s&&FacMap.searchMarkers.length) {
-      $log.log('selPositionEnd',2);
       FacMap.selPositionEnd();
     }
     FacSearch.searchType=type;
@@ -279,16 +417,20 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
     });
   }
   FacSearch.showInfoWindow=function(i,type) {
+    var o=FacSearch.searchResult[type][i];
+    FacSearch.showObjInfoWindow(o,type,-32);
+  }  
+  FacSearch.showObjInfoWindow=function(obj,type,offsetY) {
+    var da=FacSearch.infoOfObj(obj,type);
+    
     FacMap.getInfoWindow().then(function(iw){
-      var o=FacSearch.searchResult[type][i];
-      var da=FacSearch.infoOfObj(o,type);
 
       AMapUI.loadUI(['overlay/SimpleInfoWindow'], function(SimpleInfoWindow)
       {
 
         FacMap.infoWindow.close();
         FacMap.infoWindow = new SimpleInfoWindow({
-          offset: new AMap.Pixel(0, -32)
+          offset: new AMap.Pixel(0, offsetY)
         });
 
         FacMap.infoWindow.setInfoTitle(da.infoTitle);
@@ -298,41 +440,33 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
 
         //设置主体内容
         FacMap.infoWindow.setInfoTplData(da.infoTplData);
-        FacMap.infoWindow.open(mapData.map, [o.lngE7/1e7,o.latE7/1e7]);
+        FacMap.infoWindow.open(mapData.map, [obj.lngE7/1e7,obj.latE7/1e7]);
       
         FacMap.infoWindow.on('close', function(e){
           FacSearch.unselectOne();
         })
-      
         
       })
     });
   }  
   
-  FacSearch.getDetail=function(type,id) {
-    var deferred = $q.defer();
+  FacSearch.getDetail = function(type, id, reRequest) {
     if( !FacSearch.isTypeValid(type) ) {
-      deferred.reject('errType');
-      return deferred.promise;
+      return $q.reject('errType');
     }
-    if(FacSearch.datailCache[type+id]) {
-      deferred.resolve(FacSearch.datailCache[type+id]);
-      return deferred.promise;
+    if(!reRequest && FacSearch.datailCache[type + id]) {
+      return $q.resolve(FacSearch.datailCache[type+id]);
     }
-    
+
     return AppbAPI('steeobj','detail',{type:type,id:id}).then(function(s){
-      $log.log('detail-',type,id,s);
       if(!s) {
-        deferred.reject('noData');
-        return deferred.promise;
+        return $q.reject('noData');
       }
       objDefines[type].formatObj(s);
       FacSearch.datailCache[type+id]=s;      
-      deferred.resolve(FacSearch.datailCache[type+id]);
-      return deferred.promise;
+      return FacSearch.datailCache[type+id];
     },function(e){
-      deferred.reject(e);
-      return deferred.promise;
+      return $q.reject(e);
     });
   }
   
@@ -350,8 +484,8 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
       '剩余产能<%- cap_6m %>吨，厂房面积<%- area_factory %>㎡<br>'+
       '擅长构件：<%- goodat %><br/>'+
       '<%- update_at %>更新'+
-      '<a href="#!/case-show?id=<%- id %>">【业绩】</a>'+
-      '<a href="#!/obj-detail?type=steefac&id=<%- id %>">【详情】</a>'
+      '<a href="#!/fac-detail/<%- id %>?tabIndex=2">【业绩】</a>'+
+      '<a href="#!/fac-detail/<%- id %>">【详情】</a>'
       ;
 
       //设置主体内容
@@ -375,7 +509,7 @@ function($log,$timeout,$q,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine
       '采购量<%- need_steel %>吨<br>'+
       '供货时间：<%- in_month %><br/>'+
       '<%- update_at %>更新'+
-      '<a href="#!/obj-detail?type=steeproj&id=<%- id %>">【详情】</a><br/>'
+      '<a href="#!/project-detail/<%- id %>">【详情】</a><br/>'
       ;
 
       //设置主体内容

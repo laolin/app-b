@@ -2,9 +2,11 @@
 (function(){
 
 angular.module('amap-main')
-.factory('AmapMainData', ['$log','$timeout','$http','$q','AppbData',
-function ($log,$timeout,$http,$q,AppbData){
+.factory('AmapMainData', ['$log', '$rootScope', '$timeout','$http','$q','AppbData',
+function ($log, $rootScope, $timeout,$http,$q,AppbData){
   var svc=this;
+  var amapDeferred = $q.defer();
+  var onAmap = amapDeferred.promise;
   var mapData={
     options:{zoom: 15,isHotspot:1},
     plugins:{},
@@ -15,31 +17,31 @@ function ($log,$timeout,$http,$q,AppbData){
   };
   var appData=AppbData.getAppData();
   appData.mapData=mapData;
-  
-  
-  
+
+
+
   function setMapOptions(o){
-    angular.extent(mapData.options,o); 
+    angular.extent(mapData.options,o);
   }
-  
-  
+
+
   // showMap
   function showMapTo(ele,options) {
     if(typeof(options)=='object')setMapOptions(options);
     if(typeof(mapData.map)=='undefined')initMap(options);
     $timeout(wait_show_map, 1);
-    
+
     function wait_show_map() {
       if(typeof (mapData.map) == 'undefined') {
         $timeout(wait_show_map, 100);
       } else {
-        
+
         //如果已显示在别的地方，就先从别的地方删掉
         if(mapData.div.parentNode) {
           mapData.div.parentNode.removeChild(mapData.div);
         }
 
-        if(!ele){ 
+        if(!ele){
           $log.log('* showMapTo Error element',ele);
         } else {
           ele.innerHTML='';
@@ -49,15 +51,15 @@ function ($log,$timeout,$http,$q,AppbData){
       }
     }
   }
-  
+
   // initMap
   function initMap(options) {
     if(mapData.inInit)return;
     $log.log("Loading AMap ...",mapData.inInit);
     mapData.inInit=1;
-    
+
     if(typeof(options)=='object')setMapOptions(options);
-    
+
     function waitMap() {
       waitMap.i++;
       $log.log('waitMap-',waitMap.i);
@@ -86,7 +88,7 @@ function ($log,$timeout,$http,$q,AppbData){
 
 
     loadMapScript();
-    
+
     waitMap()
     .then(function(d1){
       _init_map();
@@ -105,16 +107,16 @@ function ($log,$timeout,$http,$q,AppbData){
       //但还是似乎是JS文件执行的结果有什么问题，
       //angular会收到404错误，不知道为什么 //TODO
     });
-    
+
     //以下为initMap的内部函数
     function _init_map() {
       $log.log("Init AMap ...");
-      if(mapData.map)return;
+      if(mapData.map)return $q;
       mapData.div = document.createElement("div");
       mapData.div.id='map-contain-'+(+new Date());
       mapData.div.style.height="100%";
       mapData.div.style.width="100%";
-      
+
       //目前不知道显示在哪，但 AMap.Map 要求在放在 body 内，所以隐藏后再加到 body 后
       mapData.div.style.display="none";
       document.body.appendChild(mapData.div);
@@ -125,11 +127,19 @@ function ($log,$timeout,$http,$q,AppbData){
       mapData.map.on('zoomend',_onMove);
       mapData.map.on('resize',_onMove);
       mapData.map.on('click',_onClick);
-      
+
+
+      /**
+       * 监听 amapDeferred
+       */
+      !(function(){
+        amapDeferred.resolve(onAmap = mapData.map);
+      })();
+
       //初始化地图后，再从 body 中移走
       mapData.div.parentNode.removeChild(mapData.div);
       mapData.div.style.display='';
-      
+
       mapData.infoWindow = new AMap.InfoWindow({
         content:'',
         offset:{x:0,y:-20},
@@ -137,12 +147,12 @@ function ($log,$timeout,$http,$q,AppbData){
         showShadow:true,
         autoMove:true
       });
-      
+
     }
-    
+
     function loadMapScript() {
       return $.getScript("https://webapi.amap.com/maps?v=1.3&key=b4a551eacfbb920a6e68b5eca1126dd5" +
-      "&plugin=AMap.ToolBar,AMap.Geocoder,AMap.PlaceSearch");
+      "&plugin=AMap.ToolBar,AMap.Geocoder,AMap.PlaceSearch,AMap.DistrictSearch,AMap.CitySearch");
       //,AMap.Autocomplete,AMap.Scale,AMap.OverView";
     }
     //$http.jsonp经常会 reject，改用jQuery加载地图js
@@ -170,14 +180,14 @@ function ($log,$timeout,$http,$q,AppbData){
     $timeout(callback,1);
   }
   function _onMove(msg) {
-    $log.log('onMove',msg);
+    $rootScope.$broadcast('AMap.OnMove', msg);
     var bd=mapData.map.getBounds( );
     mapData.northeast=bd.northeast;
     mapData.southwest=bd.southwest;
     if('function'==typeof mapData.onMove)mapData.onMove(msg);
   }
   function _onClick(msg) {
-    $log.log('_onClick',msg);
+    $rootScope.$broadcast('AMap.OnClick', msg);
     if('function'==typeof mapData.onClick)mapData.onClick(msg);
   }
   function _onLocateComplete(msg) {
@@ -188,9 +198,9 @@ function ($log,$timeout,$http,$q,AppbData){
     $log.log('onLocateError');
     if('function'==typeof mapData.onLocateError)mapData.onLocateError(msg);
   }
-  
-  
-  
+
+
+
   svc.showLocateButton = function() {
     mapData.map.plugin('AMap.Geolocation', function () {
       svc.geolocation = new AMap.Geolocation({
@@ -208,7 +218,7 @@ function ($log,$timeout,$http,$q,AppbData){
       });
       mapData.map.addControl(svc.geolocation);
       AMap.event.addListener(svc.geolocation, 'complete', _onLocateComplete);//返回定位信息
-      AMap.event.addListener(svc.geolocation, 'error', _onLocateError);  
+      AMap.event.addListener(svc.geolocation, 'error', _onLocateError);
       //getCurrentPosition();//自动定位到当前位置
       mapData.plugins.geolocation=svc.geolocation;
     });
@@ -223,11 +233,11 @@ function ($log,$timeout,$http,$q,AppbData){
       mapData.readyMarks[1]=1;
     });
 
-    
-        
-        
-        
-    
+
+
+
+
+
   }
   function getCurrentPosition() {
     svc.geolocation.getCurrentPosition(function(status,res){
@@ -235,16 +245,16 @@ function ($log,$timeout,$http,$q,AppbData){
       mapData.locatedMark=1;
       //appData.msgBox(res.formattedAddress+'\n经度：'+res.position.lng+'，纬度'+res.position.lat,'地址信息');
       //$timeout(function(){},1);//相当于$scope.$apply()
-      
+
     });
   }
-  
+
   mapData.showMapTo=showMapTo;
   mapData.setMapOptions=setMapOptions;
   mapData.getCurrentPosition=getCurrentPosition;
-  
+
   mapData.ready=ready;
-  
+
   //oNxxx(msg)用于设置回调函数
   //目前仅允许设一个回调函数，覆盖掉上次设置的。
   mapData.onMove=function(msg) { };
@@ -253,11 +263,111 @@ function ($log,$timeout,$http,$q,AppbData){
   mapData.onLocateError=function(msg) { };
   initMap();
 
+  /**
+   * 行政辖区接口
+   */
+  var china = (function(){
+    var levelName = ['country', 'province', 'city', 'district', 'biz_area'];
+
+    function getAllCity(){
+      if(getAllCity.promise) return $q.when(getAllCity.promise);
+      var deferred = $q.defer();
+      getAllCity.promise = deferred.promise;
+      $q.when(onAmap, (amap) => {
+        var districtSearch = new AMap.DistrictSearch({
+          level : 'country',
+          subdistrict : 3
+        });
+        districtSearch.search('中国', function(status, result){
+          //TODO : 按照自己需求处理查询结果
+          deferred.resolve(getAllCity.promise = result.districtList[0].districtList)
+        });
+      });
+      return getAllCity.promise;
+    }
+
+    /**
+     * 当前用户所在城市
+     * 返回 承诺
+     */
+    function getLocalCity(){
+      if(getLocalCity.promise) return $q.when(getLocalCity.promise);
+      var deferred = $q.defer();
+      getLocalCity.promise = deferred.promise;
+      $q.when(onAmap, (amap) => {
+        new AMap.CitySearch().getLocalCity((status, city) =>{
+          deferred.resolve(getLocalCity.promise = city)
+        });
+      });
+      return getLocalCity.promise;
+    }
+
+    /**
+     * 根据名称，查城市数据
+     */
+    function findCity(cityList, names){
+      let city;
+      for(let name of names){
+        if(!name || !cityList) return {};
+        city = cityList.find(subCity => {
+          return subCity.name == name;
+        });
+        if(!city) return {};
+        cityList = city.districtList;
+      }
+      return city;
+    }
+
+    /**
+     * 在获取成功全国城市列表后，方可调用
+     */
+    function getCity(cityName){
+      let names = cityName ? cityName.split(' ') : [];
+      return getAllCity().then( cityList => {
+        return findCity(cityList, names);
+      });
+    }
+
+    /**
+     * 在获取成功全国城市列表后，方可调用
+     */
+    function getSubCity(prevNames){
+      let cityList = getAllCity.promise;
+      prevNames = prevNames || [];
+      if(typeof prevNames == 'string'){
+        prevNames = prevNames ? prevNames.split(' ') : [];
+      }
+      for(let name of prevNames){
+        if(!name) return [];
+        cityList = cityList.find(subCity => {
+          return subCity.name == name;
+        });
+        if(!cityList || !cityList.districtList) return [];
+        cityList = cityList.districtList;
+      }
+      return cityList.map( city => city.name );
+    }
+
+    return {
+      getLocalCity: getLocalCity,
+      getCity   : getCity   ,
+      getSubCity: getSubCity,
+      getAllCity: getAllCity
+    }
+  })();
+
+  china.getAllCity().then(json=>{
+    //console.log('提前获取全国数据！', json)
+  });
+
+
   return {
+    onAmap: onAmap,
+    china: china,
     showMapTo:showMapTo,
     getMapData:function () {return mapData}
   };
-  
+
 }]);
 
 

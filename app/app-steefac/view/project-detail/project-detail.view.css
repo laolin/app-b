@@ -1,0 +1,36 @@
+/* 项目详情页面 */
+
+.page-project-detail{
+  background:#ffffff;
+  border-top: solid .01rem #ccc;
+}
+
+.page-project-detail tab-bar{
+  background:#f8f8f8;
+  box-shadow: 2px 2px 4px #ccc;
+}
+
+.page-project-detail tab-bar > * {
+  border-bottom: solid .03rem rgba(0,0,0,0);
+}
+
+.page-project-detail tab-bar > .active {
+  border-bottom: solid .03rem #3366CC;
+}
+
+.page-project-detail tab-bar > * span{
+  border-left: solid 0;
+  border-right: solid 0;
+  border-bottom: solid .03rem rgba(0,0,0,0);
+  font-size: .13rem;
+}
+
+.page-project-detail .detail{
+  padding: 0.15rem .3rem;
+}
+
+.page-project-detail .detail-2,
+.page-project-detail .detail-3{
+  padding: 0;
+}
+

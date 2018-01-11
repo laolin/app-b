@@ -48,9 +48,11 @@ angular.module('steefac')
           return o.name+'，采购'+o.need_steel+'吨，首批供货时间：'+ProjDefine.objReqInMonth[o.in_month];
         }
       }
+      var linkPrev = ctrl.type=='steeproj' && '/project-detail/' || '/fac-detail/';
       for(var i=0,j=ps*pn;i<ps&&j<r.length;i++,j++){
         cells[i]={
-          link:"/obj-detail?type="+ctrl.type+"&id="+r[j].id,
+          //link:"/obj-detail?type="+ctrl.type+"&id="+r[j].id,
+          link: linkPrev + r[j].id,
           img:r[j].picMain || '../assets/img/img-steefac/def-'+ctrl.type+'.jpg',
           text:_text_of_obj(r[j],ctrl.type),
           nCol:nCol[ctrl.type],

@@ -1,0 +1,47 @@
+/* 省市区选择组件 */
+
+.china-address-box * { box-sizing: border-box; }
+.china-address-box { width: 100%; height: 100%; flex: 1; display: flex; flex-direction: column; }
+
+/* 标题 */
+.china-address-box > .title{
+  text-align: center;
+  padding: 0.6em;
+  border-bottom: solid 1px #888;
+}
+.china-address-box .pick-cancel,
+.china-address-box .pick-ok{ padding: 0.1em 1em; font-size: .22rem; }
+
+/* 列表 */
+.china-address-box>.list-box {
+  background: #eee;
+  position: relative;
+}
+.china-address-box>.list-box > * {
+  position: relative;
+  z-index: 20;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+.china-address-box>.list-box > * > *{
+  width: 100%; position: absolute; z-index: 20; top: 0; left: 0;
+  padding: 190px 0;
+}
+.china-address-box>.list-box > * > * > * {
+  height: 45px;
+  padding: 0 5px;
+  text-align: center;
+  border-radius: 5px;
+}
+.china-address-box>.list-box > * > * > .active { }
+
+.china-address-box>.list-box>.high-light-box{
+  position: absolute;
+  z-index: 10;
+  left: 0;
+  top: 90px;
+  height: 45px;
+  width: 100%;
+  border: solid 1px #88f;
+  background-color: #fff;
+}

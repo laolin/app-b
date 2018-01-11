@@ -1,0 +1,94 @@
+﻿<!-- 公司详情-有效产能组件 -->
+
+<div class="box">
+  <div class="text-3 rem-12 b-900 bb-ccc">有效产能</div>
+  <div class="flex bb-ccc">
+    <div class="text-gray rem-12">下一个月产能</div>
+    <div class="text-gray rem-12">{{fac.cap_1m}}吨</div>
+  </div>
+  <div class="flex bb-ccc">
+    <div class="text-gray rem-12">下三个月产能</div>
+    <div class="text-gray rem-12">{{fac.cap_3m}}吨</div>
+  </div>
+  <div class="flex bb-ccc">
+    <div class="text-gray rem-12">下六个月产能</div>
+    <div class="text-gray rem-12">{{fac.cap_6m}}吨</div>
+  </div>
+  <div class="flex bb-ccc">
+    <div class="text-gray rem-12">年产能</div>
+    <div class="text-gray rem-12">{{fac.cap_y}}吨</div>
+  </div>
+</div>
+
+<div class="box">
+  <div class="text-3 rem-12 b-900 bb-ccc">擅长构建及加工费</div>
+  <div class="flex bb-ccc" ng-repeat="name in goodat track by $index">
+    <div class="text-gray rem-12">{{name}}</div>
+    <div class="text-gray rem-12">加工费{{fee[$index]}}/吨</div>
+  </div>
+</div>
+
+<div class="box">
+  <div class="text-3 rem-12 b-900 bb-ccc">厂房设备</div>
+  <div class="flex bb-ccc">
+    <div class="text-gray rem-12">厂房面积</div>
+    <div class="text-gray rem-12">{{fac.area_factory}}㎡</div>
+  </div>
+  <div class="flex bb-ccc">
+    <div class="text-gray rem-12">堆场面积</div>
+    <div class="text-gray rem-12">{{fac.area_duichang}}㎡</div>
+  </div>
+  <div class="flex bb-ccc">
+    <div class="text-gray rem-12">最大行车</div>
+    <div class="text-gray rem-12">{{fac.max_hangche}}吨</div>
+  </div>
+  <div class="flex bb-ccc">
+    <div class="text-gray rem-12">抛丸构件最大尺寸</div>
+    <div class="text-gray rem-12">{{fac.max_paowan}}米</div>
+  </div>
+  <div class="flex bb-ccc">
+    <div class="text-gray rem-12">镀锌构件最大尺寸</div>
+    <div class="text-gray rem-12">{{fac.max_duxin}}米</div>
+  </div>
+</div>
+
+<div class="box">
+  <div class="text-3 rem-12 b-900 bb-ccc">物流</div>
+  <div class="flex bb-ccc">
+    <div class="text-gray rem-12">最近高速距离</div>
+    <div class="text-gray rem-12">{{fac.dist_expressway}}KM</div>
+  </div>
+  <div class="flex bb-ccc">
+    <div class="text-gray rem-12">最近港口距离</div>
+    <div class="text-gray rem-12">{{fac.dist_port}}KM</div>
+  </div>
+</div>
+
+<div class="box">
+  <div class="text-3 rem-12 b-900 bb-ccc">员工人数</div>
+  <div class="flex bb-ccc">
+    <div class="text-gray rem-12">工人总数</div>
+    <div class="text-gray rem-12">{{fac.workers_hangong + fac.workers_maogong + fac.workers_gongyi + fac.workers_xiangtu + fac.workers_other}}人</div>
+  </div>
+  <div class="flex bb-ccc">
+    <div class="text-gray rem-12">焊工人数</div>
+    <div class="text-gray rem-12">{{fac.workers_hangong}}人</div>
+  </div>
+  <div class="flex bb-ccc">
+    <div class="text-gray rem-12">铆工人数</div>
+    <div class="text-gray rem-12">{{fac.workers_maogong}}人</div>
+  </div>
+  <div class="flex bb-ccc">
+    <div class="text-gray rem-12">工艺人员</div>
+    <div class="text-gray rem-12">{{fac.workers_gongyi}}人</div>
+  </div>
+  <div class="flex bb-ccc">
+    <div class="text-gray rem-12">详图人员</div>
+    <div class="text-gray rem-12">{{fac.workers_xiangtu}}人</div>
+  </div>
+  <div class="flex bb-ccc">
+    <div class="text-gray rem-12">其他人员</div>
+    <div class="text-gray rem-12">{{fac.workers_other}}人</div>
+  </div>
+</div>
+
