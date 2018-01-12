@@ -92,6 +92,7 @@
       };
       if($routeParams.ac == 'searching'){
         paramSearchCityOrLngLat(param, $location.$$search);
+        angular.extend(param, $scope.search);
       }
       else{
         angular.extend(param, {
