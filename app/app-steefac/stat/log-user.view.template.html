@@ -1,0 +1,13 @@
+<appb-ui-loading ng-if='$ctrl.isLoading>0'></appb-ui-loading>
+
+<appb-weui-cells
+  ng-if='$ctrl.isLoading<=0'
+  title=' {{  $ctrl.userData.usersInfo[$ctrl.userid].wxinfo.nickname
+  + ($ctrl.day?$ctrl.day+"天":"")+($ctrl.hour?$ctrl.hour+"小时":"") + "用户活跃度"   }} '
+  
+  cells='$ctrl.logs'
+>
+</appb-weui-cells>
+  
+
+  

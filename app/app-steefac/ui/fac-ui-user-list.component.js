@@ -13,11 +13,9 @@ angular.module('steefac')
 	function ($log,$location,AppbData) {
     var ctrl=this;
     var userData=AppbData.getUserData();
+    var appData=AppbData.getAppData();
     ctrl.usersInfo=userData.usersInfo;
     
-    ctrl.goLink=function(a) {
-      if(typeof a == 'function') return a();
-      if(a)$location.url(a);
-    }
+    ctrl.goLink=appData.goLink;
   }]
 });

@@ -27,7 +27,7 @@
       $scope.fac = ctrl.fac || {};
       if(!$scope.fac.id)return;
       // 是否管理员
-      $scope.isSuperAdmin = FacUser.isAdmin();
+      $scope.isSuperAdmin = FacUser.isSysAdmin();
       $scope.isThisAdmin = FacUser.canAdminObj('steeproj', $scope.fac.id);
       AppbAPI('stee_user','get_admin_of_obj',{type:'steeproj', facid: $scope.fac.id}).then(function(json){
         console.log('有管理员？', json);

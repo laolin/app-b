@@ -8,7 +8,7 @@
   'use strict';
   var config = {
     templateUrl: 'app-steefac/view/search/search.view.template.html',
-    controller: ['$scope','$routeParams','$q','$location','AppbData','FacSearch', 'FacMap', 'AmapMainData',ctrl]
+    controller: ['$scope','$log','$routeParams','$q','$location','AppbData','FacSearch', 'FacMap', 'AmapMainData',ctrl]
   }
   angular.module('steefac')
   .config(['$routeProvider', function($routeProvider) {
@@ -29,7 +29,7 @@
   };
 
 
-  function ctrl($scope, $routeParams,$q,$location,AppbData,FacSearch, FacMap, AmapMainData) {
+  function ctrl($scope,$log, $routeParams,$q,$location,AppbData,FacSearch, FacMap, AmapMainData) {
     appData.setPageTitle('搜索');
     $scope.$on('$routeChangeStart', function(evt, next, current) {
       //console.log('搜索:页面离开');
@@ -89,6 +89,7 @@
         searchType : searchType || FacSearch.searchType,
         distSelect : $scope.search.distSelect  ,
         level      : $scope.search.level       ,
+        orderBy    : $scope.search.orderBy,
       };
       if($routeParams.ac == 'searching'){
         paramSearchCityOrLngLat(param, $location.$$search);
@@ -113,7 +114,8 @@
     if($routeParams.ac == 'searching'){
       $scope.searching = true;
       $scope.searchResult = '';
-      $scope.search = angular.extend({}, FacSearch.options);
+      //$scope.search = angular.extend({}, FacSearch.options);
+      $scope.search =  FacSearch.options;
       angular.extend($scope.search, {
         distSelect : "" + $location.$$search.distSelect || "0", // 数字，下拉框居然不认！
         level      : $location.$$search.level      || 'all',
@@ -151,14 +153,14 @@
     }
 
     var sortBy = {
-      '按产能排序': function (a, b) { return +a.cap_y > +b.cap_y ? -1 : 1;},
+      '按产能排序': function (a, b) { return +a.cap_6m > +b.cap_6m ? -1 : 1;},
       '按更新排序': function (a, b) { return a.update_at > b.update_at ? -1 : 1;},
       '按距离排序': function (a, b) { return a.distance > b.distance ? 1 : -1;}
     }
     function setSearchResult(list, pos, insideCount){
       insideCount = insideCount || 5;
       $scope.searchResult = list;
-      $scope.searchResult.sort( sortBy[$scope.search.orderBy]);
+      sortBy[$scope.search.orderBy] && $scope.searchResult.sort( sortBy[$scope.search.orderBy]);
       // 全部标志, 但地图放大到最大，等下再缩小
       FacSearch.markObjList($scope.searchResult, type)
       .then(()=>{
