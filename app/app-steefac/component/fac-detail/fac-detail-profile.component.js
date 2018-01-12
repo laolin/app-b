@@ -30,14 +30,17 @@
       $scope.isThisAdmin = FacUser.canAdminObj('steefac', $scope.fac.id);
 
       $scope.fee = (function(){
-        let fees = Object.values(JSON.parse($scope.fac.fee || '{}'));
-        let totle = 0;
-        for(let v of fees) totle += +v;
-        return Math.floor(totle / (fees.length || 1));
+        var fees = JSON.parse($scope.fac.fee || '{}');
+        var totle = 0;
+        var nFee = 0;
+        for(var i in fees) {
+          totle += +fees[i];
+          nFee ++;
+        }
+        return Math.floor(totle / (nFee || 1));
       })();
       AppbAPI('stee_user','get_admin_of_obj',{type:'steefac', facid: $scope.fac.id}).then(function(json){
-        console.log('有管理员？', json);
-        $scope.canAddAdmin = json.length == 0; // 为了一开始不显示数据？！
+        $scope.canAddAdmin = json.length == 0;
       });
     }
   }
