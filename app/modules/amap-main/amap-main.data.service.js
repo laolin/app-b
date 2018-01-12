@@ -304,16 +304,17 @@ function ($log, $rootScope, $timeout,$http,$q,AppbData){
 
     /**
      * 根据名称，查城市数据
+     * @param useLastGood: 未能精确找到时，是否使用最大匹配
      */
-    function findCity(cityList, names){
-      let city;
+    function findCity(cityList, names, useLastGood){
+      let city = {}, goodCity;
       for(let name of names){
-        if(!name || !cityList) return {};
-        city = cityList.find(subCity => {
+        if(!name || !cityList) return useLastGood? city : {};
+        goodCity = cityList.find(subCity => {
           return subCity.name == name;
         });
-        if(!city) return {};
-        cityList = city.districtList;
+        if(!goodCity) return useLastGood? city : {};
+        cityList = (city = goodCity).districtList;
       }
       return city;
     }
@@ -324,7 +325,7 @@ function ($log, $rootScope, $timeout,$http,$q,AppbData){
     function getCity(cityName){
       let names = cityName ? cityName.split(' ') : [];
       return getAllCity().then( cityList => {
-        return findCity(cityList, names);
+        return findCity(cityList, names, '不要精确');
       });
     }
 
