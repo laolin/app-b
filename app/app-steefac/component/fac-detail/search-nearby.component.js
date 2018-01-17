@@ -31,7 +31,7 @@
         lat: ctrl.fac.latE7/1E7,
         lng: ctrl.fac.lngE7/1E7,
       };
-      $location.path('/search/searching').search(param);
+      $location.path('/searching').search(param);
     }
   }
 })(window, angular);
