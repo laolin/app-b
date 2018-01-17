@@ -484,8 +484,8 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
       '剩余产能<%- cap_6m %>吨，厂房面积<%- area_factory %>㎡<br>'+
       '擅长构件：<%- goodat %><br/>'+
       '<%- update_at %>更新'+
-      '<a href="#!/fac-detail/<%- id %>?tabIndex=2">【业绩】</a>'+
-      '<a href="#!/fac-detail/<%- id %>">【详情】</a>'
+      //'<a href="#!/fac-detail/<%- id %>?tabIndex=2">【业绩】</a>'+
+      '<a href="#!/fac-detail/<%- id %>">【详细】</a>'
       ;
 
       //设置主体内容
