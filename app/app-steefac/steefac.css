@@ -84,6 +84,9 @@ amap-main { height: 200px;}
 .em-80{ font-size: 8.0em;}  .rem-80{ font-size: .80rem;}
 .em-90{ font-size: 9.0em;}  .rem-90{ font-size: .90rem;}
 
+img.rem { width: 1em; height: 1em;}
+img.rem-w { width: 1em;}
+img.rem-h { height: 1em;}
 
 /* 一些通用颜色 */
 
