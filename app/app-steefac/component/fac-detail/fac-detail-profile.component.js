@@ -20,14 +20,18 @@
   function ctrl($scope, $element, FacSearch, AppbData, FacUser, AppbAPI) {
     $scope.appData = AppbData.getAppData();
     $scope.FacSearch = FacSearch;
-    $scope.canAddAdmin =  false;
+    $scope.adminInfo = {
+      count: 1,
+      me: false
+    };
     var ctrl = this;
     this.$onChanges=function(chg){
       $scope.fac = ctrl.fac || {};
       if(!$scope.fac.id)return;
       // 是否管理员
       $scope.isSuperAdmin = !!FacUser.isSysAdmin();
-      $scope.isThisAdmin = FacUser.canAdminObj('steefac', $scope.fac.id);
+      $scope.adminInfo.me = FacUser.canAdminObj('steefac', $scope.fac.id);
+      $scope.adminInfo.count = 0;
 
       $scope.fee = (function(){
         var fees = JSON.parse($scope.fac.fee || '{}');
@@ -40,7 +44,11 @@
         return Math.floor(totle / (nFee || 1));
       })();
       AppbAPI('stee_user','get_admin_of_obj',{type:'steefac', facid: $scope.fac.id}).then(function(json){
-        $scope.canAddAdmin = json.length == 0;
+        $scope.adminInfo = {
+          me: $scope.adminInfo.me,
+          admins: json,
+          count: json.length
+        }
       });
     }
   }
