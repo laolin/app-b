@@ -14,5 +14,13 @@
     <div class="float-rb" ng-if="tab.active==2">
       <a ng-href="#!/stee-feed-add?type=steeproj&id={{fac.id}}" class="my-btn box-primary">我要评论</a>
     </div>
+
+    <fac-ui-user-list ng-if="tab.active=='show-admin-list'"
+      title='"管理员："'
+      uids='adminList.uids' users-info='adminList.usersInfo'
+    >
+    </fac-ui-user-list>
+
+
   </div>
 </div>

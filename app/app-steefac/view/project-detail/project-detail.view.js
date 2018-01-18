@@ -64,5 +64,10 @@
         $location.replace('/project-detail/:id', facId).search({tabIndex: index});
       }
     }
+    $scope.adminList = {};
+    $scope.$on("show-admin-list", (event, datas) => {
+      tab.active = 'show-admin-list';
+      $scope.adminList = datas;
+    });
   }
 })(window, angular);
