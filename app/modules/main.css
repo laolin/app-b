@@ -41,15 +41,24 @@ start #main-header
 }
 .main-header_container .left {
   float: left;
+}
+.main-header_container .left a,
+.main-header_container .left span {
   font-size:18px;
 }
 .main-header_container .right {
   float: right;
+}
+.main-header_container .right a,
+.main-header_container .right span {
   font-size:16px;
 }
 .main-header_container .center {
   text-align:center;
   overflow:hidden;
+}
+.main-header_container .center a,
+.main-header_container .center span {
   font-size:20px;
 }
 .main-header_container {
