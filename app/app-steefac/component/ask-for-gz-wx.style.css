@@ -2,20 +2,25 @@
 /* 根据 weui-grids 修改调整 */
 .ask-for-gz-wx {
   z-index: 19999;
-  top:7rem;
+  top:100px;
   width: 80%;
   margin-left:-40%;
-  padding:0 0 2rem 0;
+  padding:0 0 14px 0;
+}
+.ask-for-gz-wx-title a{
+  font-size: 18px;
 }
 .ask-for-gz-wx-title {
   text-align:right;
-  padding:1rem 2rem 0;
+  padding:7px 14px 0;
 }
-.ask-for-gz-wx-content {
+.ask-for-gz-wx-content{
   text-align:center;
-  font-size: 14px;
   max-width: 100%;
-  padding:0 2rem;
+  padding:0 14px;
+}
+ .ask-for-gz-wx-content  a {
+  font-size: 18px;
 }
 .ask-for-gz-wx img {
   max-width: 90%;
