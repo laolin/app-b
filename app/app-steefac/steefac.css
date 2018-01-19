@@ -15,6 +15,19 @@
   *{ font-size: 0.12rem; }
 }
 
+.weui-article a,
+.weui-article p,
+.weui-article span,
+.weui-article div{
+  font-size: 15px;
+}
+.weui-cells .weui-cell div,
+.weui-cells .weui-cell a,
+.weui-cells .weui-cell span,
+.weui-cells .weui-cell p {
+  font-size: 17px;
+}
+
 .fac-fix-wrapper {
   position: absolute;
   top:0;
