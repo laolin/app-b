@@ -37,7 +37,8 @@
       return $location.path( "/wx-login" ).search({pageTo: '/search'});;
     }
     $scope.appData = AppbData.getAppData();
-
+    $scope.appData.setPageTitle('搜索');
+    
     $scope.$on('$routeChangeSuccess', function(evt, current, prev) {
       //console.log('搜索:页面成功');
       if(prev && current.$$route.originalPath == '/search'){
@@ -90,6 +91,8 @@
     });
 
     $scope.appData = AppbData.getAppData();
+    
+    $scope.appData.setPageTitle('搜索结果');
     $scope.FacSearch = FacSearch;
     var type = $scope.type = $location.$$search.searchType || 'steefac';
 
