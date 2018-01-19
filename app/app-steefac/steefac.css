@@ -44,6 +44,10 @@
   font-size: 17px;
 }
 
+.weui-dialog__ft a {
+    font-size: 18px;
+}
+    
 .fac-fix-wrapper {
   position: absolute;
   top:0;
