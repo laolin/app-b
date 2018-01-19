@@ -15,12 +15,28 @@
   *{ font-size: 0.12rem; }
 }
 
+.weui-media-box__desc a,
+.weui-media-box__desc p,
+.weui-media-box__desc span,
+.weui-media-box__desc label,
+.weui-media-box__desc div{
+  font-size: 13px;
+}
+
+.weui-article label,
 .weui-article a,
 .weui-article p,
 .weui-article span,
 .weui-article div{
   font-size: 15px;
 }
+.weui-media-box__title a,
+.weui-media-box__title p,
+.weui-media-box__title span,
+.weui-media-box__title label,
+.weui-media-box__title div,
+
+.weui-cells .weui-cell label,
 .weui-cells .weui-cell div,
 .weui-cells .weui-cell a,
 .weui-cells .weui-cell span,
