@@ -3,11 +3,16 @@
   
 var KEY_CLIENTID=appbCfg.keyClientId;
 
+// 只在微信浏览器中运行
+// @var useWX: 是否应该使用微信 JSSDK
+var useWX = location.origin.length > 12 && location.origin.indexOf('192.168') < 0 && navigator.userAgent.indexOf("MicroMessenger") > 0;
+
+
 angular.module('appb')
 .factory('AppbData',
-['$route','$rootScope','$location','$log','$timeout','$http','$window',
+['$q','$rootScope','$location','$log','$timeout','$http','$window',
   'AppbConfig','AppbDataHeader','AppbDataFooter','AppbDataUser','AppbUiService','AppbDataApi','moment','AppbErrorInfo',
-function($route, $rootScope,$location,$log,$timeout,$http,$window,
+function($q, $rootScope,$location,$log,$timeout,$http,$window,
   AppbConfig,AppbDataHeader,AppbDataFooter,AppbDataUser,AppbUiService,AppbDataApi,moment,AppbErrorInfo) 
 {
   
@@ -26,6 +31,89 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   // BEGIN: factory functions
   //---------------------------------------------
   
+  /**
+   * 设置页面标题
+   */
+  function setTitle(title){
+    document.title = title;
+    if(navigator.userAgent.indexOf("MicroMessenger") > 0){
+      // hack在微信等webview中无法修改document.title的情况
+      var body = document.body,
+        iframe = document.createElement('iframe');
+      iframe.src = "/null.html";
+      iframe.style.display = "none";
+      iframe.onload = function(){
+        setTimeout(function() {
+          body.removeChild(iframe);
+        }, 0);
+      }
+      body.appendChild(iframe);
+    }
+  }
+  /**
+   * 设置页面标题，同时，设置标题栏的标题
+   * @param options 可选的相关参数
+   */
+  function setWxShare(options){
+    //微信分享
+    var wxShareData={
+      title: appbCfg.htmlTitle, // 分享标题
+      desc : appbCfg.appDesc,
+      link : location.href,
+      imgUrl: appbCfg.appLogo, // 分享图标
+      success: () => {},
+      cancel: () =>{}
+    }
+    if(options){
+      options.title  && (wxShareData.title  = options.title );
+      options.desc   && (wxShareData.desc   = options.desc  );
+      options.link   && (wxShareData.link   = options.link  );
+      options.imgUrl && (wxShareData.imgUrl = options.imgUrl);
+    }
+    initWx().then( wx => {
+      wx.onMenuShareAppMessage( wxShareData );
+      wx.onMenuShareTimeline  ( wxShareData );
+    })
+    .catch( e =>{
+      console.log('微信分享无效：', e);
+    })
+  }
+  /**
+   * 设置页面标题，同时，设置标题栏的标题
+   * @param title 标题
+   */
+  function setPageTitle(title){
+    setTitle(title + '-' + appbCfg.htmlTitle)
+    AppbDataHeader.setPageTitle(title);
+  }
+  /**
+   * 设置页面标题，同时，设置标题栏的标题
+   * @param title 标题
+   */
+  function setPageTitleAndWxShareTitle(title){
+    setTitle(title + '-' + appbCfg.htmlTitle)
+    AppbDataHeader.setPageTitle(title);
+    setWxShare({title});
+  }
+  /**
+   * 路由监听，设置标题，设置微信分享
+   */
+  $rootScope.$on('$routeChangeSuccess', function(evt, current, prev) {
+    let title;
+    let route = current.$$route;
+    console.log("路由切换：", route);
+    if(route.pageTitle){
+      setTitle( title = route.pageTitle + '-' + appbCfg.htmlTitle)
+      AppbDataHeader.setPageTitle(route.pageTitle);
+    }
+    else{
+      setTitle(title = appbCfg.htmlTitle)
+    }
+
+    //微信分享
+    setWxShare(angular.extend({}, {title}, route.wxShare));
+  });
+
   //快捷弹对话框函数
   function msgBox(content,title,b1,b2,f1,f2) {
     var d={
@@ -156,22 +244,28 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
       }
     });
 
-    initWx();
+    initWx().catch( e =>{
+      console.log('微信分享无效：', e);
+    })
     initClientId();
     //moment.changeLocale('zh-cn');
     moment.locale('zh-cn');
   }
 
   function initWx() {
-
     // 只在微信浏览器中运行
-    var useWX = location.origin.length > 12 && location.origin.indexOf('192.168') < 0 && navigator.userAgent.indexOf("MicroMessenger") > 0;
-    if(!useWX) return;
+    if(!useWX) return $q.reject('not wx');
+    if(initWx.promise){
+      return $q.when(initWx.promise);
+    }
+
+    var deferred = $q.defer();
 
     AppbDataApi.getWjSign().then(function(r){
       var data=r.data.data;
       if(!data) {
         appData.msgBox('Err#'+r.data.errcode+':'+r.data.msg,'Error WxJsSign');
+        deferred.reject('config error!');
         return;
       }
       wx.config({
@@ -216,7 +310,16 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
           'chooseWXPay'
         ]
       });
+
+      wx.ready(function () {
+        deferred.resolve(initWx.promise = wx);
+      });
+    })
+    .catch( e => {
+      deferred.reject('getWjSign error!');
     });
+
+    return initWx.promise = deferred.promise;
   }
 
   //
@@ -256,7 +359,8 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     errorCount:errorCount,
     errorMsg:errorMsg,
     
-    setPageTitle:AppbDataHeader.setPageTitle,
+    setPageTitle: setPageTitle,
+    setPageTitleAndWxShareTitle: setPageTitleAndWxShareTitle,
     showInfoPage:AppbErrorInfo.showInfoPage,
     
     headerData:headerData,
@@ -299,6 +403,7 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
 //MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 
   return {
+    useWX: useWX,
     
     getHeaderData:AppbDataHeader.getHeaderData,
     setHeader:AppbDataHeader.setHeader,
