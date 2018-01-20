@@ -59,6 +59,11 @@ function($route, $rootScope,$location,$log,AppbConfig) {
     },
     wxShareData.cancel= function () { 
     }
+
+    // 只在微信浏览器中运行
+    var useWX = location.origin.length > 12 && location.origin.indexOf('192.168') < 0 && navigator.userAgent.indexOf("MicroMessenger") > 0;
+    if(!useWX) return;
+
     wx.ready(function () {
       wx.onMenuShareAppMessage( wxShareData ); 
       wx.onMenuShareTimeline( wxShareData ); 

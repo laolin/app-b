@@ -163,6 +163,11 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   }
 
   function initWx() {
+
+    // 只在微信浏览器中运行
+    var useWX = location.origin.length > 12 && location.origin.indexOf('192.168') < 0 && navigator.userAgent.indexOf("MicroMessenger") > 0;
+    if(!useWX) return;
+
     AppbDataApi.getWjSign().then(function(r){
       var data=r.data.data;
       if(!data) {
