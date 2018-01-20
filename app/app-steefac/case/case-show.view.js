@@ -3,6 +3,7 @@
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
 $routeProvider.when('/case-show', {
+  pageTitle: "钢构厂业绩",
 templateUrl: 'app-steefac/case/case-show.view.template.html',
 controller: ['$scope','$http','$log','$location',
   'AppbData','FacSearch','AppbAPI','FacUser','FacDefine',
@@ -10,8 +11,6 @@ function ($scope,$http,$log,$location,
   AppbData,FacSearch,AppbAPI,FacUser,FacDefine) {
   var appData=AppbData.getAppData();
   var userData=AppbData.getUserData();
-        
-  appData.setPageTitle('钢构厂业绩');
 
   var search=$location.search();
   $scope.id=parseInt(search.id);
@@ -33,7 +32,7 @@ function ($scope,$http,$log,$location,
       return appData.showInfoPage('参数错误','Err id: '+$scope.id,'/search')
     }
     FacDefine.formatObj(s);
-    appData.setPageTitle(s.name);
+    appData.setPageTitleAndWxShareTitle(s.name);
     $scope.fac=s;
   },function(e){
     return appData.showInfoPage('发生错误',e+', id:'+$scope.id,'/search')

@@ -10,10 +10,16 @@
   .config(['$routeProvider', function($routeProvider) {
     $routeProvider
       .when('/search', {
+        pageTitle: "搜索",
+        wxShare:{
+        },
         templateUrl: 'app-steefac/view/search/search.view.template.html',
         controller: ['$scope', '$routeParams', '$location','AppbData', ctrlSearch]
       })
       .when('/searching', {
+        pageTitle: "搜索结果",
+        wxShare:{
+        },
         templateUrl: 'app-steefac/view/search/searching.view.template.html',
         controller: ['$scope','$log','$routeParams','$q','$location','AppbData','FacSearch', 'FacMap', 'AmapMainData',ctrlSearching]
       });
@@ -37,7 +43,6 @@
       return $location.path( "/wx-login" ).search({pageTo: '/search'});;
     }
     $scope.appData = AppbData.getAppData();
-    $scope.appData.setPageTitle('搜索');
     
     $scope.$on('$routeChangeSuccess', function(evt, current, prev) {
       //console.log('搜索:页面成功');
@@ -91,8 +96,7 @@
     });
 
     $scope.appData = AppbData.getAppData();
-    
-    $scope.appData.setPageTitle('搜索结果');
+
     $scope.FacSearch = FacSearch;
     var type = $scope.type = $location.$$search.searchType || 'steefac';
 

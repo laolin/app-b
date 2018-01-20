@@ -4,13 +4,13 @@
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/my', {
+    pageTitle: "我的",
     templateUrl: 'app-steefac/my/my.view.template.html',
     controller: ['$scope','$timeout','$log','AppbFeedService','AppbData','AppbUiService','AmapMainData','FacUser','FacSearch',
       function ($scope,$timeout,$log,AppbFeedService,AppbData,AppbUiService,AmapMainData,FacUser,FacSearch) {
 
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
-        appData.setPageTitle('我的');
         
         
         //要求登录，如果未登录，会自动跳转到登录界面

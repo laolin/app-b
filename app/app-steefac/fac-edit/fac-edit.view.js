@@ -30,7 +30,7 @@ angular.module('steefac')
           return appData.showInfoPage('类型错误','E:type:'+objtype,'/my');
         }
 
-        appData.setPageTitle('修改'+FacSearch.objNames[objtype]); 
+        appData.setPageTitleAndWxShareTitle('修改'+FacSearch.objNames[objtype]); 
         
         $scope.formDefine=FacSearch.objDefines[objtype];
         $scope.models=FacMap.addrInput;

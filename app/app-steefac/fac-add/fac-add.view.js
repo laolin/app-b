@@ -33,7 +33,7 @@ angular.module('steefac')
           FacMap.selPositionEnd();
         });
 
-        appData.setPageTitle('新增'+$scope.objName); 
+        appData.setPageTitleAndWxShareTitle('新增'+$scope.objName); 
 
         if(!FacMap.addrInput[$scope.objType+'name']) {
           return $location.path('/fac-add-find-name')

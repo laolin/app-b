@@ -36,7 +36,7 @@ angular.module('steefac')
         // });
         
 
-        appData.setPageTitle('新增'+$scope.objName); 
+        appData.setPageTitleAndWxShareTitle('新增'+$scope.objName); 
         
 
         $scope.facList=[];

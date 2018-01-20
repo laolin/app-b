@@ -3,6 +3,7 @@
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
 $routeProvider.when('/log-analy-user-activity', {
+  pageTitle: "用户活跃度",
 templateUrl: 'app-steefac/stat/log-analy-user-activity.view.template.html',
 controller: ['$scope','$q','$log','$location',
   'AppbData','AppbLogService', 'FacUser','AppbAPI',
@@ -10,7 +11,6 @@ function ($scope,$q,$log,$location,
   AppbData,AppbLogService,FacUser,AppbAPI) {
   var appData=AppbData.getAppData();
   var userData=AppbData.getUserData();
-  appData.setPageTitle('用户活跃度');
 
   //使用ctrl, 后面方便切换为 component
   var ctrl=$scope.$ctrl={};

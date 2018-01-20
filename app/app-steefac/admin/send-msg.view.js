@@ -3,6 +3,7 @@
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
 $routeProvider.when('/send-msg', {
+  pageTitle: "发送消息",
 templateUrl: 'app-steefac/admin/send-msg.view.template.html',
 controller: ['$scope','$http','$log','$location',
   'AppbData','AppbAPI','FacUser',
@@ -12,8 +13,6 @@ function ($scope,$http,$log,$location,
   var userData=AppbData.getUserData();
   //要求登录，如果未登录，会自动跳转到登录界面
   appData.requireLogin();
-
-  appData.setPageTitle('发送消息'); 
   
   $scope.FacUser=FacUser;
   $scope.isLoading=0;

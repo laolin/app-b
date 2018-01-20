@@ -3,6 +3,7 @@
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
 $routeProvider.when('/stat', {
+  pageTitle: "全国钢构产能",
 templateUrl: 'app-steefac/stat/stat.view.template.html',
 controller: ['$scope','$timeout','$log','$location',
 'AppbData','AppbAPI','AmapMainData','FacSearch',
@@ -10,7 +11,6 @@ function ($scope,$timeout,$log,$location,
 AppbData,AppbAPI,AmapMainData,FacSearch) {
   var appData=AppbData.getAppData();
   var userData=AppbData.getUserData();
-  appData.setPageTitle('全国钢构产能');
   //使用ctrl, 后面方便切换为 component
   var ctrl=$scope.$ctrl={};
   $scope.$on('$viewContentLoaded', function () {

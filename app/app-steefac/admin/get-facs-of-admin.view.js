@@ -3,6 +3,7 @@
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
 $routeProvider.when('/get-facs-of-admin', {
+  pageTitle: "管理的钢构厂",
 templateUrl: 'app-steefac/admin/get-facs-of-admin.view.template.html',
 controller: ['$scope','$http','$log','$location',
   'AppbData','FacDefine','FacUser','FacSearch',
@@ -12,8 +13,6 @@ function ($scope,$http,$log,$location,
   if(! userData || !userData.token) {
     return $location.path( "/wx-login" ).search({pageTo: '/my'});;
   }
-
-  appData.setPageTitle('管理的钢构厂'); 
 
   $scope.isLoading=1;
   $scope.facIds=[];

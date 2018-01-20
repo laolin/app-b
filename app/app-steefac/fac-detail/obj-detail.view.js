@@ -27,7 +27,7 @@ templateUrl: 'app-steefac/fac-detail/obj-detail.view.template.html',
     }
     var objName=FacSearch.objNames[$scope.objType];
 
-    appData.setPageTitle( objName+'详情'); 
+    appData.setPageTitleAndWxShareTitle( objName+'详情'); 
     
     // 1,'steefac-detail'| 2,'stee_user-get_admin_of_fac'
     $scope.isLoading=2;
@@ -43,7 +43,7 @@ templateUrl: 'app-steefac/fac-detail/obj-detail.view.template.html',
       if(!s) {
         return appData.showInfoPage('参数错误','Err id: '+id,'/search')
       } 
-      appData.setPageTitle(s.name+'-详情');
+      appData.setPageTitleAndWxShareTitle(s.name+'-详情');
       $scope.fac=s;
       $scope.isLoading--;
       /*

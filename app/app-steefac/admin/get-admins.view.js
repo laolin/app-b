@@ -28,7 +28,7 @@ function ($scope,$http,$log,$location,
   $scope.isLoading=1;
   $scope.title=namesOfAdmin[objType]+'列表';
   $scope.typeAdmins=[];
-  appData.setPageTitle($scope.title); 
+  appData.setPageTitleAndWxShareTitle($scope.title); 
   
 
   

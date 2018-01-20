@@ -10,6 +10,7 @@
   angular.module('steefac')
   .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/project-detail/:id', {
+      pageTitle: "项目详情",
       templateUrl: 'app-steefac/view/project-detail/project-detail.template.html',
       controller: ['$scope', '$routeParams', '$location', 'AppbData','$q','FacSearch','AppbAPI','FacUser', ctrl]
     });
@@ -21,7 +22,6 @@
     if(! userData || !userData.token) {
       return $location.path( "/wx-login" ).search({pageTo: '/my'});;
     }
-    appData.setPageTitle('项目详情');
     var facId = $routeParams.id;
     /**
      * 初始化
@@ -43,7 +43,7 @@
     );
     // 处理公司数据
     function resolveFac(fac){
-      appData.setPageTitle(fac.name+'-详情');
+      appData.setPageTitleAndWxShareTitle(fac.name+'-详情');
       $scope.fac = fac;
       FacSearch.markObj(fac, 'steeproj');
     }

@@ -12,7 +12,7 @@ function ($scope,$log,$location,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
 
   //要求登录，如果未登录，会自动跳转到登录界面
   appData.requireLogin();
-  appData.setPageTitle('CMOSS：可信、严肃、专业');
+  appData.setPageTitleAndWxShareTitle('CMOSS：可信、严肃、专业');
   
 
   var pa=appData.appCfg.assetsRoot+'/img/img-steefac/'
