@@ -50,6 +50,7 @@ function($route, $rootScope,$location,$log,AppbConfig) {
   
   
   function initWxShareData() {
+    return;
     var wxShareData={};
     wxShareData.title= headerData.bTitle, // 分享标题
     wxShareData.desc= appCfg.appDesc,
@@ -78,7 +79,7 @@ function($route, $rootScope,$location,$log,AppbConfig) {
       headerData.bTitle= title +'-'+ defBTitle; //更改浏览器的标题
     else 
       headerData.bTitle= defBTitle;// 固定浏览器的标题
-    $rootScope.pageTitle=headerData.bTitle;
+    //$rootScope.pageTitle=headerData.bTitle;
     initWxShareData();
   }
   function activeHeader(name,title,bTitle) {
@@ -92,7 +93,7 @@ function($route, $rootScope,$location,$log,AppbConfig) {
     headerData.name=name;
     headerData.widgets=headerAvailable[name];
 
-    $rootScope.pageTitle=headerData.bTitle;
+    //$rootScope.pageTitle=headerData.bTitle;
     initWxShareData();
   }
   function deleteHeader(name) {
