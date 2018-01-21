@@ -40,10 +40,10 @@ function ($log){
     {
       name: 'size',
       desc: '项目规模(㎡)',
-      placeholder:'0-999999',
+      placeholder:'100-999999',
       type: 'number',
       required: 0,
-      min: 0,
+      min: 100,
       max: 999999
     },
     { 
