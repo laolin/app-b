@@ -18,7 +18,7 @@ function ($location,$log,AppbData,AppbAPI,FacDefine,FacSearch) {
   ctrl.formDefine={onChange:ctrl.onChange,inputs:ctrl.inputs};
   
   ctrl.det=false;
-  ctrl.dataOK=false;
+  ctrl.dataOK=false; 
   ctrl.dmin=1;
   ctrl.dmax=9999;
   
@@ -29,15 +29,20 @@ function ($location,$log,AppbData,AppbAPI,FacDefine,FacSearch) {
   function onChange(n) {
     $log.log('onChange',n,ctrl.models)
     var i,j,ok=1;
-    
+
+    ok=0;//加工费改为选填，随便一项填好就行
     for(var i=0;i<options.length;i++) {
       j=ctrl.models[i];
       if(!j || j<ctrl.dmin || j>ctrl.dmax ) {
-        ok=0;
-        break;
+        //ok=0;//加工费改为选填，随便一项填好就行
+        //break;//加工费改为选填，随便一项填好就行
+      }
+      else {
+        ok=1;//加工费改为选填，随便一项填好就行
       }
     }
     ctrl.dataOK=ok;
+    
     feeStr=JSON.stringify(ctrl.models);
   }
     
@@ -82,7 +87,7 @@ function ($location,$log,AppbData,AppbAPI,FacDefine,FacSearch) {
         desc: options[i],
         type: 'number',
         placeholder:ctrl.dmin+'~'+ctrl.dmax+'（元/吨）',
-        required: 1,
+        required: 0,
         min: ctrl.dmin,
         max: ctrl.dmax
       }
