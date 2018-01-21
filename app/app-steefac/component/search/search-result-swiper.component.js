@@ -31,11 +31,13 @@
      * 分页
      */
     var pageLength = 6;
-    $scope.pages = [];
+    $scope.count = 0; // 共有几项
+    $scope.pageIndex = 0; // 第几页，１开始
+    $scope.pages = [];//分页数据
     function initPage(){
       $scope.pages = [[]];
       if(!ctrl.result) return;
-      var length = ctrl.result.length || 0;
+      var length = $scope.count = ctrl.result.length || 0;
       var thisPage = $scope.pages[0];
       for(var i = 0; i<length; i++ ){
         if(i && (i % pageLength) == 0){
@@ -67,6 +69,7 @@
     };
 
     function notifyParent(page){
+      $scope.pageIndex = page + 1;
       $scope.$emit('search-result-page-change', $scope.pages[page]);
     }
 

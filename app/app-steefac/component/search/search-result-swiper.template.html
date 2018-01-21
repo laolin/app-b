@@ -12,6 +12,9 @@
   </ks-swiper-container>
 </div>
 <appb-ui-loading ng-if="!dataReady"></appb-ui-loading>
+<div class="padding-h-3 padding-v-3 flex-cc text-active" ng-if="count > 0">
+  共{{count}}项<span ng-if="pages.length > 1">，第{{pageIndex}}/{{pages.length}}页　请滑屏以翻页</span>
+</div>
 <div class="padding-h-3 padding-v-3" ng-if="dataReady && !pages[0].length">
   没有找到
 </div>
