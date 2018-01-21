@@ -78,3 +78,9 @@ search-form .my-city{
   display: flex;
   flex-direction: column;
 }
+
+.search-result-swiper{
+  width: 100%;
+  padding: 0 .30rem;
+  box-sizing: border-box;
+}
