@@ -20,6 +20,7 @@
   function ctrl($scope, $element, FacSearch, AppbData, FacUser, AppbAPI) {
     $scope.appData = AppbData.getAppData();
     $scope.FacSearch = FacSearch;
+    $scope.type = 'steefac';
     $scope.adminInfo = {
       count: 1,
       me: false
@@ -44,7 +45,7 @@
         }
         return Math.floor(totle / (nFee || 1));
       })();
-      AppbAPI('stee_user','get_admin_of_obj',{type:'steefac', facid: $scope.fac.id}).then(function(json){
+      AppbAPI('stee_user','get_admin_of_obj',{type: $scope.type, facid: $scope.fac.id}).then(function(json){
         $scope.adminInfo = {
           me: $scope.adminInfo.me,
           admins: json,

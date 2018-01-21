@@ -138,6 +138,7 @@ img.rem-h { height: 1em;}
 .text-dark    { color: #000000; background-color: rgba(0,0,0,0); }
 .box-primary-light { color: #FFFFFF; background-color: rgba(51, 102, 204, .5); } .text-primary-light { color: #006699; background-color: rgba(0,0,0,0); }
 
+i.box-primary { line-height: 1.5; text-align: center; border-radius: .3em;}
 
 .padding-h-1{ padding-left: .10rem; padding-right: .10rem; }
 .padding-h-2{ padding-left: .15rem; padding-right: .15rem; }
