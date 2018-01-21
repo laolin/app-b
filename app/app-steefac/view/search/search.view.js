@@ -140,6 +140,19 @@
     }
 
     $scope.search = getSearchParam($location.$$search, $location.$$search);
+    $scope.searchResult = false;
+    $scope.$on('search-result-page-change', (event, list) => {
+      console.log('页面改变, list = ', list);
+      // 只显示这一页数据到地图上
+      FacSearch.markObjList(list, type)
+      .then(()=>{
+        // 显示前 insideCount  个标志
+        $q.when(AmapMainData.onAmap, (amap)=> {
+          window.amap = amap; // 调试用！！！
+          amap.setFitView(FacMap.searchMarkers);
+        });
+      });
+    });
     FacSearch.search($scope.search, type)
     .then(function(json){
       if($scope.search.level != 'all'){
@@ -147,7 +160,8 @@
           return item.level == $scope.search.level;
         });
       }
-      setSearchResult(json.list, json.pos, 3);
+      $scope.searchResult = json.list;
+      sortBy[$scope.search.orderBy] && $scope.searchResult.sort(sortBy[$scope.search.orderBy]);
     });
     $scope.$on('AMap.OnClick', (event, msg) => {
       console.log('地图点击, lng = ', msg.lnglat.lng);
@@ -159,22 +173,6 @@
       '按需求排序': function (a, b) { return +a.need_steel > +b.need_steel ? -1 : 1;},
       '按更新排序': function (a, b) { return a.update_at > b.update_at ? -1 : 1;},
       '按距离排序': function (a, b) { return a.distance > b.distance ? 1 : -1;}
-    }
-    $scope.searchResult = [];
-    function setSearchResult(list, pos, insideCount){
-      insideCount = insideCount || 5;
-      $scope.searchResult = list;
-      sortBy[$scope.search.orderBy] && $scope.searchResult.sort(sortBy[$scope.search.orderBy]);
-      // 全部标志, 但地图放大到最大，等下再缩小
-      FacSearch.markObjList($scope.searchResult, type)
-      .then(()=>{
-        // 显示前 insideCount  个标志
-        $q.when(AmapMainData.onAmap, (amap)=> {
-          window.amap = amap; // 调试用！！！
-          var insideMarkers = FacMap.searchMarkers.slice(0, insideCount);
-          amap.setFitView(insideMarkers);
-        });
-      });
     }
   }
 
