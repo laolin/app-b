@@ -44,8 +44,8 @@
         }
         thisPage.push(ctrl.result[i]);
       }
-      $scope.dataReady = length;
-      console.log('分页结果：', $scope.pages);
+      $scope.dataReady = true;
+      notifyParent(0);
     }
 
     /* 轮播数据 */
@@ -59,10 +59,16 @@
         slidesPerView: 1
       },
       onReady: function(swiper){
-        swiper.on('slideChangeEnd', function () {
+        swiper.on('slideChangeEnd', function (swiper) {
+          //console.log(swiper);
+          notifyParent(swiper.activeIndex - 1);
         });
       }
     };
+
+    function notifyParent(page){
+      $scope.$emit('search-result-page-change', $scope.pages[page]);
+    }
 
     /**
      * 点击

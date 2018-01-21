@@ -1,7 +1,7 @@
 ﻿<!-- 搜索结果组件 -->
 
 <!-- 轮播 -->
-<div class="search-result-swiper" ng-if="dataReady">
+<div class="search-result-swiper" ng-if="dataReady && pages.length">
   <ks-swiper-container
     override-parameters="slider.params"
     on-ready="slider.onReady(swiper)"
@@ -11,7 +11,8 @@
     </ks-swiper-slide>
   </ks-swiper-container>
 </div>
-<div class="padding-h-3 padding-v-3" ng-if="!dataReady">
+<appb-ui-loading ng-if="!dataReady"></appb-ui-loading>
+<div class="padding-h-3 padding-v-3" ng-if="dataReady && !pages[0].length">
   没有找到
 </div>
 
