@@ -57,7 +57,7 @@ function ($scope,$http,$log,$location,
     for(i=0;i<d.length;i++) {
       ctrl.logs[i]={
         icon:'clock-o',
-        text:(i+1)+'@'+d[i].time+'@'+d[i].host+' '+d[i].api,
+        text:(d.length-i)+':'+d[i].time+'@'+d[i].host+' '+d[i].api,
         url:function(_t){return function(){appData.msgBox(_t,'详细参数')}}(d[i].get)};//+' '+
     }
   }

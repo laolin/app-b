@@ -39,6 +39,7 @@
         var totle = 0;
         var nFee = 0;
         for(var i in fees) {
+          if(+fees[i]<=0) continue;
           totle += +fees[i];
           nFee ++;
         }
