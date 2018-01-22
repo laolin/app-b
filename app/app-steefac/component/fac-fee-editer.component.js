@@ -19,7 +19,7 @@ function ($location,$log,AppbData,AppbAPI,FacDefine,FacSearch) {
   
   ctrl.det=false;
   ctrl.dataOK=false; 
-  ctrl.dmin=1;
+  ctrl.dmin=0;
   ctrl.dmax=9999;
   
   ctrl.fee={};
