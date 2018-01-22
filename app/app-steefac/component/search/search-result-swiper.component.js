@@ -56,14 +56,14 @@
         centeredSlides: true,
         spaceBetween: 20,
         loop: false,
-        initialSlide: 1,
+        initialSlide: 0,
         showNavButtons: true,
         slidesPerView: 1
       },
       onReady: function(swiper){
         swiper.on('slideChangeEnd', function (swiper) {
-          //console.log(swiper);
-          notifyParent(swiper.activeIndex - 1);
+          console.log(swiper);
+          notifyParent(swiper.activeIndex);
         });
       }
     };
