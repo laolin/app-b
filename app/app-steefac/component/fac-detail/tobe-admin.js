@@ -14,7 +14,7 @@
     <img ng-src="{{FacUser.myData.wx.headimgurl}}" class="rem rem-20" ng-if="ac=='admin'" ng-click="toAdmin()"></img>
     `,
     bindings: {
-      type: '@',
+      type: '<',
       adminInfo: '<',
       fac: '<',
     },
