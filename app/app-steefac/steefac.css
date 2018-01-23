@@ -158,6 +158,17 @@ i.box-primary { line-height: 1.5; text-align: center; border-radius: .3em;}
   text-align: center;
 }
 
+.opacity-select-btn {
+  position: relative;
+}
+.opacity-select-btn > select{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  opacity: 0;
+}
 
 /* 漂浮定位 */
 .float-rb{

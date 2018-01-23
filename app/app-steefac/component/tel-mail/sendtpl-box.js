@@ -10,21 +10,78 @@
   angular.module('steefac')
   .component('sendtplBox',{
     template: `
-      <div class="flex flex-v-center tel-mal-box" ng-if="$ctrl.adminInfo.me">
+      <div class="flex flex-v-center tel-mal-box opacity-select-btn" ng-if="restCount">
         <i class="fa fa-paper-plane box-primary"></i>
-        <span class="text-active">推送到50个项目</span>
+        <span class="text-active">推送到{{restCount}}个项目</span>
+        <select class="weui-select" ng-model="selectFac" ng-change="changeFac(selectFac)">
+          <option value="-">-- 选择一个{{fromCnType}} --</option>
+          <option ng-repeat="item in list" value="{{item.id}}">{{item.name}}</option>
+        </select>
       </a>`,
     bindings: {
-      type: '<',
-      adminInfo: '<',
-      fac: '<'
+      typeFrom: '<', // 必需
+      typeTo  : '<', // 必需
+      idsFrom : '<', // 有，则用之，无，则从myData中提取
+      idsTo   : '<', // 必需
+      myData  : '<'  // 必需，若无，则组件将被隐藏。需含键: msg:{用量信息，必选}, objCanAdmin{管理的信息，必选}
     },
-    controller:['$scope', '$element', 'AppbData', ctrl]
+    controller:['$scope', '$element', 'SIGN', 'AppbAPI', ctrl]
   });
 
 
-  function ctrl($scope, $element, AppbData) {
+  function ctrl($scope, $element, SIGN, AppbAPI) {
+    let typeA = {cn: '公司', en: 'steefac'};
+    let typeB = {cn: '项目', en: 'steeproj'};
+    var theTypes = $scope.theTypes = {
+      from: {},
+      to: {}
+    };
+
     this.$onChanges = (chg) => {
+      $scope.selectFac = '-';
+      $scope.idsFrom = this.idsFrom;
+      theTypes.from = this.typeFrom == 'steeproj' ? typeB : typeA;
+      theTypes.to   = this.typeTo   == 'steeproj' ? typeB : typeA;
+      $scope.restCount = 0;
+      console.log('idsFrom = ', this.idsFrom, ', myData = ', this.myData, ', theTypes = ', theTypes)
+      if(!this.idsFrom && this.myData){
+        var objCanAdminID = this.myData.objCanAdmin && this.myData.objCanAdmin[theTypes.from.en];
+        console.log('从 myData 要列表， en = ', theTypes.from.en)
+        console.log('objCanAdminID = ', objCanAdminID)
+        if(objCanAdminID && objCanAdminID.length){
+          AppbAPI('steeobj', 'li', {type: theTypes.from.en, ids: objCanAdminID.join(',')}).then( list => {
+            $scope.list = list.map(item => {
+              return {id: item.id, name: item.name};
+            });
+          })
+        }
+        var msg = (this.myData.datas || {}).msg || {max: {}, used: {}};
+        $scope.restCount = (msg.max['全部']||50) - (msg.used[theTypes.to.cn] || 0);
+      }
+    }
+
+    $scope.changeFac = (facid) => {
+      facid = + facid;
+      console.log("facid = ", facid);
+      if(facid){
+        let fac = $scope.list.find( item => {
+          return item.id == facid
+        });
+        console.log("将" + theTypes.from.cn + "“" + fac.name + "”的情况推送到当前页的各" + theTypes.to.cn, fac.id)
+        SIGN.post('stee_msg', 'send', {
+          from_type: theTypes.from.en,
+          from_id  : fac.id,
+          to_type  : theTypes.to.en,
+          to_ids   : this.idsTo,
+        })
+        .then( (json) => {
+          $scope.selectFac = '-';
+          console.log('已发送', json);
+        })
+        .catch( (e) => {
+          console.log('发送失败', e);
+        })
+      }
     }
   }
 })(window, angular);
