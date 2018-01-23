@@ -28,4 +28,12 @@
 
   <search-result-swiper result="searchResult" type="type"></search-result-swiper>
 
+  <div class="padding-h-3 padding-v-3 flex-cc text-active" ng-if="sendtoIds.length > 0">
+    <sendtpl-box
+     ids-to="sendtoIds"
+     my-data="myData"
+     type-to="type"
+     type-from="type=='steeproj'&&'steepfac'||'steeproj'"
+  ></sendtpl-box>
+  </div>
 </div>

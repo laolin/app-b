@@ -180,6 +180,10 @@
         });
       });
     });
+    FacUser.getMyData().then((myData)=>{
+      $scope.myData = myData;
+    })
+
   }
 
 
