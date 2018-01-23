@@ -155,6 +155,7 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser) {
           myData.objCanAdmin[objTypes[i]]=s.me[objTypes[i]+'_can_admin'].split(',')
         }
       }
+      s.datas && (myData.datas = s.datas);
       // 请求成功，将 FacUser.getMyData.result 原为承诺，改为实际数据，
       deferred.resolve(FacUser.getMyData.result = myData);
     },function(e){
