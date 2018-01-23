@@ -21,7 +21,7 @@
         wxShare:{
         },
         templateUrl: 'app-steefac/view/search/searching.view.template.html',
-        controller: ['$scope','$log','$routeParams','$q','$location','AppbData','FacSearch', 'FacMap', 'AmapMainData',ctrlSearching]
+        controller: ['$scope','FacUser','$routeParams','$q','$location','AppbData','FacSearch', 'FacMap', 'AmapMainData',ctrlSearching]
       });
   }]);
 
@@ -84,7 +84,7 @@
   }
 
 
-  function ctrlSearching($scope,$log, $routeParams,$q,$location,AppbData,FacSearch, FacMap, AmapMainData) {
+  function ctrlSearching($scope, FacUser, $routeParams,$q,$location,AppbData,FacSearch, FacMap, AmapMainData) {
     var userData=AppbData.getUserData();
     if(! userData || !userData.token) {
       return $location.path( "/wx-login" ).search({pageTo: '/search'});;
@@ -141,18 +141,6 @@
 
     $scope.search = getSearchParam($location.$$search, $location.$$search);
     $scope.searchResult = false;
-    $scope.$on('search-result-page-change', (event, list) => {
-      console.log('页面改变, list = ', list);
-      // 只显示这一页数据到地图上
-      FacSearch.markObjList(list, type)
-      .then(()=>{
-        // 显示前 insideCount  个标志
-        $q.when(AmapMainData.onAmap, (amap)=> {
-          window.amap = amap; // 调试用！！！
-          amap.setFitView(FacMap.searchMarkers);
-        });
-      });
-    });
     FacSearch.search($scope.search, type)
     .then(function(json){
       if($scope.search.level != 'all'){
@@ -163,17 +151,35 @@
       $scope.searchResult = json.list;
       sortBy[$scope.search.orderBy] && $scope.searchResult.sort(sortBy[$scope.search.orderBy]);
     });
-    $scope.$on('AMap.OnClick', (event, msg) => {
-      console.log('地图点击, lng = ', msg.lnglat.lng);
-    });
-
-
     var sortBy = {
       '按产能排序': function (a, b) { return +a.cap_6m > +b.cap_6m ? -1 : 1;},
       '按需求排序': function (a, b) { return +a.need_steel > +b.need_steel ? -1 : 1;},
       '按更新排序': function (a, b) { return a.update_at > b.update_at ? -1 : 1;},
       '按距离排序': function (a, b) { return a.distance > b.distance ? 1 : -1;}
     }
+
+    /**
+     * 地图点击事件，是否有移动后，根据地图位置搜索的需求？
+     */
+    $scope.$on('AMap.OnClick', (event, msg) => {
+      console.log('地图点击, lng = ', msg.lnglat.lng);
+    });
+
+    /**
+     * 分页相关，如事件、发送模板消息。。。
+     */
+    $scope.$on('search-result-page-change', (event, list) => {
+      $scope.sendtoIds = list.map(item => item.id);
+      // 只显示这一页数据到地图上
+      FacSearch.markObjList(list, type)
+      .then(()=>{
+        // 显示前 insideCount  个标志
+        $q.when(AmapMainData.onAmap, (amap)=> {
+          window.amap = amap; // 调试用！！！
+          amap.setFitView(FacMap.searchMarkers);
+        });
+      });
+    });
   }
 
 
