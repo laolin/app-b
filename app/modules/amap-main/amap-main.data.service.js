@@ -291,11 +291,17 @@ function ($log, $rootScope, $timeout,$http,$q,AppbData){
      * 返回 承诺
      */
     function getLocalCity(){
+      var t = + new Date();
+      if(getLocalCity.t && t - getLocalCity.t > 30 * 1e3){
+        console.log('超过5分钟，重新定位', t);
+        getLocalCity.promise = false;
+      }
       if(getLocalCity.promise) return $q.when(getLocalCity.promise);
       var deferred = $q.defer();
       getLocalCity.promise = deferred.promise;
       $q.when(onAmap, (amap) => {
         new AMap.CitySearch().getLocalCity((status, city) =>{
+          getLocalCity.t = t;
           deferred.resolve(getLocalCity.promise = city)
         });
       });
