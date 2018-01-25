@@ -10,8 +10,10 @@ var cfg=window.appbCfg={
   
   pageTitle:'钢构产能地图',//默认的页面上方<ui-header>条的标题
   htmlTitle:'钢构产能地图CMOSS',//默认的浏览器的页面标题
-  apiRoot: 'https://api.qinggaoshou.com/api-eb', //一般的API
-  //apiRoot: 'http://pgy/Laolin/api-core/src', //一般的API
+  //apiRoot: 'https://api.qinggaoshou.com/api-eb', //一般的API
+  //apiRoot: 'https://qinggaoshou.com/dev/api-linjh/api-core/src', //服务器测试API(旧)
+  apiRoot: 'https://qinggaoshou.com/dev/laolin/cmoss-dev-api/open', //服务器测试API
+  //apiRoot: 'http://pgy/Laolin/api-core/src', //本地的API
   apiWxAuth: 'https://qinggaoshou.com/api-eb', //WX 授权 callback 域名限制的URI
 
   //assetsRoot 的取值（__assetsPath）由 gulp 构建时指定，
