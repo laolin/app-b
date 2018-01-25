@@ -65,7 +65,9 @@ angular.module('steefac')
           AppbAPI('steeobj','add',{type:$scope.objType,d:JSON.stringify(dd)})
           .then(function(s){
             appData.toastMsg('数据已成功保存',2);
-            $location.path('/obj-detail').search({id:s.id,type:$scope.objType});
+            //$location.path('/obj-detail').search({id:s.id,type:$scope.objType});
+            $location.path( ($scope.objType=='steefac' ? '/fac-detail/':'/project-detail/')+s.id);
+            
             FacUser.getMyData(1);
             $log.log('sec',s);
           },function(e){

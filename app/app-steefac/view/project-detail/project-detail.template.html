@@ -8,8 +8,8 @@
     <project-detail-capacity fac="fac" ng-if="tab.active==1"></project-detail-capacity>
     <appb-feed-list ng-if="tab.active==2"
       hide-poster="0",
-      feed-app="'steeFacCase'"
-      feed-cat="'fac_case_' +fac.id">
+      feed-app="'steeComment'"
+      feed-cat="'steeproj' +fac.id">
     </appb-feed-list>
     <div class="float-rb" ng-if="tab.active==2">
       <a ng-href="#!/stee-feed-add?type=steeproj&id={{fac.id}}" class="my-btn box-primary">我要评论</a>
