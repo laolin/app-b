@@ -9,15 +9,7 @@
 
   angular.module('steefac')
   .component('sendtplBox',{
-    template: `
-      <div class="flex flex-v-center tel-mal-box opacity-select-btn" ng-if="restCount">
-        <i class="fa fa-paper-plane box-primary"></i>
-        <span class="text-active">推送到{{restCount}}个项目</span>
-        <select class="weui-select" ng-model="selectFac" ng-change="changeFac(selectFac)">
-          <option value="-">-- 选择一个{{fromCnType}} --</option>
-          <option ng-repeat="item in list" value="{{item.id}}">{{item.name}}</option>
-        </select>
-      </a>`,
+    templateUrl: 'app-steefac/component/tel-mail/sendtpl-box.template.html',
     bindings: {
       typeFrom: '<', // 必需
       typeTo  : '<', // 必需
@@ -38,7 +30,6 @@
     };
 
     this.$onChanges = (chg) => {
-      $scope.selectFac = '-';
       $scope.idsFrom = this.idsFrom;
       theTypes.from = this.typeFrom == 'steeproj' ? typeB : typeA;
       theTypes.to   = this.typeTo   == 'steeproj' ? typeB : typeA;
@@ -56,17 +47,31 @@
           })
         }
         var msg = (this.myData.datas || {}).msg || {max: {}, used: {}};
-        $scope.restCount = (msg.max['全部']||50) - (msg.used[theTypes.to.cn] || 0);
+        $scope.restCount = (msg.max['全部']||50) - (msg.used && msg.used[theTypes.to.cn] || 0);
       }
     }
 
-    $scope.changeFac = (facid) => {
-      facid = + facid;
-      console.log("facid = ", facid);
-      if(facid){
-        let fac = $scope.list.find( item => {
-          return item.id == facid
-        });
+    /**
+     * 对话框部分
+     */
+    $scope.showing = false;
+    $scope.showDlg = () => {
+      $scope.activeItem = false;
+      $scope.showing = true;
+    }
+
+    $scope.activeItem = false;
+    $scope.clickItem = (fac) => {
+      $scope.activeItem = fac;
+      console.log("fac = ", fac);
+    }
+
+    $scope.onClose = (btnName) => {
+      if(btnName == "OK" && !$scope.activeItem) return false;
+      console.log('按钮 = ', btnName);
+      //return ;
+      if(btnName == "OK"){
+        var fac = $scope.activeItem;
         console.log("将" + theTypes.from.cn + "“" + fac.name + "”的情况推送到当前页的各" + theTypes.to.cn, fac.id)
         SIGN.post('stee_msg', 'send', {
           from_type: theTypes.from.en,
@@ -75,7 +80,6 @@
           to_ids   : this.idsTo,
         })
         .then( (json) => {
-          $scope.selectFac = '-';
           console.log('已发送', json);
         })
         .catch( (e) => {
@@ -83,5 +87,7 @@
         })
       }
     }
+
+
   }
 })(window, angular);

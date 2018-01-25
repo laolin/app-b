@@ -20,3 +20,21 @@
 .tel-mal-box.disabled span{
   color: #888;
 }
+
+sendtpl-box .fac-list{
+  width: 100%;
+}
+sendtpl-box .fac-list .item{
+  text-align: left;
+  padding: .10rem .03rem;
+}
+sendtpl-box .fac-list .item.active{
+  background: rgba(51, 102, 204, 0.5);
+}
+sendtpl-box .fac-list .item.active .name{
+  color: #ffffff;
+}
+
+
+
+

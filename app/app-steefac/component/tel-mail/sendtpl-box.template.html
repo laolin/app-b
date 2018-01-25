@@ -1,0 +1,16 @@
+﻿
+<div class="flex flex-v-center tel-mal-box opacity-select-btn" ng-if="restCount" ng-click="showDlg()">
+  <i class="fa fa-paper-plane box-primary"></i>
+  <span class="text-active">推送到{{restCount}}个项目</span>
+</div>
+
+<dj-dialog dialog-show="showing" on-close="onClose($name)">
+  <dj-dialog-title>
+    选择推送的{{theTypes.from.cn}}
+  </dj-dialog-title>
+  <dj-dialog-body class="fac-list flex-v">
+    <div class="item {{item==activeItem&&'active'||''}}" ng-repeat="item in list">
+      <div class="name text-5" ng-click="clickItem(item)">{{item.name}}</div>
+    </div>
+  </dj-dialog-body>
+</dj-dialog>
