@@ -15,6 +15,9 @@
   *{ font-size: 0.12rem; }
 }
 
+/* 隐藏高德的一个按钮 */
+.amap-geolocation-con {display: none;}
+
 .weui-dialog__title, .weui-dialog__title * { font-size: 18px; }
 .weui-dialog__bd,    .weui-dialog__bd *    { font-size: 15px; }
 .weui-dialog__ft,    .weui-dialog__ft *    { font-size: 18px; }
