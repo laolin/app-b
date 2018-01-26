@@ -24,19 +24,20 @@
         dlgTitle: '@',
         onClose: '&'
       },
-      controller:['$scope', '$element', '$rootScope', ctrl]
+      controller:['$scope', '$element', '$rootScope', '$q', ctrl]
     };
   });
 
 
-  function ctrl($scope, $element, $rootScope) {
+  function ctrl($scope, $element, $rootScope, $q) {
     $scope.clickBack = function(){
       if(!$scope.backClose) $scope.dialogShow = false;
     };
     $scope.OK = function(){
       if($scope.onClose){
-        var r = $scope.onClose({$name: 'OK'});
-        $scope.dialogShow = r !== undefined && !r;
+        $q.when($scope.onClose({$name: 'OK'})).then( r =>{
+          $scope.dialogShow = r !== undefined && !r;
+        });
       }
       else{
         $scope.dialogShow = false;
@@ -44,8 +45,9 @@
     };
     $scope.cancel = function(){
       if($scope.onClose){
-        var r = $scope.onClose({$name: 'cancel'});
-        $scope.dialogShow = r !== undefined && !r;
+        $q.when($scope.onClose({$name: 'cancel'})).then( r =>{
+          $scope.dialogShow = r !== undefined && !r;
+        });
       }
       else{
         $scope.dialogShow = false;
