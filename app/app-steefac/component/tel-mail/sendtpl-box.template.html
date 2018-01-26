@@ -9,6 +9,7 @@
     选择推送的{{theTypes.from.cn}}
   </dj-dialog-title>
   <dj-dialog-body class="fac-list flex-v">
+    <div class="bb-ccc">今日额度：{{totleCanUse}}条，已用：{{totleUsed}}条</div>
     <div class="item {{item==activeItem&&'active'||''}}" ng-repeat="item in list">
       <div class="name text-5" ng-click="clickItem(item)">{{item.name}}</div>
     </div>

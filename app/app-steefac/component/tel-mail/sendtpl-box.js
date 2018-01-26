@@ -55,7 +55,15 @@
      * 对话框部分
      */
     $scope.showing = false;
+    $scope.totleUsed = 9999; // 已用额度
+    $scope.totleCanUse = 50; // 今日总额度
     $scope.showDlg = () => {
+      SIGN.post('stee_msg', 'presend', {
+
+      }).then( json => {
+        var used = json.datas.used;
+        $scope.totleUsed = (+used['公司']||0)  +  (+used['项目']||0);
+      });
       $scope.activeItem = false;
       $scope.showing = true;
     }
