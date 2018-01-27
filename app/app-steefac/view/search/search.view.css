@@ -59,3 +59,13 @@
   background:#fff;
 }
 
+.page-search-view .sendtpl-box-box{
+  border-radius: .03rem;
+  padding: .06rem .06rem;
+  opacity: 1;
+  background: rgba(51, 102, 204, 0.8);
+}
+.sendtpl-box-box .tel-mal-box > span{
+  color: #ffffff;
+}
+
