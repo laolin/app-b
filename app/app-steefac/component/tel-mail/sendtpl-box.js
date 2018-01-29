@@ -11,6 +11,7 @@
   .component('sendtplBox',{
     templateUrl: 'app-steefac/component/tel-mail/sendtpl-box.template.html',
     bindings: {
+      btnText : '<', // 可选
       typeFrom: '<', // 必需
       typeTo  : '<', // 必需
       idsFrom : '<', // 有，则用之，无，则从myData中提取
@@ -33,7 +34,6 @@
       $scope.idsFrom = this.idsFrom;
       theTypes.from = this.typeFrom == 'steeproj' ? typeB : typeA;
       theTypes.to   = this.typeTo   == 'steeproj' ? typeB : typeA;
-      $scope.restCount = 0;
       console.log('idsFrom = ', this.idsFrom, ', myData = ', this.myData, ', theTypes = ', theTypes)
       if(!this.idsFrom && this.myData){
         var objCanAdminID = this.myData.objCanAdmin && this.myData.objCanAdmin[theTypes.from.en];
@@ -46,8 +46,6 @@
             });
           })
         }
-        var msg = (this.myData.datas || {}).msg || {max: {}, used: {}};
-        $scope.restCount = (msg.max['全部']||50) - (msg.used && msg.used[theTypes.to.cn] || 0);
       }
     }
 
@@ -55,14 +53,11 @@
      * 对话框部分
      */
     $scope.showing = false;
-    $scope.totleUsed = 9999; // 已用额度
-    $scope.totleCanUse = 50; // 今日总额度
     $scope.showDlg = () => {
       SIGN.post('stee_msg', 'presend', {
 
       }).then( json => {
-        var used = json.datas.used;
-        $scope.totleUsed = (+used['公司']||0)  +  (+used['项目']||0);
+        var limit = $scope.limit = json.datas.limit[theTypes.from.en];
       });
       $scope.activeItem = false;
       // 如果只有一个，就直接选中

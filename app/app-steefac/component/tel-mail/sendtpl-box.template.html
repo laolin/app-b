@@ -1,7 +1,7 @@
 ﻿
-<div class="flex flex-v-center tel-mal-box opacity-select-btn" ng-if="restCount" ng-click="showDlg()">
+<div class="flex flex-v-center tel-mal-box opacity-select-btn" ng-click="showDlg()">
   <i class="fa fa-paper-plane box-primary"></i>
-  <span class="text-active">推送到本页的各个{{theTypes.to.cn}}</span>
+  <span class="text-active">{{$ctrl.btnText || ('推送到本页的各个' + theTypes.to.cn)}}</span>
 </div>
 
 <dj-dialog dialog-show="showing" on-close="onClose($name)">
@@ -9,7 +9,7 @@
     选择推送的{{theTypes.from.cn}}
   </dj-dialog-title>
   <dj-dialog-body class="fac-list flex-v">
-    <div class="bb-ccc">今日额度：{{totleCanUse}}条，已用：{{totleUsed>9000 && '**' || totleUsed}}条</div>
+    <div class="bb-ccc" ng-if="limit.limit!='never'">今日额度：{{limit.limit}}条，已用：{{limit.used || '0'}}条</div>
     <div class="item {{item==activeItem&&'active'||''}}" ng-repeat="item in list">
       <div class="name text-5" ng-click="clickItem(item)">{{item.name}}</div>
     </div>
