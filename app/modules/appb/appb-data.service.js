@@ -83,7 +83,7 @@ function($q, $rootScope,$location,$log,$timeout,$http,$window,
    * @param title 标题
    */
   function setPageTitle(title){
-    setTitle(title + '-' + appbCfg.htmlTitle)
+    setTitleAuto(title);
     AppbDataHeader.setPageTitle(title);
   }
   /**
@@ -91,9 +91,20 @@ function($q, $rootScope,$location,$log,$timeout,$http,$window,
    * @param title 标题
    */
   function setPageTitleAndWxShareTitle(title){
-    setTitle(title + '-' + appbCfg.htmlTitle)
+    setTitleAuto(title)
     AppbDataHeader.setPageTitle(title);
     setWxShare({title});
+  }
+  /**
+   * 设置页面标题, 根据是否显示标题栏，显示不同内容
+   */
+  function setTitleAuto(title){
+    if(headerData.hide){
+      setTitle(title + '-' + appbCfg.htmlTitle)
+    }
+    else{
+      setTitle(appbCfg.htmlTitle);
+    }
   }
   /**
    * 路由监听，设置标题，设置微信分享
@@ -103,7 +114,8 @@ function($q, $rootScope,$location,$log,$timeout,$http,$window,
     let route = current.$$route;
     console.log("路由切换：", route);
     if(route.pageTitle){
-      setTitle( title = route.pageTitle + '-' + appbCfg.htmlTitle)
+      title = route.pageTitle + '-' + appbCfg.htmlTitle;
+      setTitleAuto(route.pageTitle)
       AppbDataHeader.setPageTitle(route.pageTitle);
     }
     else{
