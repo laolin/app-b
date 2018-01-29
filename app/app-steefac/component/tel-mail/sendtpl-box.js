@@ -65,6 +65,10 @@
         $scope.totleUsed = (+used['公司']||0)  +  (+used['项目']||0);
       });
       $scope.activeItem = false;
+      // 如果只有一个，就直接选中
+      if($scope.list.length == 1){
+        $scope.activeItem = $scope.list[0];
+      }
       $scope.showing = true;
     }
 
