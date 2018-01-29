@@ -46,7 +46,7 @@ fac-detail-profile .btns{
 }
 project-detail-profile .btns > *,
 fac-detail-profile .btns > *{
-  padding: .05rem .20rem .05rem 0;
+  padding: .05rem .05rem .05rem 0;
   margin-right: 0.8em;
   border: solid 0;
 }
