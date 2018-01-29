@@ -29,6 +29,7 @@
     this.$onChanges=function(chg){
       $scope.fac = ctrl.fac || {};
       if(!$scope.fac.id)return;
+      $scope.sendtoIds = [$scope.fac.id];
       // 是否管理员
       $scope.isSuperAdmin = !!FacUser.isSysAdmin();
       $scope.adminInfo.me = FacUser.canAdminObj('steefac', $scope.fac.id);
@@ -53,5 +54,8 @@
         }
       });
     }
+    FacUser.getMyData().then((myData)=>{
+      $scope.myData = myData;
+    })
   }
 })(window, angular);
