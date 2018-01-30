@@ -130,7 +130,7 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser) {
     var deferred = $q.defer();
     AppbAPI('steesys','info').then(function(s){
       myData.init=1;
-      if(!s) { // 客户端的登录信息有误，要求重新登录。
+      if(!s || !s.me || !s.me.uid) { // 客户端的登录信息有误，要求重新登录。
         AppbDataUser.setUserData({});
         $location.path( "/wx-login" ).search({pageTo: '/'});
         // 错误了，就要重置一下，并告诉承诺不能兑现的原因
