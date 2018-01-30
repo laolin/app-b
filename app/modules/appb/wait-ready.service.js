@@ -45,12 +45,27 @@
         }
         this.promise = data;
       },
-    
+
+      /**
+       * 通知数据已备妥(拒绝)。 首次调用时通知，以后，只更新数据
+       * @param data 已拒绝的原因
+       */
+      reject: function(reason){
+        if(!this.isReady){
+          this.deferred.reject(reason);
+        }
+        this._isReady = 'reject';
+        this.promise = reason;
+      },
+
       /**
        * 等待数据备妥承诺
        * @param func 兑现回调函数。承诺兑现时，调用本函数，并传递备妥的数据
        */
       ready: function(){
+        if(this._isReady == 'reject'){
+          return $q.reject(this.promise);
+        }
         return $q.when(this.promise);
       }
     }
