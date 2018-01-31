@@ -84,6 +84,9 @@ angular.module('appb')
     return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
   }];
 }])
+.config(['$qProvider', function ($qProvider) {
+  $qProvider.errorOnUnhandledRejections(false);
+}])
 
 .factory('SIGN', ['$http', '$q', 'AppbData', function($http, $q, AppbData) {
   var appData = AppbData.getAppData();
