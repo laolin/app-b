@@ -9,8 +9,8 @@ var SYS_ADMIN=0x10000;
 
 angular.module('steefac')
 .factory('FacUser',
-['$location','$log','$q','$timeout','AppbData','AppbAPI','AppbDataUser',
-function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser) {
+['$location','$log','$q','$timeout','AppbData','AppbAPI','AppbDataUser', 'SIGN',
+function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser, SIGN) {
   
   var FacUser={};
   var appData=AppbData.getAppData();
@@ -28,6 +28,33 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser) {
 
 
   var objTypes=['steefac','steeproj'];
+
+  /**
+   * 页面计数功能
+   */
+  FacUser.getPageReadLimit = function(type, facid){
+    return SIGN.post('stee_data', 'getReadDetailLimit', {type, facid})
+    .then(json => {
+      var limit = json.datas.limit;
+      if(!limit){
+        $q.reject({text: '失败'});
+      }
+      if(limit==='never' || limit.limit == 'never'){
+        return 'never'; // 不受限制
+      }
+      if(limit.max <= limit.used){
+        $q.reject({
+          text: '额度用完',
+          max: limit.max,
+          used: limit.used
+        });
+      }
+      return {
+        max: limit.max,
+        used: limit.used
+      };
+    })
+  }
 
   //0 : not admin
   // > :普通
