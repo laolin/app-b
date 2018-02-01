@@ -39,10 +39,10 @@
 
 
 angular.module('steefac')
-.factory('DjDialog', ['$rootScope', '$rootScope', '$compile', 'DjWaiteReady', DjDialog]);
+.factory('DjDialog', ['$rootScope', '$compile', 'DjWaiteReady', DjDialog]);
 
 
-function DjDialog($rootScope, $rootScope, $compile, DjWaiteReady){
+function DjDialog($rootScope, $compile, DjWaiteReady){
 
   /**
    * 初始化对话框数据，并返回完整参数
