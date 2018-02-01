@@ -93,7 +93,9 @@
           title: `今日额度 ${limit.max} 条，已用 ${limit.used} 条`,
           body: `查看“${item.name}”详情？`
         }).then(()=>{
-          $location.path(routers[ctrl.type] + item.id).search({c:1});
+          FacUser.applyReadDetail(this.type, item.id).then(() =>{
+            $location.path(routers[ctrl.type] + item.id).search({c:1});
+          })
         }, (e) => {
           console.log('取消不看了');
         });
