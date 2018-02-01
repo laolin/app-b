@@ -81,6 +81,7 @@
         var fac = $scope.activeItem;
         console.log("将" + theTypes.from.cn + "“" + fac.name + "”的情况推送到当前页的各" + theTypes.to.cn, fac.id)
         SIGN.post('stee_msg', 'send', {
+          page     : location.origin + location.pathname,
           from_type: theTypes.from.en,
           from_id  : fac.id,
           to_type  : theTypes.to.en,
