@@ -17,7 +17,7 @@
 
   function ctrl($scope, $routeParams, $location, SIGN) {
     var hash = $routeParams.hash;
-    SIGN.post('stee_msg', 'hash', {hash})
+    SIGN.post('stee_data', 'hash', {hash})
     .then(json =>{
       var path = '#!' + json.datas.path;
       console.log('hash, path = ', path);
