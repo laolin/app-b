@@ -48,9 +48,9 @@
         // 处理公司数据
         resolveFac(results[0]);
       },
-      function(e){
-        console.log('detail Err',e);
-        return appData.showInfoPage('获取数据错误',e,'/search')
+      function(json){
+        console.log('读取详情错误', json.errmsg);
+        return $location.path( "/search" ).search({});;
       }
     );
     // 处理公司数据
