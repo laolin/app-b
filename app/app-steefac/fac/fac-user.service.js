@@ -55,6 +55,12 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser, SIGN) {
       };
     })
   }
+  /**
+   * 申请查看页面
+   */
+  FacUser.applyReadDetail = function(type, facid){
+    return SIGN.post('stee_data', 'applyReadDetail', {type, facid});
+  }
 
   //0 : not admin
   // > :普通
