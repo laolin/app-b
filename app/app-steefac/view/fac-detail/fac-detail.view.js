@@ -17,6 +17,20 @@
   }]);
 
   function ctrl($scope, $routeParams, $location, AppbData,$q,FacSearch,AppbAPI,FacUser) {
+    var facId = $routeParams.id;
+    FacUser.getPageReadLimit('steefac', facId)
+    .then(show)
+    .catch(info => {
+      // 额度用完，跳到搜索页面
+      $location.path( "/search" ).search({});
+      //DjDialog.tips(info.text, 2000);
+    });
+
+    function show(){
+      showPageAfterCount($scope, $routeParams, $location, AppbData,$q,FacSearch,AppbAPI,FacUser)
+    }
+  }
+  function showPageAfterCount($scope, $routeParams, $location, AppbData,$q,FacSearch,AppbAPI,FacUser) {
     var appData=AppbData.getAppData();
     var userData=AppbData.getUserData();
     if(! userData || !userData.token) {
