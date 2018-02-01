@@ -51,8 +51,8 @@
         if(FacUser.isSysAdmin())$scope.canEdit=true;
       },
       function(e){
-        console.log('detail Err',e);
-        return appData.showInfoPage('获取数据错误',e,'/search')
+        console.log('读取详情错误', json.errmsg);
+        return $location.path( "/search" ).search({});
       }
     );
     // 处理公司数据
