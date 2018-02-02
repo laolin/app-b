@@ -17,20 +17,6 @@
   }]);
 
   function ctrl($scope, $routeParams, $location, AppbData,$q,FacSearch,AppbAPI,FacUser) {
-    var facId = $routeParams.id;
-    FacUser.getPageReadLimit('steefac', facId)
-    .then(show)
-    .catch(info => {
-      // 额度用完，跳到搜索页面
-      $location.path( "/search" ).search({});
-      //DjDialog.tips(info.text, 2000);
-    });
-
-    function show(){
-      showPageAfterCount($scope, $routeParams, $location, AppbData,$q,FacSearch,AppbAPI,FacUser)
-    }
-  }
-  function showPageAfterCount($scope, $routeParams, $location, AppbData,$q,FacSearch,AppbAPI,FacUser) {
     var appData=AppbData.getAppData();
     var userData=AppbData.getUserData();
     if(! userData || !userData.token) {
@@ -41,16 +27,17 @@
      * 初始化
      */
     $q.all([
-      FacSearch.getDetail("steefac", facId, true),
+      FacUser.readObjDetail("steefac", facId),
       FacUser.getMyData()
     ]).then(
       function(results){
         // 处理公司数据
-        resolveFac(results[0]);
+        console.log('读取详情 OK:', results[0]);
+        resolveFac(results[0].data);
       },
       function(json){
-        console.log('读取详情错误', json.errmsg);
-        return $location.path( "/search" ).search({});;
+        console.log('读取详情错误', json);
+        return $location.path( "/search" ).search({}).replace();
       }
     );
     // 处理公司数据
