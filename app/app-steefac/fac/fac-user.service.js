@@ -61,6 +61,12 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser, SIGN) {
   FacUser.applyReadDetail = function(type, facid){
     return SIGN.post('stee_data', 'applyReadDetail', {type, facid});
   }
+  /**
+   * 获取公司或项目详情
+   */
+  FacUser.readObjDetail = function(type, facid){
+    return SIGN.post('steeobj','detail', {type, id: facid});
+  }
 
   //0 : not admin
   // > :普通
