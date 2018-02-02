@@ -51,7 +51,7 @@ function($q, $rootScope,$location,$log,$timeout,$http,$window,
     }
   }
   /**
-   * 设置页面标题，同时，设置标题栏的标题
+   * 微信分享
    * @param options 可选的相关参数
    */
   function setWxShare(options){
@@ -416,6 +416,7 @@ function($q, $rootScope,$location,$log,$timeout,$http,$window,
 
   return {
     useWX: useWX,
+    setWxShare: setWxShare,
     
     getHeaderData:AppbDataHeader.getHeaderData,
     setHeader:AppbDataHeader.setHeader,
