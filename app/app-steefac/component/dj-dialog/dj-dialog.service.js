@@ -78,7 +78,7 @@ function DjDialog($rootScope, $compile, DjWaiteReady){
   function showDialog(options) {
     var waiteDialog = new DjWaiteReady();
     var element = options.element || document.body;
-    scope = options.scope || $rootScope;
+    var scope = options.scope || $rootScope;
     var dlg = $compile(dialogTemplate(options))(scope);
     element.append(dlg[0]);
     var listener = scope.$on("dj-dialog-quick-close", function(event, data){
