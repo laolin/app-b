@@ -69,5 +69,19 @@
       tab.active = 'show-admin-list';
       $scope.adminList = datas;
     });
+    $scope.$on("fac-ui-user-list.itemClick", (event, datas) => {
+      if(!FacUser.isSysAdmin()) return
+      // 只允许超级管理员操作
+      FacUser.DjDialog.confirm(`此操作将从本项目中移除管理员“${datas.user.wxinfo && datas.user.wxinfo.nickname}”，移动后，将无法撤消。你确定？`, '移除管理员').then( () => {
+        FacUser.SIGN.post('stee_user', 'remove_admin', {
+          type  : 'steeproj',
+          facid : facId,
+          userid: datas.user.uid
+        })
+        .then( json => {
+          $scope.adminList.uids = $scope.adminList.uids.filter(v => v.uid!=datas.user.uid);
+        });
+      })
+    });
   }
 })(window, angular);
