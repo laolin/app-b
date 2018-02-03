@@ -34,8 +34,9 @@ angular.module('steefac')
   return function(distance) {
     distance = + distance;
     if(distance < 1000) return Math.round(distance) + " m";
+    if(distance > 1e5) return Math.round(distance/1e3) + " km";
     distance = Math.round(distance/100) + "";
-    return Math.floor(distance / 10) + '.' + distance%10 + ' Km';
+    return Math.floor(distance / 10) + '.' + distance%10 + ' km';
   }
 });
 
