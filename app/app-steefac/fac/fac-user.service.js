@@ -9,10 +9,10 @@ var SYS_ADMIN=0x10000;
 
 angular.module('steefac')
 .factory('FacUser',
-['$location','$log','$q','$timeout','AppbData','AppbAPI','AppbDataUser', 'SIGN',
-function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser, SIGN) {
+['$location','$log','$q','$timeout','AppbData','AppbAPI','AppbDataUser', 'SIGN', 'DjDialog',
+function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser, SIGN, DjDialog) {
   
-  var FacUser={};
+  var FacUser = {$log, $q, $timeout, SIGN, DjDialog}; // 省得再注入！
   var appData=AppbData.getAppData();
   var dialogData=appData.dialogData;
   
