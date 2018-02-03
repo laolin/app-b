@@ -29,7 +29,7 @@ angular.module('steefac')
         ctrl.facIds={};
         ctrl.noIds=true;
        
-        FacUser.getMyData().then(function (me) {
+        FacUser.getMyData(true).then(function (me) {
           for(var i=ctrl.objTypes.length;i--; ) {
             ctrl.facIds[ctrl.objTypes[i]] = (me.objCanAdmin[ctrl.objTypes[i]] || []).join(',');
             if(ctrl.facIds[ctrl.objTypes[i]].length)ctrl.noIds=false;
