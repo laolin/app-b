@@ -83,27 +83,18 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser, SIGN) {
   }
 
   FacUser.getAdmins=function() {
-    var deferred = $q.defer();
     if(FacUser.admins.length) {
-      deferred.resolve(FacUser.admins);
-      return deferred.promise;
+      return $q.resolve(FacUser.admins);
     }
     return AppbAPI('stee_user','get_admins').then(function(s){
       $log.log('get_admins',s);
       if(!s) {
-        deferred.reject('noData');
-        return deferred.promise;
+        return $q.reject('noData');
       }
-      
-      
       FacUser.admins=s;
       return appData.userData.requireUsersInfo(s).then(function(){
-        deferred.resolve(FacUser.admins);
-        return deferred.promise;
+        return $q.resolve(FacUser.admins);
       });
-    },function(e){
-      deferred.reject(e);
-      return deferred.promise;
     });
   }
   
