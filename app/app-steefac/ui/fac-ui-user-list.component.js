@@ -22,7 +22,7 @@ angular.module('steefac')
         appData.goLink(this.links[index])
       }
       else{
-        $scope.$emit('fac-ui-user-list.itemClick', {item, index});
+        $scope.$emit('fac-ui-user-list.itemClick', {user: userData.usersInfo[item.uid], index});
       }
     }
   }]
