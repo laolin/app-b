@@ -46,13 +46,13 @@ function DjDialog($rootScope, $compile, DjWaiteReady){
 
   /**
    * 初始化对话框数据，并返回完整参数
-   * @param {*} content 
+   * @param {*} body
    * @param {*} title 
    * @param {*} options 
    */
-  function initData(content, title, options){
-    if(typeof content == 'object'){
-      options = content;
+  function initData(body, title, options){
+    if(typeof body == 'object'){
+      options = body;
     }
     else {
       if(typeof title == 'object'){
@@ -62,7 +62,7 @@ function DjDialog($rootScope, $compile, DjWaiteReady){
         options = options || {};
         options.title = title;
       }
-      options.content = content;
+      options.body = body;
     }
 
     options.title = options.title || 'CMOSS 对话框';
@@ -108,12 +108,12 @@ function DjDialog($rootScope, $compile, DjWaiteReady){
 
   /**
    * 弹框
-   * @param {*} content 
+   * @param {*} body
    * @param {*} title 
    * @param {*} options 
    */
-  function alert(content, title, options){
-    options = initData(content, title, options);
+  function alert(body, title, options){
+    options = initData(body, title, options);
     options.backClose = false;
     options.hideCancel = true;
     return showDialog(options);
@@ -121,24 +121,24 @@ function DjDialog($rootScope, $compile, DjWaiteReady){
 
   /**
    * 确认框
-   * @param {*} content 
+   * @param {*} body
    * @param {*} title 
    * @param {*} options 
    */
-  function confirm(content, title, options){
-    options = initData(content, title, options);
+  function confirm(body, title, options){
+    options = initData(body, title, options);
     options.backClose = false;
     return showDialog(options);
   }
 
   /**
    * 非模式对话框
-   * @param {*} content 
+   * @param {*} body
    * @param {*} title 
    * @param {*} options 
    */
-  function modal(content, title, options){
-    options = initData(content, title, options);
+  function modal(body, title, options){
+    options = initData(body, title, options);
     // options.backClose = true;
     return showDialog(options);
   }
