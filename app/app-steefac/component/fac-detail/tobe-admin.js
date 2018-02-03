@@ -11,7 +11,7 @@
   .component('tobeAdmin',{
     template: `
     <div class="btn-box box-primary" ng-if="ac=='apply'" ng-click="toApply()">申请成为管理员</div>
-    <img ng-src="{{FacUser.myData.wx.headimgurl}}" class="rem rem-20" ng-if="ac=='admin'" ng-click="toAdmin()"></img>
+    <img ng-src="{{FacUser.myData.wx.headimgurl}}" class="rem rem-20" ng-if="ac=='admin' || ac=='superAdmin'" ng-click="toAdmin()"></img>
     `,
     bindings: {
       type: '<',
@@ -26,9 +26,13 @@
     $scope.ac ='admin';
     $scope.FacUser = FacUser;
     this.$onChanges = (chg) => {
+      console.log('adminInfo=', this.adminInfo, ', FacUser=', FacUser);
       if(this.adminInfo){
-        // console.log('adminInfo=', this.adminInfo, ', FacUser=', FacUser);
-        $scope.ac = this.adminInfo.me ? 'admin' : (this.adminInfo.count > 0 ? '' : 'apply');
+        $scope.ac =
+          this.adminInfo.count == 0 && 'apply' ||
+          FacUser.isSysAdmin()      && 'superAdmin' ||
+          this.adminInfo.me         && 'admin' ||
+          '' ;
       }
     }
     $scope.toApply = ()=>{
