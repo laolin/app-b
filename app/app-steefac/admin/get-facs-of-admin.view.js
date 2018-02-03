@@ -28,11 +28,11 @@ function ($scope,$http,$log,$location,
     if(!$scope.user)  $scope.err='error uid/aid:'+uid+'/'+aid;
   });
   
-  FacUser.getAdmins().then(function(a){
-    if(uid==FacUser.admins[aid].uid) {
-      for(var i=$scope.objTypes.length;i--; ) {
-
-        $scope.facIds[$scope.objTypes[i]]=FacUser.admins[aid][$scope.objTypes[i]+'_can_admin'];
+  FacUser.getAdmins().then(function(admins){
+    var user = admins.find( item => item.uid == uid);
+    if(user) {
+      for(var type  of $scope.objTypes) {
+        $scope.facIds[type] = user[type + '_can_admin'];
       }
       $scope.isLoading=0;
       $log.log('$scope.facIds/uid,aid:',uid,aid,$scope.facIds);
