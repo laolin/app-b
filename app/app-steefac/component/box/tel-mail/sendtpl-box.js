@@ -54,10 +54,12 @@
      */
     $scope.showing = false;
     $scope.showDlg = () => {
-      SIGN.post('stee_msg', 'presend', {
-
-      }).then( json => {
-        var limit = $scope.limit = json.datas.limit[theTypes.from.en];
+      if(!$scope.list || !$scope.list.length){
+        return;
+      }
+      SIGN.post('stee_msg', 'presend', {})
+      .then( json => {
+        $scope.limit = json.datas.limit[theTypes.from.en];
       });
       $scope.activeItem = false;
       // 如果只有一个，就直接选中
