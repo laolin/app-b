@@ -1,7 +1,7 @@
 'use strict';
 angular.module('steefac')
 .component('facGoodatEditer',{
-templateUrl: 'app-steefac/component/fac-goodat-editer.component.template.html',
+templateUrl: 'app-steefac/component/zz-unknow/fac-goodat-editer.component.template.html',
 bindings: {
   id:'<'
 },

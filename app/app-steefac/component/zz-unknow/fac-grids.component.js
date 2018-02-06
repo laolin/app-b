@@ -2,7 +2,7 @@
 
 angular.module('steefac')
 .component('facGrids',{
-  templateUrl: 'app-steefac/component/fac-grids.component.template.html',
+  templateUrl: 'app-steefac/component/zz-unknow/fac-grids.component.template.html',
   bindings: {
     facList:"=",
     type:"=",

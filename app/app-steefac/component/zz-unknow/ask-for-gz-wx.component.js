@@ -3,7 +3,7 @@
 
 angular.module('appb')
 .component('askForGzWx',{
-  templateUrl: 'app-steefac/component/ask-for-gz-wx.component.template.html',  
+  templateUrl: 'app-steefac/component/zz-unknow/ask-for-gz-wx.component.template.html',  
   bindings: { 
     canClose: "=",
     show:"<"

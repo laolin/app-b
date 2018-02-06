@@ -2,7 +2,7 @@
 
 angular.module('steefac')
 .component('steefacDetail',{
-templateUrl: 'app-steefac/component/steefac-detail.component.template.html',
+templateUrl: 'app-steefac/component/zz-unknow/steefac-detail.component.template.html',
 bindings: {
   fac:'<',
   

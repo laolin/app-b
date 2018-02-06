@@ -2,7 +2,7 @@
 
 angular.module('steefac')
 .component('buyerGrids',{
-  templateUrl: 'app-steefac/component/buyer-grids.component.template.html',
+  templateUrl: 'app-steefac/component/zz-unknow/buyer-grids.component.template.html',
   bindings: {
     buyerList:"=",
     links:"=",

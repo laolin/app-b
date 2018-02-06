@@ -2,7 +2,7 @@
 
 angular.module('steefac')
 .component('facCaseAdd',{
-templateUrl: 'app-steefac/component/fac-case-add.component.template.html',
+templateUrl: 'app-steefac/component/zz-unknow/fac-case-add.component.template.html',
 bindings: {
 
   feedApp:'<',

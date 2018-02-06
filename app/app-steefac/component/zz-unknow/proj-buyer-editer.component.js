@@ -1,7 +1,7 @@
 'use strict';
 angular.module('steefac')
 .component('projBuyerEditer',{
-templateUrl: 'app-steefac/component/proj-buyer-editer.component.template.html',
+templateUrl: 'app-steefac/component/zz-unknow/proj-buyer-editer.component.template.html',
 bindings: {
   id:'<'
 },

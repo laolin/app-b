@@ -1,7 +1,7 @@
 'use strict';
 angular.module('steefac')
 .component('facFeeEditer',{
-templateUrl: 'app-steefac/component/fac-fee-editer.component.template.html',
+templateUrl: 'app-steefac/component/zz-unknow/fac-fee-editer.component.template.html',
 bindings: {
   id:'<'
 },
