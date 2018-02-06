@@ -9,7 +9,7 @@
 
   angular.module('steefac')
   .component('levelBox',{
-    templateUrl: 'app-steefac/component/level-box/level-box.template.html',
+    templateUrl: 'app-steefac/component/box/level-box/level-box.template.html',
     bindings: {
       level: '<'
     },
