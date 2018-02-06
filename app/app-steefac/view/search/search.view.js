@@ -99,6 +99,7 @@
 
     $scope.FacSearch = FacSearch;
     var type = $scope.type = $location.$$search.searchType || 'steefac';
+    $scope.typeOther = type == 'steefac' && 'steeproj' || 'steefac';
 
     function paramSearchCityOrLngLat(param, data){
       if(data.currentCity){
@@ -182,6 +183,7 @@
     });
     FacUser.getMyData().then((myData)=>{
       $scope.myData = myData;
+      console.log('我的数据 = ', myData);
     })
 
   }
