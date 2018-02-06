@@ -9,7 +9,7 @@
 
   angular.module('steefac')
   .component('sendtplBox',{
-    templateUrl: 'app-steefac/component/tel-mail/sendtpl-box.template.html',
+    templateUrl: 'app-steefac/component/box/tel-mail/sendtpl-box.template.html',
     bindings: {
       btnText : '<', // 可选
       typeFrom: '<', // 必需

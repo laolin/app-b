@@ -9,7 +9,7 @@
 
   angular.module('steefac')
   .component('monthBetween',{
-    templateUrl: 'app-steefac/component/month-between/month-between.template.html',
+    templateUrl: 'app-steefac/component/box/month-between/month-between.template.html',
     bindings: {
       ngModel: '='
     },

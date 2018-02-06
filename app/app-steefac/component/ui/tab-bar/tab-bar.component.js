@@ -11,7 +11,7 @@
   .directive('tabBar', function(){
     return {
       restrict: 'AE',
-      templateUrl: 'app-steefac/component/tab-bar/tab-bar.template.html',
+      templateUrl: 'app-steefac/component/ui/tab-bar/tab-bar.template.html',
       scope: {
         list: '=',
         active: '@',

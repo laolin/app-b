@@ -16,7 +16,7 @@
         'body': '?djDialogBody',
         'footer': '?djDialogFooter'
       },
-      templateUrl: 'app-steefac/component/dj-dialog/dj-dialog.template.html',
+      templateUrl: 'app-steefac/component/ui/dj-dialog/dj-dialog.template.html',
       scope: {
         dialogShow: '=',
         backClose: '@',

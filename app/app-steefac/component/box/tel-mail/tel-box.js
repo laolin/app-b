@@ -9,7 +9,7 @@
 
   angular.module('steefac')
   .component('telBox',{
-    templateUrl: 'app-steefac/component/tel-mail/tel-box.template.html',
+    templateUrl: 'app-steefac/component/box/tel-mail/tel-box.template.html',
     bindings: {
       val: '<'
     },
