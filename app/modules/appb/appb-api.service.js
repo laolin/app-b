@@ -100,12 +100,13 @@ angular.module('appb')
    * 签名失败，跳转到登录页面
    */
   function post(api,call, data) {
-    var url = appData.urlSignApi(api, call);
+    var calls = call.split('/')
+    var url = appData.urlSignApi(api, calls[0], calls[1], calls[2]);
     if(!url){
       appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
       return $q.reject('needlogin:'+api+'.'+call);
     }
-    return $http.post(appData.urlSignApi(api,call), data)
+    return $http.post(url, data)
     .then( response => response.data )
     .then(json => {
       if(jsonYes(json)){
