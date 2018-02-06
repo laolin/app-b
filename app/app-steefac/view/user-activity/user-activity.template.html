@@ -33,13 +33,13 @@
       </div>
     </a>
 
-    <div class="text-3 rem-12" padding=".20rem" scroll-refresh="checkTop($isTopMost)" on-visible="loadMore($element, $top, $isTopMost)"
+    <div class="weui-footer text-3 rem-12" padding=".20rem" scroll-refresh="checkTop($isTopMost)" on-visible="loadMore($element, $top, $isTopMost)"
       ng-if="page.minSize < page.totle">
       <span class="text-warning" ng-if="list.length < page.totle">已加载 {{list.length}}/{{page.totle}} 条数据，正在加载...</span>
       <span class="text-3" ng-if="list.length >= page.totle">{{allLoaded>3 && '还拉呀！ 这真的是底线啦' || allLoaded>1 && '别再拉了！　这是底线' || '哦，到底了'}}</span>
       <div goto-top-most ng-if="!isTopMost">要回到顶部！</div>
     </div>
-    <div class="text-3 rem-12" padding=".20rem" ng-if="!list.length">
+    <div class="weui-footer text-3 rem-12" padding=".20rem" ng-if="!list.length">
       没找到
     </div>
   </div>

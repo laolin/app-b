@@ -47,7 +47,7 @@
       ids: [],
       totle: 0,
       current: 0,
-      minSize: 8,
+      minSize: 16,
       size: 0
     }
     function initPage(list){
@@ -61,25 +61,23 @@
     /**
      * 下拉刷新
      */
-    $scope.isTopMost = true;
+    $scope.isTopMost = true; // 是否滚动到最上边？若是，则隐藏“回到顶部”按钮
+    $scope.allLoaded = 0; // 已全部加载，再下拉时，加1。用于动态改变底部提示文字
     $scope.checkTop = function(isTopMost){
       $scope.isTopMost = isTopMost;
     }
-    $scope.allLoaded = 0; // 已全部加载，再下拉时，加1
     $scope.loadMore = function(event, top, isTopMost){
-      console.log('分页, top=', top, ',isTopMost=', isTopMost);
       if($scope.list.length >= page.totle){
         $scope.allLoaded ++;
       }
-      var ids = page.ids.filter( (item, index) =>{
+      var ids = page.ids
+      .filter( (item, index) =>{
         return index>=$scope.list.length && index<$scope.list.length+page.minSize
-      });
-      ids = ids.map(item => item.uid);
-      console.log('ids', ids)
-      FacUser.SIGN.post('wx', 'get_users/' + ids.join(','), {})
+      })
+      .map(item => item.uid);
+      ids.length && FacUser.SIGN.post('wx', 'get_users/' + ids.join(','), {})
       .then( json => json.data)
       .then( list => {
-        console.log('微信信息：', list)
         list.map( item => {
           var i = page.ids.findIndex( page_ids => item.uid == page_ids.uid );
           if(i >= 0){
