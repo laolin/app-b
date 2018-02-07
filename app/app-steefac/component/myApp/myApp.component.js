@@ -27,7 +27,7 @@ angular.module('steefac')
   return function(timespan, format) {
     var d = new Date();
     d.setTime(timespan * 1000);
-    return timeFormat(d, format || "yyyy-mm-dd");
+    return timeFormat(d, format || "yyyy-MM-dd");
   }
 })
 .filter('substr', function() { //可以注入依赖
