@@ -76,6 +76,28 @@
       if($scope.list.length >= page.totle){
         $scope.allLoaded ++;
       }
+      var arr = page.ids
+      .filter( (item, index) =>{
+        return index>=$scope.list.length && index<$scope.list.length+page.minSize
+      });
+      console.log("Arr = ", arr);
+      userData.requireUsersInfo(arr)
+      .then( list => {
+        console.log("list = ", list);
+        list.map( item => {
+          var i = page.ids.findIndex( page_ids => item.uid == page_ids.uid );
+          if(i >= 0){
+            $scope.list[i] = {
+              uid: item.uid,
+              n: page.ids[i].n,
+              uname: item.uname,
+              wxinfo: item.wxinfo
+            }
+          }
+        })
+      });
+      return;
+
       var ids = page.ids
       .filter( (item, index) =>{
         return index>=$scope.list.length && index<$scope.list.length+page.minSize
