@@ -1,0 +1,33 @@
+<!-- 个人活跃度 -->
+
+<div class="weui-panel weui-panel_access">
+  <div class="weui-panel__hd">
+    <span>{{ param.from && ('从 ' + (param.from|timespan:'M月d日HH:mm') + (param.to && (' 到 ' + (param.to|timespan:'M月d日HH:mm') +
+      ' 止') || ' 开始') ) || param.day && (param.day + '天' ) || param.hour && (param.hour + '小时') || '' }} 的用户活跃度
+    </span>
+  </div>
+  <div class="weui-panel__bd">
+    <div class="weui-media-box weui-media-box_text" ng-repeat="item in list track by $index">
+      <h4 class="weui-media-box__title" ng-if="item.sameDate%10==0">{{item.date}}</h4>
+      <div class="weui-media-box__desc flex">
+        <div class="time">
+          <i class="fa fa-clock-o"></i>
+          <span>{{item.time}}</span>
+        </div>
+        <div>{{item.apiName || (item.api + ' - ' + item.call)}}</div>
+        <div>@{{item.host}}</div>
+      </div>
+    </div>
+
+    <div class="weui-footer text-3 rem-12" padding=".20rem" scroll-refresh="checkTop($isTopMost)" on-visible="loadMore($element, $top, $isTopMost)"
+      ng-if="page.minSize < page.totle">
+      <span class="text-warning" ng-if="list.length < page.totle">已加载 {{list.length}}/{{page.totle}} 条数据，正在加载...</span>
+      <span class="text-3" ng-if="list.length >= page.totle">{{allLoaded>3 && '还拉呀！ 这真的是底线啦' || allLoaded>1 && '别再拉了！　这是底线' || '哦，到底了'}}</span>
+      <div goto-top-most ng-if="!isTopMost">要回到顶部！</div>
+    </div>
+    <div class="weui-footer text-3 rem-12" padding=".20rem" ng-if="!list.length">
+      没找到
+    </div>
+
+  </div>
+</div>
