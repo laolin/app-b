@@ -30,6 +30,11 @@ angular.module('steefac')
     return timeFormat(d, format || "yyyy-mm-dd");
   }
 })
+.filter('substr', function() { //可以注入依赖
+  return function(str, b, e) {
+    return (str + "").substr(b, e);
+  }
+})
 .filter('distance', function() { //可以注入依赖
   return function(distance) {
     distance = + distance;
