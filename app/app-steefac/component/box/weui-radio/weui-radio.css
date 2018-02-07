@@ -1,0 +1,14 @@
+/* weui风格选框组件 */
+weui-radio .icon{
+  padding: .08rem .10rem;
+}
+weui-radio .icon:before{
+  content: '\EA01';
+  color: #C9C9C9;
+  font-size: 23px;
+  display: block;
+}
+weui-radio .icon.checked:before{
+  content: '\EA06';
+  color: #09BB07;
+}
