@@ -80,6 +80,15 @@ function($http, $window,$location,$log,$timeout,$q)
     return (userData.rights & RIGHTS_ADMIN)
   }
   
+  /** 只返回所请求的用户数组 */
+  function singleUserinfo(arr) {
+    return Object.keys(arr)
+    .map(k => {
+      return Object.keys(usersInfo)
+      .map(kUser => usersInfo[kUser])
+      .find(user => user.uid == arr[k].uid)
+    });
+  }
   //独立部署的SERVER for user api
   /**
   *  获取数组各uid 头像图片地址
@@ -90,10 +99,6 @@ function($http, $window,$location,$log,$timeout,$q)
   *  如果没有，就用 /wx/get_users/uid1,uid2,uid3 API获取一堆用户的信息   
   */
   function requireUsersInfo(arr) {
-    $log.log('requireUsersInfo:',arr);
-    var i;
-    var deferred = $q.defer();
-
     var ids=[];
     for(var i=arr.length;i--; ) {
       if(arr[i]['uid']>0&&
@@ -101,25 +106,24 @@ function($http, $window,$location,$log,$timeout,$q)
         ids.indexOf(arr[i]['uid'])<0)ids.push(arr[i]['uid']);
     }
     if(!ids.length) {
-      deferred.resolve(1);
-      return deferred.promise;
+      // 只返回所请求的用户数组
+      return $q.resolve(singleUserinfo(arr, usersInfo));
     }
     var api=appData.urlSignApi('wx','get_users',ids.join(','));
     return $http.jsonp(api).then(function(s){
       if(s.data.errcode!=0) {
-        $log.log('Err:getUsers:',s.data.errcode,s.data.msg);
-        deferred.reject(-2);
-        return deferred.promise;
+        return $q.reject(-2);
       }
       var d=s.data.data;
-      for(i=d.length;i--; ) {
+      for(var i=d.length;i--; ) {
         dealWxHeadImg(d[i].wxinfo);
         usersInfo[d[i]['uid']]=d[i];
       }
+      // 只返回所请求的用户数组
+      return $q.resolve(singleUserinfo(arr, usersInfo));
     },function(e){
       $log.log('Err:getUsers:',e);
-      deferred.reject(e);
-      return deferred.promise;
+      return $q.reject(e);
     });
   }
   
