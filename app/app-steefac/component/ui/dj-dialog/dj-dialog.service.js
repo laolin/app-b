@@ -100,7 +100,7 @@ function DjDialog($rootScope, $compile, DjWaiteReady){
       <dj-dialog-quick
         back-close="${options.backClose&&1||''}"
         dlg-title="${options.title}"
-        dlg-body="${options.body}"
+        dlg-body="${options.body.split('"').join('&quot;')}"
         hide-ok="${options.hideOk&&1||''}"
         hide-cancel="${options.hideCancel&&1||''}"
       ></dj-dialog-quick>`;
@@ -139,7 +139,7 @@ function DjDialog($rootScope, $compile, DjWaiteReady){
    */
   function modal(body, title, options){
     options = initData(body, title, options);
-    // options.backClose = true;
+    options.backClose = true;
     return showDialog(options);
   }
 
