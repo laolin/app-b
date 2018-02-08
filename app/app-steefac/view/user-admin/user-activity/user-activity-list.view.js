@@ -41,7 +41,6 @@
     .then(arr => arr[0].wxinfo)
     .then(wxinfo =>{
       $scope.wxinfo = wxinfo;
-      console.log('加载微信头像呢称', wxinfo)
     })
 
     /**
@@ -52,7 +51,6 @@
     .then( json => json.datas.map(parseApiItem))
     .then( data => {
       $scope.dataReady = true;
-      console.log('个人活跃度', data);
       $scope.initPage(data);
     })
 
@@ -60,7 +58,6 @@
      * 显示 api 详情
      */
     $scope.showApiDetail = function(item){
-      console.log(item);
       var body = Object.keys(item)
       .map( k => k + ": " + item[k])
       .join("\n");

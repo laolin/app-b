@@ -112,7 +112,6 @@ function($q, $rootScope,$location,$log,$timeout,$http,$window,
   $rootScope.$on('$routeChangeSuccess', function(evt, current, prev) {
     let title;
     let route = current.$$route;
-    console.log("路由切换：", route);
     if(route.pageTitle){
       title = route.pageTitle + '-' + appbCfg.htmlTitle;
       setTitleAuto(route.pageTitle)

@@ -220,8 +220,6 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
       list.map( item => {
         item.distance = serchPos.distance([item.lngE7/1e7, item.latE7/1e7]);
       });
-      console.log('serchPara = ', serchPara);
-      console.log('serchPos = ', serchPos);
       return list;
     });
   }

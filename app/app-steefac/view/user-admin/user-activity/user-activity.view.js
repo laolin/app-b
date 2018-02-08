@@ -40,7 +40,6 @@
     .then( json => json.data.filter(item => +item.uid>0))
     .then( data => {
       $scope.loading = false;
-      console.log('用户活跃度', data);
       initPage(data);
     })
 
@@ -80,10 +79,8 @@
       .filter( (item, index) =>{
         return index>=$scope.list.length && index<$scope.list.length+page.minSize
       });
-      console.log("Arr = ", arr);
       userData.requireUsersInfo(arr)
       .then( list => {
-        console.log("list = ", list);
         list.map( item => {
           var i = page.ids.findIndex( page_ids => item.uid == page_ids.uid );
           if(i >= 0){
@@ -179,7 +176,6 @@
             from : Math.floor(+form.between.from / 1000),
             to   : Math.floor(+form.between.to   / 1000)
           }
-          console.log(form.between);
           $location.path(thisLocationPath).search(param).replace();
         }
       }

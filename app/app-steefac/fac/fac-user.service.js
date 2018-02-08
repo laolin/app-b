@@ -87,7 +87,6 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser, SIGN, DjDialo
       return $q.resolve(FacUser.admins);
     }
     return AppbAPI('stee_user','get_admins').then(function(s){
-      $log.log('get_admins',s);
       if(!s) {
         return $q.reject('noData');
       }
@@ -102,7 +101,6 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser, SIGN, DjDialo
   FacUser.getRights=function(userid) {
     var deferred = $q.defer();
     return AppbAPI('stee_user','get_user_rights',{userid:userid}).then(function(s){
-      $log.log('get_user_rights',s);
       if(!s) {
         deferred.reject('noData');
         return deferred.promise;
