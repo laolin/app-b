@@ -83,6 +83,13 @@ amap-main { height: 200px;}
 
 /* 一些通用CSS */
 
+img.headimg-large,
+img.headimg-middle,
+img.headimg-small  { border-radius: .05rem; margin-right: .10rem; }
+img.headimg-large , .height-large  { height: .60rem; }
+img.headimg-middle, .height-middle { height: .50rem; }
+img.headimg-small , .height-small  { height: .36rem; }
+
 /* 单行，太长省略号 */
 .line___1{
   height: 1.5em;
