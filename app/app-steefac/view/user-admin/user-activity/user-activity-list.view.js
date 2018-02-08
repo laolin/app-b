@@ -34,6 +34,19 @@
     var param = $scope.param = from && {from, to} || hour && {hour} || day && {day} || {hour: 2};
     param.userid = uid;
 
+    /**
+     * 加载微信头像呢称
+     */
+    userData.requireUsersInfo([{uid}])
+    .then(arr => arr[0].wxinfo)
+    .then(wxinfo =>{
+      $scope.wxinfo = wxinfo;
+      console.log('加载微信头像呢称', wxinfo)
+    })
+
+    /**
+     * 加载活跃度数据
+     */
     $scope.dataReady = false; // 正在加载标志
     FacUser.SIGN.post('log', 'list_user', param)
     .then( json => json.datas.map(parseApiItem))
@@ -43,6 +56,18 @@
       $scope.initPage(data);
     })
 
+    /**
+     * 显示 api 详情
+     */
+    $scope.showApiDetail = function(item){
+      console.log(item);
+      var body = Object.keys(item)
+      .map( k => k + ": " + item[k])
+      .join("\n");
+      //FacUser.DjDialog.modal(body, '查看详情')
+      FacUser.DjDialog.modal(`<div style="text-align:left">${body}</div>`, '查看详情')
+
+    }
 
     /** 请求名称解析 */
     var theApiName = {
