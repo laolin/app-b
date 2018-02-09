@@ -12,19 +12,19 @@
 </div>
 
 
-<div class="main-modules">
-  <div class="module" ng-repeat="item in moduleInfo">
+<div class="main-modules flex">
+  <div class="module flex-v flex-w1 flex-center" ng-repeat="item in moduleInfo">
     <img ng-src="{{item.src}}">
     <span>{{item.text}}</span>
   </div>
 </div>
 
-<div class="main-datainfo">
-  <div class="item" ng-repeat="item in dataInfo"
+<div class="main-datainfo flex flex-between">
+  <div class="item flex-v" ng-repeat="item in dataInfo"
     ng-click='goSearch(item.type)'
   >
     <div class="name">{{item.name}}</div>
-    <div class="info"><div class="n">{{item.n}}</div><div class="t">{{item.t}}</div></div>
+    <div class="info flex"><div class="n">{{item.n}}</div><div class="t">{{item.t}}</div></div>
   </div>
 </div>
 
@@ -41,7 +41,7 @@
   type='"steefac"'
   >
   </fac-grids-->
-  <a class="flex item" ng-repeat="item in $ctrl.facList1" ng-href="#!/fac-detail/{{item.id}}">
+  <a class="flex flex-between flex-stretch item" ng-repeat="item in $ctrl.facList1" ng-href="#!/fac-detail/{{item.id}}">
     <div class="left flex-v flex-between flex-grow">
       <div class="text">{{item.name}}，产能{{item.cap_6m}}吨，擅长构件：{{item.goodat}}</div>
       <i class="fa fa-clock-o">&nbsp;
