@@ -1,0 +1,23 @@
+﻿<!-- 下拉刷新组件 -->
+
+
+<ng-transclude ng-transclude-slot="body" scroll-refresh="checkTop($isTopMost)" on-visible="loadMore($element, $top, $isTopMost)">
+
+  <div class="weui-footer text-3 rem-12 padding-v-1"
+    scroll-refresh="checkTop($isTopMost)"
+    on-visible="loadMore($element, $top, $isTopMost)"
+    ng-if="page.pageSize < page.totle"
+  >
+    <span class="text-warning" ng-if="page.loaded < page.totle">已加载 {{page.loaded}}/{{page.totle}} 条数据，正在加载...</span>
+    <span class="text-3" ng-if="page.loaded >= page.totle">{{
+      allLoaded>3 && '还拉呀！ 这真的是底线啦' ||
+      allLoaded>1 && '别再拉了！　这是底线' ||
+      '哦，到底了'
+    }}</span>
+    <div goto-top-most ng-if="!isTopMost">要回到顶部！</div>
+  </div>
+  <div class="weui-footer text-3 rem-12" padding=".20rem" ng-if="!page.loaded">
+    没有数据
+  </div>
+
+</ng-transclude>
