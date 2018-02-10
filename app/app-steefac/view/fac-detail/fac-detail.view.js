@@ -85,5 +85,10 @@
         });
       })
     });
+
+    $scope.$on("require-log-user-action", (event, datas) => {
+      console.log('收到记录用户请求', datas, userData);
+      FacUser.logAction(datas.ac, 'steefac', facId, userData.uid);
+    });
   }
 })(window, angular);

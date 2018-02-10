@@ -83,5 +83,8 @@
         });
       })
     });
+    $scope.$on("require-log-user-action", (event, datas) => {
+      FacUser.logAction(datas.ac, 'steeproj', facId, userData.uid);
+    });
   }
 })(window, angular);
