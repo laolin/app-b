@@ -71,50 +71,37 @@
     $scope.checkTop = function(isTopMost){
       $scope.isTopMost = isTopMost;
     }
-    $scope.loadMore = function(event, top, isTopMost){
+    $scope.loadMore = function(){
+      console.log('要加载...')
       if($scope.list.length >= page.totle){
         $scope.allLoaded ++;
       }
-      var arr = page.ids
+      var b = $scope.list.length;
+      var e = Math.min($scope.list.length + page.minSize, page.ids.length);
+      var userids = page.ids
       .filter( (item, index) =>{
-        return index>=$scope.list.length && index<$scope.list.length+page.minSize
-      });
-      userData.requireUsersInfo(arr)
-      .then( list => {
-        list.map( item => {
-          var i = page.ids.findIndex( page_ids => item.uid == page_ids.uid );
-          if(i >= 0){
-            $scope.list[i] = {
-              uid: item.uid,
-              n: page.ids[i].n,
-              uname: item.uname,
-              wxinfo: item.wxinfo
-            }
-          }
-        })
-      });
-      return;
-
-      var ids = page.ids
-      .filter( (item, index) =>{
-        return index>=$scope.list.length && index<$scope.list.length+page.minSize
+        return index >= b && index < e
       })
       .map(item => item.uid);
-      ids.length && FacUser.SIGN.post('wx', 'get_users/' + ids.join(','), {})
-      .then( json => json.data)
+      return userData.requireWxInfo(userids)
       .then( list => {
-        list.map( item => {
-          var i = page.ids.findIndex( page_ids => item.uid == page_ids.uid );
-          if(i >= 0){
-            $scope.list[i] = {
-              uid: item.uid,
-              n: page.ids[i].n,
-              uname: item.uname,
-              wxinfo: item.wxinfo
-            }
+        for(var i=b; i<e; i++){
+          var item = list.find(a => a.uidBinded == page.ids[i].uid);
+          if(item){
+            $scope.list.push(angular.extend({n: page.ids[i].n}, item));
           }
-        })
+          else{
+            // 标志此人不存在
+            page.ids[i] = '';
+          }
+        }
+        // 过滤不存在的用户
+        page.ids = page.ids.filter(item => !!item);
+        page.totle = page.ids.length;
       })
+      .catch(e =>{
+        console.error('加载错误：', e);
+      });
     }
     
 

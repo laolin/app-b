@@ -25,33 +25,26 @@
 
 <div class="weui-panel weui-panel_access" ng-if='userData.isAdmin() && !loading'>
   <div class="weui-panel__bd">
-    <a ng-path="/user-activity-list" search="{{searchParam(ua.uid)}}" class="weui-media-box weui-media-box_appmsg" ng-repeat='ua in list track by $index'>
+    <a ng-path="/user-activity-list" search="{{searchParam(ua.uidBinded)}}" class="weui-media-box weui-media-box_appmsg" ng-repeat='ua in list track by $index'>
       <div class="weui-media-box__hd">
-        <img class="weui-media-box__thumb" ng-src="{{ua.wxinfo.headimgurl}}" alt="">
+        <img class="weui-media-box__thumb" ng-src="{{ua.headimgurl}}" alt="">
       </div>
       <div class="weui-media-box__bd">
         <h4 class="weui-media-box__title">
-          <span ng-if='ua.wxinfo'>
-            {{ua.wxinfo.nickname}}
+          <span ng-if='ua.nickname'>
+            {{ua.nickname}}
           </span>
-          <span ng-if='!ua.wxinfo'>
+          <span ng-if='!ua.nickname'>
             {{ua.uname}}
           </span>
-          <span>( ID:{{ua.uid}} )</span>
+          <span>( ID:{{ua.uidBinded}} )</span>
         </h4>
         <p class="weui-media-box__desc">活跃度：{{ua.n}}</p>
       </div>
     </a>
 
-    <div class="weui-footer text-3 rem-12" padding=".20rem" scroll-refresh="checkTop($isTopMost)" on-visible="loadMore($element, $top, $isTopMost)"
-      ng-if="page.minSize < page.totle">
-      <span class="text-warning" ng-if="list.length < page.totle">已加载 {{list.length}}/{{page.totle}} 条数据，正在加载...</span>
-      <span class="text-3" ng-if="list.length >= page.totle">{{allLoaded>3 && '还拉呀！ 这真的是底线啦' || allLoaded>1 && '别再拉了！　这是底线' || '哦，到底了'}}</span>
-      <div goto-top-most ng-if="!isTopMost">要回到顶部！</div>
-    </div>
-    <div class="weui-footer text-3 rem-12" padding=".20rem" ng-if="!list.length">
-      没找到
-    </div>
+    <div load-more totle="{{page.totle}}" loaded="{{list.length}}" on-load-more="loadMore()"></div>
+
   </div>
 </div>
 
