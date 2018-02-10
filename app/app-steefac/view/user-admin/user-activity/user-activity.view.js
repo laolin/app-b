@@ -36,7 +36,7 @@
     }
 
     $scope.loading = true; // 正在加载标志
-    FacUser.SIGN.post('sa_data', 'listUserLog', param)
+    FacUser.SIGN.post('sa_data', 'countUserLog', param)
     .then( json => json.datas.filter(item => +item.uid>0))
     .then( data => {
       $scope.loading = false;
