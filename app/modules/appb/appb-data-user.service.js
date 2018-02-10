@@ -10,7 +10,7 @@ angular.module('appb')
 function($http, $window,$location,$log,$timeout,$q)
 {
   var userData={};
-  var u_saved=JSON.parse($window.localStorage.getItem(KEY_USERDATA));
+  var u_saved=JSON.parse($window.localStorage.getItem(KEY_USERDATA)||'{}');
   this.userData=userData;
   
   var usersInfo={};//头像等用户信息

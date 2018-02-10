@@ -31,7 +31,6 @@
 
   function ctrl($scope) {
     $scope.$watch('pageSize', pageSize => {
-      console.log('每页数量 = ', pageSize);
       page.pageSize = pageSize || 16;
     });
     $scope.$watch('totle', initAutoShow);
@@ -39,7 +38,6 @@
     $scope.$watch('listShow', initAutoShow);
     $scope.$watch('listBase', initAutoShow);
     function initAutoShow() {
-      console.log('数据改变 = ');
       if ($scope.listShow && $scope.listBase) {
         page.totle = $scope.listBase.length;
         page.loaded = $scope.listShow.length;
@@ -65,7 +63,6 @@
         $scope.isTopMost = isTopMost;
       }
       $scope.loadMore = function (event, top, isTopMost) {
-        console.log('要自动加载。。。');
         // 父组件不显示，则由本组件进行默认显示
         if ($scope.listShow && $scope.listBase) {
           if ($scope.listShow.length >= page.totle) {
