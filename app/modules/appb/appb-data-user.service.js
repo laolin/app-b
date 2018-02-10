@@ -6,8 +6,8 @@ var RIGHTS_ADMIN = 0x00010000;//TODO 和服务器端统一文件
 
 angular.module('appb')
 .factory('AppbDataUser',
-['$http','$window','$location','$log','$timeout','$q',
-function($http, $window,$location,$log,$timeout,$q)
+['$http','$window','$location','$log','$timeout','$q', "SIGN",
+function($http, $window,$location,$log,$timeout,$q, SIGN)
 {
   var userData={};
   var u_saved=JSON.parse($window.localStorage.getItem(KEY_USERDATA)||'{}');
@@ -87,7 +87,8 @@ function($http, $window,$location,$log,$timeout,$q)
       return Object.keys(usersInfo)
       .map(kUser => usersInfo[kUser])
       .find(user => user.uid == arr[k].uid)
-    });
+    })
+    .filter(item => !!item);
   }
   //独立部署的SERVER for user api
   /**
@@ -126,6 +127,45 @@ function($http, $window,$location,$log,$timeout,$q)
       return $q.reject(e);
     });
   }
+
+  /**
+  *  获取数组各 uid 头像图片地址
+  *  @param userids 数组
+  *  根据 usersInfo 查现在头像 ，如果对应 uid 已有就跳过
+  *  如果没有，就用向后台请求
+  */
+  function requireWxInfo(userids) {
+    var cache = requireWxInfo.cache || (requireWxInfo.cache = []);
+    if(!userids){
+      return $q.reject('错误的请求');
+    }
+    var idsNew = [];
+    userids.map( userid => {
+      if(!userid) return;
+      if(cache.find(item => item.uidBinded == userid)) return;
+      idsNew.push(userid);
+    })
+    if(!idsNew.length) {
+      // 只返回所请求的用户数组
+      return $q.resolve(cache.filter(item => userids.indexOf(item.uidBinded) >= 0));
+    }
+    return SIGN.post('sa_data', 'getWxInfo', {userid: idsNew})
+    .then(json => json.datas)
+    .then(list => {
+      console.log('得到微信信息：', list);
+      list.map( item =>{
+        dealWxHeadImg(item);
+        if(!cache.find(item_cache => item.uidBinded == item_cache.uidBinded)){
+          cache.push(item);
+        }
+      })
+      // 只返回所请求的用户数组
+      return cache.filter(item => userids.indexOf(item.uidBinded) >= 0);
+    },function(e){
+      $log.log('Err:getUsers:',e);
+      return $q.reject(e);
+    });
+  }
   
 
   function _initUserData() {
@@ -136,6 +176,7 @@ function($http, $window,$location,$log,$timeout,$q)
     userData.dealWxHeadImg=dealWxHeadImg;
     userData.isAdmin=isAdmin;
     userData.requireUsersInfo=requireUsersInfo;
+    userData.requireWxInfo = requireWxInfo;
   }  
   
   setUserData(u_saved);
