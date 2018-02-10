@@ -30,9 +30,17 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser, SIGN, DjDialo
   var objTypes=['steefac','steeproj'];
 
   /**
-   * 页面计数功能
+   * 用户点击事件记录
+   * 不返回
    */
-  FacUser.getPageReadLimit = function(type, facid){
+  FacUser.logAction = function(k1, k2, v1, v2, json){
+    SIGN.post('stee_data', 'logAction', {k1, k2, v1, v2, json});
+  }
+
+    /**
+     * 页面计数功能
+     */
+    FacUser.getPageReadLimit = function(type, facid){
     return SIGN.post('stee_data', 'getReadDetailLimit', {type, facid})
     .then(json => {
       var limit = json.datas.limit;
