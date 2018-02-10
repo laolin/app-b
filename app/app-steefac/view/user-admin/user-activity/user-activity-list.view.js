@@ -98,10 +98,14 @@
       stee_data: {
         hash: '点击推送',
         logAction: '点击按钮',
+        getReadDetailLimit: '查看详情前核对用量',
+        applyReadDetail: '请求查看详情',
       },
       sa_data: {
         getUserInfo: '获取用户信息',
-        listUserLog: '多人活跃度',
+        getWxInfo: '获得批量微信数据',
+        countUserLog: '多人活跃度',
+        listUserLog: '活跃度详情',
       },
       wx: {
         get_users: '获得批量微信数据',
