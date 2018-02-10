@@ -11,7 +11,7 @@
   .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when(thisLocationPath, {
       pageTitle: "用户活跃度",
-      requireLogin: true,
+      requireLogin: 'super-admin',
       templateUrl: 'app-steefac/view/user-admin/user-activity/user-activity.template.html',
       controller: ['$scope', '$location', 'AppbData', 'FacUser', ctrl]
     });
