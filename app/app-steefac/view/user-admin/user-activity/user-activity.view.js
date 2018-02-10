@@ -51,7 +51,6 @@
     var page = $scope.page = {
       ids: [],
       totle: 0,
-      current: 0,
       minSize: 16,
       size: 0
     }
@@ -66,16 +65,8 @@
     /**
      * 下拉刷新
      */
-    $scope.isTopMost = true; // 是否滚动到最上边？若是，则隐藏“回到顶部”按钮
-    $scope.allLoaded = 0; // 已全部加载，再下拉时，加1。用于动态改变底部提示文字
-    $scope.checkTop = function(isTopMost){
-      $scope.isTopMost = isTopMost;
-    }
     $scope.loadMore = function(){
       console.log('要加载...')
-      if($scope.list.length >= page.totle){
-        $scope.allLoaded ++;
-      }
       var b = $scope.list.length;
       var e = Math.min($scope.list.length + page.minSize, page.ids.length);
       var userids = page.ids
