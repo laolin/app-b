@@ -1,0 +1,66 @@
+<!-- 个人详情页面 -->
+
+<div class="weui-panel weui-panel_access">
+  <div class="weui-cell bb-ccc">
+    <img class="headimg-small" ng-src="{{user.wxinfo.headimgurl}}" alt="">
+    <div class="">{{user.wxinfo.nickname}}</div>
+  </div>
+  <div class="weui-panel__bd">
+  </div>
+</div>
+
+<div class="weui-panel weui-panel_access" ng-if="user.objAdmin.steefac.length">
+  <div class="weui-cell">
+    <div class="weui-cell__bd">
+      <p>管理的钢构厂（{{user.objAdmin.steefac.length||0}}家）</p>
+    </div>
+    <div class="weui-cell__ft text-active" ng-click="hideFacList = !hideFacList">
+      {{hideFacList&&'打开'||'折叠'}}
+    </div>
+  </div>
+  <div class="weui-panel__bd" ng-if="!hideFacList">
+    <a ng-path="/fac-detail/{{fac.id}}" class="weui-media-box weui-media-box_appmsg" fac-detail-mini fac="fac" ng-repeat="fac in user.objAdmin.steefac">
+    </a>
+  </div>
+</div>
+
+<div class="weui-panel weui-panel_access" ng-if="user.objAdmin.steeproj.length">
+  <div class="weui-cell">
+    <div class="weui-cell__bd">
+      <p>管理的项目（{{user.objAdmin.steeproj.length||0}}家）</p>
+    </div>
+    <div class="weui-cell__ft text-active" ng-click="hideProjList = !hideProjList">
+      {{hideFacList&&'打开'||'折叠'}}
+    </div>
+  </div>
+  <div class="weui-panel__bd" ng-if="!hideProjList">
+    <a ng-path="/project-detail/{{fac.id}}" class="weui-media-box weui-media-box_appmsg" proj-detail-mini fac="fac" ng-repeat="fac in user.objAdmin.steeproj">
+    </a>
+  </div>
+</div>
+
+
+<div class="weui-panel weui-panel_access">
+  <div class="weui-cell">
+    <div class="weui-cell__bd">
+      <p>活跃度</p>
+    </div>
+    <div class="weui-cell__ft flex">
+      <a ng-path="/user-activity-list" search="{uid:{{userid||0}},day:1}" class="text-gray">
+        {{user.activity.day30}}<span class="text-active">【30天】</span>
+      </a>
+      <div>&nbsp;/&nbsp;</div>
+      <a ng-path="/user-activity-list" search="{uid:{{userid||0}},day:30}" class="text-gray">
+        {{user.activity.day1}}<span class="text-active">【1天】</span>
+      </a>
+      <div>&nbsp;/&nbsp;</div>
+      <a ng-path="/user-activity-list" search="{uid:{{userid||0}},hour:2}" class="text-gray">
+        {{user.activity['day0.083']}}<span class="text-active">【2小时】</span>
+      </a>
+    </div>
+  </div>
+  <div class="weui-panel__bd" ng-if="!hideProjList">
+    <a ng-path="/project-detail/{{fac.id}}" class="weui-media-box weui-media-box_appmsg" proj-detail-mini fac="fac" ng-repeat="fac in user.objAdmin.steeproj">
+    </a>
+  </div>
+</div>
