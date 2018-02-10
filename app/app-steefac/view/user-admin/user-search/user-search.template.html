@@ -13,9 +13,9 @@
 
 <div class="weui-panel weui-panel_access">
   <div class="weui-panel__bd">
-    <a ng-path="/get-facs-of-admin" search="{uid: {{item.uidBinded}}}" class="weui-media-box weui-media-box_appmsg" ng-repeat='item in listShow track by $index'>
+    <a ng-path="/user-show" search="{userid: {{item.uidBinded||0}}}" class="weui-media-box weui-media-box_appmsg" ng-repeat='item in listShow track by $index'>
       <div class="weui-media-box__hd">
-        <img class="weui-media-box__thumb" ng-src="{{item.headimgurl}}" alt="">
+        <img class="weui-media-box__thumb" ng-src="{{item.headimgurl|https}}" alt="">
       </div>
       <div class="weui-media-box__bd">
         <h4 class="weui-media-box__title">

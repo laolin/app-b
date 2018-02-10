@@ -6,7 +6,7 @@
     <div class="flex-v flex-between flex-w1 height-small">
       <div class="flex text-gray">
         <div class="rem-15 line___1">{{wxinfo.nickname}}</div>
-        <a ng-path="/get-facs-of-admin" search="{uid:{{wxinfo.uidBinded||0}} }" class="rem-15 text-active shrink0">用户详情...</a>
+        <a ng-path="/user-show" search="{userid:{{wxinfo.uidBinded||0}} }" class="rem-15 text-active shrink0">用户详情...</a>
       </div>
       <div>{{ param.from && ('从 ' + (param.from|timespan:'M月d日HH:mm') + (param.to && (' 到 ' + (param.to|timespan:'M月d日HH:mm')
         + ' 止') || ' 开始') ) || param.day && (param.day + '天' ) || param.hour && (param.hour + '小时') || '' }} 的用户活跃度
