@@ -35,6 +35,12 @@ angular.module('steefac')
     return (str + "").substr(b, e);
   }
 })
+.filter('https', function() { //可以注入依赖
+  return function(url) {
+    if(url.substr(0, 5) == 'http:') return url.substr(5);
+    return url;
+  }
+})
 .filter('distance', function() { //可以注入依赖
   return function(distance) {
     distance = + distance;
