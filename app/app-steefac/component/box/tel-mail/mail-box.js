@@ -19,8 +19,9 @@
 
   function ctrl($scope, $element, AppbData) {
     $scope.appData = AppbData.getAppData();
-    //$scope.click = () => {
-    //  console.log(this.val);
-    //}
+    $element[0].addEventListener('click', () => {
+      /* 记录用户点击 */
+      $scope.$emit('require-log-user-action', {ac: '点击邮件', val: this.val});
+    }, true);
   }
 })(window, angular);

@@ -13,14 +13,15 @@
     bindings: {
       val: '<'
     },
-    controller:['$scope', '$element', 'AppbData', ctrl]
+    controller:['$scope', '$element', 'AppbData', 'FacUser', ctrl]
   });
 
 
-  function ctrl($scope, $element, AppbData) {
+  function ctrl($scope, $element, AppbData, FacUser) {
     $scope.appData = AppbData.getAppData();
-    //$element[0].addEventListener('click', () => {
-    //  console.log(this.val);
-    //}, true);
+    $element[0].addEventListener('click', () => {
+      /* 记录用户点击 */
+      $scope.$emit('require-log-user-action', {ac: '点击电话', val: this.val});
+    }, true);
   }
 })(window, angular);

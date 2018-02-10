@@ -54,6 +54,8 @@
      */
     $scope.showing = false;
     $scope.showDlg = () => {
+      /* 记录用户点击 */
+      $scope.$emit('require-log-user-action', {ac: '点击推送', val: this.val});
       if(!$scope.list || !$scope.list.length){
         return;
       }
