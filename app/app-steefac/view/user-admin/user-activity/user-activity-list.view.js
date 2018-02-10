@@ -37,8 +37,8 @@
     /**
      * 加载微信头像呢称
      */
-    userData.requireUsersInfo([{uid}])
-    .then(arr => arr[0].wxinfo)
+    userData.requireWxInfo([uid])
+    .then(arr => arr[0])
     .then(wxinfo =>{
       $scope.wxinfo = wxinfo;
     })
@@ -47,7 +47,7 @@
      * 加载活跃度数据
      */
     $scope.dataReady = false; // 正在加载标志
-    FacUser.SIGN.post('log', 'list_user', param)
+    FacUser.SIGN.post('sa_data', 'listUserLog', param)
     .then( json => json.datas.map(parseApiItem))
     .then( data => {
       $scope.dataReady = true;
@@ -97,6 +97,11 @@
       },
       stee_data: {
         hash: '点击推送',
+        logAction: '点击按钮',
+      },
+      sa_data: {
+        getUserInfo: '获取用户信息',
+        listUserLog: '多人活跃度',
       },
       wx: {
         get_users: '获得批量微信数据',
