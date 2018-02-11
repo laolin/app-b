@@ -12,9 +12,9 @@ var cfg=window.appbCfg={
   htmlTitle:'钢构产能地图CMOSS',//默认的浏览器的页面标题
   //apiRoot: 'https://api.qinggaoshou.com/api-eb', //一般的API(旧)
   //apiRoot: 'https://qinggaoshou.com/dev/api-linjh/api-core/src', //服务器测试API(旧)
-  //apiRoot: 'https://qinggaoshou.com/dev/laolin/cmoss-dev-api/open', //服务器测试API
+  apiRoot: 'https://qinggaoshou.com/dev/laolin/cmoss-dev-api/open', //服务器测试API
   //apiRoot: 'http://pgy/Laolin/api-core/src', //本地的API
-  apiRoot: 'https://api.qinggaoshou.com/api-cmoss/open', //生产用的API
+  //apiRoot: 'https://api.qinggaoshou.com/api-cmoss/open', //生产用的API
   apiWxAuth: 'https://qinggaoshou.com/api-eb', //WX 授权 callback 域名限制的URI
 
   //assetsRoot 的取值（__assetsPath）由 gulp 构建时指定，
@@ -23,6 +23,11 @@ var cfg=window.appbCfg={
 
   version: 'steefac.78.101.101.a'
 };
+
+/** 支持在 index.html 中扩展有关设置 */
+if(window.theSiteConfig){
+  angular.extend(window.appbCfg, window.theSiteConfig);
+}
 
 cfg.modDep=[
   'amap-main',
