@@ -251,9 +251,8 @@ var configObj =require ( './gulpfile.app.js' )(app_name);
 gulp.task('templatecache', function () {
   
   //登记到 configObj.injects 中，后面可自动注入
-  configObj.injects.push([configObj.path.tmp+'/'+configObj.tplJsName]);
-  
-  
+  configObj.injects.splice(configObj.injects.length-3, 0, [configObj.path.tmp+'/'+configObj.tplJsName]);
+
   //console.log('tplModule=',configObj.tplModule);
   //把模板文件打包成JS文件，放在TMP目录下
   return gulp.src(configObj.tplHtml)

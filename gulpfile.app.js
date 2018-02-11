@@ -56,6 +56,7 @@ module.exports = function(app_name) { return {
     ], 
     [
        "./app/app-"+app_name+"/**/*.js",
+      "!./app/app-"+app_name+"/**/main-run.js",
       "!./app/app-"+app_name+"/**/*.module.js"
     ], 
     [
@@ -63,6 +64,9 @@ module.exports = function(app_name) { return {
     ], 
     [
       "./app/app-"+app_name+"/**/*.css"
-    ]
+    ],
+    [
+      "./app/app-"+app_name+"/**/main-run.js"
+    ],
   ]
 }}
