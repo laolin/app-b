@@ -42,6 +42,30 @@
     $qProvider.errorOnUnhandledRejections(false);
   }]);
 
+
+  /** 签名后的数据类型 */
+  function SingedRequest(url, post, result) {
+    if (this instanceof SingedRequest) {
+      this.url = url;
+      this.post = post;
+      this.result = result;
+    }
+    else return new SingedRequest(url, post, result);
+  }
+  serviceModule.run(['$q', function ($q) {
+    SingedRequest.prototype = {
+      reject: function (result) {
+        this.result = $q.reject(result);
+        return this;
+      },
+      when: function (result) {
+        this.result = $q.when(result);
+        return this;
+      }
+    }
+  }]);
+
+
   /**
    * 签名供应商
    */
@@ -50,13 +74,10 @@
     /** url签名
      * 用户可以拦截本服务，以自定义签名，或附加参数
      * app.config(['signProvider', function(signProvider){
-     *   signProvider.defaults.sign = function(api, call){
+     *   signProvider.defaults.sign = function(api, call, SingedRequest){
      *     var your_url = "https:" + "//my.com/my_path/" + api + '/' + call + "?token=12345abc";
-     *     var your_post = {sign: 'abcd2d3d'};
-     *     return {
-     *       url: your_url,
-     *       post: your_post
-     *     };
+     *     var your_post = {sign: 'abcd2d3d'}; // 这是要附加的数据
+     *     return new SingedRequest(your_url, your_post);
      *   }
      *   // jsonYes()、root 等，同上
      * }])
@@ -71,11 +92,8 @@
 
     /** url签名
      */
-    function sign(api, call) {
-      return {
-        url: defaults.root + api + '/' + call,
-        post: {}
-      }
+    function sign(api, call, SingedRequest) {
+      return new SingedRequest(defaults.root + api + '/' + call, {});
     }
 
     /** 判断后端返回是否正确
@@ -108,11 +126,30 @@
     ];
 
 
-    /**
-     * 暴露函数，以兑现拦截
+    /** 请求前，进行预处理
+     * 返回 signed 类型数据 ，将阻止后续处理，并自动抛出 stoped 拒绝
+     * 返回一个承诺，将重置原承诺
+     * 返回一个 !==false，将改写json为该值
      */
-    this.$get = function () {
+    function prePost(api, call, data) {
+      var sign = $get();
+      var signed = sign.sign(api, call, SingedRequest);
+      angular.extend(signed.post, data);
+      // 允许模拟 api 调用
+      for (var i in sign.onpost) {
+        var result = sign.onpost[i](api, call, data, signed.url, signed.post);
+        if (result) {
+          return signed.when(result);
+        }
+      }
+      if (!signed.url) {
+        return signed.reject('null require api.');
+      }
+      return signed;
+    }
+    function $get() {
       return {
+        prePost: prePost,
         root: defaults.root || './',
         sign: defaults.sign || sign,
         jsonYes: defaults.jsonYes || jsonYes,
@@ -120,6 +157,10 @@
         onpost: defaults.onpost || []
       }
     };
+    /**
+     * 暴露函数，以兑现拦截
+     */
+    this.$get = $get;
 
   }]);
 
@@ -133,17 +174,11 @@
      * 签名失败，跳转到登录页面
      */
     function post(api, call, data) {
-      console.log('用户 post 提交', api, call, data);
-      var signed = sign.sign(api, call);
-      var postData = angular.extend({}, signed.post, data);
-      // 允许模拟 api 调用
-      for (var i in sign.onpost) {
-        var result = sign.onpost[i](api, call, data, signed.url, postData);
-        if (result) {
-          return $q.when(result);
-        }
+      var signed = sign.prePost(api, call, data);
+      if (signed.result) {
+        return signed.result;
       }
-      return $http.post(signed.url, postData)
+      return $http.post(signed.url, signed.post, { SIGNED: 'yes' })
         .then(response => response.data)
         .then(json => {
           var result = sign.before(json);
@@ -166,6 +201,63 @@
       post
     }
 
+  }]);
+
+  /**
+   * 签名拦截器
+   *注册方法：
+      app.config(["$httpProvider", function($httpProvider) {
+        $httpProvider.interceptors.push("http2sign");
+      }]);
+   */
+  serviceModule.factory('http2sign', ['$q', '$rootScope', 'sign', function ($q, $rootScope, sign) {
+    return {
+      request: function (config) {
+        // 已签名过的，或不是post，不拦截
+        if (config.method != "POST" || config.SIGNED) return config;
+        var api_call = config.url.split('/');
+        var signed = sign.prePost(api_call[0], api_call[1], config.data);
+        if (signed.result) {
+          return $q.when(signed.result);
+        }
+        //console.log('签名拦截器, 原url = ', config.url);
+        //console.log('签名拦截器, 原数据 = ', config.data);
+        config.data = signed.post;
+        config.url = signed.url;
+        //console.log('签名拦截器, config=', config);
+        return config;
+      },
+      requestError: function (rejection) {
+        // do something on request error
+        console.log('签名拦截器, rejection=', rejection);
+        return $q.reject(rejection)
+      },
+      response: function (response) {
+        // 已签名过的，或不是post，不拦截
+        if (response.config.method != "POST" || response.config.SIGNED) return response;
+        return $q.when(response.data)
+          .then(json => {
+            var result = sign.before(json);
+            if (result === false) {
+              return $q.reject('stoped');
+            }
+            return $q.when(result);
+          })
+          .then(json => {
+            if (sign.jsonYes(json)) {
+              return $q.when(json);
+            }
+            else {
+              return $q.reject(json);
+            }
+          });
+      },
+      responseError: function (rejection) {
+        // do something on response error
+        console.log('签名拦截器, rejection=', rejection);
+        return $q.reject(rejection);
+      }
+    };
   }]);
   /** */
 })(angular, window);
