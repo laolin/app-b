@@ -48,14 +48,10 @@
     }
 
     signProvider.defaults.root = "http://pgy.com/dd/pre_"
-    signProvider.defaults.sign = function (api, call) {
+    signProvider.defaults.sign = function (api, call, SingedRequest) {
       var calls = call.split('/')
       var url = urlSign(api, calls[0]);
-
-      return {
-        url: url, // 这将使得 signProvider.defaults.root 无效
-        post: {}
-      };
+      return SingedRequest(url, {});
     }
     // signProvider.defaults.onpost.push(function (api, call, data, signedUrl, postData) {
     //   console.log('拦截api，模拟处理！', api, call, data, signedUrl, postData);
