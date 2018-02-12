@@ -2,14 +2,27 @@
 
   var theConfigModule = angular.module('app-config', [])
 
+  theConfigModule.provider("SiteConfig", [function(){
+    console.log('初始化配置')
+    this.apiRoot = './';
+    angular.extend(this, appbCfg, window.theSiteConfig)
+    /**
+     * 暴露数据
+     */
+    this.$get = ['$http', function ($http) {
+      console.log('获取配置', $http)
+      return angular.extend({}, appbCfg, window.theSiteConfig)
+    }];
+  }]);
+
   /** 签名配置 */
-  theConfigModule.config(['signProvider', function (signProvider) {
+  theConfigModule.config(['signProvider', 'SiteConfigProvider',  function (signProvider, SiteConfigProvider) {
 
     // 需要验证身份的 api 对应的 url, 已带验证身份用的 queryStr
     function urlSign(api, call) {
       var param = signParam(api, call || '');
       if (!param) return '';
-      var url = appbCfg.apiRoot + "/" + api + "/" + call;
+      var url = SiteConfigProvider.apiRoot + "/" + api + "/" + call;
       var queryString = Object.keys(param).map(k => {
         return k + "=" + encodeURIComponent(param[k]);
       })
@@ -20,7 +33,7 @@
      *  返回签名需要的参数
      */
     function signParam(api, call) {
-      var KEY_USERDATA = appbCfg.keyUserData;
+      var KEY_USERDATA = SiteConfigProvider.keyUserData;
       var userData = JSON.parse(window.localStorage.getItem(KEY_USERDATA) || '{}');
       var uid = userData.uid;
       var tokenid = userData.tokenid;
