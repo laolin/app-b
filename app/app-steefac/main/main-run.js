@@ -1,6 +1,6 @@
 !(function (window, undefined) {
 
-  //return angular.bootstrap(document, ["appb.main"]);
+  return angular.bootstrap(document, ["appb.main"]);
 
   /** 2018过年 */
   angular.module('new-year-2008', [
