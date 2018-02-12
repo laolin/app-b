@@ -63,5 +63,8 @@
     // });
   }]);
 
+  theConfigModule.config(["$httpProvider", function($httpProvider) {
+    $httpProvider.interceptors.push("http2sign");
+  }])
   //___________________________________
 })(angular, window);
