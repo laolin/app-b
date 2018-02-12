@@ -86,7 +86,7 @@ function($route, $rootScope,$location,$log,AppbConfig) {
     if(!headerAvailable[name]) {
       name='1';//不存在时，用默认的
     }
-    headerData.hide=false;
+    //headerData.hide=false;
     headerData.title=title || defTitle;
     //headerData.bTitle=bTitle?bTitle:title +'-'+ defBTitle;
     headerData.bTitle=bTitle?bTitle:defBTitle;
