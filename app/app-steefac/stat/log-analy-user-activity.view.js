@@ -6,9 +6,9 @@ $routeProvider.when('/log-analy-user-activity', {
   pageTitle: "用户活跃度",
 templateUrl: 'app-steefac/stat/log-analy-user-activity.view.template.html',
 controller: ['$scope','$q','$log','$location',
-  'AppbData','AppbLogService', 'FacUser','AppbAPI',
+  'AppbData','AppbLogService', 'FacUser',
 function ($scope,$q,$log,$location,
-  AppbData,AppbLogService,FacUser,AppbAPI) {
+  AppbData,AppbLogService,FacUser) {
   var appData=AppbData.getAppData();
   var userData=AppbData.getUserData();
 

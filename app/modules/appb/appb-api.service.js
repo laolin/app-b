@@ -10,6 +10,7 @@
 
           var url = appData.urlSignApi(api, call);
           if (!url) {
+            //alert('needlogin:' + api + '.' + call);
             appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
             deferred.reject('needlogin:' + api + '.' + call);
             return deferred.promise;

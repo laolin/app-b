@@ -6,9 +6,9 @@ $routeProvider.when('/case-show', {
   pageTitle: "钢构厂业绩",
 templateUrl: 'app-steefac/case/case-show.view.template.html',
 controller: ['$scope','$http','$log','$location',
-  'AppbData','FacSearch','AppbAPI','FacUser','FacDefine',
+  'AppbData','FacSearch','SIGN','FacUser','FacDefine',
 function ($scope,$http,$log,$location,
-  AppbData,FacSearch,AppbAPI,FacUser,FacDefine) {
+  AppbData,FacSearch,SIGN,FacUser,FacDefine) {
   var appData=AppbData.getAppData();
   var userData=AppbData.getUserData();
 
@@ -48,7 +48,7 @@ function ($scope,$http,$log,$location,
           $scope.hidePoster=false;
         }
       },function(e){$log.log('Err:',e)});
-      AppbAPI('stee_user','get_admin_of_fac',{facid:$scope.id}).then(function(s){
+      SIGN.postLaolin('stee_user','get_admin_of_fac',{facid:$scope.id}).then(function(s){
         $log.log('get_admin_of_fac',s);
         $scope.isLoading--;
         if(s) {

@@ -11,8 +11,8 @@ var SEARCH_SIZE_SYSADMIN = 5000;
 
 angular.module('steefac')
 .factory('FacSearch',
-['$log','$timeout','$q','$location','AppbData','AmapMainData','AppbAPI','FacMap','FacUser','FacDefine','ProjDefine',
-function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser,FacDefine,ProjDefine) {
+['$log','$timeout','$q','$location','AppbData','AmapMainData','SIGN','FacMap','FacUser','FacDefine','ProjDefine',
+function($log,$timeout,$q,$location,AppbData,AmapMainData,SIGN,FacMap,FacUser,FacDefine,ProjDefine) {
   
   var FacSearch={};
   var appData=AppbData.getAppData();
@@ -114,7 +114,7 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
     if(param.monthTo   ) serchPara.monthTo   = param.monthTo   ;
 
     /* 开始搜索 */
-    return AppbAPI('steeobj','search',serchPara)
+    return SIGN.postLaolin('steeobj','search',serchPara)
     .then(list => {
       /**
        * 计算点到最后搜索基点的距离
@@ -228,7 +228,7 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
     FacSearch.searching=true;
     //FacSearch.searchResultSelected=-1;
     serchPara.type=type;
-    return AppbAPI('steeobj','search',serchPara).then(
+    return SIGN.postLaolin('steeobj','search',serchPara).then(
       function(s){
         FacSearch.searching=false;
         FacSearch.searchResultSelected=-1;
@@ -456,7 +456,7 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,AppbAPI,FacMap,FacUser
       return $q.resolve(FacSearch.datailCache[type+id]);
     }
 
-    return AppbAPI('steeobj','detail',{type:type,id:id}).then(function(s){
+    return SIGN.postLaolin('steeobj','detail',{type:type,id:id}).then(function(s){
       if(!s) {
         return $q.reject('noData');
       }

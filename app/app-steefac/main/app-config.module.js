@@ -38,17 +38,20 @@
       var uid = userData.uid;
       var tokenid = userData.tokenid;
       var token = userData.token;
+      console.log("签名数据：", api, call, uid , token , timestamp);
       if (!uid || !tokenid || !token || !api) {
         return false;
       }
       var dt = new Date();
       var timestamp = Math.round((dt.getTime() / 1000)) - 8 * 3600 - dt.getTimezoneOffset() * 60;//修正为东8区
+      console.log(api, call, uid , token , timestamp);
       var api_signature = md5(api + call + uid + token + timestamp);
       return { uid, tokenid, timestamp, api_signature };
     }
 
     signProvider.defaults.root = "http://pgy.com/dd/pre_"
     signProvider.defaults.sign = function (api, call, SingedRequest) {
+      console.log("签名....");
       var calls = call.split('/')
       var url = urlSign(api, calls[0]);
       return SingedRequest(url, {});

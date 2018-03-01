@@ -5,9 +5,9 @@ angular.module('steefac')
   $routeProvider.when('/fac-edit', {
     templateUrl: 'app-steefac/fac-edit/fac-edit.view.template.html',
     controller: ['$scope','$http','$log','$location',
-        'AppbData','ProjDefine','FacMap','AppbAPI','FacUser','FacSearch',
+        'AppbData','ProjDefine','FacMap','SIGN','FacUser','FacSearch',
       function mzUserSearchCtrl($scope,$http,$log,$location,
-          AppbData,ProjDefine,FacMap,AppbAPI,FacUser,FacSearch) {
+          AppbData,ProjDefine,FacMap,SIGN,FacUser,FacSearch) {
         var userData=AppbData.getUserData();
         if(! userData || !userData.token) {
           return $location.path( "/wx-login" ).search({pageTo: '/my'});;
@@ -81,7 +81,7 @@ angular.module('steefac')
         }
         function _doDel() {
           $log.log('/obj-Del .onOk');
-          AppbAPI('steeobj','delete',{type:objtype,id:id})
+          SIGN.postLaolin('steeobj','delete',{type:objtype,id:id})
           .then(function(s){
             if(s) {
               delete FacSearch.datailCache[objtype+id];
@@ -126,7 +126,7 @@ angular.module('steefac')
 
           
           //TODO 没有更新的数据别上传
-          AppbAPI('steeobj','update',{type:objtype,id:id,d:JSON.stringify(dd)})
+          SIGN.postLaolin('steeobj','update',{type:objtype,id:id,d:JSON.stringify(dd)})
           .then(function(s){
             delete FacSearch.datailCache[objtype+id];
             appData.toastMsg('数据已成功更新',2);

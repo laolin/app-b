@@ -6,9 +6,9 @@ $routeProvider.when('/stat', {
   pageTitle: "全国钢构产能",
 templateUrl: 'app-steefac/stat/stat.view.template.html',
 controller: ['$scope','$timeout','$log','$location',
-'AppbData','AppbAPI','AmapMainData','FacSearch',
+'AppbData','SIGN','AmapMainData','FacSearch',
 function ($scope,$timeout,$log,$location,
-AppbData,AppbAPI,AmapMainData,FacSearch) {
+AppbData,SIGN,AmapMainData,FacSearch) {
   var appData=AppbData.getAppData();
   var userData=AppbData.getUserData();
   //使用ctrl, 后面方便切换为 component
@@ -251,7 +251,7 @@ AppbData,AppbAPI,AmapMainData,FacSearch) {
 
 
 
-  AppbAPI('steeobj','overview_addr',{type:ctrl.objType}).
+  SIGN.postLaolin('steeobj','overview_addr',{type:ctrl.objType}).
   then(function(s){
     ctrl.isLoading--;
     ctrl.allObj=s;

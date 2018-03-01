@@ -194,9 +194,11 @@ function($q, $rootScope,$location,$log,$timeout,$http,$window,
   /**
    *  需要用户登录的页面
    */
-  function requireLogin() {
+  function requireLogin(str) {
     if(! userData || !userData.token) {
+      //alert(str + ',  userData=' + JSON.stringify(userData))
       var currPath=$location.path();
+      if(currPath == '/wx-callback') return true;
       $location.path( "/wx-login" ).search({pageTo: currPath});
       return false;
     }

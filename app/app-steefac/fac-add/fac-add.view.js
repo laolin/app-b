@@ -5,9 +5,9 @@ angular.module('steefac')
   $routeProvider.when('/fac-add', {
     templateUrl: 'app-steefac/fac-add/fac-add.view.template.html',
     controller: ['$scope','$http','$log','$location',
-        'AppbData','FacDefine','ProjDefine','FacMap','AppbAPI','FacUser','FacSearch',
+        'AppbData','FacDefine','ProjDefine','FacMap','SIGN','FacUser','FacSearch',
       function mzUserSearchCtrl($scope,$http,$log,$location,
-          AppbData,FacDefine,ProjDefine,FacMap,AppbAPI,FacUser,FacSearch) {
+          AppbData,FacDefine,ProjDefine,FacMap,SIGN,FacUser,FacSearch) {
         var userData=AppbData.getUserData();
         if(! userData || !userData.token) {
           return $location.path( "/wx-login" ).search({pageTo: '/fac-add'});;
@@ -62,7 +62,7 @@ angular.module('steefac')
             dd[k]=FacMap.addrInput[k]
             $log.log('FacMap.addrInput[k]',k,FacMap.addrInput[k]);
           }
-          AppbAPI('steeobj','add',{type:$scope.objType,d:JSON.stringify(dd)})
+          SIGN.postLaolin('steeobj','add',{type:$scope.objType,d:JSON.stringify(dd)})
           .then(function(s){
             appData.toastMsg('数据已成功保存',2);
             //$location.path('/obj-detail').search({id:s.id,type:$scope.objType});

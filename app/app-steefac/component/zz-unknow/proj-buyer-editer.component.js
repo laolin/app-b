@@ -5,8 +5,8 @@ templateUrl: 'app-steefac/component/zz-unknow/proj-buyer-editer.component.templa
 bindings: {
   id:'<'
 },
-controller:['$location','$log','AppbData','AppbAPI','SteeBuyer',
-function ($location,$log,AppbData,AppbAPI,SteeBuyer) {
+controller:['$location','$log','AppbData','SIGN','SteeBuyer',
+function ($location,$log,AppbData,SIGN,SteeBuyer) {
   var appData=AppbData.getAppData();
   var ctrl=this;
   
@@ -43,7 +43,7 @@ function ($location,$log,AppbData,AppbAPI,SteeBuyer) {
   //确定按钮事件
   ctrl.onOk=function() {
     var d={goodat:goodat}
-    AppbAPI('steeobj','update',{type:'steefac',id:ctrl.id,d:JSON.stringify(d)}).then(function(s){
+    SIGN.postLaolin('steeobj','update',{type:'steefac',id:ctrl.id,d:JSON.stringify(d)}).then(function(s){
       if(!s) {
         return appData.toastMsg('未修改',3);
       }

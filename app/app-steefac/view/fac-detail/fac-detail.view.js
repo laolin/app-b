@@ -12,11 +12,11 @@
     $routeProvider.when('/fac-detail/:id', {
       pageTitle: "公司详情",
       templateUrl: 'app-steefac/view/fac-detail/fac-detail.template.html',
-      controller: ['$scope', '$routeParams', '$location', 'AppbData','$q','FacSearch','AppbAPI','FacUser', ctrl]
+      controller: ['$scope', '$routeParams', '$location', 'AppbData','$q','FacSearch','FacUser', ctrl]
     });
   }]);
 
-  function ctrl($scope, $routeParams, $location, AppbData,$q,FacSearch,AppbAPI,FacUser) {
+  function ctrl($scope, $routeParams, $location, AppbData,$q,FacSearch,FacUser) {
     var appData=AppbData.getAppData();
     var userData=AppbData.getUserData();
     if(! userData || !userData.token) {

@@ -9,8 +9,8 @@ var SYS_ADMIN=0x10000;
 
 angular.module('steefac')
 .factory('FacUser',
-['$location','$log','$q','$timeout','AppbData','AppbAPI','AppbDataUser', 'SIGN', 'DjDialog',
-function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser, SIGN, DjDialog) {
+['$location','$log','$q','$timeout','AppbData','AppbDataUser', 'SIGN', 'DjDialog',
+function($location,$log,$q,$timeout,AppbData,AppbDataUser, SIGN, DjDialog) {
   
   var FacUser = {$log, $q, $timeout, SIGN, DjDialog}; // 省得再注入！
   var appData=AppbData.getAppData();
@@ -18,7 +18,7 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser, SIGN, DjDialo
   
   appData.headerData.hide=window.__wxjs_environment !== 'miniprogram';//在小程序的webView里，还是要页面顶部的标题栏
   
-  appData.requireLogin();
+  //appData.requireLogin('FacUser');
 
   appData.FacUser=FacUser;
 
@@ -94,7 +94,7 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser, SIGN, DjDialo
     if(FacUser.admins.length) {
       return $q.resolve(FacUser.admins);
     }
-    return AppbAPI('stee_user','get_admins').then(function(s){
+    return SIGN.postLaolin('stee_user','get_admins').then(function(s){
       if(!s) {
         return $q.reject('noData');
       }
@@ -108,7 +108,7 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser, SIGN, DjDialo
 
   FacUser.getRights=function(userid) {
     var deferred = $q.defer();
-    return AppbAPI('stee_user','get_user_rights',{userid:userid}).then(function(s){
+    return SIGN.postLaolin('stee_user','get_user_rights',{userid:userid}).then(function(s){
       if(!s) {
         deferred.reject('noData');
         return deferred.promise;
@@ -133,7 +133,7 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser, SIGN, DjDialo
       '管理员申请',
       '确认','取消',
       function(){
-        return AppbAPI('stee_user','apply_admin',
+        return SIGN.postLaolin('stee_user','apply_admin',
           {type:type,facid:fac.id,userid:appData.userData.uid}
         ).then(function(s){//成功
           myData.init=0;
@@ -164,9 +164,14 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser, SIGN, DjDialo
       return $q.when(FacUser.getMyData.result);
     }
     var deferred = $q.defer();
-    AppbAPI('steesys','info').then(function(s){
+    SIGN.post('steesys','info').then(json =>{
+      console.log("登录...", json);
+      // alert('个人信息, json =' + JSON.stringify(json));
+      return json.data
+    }).then(function(s){
       myData.init=1;
       if(!s || !s.me || !s.me.uid) { // 客户端的登录信息有误，要求重新登录。
+        console.log("登录错误");
         AppbDataUser.setUserData({});
         $location.path( "/wx-login" ).search({pageTo: '/'});
         // 错误了，就要重置一下，并告诉承诺不能兑现的原因
@@ -195,14 +200,14 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser, SIGN, DjDialo
       // 请求成功，将 FacUser.getMyData.result 原为承诺，改为实际数据，
       deferred.resolve(FacUser.getMyData.result = myData);
     },function(e){
-      // 请求失败，以后要数据时，将再次调用 AppbAPI
+      // 请求失败，以后要数据时，将再次请求
       FacUser.getMyData.result = false;
       deferred.reject(e);
     });
     // 发出请求后，保存并立即返回该承诺
     return FacUser.getMyData.result = deferred.promise;
   }
-  FacUser.getMyData();
+  //FacUser.getMyData();
  
   return  FacUser;
   

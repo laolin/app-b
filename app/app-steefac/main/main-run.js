@@ -8,7 +8,7 @@
     'app-config',
   ])
   .component('myApp',{
-    template: `<img style="min-width:100vw;min-height:100vh"  src="http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets/img/16-9.jpg">`,
+    template: `<img style="width:100%" src="http://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets/img/16-9.jpg">`,
     controller:['$scope', '$http', "SIGN", function ($scope, $http, SIGN) {
       console.log("收到拜年");
       $http.post("stee_data/logAction", {k1: '收到拜年'})

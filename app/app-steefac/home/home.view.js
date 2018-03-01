@@ -5,8 +5,8 @@ angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
 $routeProvider.when('/home', {
 templateUrl: 'app-steefac/home/home.view.template.html',
-controller: ['$scope','$log','$location','AppbData','AppbAPI','FacSearch','FacUser','SteeBuyer',
-function ($scope,$log,$location,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
+controller: ['$scope','$log','$location','AppbData','SIGN','FacSearch','FacUser','SteeBuyer',
+function ($scope,$log,$location,AppbData,SIGN,FacSearch,FacUser,SteeBuyer) {
   var userData=AppbData.getUserData();
   var appData=AppbData.getAppData();
 
@@ -104,7 +104,7 @@ function ($scope,$log,$location,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
   
   
   ctrl.type1='steefac';
-  AppbAPI('steeobj','search',{type:ctrl.type1,count:4}).then(
+  SIGN.postLaolin('steeobj','search',{type:ctrl.type1,count:4}).then(
     function(s){
       ctrl.facList1=s;
       s[0].picMain=pa+'101.jpg';
@@ -117,7 +117,7 @@ function ($scope,$log,$location,AppbData,AppbAPI,FacSearch,FacUser,SteeBuyer) {
   );
   
   ctrl.type2='steeproj';
-  AppbAPI('steeobj','search',{type:ctrl.type2,count:6}).then(
+  SIGN.postLaolin('steeobj','search',{type:ctrl.type2,count:6}).then(
     function(s){
       ctrl.facList2=s;
       s[0].picMain=pa+'201.jpg';

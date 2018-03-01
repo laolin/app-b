@@ -11,8 +11,8 @@ bindings: {
   nextPage:'<',
   facId:'<',
 },
-controller:['$log','$location','AppbData','AppbAPI',
-function ($log,$location,AppbData,AppbAPI) {
+controller:['$log','$location','AppbData','SIGN',
+function ($log,$location,AppbData,SIGN) {
   var ctrl=this;
   var appData=AppbData.getAppData();
   var feedData=appData.feedData;
@@ -51,7 +51,7 @@ function ($log,$location,AppbData,AppbAPI) {
       feedData.hasNewMore[ctrl.fcat]=true;
       feedData.exploreFeed(ctrl.feedApp,ctrl.feedCat,{newMore:1});//自动刷新新帖
     }//原先没有任何feed时,跳到/explore后会自己取，故不需要刷新新帖
-    AppbAPI('steeobj','flush_time',
+    SIGN.post('steeobj','flush_time',
     {type:'steefac',id:ctrl.facId});
   }
   

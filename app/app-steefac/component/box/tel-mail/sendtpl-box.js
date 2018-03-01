@@ -18,11 +18,11 @@
       idsTo   : '<', // 必需
       myData  : '<'  // 必需，若无，则组件将被隐藏。需含键: msg:{用量信息，必选}, objCanAdmin{管理的信息，必选}
     },
-    controller:['$scope', '$element', 'SIGN', 'AppbAPI', ctrl]
+    controller:['$scope', '$element', 'SIGN', ctrl]
   });
 
 
-  function ctrl($scope, $element, SIGN, AppbAPI) {
+  function ctrl($scope, $element, SIGN) {
     let typeA = {cn: '公司', en: 'steefac'};
     let typeB = {cn: '项目', en: 'steeproj'};
     var theTypes = $scope.theTypes = {
@@ -40,7 +40,7 @@
         console.log('从 myData 要列表， en = ', theTypes.from.en)
         console.log('objCanAdminID = ', objCanAdminID)
         if(objCanAdminID && objCanAdminID.length){
-          AppbAPI('steeobj', 'li', {type: theTypes.from.en, ids: objCanAdminID.join(',')}).then( list => {
+          SIGN.postLaolin('steeobj', 'li', {type: theTypes.from.en, ids: objCanAdminID.join(',')}).then( list => {
             $scope.list = list.map(item => {
               return {id: item.id, name: item.name};
             });

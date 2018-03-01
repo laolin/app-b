@@ -5,9 +5,9 @@ angular.module('steefac')
   $routeProvider.when('/fac-add-find-name', {
     templateUrl: 'app-steefac/fac-add/fac-add-find-name.view.template.html',
     controller: ['$scope','$http','$log','$location',
-        'AppbData','FacDefine','FacMap','AppbAPI','FacSearch',
+        'AppbData','FacDefine','FacMap','SIGN','FacSearch',
       function mzUserSearchCtrl($scope,$http,$log,$location,
-          AppbData,FacDefine,FacMap,AppbAPI,FacSearch) {
+          AppbData,FacDefine,FacMap,SIGN,FacSearch) {
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
         
@@ -66,7 +66,7 @@ angular.module('steefac')
           $scope.searchDone=false;
           $scope.isLoading=1;
           
-          AppbAPI('steeobj','search',{type:$scope.objType,s:FacMap.addrInput[$scope.objType+'name'],count:10})
+          SIGN.postLaolin('steeobj','search',{type:$scope.objType,s:FacMap.addrInput[$scope.objType+'name'],count:10})
           .then(function(s){
             $scope.searchDone=1;
             $scope.isLoading=0;

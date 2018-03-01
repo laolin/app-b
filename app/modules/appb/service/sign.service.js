@@ -178,6 +178,7 @@
       if (signed.result) {
         return signed.result;
       }
+      //alert(signed.url);
       return $http.post(signed.url, signed.post, { SIGNED: 'yes' })
         .then(response => response.data)
         .then(json => {
@@ -198,6 +199,10 @@
     }
 
     return {
+      postLaolin: function(api, call, data){
+        //alert(api + ' / ' + call)
+        return post(api, call, data).then(json => json.data);
+      },
       post
     }
 

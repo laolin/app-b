@@ -8,8 +8,8 @@ bindings: {
   type:'<',
   facIds:'<',
 },
-controller:['$log','AppbData','FacUser','AppbAPI',
-function ($log,AppbData,FacUser,AppbAPI) {
+controller:['$log','AppbData','FacUser','SIGN',
+function ($log,AppbData,FacUser,SIGN) {
   var ctrl=this;
   var userData=AppbData.getUserData();
   
@@ -29,7 +29,7 @@ function ($log,AppbData,FacUser,AppbAPI) {
   }
   
   function getList(facIds) {
-    return AppbAPI('steeobj','li',{type:ctrl.type,ids:facIds}).then(function(s){
+    return SIGN.postLaolin('steeobj','li',{type:ctrl.type,ids:facIds}).then(function(s){
       ctrl.isLoading=0;
       $log.log('===============steefac li ok',s);
       ctrl.facList=s;

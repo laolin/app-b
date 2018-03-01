@@ -6,9 +6,9 @@ $routeProvider.when('/log-user', {
   pageTitle: "用户活跃度",
 templateUrl: 'app-steefac/stat/log-user.view.template.html',
 controller: ['$scope','$http','$log','$location',
-  'AppbData','AppbAPI', 'FacUser',
+  'AppbData','SIGN', 'FacUser',
 function ($scope,$http,$log,$location,
-  AppbData,AppbAPI,FacUser) {
+  AppbData,SIGN,FacUser) {
   var appData=AppbData.getAppData();
   var userData=AppbData.getUserData();
 
@@ -39,7 +39,7 @@ function ($scope,$http,$log,$location,
   menuUserLogs(userid,day,hour);
   
   function menuUserLogs(userid,day,hour) {
-    return AppbAPI('log','user',{userid:userid,day:day,hour:hour}).then(function(s){
+    return SIGN.postLaolin('log','user',{userid:userid,day:day,hour:hour}).then(function(s){
       ctrl.isLoading=0;
       $log.log('menuUserLogs',s);
       if(!s) {

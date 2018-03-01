@@ -5,8 +5,8 @@ templateUrl: 'app-steefac/component/zz-unknow/fac-fee-editer.component.template.
 bindings: {
   id:'<'
 },
-controller:['$location','$log','AppbData','AppbAPI','FacDefine','FacSearch',
-function ($location,$log,AppbData,AppbAPI,FacDefine,FacSearch) {
+controller:['$location','$log','AppbData','SIGN','FacDefine','FacSearch',
+function ($location,$log,AppbData,SIGN,FacDefine,FacSearch) {
   var appData=AppbData.getAppData();
   var ctrl=this;
   
@@ -50,7 +50,7 @@ function ($location,$log,AppbData,AppbAPI,FacDefine,FacSearch) {
   //确定按钮事件
   ctrl.onOk=function() {
     var d={fee:feeStr}
-    AppbAPI('steeobj','update',{type:'steefac',id:ctrl.id,d:JSON.stringify(d)}).then(function(s){
+    SIGN.postLaolin('steeobj','update',{type:'steefac',id:ctrl.id,d:JSON.stringify(d)}).then(function(s){
       if(!s) {
         return appData.toastMsg('未修改',3);
       }

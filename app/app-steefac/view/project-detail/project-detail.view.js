@@ -12,11 +12,11 @@
     $routeProvider.when('/project-detail/:id', {
       pageTitle: "项目详情",
       templateUrl: 'app-steefac/view/project-detail/project-detail.template.html',
-      controller: ['$scope', '$routeParams', '$location', 'AppbData','$q','FacSearch','AppbAPI','FacUser', ctrl]
+      controller: ['$scope', '$routeParams', '$location', 'AppbData','$q','FacSearch','FacUser', ctrl]
     });
   }]);
 
-  function ctrl($scope, $routeParams, $location, AppbData,$q,FacSearch,AppbAPI,FacUser) {
+  function ctrl($scope, $routeParams, $location, AppbData,$q,FacSearch,FacUser) {
     var appData=AppbData.getAppData();
     var userData=AppbData.getUserData();
     if(! userData || !userData.token) {
