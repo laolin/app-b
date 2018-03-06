@@ -52,7 +52,7 @@
       runLogged();
     }
     else {
-      var wxAuth = angular.dj.wxAuth.auhUrl(location.href, location.hash.substr(2,9999));
+      var wxAuth = angular.dj.wxAuth.authUrl(location.href, location.hash.substr(2,9999));
       location.href = wxAuth;
     }
   }

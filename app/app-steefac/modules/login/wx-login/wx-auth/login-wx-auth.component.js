@@ -3,6 +3,37 @@
   var idWxLoginDiv = 'wx-lg_cnt_' + (+new Date());
   var isWx = (/micromessenger/i).test(navigator.userAgent);
 
+  /**
+   * 微信浏览器中，网页授权登录
+   * 在 angular.module 启动前, angular.dj.wxAuth.authUrl() 函数可用
+   */
+  angular.extend(angular.dj || (angular.dj = {}), (function () {
+    var wxAuth = {
+      authUrl: (href, hash) => {
+        var theSiteConfig = angular.extend({}, angular.dj.siteConfig, window.theSiteConfig);
+        var appid = theSiteConfig.wx_app.wx.appid;
+        var state = theSiteConfig.wx_markWxLoginCallback + '~' + theSiteConfig.wx_app.wx.name;
+        var redirect_uri = ((href, hash) => {
+          var para1 = btoa(href.split("#")[0] + "#!/wx-code-login");
+          para1 = para1.replace('/', '_');//由于 base64的第64个字符是 '/'，要替换为 '_'
+          var para2 = btoa(encodeURIComponent(hash));
+          return `${theSiteConfig.wx_authApiBase}/bindwx/callback_bridge/${para1}/${para2}`;
+        })(href, hash);
+        var wxAuthUrl =
+          'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appid +
+          '&redirect_uri=' + redirect_uri +
+          '&response_type=code&scope=snsapi_userinfo&state=' + state +
+          '#wechat_redirect';
+        return wxAuthUrl;
+      }
+    }
+    return {
+      isWx: isWx,
+      wxAuth,
+    };
+  })());
+
+
   angular.module('dj-wx')
     .component('loginWxAuth', {
       template: `<div id="${idWxLoginDiv}" class="text-center">Loading weixin ...</div>`,
@@ -13,6 +44,12 @@
     });
 
   function ctrl($scope, $location, $http) {
+    console.log("微信登录.........")
+    if(isWx){
+      var wxAuth = angular.dj.wxAuth.authUrl(location.href, this.pageTo);
+      location.href = wxAuth;
+      return;
+    }
     this.$onInit = function () {
       console.log("微信登录: pageTo=", this.pageTo);
       var auhParam = getAuhParam(location.href, this.pageTo, 'web');
