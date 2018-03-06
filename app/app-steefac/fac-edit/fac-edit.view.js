@@ -77,7 +77,6 @@ angular.module('steefac')
           
         }
         function _doDel() {
-          $log.log('/obj-Del .onOk');
           SIGN.postLaolin('steeobj','delete',{type:objtype,id:id})
           .then(function(s){
             if(s) {
@@ -88,15 +87,12 @@ angular.module('steefac')
             } else {
               appData.toastMsg('删除异常',3);
             }
-            $log.log('sec',s);
           },function(e){
             appData.toastMsg(e,3);//'删除失败'+
             $log.log('err',e);
           });
         }
         $scope.onUpdate=function(){
-          $log.log('/obj-edit .onOk');
-
           var dd={}
           dd.name=FacMap.addrInput[objtype+'name'];
           dd.addr=FacMap.addrInput.addr;
@@ -113,7 +109,6 @@ angular.module('steefac')
           for(var i=$scope.formDefine.inputs.length;i--;){
             k=$scope.formDefine.inputs[i].name;
             dd[k]=FacMap.addrInput[k]
-            $log.log('FacMap.addrInput[k]',k,FacMap.addrInput[k]);
           }
 
 

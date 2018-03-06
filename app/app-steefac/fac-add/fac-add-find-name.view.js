@@ -65,7 +65,6 @@ angular.module('steefac')
             $scope.searchDone=1;
             $scope.isLoading=0;
             $scope.facList=s;
-            $log.log('sec',s);
           },function(e){
             appData.toastMsg('搜索失败',3);
             $log.log('err',e);

@@ -87,11 +87,11 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,SIGN,FacMap,FacUser,Fa
     if(param.currentCity && (!param.lat || ! param.lng)){
       return AmapMainData.china.getCity(param.currentCity).then(
         city => {
-          console.log('城市？', city);
+          //console.log('城市？', city);
           return FacSearch.search(angular.extend(param, {lng: city.center.lng, lat: city.center.lat}), type)
         },
         (e) => {
-          console.log('无效的城市？', e);
+          //console.log('无效的城市？', e);
           // 无效的城市？
           return FacSearch.search(angular.extend(param, {currentCity: ''}), type);
         }
@@ -131,7 +131,6 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,SIGN,FacMap,FacUser,Fa
   
   FacSearch.startSearch=function(type, dontReLocation){
     if(!FacSearch.isTypeValid(type)){
-      $log.log('**err search type:',type);
       return $q.reject('**err search type:' + type);
     }
 
@@ -233,7 +232,6 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,SIGN,FacMap,FacUser,Fa
         FacSearch.searching=false;
         FacSearch.searchResultSelected=-1;
         FacSearch.searchResult[type+'.ver']= +new Date();//用来标记搜索结果是否更新
-        //$log.log('sreach-res--1',s);
         FacSearch.searchResult[type]=s;
         FacSearch.searchType=type;
         FacSearch.showSearchRes(type,FacSearch.showPageNumber[type]=0);
@@ -364,8 +362,6 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,SIGN,FacMap,FacUser,Fa
       //mapData.map.panBy(0,12);
       //由于存在坐标是0的，所以用fit会显示非洲，不好
       mapData.map.setFitView(FacMap.searchMarkers);
-      //$log.log('FacMap.selectedPosition######2#',type,[minlng,minlat],[maxlng,maxlat]);
-      
     })
   }
 

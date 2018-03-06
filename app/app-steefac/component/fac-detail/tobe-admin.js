@@ -26,7 +26,6 @@
     $scope.ac ='admin';
     $scope.FacUser = FacUser;
     this.$onChanges = (chg) => {
-      console.log('adminInfo=', this.adminInfo, ', FacUser=', FacUser);
       if(this.adminInfo){
         $scope.ac =
           this.adminInfo.count == 0 && 'apply' ||
@@ -39,7 +38,6 @@
       FacUser.applyAdmin(this.type || 'steefac',this.fac);
     }
     $scope.toAdmin = ()=>{
-      console.log('我要管理！');
       var uids = this.adminInfo.admins.map( item => {
         return {uid: item.uid}
       });

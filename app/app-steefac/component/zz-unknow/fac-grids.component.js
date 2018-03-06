@@ -21,7 +21,6 @@ angular.module('steefac')
     ctrl.pageSize=100;
     ctrl.pageNumber=0;
     ctrl.$onInit=function(){
-      //$log.log('facList.onInit',ctrl.facList,ctrl.title,ctrl.type);
     }
     ctrl.$onChanges=function(chg){
       if(1) {
@@ -29,7 +28,6 @@ angular.module('steefac')
         if(!r || !r.length)return;
         ctrl.cells=genCells(r);
       }
-      $log.log('facUiFacList.onChanges',ctrl.cells);
     }// end onChanges
     function genCells(r) {
       var cells=[];

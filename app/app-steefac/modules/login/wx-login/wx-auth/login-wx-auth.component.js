@@ -44,7 +44,6 @@
     });
 
   function ctrl($scope, $location, $http) {
-    console.log("微信登录.........")
     if(isWx){
       var pageTo = this.pageTo;
       if(/^\/login(\/.*)?$/.test(pageTo)) pageTo = '/';
@@ -53,12 +52,10 @@
       return;
     }
     this.$onInit = function () {
-      console.log("微信登录: pageTo=", this.pageTo);
       var auhParam = getAuhParam(location.href, this.pageTo, 'web');
       var wx_src = "https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js";
       if (typeof (WxLogin) == 'undefined') {
         $http.jsonp(wx_src).finally( json => {
-          console.log("json = ", json);
           showWxLogin(auhParam);
         });
       } else {

@@ -20,7 +20,6 @@ function ($log,AppbData,FacUser,SIGN) {
   
   
   ctrl.$onInit=function(){
-    $log.log('===============facsShow',ctrl.facIds);
     if(ctrl.facIds) getList(ctrl.facIds);
     else ctrl.isLoading=0;
   }
@@ -31,7 +30,6 @@ function ($log,AppbData,FacUser,SIGN) {
   function getList(facIds) {
     return SIGN.postLaolin('steeobj','li',{type:ctrl.type,ids:facIds}).then(function(s){
       ctrl.isLoading=0;
-      $log.log('===============steefac li ok',s);
       ctrl.facList=s;
     });
   }

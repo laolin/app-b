@@ -49,7 +49,6 @@ function ($scope,$http,$log,$location,
         }
       },function(e){$log.log('Err:',e)});
       SIGN.postLaolin('stee_user','get_admin_of_fac',{facid:$scope.id}).then(function(s){
-        $log.log('get_admin_of_fac',s);
         $scope.isLoading--;
         if(s) {
           var uids=[];

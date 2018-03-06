@@ -13,7 +13,6 @@ angular.module('steefac')
         var appData=AppbData.getAppData();
 
         FacUser.getMyData().then(me =>{
-          console.log('me = ', me);
           $scope.me = me;
         })
 
@@ -35,7 +34,6 @@ angular.module('steefac')
             ctrl.facIds[ctrl.objTypes[i]] = (me.objCanAdmin[ctrl.objTypes[i]] || []).join(',');
             if(ctrl.facIds[ctrl.objTypes[i]].length)ctrl.noIds=false;
           }
-          $log.log('me.objCanAdmin',ctrl.facIds);
           ctrl.isLoading=0;
         });
         

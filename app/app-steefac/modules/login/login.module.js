@@ -63,8 +63,6 @@
   }
   angular.extend(angular.dj || (angular.dj = {}), (function(){
     var userToken = getUserToken(localStorage_KEY);
-
-    console.log('初始化, 票据, angular.dj.userToken=', userToken.data);
     return {
       userToken
     }
@@ -81,15 +79,12 @@
     }
 
     this.reload = reload;
-    //angular.extend(this, getUserToken(localStorage_KEY));
-    //console.log('初始化, 票据=', this.data);
     /**
      * 暴露数据
      */
     this.$get = [function () {
       return {reload};
       var userToken = getUserToken(localStorage_KEY);
-      console.log('初始化, 票据 $get=', userToken.data);
       return userToken
     }];
 

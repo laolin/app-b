@@ -31,11 +31,9 @@ function ($log,$location,AppbData,SIGN) {
     if(!feedData.draftAll[ctrl.fcat]) {
       feedData.initDraft(ctrl.feedApp,ctrl.feedCat).then(function(){
         ctrl.feed=feedData.draftAll[ctrl.fcat];
-        $log.log('feed---------1',ctrl.feed);
       });
     } else {
       ctrl.feed=feedData.draftAll[ctrl.fcat];
-        $log.log('feed---------2',ctrl.feed);
     }
     ctrl.isLoading=0;
   }
@@ -44,7 +42,6 @@ function ($log,$location,AppbData,SIGN) {
   }
   
   ctrl.afterPublish=function(a) {
-    $log.log('ctrl.afterPublish-case',a);
     
     $location.url( ctrl.nextPage);
     if(feedData.feedAll[ctrl.fcat]&&feedData.feedAll[ctrl.fcat].length) {

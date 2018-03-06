@@ -93,4 +93,3 @@ function timeFormat(t, fmt) {
   return fmt;
 }
 
-console.log('myApp 主组件加载！');

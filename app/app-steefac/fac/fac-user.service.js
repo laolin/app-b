@@ -163,19 +163,20 @@ function($location,$log,$q,$timeout,AppbData,AppbDataUser, SIGN, DjDialog) {
     }
     var deferred = $q.defer();
     SIGN.post('app', 'me').then(json => {
-      console.log("请求个人信息...", json);
       // alert('个人信息, json =' + JSON.stringify(json));
       return json.datas;
     }).then(function (s) {
+      if (1) {
+        // 当用户的数据被服务器重置时
+        myData.isAdmin = 0;
+        myData.wx = {};
+        myData.uid = 0;
+        myData.objCanAdmin = {};
+        myData.datas = '';
+        myData.counter = {};
+        myData.update_at = '';
+      }
       myData.init = 1;
-      // if(!s || !s.me || !s.me.uid) { // 客户端的登录信息有误，要求重新登录。
-      //   console.log("登录错误");
-      //   AppbDataUser.setUserData({});
-      //   $location.path( "/login" ).search({pageTo: '/'});
-      //   // 错误了，就要重置一下，并告诉承诺不能兑现的原因
-      //   FacUser.getMyData.result = false;
-      //   return $q.reject("客户端的登录信息有误，要求重新登录。");
-      // }
       myData.counter = {};
       myData.counter.nFac = s.nFac;
       myData.counter.nProj = s.nProj;

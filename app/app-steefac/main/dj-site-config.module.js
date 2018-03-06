@@ -27,13 +27,11 @@
   angular.module('app-site-config', [])  .provider("SiteConfig", [function(){
     this.apiRoot = './';
     angular.extend(this, angular.dj.siteConfig, window.theSiteConfig)
-    console.log('初始化, 配置=', this);
     /**
      * 暴露数据
      */
     this.$get = [function () {
       var siteConfig = angular.extend({}, angular.dj.siteConfig, window.theSiteConfig)
-      console.log('初始化, 配置 $get = ', siteConfig);
       return siteConfig;
     }];
   }]);

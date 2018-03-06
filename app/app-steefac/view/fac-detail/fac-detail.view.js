@@ -29,7 +29,6 @@
     ]).then(
       function(results){
         // 处理公司数据
-        console.log('读取详情 OK:', results[0]);
         resolveFac(results[0].data);
       },
       function(json){

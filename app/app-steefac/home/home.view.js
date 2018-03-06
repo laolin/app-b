@@ -62,18 +62,6 @@ function ($scope,$log,$location,AppbData,SIGN,FacSearch,FacUser,SteeBuyer) {
 
   
   $scope.goSearch=function(type) {
-    
-    /*
-    if(!type)return;
-    var serchPara={
-      type:type,
-      count:50,
-      dist:45,// ~=50km
-    };
-    $log.log('ggggggggg-serchPara',serchPara);
-    FacSearch.doSearch(serchPara,type);
-    $location.path('/search');
-    */
     if(type)$location.path('/stat').search({type:type});
   }
 

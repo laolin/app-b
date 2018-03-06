@@ -63,7 +63,6 @@
      * 下拉刷新
      */
     $scope.loadMore = function(){
-      console.log('要加载...')
       var b = $scope.list.length;
       var e = Math.min($scope.list.length + page.minSize, page.ids.length);
       var userids = page.ids
@@ -122,7 +121,6 @@
         ]
       }
       $scope.$watch("form.quickValue", (v) =>{
-        console.log('quickValue改变：', v, typeof(v))
       })
       $scope.$watch("form.between.from", (v) =>{
         var b = +v || 0;

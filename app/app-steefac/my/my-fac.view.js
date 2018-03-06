@@ -29,7 +29,6 @@ function ($scope,$log,AppbData,FacSearch,FacUser) {
       ctrl.facIds[ctrl.objTypes[i]]=me.objCanAdmin[ctrl.objTypes[i]].join(',');
       if(ctrl.facIds[ctrl.objTypes[i]].length)ctrl.noIds=false;
     }
-    $log.log('me.objCanAdmin',ctrl.facIds);
     ctrl.isLoading=0;
   });
   

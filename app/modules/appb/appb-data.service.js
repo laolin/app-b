@@ -75,7 +75,7 @@ function($q, $rootScope,$location,$log,$timeout,$http,$window,
       wx.onMenuShareTimeline  ( wxShareData );
     })
     .catch( e =>{
-      console.log('微信分享无效：', e);
+      //console.log('微信分享无效：', e);
     })
   }
   /**
@@ -265,7 +265,7 @@ function($q, $rootScope,$location,$log,$timeout,$http,$window,
     });
 
     initWx().catch( e =>{
-      console.log('微信分享无效：', e);
+      //console.log('微信分享无效：', e);
     })
     initClientId();
     //moment.changeLocale('zh-cn');

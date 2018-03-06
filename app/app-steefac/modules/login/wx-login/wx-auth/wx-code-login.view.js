@@ -25,9 +25,7 @@
     },{
       signType: 'single'
     }).then(json => {
-      console.log('静态api, OK', json);
       angular.dj.userToken.save(json.datas);
-      console.log('即将跳转：', search.pageTo);
       location.hash = '#!' + search.pageTo;
       //$location.path( search.pageTo ).search({});
     }).catch(json =>{

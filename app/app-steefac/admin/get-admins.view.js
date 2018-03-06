@@ -31,7 +31,6 @@ function ($scope,$http,$log,$location,
   
   FacUser.getAdmins().then(function(a){
     $scope.isLoading=0;
-    //$log.log('===============getAdmins ok',a);
     $scope.adminLinks=[];
     for(var i=0,j=0;i<FacUser.admins.length;i++) {
       if(FacUser.admins[i][objType+'_can_admin']) {

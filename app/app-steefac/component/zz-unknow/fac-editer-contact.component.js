@@ -22,12 +22,8 @@ function ($location,$log,AppbData,SIGN,FacSearch) {
   ctrl.dataOK=false;
   
   ctrl.data={};
-
-  
-  $log.log('facEditerContact - - - - - - -' )
   
   function onChange(n) {
-    $log.log('onChange',n,ctrl.models);
     var i,j,ok=1;
     
     for(var i=0;i<options.length;i++) {

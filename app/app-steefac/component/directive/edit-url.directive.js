@@ -18,7 +18,6 @@
       },
       link: function(scope, element, attr) {
         element.click(()=>{
-          console.log(scope.editUrl);
           scope.editUrl && (location.href = scope.editUrl);
         });
         scope.$watch('editUrl', (vNew) => {

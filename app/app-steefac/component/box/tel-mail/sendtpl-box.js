@@ -34,11 +34,8 @@
       $scope.idsFrom = this.idsFrom;
       theTypes.from = this.typeFrom == 'steeproj' ? typeB : typeA;
       theTypes.to   = this.typeTo   == 'steeproj' ? typeB : typeA;
-      console.log('idsFrom = ', this.idsFrom, ', myData = ', this.myData, ', theTypes = ', theTypes)
       if(!this.idsFrom && this.myData){
         var objCanAdminID = this.myData.objCanAdmin && this.myData.objCanAdmin[theTypes.from.en];
-        console.log('从 myData 要列表， en = ', theTypes.from.en)
-        console.log('objCanAdminID = ', objCanAdminID)
         if(objCanAdminID && objCanAdminID.length){
           SIGN.postLaolin('steeobj', 'li', {type: theTypes.from.en, ids: objCanAdminID.join(',')}).then( list => {
             $scope.list = list.map(item => {
@@ -74,16 +71,13 @@
     $scope.activeItem = false;
     $scope.clickItem = (fac) => {
       $scope.activeItem = fac;
-      console.log("fac = ", fac);
     }
 
     $scope.onClose = (btnName) => {
       if(btnName == "OK" && !$scope.activeItem) return false;
-      console.log('按钮 = ', btnName);
       //return ;
       if(btnName == "OK"){
         var fac = $scope.activeItem;
-        console.log("将" + theTypes.from.cn + "“" + fac.name + "”的情况推送到当前页的各" + theTypes.to.cn, fac.id)
         SIGN.post('stee_msg', 'send', {
           page     : location.origin + location.pathname,
           from_type: theTypes.from.en,
@@ -92,7 +86,6 @@
           to_ids   : this.idsTo,
         })
         .then( (json) => {
-          console.log('已发送', json);
         })
         .catch( (e) => {
           console.log('发送失败', e);

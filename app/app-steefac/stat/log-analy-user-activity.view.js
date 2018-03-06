@@ -51,7 +51,6 @@ function ($scope,$q,$log,$location,
       }(ctrl.logData.activityList[i].uid)
     }
     ctrl.isLoading=0;
-    $log.log('OK-logData.getLogActivity',s);
   },function(e){
     ctrl.isLoading=0;
     $log.log('E-logData.getLogActivity',e);

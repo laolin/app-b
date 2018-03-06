@@ -32,9 +32,7 @@ function ($scope,$http,$log,$location,
         $scope.facIds[type] = user[type + '_can_admin'];
       }
       $scope.isLoading=0;
-      $log.log('$scope.facIds/uid,aid:',uid,aid,$scope.facIds);
     } else {
-      $log.log('err uid,aid:',uid,aid);
       $scope.err='error uid/aid:'+uid+'/'+aid;
       $scope.isLoading=0;
     }

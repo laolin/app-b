@@ -62,7 +62,6 @@
       },
       onReady: function(swiper){
         swiper.on('slideChangeEnd', function (swiper) {
-          console.log(swiper);
           notifyParent(swiper.activeIndex);
         });
       }

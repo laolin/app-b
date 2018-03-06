@@ -41,7 +41,6 @@ function ($scope,$http,$log,$location,
   function menuUserLogs(userid,day,hour) {
     return SIGN.postLaolin('log','user',{userid:userid,day:day,hour:hour}).then(function(s){
       ctrl.isLoading=0;
-      $log.log('menuUserLogs',s);
       if(!s) {
         $log.log('Err 1',s);
         return;

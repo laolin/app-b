@@ -39,8 +39,6 @@ angular.module('steefac')
         $scope.models=FacMap.addrInput;
         
         $scope.onOk=function(){
-          $log.log('/fac-add .onOk');
-          
           var dd={}
           dd.name=FacMap.addrInput[$scope.objType+'name'];
           dd.addr=FacMap.addrInput.addr;
@@ -57,7 +55,6 @@ angular.module('steefac')
           for(var i=$scope.formDefine.inputs.length;i--;){
             k=$scope.formDefine.inputs[i].name;
             dd[k]=FacMap.addrInput[k]
-            $log.log('FacMap.addrInput[k]',k,FacMap.addrInput[k]);
           }
           SIGN.postLaolin('steeobj','add',{type:$scope.objType,d:JSON.stringify(dd)})
           .then(function(s){
@@ -66,7 +63,6 @@ angular.module('steefac')
             $location.path( ($scope.objType=='steefac' ? '/fac-detail/':'/project-detail/')+s.id);
             
             FacUser.getMyData(1);
-            $log.log('sec',s);
           },function(e){
             appData.toastMsg('保存失败',8);
             $log.log('err',e);

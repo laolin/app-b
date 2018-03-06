@@ -75,8 +75,6 @@ function ($location,$log,AppbData,SIGN,FacSearch) {
     });
   }
   function initCheckbox(){
-  
-    $log.log('facGoodatEditer onInit',goodat);
     var ga=[];
     if(goodat)ga=goodat.split(',');
     ctrl.checkData= {

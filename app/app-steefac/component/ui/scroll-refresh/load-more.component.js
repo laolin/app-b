@@ -30,7 +30,6 @@
 
   function ctrl($scope, $q) {
     $scope.$watch('pageSize', pageSize => {
-      console.log('每页数量 = ', pageSize);
       page.pageSize = pageSize || 16;
     });
     $scope.$watch('totle', initAutoShow);
@@ -38,7 +37,6 @@
     $scope.$watch('listShow', initAutoShow);
     $scope.$watch('listBase', initAutoShow);
     function initAutoShow() {
-      console.log('数据改变 = ', $scope);
       if ($scope.listShow && $scope.listBase) {
         page.totle = $scope.listBase.length;
         page.loaded = $scope.listShow.length;

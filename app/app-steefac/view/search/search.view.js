@@ -37,19 +37,15 @@
 
 
   function ctrlSearch($scope, $routeParams, $location, AppbData) {
-    console.log('搜索页面');
     var userData = AppbData.getUserData();
     $scope.appData = AppbData.getAppData();
     
     $scope.$on('$routeChangeSuccess', function(evt, current, prev) {
-      //console.log('搜索:页面成功');
       if(prev && current.$$route.originalPath == '/search'){
         if(prev.$$route.originalPath == '/searching'){
-          //console.log('搜索:清除页面状态');
           pageState.searching = {};
         }
         else if(pageState.searching.searchType){
-          //console.log('搜索:恢复页面状态');
           $location.path('/searching').search(pageState.searching).replace();
         }
       }
@@ -85,7 +81,6 @@
     var userData=AppbData.getUserData();
 
     $scope.$on('$routeChangeStart', function(evt, next, current) {
-      //console.log('搜索:保存页面状态');
       pageState.searching = $scope.search;
     });
 
@@ -157,7 +152,7 @@
      * 地图点击事件，是否有移动后，根据地图位置搜索的需求？
      */
     $scope.$on('AMap.OnClick', (event, msg) => {
-      console.log('地图点击, lng = ', msg.lnglat.lng);
+      // console.log('地图点击, lng = ', msg.lnglat.lng);
     });
 
     /**
@@ -177,7 +172,6 @@
     });
     FacUser.getMyData().then((myData)=>{
       $scope.myData = myData;
-      console.log('我的数据 = ', myData);
     })
 
   }

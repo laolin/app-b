@@ -19,12 +19,7 @@ angular.module('steefac')
     var ctrl=this;
     
     ctrl.cells=[];
-    
-    ctrl.$onInit=function(){
-      $log.log('facUiFacList.onInit');
-    }
     ctrl.$onChanges=function(chg){
-      $log.log('facUiFacList.onChanges');
       if(1) {
         var r=ctrl.facList;
         if(!r || !r.length)return;

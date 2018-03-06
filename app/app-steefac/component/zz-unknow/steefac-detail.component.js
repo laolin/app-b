@@ -23,8 +23,6 @@ function ($log,AppbData,FacUser,FacDefine) {
   ctrl.goodat=[];
   
   ctrl.$onInit=function(){
-    $log.log('===============facsShow',ctrl.facIds);
-    
     ctrl.id=ctrl.fac.id;
     ctrl.FacUser=FacUser;
     var fee;

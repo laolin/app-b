@@ -27,7 +27,6 @@ function ($location,$log,AppbData,SIGN,FacDefine,FacSearch) {
   
   
   function onChange(n) {
-    $log.log('onChange',n,ctrl.models)
     var i,j,ok=1;
 
     ok=0;//加工费改为选填，随便一项填好就行

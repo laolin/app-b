@@ -57,7 +57,6 @@
       active: $routeParams.tabIndex||0,
       click: function(index){
         tab.active = index;
-        console.log('tab 控制', index);
         $location.replace('/project-detail/:id', facId).search({tabIndex: index});
       }
     }

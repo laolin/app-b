@@ -63,7 +63,6 @@ templateUrl: 'app-steefac/fac-detail/obj-detail.view.template.html',
       },function(e){$log.log('Err:',e)});
       
       SIGN.postLaolin('stee_user','get_admin_of_obj',{type:objType,facid:id}).then(function(s){
-        $log.log('get_admin_of:',objType,s);
         $scope.isLoading--;
         if(s) {
           var uids=[];

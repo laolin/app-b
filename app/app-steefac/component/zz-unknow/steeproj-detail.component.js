@@ -20,15 +20,10 @@ function ($log,AppbData,FacUser,ProjDefine,FacSearch) {
   
   
   ctrl.$onInit=function(){
-    $log.log('===============facsShow',ctrl.facIds);
-    
     ctrl.reqInMonth=ProjDefine.objReqInMonth[ctrl.fac.in_month]
 
     ctrl.id=ctrl.fac.id;
     ctrl.FacUser=FacUser;
-    
-  
-
     
   }
   ctrl.$onChanges=function(chg){
