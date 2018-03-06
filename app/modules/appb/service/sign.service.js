@@ -179,7 +179,7 @@
         return signed.result;
       }
       //alert(signed.url);
-      return $http.post(signed.url, signed.post, { SIGNED: 'yes' })
+      return $http.post(signed.url, signed.post, { signType: 'SIGN' })
         .then(response => response.data)
         .then(json => {
           var result = sign.before(json);
@@ -216,14 +216,26 @@
       }]);
    */
   serviceModule.factory('http2sign', ['$q', '$rootScope', 'sign', function ($q, $rootScope, sign) {
+    /** 为识别模拟服务器数据 */
+    function CHttpResponse(data){
+      this.data = data;
+    }
     return {
       request: function (config) {
-        // 已签名过的，或不是post，不拦截
-        if (config.method != "POST" || config.SIGNED) return config;
+        // 只是增加后端请求主目录，而不需要签名
+        if (config.signType == 'single'){
+          config.url = sign.root + config.url;
+          config.signType = '';
+          return config;
+        }
+        // 已用 SIGN 工厂签名过的, 或不是post, 不拦截
+        if (config.method != "POST" || config.signType=='SIGN') return config;
         var api_call = config.url.split('/');
+        if(!api_call[0])api_call.shift();
         var signed = sign.prePost(api_call[0], api_call[1], config.data);
         if (signed.result) {
-          return $q.when(signed.result);
+          /** 使用模拟服务器数据，将在请求错误拦截中，重新兑现 */
+          return $q.reject(new CHttpResponse(signed.result));
         }
         //console.log('签名拦截器, 原url = ', config.url);
         //console.log('签名拦截器, 原数据 = ', config.data);
@@ -238,8 +250,8 @@
         return $q.reject(rejection)
       },
       response: function (response) {
-        // 已签名过的，或不是post，不拦截
-        if (response.config.method != "POST" || response.config.SIGNED) return response;
+        // 已用 SIGN 工厂签名过的, 或不是post, 不拦截
+        if (response.config.method != "POST" || response.config.signType == "SIGN") return response;
         return $q.when(response.data)
           .then(json => {
             var result = sign.before(json);
@@ -258,6 +270,10 @@
           });
       },
       responseError: function (rejection) {
+        /** 如果请求时, 使用模拟服务器数据, 则: 重新兑现 */
+        if(rejection instanceof CHttpResponse){
+          return $q.when(rejection.data);
+        }
         // do something on response error
         console.log('签名拦截器, rejection=', rejection);
         return $q.reject(rejection);
