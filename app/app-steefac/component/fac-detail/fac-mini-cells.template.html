@@ -1,0 +1,11 @@
+﻿
+<div class="weui-cells__title" ng-if='!$ctrl.title' ng-hide='1'></div>
+<!-- 上面加一个隐藏的是为了让weui-cells的margin-top=0 -->
+
+<div class="weui-cells">
+<div class="weui-cells__title" ng-if='title'>{{title}}</div>
+<fac-mini-cell class="weui-cell" ng-class="{'weui-cell_access':cell.url}" cell="cell" ng-repeat='cell in cells'>
+</fac-mini-cell>
+
+</div>
+
