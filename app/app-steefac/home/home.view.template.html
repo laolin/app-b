@@ -41,7 +41,7 @@
   type='"steefac"'
   >
   </fac-grids-->
-  <a class="flex flex-between flex-stretch item" ng-repeat="item in $ctrl.facList1" ng-href="#!/fac-detail/{{item.id}}">
+  <a class="flex flex-between flex-stretch item" ng-repeat="item in $ctrl.facList1" fac-show-prompt="item" type="steefac">
     <div class="left flex-v flex-between flex-grow">
       <div class="text">{{item.name}}，产能{{item.cap_6m}}吨，擅长构件：{{item.goodat}}</div>
       <i class="fa fa-clock-o">&nbsp;
