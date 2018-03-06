@@ -6,7 +6,7 @@
  */
 !(function (window, angular, undefined) {
 
-  angular.module('dj-login')
+  angular.module('dj-wx')
     .config(['$routeProvider', function ($routeProvider) {
       $routeProvider
         .when('/wx-code-login', {

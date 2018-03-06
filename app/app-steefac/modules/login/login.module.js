@@ -71,13 +71,6 @@
   })());
 
 
-  var reloadUserToken;
-  angular.module('dj-login').run(["$q", function($q){
-    reloadUserToken = () =>{
-      var userToken = getUserToken(localStorage_KEY);
-      return $q.when(userToken);
-    }
-  }]);
   /**
    * 基本的用户登录票据和签名方法, 转换为工厂
    */
