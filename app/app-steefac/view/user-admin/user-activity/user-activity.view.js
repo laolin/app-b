@@ -21,9 +21,6 @@
     $scope.userData = FacUser;
     var appData=AppbData.getAppData();
     var userData=AppbData.getUserData();
-    if(! userData || !userData.token) {
-      return $location.path( "/wx-login" ).search({pageTo: '/my'});;
-    }
     var search = $location.search();
     var from = parseInt(search.from) || 0; if(from < 15e8) from = 0;
     var to   = parseInt(search.to  ) || 0; if(to   < 15e8) to   = 0;

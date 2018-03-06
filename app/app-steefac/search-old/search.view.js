@@ -8,9 +8,6 @@ templateUrl: 'app-steefac/search-old/search.view.template.html',
 controller: ['$scope','$http','$log','$location','AppbData','FacSearch','FacMap',
   function ($scope,$http,$log,$location,AppbData,FacSearch,FacMap) {
     var userData=AppbData.getUserData();
-    if(! userData || !userData.token) {
-      return $location.path( "/wx-login" ).search({pageTo: '/search'});;
-    }
     $scope.searchData=FacSearch;
     
     

@@ -9,9 +9,6 @@ angular.module('steefac')
       function mzUserSearchCtrl($scope,$http,$log,$location,
           AppbData,FacDefine,ProjDefine,FacMap,SIGN,FacUser,FacSearch) {
         var userData=AppbData.getUserData();
-        if(! userData || !userData.token) {
-          return $location.path( "/wx-login" ).search({pageTo: '/fac-add'});;
-        }
         
         $scope.objType=$location.search().type; 
         

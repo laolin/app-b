@@ -10,11 +10,7 @@ templateUrl: 'app-steefac/fac-detail/obj-detail.view.template.html',
     AppbData,FacDefine,FacSearch,SIGN,FacUser) {
     var appData=AppbData.getAppData();
     var userData=AppbData.getUserData();
-    if(! userData || !userData.token) {
-      return $location.path( "/wx-login" ).search({pageTo: '/my'});;
-    }
 
-    
     var options=FacDefine.goodatOptions;
     
     var search=$location.search();

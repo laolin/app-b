@@ -10,9 +10,6 @@ controller: ['$scope','$http','$log','$location',
 function ($scope,$http,$log,$location,
   AppbData,FacDefine,FacUser,FacSearch) {
   var userData=AppbData.getUserData();
-  if(! userData || !userData.token) {
-    return $location.path( "/wx-login" ).search({pageTo: '/my'});;
-  }
 
   $scope.isLoading=1;
   $scope.facIds=[];

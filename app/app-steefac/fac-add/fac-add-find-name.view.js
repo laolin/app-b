@@ -18,13 +18,7 @@ angular.module('steefac')
         }
         
         $scope.objName=FacSearch.objNames[$scope.objType];
-        
-        
-        
-        if(! userData || !userData.token) {
-          return $location.path( "/wx-login" ).
-            search({pageTo: '/fac-add'});;
-        }
+
         //if(!FacUser.isSysAdmin()) {
         //  return $location.path( '/my');;
         //}

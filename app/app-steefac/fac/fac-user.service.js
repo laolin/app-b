@@ -147,7 +147,6 @@ function($location,$log,$q,$timeout,AppbData,AppbDataUser, SIGN, DjDialog) {
     );
   }
 
-
   /**
    * 申请用户数据，返回一个承诺
    * @param reNew: 是否强制要求更新
@@ -158,48 +157,50 @@ function($location,$log,$q,$timeout,AppbData,AppbDataUser, SIGN, DjDialog) {
    * 请求失败，则将 FacUser.getMyData.result 置为 false, 下次将再次发起请求
    * 本函数可以多次调用，不用考虑是否正在请求
    */
+  AppbDataUser.getMyData =
   FacUser.getMyData=function(reNew) {
     if(!reNew && FacUser.getMyData.result){
       // 不管 FacUser.getMyData.result 现在是承诺或实际数据，作为承诺的数据，返回
       return $q.when(FacUser.getMyData.result);
     }
     var deferred = $q.defer();
-    SIGN.post('steesys','info').then(json =>{
-      console.log("登录...", json);
+    SIGN.post('app', 'me').then(json => {
+      console.log("请求个人信息...", json);
       // alert('个人信息, json =' + JSON.stringify(json));
-      return json.data
-    }).then(function(s){
-      myData.init=1;
-      if(!s || !s.me || !s.me.uid) { // 客户端的登录信息有误，要求重新登录。
-        console.log("登录错误");
-        AppbDataUser.setUserData({});
-        $location.path( "/wx-login" ).search({pageTo: '/'});
-        // 错误了，就要重置一下，并告诉承诺不能兑现的原因
-        FacUser.getMyData.result = false;
-        return $q.reject("客户端的登录信息有误，要求重新登录。");
-      }
-      myData.counter={};
-      myData.counter.nFac=s.nFac;
-      myData.counter.nProj=s.nProj;
-      if(s.wx && s.wx.openid) {
+      return json.datas;
+    }).then(function (s) {
+      myData.init = 1;
+      // if(!s || !s.me || !s.me.uid) { // 客户端的登录信息有误，要求重新登录。
+      //   console.log("登录错误");
+      //   AppbDataUser.setUserData({});
+      //   $location.path( "/login" ).search({pageTo: '/'});
+      //   // 错误了，就要重置一下，并告诉承诺不能兑现的原因
+      //   FacUser.getMyData.result = false;
+      //   return $q.reject("客户端的登录信息有误，要求重新登录。");
+      // }
+      myData.counter = {};
+      myData.counter.nFac = s.nFac;
+      myData.counter.nProj = s.nProj;
+      if (s.wx && s.wx.openid) {
         AppbDataUser.dealWxHeadImg(s.wx);
-        myData.wx=s.wx;
-        angular.extend(appData.userData.wxinfo,s.wx)
+        myData.wx = s.wx;
+        appData.userData.wxinfo = angular.extend({}, appData.userData.wxinfo, s.wx)
         AppbDataUser.saveUserDataToLocalStorage();
       }
-      if(s.me && s.me.uid) {
-        myData.isAdmin=parseInt(s.me.is_admin);
-        myData.update_at=parseInt(s.me.update_at);
-        myData.uid=parseInt(s.me.uid);
-        myData.objCanAdmin={};
-        for(var i=objTypes.length;i--; ) {
-          myData.objCanAdmin[objTypes[i]]=s.me[objTypes[i]+'_can_admin'].split(',')
+      if (s.me && s.me.uid) {
+        myData.isAdmin = parseInt(s.me.is_admin);
+        myData.update_at = parseInt(s.me.update_at);
+        myData.uid = parseInt(s.me.uid);
+        myData.objCanAdmin = {};
+        for (var i = objTypes.length; i--;) {
+          myData.objCanAdmin[objTypes[i]] = s.me[objTypes[i] + '_can_admin'].split(',')
         }
       }
       s.datas && (myData.datas = s.datas);
+      myData.uid = s.uid;
       // 请求成功，将 FacUser.getMyData.result 原为承诺，改为实际数据，
       deferred.resolve(FacUser.getMyData.result = myData);
-    },function(e){
+    }, function (e) {
       // 请求失败，以后要数据时，将再次请求
       FacUser.getMyData.result = false;
       deferred.reject(e);
@@ -207,7 +208,7 @@ function($location,$log,$q,$timeout,AppbData,AppbDataUser, SIGN, DjDialog) {
     // 发出请求后，保存并立即返回该承诺
     return FacUser.getMyData.result = deferred.promise;
   }
-  //FacUser.getMyData();
+  FacUser.getMyData();
  
   return  FacUser;
   

@@ -11,6 +11,9 @@ angular.module('wx-login')
     ]
   })//qgsMainAppDataUser
   .when('/wx-login', {
+    redirectTo: '/login'
+  })
+  .when('/wx-login------', {
     template: '<wx-login-auth app-data="appb.appData" page-to="pageTo">login...</wx-login-auth>',
     controller: ['$scope','$location','$log','$interval',
       function($scope,$location,$log,$interval) {

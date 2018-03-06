@@ -19,6 +19,11 @@ function($http, $window,$location,$log,$timeout,$q, SIGN)
   
   //factory functions
   function getUserData() {
+    if(angular.dj && angular.dj.userToken && angular.dj.userToken.data && angular.dj.userToken.data.token){
+      userData.uid     = angular.dj.userToken.data.uid;
+      userData.tokenid = angular.dj.userToken.data.tokenid;
+      userData.token   = angular.dj.userToken.data.token;
+    }
     return userData;
   }
   function saveUserDataToLocalStorage() {
@@ -32,9 +37,17 @@ function($http, $window,$location,$log,$timeout,$q, SIGN)
       if (obj.hasOwnProperty(attr)) userData[attr] = obj[attr];
     }
     
+    if(angular.dj && angular.dj.userToken && angular.dj.userToken.data && angular.dj.userToken.data.token){
+      userData.uid     = angular.dj.userToken.data.uid;
+      userData.tokenid = angular.dj.userToken.data.tokenid;
+      userData.token   = angular.dj.userToken.data.token;
+    }
     _initUserData();
     dealWxHeadImg(userData.wxinfo);
     saveUserDataToLocalStorage();
+
+
+
     return userData;
   }
   //处理头像
@@ -110,6 +123,20 @@ function($http, $window,$location,$log,$timeout,$q, SIGN)
       // 只返回所请求的用户数组
       return $q.resolve(singleUserinfo(arr, usersInfo));
     }
+
+    return $http.post("/wx/get_users", {ids}).then(json => {
+      var d = json.datas.list;
+      for(var i=d.length;i--; ) {
+        dealWxHeadImg(d[i].wxinfo);
+        usersInfo[d[i]['uid']]=d[i];
+      }
+      // 只返回所请求的用户数组
+      return $q.resolve(singleUserinfo(arr, usersInfo));
+    }).catch(json => {
+      console.log('requireUsersInfo 错误:', json);
+    });
+
+
     var api=appData.urlSignApi('wx','get_users',ids.join(','));
     return $http.jsonp(api).then(function(s){
       if(s.data.errcode!=0) {
@@ -180,6 +207,11 @@ function($http, $window,$location,$log,$timeout,$q, SIGN)
   }  
   
   setUserData(u_saved);
+  if(angular.dj && angular.dj.userToken && angular.dj.userToken.data && angular.dj.userToken.data.token){
+    userData.uid     = angular.dj.userToken.data.uid;
+    userData.tokenid = angular.dj.userToken.data.tokenid;
+    userData.token   = angular.dj.userToken.data.token;
+  }
   
   return {
     addApiSignature:addApiSignature,

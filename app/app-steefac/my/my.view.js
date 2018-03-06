@@ -11,10 +11,11 @@ angular.module('steefac')
 
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
-        
-        
-        //要求登录，如果未登录，会自动跳转到登录界面
-        appData.requireLogin();
+
+        FacUser.getMyData().then(me =>{
+          console.log('me = ', me);
+          $scope.me = me;
+        })
 
         //使用ctrl, 后面方便切换为 component
         var ctrl=$scope.$ctrl={};
@@ -29,7 +30,7 @@ angular.module('steefac')
         ctrl.facIds={};
         ctrl.noIds=true;
        
-        FacUser.getMyData(true).then(function (me) {
+        FacUser.getMyData().then(function (me) {
           for(var i=ctrl.objTypes.length;i--; ) {
             ctrl.facIds[ctrl.objTypes[i]] = (me.objCanAdmin[ctrl.objTypes[i]] || []).join(',');
             if(ctrl.facIds[ctrl.objTypes[i]].length)ctrl.noIds=false;

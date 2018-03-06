@@ -19,9 +19,6 @@
   function ctrl($scope, $routeParams, $location, AppbData,$q,FacSearch,FacUser) {
     var appData=AppbData.getAppData();
     var userData=AppbData.getUserData();
-    if(! userData || !userData.token) {
-      return $location.path( "/wx-login" ).search({pageTo: '/my'});;
-    }
     var facId = $routeParams.id;
     /**
      * 初始化

@@ -1,7 +1,7 @@
 <div class="weui-cells__title"></div>
 
 <div class='text-center' ng-if='! $ctrl.userData.token'>
-  请<a href="#!/wx-login">登录</a>
+  请<a href="#!/login">登录</a>
 </div>
 <div class="weui-panel weui-panel_access" ng-if='$ctrl.userData.token'>
   <div class="weui-panel__bd">
@@ -21,7 +21,7 @@
           </span>
           
         </h4>
-        <p class="weui-media-box__desc">UID:{{$ctrl.userData.uid}}</p>
+        <p class="weui-media-box__desc">UID:{{me.uid}}</p>
       </div>
     </a>
   </div>

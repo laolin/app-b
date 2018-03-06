@@ -42,6 +42,7 @@ cfg.wxApp=[
 
 cfg.keyClientId='STEEFAC_clientId';// 在AppbData里用
 cfg.keyUserData='STEEFAC_userdata';// 在AppbDataUser里用
+cfg.keyUserToken='__qgs_user_token__';// 在AppbDataUser里用
 
 cfg.markWxLoginCallback='cb_xd';//和后端API的约定字符串，在 /wx-login里用
 

@@ -1,18 +1,29 @@
-'use strict';
-(function(){
+(function () {
 
-angular.module('steefac',[
-  'amap-main',
-  'ksSwiper',
-  'app-config',
-  'app-run',
-  'ngRoute'
-])
-.run(['$log','AppbData',function($log,AppbData){
-  AppbData.activeHeader('home', ''); 
-  AppbData.activeFooter('index');
-}])
+  angular.module('steefac', [
+    'amap-main',
+    'ksSwiper',
+    'app-config',
+    'app-run',
+    'dj-view',
+    'ngRoute'
+  ])
+    .run(['$log', 'AppbData', function ($log, AppbData) {
+      AppbData.activeHeader('home', '');
+      AppbData.activeFooter('index');
+    }])
 
 
-//___________________________________
+    /** 一些常用的注入 */
+    .factory("APP", ['$http', "$q", "$timeout", "$location", "UserToken", "SiteConfig", "DjDialog",
+      function ($http, $q, $timeout, $location, UserToken, SiteConfig, DjDialog) {
+        return {
+          $http, $q, $timeout, $location,
+          UserToken, SiteConfig, DjDialog,
+        }
+      }
+    ])
+
+
+  //___________________________________
 })();

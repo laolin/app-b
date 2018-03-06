@@ -39,9 +39,6 @@
   function ctrlSearch($scope, $routeParams, $location, AppbData) {
     console.log('搜索页面');
     var userData = AppbData.getUserData();
-    if(! userData || !userData.token) {
-      return $location.path( "/wx-login" ).search({pageTo: '/search'});;
-    }
     $scope.appData = AppbData.getAppData();
     
     $scope.$on('$routeChangeSuccess', function(evt, current, prev) {
@@ -86,9 +83,6 @@
 
   function ctrlSearching($scope, FacUser, $routeParams,$q,$location,AppbData,FacSearch, FacMap, AmapMainData) {
     var userData=AppbData.getUserData();
-    if(! userData || !userData.token) {
-      return $location.path( "/wx-login" ).search({pageTo: '/search'});;
-    }
 
     $scope.$on('$routeChangeStart', function(evt, next, current) {
       //console.log('搜索:保存页面状态');

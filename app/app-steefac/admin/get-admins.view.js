@@ -9,9 +9,6 @@ controller: ['$scope','$http','$log','$location',
 function ($scope,$http,$log,$location,
   AppbData,FacDefine,FacUser,FacSearch) {
   var userData=AppbData.getUserData();
-  if(! userData || !userData.token) {
-    return $location.path( "/wx-login" ).search({pageTo: '/my'});;
-  }
 
   var namesOfAdmin={
     steefac:"钢构厂管理员",
@@ -44,6 +41,7 @@ function ($scope,$http,$log,$location,
       }
     }
   },function(e){
+    console.log('管理员列表错误：', e );
     $scope.isLoading=0;
     $scope.err=e;
   });
