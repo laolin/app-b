@@ -46,7 +46,9 @@
   function ctrl($scope, $location, $http) {
     console.log("微信登录.........")
     if(isWx){
-      var wxAuth = angular.dj.wxAuth.authUrl(location.href, this.pageTo);
+      var pageTo = this.pageTo;
+      if(/^\/login(\/.*)?$/.test(pageTo)) pageTo = '/';
+      var wxAuth = angular.dj.wxAuth.authUrl(location.href, pageTo);
       location.href = wxAuth;
       return;
     }
