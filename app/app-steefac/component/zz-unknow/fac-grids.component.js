@@ -13,8 +13,8 @@ angular.module('steefac')
     title:'<',
     
   },
-  controller:['$http','$log','FacSearch','ProjDefine',
-	function ($http,$log,FacSearch,ProjDefine) {
+  controller:['FacUser','FacSearch','ProjDefine',
+	function (FacUser,FacSearch,ProjDefine) {
     var ctrl=this;
     
     ctrl.cells=[];
@@ -29,6 +29,12 @@ angular.module('steefac')
         ctrl.cells=genCells(r);
       }
     }// end onChanges
+
+
+    function clickFac(cell){
+      FacUser.clickFac(cell.fac, cell.type);
+    }
+
     function genCells(r) {
       var cells=[];
       var sum=0;
@@ -50,7 +56,9 @@ angular.module('steefac')
       for(var i=0,j=ps*pn;i<ps&&j<r.length;i++,j++){
         cells[i]={
           //link:"/obj-detail?type="+ctrl.type+"&id="+r[j].id,
-          link: linkPrev + r[j].id,
+          link: clickFac, //linkPrev + r[j].id,
+          fac: r[j],
+          type: ctrl.type,
           img:r[j].picMain || '../assets/img/img-steefac/def-'+ctrl.type+'.jpg',
           text:_text_of_obj(r[j],ctrl.type),
           nCol:nCol[ctrl.type],
