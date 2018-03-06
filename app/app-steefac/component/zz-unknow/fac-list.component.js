@@ -36,6 +36,8 @@ angular.module('steefac')
       
       for(var i=0,j=ps*pn;i<ps&&j<r.length;i++,j++){
         cells[i]=FacSearch.cellOfObj(r,j,ctrl.type,"/" + (ctrl.type=='steefac'&&'fac'||'project') + "-detail/"+r[j].id);
+        cells[i].fac = r[j];
+        cells[i].type = ctrl.type;
       }
       return cells;
     }
