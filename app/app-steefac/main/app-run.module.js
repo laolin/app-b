@@ -10,8 +10,10 @@
         let route = current.$$route;
         console.log('页面改变: ', route);
         requireLogin(route).catch(e => {
-          console.log("请求登录:失败！", e);
-          $location.path("/login").replace();
+          var pageTo = current.originalPath || '/';
+          // 防止回来时，又跳转到登录页面
+          if(/^\/login(\/.*)?$/.test(pageTo)) pageTo = '/';
+          $location.path("/login").search({pageTo}).replace();
         });
       });
 
