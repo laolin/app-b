@@ -69,8 +69,7 @@ angular.module('steefac')
         }
         ctrl.swipeRight=function() {
           appData.toastMsg('重登录',2);
-          appData.setUserData({});
-          appData.requireLogin();
+          window.location.hash = "#!/login";
         }
       }
     ]

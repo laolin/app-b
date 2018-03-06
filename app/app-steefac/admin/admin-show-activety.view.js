@@ -9,10 +9,7 @@ controller: ['$scope','$http','$log','$location',
   'AppbData','FacUser',
 function ($scope,$http,$log,$location,
   AppbData,FacUser) {
-  var appData=AppbData.getAppData();
   var userData=AppbData.getUserData();
-  //要求登录，如果未登录，会自动跳转到登录界面
-  appData.requireLogin();
   
   var ctrl=$scope.$ctrl={};
   

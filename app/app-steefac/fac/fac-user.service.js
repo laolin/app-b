@@ -17,8 +17,6 @@ function($location,$log,$q,$timeout,AppbData,AppbDataUser, SIGN, DjDialog) {
   var dialogData=appData.dialogData;
   
   appData.headerData.hide=window.__wxjs_environment !== 'miniprogram';//在小程序的webView里，还是要页面顶部的标题栏
-  
-  //appData.requireLogin('FacUser');
 
   appData.FacUser=FacUser;
 

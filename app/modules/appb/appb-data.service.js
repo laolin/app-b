@@ -195,6 +195,8 @@ function($q, $rootScope,$location,$log,$timeout,$http,$window,
    *  需要用户登录的页面
    */
   function requireLogin(str) {
+    // 不再用此处代码跳转登录页面
+    return true;
     if(angular.dj && angular.dj.userToken && angular.dj.userToken.data && angular.dj.userToken.data.token){
       userData.uid     = angular.dj.userToken.data.uid;
       userData.tokenid = angular.dj.userToken.data.tokenid;

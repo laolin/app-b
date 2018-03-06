@@ -11,9 +11,6 @@ function ($scope,$log,AppbData,FacSearch,FacUser) {
 
   var userData=AppbData.getUserData();
   var appData=AppbData.getAppData();
-  
-  //要求登录，如果未登录，会自动跳转到登录界面
-  appData.requireLogin('我管理的钢构厂');
 
   //使用ctrl, 后面方便切换为 component
   var ctrl=$scope.$ctrl={};

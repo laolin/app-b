@@ -1,9 +1,9 @@
 <div class="weui-cells__title"></div>
 
-<div class='text-center' ng-if='! $ctrl.userData.token'>
+<div class='text-center' ng-if='! me.uid'>
   请<a href="#!/login">登录</a>
 </div>
-<div class="weui-panel weui-panel_access" ng-if='$ctrl.userData.token'>
+<div class="weui-panel weui-panel_access" ng-if='me.uid'>
   <div class="weui-panel__bd">
     <a href class="weui-media-box weui-media-box_appmsg"
     ng-swipe-left='$ctrl.swipeLeft()'

@@ -10,8 +10,6 @@ function ($scope,$log,$location,AppbData,SIGN,FacSearch,FacUser,SteeBuyer) {
   var userData=AppbData.getUserData();
   var appData=AppbData.getAppData();
 
-  //要求登录，如果未登录，会自动跳转到登录界面
-  appData.requireLogin();
   appData.setPageTitleAndWxShareTitle('CMOSS：可信、严肃、专业');
   
 
