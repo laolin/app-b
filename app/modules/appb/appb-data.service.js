@@ -238,9 +238,9 @@ function($q, $rootScope,$location,$log,$timeout,$http,$window,
   function errorMsg() {
     return lastError.msg;
   }
-  function goLink(a) {
+  function goLink(a, data) {
     if(typeof a == 'function') {
-      a();
+      a(data);
       return false;
     }
     if(a && a.indexOf(':')>0){

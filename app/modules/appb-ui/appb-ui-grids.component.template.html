@@ -4,7 +4,7 @@
   <a class="appb-grid appb-grid_n{{a.nCol}}"
     href
     ng-repeat='a in $ctrl.gridsData'
-    ng-click="$ctrl.goLink(a.link)" 
+    ng-click="$ctrl.goLink(a.link, a)"
     ng-style=" a.line && {'width':''+(100/a.line)+'%'}"
   >
     <appb-ui-grid img='a.img' text='a.text' h='a.h'  max-height='a.maxHeight'>
