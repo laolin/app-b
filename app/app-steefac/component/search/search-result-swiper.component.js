@@ -75,33 +75,8 @@
     /**
      * 点击
      */
-    var routers = {
-      steefac: '/fac-detail/',
-      steeproj: '/project-detail/',
-    }
-
     $scope.clickItem = (item) => {
-      FacUser.getPageReadLimit(this.type, item.id)
-      .then(limit =>{
-        if(limit == 'never'){
-          // 不受额度限制，直接打开
-          $location.path(routers[ctrl.type] + item.id).search({});
-          return;
-        }
-        DjDialog.modal({
-          title: `今日额度 ${limit.max} 条，已用 ${limit.used} 条`,
-          body: `查看“${item.name}”详情？`
-        }).then(()=>{
-          FacUser.applyReadDetail(this.type, item.id).then(() =>{
-            $location.path(routers[ctrl.type] + item.id).search({c:1});
-          })
-        }, (e) => {
-          console.log('取消不看了');
-        });
-      })
-      .catch(info => {
-        DjDialog.alert(info.text);
-      })
+      FacUser.clickFac(item, this.type);
     }
   }
 })(window, angular);
