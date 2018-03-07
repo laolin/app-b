@@ -281,10 +281,9 @@ function($q, $rootScope,$location,$log,$timeout,$http,$window,
 
     var deferred = $q.defer();
 
-    AppbDataApi.getWjSign().then(function(r){
-      var data=r.data.data;
+    AppbDataApi.getWjSign().then(function(json){
+      var data = json.datas.config;
       if(!data) {
-        appData.msgBox('Err#'+r.data.errcode+':'+r.data.msg,'Error WxJsSign');
         deferred.reject('config error!');
         return;
       }

@@ -68,6 +68,9 @@
       steesys: {
         info: '个人信息',
       },
+      app: {
+        jsapi_sign: '微信签名',
+      },
       stee_user: {
         apply_fac_admin: '申请成为管理员',
         apply_admin: '申请成为管理员',
