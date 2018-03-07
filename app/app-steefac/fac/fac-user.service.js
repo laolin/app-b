@@ -47,19 +47,27 @@ function($location,$log,$q,$timeout,AppbData,AppbDataUser, SIGN, DjDialog) {
     var path = routers[type];
 
     console.log('用户点击产能链接, DDDDDDDDDD');
-    FacUser.getPageReadLimit(type, fac.id)
+    return FacUser.getPageReadLimit(type, fac.id)
     .then(limit =>{
       if(limit == 'never'){
         // 不受额度限制，直接打开
         $location.path(path + fac.id).search({});
-        return;
+        return limit;
       }
-      FacUser.DjDialog.modal({
+      var dontDialog = limit.max - limit.used >= 5;
+      if(dontDialog){
+        FacUser.applyReadDetail(type, fac.id).then(() =>{
+          $location.path(path + fac.id).search({c:1});
+        });
+        return limit;
+      }
+      return FacUser.DjDialog.modal({
         title: `今日额度 ${limit.max} 条，已用 ${limit.used} 条`,
         body: `查看“${fac.name}”详情？`
       }).then(()=>{
-        FacUser.applyReadDetail(type, fac.id).then(() =>{
+        return FacUser.applyReadDetail(type, fac.id).then(() =>{
           $location.path(path + fac.id).search({c:1});
+          return limit;
         })
       }, (e) => {
         console.log('取消不看了');
