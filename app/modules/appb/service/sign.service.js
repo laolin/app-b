@@ -224,7 +224,7 @@
       request: function (config) {
         // 只是增加后端请求主目录，而不需要签名
         if (config.signType == 'single'){
-          config.url = sign.root + config.url;
+          config.url = sign.root + (/\/$/.test(sign.root)?'':'/') + config.url;
           config.signType = '';
           return config;
         }

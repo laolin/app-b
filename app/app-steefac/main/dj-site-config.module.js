@@ -6,11 +6,9 @@
   angular.extend(angular.dj || (angular.dj = {}), (function () {
     var siteConfig = {
 
-      //apiRoot: 'https://api.qinggaoshou.com/api-eb', //一般的API(旧)
-      //apiRoot: 'https://qinggaoshou.com/dev/api-linjh/api-core/src', //服务器测试API(旧)
-      //apiRoot: 'https://qinggaoshou.com/dev/laolin/cmoss-dev-api/open', //服务器测试API
-      apiRoot: 'http://pgy/Laolin/api-core/src', //本地的API
-      //apiRoot: 'https://api.qinggaoshou.com/api-cmoss/open', //生产用的API
+      //apiRoot: 'http://pgy/Laolin/api-core/src/cmoss', //本地的API
+      //apiRoot: 'https://api.jdyhy.com/cmoss-test-1.0/src/cmoss', //服务器测试API
+      apiRoot: 'https://api.qinggaoshou.com/api-cmoss/full-1.0/src/cmoss', //服务器预览版（最新版）
 
       wx_app: {
         web: { name: 'qgs-web', appid: 'wx8fb342a27567fee7' },
