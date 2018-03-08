@@ -5,13 +5,15 @@ angular.module('steefac')
   templateUrl: 'app-steefac/component/myApp/myApp.component.template.html',
   bindings: {
   },
-  controller:['$scope', '$log', 'AppbData', function ($scope, $log, AppbData) {
+  controller:['$scope', '$log', 'AppbData', 'APP', function ($scope, $log, AppbData, APP) {
     var appb = $scope.appb = {
       appData    : AppbData.getAppData(),
       headerData : AppbData.getHeaderData(),
       footerData : AppbData.getFooterData(),
       dialogData : AppbData.getDialogData()
     };
+
+    $scope.SiteConfig = APP.SiteConfig;
 
     appb.startPathMonitor=AppbData.startPathMonitor;
     //监控路由变化

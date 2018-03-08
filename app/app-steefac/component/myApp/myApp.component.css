@@ -54,6 +54,14 @@ my-app appb-ui-footer .main-tab_active a span{
   color: #3366CC;
 }
 
+/* 底部导航栏， 以背景颜色识别版本 */
+preview > .main-tabs{
+  background: #ff660033;
+}
+.test > .main-tabs{
+  background: #0000ff55;
+}
+
 
 /* 非手机 */
 my-app .pc{
