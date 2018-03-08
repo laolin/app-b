@@ -40,8 +40,17 @@ search-form .my-city{
   padding: 0 0 0 .05rem;
 }
 .result-items .result-item{
+  position: relative;
   padding: .03rem 0;
 }
+.result-items .result-item > img.closed {
+  height: .50rem;
+  position: absolute;
+  bottom: .05rem;
+  right: .10rem;
+  opacity: 0.5;
+}
+
 .result-items .result-item .name{
   font-size: .14rem;
   color: #000;

@@ -10,6 +10,20 @@ fac-detail-profile .box-1 > .headimg{
   background: #ccc;
   margin: 0 0 0 .2rem;
 }
+
+project-detail-profile .box-1,
+fac-detail-profile .box-1{
+  position: relative;
+}
+project-detail-profile .box-1 > img.closed,
+fac-detail-profile .box-1 > img.closed {
+  height: .60rem;
+  position: absolute;
+  bottom: 0;
+  right: .30rem;
+  opacity: 0.5;
+}
+
 project-detail-profile .box-1 > .headimg img,
 fac-detail-profile .box-1 > .headimg img{
   width: .75rem;
