@@ -38,9 +38,9 @@
       FacUser.applyAdmin(this.type || 'steefac',this.fac);
     }
     $scope.toAdmin = ()=>{
-      var uids = this.adminInfo.admins.map( item => {
+      var uids = this.adminInfo && this.adminInfo.admins && this.adminInfo.admins.map( item => {
         return {uid: item.uid}
-      });
+      }) || [];
       let userData = AppbData.getUserData();
       userData.requireUsersInfo(uids).then(() => {
         $scope.$emit("show-admin-list", {
