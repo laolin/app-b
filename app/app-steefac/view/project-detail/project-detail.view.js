@@ -28,10 +28,12 @@
       FacUser.getMyData()
     ]).then(
       function(results){
-        // 处理公司数据
-        resolveFac(results[0].data);
         // 是否管理员
         if(FacUser.isSysAdmin())$scope.canEdit=true;
+        // 处理公司数据
+        return FacUser.preReadDetail('steeproj', facId, results[0].data).then(fac => {
+          resolveFac(fac);
+        })
       },
       function(json){
         console.log('读取详情错误', json);

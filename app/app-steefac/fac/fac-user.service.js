@@ -36,6 +36,24 @@ function($location,$log,$q,$timeout,AppbData,AppbDataUser, SIGN, DjDialog) {
   }
 
   /**
+   * 查看详情页之前，拦截
+   */
+  FacUser.preReadDetail = function(type, id, fac){
+    if (!fac.limit) return $q.when(fac);
+    var limit = fac.limit;
+    var dontDialog = limit.max - limit.used >= 5;
+    if(dontDialog){
+      return SIGN.post('steeobj', 'detail', { type, id, confirm: 1 }).then(json =>json.data);
+    }
+    return DjDialog.modal({
+      title: `今日额度 ${limit.max} 条，已用 ${limit.used} 条`,
+      body: `查看 该项目 详情？`
+    }).then(() => {
+      return SIGN.post('steeobj', 'detail', { type, id, confirm: 1 }).then(json =>json.data);
+    });
+  }
+
+  /**
    * 用户点击产能链接
    * 不返回
    */

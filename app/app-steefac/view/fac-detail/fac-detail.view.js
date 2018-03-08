@@ -29,7 +29,9 @@
     ]).then(
       function(results){
         // 处理公司数据
-        resolveFac(results[0].data);
+        return FacUser.preReadDetail('steefac', facId, results[0].data).then(fac => {
+          resolveFac(fac);
+        })
       },
       function(json){
         console.log('读取详情错误', json);
