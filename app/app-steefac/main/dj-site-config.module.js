@@ -7,8 +7,9 @@
     var siteConfig = {
 
       //apiRoot: 'http://pgy/Laolin/api-core/src/cmoss', //本地的API
-      //apiRoot: 'https://api.jdyhy.com/cmoss-test-1.0/src/cmoss', //服务器测试API
-      apiRoot: 'https://api.qinggaoshou.com/api-cmoss/full-1.0/src/cmoss', //服务器预览版（最新版）
+      apiRoot: 'https://api.jdyhy.com/cmoss-test-1.0/src/cmoss', //服务器测试API
+      //apiRoot: 'https://api.qinggaoshou.com/api-cmoss/preview/open', //服务器预览版（最新版）
+      //apiRoot: 'https://api.qinggaoshou.com/api-cmoss/master/open', //服务器正式版
 
       wx_app: {
         web: { name: 'qgs-web', appid: 'wx8fb342a27567fee7' },
