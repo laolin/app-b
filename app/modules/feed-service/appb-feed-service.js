@@ -26,56 +26,37 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   }
 
   function getFeed(app,cat,fid){
-    var i;
-    var deferred = $q.defer();
-    var fcat=feedAppCat(app,cat);
-    if(feedData.feedAll[fcat]) {
-      for(i=feedData.feedAll[fcat].length;i--; ) {
-        if(feedData.feedAll[fcat][i].fid==fid) {
+    if (feedData.feedAll[fcat]) {
+      for (var i = feedData.feedAll[fcat].length; i--;) {
+        if (feedData.feedAll[fcat][i].fid == fid) {
           deferred.resolve(feedData.feedAll[fcat][i]);
           return deferred.promise;
         }
       }
     }
-    var api=appData.urlSignApi('feed','get');
-    if(!api){
-      appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
-      deferred.reject(-1);
-      return deferred.promise;
-    }
-    
-    
-    return $http.jsonp(api, {params:{fid:fid}})
-    .then(function(s){
-      if(s.data.errcode!=0) {
-        errorCount(1);
-        $log.log('Er:getFeed:',s.data.msg);
-        deferred.reject(-2);
-        return deferred.promise;
-      }
-      
-      if(s.data.data.app!=app || s.data.data.cat!=cat) {
-        deferred.reject('feedtype not match');
-        return deferred.promise;
-      }
-      
-      //获取所有的 s.data.data.uid 的用户信息
-      appData.userData.requireUsersInfo([s.data.data]);
-      
-      //获取所有fid下的评论
-      AppbCommentService.getComment({fids:s.data.data.fid});
-      if(s.data.data.attr)
-        s.data.data.attr=JSON.parse(s.data.data.attr);
-              
-      //用fid作为主键，保存全部feed到feedAllById
-      feedData.feedByFid[s.data.data.fid]=s.data.data;
+    return $http.post("feed/get", {fid}) //, {signType:'single'})
+      .then(json => {
+        if (json.data.app != app || json.data.cat != cat) {
+          return $q.reject('feedtype not match');
+        }
 
-      deferred.resolve(s.data.data);
-      return deferred.promise;
-    },function(e){
-      deferred.reject(e);
-      return deferred.promise;
-    });
+        //获取所有的 json.data.uid 的用户信息
+        appData.userData.requireUsersInfo([json.data]);
+
+        //获取所有fid下的评论
+        AppbCommentService.getComment({ fids: json.data.fid });
+        if (json.data.attr)
+          json.data.attr = JSON.parse(json.data.attr);
+
+        //用fid作为主键，保存全部feed到feedAllById
+        feedData.feedByFid[json.data.fid] = json.data;
+
+        return json.data;
+      })
+      .catch(json => {
+        return $q.reject(json);
+      });
+
   }
   
   /**
@@ -84,19 +65,10 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
    *  para.newMore=1: 更多新帖
    */
   function exploreFeed(app,cat,para){
-    var deferred = $q.defer();
     //由于有自动刷新机制，所以这里允许出错次数不能太多
     //否则在网络条件不好时会过多重复调用没有效果的API
     if(errorCount()>3){
-      deferred.reject(-1);
-      return deferred.promise;
-    }
-    var i;
-    var api=appData.urlSignApi('feed','li');
-    if(!api){
-      appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
-      deferred.reject(-2);
-      return deferred.promise;
+      return $q.reject(-1);
     }
     var pdata={count:10, app:app, cat:cat};
     
@@ -136,79 +108,62 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       pdata.count=newMoreCount;
     }
     $log.log('exploreFeed',para,pdata);
-    
-    return $http.jsonp(api, {params:pdata})
-    .then(function(s){
-      if(s.data.errcode!=0) {
-        errorCount(1);
-        $log.log('Er:FeedList:',s.data.msg);
-        if(s.data.errcode==ERR_EB_NOTHING) { 
-          //appData.toastMsg('已没有更多',3);
-          if(pdata.newmore) {
-            feedData.hasNewMore[fcat]=false;
-          }
-          if(pdata.oldmore) {
-            feedData.hasOldest[fcat]=true;
-          }
+    return $http.post("feed/li", pdata) //, {signType:'single'})
+      .then(json => {
+        //获取所有的 json.data[i].uid 的用户信息
+        appData.userData.requireUsersInfo(json.data);
+
+        //获取所有fid下的评论
+        var fids = fidList(json.data);
+        $log.log('fids', fids);
+        AppbCommentService.getComment({ fids: fids.join(',') });
+        //
+
+        //返回长度小于请求的长度，说明没有更多旧内容可加载的
+        if (json.data.length < pdata.count) {
+          feedData.hasOldest[fcat] = true;
         }
-        if(pdata.newmore) feedData.newMoreLoading[fcat]=false;
-        if(pdata.oldmore) feedData.oldMoreLoading[fcat]=false;
-        //这里不能reject?
-        deferred.reject('Er:FeedList:'+s.data.msg);
-        //deferred.resolve(false);
-        return deferred.promise;
-      }
-      
-      //获取所有的 s.data.data[i].uid 的用户信息
-      appData.userData.requireUsersInfo(s.data.data);
-      
-      //获取所有fid下的评论
-      var fids=fidList(s.data.data);
-      $log.log('fids',fids);
-      AppbCommentService.getComment({fids:fids.join(',')});
-      //
-      
-      //返回长度小于请求的长度，说明没有更多旧内容可加载的
-      if(s.data.data.length<pdata.count) {
-        feedData.hasOldest[fcat]=true;
-      }
-      if(pdata.oldmore) { //oldMore
-        feedData.feedAll[fcat]=feedData.feedAll[fcat].concat(s.data.data);
-        feedData.oldMoreLoading[fcat]=false;
-      } else if(pdata.newmore) {//newMore
-        //newMore 如果返回 newMoreCount，说明新的很多，
-        //新内容和原来的内容在时间没连续的接上，故要扔掉旧的
-        if(s.data.data.length==newMoreCount) {
-          feedData.feedAll[fcat]=s.data.data;
+        if (pdata.oldmore) { //oldMore
+          feedData.feedAll[fcat] = feedData.feedAll[fcat].concat(json.data);
+          feedData.oldMoreLoading[fcat] = false;
+        } else if (pdata.newmore) {//newMore
+          //newMore 如果返回 newMoreCount，说明新的很多，
+          //新内容和原来的内容在时间没连续的接上，故要扔掉旧的
+          if (json.data.length == newMoreCount) {
+            feedData.feedAll[fcat] = json.data;
+          } else {
+            feedData.feedAll[fcat] = json.data.concat(feedData.feedAll[fcat]);
+          }
+          feedData.hasNewMore[fcat] = false;
+          feedData.newMoreLoading[fcat] = false;
         } else {
-          feedData.feedAll[fcat]=s.data.data.concat(feedData.feedAll[fcat]);
+          feedData.feedAll[fcat] = json.data;
         }
-        feedData.hasNewMore[fcat]=false;
-        feedData.newMoreLoading[fcat]=false;
-      } else {
-        feedData.feedAll[fcat]=s.data.data;
-      }
-      var dlist=s.data.data;
-      for(i=dlist.length;i--;i) {
-        if(dlist[i].attr) {
-          dlist[i].attr=JSON.parse(dlist[i].attr);
+        var dlist = json.data;
+        for (i = dlist.length; i--; i) {
+          if (dlist[i].attr) {
+            dlist[i].attr = JSON.parse(dlist[i].attr);
+          }
+          //用fid作为主键，保存全部feed到feedAllById
+          feedData.feedByFid[dlist[i].fid] = dlist[i];
         }
-        //用fid作为主键，保存全部feed到feedAllById
-        feedData.feedByFid[dlist[i].fid]=dlist[i];
-        
-        
-      }
-      deferred.resolve(feedData.feedAll[fcat]);
-      return deferred.promise;
-    },function(e){
-      // error
-      errorCount(1);
-      if(pdata.newmore)feedData.newMoreLoading[fcat]=false;
-      if(pdata.oldmore)feedData.oldMoreLoading[fcat]=false;
-      $log.log('error at ExbookService-exploreFeed',e);
-      deferred.reject(e);
-      return deferred.promise;
-    })
+        return feedData.feedAll[fcat];
+      })
+      .catch(json => {
+        errorCount(1);
+        if (json.errcode == ERR_EB_NOTHING) {
+          //appData.toastMsg('已没有更多',3);
+          if (pdata.newmore) {
+            feedData.hasNewMore[fcat] = false;
+          }
+          if (pdata.oldmore) {
+            feedData.hasOldest[fcat] = true;
+          }
+        }
+        if (pdata.newmore) feedData.newMoreLoading[fcat] = false;
+        if (pdata.oldmore) feedData.oldMoreLoading[fcat] = false;
+        return $q.reject(json);
+      });
   }
   function theFeedIdList(app,cat){
     return fidList(feedData.feedAll[feedAppCat(app,cat)]);
@@ -222,16 +177,13 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
   }  
 
   function publish(app,cat,drft,dataChanged) {
-    var deferred = $q.defer();
     if(errorCount()>10) {
-      deferred.reject('too many errors');
-      return deferred.promise;
+      return $q.reject('too many errors');
     }
     var fcat=feedAppCat(app,cat);
     //var drft=feedData.draftAll[fcat];
     if(!drft || drft.flag!='draft'){
-      deferred.reject('draft error:'+app+','+cat);
-      return deferred.promise;
+      return $q.reject('draft error:'+app+','+cat);
     }
     feedData.publishing=true;
     appData.toastLoading();
@@ -239,45 +191,34 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     return updateFeed(app,cat,drft,dataChanged)
     //step2: after `update-feed` THEN `draft_publish`
     .then(function(){
-      var api=appData.urlSignApi('feed','draft_publish');
-      $log.log('api1',api);
-      return $http.jsonp(api,{params:{fid:drft.fid}})
-    },function(){
-      errorCount(1);
-      feedData.publishing=false;
-      deferred.reject('Err updata before pub');
-      return deferred.promise;
+      return $http.post("feed/draft_publish", {fid: drft.fid});
     })
     //step3: after `draft_publish` THEN:
-    .then(function(s){
-      if(s.data.errcode!=0) {
-        $log.log('Er:publish:',s.data.errcode,s.data.msg);
-        if(s.data.errcode==ERR_EB_INVALID) {
-          appData.toastMsg(s.data.msg,7);
-        } else {
-          appData.toastMsg('Er:publish:',s.data.errcode,s.data.msg,8);
-        }
-        errorCount(1);
-        feedData.publishing=false;
-        deferred.reject(s);
-        return deferred.promise;
-      }
-      
+    .then(function(json){
       //发布成功，把草稿中的 文字、图片 清空，其余不变
       drft.content='';//服务器在发布时也清空了
       drft.pics='';//服务器在发布时也清空了
-      
-      
+
       appData.toastDone(1);
       feedData.publishing=false;
-      deferred.resolve(s);
-      return deferred.promise;
-    },function(e){
+      return json;
+    })
+    .catch(function(json){
+      if(json.errcode) {
+        $log.log('Er:publish:',json.errcode,json.msg);
+        if(json.errcode==ERR_EB_INVALID) {
+          appData.toastMsg(json.msg,7);
+        } else {
+          appData.toastMsg('Er:publish:', json.errcode, json.msg, 8);
+        }
+        errorCount(1);
+        feedData.publishing=false;
+        return $q.reject(s);
+      }
       appData.toastMsg('Ejsonp:publish',8);
       errorCount(1);
       feedData.publishing=false;
-      deferred.reject(e);
-      return deferred.promise;
+      return $q.reject(json);
     });
   }
   
@@ -319,33 +260,28 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     
     var updateType='feed_update';
     if(feedFullObj.flag=='draft')updateType='draft_update';
-    var api=appData.urlSignApi('feed',updateType);
-    if(!api){
-      appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
-      deferred.reject('need login');
-      return deferred.promise;
-    }
+
     data.fid=feedFullObj.fid;
-    return $http.jsonp(api, {params:data})//TODO : 出错处理
-      .then(function(s){
-         for (var attr in dataChanged) {
-          if(2 == dataChanged[attr])// 2 更新成功->0
-            dataChanged[attr]=0;                    
-        }
-        svc.isUpdating=false;
-        deferred.resolve(feedFullObj);//继续返回feed内容
-        return deferred.promise;
-      },function(e){
-        errorCount(1);
-        for (var attr in dataChanged) {
-          if(2 == dataChanged[attr])// 2 更新失败->1
-            dataChanged[attr]=1;                    
-        }
-        appData.toastMsg('feed_update error');
-        svc.isUpdating=false;
-        deferred.reject(e);
-        return deferred.promise;
-      })
+    return $http.post("feed/" + updateType, data) //, {signType:'single'})
+    .then( json => {
+      for (var attr in dataChanged) {
+        if (2 == dataChanged[attr])// 2 更新成功->0
+          dataChanged[attr] = 0;
+      }
+      svc.isUpdating = false;
+      deferred.resolve(feedFullObj);//继续返回feed内容
+      return feedFullObj;
+    })
+    .catch( json =>{
+      errorCount(1);
+      for (var attr in dataChanged) {
+        if(2 == dataChanged[attr])// 2 更新失败->1
+          dataChanged[attr]=1;                    
+      }
+      appData.toastMsg('feed_update error');
+      svc.isUpdating=false;
+      return $q.reject(json);
+    });
   }
   
   
@@ -354,54 +290,44 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
     appData.dialogData.confirmDialog('删除此条',function(){_confirmedDeleteFeed(fid,app,cat)});
   }
   function _confirmedDeleteFeed(fid,app,cat) {
-    var api=appData.urlSignApi('feed','del');
-    appData.toastLoading();
-    $http.jsonp(api,{params:{fid:fid}})
-    .then(function(s){
-      if(s.data.errcode!=0) {
-        var info='E:DelF:'+s.data.errcode+":"+s.data.msg;
-        $log.log(info);
-        appData.toastMsg(info,8);
-        return;
-      }
-      
-      var fcat=feedAppCat(app,cat);
-      
-      //删除成功
-      for(var i=feedData.feedAll[fcat].length; i--; ) {
-        if(feedData.feedAll[fcat][i].fid==fid){
-          feedData.feedAll[fcat].splice(i,1);
-          //TODO: 服务器端会留下一堆无头的评论，待处理
-          break;
+    return $http.post("feed/del", { fid }) //, {signType:'single'})
+      .then(json => {
+        var fcat = feedAppCat(app, cat);
+        //删除成功
+        for (var i = feedData.feedAll[fcat].length; i--;) {
+          if (feedData.feedAll[fcat][i].fid == fid) {
+            feedData.feedAll[fcat].splice(i, 1);
+            //TODO: 服务器端会留下一堆无头的评论，待处理
+            break;
+          }
         }
-      }
-      appData.toastDone(1);
-    },function(e){
-      appData.toastMsg('Ejsonp:DelF',8);
-    });
-
+        appData.toastDone(1);
+      })
+      .catch(json => {
+        errorCount(1);
+        if (json.errcode) {
+          var info = 'E:DelF:' + json.errcode + ":" + json.msg;
+          $log.log(info);
+          appData.toastMsg(info, 8);
+          return;
+        }
+        return $q.reject(json);
+      });
   }
   function changeFeedAccess(app,cat,fid,access) {
-    var deferred = $q.defer();
-    var api=appData.urlSignApi('feed','change_access');
-    //appData.toastLoading();
-    return $http.jsonp(api,{params:{fid:fid,access:access}})
-    .then(function(s){
-      if(s.data.errcode!=0) {
-        var info='E:AccF:'+s.data.errcode+":"+s.data.msg;
-        $log.log(info);
-        //appData.toastMsg(info,8);
-        deferred.reject(info);
-        return deferred.promise;
-      }
-      //appData.toastDone(1);
-      deferred.resolve(1);//随便返回个1
-      return deferred.promise;
-    },function(e){
-      //appData.toastMsg('Ejsonp:AccF',8);
-      deferred.reject('Ejsonp:AccF');
-      return deferred.promise;
-    });
+    return $http.post("feed/change_access", { fid, access }) //, {signType:'single'})
+      .then(json => {
+      })
+      .catch(json => {
+        errorCount(1);
+        if (json.errcode) {
+          var info = 'E:DelF:' + json.errcode + ":" + json.msg;
+          $log.log(info);
+          appData.toastMsg(info, 8);
+          return  $q.reject(info);
+        }
+        return $q.reject(json);
+      });
   }
   
   function initDraft(app,cat) {
@@ -411,15 +337,15 @@ function ($log,$http,$timeout,$location,$q,AppbData,AppbCommentService){
       return deferred.promise;
     }
 
-    var api=appData.urlSignApi('feed','draft_init');
-    if(!api){
-      appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
-      deferred.reject('requireLogin');
-      return deferred.promise;
-    }
-    return $http.jsonp(api, {params:{app:app,cat:cat}})
-    .then(function(s){
-      var res=s.data;
+    // var api=appData.url---SignApi('feed','draft_init');
+    // if(!api){
+    //   appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
+    //   deferred.reject('requireLogin');
+    //   return deferred.promise;
+    // }
+    // return $http.jsonp(api, {params:{app:app,cat:cat}})
+    return $http.post("feed/draft_init", {app, cat}) //, {signType:'single'})
+    .then(function(res){
       if(res.errcode > 0) {
         appData.toastMsg('Error init_draft',60);
         $log.log('Error init_draft',res);

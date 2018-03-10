@@ -135,24 +135,6 @@ function($http, $window,$location,$log,$timeout,$q, SIGN)
     }).catch(json => {
       console.log('requireUsersInfo 错误:', json);
     });
-
-
-    var api=appData.urlSignApi('wx','get_users',ids.join(','));
-    return $http.jsonp(api).then(function(s){
-      if(s.data.errcode!=0) {
-        return $q.reject(-2);
-      }
-      var d=s.data.data;
-      for(var i=d.length;i--; ) {
-        dealWxHeadImg(d[i].wxinfo);
-        usersInfo[d[i]['uid']]=d[i];
-      }
-      // 只返回所请求的用户数组
-      return $q.resolve(singleUserinfo(arr, usersInfo));
-    },function(e){
-      $log.log('Err:getUsers:',e);
-      return $q.reject(e);
-    });
   }
 
   /**

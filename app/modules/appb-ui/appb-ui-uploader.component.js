@@ -79,18 +79,18 @@ angular.module('appb')
               $log.log('____Upload to wx server','n-img=',ni,'ns=',ns);
               //ctrl.appData.toastMsg('Updone i='+ni+',s='+ns);
               $scope.$apply();
-              var apiUp=ctrl.appData.urlSignApi('wx','mediaget');
-
-              apiUp+='&media_id=' + res.serverId;
-
-              $http.jsonp(apiUp)
-                .then(function(d){
-                  $log.log('upload our server=',d.data.data);
+              // var apiUp=ctrl.appData.url---SignApi('wx','mediaget');
+              // apiUp+='&media_id=' + res.serverId;
+              // $http.jsonp(apiUp)
+              //   .then(function(d){
+              $http.post("wx/mediaget", {media_id: res.serverId}) //, {signType:'single'})
+              .then(function(json){
+                  $log.log('upload our server=',json.data);
                   //ctrl.appData.toastMsg('UpRes');
-                  if(d.data.errcode!=0 || ! d.data.data) {
+                  if(json.errcode!=0 || ! json.data) {
                     ctrl.appData.setDialogData({
                       title:'api-upload Data Err!',
-                      content:'ns='+ns+',= '+JSON.stringify(d.data)+
+                      content:'ns='+ns+',= '+JSON.stringify(json)+
                       'Updone i='+ni+',s='+ns+','+res.serverId,
                       btn1:'OK',
                       show:1
@@ -98,9 +98,9 @@ angular.module('appb')
                     if(ctrl.countError++<10)ctrl.uploadImg();//错误次数不太多时继续重试
                     return;
                   }
-                  //d.data.data.name 是api上传后的文件ID
+                  //json.data.name 是api上传后的文件ID
                   //可以通过 apiRoot/file/g/ID 或获得文件
-                  ctrl.imgs[ns]=d.data.data.name;
+                  ctrl.imgs[ns]=json.data.name;
                   imgData.uploadings[ns]=0;
                   //把数据写回
                   ctrl.updateImg({imgs:ctrl.imgs});

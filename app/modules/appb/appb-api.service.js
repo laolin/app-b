@@ -6,6 +6,10 @@
         var appData = AppbData.getAppData();
 
         function AppbAPI(api, call, params) {
+          if(0){
+            // 其实，可以用以下一行代码替代
+            return $http.post("feed/draft_init", params).then(json => json.data);
+          }
           var deferred = $q.defer();
 
           var url = appData.urlSignApi(api, call);
