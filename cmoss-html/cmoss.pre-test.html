@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" class="no-js">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+  <title ng-bind="pageTitle">CMOSS 前期测试版</title>
+  <meta name="description" content="laolin's app B">
+
+  <script>
+    // 此变量的各成员，将覆盖 window.appbCfg 变量中对应的成员
+    var theSiteConfig = {
+      ver_name: 'preview',
+      apiRoot: 'https://api.jdyhy.com/cmoss-test-1.0/src/cmoss' //服务器测试API
+    }
+  </script>
+</head>
+
+<body>
+  <my-app>CMOSS 前期测试版<br><br>Loading...</my-app>
+  <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+  <script>
+    window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
+    !function (url) {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 300) {
+          eval(xhr.responseText);
+        }
+      }
+      xhr.open("GET", url + "?v=" + +new Date(), true);
+      xhr.send(null);
+    }("https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets/debug/cmoss.test/loader.js")
+  </script>
+</body>
+
+</html>

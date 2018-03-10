@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" class="no-js">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+  <title ng-bind="pageTitle">Welcome</title>
+  <meta name="description" content="laolin's app B">
+  <script>
+    // 此变量的各成员，将覆盖 window.appbCfg 变量中对应的成员
+    var theSiteConfig = {
+      apiRoot: '/Laolin/api-core/src' //本地API
+    }
+  </script>
+</head>
+
+<body>
+  <my-app>Loading...</my-app>
+  <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+  <script>
+    window.__assetsPath = "../dist/assets";
+    !function (url) {
+      //创建 - 第一步
+      var xhr = new XMLHttpRequest();
+      //接收 - 第三步
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 300) {
+          eval(xhr.responseText);
+        }
+      }
+      //连接 和 发送 - 第二步
+      xhr.open("GET", url + "?v=" + +new Date(), true);
+      xhr.send(null);
+    }("../dist/steefac/loader.js")
+  </script>
+</body>
+
+</html>
