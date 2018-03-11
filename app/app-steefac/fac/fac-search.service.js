@@ -114,7 +114,8 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,SIGN,FacMap,FacUser,Fa
     if(param.monthTo   ) serchPara.monthTo   = param.monthTo   ;
 
     /* 开始搜索 */
-    return SIGN.postLaolin('steeobj','search',serchPara)
+    return SIGN.post('stee_data', 'search', serchPara)
+    .then(json => json.datas.list)
     .then(list => {
       /**
        * 计算点到最后搜索基点的距离
@@ -122,6 +123,12 @@ function($log,$timeout,$q,$location,AppbData,AmapMainData,SIGN,FacMap,FacUser,Fa
       var serchPos = new AMap.LngLat(param.lng, param.lat);
       list.map( item => {
         item.distance = serchPos.distance([item.lngE7/1e7, item.latE7/1e7]);
+        item.totleAction = 0;
+        if(item.action){
+          for(var i in item.action){
+            item.totleAction += item.action[i] && (+ item.action[i]) || 0;
+          }
+        }
       });
       //console.log('serchPara = ', serchPara);
       //console.log('serchPos = ', serchPos);
