@@ -6,6 +6,7 @@
     'app-config',
     'app-run',
     'dj-view',
+    'dj-component',
     'ngRoute'
   ])
     .run(['$log', 'AppbData', function ($log, AppbData) {
