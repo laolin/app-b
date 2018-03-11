@@ -21,6 +21,7 @@
         <option>按距离排序</option>
         <option ng-if="type == 'steefac'">按产能排序</option>
         <option ng-if="type != 'steefac'">按需求排序</option>
+        <option ng-if="type == 'steefac'">关注度排序</option>
       </select>
     </div>
     <div class="flex-cc rem-13" ng-click="toggleHideMap()" c="6B">折叠地图</div>

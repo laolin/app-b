@@ -32,7 +32,10 @@
         </div>
         <div class="update shrink0">{{item.update_at|timespan:'MM月d日更新'}}</div>
       </div>
-      <div class="row-2">剩余产能：<span>{{item.cap_6m}}吨</span></div>
+      <div class="flex row-2">
+        <span>剩余产能：<span>{{item.cap_6m}}吨</span></span>
+        <span>受关注度：<span>{{item.totleAction}}</span></span>
+      </div>
       <div class="flex row-3">
         <div class="">擅长：<span>{{item.goodat}}</span></div>
         <div class="">{{item.distance|distance}}</div>
