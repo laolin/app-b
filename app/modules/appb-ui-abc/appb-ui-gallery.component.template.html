@@ -15,7 +15,7 @@
             <span class="img-bg-contain swiper-slide" 
             
             ng-style='{"background-image": $ctrl.appData.filePath?
-            "url("+$ctrl.appData.filePath+"/"+img+")" : ""
+            "url("+$ctrl.appData.imgUrl(img)+")" : ""
             }'
             ng-repeat='img in $ctrl.galleryData.imgs track by $index'
             >

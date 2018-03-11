@@ -26,7 +26,7 @@
             ng-repeat='img in $ctrl.feed.pics.split(",") track by $index'
             ng-init="picIndex=$index"
             ng-click="$ctrl.clickImg(picIndex)"
-            ng-src="{{$ctrl.appData.filePath}}/{{img}}">
+            ng-src="{{$ctrl.appData.imgPreviewUrl(img)}}">
             
           </p>
           <p class='eb-post_ext3'></p>

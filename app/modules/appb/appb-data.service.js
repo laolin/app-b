@@ -375,6 +375,20 @@ function($q, $rootScope,$location,$log,$timeout,$http,$window,
      *  （通常是通过API /file/g 访问文件 ）
      */
     filePath: '',// see: init()
+
+    imgUrl: function(url){
+      if(!url) return '';
+      if(/^http(s)?\:\/\/\w+\.oss-cn-beijing\.aliyuncs\.com/.test(url)) return url;
+      if(/^http(s)?\:\/\//.test(url)) return url;
+      return appData.filePath + '/' + url;
+    },
+    imgPreviewUrl: function(url){
+      if(!url) return '';
+      if(/^http(s)?\:\/\/\w+\.oss-cn-beijing\.aliyuncs\.com/.test(url)) return url + "?x-oss-process=image/resize,m_fill,h_100,w_100";
+      if(/^http(s)?\:\/\//.test(url)) return url;
+      return appData.filePath + '/' + url;
+    },
+
     errorCount:errorCount,
     errorMsg:errorMsg,
     
