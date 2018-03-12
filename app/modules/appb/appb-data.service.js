@@ -258,10 +258,9 @@ function($q, $rootScope,$location,$log,$timeout,$http,$window,
   // BEGIN: init functions
   //---------------------------------------------
   function init() {
-    $http.jsonp(urlApi('file','path')).then(function(d){
-      if(d.data.errcode==0) {
-        appData.filePath=appData.appCfg.apiRoot+d.data.data;
-      }
+    $http.post('file/path', {}, {signType: 'single'}).then(function(json){
+      var config = angular.extend({}, angular.dj.siteConfig, window.theSiteConfig)
+      appData.filePath = config.apiRoot + '/' + json.data;
     });
 
     initWx().catch( e =>{
