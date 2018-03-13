@@ -39,8 +39,8 @@
       $scope.imgList.splice(n, 1);
       this.updateImg({ imgs: $scope.imgList });
     }
-    this.clickImg = (n) => {
-      //this.appData.showGallery(this.imgs, n, this.deleteImg);
+    $scope.clickImg = (n) => {
+      this.appData.showGallery(this.imgs, n, this.deleteImg);
     }
     this.addImg = (fn) => {
       if ($scope.imgList.length >= this.maxCount) return;
