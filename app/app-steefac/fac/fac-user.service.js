@@ -200,7 +200,7 @@ function($location,$log,$q,$timeout,AppbData,AppbDataUser, SIGN, DjDialog) {
           FacUser.getMyData();
           $location.path( "/my-fac" )
         },function(e){//失败
-          dialogData.msgBox(e,'操作失败');
+          dialogData.msgBox(e.msg || e,'操作失败');
         });
       }
     );
@@ -253,7 +253,8 @@ function($location,$log,$q,$timeout,AppbData,AppbDataUser, SIGN, DjDialog) {
         myData.uid = parseInt(s.me.uid);
         myData.objCanAdmin = {};
         for (var i = objTypes.length; i--;) {
-          myData.objCanAdmin[objTypes[i]] = s.me[objTypes[i] + '_can_admin'].split(',')
+          var str = s.me[objTypes[i] + '_can_admin']
+          myData.objCanAdmin[objTypes[i]] = str && str.split(',') || [];
         }
       }
       s.datas && (myData.datas = s.datas);
