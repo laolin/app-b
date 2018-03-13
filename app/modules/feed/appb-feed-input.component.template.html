@@ -34,7 +34,15 @@
         imgs='$ctrl.imgs'
         max-count='9'
         update-img='$ctrl.updateImg(imgs)'
+        ng-if="!$ctrl.isWx"
       ></imgs-uploader>
+      <appb-ui-uploader
+        app-data='$ctrl.appData'
+        imgs='$ctrl.imgs'
+        max-count='9'
+        update-img='$ctrl.updateImg(imgs)'
+        ng-if="$ctrl.isWx"
+      ></appb-ui-uploader>
     </div>
     
     <!-- 3， cf.type = radio -->  
