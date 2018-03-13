@@ -3,7 +3,7 @@
 
     <ul class="weui-uploader__files" id="uploaderFiles">
       <li class="weui-uploader__file preview-box" ng-click="$ctrl.clickImg($index)" ng-repeat='img in imgList track by $index'>
-        <img ng-src="{{img}}?x-oss-process=image/resize,m_fill,h_100,w_100" />
+        <img ng-src="{{$ctrl.appData.imgPreviewUrl(img)}}" />
       </li>
     </ul>
 
