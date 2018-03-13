@@ -20,7 +20,7 @@
       }
 
       return fileToBlob(file).then( function(blob){
-        formData.append(key||'file', file, file.name);
+        formData.append(key||'file', blob, file.name);
 
         return post(url, formData)
       })
