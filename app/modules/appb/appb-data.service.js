@@ -259,8 +259,14 @@ function($q, $rootScope,$location,$log,$timeout,$http,$window,
   //---------------------------------------------
   function init() {
     $http.post('file/path', {}, {signType: 'single'}).then(function(json){
-      var config = angular.extend({}, angular.dj.siteConfig, window.theSiteConfig)
-      appData.filePath = config.apiRoot + '/' + json.data;
+      if(/^http(s)?\:\/\//.test(json.data)){
+        appData.filePath = json.data;
+      }
+      else{
+        var apiRoot = angular.extend({}, angular.dj.siteConfig, window.theSiteConfig).apiRoot;
+        if(!/\/$/.test(apiRoot)) apiRoot = apiRoot + '/';
+        appData.filePath = apiRoot + json.data;
+      }
     });
 
     initWx().catch( e =>{

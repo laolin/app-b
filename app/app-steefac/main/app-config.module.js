@@ -10,7 +10,7 @@
     function urlSign(api, call) {
       var param = signParam(api, call || '');
       if (!param) return '';
-      var url = SiteConfigProvider.apiRoot + "/" + api + "/" + call;
+      var url = SiteConfigProvider.apiRoot + api + "/" + call;
       var queryString = Object.keys(param).map(k => {
         return k + "=" + encodeURIComponent(param[k]);
       })
@@ -36,7 +36,7 @@
       return { uid, tokenid, timestamp, sign };
     }
 
-    signProvider.defaults.root = SiteConfigProvider.apiRoot;
+    signProvider.defaults.apiRoot = SiteConfigProvider.apiRoot;
     signProvider.defaults.sign = function (api, call, SingedRequest) {
       var calls = call.split('/')
       var url = urlSign(api, calls[0]);

@@ -83,7 +83,7 @@
      * }])
      */
     var defaults = this.defaults = {
-      root: './',
+      apiRoot: './',
       sign: sign,
       jsonYes: jsonYes,
       before: before,
@@ -93,7 +93,7 @@
     /** url签名
      */
     function sign(api, call, SingedRequest) {
-      return new SingedRequest(defaults.root + api + '/' + call, {});
+      return new SingedRequest(defaults.apiRoot + api + '/' + call, {});
     }
 
     /** 判断后端返回是否正确
@@ -150,7 +150,7 @@
     function $get() {
       return {
         prePost: prePost,
-        root: defaults.root || './',
+        apiRoot: defaults.apiRoot || './',
         sign: defaults.sign || sign,
         jsonYes: defaults.jsonYes || jsonYes,
         before: defaults.before || before,
@@ -224,7 +224,7 @@
       request: function (config) {
         // 只是增加后端请求主目录，而不需要签名
         if (config.signType == 'single'){
-          config.url = sign.root + (/\/$/.test(sign.root)?'':'/') + config.url;
+          config.url = sign.apiRoot + (/\/$/.test(sign.apiRoot)?'':'/') + config.url;
           config.signType = '';
           return config;
         }
