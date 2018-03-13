@@ -2,7 +2,7 @@
 
   angular.module('dj-component').factory("IMG", ["$q", "$log", function ($q, $log) {
 
-    var maxsize = 1e5; // 100K以下文件，直接上传
+    var maxsize = 2e5; // 200K以下文件，直接上传
 
     /**
      * 上传二进制对象
@@ -74,7 +74,7 @@
         var result = this.result;
         $log.log('图片大小', result.length);
 
-        //如果图片大小小于100kb，则直接上传
+        //如果图片大小小于200kb，则直接上传
         if (result.length <= maxsize) {
           $log.log('不压缩', result.length);
           deferred.resolve(file);
@@ -115,8 +115,8 @@
       var canvas = document.createElement("canvas");
       var ctx = canvas.getContext("2d");
 
-      //如果图片大于四百万像素，计算压缩比并将大小压至400万以下
-      var ratio = width * height / 1000000;
+      //如果图片大于三百万像素, 计算压缩比并将大小压至400万以下
+      var ratio = width * height / 3e6;
       if (ratio > 1) {
         ratio = Math.sqrt(ratio);
         width /= ratio;
@@ -159,8 +159,8 @@
         ctx.drawImage(img, 0, 0, width, height);
       }
 
-      //进行最小压缩
-      var ndata = canvas.toDataURL("image/jpeg", 0.1);
+      //进行压缩
+      var ndata = canvas.toDataURL("image/jpeg", 0.2);
 
       $log.log("压缩前：" + initSize);
       $log.log("压缩后：", ndata.length, "尺寸：", width, height);
