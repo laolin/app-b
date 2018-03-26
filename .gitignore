@@ -7,6 +7,12 @@ dist
 dist*
 package-lock.json
 
+
+
+# Windows vs code
+.vscode
+
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
