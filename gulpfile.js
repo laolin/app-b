@@ -170,7 +170,7 @@
  *  `default` : 同`dev`
  *  `dev` : = ['build-loader','wiredep']
  */
- 
+
 // =======================================================================
 // Gulp Plugins
 // =======================================================================
@@ -178,67 +178,67 @@
 //var $ = require('gulp-load-plugins')();
 
 var gulp = require('gulp'),
-    useref = require('gulp-useref'),
-    gulpif = require('gulp-if'),
+  useref = require('gulp-useref'),
+  gulpif = require('gulp-if'),
 
 
-    /**
-     * ES6 支持
-     * 需安装：
-       npm install --save-dev gulp-babel
-       npm install --save-dev babel-preset-es2015
-       npm install --save-dev babel-core
-     *
-     */
-    babel = require("gulp-babel"),
+  /**
+   * ES6 支持
+   * 需安装：
+     npm install --save-dev gulp-babel
+     npm install --save-dev babel-preset-es2015
+     npm install --save-dev babel-core
+   *
+   */
+  babel = require("gulp-babel"),
 
 
-    concat = require('gulp-concat'),
-    filter = require('gulp-filter'),
-    flatten = require('gulp-flatten'),
-    rename = require('gulp-rename'),
-    replace = require('gulp-replace'),
-    del = require('del'),
+  concat = require('gulp-concat'),
+  filter = require('gulp-filter'),
+  flatten = require('gulp-flatten'),
+  rename = require('gulp-rename'),
+  replace = require('gulp-replace'),
+  del = require('del'),
 
-    uglify = require('gulp-uglify'),
-    cleanCSS = require('gulp-clean-css'),
-    prefix = require('gulp-autoprefixer'),
-    htmlmin = require('gulp-htmlmin'),
-    imagemin = require('gulp-imagemin'),
-    templateCache = require('gulp-angular-templatecache'),
+  uglify = require('gulp-uglify'),
+  cleanCSS = require('gulp-clean-css'),
+  prefix = require('gulp-autoprefixer'),
+  htmlmin = require('gulp-htmlmin'),
+  imagemin = require('gulp-imagemin'),
+  templateCache = require('gulp-angular-templatecache'),
 
-    wiredep = require('wiredep').stream,
+  wiredep = require('wiredep').stream,
 
-    inject = require('gulp-inject'),
-    rev = require('gulp-rev'),
-    revReplace = require('gulp-rev-replace'),
-    streamSeries = require('stream-series'),
-    filelist = require('gulp-filelist'),
+  inject = require('gulp-inject'),
+  rev = require('gulp-rev'),
+  revReplace = require('gulp-rev-replace'),
+  streamSeries = require('stream-series'),
+  filelist = require('gulp-filelist'),
 
-    oss = require('gulp-alioss'),
-    
-    notify = require('gulp-notify'),
-    //order = require('gulp-order'),
-    debug = require('gulp-debug');
+  oss = require('gulp-alioss'),
 
-    
-    
-    var fs = require('fs');
-    var args = require('minimist')(process.argv.slice(2));
+  notify = require('gulp-notify'),
+  //order = require('gulp-order'),
+  debug = require('gulp-debug');
+
+
+
+var fs = require('fs');
+var args = require('minimist')(process.argv.slice(2));
 
 // =======================================================================
-var app_name=args['app'];
-if(!app_name)app_name=args['a'];
-if(!app_name)app_name='steefac';
+var app_name = args['app'];
+if (!app_name) app_name = args['a'];
+if (!app_name) app_name = 'steefac';
 
-fs.stat("./app/app-"+app_name+".define.js", function(err, stat) {
-  if(err){
-    console.log("Err: Missing ./app/app-"+app_name+".define.js");
+fs.stat("./app/app-" + app_name + ".define.js", function (err, stat) {
+  if (err) {
+    console.log("Err: Missing ./app/app-" + app_name + ".define.js");
     process.exit(1);
   }
 });
 
-var configObj =require ( './gulpfile.app.js' )(app_name);
+var configObj = require('./gulpfile.app.js')(app_name);
 
 // =======================================================================
 
@@ -249,17 +249,17 @@ var configObj =require ( './gulpfile.app.js' )(app_name);
  *  并登记到 configObj.injects 中，后面可自动注入
  */
 gulp.task('templatecache', function () {
-  
+
   //登记到 configObj.injects 中，后面可自动注入
-  configObj.injects.splice(configObj.injects.length-3, 0, [configObj.path.tmp+'/'+configObj.tplJsName]);
+  configObj.injects.splice(configObj.injects.length - 3, 0, [configObj.path.tmp + '/' + configObj.tplJsName]);
 
   //console.log('tplModule=',configObj.tplModule);
   //把模板文件打包成JS文件，放在TMP目录下
   return gulp.src(configObj.tplHtml)
     //.pipe(order(['app/**.html'])) //无法排序，不修改每次重建结果也都不一样 :(
-    .pipe(htmlmin({collapseWhitespace: true,removeComments: true}))
+    .pipe(htmlmin({ collapseWhitespace: true, removeComments: true }))
     //指定templatecache生成的目录、文件名，以便合并到 useref 指定的js文件中
-    .pipe(templateCache(configObj.tplJsName,{module: configObj.tplModule}))
+    .pipe(templateCache(configObj.tplJsName, { module: configObj.tplModule }))
     .pipe(gulp.dest(configObj.path.tmp));
 });
 
@@ -269,14 +269,14 @@ gulp.task('templatecache', function () {
  *  注入 APP 的 js 和 css
  *  这里也会注入 步骤s1 templatecache 生成的 模板 js 文件。
  */
-gulp.task('inject', ['templatecache'],function () {
-  var src=configObj.path.app + '/'+configObj.html_src;
-  var streams=[];
-  configObj.injects.forEach(function(v,k){
-    streams[k]=gulp.src(v, {read: false});
+gulp.task('inject', ['templatecache'], function () {
+  var src = configObj.path.app + '/' + configObj.html_src;
+  var streams = [];
+  configObj.injects.forEach(function (v, k) {
+    streams[k] = gulp.src(v, { read: false });
   })
-  return gulp.src( src )
-    .pipe(inject(streamSeries(streams), {relative: true}))
+  return gulp.src(src)
+    .pipe(inject(streamSeries(streams), { relative: true }))
     .pipe(rename(configObj.html_debug))
     .pipe(gulp.dest(configObj.path.app))
 });
@@ -285,8 +285,8 @@ gulp.task('inject', ['templatecache'],function () {
  *  s3: wiredep
  *  注入 bower components
  */
-gulp.task('wiredep', ['inject'], function() {
-    return gulp.src( configObj.path.app + '/'+configObj.html_debug )
+gulp.task('wiredep', ['inject'], function () {
+  return gulp.src(configObj.path.app + '/' + configObj.html_debug)
     .pipe(wiredep({
       optional: 'configuration',
       goes: 'here'
@@ -301,51 +301,51 @@ gulp.task('wiredep', ['inject'], function() {
  *  
  *  同时生成 css.json js.json 文件到 dist-app/目录下，供loader.js使用
  */
-gulp.task('html-useref',['wiredep'], function(){
-  
+gulp.task('html-useref', ['wiredep'], function () {
+
   var jsFilter = filter("**/*.js", { restore: true });
   var cssFilter = filter("**/*.css", { restore: true });
-  
-    return gulp.src(configObj.path.app + '/'+configObj.html_debug)
-        .pipe(useref())
-        .pipe(gulpif('*.css', cleanCSS()))
-        .pipe(gulpif('*.html', htmlmin({collapseWhitespace: true,removeComments: true})))
+
+  return gulp.src(configObj.path.app + '/' + configObj.html_debug)
+    .pipe(useref())
+    .pipe(gulpif('*.css', cleanCSS()))
+    .pipe(gulpif('*.html', htmlmin({ collapseWhitespace: true, removeComments: true })))
 
 
-        /* ES6支持 */
-        .pipe(gulpif(/4.*\.js/,  babel({presets: ['es2015']})))
-        .on('error', function(err) {
-          console.log('babel 转换错误：', err);
-          this.end();
-        })
+    /* ES6支持 */
+    .pipe(gulpif(/4.*\.js/, babel({ presets: ['es2015'] })))
+    .on('error', function (err) {
+      console.log('babel 转换错误：', err);
+      this.end();
+    })
 
-        .pipe(gulpif('*.js',  uglify({compress: { drop_console: true }})))
-        .pipe(rev()) 
-        .pipe(revReplace()) 
-        .pipe(gulpif('*.html', rename(configObj.dist_html)))
-        .pipe(debug({title:'userefFiles : '})) 
-        .pipe(gulp.dest(configObj.path.dist_app)) 
-      
-        //.pipe(debug({title:'a1 -'})) 
-        .pipe(flatten())
-        
-        .pipe(jsFilter) 
-        //.pipe(debug({title:'BBB1 -'})) 
-        .pipe(filelist('js.json',{ relative: true }))
-        .pipe(jsFilter.restore) 
-        //.pipe(debug({title:'bbbbbbb1 @@'})) 
-        
-        
-        .pipe(cssFilter) 
-        //.pipe(debug({title:'BBBBBBBBB2 -'})) 
-        .pipe(filelist('css.json',{ relative: true }))
-        .pipe(cssFilter.restore)
-        //.pipe(debug({title:'bbbbbbbbbbbbbbbbbb2 @@'})) 
-        
-        //.pipe(debug({title:'a2 -'})) 
-        .pipe(gulp.dest(configObj.path.dist_app)) 
-      
-      
+    .pipe(gulpif('*.js', uglify({ compress: { drop_console: true } })))
+    .pipe(rev())
+    .pipe(revReplace())
+    .pipe(gulpif('*.html', rename(configObj.dist_html)))
+    .pipe(debug({ title: 'userefFiles : ' }))
+    .pipe(gulp.dest(configObj.path.dist_app))
+
+    //.pipe(debug({title:'a1 -'})) 
+    .pipe(flatten())
+
+    .pipe(jsFilter)
+    //.pipe(debug({title:'BBB1 -'})) 
+    .pipe(filelist('js.json', { relative: true }))
+    .pipe(jsFilter.restore)
+    //.pipe(debug({title:'bbbbbbb1 @@'})) 
+
+
+    .pipe(cssFilter)
+    //.pipe(debug({title:'BBBBBBBBB2 -'})) 
+    .pipe(filelist('css.json', { relative: true }))
+    .pipe(cssFilter.restore)
+    //.pipe(debug({title:'bbbbbbbbbbbbbbbbbb2 @@'})) 
+
+    //.pipe(debug({title:'a2 -'})) 
+    .pipe(gulp.dest(configObj.path.dist_app))
+
+
 });
 
 
@@ -354,33 +354,68 @@ gulp.task('html-useref',['wiredep'], function(){
  *  app-b.html 中仅注入 loader()函数 生成 index.html
  *  其他css,js 都是通过 loader.js 来动态加载
  */
-gulp.task('build-loader_safe', ['html-useref'],build_loader);
+gulp.task('build-loader_safe', ['html-useref'], build_loader);
 gulp.task('build-loader', build_loader);
 function build_loader() {
-  var src=configObj.path.app + '/'+configObj.html_src;
-  var loaderJs=configObj.path.app + '/'+'loader.js';
-  
+  var src = configObj.path.app + '/' + configObj.html_src;
+  var loaderJs = configObj.path.app + '/' + 'loader.js';
+
   //------------------------------------------------
   //1, 把loader.js里的css,js文件列表替换掉，然后写入dist目录
-  var allJs =require ( './'+configObj.path.dist_app+'/js.json');
-  var allCss =require ( './'+configObj.path.dist_app+'/css.json');
-  
+  var allJs = require('./' + configObj.path.dist_app + '/js.json');
+  var allCss = require('./' + configObj.path.dist_app + '/css.json');
+
   //获取真实的js,css文件名
   //确保加载顺序，库的文件名是1-xxx.js，项目的文件名是2-xxx.js
   allJs.sort();
   allCss.sort();
-  allJs=JSON.stringify(allJs);
-  allCss=JSON.stringify(allCss);
+  allJs = JSON.stringify(allJs);
+  allCss = JSON.stringify(allCss);
 
   gulp.src(loaderJs)
     //替换 真实的js,css文件名
     .pipe(replace(
       "(document,__allJs__,__allCss__,__buildTime__)",
-      "(document,"+allJs+","+allCss+",'"+(new Date).toLocaleString()+"')"))
-    .pipe(uglify({compress: { drop_console: true }}))
+      "(document," + allJs + "," + allCss + ",'" + (new Date).toLocaleString() + "')"))
+    .pipe(uglify({ compress: { drop_console: true } }))
     .pipe(gulp.dest(configObj.path.dist_app))
-  
-  
+
+
+  // 生成多个版本的 loader
+  var vers = {
+    "cmoss.master.loader": `
+      window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
+      window.theSiteConfig = {
+        apiRoot: 'https://api.qinggaoshou.com/cmoss-master-1.0.0/src/cmoss/'
+      };`,
+    "cmoss.preview.loader": `
+      window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
+      window.theSiteConfig = {
+        apiRoot: 'https://api.qinggaoshou.com/cmoss-master-1.0.1/src/cmoss/'
+      };`,
+    "cmoss.test.loader": `
+      window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
+      window.theSiteConfig = {
+        apiRoot: 'https://api.jdyhy.com/cmoss-test-1.0/src/cmoss'
+      };`
+  };
+
+  for (var name in vers) {
+    gulp.src(loaderJs)
+      .pipe(replace(
+        "//window.theSiteConfig", vers[name]))
+      //替换 真实的js,css文件名
+      .pipe(replace(
+        "(document,__allJs__,__allCss__,__buildTime__)",
+        "(document," + allJs + "," + allCss + ",'" + (new Date).toLocaleString() + "')"))
+      .pipe(uglify({ compress: { drop_console: false } }))
+      .pipe(concat(name + ".js"))
+      .pipe(gulp.dest(configObj.path.dist_root + '/loaders'))
+  }
+
+
+
+
   //------------------------------------------------
   //2, app-b.html 文件只注入loader()函数，
   //   然后写入dist/imdex.html
@@ -390,26 +425,26 @@ function build_loader() {
   //   用于调试。
   // app/index.html用usref合并压缩后，
   //   是写入dist/imdex0.html，属于备用文件)
-  var depAss=configObj.path.assets_dep_at;
-  
-  var loader=function(){
-    return function(ass,app){
-      window.__assetsPath=ass;
-      var el=document.createElement("script")
-      el.setAttribute("type","text/javascript")
-      el.setAttribute("src", ass+'/../'+app+'/loader.js?_'+(+new Date))
+  var depAss = configObj.path.assets_dep_at;
+
+  var loader = function () {
+    return function (ass, app) {
+      window.__assetsPath = ass;
+      var el = document.createElement("script")
+      el.setAttribute("type", "text/javascript")
+      el.setAttribute("src", ass + '/../' + app + '/loader.js?_' + (+new Date))
       document.getElementsByTagName("head")[0].appendChild(el)
     }
   }();
-  
-  var jsDep="<script>("+
-    loader.toString()+
-  ")('"+depAss+"','"+app_name+"')</script>";
-  return gulp.src( src )
+
+  var jsDep = "<script>(" +
+    loader.toString() +
+    ")('" + depAss + "','" + app_name + "')</script>";
+  return gulp.src(src)
     .pipe(replace("</body>",
-        jsDep+"</body>"))//在 index.html 最后添加<srcipt>
-        
-    .pipe(htmlmin({collapseWhitespace: true,removeComments: true,minifyJS:true}))
+      jsDep + "</body>"))//在 index.html 最后添加<srcipt>
+
+    .pipe(htmlmin({ collapseWhitespace: true, removeComments: true, minifyJS: true }))
     .pipe(rename(configObj.dist_loader))
     .pipe(gulp.dest(configObj.path.dist_app))
 }
@@ -418,22 +453,22 @@ function build_loader() {
 
 
 
-gulp.task('copyImg', function() {
-    return gulp.src(configObj.path.app_assets+'/img/**/*.*')
+gulp.task('copyImg', function () {
+  return gulp.src(configObj.path.app_assets + '/img/**/*.*')
     .pipe(imagemin())
-    .pipe(gulp.dest(configObj.path.dist_assets+'/img'))
+    .pipe(gulp.dest(configObj.path.dist_assets + '/img'))
 });
 
 
 //font-awesome 的字体文件
-gulp.task('copyFonts1', function() {
+gulp.task('copyFonts1', function () {
   return gulp.src('bower_components/font-awesome/fonts/*.*')
     //.pipe(flatten())
-    .pipe(gulp.dest(configObj.path.dist_assets+'/fonts'))
+    .pipe(gulp.dest(configObj.path.dist_assets + '/fonts'))
 });
 
 
-gulp.task('copy', ['copyFonts1','copyImg'], function(){
+gulp.task('copy', ['copyFonts1', 'copyImg'], function () {
 
 });;
 
@@ -470,59 +505,59 @@ module.exports = function () {
   2， 自动上传的文件和实际文件不一样？？（未确认）
 */
 gulp.task('dep_test', function () {
-  fs.stat('./tmp/deploy.oss.js', function(err, stat) {
-    if(err == null) {
+  fs.stat('./tmp/deploy.oss.js', function (err, stat) {
+    if (err == null) {
       var optionJs = require('./tmp/deploy.oss.js')();
       var optionCss = require('./tmp/deploy.oss.js')();
       var optionApp = require('./tmp/deploy.oss.js')();
       console.log('deploy TEST to ali-oss');
-      var alljs =require ( './'+configObj.path.dist_app+'/js.json');
-      var allcss =require ( './'+configObj.path.dist_app+'/css.json');
-      
+      var alljs = require('./' + configObj.path.dist_app + '/js.json');
+      var allcss = require('./' + configObj.path.dist_app + '/css.json');
+
       var i;
       var depRt;
-      var depFiles=[];
-      
-      var appb_root='app-b';
-      
-      optionJs.prefix=appb_root+'/assets/js/';
-      depRt=configObj.path.dist_root+'/assets/js/';
-      for(i=alljs.length;i--; ) {
-        depFiles.push(depRt+alljs[i]);
+      var depFiles = [];
+
+      var appb_root = 'app-b';
+
+      optionJs.prefix = appb_root + '/assets/js/';
+      depRt = configObj.path.dist_root + '/assets/js/';
+      for (i = alljs.length; i--;) {
+        depFiles.push(depRt + alljs[i]);
       }
       gulp.src(depFiles)
-        .pipe(debug({title:'oss JS: '})) 
+        .pipe(debug({ title: 'oss JS: ' }))
         .pipe(oss(optionJs));
-        
-      depFiles=[];      
-      optionCss.prefix=appb_root+'/assets/css/';
-      depRt=configObj.path.dist_root+'/assets/css/';
-      for(i=allcss.length;i--; ) {
-        depFiles.push(depRt+allcss[i]);
+
+      depFiles = [];
+      optionCss.prefix = appb_root + '/assets/css/';
+      depRt = configObj.path.dist_root + '/assets/css/';
+      for (i = allcss.length; i--;) {
+        depFiles.push(depRt + allcss[i]);
       }
       gulp.src(depFiles)
-        .pipe(debug({title:'oss CSS: '})) 
+        .pipe(debug({ title: 'oss CSS: ' }))
         .pipe(oss(optionCss));
 
-      optionApp.prefix=appb_root+'/'+app_name+'_test/';
-      depRt=configObj.path.dist_root+'/'+app_name+'/loader.js';
+      optionApp.prefix = appb_root + '/' + app_name + '_test/';
+      depRt = configObj.path.dist_root + '/' + app_name + '/loader.js';
 
       return gulp.src(depRt)
-        .pipe(debug({title:'oss App: '})) 
+        .pipe(debug({ title: 'oss App: ' }))
         .pipe(oss(optionApp));
-        
+
     } else {
-      console.log('dep1 file error: ',err.code);
+      console.log('dep1 file error: ', err.code);
     }
   })
 })
 
-function clearTplFile(){
-  fs.writeFile(configObj.path.tmp+'/'+configObj.tplJsName,'//clear after build');
+function clearTplFile() {
+  fs.writeFile(configObj.path.tmp + '/' + configObj.tplJsName, '//clear after build');
 };
 
-gulp.task('build', ['bu','copy']);
-gulp.task('bu',['build-loader_safe'],clearTplFile);
-gulp.task('dev',['wiredep'], clearTplFile);
+gulp.task('build', ['bu', 'copy']);
+gulp.task('bu', ['build-loader_safe'], clearTplFile);
+gulp.task('dev', ['wiredep'], clearTplFile);
 
-gulp.task('default',['dev']);
+gulp.task('default', ['dev']);
