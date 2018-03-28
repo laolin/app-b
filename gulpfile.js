@@ -396,6 +396,7 @@ function build_loader() {
     "cmoss.test.loader": `
       window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
       window.theSiteConfig = {
+        localStorage_KEY: "__qgs_test_user_token__",
         apiRoot: 'https://api.jdyhy.com/cmoss-test-1.0/src/cmoss'
       };`
   };
