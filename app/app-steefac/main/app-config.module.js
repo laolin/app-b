@@ -81,7 +81,7 @@
       me: {},
       wait_app_me: false, //new DjWaiteReady(),
       "刷新个人信息": function () {
-        if (USER.wait_app_me) return USER.wait_app_me.ready();
+        if (USER.me.uid && USER.wait_app_me) return USER.wait_app_me.ready();
         USER.wait_app_me = new DjWaiteReady();
         return $http.post('app/me').then(json => {
           USER.me = json.datas;
@@ -90,6 +90,9 @@
           USER.wait_app_me.resolve(json);
           setTimeout(() => { USER.wait_app_me = false; }, 5000);
           return json;
+        }).catch(e=>{
+          // 失败的，要重新加载
+          USER.wait_app_me = false;
         })
       },
       "个人信息": function () {
