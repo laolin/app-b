@@ -9,8 +9,8 @@ var SYS_ADMIN=0x10000;
 
 angular.module('steefac')
 .factory('FacUser',
-['$location','$log','$q','$timeout','AppbData','AppbDataUser', 'SIGN', 'DjDialog',
-function($location,$log,$q,$timeout,AppbData,AppbDataUser, SIGN, DjDialog) {
+['$location','$log','$q', '$http', '$timeout','AppbData','AppbDataUser', 'SIGN', 'DjDialog',
+function($location,$log,$q,$http, $timeout,AppbData,AppbDataUser, SIGN, DjDialog) {
   
   var FacUser = {$log, $q, $timeout, SIGN, DjDialog}; // 省得再注入！
   var appData=AppbData.getAppData();
@@ -32,7 +32,7 @@ function($location,$log,$q,$timeout,AppbData,AppbDataUser, SIGN, DjDialog) {
    * 不返回
    */
   FacUser.logAction = function(k1, k2, v1, v2, json){
-    SIGN.post('stee_data', 'logAction', {k1, k2, v1, v2, json});
+    $http.post('stee_data/logAction', {k1, k2, v1, v2, json});
   }
 
   /**
@@ -43,13 +43,13 @@ function($location,$log,$q,$timeout,AppbData,AppbDataUser, SIGN, DjDialog) {
     var limit = fac.limit;
     var dontDialog = limit.max - limit.used >= 5;
     if(dontDialog){
-      return SIGN.post('steeobj', 'detail', { type, id, confirm: 1 }).then(json =>json.data);
+      return $http.post('steeobj/detail', { type, id, confirm: 1 }).then(json =>json.data);
     }
     return DjDialog.modal({
       title: `今日额度 ${limit.max} 条，已用 ${limit.used} 条`,
       body: `查看 该项目 详情？`
     }).then(() => {
-      return SIGN.post('steeobj', 'detail', { type, id, confirm: 1 }).then(json =>json.data);
+      return $http.post('steeobj/detail', { type, id, confirm: 1 }).then(json =>json.data);
     });
   }
 
@@ -100,7 +100,7 @@ function($location,$log,$q,$timeout,AppbData,AppbDataUser, SIGN, DjDialog) {
      * 页面计数功能
      */
     FacUser.getPageReadLimit = function(type, facid){
-    return SIGN.post('stee_data', 'getReadDetailLimit', {type, facid})
+    return $http.post('stee_data/getReadDetailLimit', {type, facid})
     .then(json => {
       var limit = json.datas.limit;
       if(!limit){
@@ -126,13 +126,13 @@ function($location,$log,$q,$timeout,AppbData,AppbDataUser, SIGN, DjDialog) {
    * 申请查看页面
    */
   FacUser.applyReadDetail = function(type, facid){
-    return SIGN.post('stee_data', 'applyReadDetail', {type, facid});
+    return $http.post('stee_data/applyReadDetail', {type, facid});
   }
   /**
    * 获取公司或项目详情
    */
   FacUser.readObjDetail = function(type, facid){
-    return SIGN.post('steeobj','detail', {type, id: facid});
+    return $http.post('steeobj/detail', {type, id: facid});
   }
 
   //0 : not admin
@@ -223,7 +223,7 @@ function($location,$log,$q,$timeout,AppbData,AppbDataUser, SIGN, DjDialog) {
       return $q.when(FacUser.getMyData.result);
     }
     var deferred = $q.defer();
-    SIGN.post('app', 'me').then(json => {
+    $http.post(reNew? "用户/刷新个人信息": "用户/个人信息").then(json => {
       // alert('个人信息, json =' + JSON.stringify(json));
       return json.datas;
     }).then(function (s) {
