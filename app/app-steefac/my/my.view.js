@@ -6,8 +6,8 @@ angular.module('steefac')
   $routeProvider.when('/my', {
     pageTitle: "我的",
     templateUrl: 'app-steefac/my/my.view.template.html',
-    controller: ['$scope','$timeout','$log','AppbFeedService','AppbData','AppbUiService','AmapMainData','FacUser','FacSearch',
-      function ($scope,$timeout,$log,AppbFeedService,AppbData,AppbUiService,AmapMainData,FacUser,FacSearch) {
+    controller: ['$scope','$timeout','$log', '$http', 'AppbFeedService','AppbData','AppbUiService','AmapMainData','FacUser','FacSearch',
+      function ($scope,$timeout,$log, $http, AppbFeedService,AppbData,AppbUiService,AmapMainData,FacUser,FacSearch) {
 
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
@@ -35,6 +35,19 @@ angular.module('steefac')
             if(ctrl.facIds[ctrl.objTypes[i]].length)ctrl.noIds=false;
           }
           ctrl.isLoading=0;
+        });
+
+        /** 浏览历史 */
+        $scope.viewHistory = {};
+        $http.post("cache/load", { ac: "view-steeproj" }).then(json => {
+          var list = json.datas.data;
+          if (!angular.isArray(list)) list = [];
+          $scope.viewHistory.steeproj = list.slice(-10).join(',');
+        });
+        $http.post("cache/load", { ac: "view-steefac" }).then(json => {
+          var list = json.datas.data;
+          if (!angular.isArray(list)) list = [];
+          $scope.viewHistory.steefac = list.slice(-10).join(',');
         });
         
         $scope.$on('$viewContentLoaded', function () {

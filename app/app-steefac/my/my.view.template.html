@@ -43,6 +43,23 @@
 </div>
 
 
+
+
+<div class="weui-panel weui-panel_access">
+  <div class="weui-cell">
+    <div class="weui-cell__bd">最近浏览</div>
+    <div class="weui-cell__ft text-active" ng-click="hideRecentRead = !hideRecentRead">
+      {{hideRecentRead&&'打开'||'折叠'}}
+    </div>
+  </div>
+  <div class="weui-panel__bd padding-h-2" ng-if="!hideRecentRead">
+    <facs-show title='A' type="'steefac'" fac-ids='viewHistory.steefac'></facs-show>
+    <facs-show title='B' type="'steeproj'" fac-ids='viewHistory.steeproj'></facs-show>
+  </div>
+</div>
+
+
+
 <div ng-if='1'> 
   <appb-weui-cells
     title='创建'
