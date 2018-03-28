@@ -28,19 +28,21 @@
 
 
   /** 用户模块 */
-  theConfigModule.run(['$rootScope', '$http', '$q', 'sign', function ($rootScope, $http, $q, sign) {
+  theConfigModule.run(['$rootScope', '$http', '$q', '$timeout', 'sign', 'DjWaiteReady', confogUser]);
+
+  function confogUser($rootScope, $http, $q, $timeout, sign, DjWaiteReady) {
 
     /**
      * 所有用户权限
      */
     var theRights = [
-      { name: "推送项目给产能", fa: "window-restore", path: "/action/check-stock", color: "#f80" },
-      { name: "推送产能给项目", fa: "window-restore", path: "/action/check-stock", color: "#f80" },
-      { name: "更新项目", fa: "qrcode", path: "/action/new-obj-qrcode", color: "#c08" },
+      { name: "推送项目给产能", fa: "send", path: "", color: "#f80" },
+      { name: "推送产能给项目", fa: "send", path: "", color: "#808" },
+      { name: "更新项目", fa: "edit", path: "", color: "#080" },
       { name: "更新产能", fa: "edit", path: "", color: "#666" },
       { name: "关闭项目", fa: "edit", path: "", color: "#666" },
 
-      { admin: 1, name: "用户管理", fa: "edit", path: "/roleright/list", color: "#080" },
+      { admin: 1, name: "用户管理", fa: "users", path: "/roleright/list", color: "#080" },
     ]
 
     var USER = {
@@ -77,16 +79,21 @@
 
       /** 个人信息部分 */
       me: {},
+      wait_app_me: false, //new DjWaiteReady(),
       "刷新个人信息": function () {
+        if (USER.wait_app_me) return USER.wait_app_me.ready();
+        USER.wait_app_me = new DjWaiteReady();
         return $http.post('app/me').then(json => {
-          USER.me = json.datas.me;
+          USER.me = json.datas;
           if (!angular.isArray(USER.me.rights)) USER.me.rights = [];
           angular.extend(USER.me, USER["权限分组"](USER.me.rights));
+          USER.wait_app_me.resolve(json);
+          setTimeout(() => { USER.wait_app_me = false; }, 5000);
           return json;
         })
       },
       "个人信息": function () {
-        if (USER.me && USER.me.uid) return sign.OK({ me: USER.me });
+        if (USER.me && USER.me.uid) return sign.OK(USER.me);
         return USER["刷新个人信息"]();
       },
       "保存个人信息": function (attr) {
@@ -148,7 +155,8 @@
     });
 
 
-  }]);
+  };
+
 
 
 
