@@ -160,6 +160,40 @@
 
 
 
+  /**
+   * 本地数据缓存
+   */
+  theConfigModule.run(['$http', '$q', 'sign', 'LocalStorageTable', function ($http, $q, sign, LocalStorageTable) {
+
+    var cacheAcTable = new LocalStorageTable('cmoss-cache-ac');
+
+    /**
+     * 从缓存读取流程数据
+     */
+    sign.registerHttpHook({
+      match: /^cache\/load$/,
+      hookRequest: function (config, mockResponse) {
+        var param = config.data;
+        return mockResponse.resolve(cacheAcTable.select({ac: param.ac}).then(list =>{
+          return sign.OK(list[0]||{});
+        }));
+      }
+    });
+
+    /**
+     * 保存流程数据到缓存
+     */
+    sign.registerHttpHook({
+      match: /^cache\/save$/,
+      hookRequest: function (config, mockResponse) {
+        var param = config.data;
+        return mockResponse.resolve(cacheAcTable.update({ac: param.ac}, {data: param.data}, true));
+      }
+    });
+
+
+  }]);
+
 
 
   if (0) {
