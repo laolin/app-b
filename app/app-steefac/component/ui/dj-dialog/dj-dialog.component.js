@@ -57,5 +57,12 @@
         $scope.dialogShow = false;
       }
     };
+    $scope.$on('$locationChangeStart', function(event) {
+      //显示时按浏览器的后退按钮：关闭对话框
+      if($scope.dialogShow) {
+        $scope.cancel();
+        event.preventDefault();
+      }
+    });
   }
 })(window, angular);
