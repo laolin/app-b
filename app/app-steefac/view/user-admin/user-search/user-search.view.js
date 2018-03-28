@@ -20,14 +20,18 @@
   function ctrl($scope, $location, AppbData, FacUser) {
     var search = $location.search();
     $scope.text = search.text || '';
+    $scope.laoding = false;
     if($scope.text){
+      $scope.laoding = true;
       FacUser.SIGN.post("stee_data", "search_user", {text: $scope.text})
       .then( json => json.datas.list )
       .then( list => {
         $scope.list = list;
+        $scope.laoding = false;
       })
       .catch(e => {
         console.log('查找失败：', e);
+        $scope.laoding = false;
       })
     }
     $scope.search = () => {
