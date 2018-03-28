@@ -34,6 +34,14 @@
       $scope.idsFrom = this.idsFrom;
       theTypes.from = this.typeFrom == 'steeproj' ? typeB : typeA;
       theTypes.to   = this.typeTo   == 'steeproj' ? typeB : typeA;
+      if(this.idsFrom && this.idsFrom.length){
+        console.log('推送消息, idsFrom=', this.idsFrom);
+        SIGN.postLaolin('steeobj', 'li', {type: theTypes.from.en, ids: this.idsFrom.join(',')}).then( list => {
+          $scope.list = list.map(item => {
+            return {id: item.id, name: item.name};
+          });
+        })
+      }
       if(!this.idsFrom && this.myData){
         var objCanAdminID = this.myData.objCanAdmin && this.myData.objCanAdmin[theTypes.from.en];
         if(objCanAdminID && objCanAdminID.length){
@@ -53,6 +61,7 @@
     $scope.showDlg = () => {
       /* 记录用户点击 */
       $scope.$emit('require-log-user-action', {ac: '点击推送', val: this.val});
+      console.log('点击推送, list=', $scope.list);
       if(!$scope.list || !$scope.list.length){
         return;
       }
