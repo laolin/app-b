@@ -1,0 +1,9 @@
+text-icon {
+  font-size: inherit;
+}
+text-icon > div{
+  font-size: inherit;
+}
+text-icon > div > i.fa{
+  font-size: 2.6em;
+}

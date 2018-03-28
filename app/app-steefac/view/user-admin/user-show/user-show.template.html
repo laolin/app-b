@@ -30,7 +30,7 @@
       <p>管理的项目（{{user.objAdmin.steeproj.length||0}}家）</p>
     </div>
     <div class="weui-cell__ft text-active" ng-click="hideProjList = !hideProjList">
-      {{hideFacList&&'打开'||'折叠'}}
+      {{hideProjList&&'打开'||'折叠'}}
     </div>
   </div>
   <div class="weui-panel__bd" ng-if="!hideProjList">
@@ -58,5 +58,21 @@
         {{user.activity['day0.083']}}<span class="text-active">【2小时】</span>
       </a>
     </div>
+  </div>
+</div>
+
+
+
+<div class="weui-panel weui-panel_access">
+  <div class="weui-cell">
+    <div class="weui-cell__bd">
+      <p>权限</p>
+    </div>
+    <div class="weui-cell__ft text-active" ng-click="hideRolerightEdit = !hideRolerightEdit">
+      {{hideRolerightEdit&&'打开'||'折叠'}}
+    </div>
+  </div>
+  <div class="weui-panel__bd padding-h-2" ng-if="!hideRolerightEdit">
+    <roleright-edit></roleright-edit>
   </div>
 </div>
