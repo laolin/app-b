@@ -12,11 +12,11 @@
     $routeProvider.when('/fac-detail/:id', {
       pageTitle: "公司详情",
       templateUrl: 'app-steefac/view/fac-detail/fac-detail.template.html',
-      controller: ['$scope', '$routeParams', '$location', 'AppbData','$q','FacSearch','FacUser', ctrl]
+      controller: ['$scope', '$routeParams', '$location', '$http', 'AppbData','$q','FacSearch','FacUser', ctrl]
     });
   }]);
 
-  function ctrl($scope, $routeParams, $location, AppbData,$q,FacSearch,FacUser) {
+  function ctrl($scope, $routeParams, $location, $http, AppbData,$q,FacSearch,FacUser) {
     var appData=AppbData.getAppData();
     var userData=AppbData.getUserData();
     var facId = $routeParams.id;
@@ -31,6 +31,26 @@
         // 处理公司数据
         return FacUser.preReadDetail('steefac', facId, results[0].data).then(fac => {
           resolveFac(fac);
+
+          $http.post("cache/load", { ac: "view-steefac" }).then(json => {
+            var list = json.datas.data;
+            if (!angular.isArray(list)) list = [];
+            list = list.slice(-50);
+            console.log('读取历史记录 :', json, list, [facId])
+            list = list.filter(id => id != facId);
+            console.log('新记录 :', list)
+            list.push(facId);
+            $http.post("cache/save", { ac: "view-steefac", data: list })
+              .then(json => {
+                console.log('保存记录 :', json)
+              })
+              .catch(json => {
+                console.log('保存记录错误 :', json)
+              })
+              ;
+          }).catch(e => {
+            console.log('读取历史记录 error:', e)
+          });
         })
       },
       function(json){
