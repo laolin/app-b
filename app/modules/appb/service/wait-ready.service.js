@@ -15,11 +15,11 @@
    dataNeedReady.resolve('这是备妥的数据！'); //
 
  */
-!(function (window, angular, undefined){
-  'use strict';
+!(function (window, angular, undefined) {
 
-  angular.module('appb')
-  .factory('DjWaiteReady', ['$q', function ($q){
+  var serviceModule = angular.module('dj-service');
+
+  serviceModule.factory('DjWaiteReady', ['$q', function ($q) {
 
     function DjWaiteReady(){
       this._isReady = false;
@@ -62,15 +62,16 @@
        * 等待数据备妥承诺
        * @param func 兑现回调函数。承诺兑现时，调用本函数，并传递备妥的数据
        */
-      ready: function(){
+      ready: function(fn){
         if(this._isReady == 'reject'){
           return $q.reject(this.promise);
         }
+        fn && $q.when(this.promise).then(fn);
         return $q.when(this.promise);
       }
     }
 
     return DjWaiteReady;
   }]);
-  
+
 })(window, angular);
