@@ -13,11 +13,11 @@
     bindings: {
       fac: '<'
     },
-    controller:['$scope', '$element', 'FacSearch', 'AppbData', 'FacUser', 'SIGN', ctrl]
+    controller:['$scope', '$element', '$http', 'FacSearch', 'AppbData', 'FacUser', 'SIGN', ctrl]
   });
 
 
-  function ctrl($scope, $element, FacSearch, AppbData, FacUser, SIGN) {
+  function ctrl($scope, $element, $http, FacSearch, AppbData, FacUser, SIGN) {
     $scope.appData = AppbData.getAppData();
     $scope.FacSearch = FacSearch;
     $scope.type = 'steefac';
@@ -54,8 +54,24 @@
         }
       });
     }
-    FacUser.getMyData().then((myData)=>{
-      $scope.myData = myData;
+    $http.post("用户/个人信息").then(json => {
+      var str = json.datas.me['steeproj_can_admin'] || "";
+      $scope.sendFromIds = str ? str.split(',') : [];
+
+      /** 如果用户有[推送项目给产能]权限， 添加最近浏览记录到待推送列表 */
+      if(json.datas.rightIcons && json.datas.rightIcons.find(row=>row.name=='推送项目给产能')){
+        $http.post("cache/load", { ac: "view-steeproj" }).then(json => {
+          var list = json.datas.data;
+          if (!angular.isArray(list)) list = [];
+          var adminIds = $scope.sendFromIds.length;
+          var max = adminIds + list.length;
+          for (var i = $scope.sendFromIds.length; i < 10 && i < max; i++) {
+            $scope.sendFromIds.push(list.pop());
+          }
+        });
+      }
+
+
     })
   }
 })(window, angular);
