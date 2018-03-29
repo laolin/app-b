@@ -46,6 +46,8 @@
       var str = json.datas.me['steefac_can_admin'] || "";
       $scope.sendFromIds = str ? str.split(',') : [];
 
+      $scope.canClose = json.datas.rightIcons.find(row => row.name == '关闭项目');
+
       /** 如果用户有[推送产能给项目]权限， 添加最近浏览记录到待推送列表 */
       if (json.datas.rightIcons && json.datas.rightIcons.find(row => row.name == '推送产能给项目')) {
         $http.post("cache/load", { ac: "view-steefac" }).then(json => {
@@ -61,6 +63,15 @@
           }
         });
       }
-    })
+    });
+
+    $scope.closeFac = function(toClose){
+      $http.post("sa_data/close_fac", { type: $scope.type, facid: $scope.fac.id, close: toClose }).then(json => {
+        $scope.fac.close_time = toClose=='close';
+      }).catch(e=>{
+        //$scope.fac.close_time = toClose=='close';
+      })
+      ;
+    }
   }
 })(window, angular);

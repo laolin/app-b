@@ -3,12 +3,17 @@
 <div class="flex box-1">
   <div class="flex-grow">
     <div class="flex">
-      <div class="fac-name text-3">{{fac.name}}</div>
+      <div class="fac-name text-3 flex">
+        <span>{{fac.name}}</span>
+        <span ng-if="canClose && !fac.close_time" class="text-active" ng-click="closeFac('close')">　<i class="fa fa-close"></i>关闭</span>
+        <span ng-if="canClose && fac.close_time" class="text-active" ng-click="closeFac('open')">　<i class="fa fa-close"></i>恢复</span>
+      </div>
     </div>
     <div class="flex bb-ccc">
-      <div class="rem-10" c="6B"><span am-time-ago='1000*fac.update_at'></span><span edit-url="{{(isSuperAdmin || adminInfo.me) && ('#!/fac-edit?type=steeproj&id=' + fac.id) || ''}}">更新</span></div>
-      <!--div class="rem-10" c="6B"><span edit-url="{{(isSuperAdmin || adminInfo.me) && ('#!/fac-edit?type=steeproj&id=' + fac.id) || ''}}">{{fac.update_at|timespan:'MM月d日更新'}}</span></div-->
-      <div class="rem-10" c="6B">1.2KM</div>
+      <div class="rem-10" c="6B">
+        <span am-time-ago='1000*fac.update_at'></span>
+        <span ng-if="!fac.close_time" edit-url="{{(isSuperAdmin || adminInfo.me) && ('#!/fac-edit?type=steeproj&id=' + fac.id) || ''}}">更新</span>
+      </div>
     </div>
     <div class="text-gray">采购量：<span class="text-3">{{fac.need_steel}}</span>吨</div>
     <div class="text-gray">首批供货时间：<span>{{ProjDefine.objReqInMonth[fac.in_month]}}</span></div>
