@@ -6,7 +6,7 @@ angular.module('steefac')
 function ($log,$timeout,AppbData){
 
 
-  var goodatOptions=['轻型','管结构','十字柱','箱形柱','BH','桁架','网架','减震产品','其它'];
+  var goodatOptions=['轻型','管结构','十字柱','箱形柱','BH','桁架','网架','减震产品','钢箱梁','钢拱','压力容器','船用配件','其它'];
 
   var inputs=[
     /*{
