@@ -70,6 +70,16 @@
       },
       app: {
         jsapi_sign: '微信签名',
+        me: '读个人数据',
+        wx_code_login: '微信登录',
+        jsapi_sign: '微信初始化',
+        verify_token: '验证登录',
+      },
+      roleright: {
+        get_user: '读用户权限',
+        save_user: '修改用户权限',
+        get_user: '读用户权限',
+        get_user: '读用户权限',
       },
       stee_user: {
         apply_fac_admin: '申请成为管理员',
@@ -106,6 +116,7 @@
         getWxInfo: '获得批量微信数据',
         countUserLog: '多人活跃度',
         listUserLog: '活跃度详情',
+        close_fac: '开/关项目'
       },
       wx: {
         get_users: '获得批量微信数据',
