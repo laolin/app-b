@@ -4,9 +4,9 @@
   <div class="flex-grow">
     <div class="flex">
       <div class="fac-name text-3 flex">
-        <span>{{fac.name}}</span>
-        <span ng-if="canClose && !fac.close_time" class="text-active" ng-click="closeFac('close')">　<i class="fa fa-close"></i>关闭</span>
-        <span ng-if="canClose && fac.close_time" class="text-active" ng-click="closeFac('open')">　<i class="fa fa-close"></i>恢复</span>
+        <span class="line___1">{{fac.name}}</span>
+        <span ng-if="canClose && !fac.close_time" class="text-active shrink0" ng-click="closeFac('close')">　<i class="fa fa-close"></i>关闭</span>
+        <span ng-if="canClose && fac.close_time" class="text-active shrink0" ng-click="closeFac('open')">　<i class="fa fa-close"></i>恢复</span>
       </div>
     </div>
     <div class="flex bb-ccc">
