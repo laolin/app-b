@@ -22,10 +22,10 @@
         imgs: "<",
         updateImg: "&" //选择图片更新用的回调函数
       },
-      controller: ['$scope', 'sign', 'IMG', ctrl]
+      controller: ['$scope', '$http', 'IMG', ctrl]
     });
 
-  function ctrl($scope, sign, IMG) {
+  function ctrl($scope, $http, IMG) {
     var imgData = this.imgData = { uploadings: [] };
     this.countError = 0;
     this.$onInit = function () {
@@ -77,7 +77,48 @@
       /**
        * 上传
        **/
-      uploadFile: function (file) {
+      uploadFile: function (url, file, data) {
+        IMG.upload(url, file, data).then(
+          json => {
+            console.info('已上传, ', file, json);
+            if (json.datas) {
+              self.addImg(json.datas.url);
+            }
+            var n = File.uploadingFiles.indexOf(file);
+            console.info('删除已上传, ', n, file);
+            File.uploadingFiles.splice(n, 1);
+          },
+          e => {
+            console.info('上传失败, ', file, e);
+          },
+          process => {
+            console.info('上传进度, ', file, process);
+            file.per = (process.loaded / file.size * 80).toFixed(2);
+            if (file.per > 100) file.per = 100;
+          }
+        )
+      },
+
+      /**
+       * 上传
+       **/
+      upload: function () {
+        $http.post("签名", "upload/img")
+          .then(json => json.datas)
+          .catch(e => {
+            console.log("准备上传图片，无签名！")
+            return { url: "upload/img", data: {} };
+          })
+          .then(signed => {
+            angular.forEach(File.uploadingFiles, file => {
+              File.uploadFile(signed.url, file, signed.data);
+            });
+          })
+      },
+      /**
+       * 上传
+       **/
+      uploadFile__: function (file) {
         var prePost = sign.prePost("upload", "img", {});
         IMG.upload(prePost.url, file, {}).then(
           json => {
@@ -103,7 +144,7 @@
       /**
        * 上传
        **/
-      upload: function () {
+      upload__: function () {
 
         angular.forEach(File.uploadingFiles, File.uploadFile);
 

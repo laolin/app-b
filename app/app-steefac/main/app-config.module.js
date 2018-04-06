@@ -23,8 +23,23 @@
         post: config.data
       }
     });
-  }]);
 
+    /**
+     * 仅仅签名
+     */
+    sign.registerHttpHook({
+      match: /^签名$/,
+      hookRequest: function (config, mockResponse, match) {
+        var param = config.data;
+        var url = param.url || param || "";
+        var data = param.data || {};
+        return mockResponse.resolve(sign.OK({
+          url: SiteConfig.apiRoot + url + "?" + UserToken.reload().signParamString(),
+          data: data
+        }));
+      }
+    });
+  }]);
 
 
   /** 用户模块 */
@@ -90,7 +105,7 @@
           USER.wait_app_me.resolve(json);
           setTimeout(() => { USER.wait_app_me = false; }, 5000);
           return json;
-        }).catch(e=>{
+        }).catch(e => {
           // 失败的，要重新加载
           USER.wait_app_me = false;
         })
@@ -177,8 +192,8 @@
       match: /^cache\/load$/,
       hookRequest: function (config, mockResponse) {
         var param = config.data;
-        return mockResponse.resolve(cacheAcTable.select({ac: param.ac}).then(list =>{
-          return sign.OK(list[0]||{});
+        return mockResponse.resolve(cacheAcTable.select({ ac: param.ac }).then(list => {
+          return sign.OK(list[0] || {});
         }));
       }
     });
@@ -190,7 +205,7 @@
       match: /^cache\/save$/,
       hookRequest: function (config, mockResponse) {
         var param = config.data;
-        return mockResponse.resolve(cacheAcTable.update({ac: param.ac}, {data: param.data}, true));
+        return mockResponse.resolve(cacheAcTable.update({ ac: param.ac }, { data: param.data }, true));
       }
     });
 
