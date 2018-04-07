@@ -28,31 +28,29 @@
 
 </div>
 
-<facs-show
-  ng-repeat='type in $ctrl.objTypes'
-  ng-if='$ctrl.isLoading<=0 && $ctrl.facIds[type] '
-  
-  title=' "我管理的" +$ctrl.objNames[type]'
-  type='type'
-  fac-ids='$ctrl.facIds[type]'
->
-</facs-show>
-<div class='weui-article'
-  ng-if='!$ctrl.facIds["steefac"]&&!$ctrl.facIds["steeproj"]'>
-  暂无您管理的钢构厂或项目信息。
+
+<div class="weui-panel weui-panel_access" ng-repeat="type in $ctrl.objTypes" ng-if="!$ctrl.isLoading">
+  <div class="weui-cell">
+    <div class="weui-cell__bd">我管理的{{$ctrl.objNames[type]}}</div>
+    <div class="weui-cell__ft text-active" ng-show="$ctrl.facIds[type]" ng-click="showMyStee[type] = !showMyStee[type]">
+      {{!showMyStee[type]&&('('+me.objCanAdmin[type].length+')')||'折叠'}}
+    </div>
+    <div class="weui-cell__ft" ng-if="!$ctrl.facIds[type]">暂无</div>
+  </div>
+  <div class="weui-panel__bd padding-h-2" dj-collapse="{{showMyStee[type]}}" dj-collapse-group="showMyStee[type]=false">
+    <facs-show title='A' type="type" fac-ids="$ctrl.facIds[type]"></facs-show>
+  </div>
 </div>
-
-
 
 
 <div class="weui-panel weui-panel_access">
   <div class="weui-cell">
     <div class="weui-cell__bd">最近浏览</div>
     <div class="weui-cell__ft text-active" ng-click="showRecentRead = !showRecentRead">
-      {{!showRecentRead&&'打开'||'折叠'}}
+      {{!showRecentRead&&('('+viewHistory.totle+')')||'折叠'}}
     </div>
   </div>
-  <div class="weui-panel__bd padding-h-2" ng-if="showRecentRead">
+  <div class="weui-panel__bd padding-h-2" dj-collapse="{{showRecentRead}}" dj-collapse-group="showRecentRead=false">
     <facs-show title='A' type="'steefac'" fac-ids='viewHistory.steefac'></facs-show>
     <facs-show title='B' type="'steeproj'" fac-ids='viewHistory.steeproj'></facs-show>
   </div>

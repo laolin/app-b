@@ -12,10 +12,6 @@ angular.module('steefac')
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
 
-        FacUser.getMyData().then(me =>{
-          $scope.me = me;
-        })
-
         //使用ctrl, 后面方便切换为 component
         var ctrl=$scope.$ctrl={};
         
@@ -30,6 +26,7 @@ angular.module('steefac')
         ctrl.noIds=true;
        
         FacUser.getMyData().then(function (me) {
+          $scope.me = me;
           for(var i=ctrl.objTypes.length;i--; ) {
             ctrl.facIds[ctrl.objTypes[i]] = (me.objCanAdmin[ctrl.objTypes[i]] || []).join(',');
             if(ctrl.facIds[ctrl.objTypes[i]].length)ctrl.noIds=false;
@@ -38,16 +35,20 @@ angular.module('steefac')
         });
 
         /** 浏览历史 */
-        $scope.viewHistory = {};
+        $scope.viewHistory = { list: {} };
         $http.post("cache/load", { ac: "view-steeproj" }).then(json => {
           var list = json.datas.data;
           if (!angular.isArray(list)) list = [];
           $scope.viewHistory.steeproj = list.slice(-10).join(',');
+          $scope.viewHistory.list.steeproj = list;
+          $scope.viewHistory.totle = $scope.viewHistory.list.steefac.length + $scope.viewHistory.list.steeproj.length;
         });
         $http.post("cache/load", { ac: "view-steefac" }).then(json => {
           var list = json.datas.data;
           if (!angular.isArray(list)) list = [];
           $scope.viewHistory.steefac = list.slice(-10).join(',');
+          $scope.viewHistory.list.steefac = list;
+          $scope.viewHistory.totle = $scope.viewHistory.list.steefac.length + $scope.viewHistory.list.steeproj.length;
         });
         
         $scope.$on('$viewContentLoaded', function () {
