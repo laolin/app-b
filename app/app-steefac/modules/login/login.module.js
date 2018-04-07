@@ -1,5 +1,5 @@
 !(function (angular, window, undefined) {
-  var localStorage_KEY = window.theSiteConfig.localStorage_KEY || '__qgs_user_token__';
+  var localStorage_KEY = window.theSiteConfig.localStorage_Token_KEY || '__qgs_user_token__';
 
   angular.module('dj-login', ['ngRoute']);
 
