@@ -24,7 +24,8 @@
         dlgTitle: '@',
         hideCancel: '@',
         hideOk: '@',
-        onClose: '&'
+        onClose: '&',
+        onClickBack: '&'
       },
       controller:['$scope', '$element', '$rootScope', '$q', ctrl]
     };
@@ -33,6 +34,7 @@
 
   function ctrl($scope, $element, $rootScope, $q) {
     $scope.clickBack = function(){
+      $scope.onClickBack();
       if($scope.backClose){
         $scope.cancel();
       }

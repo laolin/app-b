@@ -2,20 +2,20 @@
 <div ng-if="dialogShow">
   <div class="weui-mask" ng-click="clickBack()"></div>
   <div class="weui-dialog">
-    <div class="weui-dialog__hd"><strong class="weui-dialog__title" ng-transclude="title">
-      {{dlgTitle}}
-    </strong></div>
+    <div class="weui-dialog__hd">
+      <strong class="weui-dialog__title" ng-transclude="title">
+        {{dlgTitle}}
+      </strong>
+    </div>
     <div class="weui-dialog__bd" ng-transclude="body">
       <div html-content="dlgBody"></div>
     </div>
-    <div class="weui-dialog__ft" ng-transclude="footer">
-      <span class="weui-dialog__btn weui-dialog__btn_default"
-        ng-if="!hideCancel"
-        ng-click="cancel()">取消</span>
-      <span class="weui-dialog__btn weui-dialog__btn_primary"
-        ng-if="!hideOk"
-        ng-click="OK()">确定</span>
-    </div>
+    <div ng-transclude="footer">
+      <div class="weui-dialog__ft">
+        <span class="weui-dialog__btn weui-dialog__btn_default" ng-if="!hideCancel" ng-click="cancel()">取消</span>
+        <span class="weui-dialog__btn weui-dialog__btn_primary" ng-if="!hideOk" ng-click="OK()">确定</span>
+      </div>
     </div>
   </div>
+</div>
 </div>
