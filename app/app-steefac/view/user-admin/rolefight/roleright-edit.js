@@ -66,6 +66,7 @@
       })
       .catch(e => {
         console.log('查找用户失败：', e);
+        $scope.oauthed = {};
       });
 
 

@@ -56,7 +56,7 @@
       }
 
       update(where, value, insertIfNotExist) {
-        console.log("更新内存", where, value, insertIfNotExist)
+        //console.log("更新内存", where, value, insertIfNotExist)
         where = where || {};
         var list = this.rows.filter(row => {
           for (var k in where) {

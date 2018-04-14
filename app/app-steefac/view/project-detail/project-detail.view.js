@@ -38,13 +38,13 @@
             var list = json.datas.data;
             if (!angular.isArray(list)) list = [];
             list = list.slice(-50);
-            console.log('读取历史记录 :', json, list, [facId])
+            //console.log('读取历史记录 :', json, list, [facId])
             list = list.filter(id => id != facId);
-            console.log('新记录 :', list)
+            //console.log('新记录 :', list)
             list.push(facId);
             $http.post("cache/save", { ac: "view-steeproj", data: list })
             .then(json => {
-              console.log('保存记录 :', json)
+              //console.log('保存记录 :', json)
             })
             .catch(json => {
               console.log('保存记录错误 :', json)
@@ -56,7 +56,7 @@
         })
       },
       function(json){
-        console.log('读取详情错误', json);
+        //console.log('读取详情错误', json);
         return $location.path( "/search" ).search({}).replace();
       }
     );

@@ -25,14 +25,28 @@ angular.module('steefac')
         ctrl.facIds={};
         ctrl.noIds=true;
        
+        /** 从缓存中读取me数据 */
+        $http.post("cache/load", { ac: "me" }).then(json => {
+          if($scope.me) return;
+          $scope.me = json.datas.data;
+          initDatas(me);
+        });
+        /** 从服务器读取me数据 */
         FacUser.getMyData().then(function (me) {
           $scope.me = me;
+          $http.post("cache/save", { ac: "me", data: me }).then(json => {
+            if($scope.me) return;
+            $scope.me = json.datas.data;
+          });
+          initDatas(me);
+          ctrl.isLoading=0;
+        });
+        function initDatas(me){
           for(var i=ctrl.objTypes.length;i--; ) {
             ctrl.facIds[ctrl.objTypes[i]] = (me.objCanAdmin[ctrl.objTypes[i]] || []).join(',');
             if(ctrl.facIds[ctrl.objTypes[i]].length)ctrl.noIds=false;
           }
-          ctrl.isLoading=0;
-        });
+        }
 
         /** 浏览历史 */
         $scope.viewHistory = { list: {} };
