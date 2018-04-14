@@ -12,11 +12,11 @@
       bindings: {
         fac: '<'
       },
-      controller: ['$scope', '$element', '$http', 'FacSearch', 'AppbData', 'ProjDefine', 'FacUser', 'SIGN', ctrl]
+      controller: ['$scope', '$element', '$http', 'FacSearch', 'AppbData', 'ProjDefine', 'FacUser', 'SIGN', 'DjPop', ctrl]
     });
 
 
-  function ctrl($scope, $element, $http, FacSearch, AppbData, ProjDefine, FacUser, SIGN) {
+  function ctrl($scope, $element, $http, FacSearch, AppbData, ProjDefine, FacUser, SIGN, DjPop) {
     $scope.appData = AppbData.getAppData();
     $scope.FacSearch = FacSearch;
     $scope.ProjDefine = ProjDefine;
@@ -43,6 +43,7 @@
     }
 
     $http.post("用户/个人信息").then(json => {
+      $scope.user = json.datas;
       var str = json.datas.me['steefac_can_admin'] || "";
       $scope.sendFromIds = str ? str.split(',') : [];
 
@@ -64,6 +65,18 @@
         });
       }
     });
+
+    $scope.showContactDlg = function () {
+      var isService = $scope.user.rightIcons && $scope.user.rightIcons.find(row => row.name == "工作人员");
+      if(!isService) return;
+      return DjPop.show("dlg-contact-tel-prompt", {
+        param: {
+          fac: $scope.fac,
+          type: $scope.type,
+          user: $scope.user
+        }
+      });
+    }
 
     $scope.closeFac = function(toClose){
       $http.post("sa_data/close_fac", { type: $scope.type, facid: $scope.fac.id, close: toClose }).then(json => {
