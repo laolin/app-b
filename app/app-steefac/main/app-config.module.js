@@ -9,7 +9,7 @@
         return $http.post(api + '/' + call, data, config);
       },
       postLaolin: function (api, call, data) {
-        console.log("postLaolin", api + '/' + call)
+        //console.log("postLaolin", api + '/' + call)
         return $http.post(api + '/' + call, data).then(json => json.data);
       },
     };
@@ -56,6 +56,7 @@
       { name: "更新项目", fa: "edit", path: "", color: "#080" },
       { name: "更新产能", fa: "edit", path: "", color: "#666" },
       { name: "关闭项目", fa: "edit", path: "", color: "#666" },
+      { name: "工作人员", fa: "user-circle-o", path: "", color: "#f80" },
 
       { admin: 1, name: "用户管理", fa: "users", path: "/roleright/list", color: "#080" },
     ]
