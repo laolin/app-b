@@ -11,6 +11,8 @@
       //apiRoot: 'https://api.qinggaoshou.com/cmoss-master-1.0.0/src/cmoss/', //服务器预览版（最新版）
       //apiRoot: 'https://api.qinggaoshou.com/api-cmoss/master/open/', //服务器正式版
 
+      assetsRoot: window.__assetsPath||'../assets',//可在本地部署静态文件 或 跨域部署静态文件
+
       wx_app: {
         web: { name: 'qgs-web', appid: 'wx8fb342a27567fee7' },
         wx: { name: 'qgs-mp', appid: 'wx93301b9f5ddf5c8f' }
