@@ -22,7 +22,7 @@
 
 <div class="box">
   <div class="text-3 rem-12 b-900 bb-ccc">擅长构件及加工费</div>
-  <div class="flex bb-ccc" ng-repeat="name in goodat track by $index">
+  <div class="flex bb-ccc" ng-repeat="name in goodat track by $index" ng-if="fee[$index]">
     <div class="text-gray rem-12">{{name}}</div>
     <div class="text-gray rem-12">加工费{{fee[$index]}}/吨</div>
   </div>
