@@ -18,12 +18,16 @@
           }
         }
       }
-
-      return fileToBlob(file).then( function(blob){
-        formData.append(key||'file', blob, file.name);
-
-        return post(url, formData)
-      })
+      return getOrientation(file).then(orientation => {
+        //alert("orientation=" + orientation);
+        //console.log("原图旋转:", orientation)
+        return fileToBlob(file, orientation).then(function (blob) {
+          formData.append(key || 'file', blob, file.name);
+          return post(url, formData)
+        })
+      }).catch(e => {
+        console.log("getOrientation ERROR:", e)
+      });
     }
     return {
       upload: upload
@@ -64,19 +68,19 @@
      * 当文件较小时，就是文件本身，较大时，为压缩过的数据
      * @return 承诺，兑现内容为可上传的数据
      */
-    function fileToBlob(file) {
+    function fileToBlob(file, orientation) {
       if (!/\/(?:jpeg|png|gif)/i.test(file.type)) return $q.reject('不支持的图片格式');
 
       var deferred = $q.defer();
       var reader = new FileReader();
 
-      reader.onload = function () {
+      reader.onload = function (event) {
         var result = this.result;
-        $log.log('图片大小', result.length);
+        //$log.log('图片大小', result.length);
 
         //如果图片大小小于200kb，则直接上传
         if (result.length <= maxsize) {
-          $log.log('不压缩', result.length);
+          //$log.log('不压缩', result.length);
           deferred.resolve(file);
           return;
         }
@@ -92,9 +96,9 @@
         }
 
         function callback() {
-          var data = compressImgToDataURL(img);
+          var data = compressImgToDataURL(img, orientation);
           var blob = dataURItoBlob(data);
-          $log.log("压缩后：blob = ", blob);
+          //$log.log("压缩后：blob = ", blob);
 
           img = null;
           deferred.resolve(blob);
@@ -107,7 +111,7 @@
     /**
      * 压缩图片, 返回 toDataURL 数据
      */
-    function compressImgToDataURL(img) {
+    function compressImgToDataURL(img, orientation) {
       var initSize = img.src.length;
       var width = img.width;
       var height = img.height;
@@ -159,14 +163,46 @@
         ctx.drawImage(img, 0, 0, width, height);
       }
 
-      //进行压缩
-      var ndata = canvas.toDataURL("image/jpeg", 0.2);
+      function execOrientation(orientation, canvas3, ctx3, source, width, height) {
+        if (orientation < 1 || orientation > 8) return;
+        var x, y, n = orientation, rotate = orientation > 4;
+        if (rotate) n = 9 - n;
+        n = n - 1;
+        var scalex = [1, -1, -1, 1][n];
+        var scaley = [1, 1, -1, -1][n];
+        //console.log("变换", scalex, scaley);
+        x = -width / 2;
+        y = -height / 2;
 
-      $log.log("压缩前：" + initSize);
-      $log.log("压缩后：", ndata.length, "尺寸：", width, height);
-      $log.log("压缩率：" + ~~(100 * (initSize - ndata.length) / initSize) + "%");
+        if (rotate) {
+          console.log("要旋转");
+          canvas3.width = height;
+          canvas3.height = width;
+          ctx3.translate(-y, -x);
+          ctx3.rotate(Math.PI * 1.5);
+        } else {
+          canvas3.width = width;
+          canvas3.height = height;
+          ctx3.translate(-x, -y);
+        }
+        ctx3.scale(scalex, scaley);
+        ctx3.drawImage(source, 0, 0, width, height, x, y, width, height);
+      }
+
+      //旋转 镜像
+      var canvas3 = document.createElement("canvas");
+      var ctx3 = canvas3.getContext("2d");
+      execOrientation(orientation, canvas3, ctx3, canvas, width, height);
+
+      //进行压缩
+      var ndata = canvas3.toDataURL("image/jpeg", 0.2);
+
+      //$log.log("压缩前：" + initSize);
+      //$log.log("压缩后：", ndata.length, "尺寸：", width, height);
+      //$log.log("压缩率：" + ~~(100 * (initSize - ndata.length) / initSize) + "%");
 
       canvas.width = canvas.height = 0;
+      canvas3.width = canvas3.height = 0;
 
       return ndata;
     }
@@ -178,7 +214,7 @@
           formdata.append('imagefile', blob);
      */
     function dataURItoBlob(dataURI) {
-      // convert base64/URLEncoded data component to raw binary data held in a string  
+      // convert base64/URLEncoded data component to raw binary data held in a string
       var byteString;
       var subDataURI = dataURI.split(',');
       if (subDataURI[0].indexOf('base64') >= 0)
@@ -186,10 +222,10 @@
       else
         byteString = unescape(subDataURI[1]);
 
-      // separate out the mime component  
+      // separate out the mime component
       var mimeString = subDataURI[0].split(':')[1].split(';')[0];
 
-      // write the bytes of the string to a typed array  
+      // write the bytes of the string to a typed array
       var ia = new Uint8Array(byteString.length);
       for (var i = 0; i < byteString.length; i++) {
         ia[i] = byteString.charCodeAt(i);
@@ -224,6 +260,50 @@
         && navigator.userAgent.match(/AppleWebKit\/(\d+)/).pop() <= 534;
 
       return isNeedShim ? new FormDataShim() : new FormData()
+    }
+
+    /**
+     * 获取图像旋转
+     * @returns
+     * -2: not jpeg
+     * -1: not defined
+     *
+     * 1: 正常
+     * 2: 原图是(左右镜像)
+     * 3: 原图是(左右镜像, 上下镜像)
+     * 4: 原图是(上下镜像)
+     * 5: 原图是(上下镜像, 90)
+     * 6: 原图是(左右镜像, 上下镜像, 90)
+     * 7: 原图是(左右镜像, 90)
+     * 8: 原图是(90)
+     */
+    function getOrientation(file) {
+      var deferred = $q.defer();
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var view = new DataView(this.result);
+        if (view.getUint16(0, false) != 0xFFD8) return deferred.resolve(-2);
+        var length = view.byteLength, offset = 2;
+        while (offset < length) {
+          var marker = view.getUint16(offset, false);
+          offset += 2;
+          if (marker == 0xFFE1) {
+            if (view.getUint32(offset += 2, false) != 0x45786966) return deferred.resolve(-1);
+            var little = view.getUint16(offset += 6, false) == 0x4949;
+            offset += view.getUint32(offset + 4, little);
+            var tags = view.getUint16(offset, little);
+            offset += 2;
+            for (var i = 0; i < tags; i++)
+              if (view.getUint16(offset + (i * 12), little) == 0x0112)
+                return deferred.resolve(view.getUint16(offset + (i * 12) + 8, little));
+          }
+          else if ((marker & 0xFF00) != 0xFF00) break;
+          else offset += view.getUint16(offset, false);
+        }
+        return deferred.resolve(-1);
+      };
+      reader.readAsArrayBuffer(file);
+      return deferred.promise;
     }
 
 

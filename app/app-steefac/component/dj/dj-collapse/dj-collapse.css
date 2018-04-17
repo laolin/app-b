@@ -1,7 +1,7 @@
 [dj-collapse] {
   position: relative;
-  height: 0;
-  overflow: hidden;
+  /* height: 0;
+  overflow: hidden; */
   -webkit-transition-timing-function: ease;
   -o-transition-timing-function: ease;
   transition-timing-function: ease;
@@ -10,6 +10,5 @@
   transition-duration: .35s;
   -webkit-transition-property: height, visibility;
   -o-transition-property: height, visibility;
-  transition-property: height, visibility
-  
+  transition-property: height, visibility;
 }

@@ -1,3 +1,7 @@
+imgs-uploader {
+  display: inline-block;
+}
+
 imgs-uploader .imgs-uploader-box{
   position: relative;
 }
@@ -11,7 +15,6 @@ imgs-uploader .imgs-uploader-box input[type='file']{
   height: 100%;
   opacity: 0;
 }
-
 
 imgs-uploader .preview-box img{
   width: 100%;

@@ -1,0 +1,15 @@
+
+
+dj-ui-input > div {
+  width: 100%;
+}
+dj-ui-input input {
+  border-width: 0;
+}
+dj-ui-input i:first-child{
+  color:#cccccc;
+}
+dj-ui-input > div > i.fa{
+  padding: 0 .08rem;
+  font-size: 1.5em;
+}
