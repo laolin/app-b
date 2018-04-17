@@ -110,7 +110,7 @@ function($http, $window,$location,$log,$timeout,$q, SIGN)
   *  arr 数组，每个元素的uid是要获取头像用户
   *  
   *  根据 usersInfo 查现在头像 ，如果对应 uid 已有就跳过
-  *  如果没有，就用 /wx/get_users/uid1,uid2,uid3 API获取一堆用户的信息   
+  *  如果没有，就用 wx/get_users/uid1,uid2,uid3 API获取一堆用户的信息
   */
   function requireUsersInfo(arr) {
     var ids=[];
@@ -124,11 +124,11 @@ function($http, $window,$location,$log,$timeout,$q, SIGN)
       return $q.resolve(singleUserinfo(arr, usersInfo));
     }
 
-    return $http.post("/wx/get_users", {ids}).then(json => {
+    return $http.post("wx/get_users", {ids}).then(json => {
       var d = json.datas.list;
       for(var i=d.length;i--; ) {
         dealWxHeadImg(d[i].wxinfo);
-        usersInfo[d[i]['uid']]=d[i];
+        usersInfo[d[i].wxinfo.uid]=d[i];
       }
       // 只返回所请求的用户数组
       return $q.resolve(singleUserinfo(arr, usersInfo));
