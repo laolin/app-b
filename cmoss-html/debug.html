@@ -19,7 +19,7 @@
   <my-app>Loading...</my-app>
   <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
   <script>
-    window.__assetsPath = "../dist/assets";
+    window.__assetsPath = "../assets";
     !function (url) {
       //创建 - 第一步
       var xhr = new XMLHttpRequest();
@@ -32,7 +32,7 @@
       //连接 和 发送 - 第二步
       xhr.open("GET", url + "?v=" + +new Date(), true);
       xhr.send(null);
-    }("../dist/steefac/loader.js")
+    }("../steefac/loader.js")
   </script>
 </body>
 

@@ -387,13 +387,19 @@ function build_loader() {
       window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
       window.theSiteConfig = {
         localStorage_Token_KEY: '__cmoss_master_token__',
-        apiRoot: 'https://api.qinggaoshou.com/cmoss-master-1.0.1/src/cmoss/'
+        apiRoot: 'https://api.qinggaoshou.com/cmoss-master-vers/ver-1.0.3/src/cmoss/'
       };`,
+      "cmoss.xcx.loader": `
+        window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
+        window.theSiteConfig = {
+          localStorage_Token_KEY: '__cmoss_master_token__',
+          apiRoot: 'https://api.qinggaoshou.com/cmoss-master-vers/ver-1.0.3/src/cmoss/'
+        };`,
     "cmoss.preview.loader": `
       window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
       window.theSiteConfig = {
         localStorage_Token_KEY: '__cmoss_master_token__',
-        apiRoot: 'https://api.qinggaoshou.com/cmoss-master-vers/ver-1.0.2/src/cmoss/'
+        apiRoot: 'https://api.qinggaoshou.com/cmoss-master-vers/ver-1.0.3/src/cmoss/'
       };`,
     "cmoss.test.loader": `
       window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
