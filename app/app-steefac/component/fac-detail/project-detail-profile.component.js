@@ -18,6 +18,10 @@
 
   function ctrl($scope, $q, $http, ProjDefine, DjPop) {
     $scope.ProjDefine = ProjDefine;
+    $scope.showVeryOld = false;
+    $scope.reshowVeryOld = ()=>{
+      $scope.showVeryOld = true;
+    };
     $scope.type = 'steeproj';
     $scope.adminInfo = {
       count: 1,
@@ -68,6 +72,8 @@
             }
           })
         })
+        /** 超过 两星期 未更新 */
+        $scope.veryOld = new Date() / 1000 - $scope.fac.update_at > 14 * 24 * 3600;
       }
     }
 

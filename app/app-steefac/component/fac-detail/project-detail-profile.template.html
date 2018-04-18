@@ -25,7 +25,7 @@
 
 </div>
 
-<div class="flex-v bb-ccc box-2">
+<div class="flex-v bb-ccc box-2" ng-if="!veryOld || showVeryOld">
   <div class="title text-3 bb-ccc">联系方式</div>
   <div class="flex flex-top">
     <div class="">
@@ -45,6 +45,13 @@
      type-to="type"
      type-from="type=='steeproj'&&'steefac'||'steeproj'"
     ></sendtpl-box>
+  </div>
+</div>
+<div class="flex-v bb-ccc box-2" ng-if="veryOld && !showVeryOld">
+  <div class="flex-v flex-cc padding-v-3">
+    <div>本页数据管理员已超过14天未更新</div>
+    <div>较旧的数据可能有误，请知悉。</div>
+    <button class="weui-btn weui-btn_warn" ng-click="reshowVeryOld()">显示旧数据</button>
   </div>
 </div>
 
