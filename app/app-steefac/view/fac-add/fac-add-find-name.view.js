@@ -42,10 +42,8 @@ angular.module('steefac').config(['$routeProvider', function ($routeProvider) {
         还有更多数据，请输入更具体的名字，以减少搜索结果。
       </div>
     `,
-    controller: ['$scope', '$http', '$log', '$location',
-      'AppbData', 'FacDefine', 'FacMap', 'SIGN', 'FacSearch',
-      function mzUserSearchCtrl($scope, $http, $log, $location,
-        AppbData, FacDefine, FacMap, SIGN, FacSearch) {
+    controller: ['$scope', '$http', '$location', 'AppbData', 'FacMap', 'SIGN', 'FacSearch',
+      function mzUserSearchCtrl($scope, $http, $location, AppbData, FacMap, SIGN, FacSearch) {
         var userData = AppbData.getUserData();
         var appData = AppbData.getAppData();
 
@@ -93,7 +91,6 @@ angular.module('steefac').config(['$routeProvider', function ($routeProvider) {
             $scope.facList = s;
           }, function (e) {
             appData.toastMsg('搜索失败', 3);
-            $log.log('err', e);
             $scope.isLoading = 0;
           });
         }

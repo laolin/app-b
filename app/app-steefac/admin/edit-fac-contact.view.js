@@ -5,10 +5,8 @@ angular.module('steefac')
 $routeProvider.when('/edit-fac-contact', {
   pageTitle: "编辑联系方式",
 templateUrl: 'app-steefac/admin/edit-fac-contact.view.template.html',
-controller: ['$scope','$http','$log','$location',
-  'AppbData','FacDefine','FacUser','FacSearch',
-function ($scope,$http,$log,$location,
-  AppbData,FacDefine,FacUser,FacSearch) {
+controller: ['$scope', '$location',  'AppbData',
+ function ($scope, $location,  AppbData) {
   var appData=AppbData.getAppData();
   var userData=AppbData.getUserData();
 
