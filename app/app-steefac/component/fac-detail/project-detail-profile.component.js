@@ -12,35 +12,19 @@
       bindings: {
         fac: '<'
       },
-      controller: ['$scope', '$element', '$http', 'ProjDefine', 'FacUser', 'SIGN', 'DjPop', ctrl]
+      controller: ['$scope', '$q', '$http', 'ProjDefine', 'DjPop', ctrl]
     });
 
 
-  function ctrl($scope, $element, $http, ProjDefine, FacUser, SIGN, DjPop) {
+  function ctrl($scope, $q, $http, ProjDefine, DjPop) {
     $scope.ProjDefine = ProjDefine;
     $scope.type = 'steeproj';
     $scope.adminInfo = {
       count: 1,
       me: false
     };
-    var ctrl = this;
-    this.$onChanges = function (chg) {
-      $scope.fac = ctrl.fac || {};
-      if (!$scope.fac.id) return;
-      $scope.sendtoIds = [$scope.fac.id];
-      // 是否管理员
-      $scope.isSuperAdmin = FacUser.isSysAdmin();
-      $scope.adminInfo.me = FacUser.canAdminObj('steeproj', $scope.fac.id);
-      SIGN.postLaolin('stee_user', 'get_admin_of_obj', { type: $scope.type, facid: $scope.fac.id }).then(function (json) {
-        $scope.adminInfo = {
-          me: $scope.adminInfo.me,
-          admins: json,
-          count: json.length
-        }
-      });
-    }
 
-    $http.post("用户/个人信息").then(json => {
+    var getMeData = $http.post("用户/个人信息").then(json => {
       $scope.user = json.datas;
       var str = json.datas.me['steefac_can_admin'] || "";
       $scope.sendFromIds = str ? str.split(',') : [];
@@ -62,7 +46,30 @@
           }
         });
       }
+      return $scope.user;
     });
+
+    this.$onChanges = (changes) => {
+      if (changes.fac && changes.fac.currentValue) {
+        $scope.fac = changes.fac.currentValue;
+        $scope.sendtoIds = [$scope.fac.id];
+        $q.when(getMeData).then(user => {
+          // 是否管理员
+          $scope.isSuperAdmin = user.isSysAdmin;
+          var list = user.objAdmin[$scope.type] || [];
+          $scope.adminInfo.me = list.find(id => id == $scope.fac.id);
+          /** 读产能的所有管理员 */
+          $http.post('stee_user/get_admin_of_obj', { type: $scope.type, facid: $scope.fac.id }).then(function (json) {
+            console.log("get_admin_of_obj", json);
+            $scope.adminInfo = {
+              me: $scope.adminInfo.me,
+              admins: json.data,
+              count: json.data.length
+            }
+          })
+        })
+      }
+    }
 
     $scope.showContactDlg = function () {
       if ($scope.fac.contact_tel == 'yes') {
@@ -73,7 +80,7 @@
         });
       }
       var isService = $scope.user.rightIcons && $scope.user.rightIcons.find(row => row.name == "工作人员");
-      if(!isService) return;
+      if (!isService) return;
       return DjPop.show("dlg-contact-tel-prompt", {
         param: {
           fac: $scope.fac,
@@ -83,13 +90,13 @@
       });
     }
 
-    $scope.closeFac = function(toClose){
+    $scope.closeFac = function (toClose) {
       $http.post("sa_data/close_fac", { type: $scope.type, facid: $scope.fac.id, close: toClose }).then(json => {
-        $scope.fac.close_time = toClose=='close';
-      }).catch(e=>{
+        $scope.fac.close_time = toClose == 'close';
+      }).catch(e => {
         //$scope.fac.close_time = toClose=='close';
       })
-      ;
+        ;
     }
   }
 })(window, angular);
