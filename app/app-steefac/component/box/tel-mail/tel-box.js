@@ -10,9 +10,9 @@
   angular.module('steefac')
     .component('telBox', {
       template: `
-        <a href="tel://{{$ctrl.val}}" class="flex flex-v-center tel-mal-box {{!$ctrl.val&&'disabled'}}">
+        <a ng-href="{{$ctrl.val && $ctrl.val!='yes' && ('tel://'+$ctrl.val) || ''}}" class="flex flex-v-center tel-mal-box {{!$ctrl.val&&'disabled'||''}}">
           <img ng-src="{{SiteConfig.assetsRoot}}/img/img-steefac/tel.png">
-          <span>拨打电话</span>
+          <span>{{$ctrl.val=='yes' && '查看号码' || $ctrl.val|| '尚未提供' }}</span>
         </a>
       `,
       bindings: {
