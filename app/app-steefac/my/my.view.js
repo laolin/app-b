@@ -50,17 +50,19 @@ angular.module('steefac')
 
         /** 浏览历史 */
         $scope.viewHistory = { list: {} };
-        $http.post("cache/load", { ac: "view-steeproj" }).then(json => {
+        $http.post("cache/load", { ac: "fac-detail-history-steeproj" }).then(json => {
           var list = json.datas.data;
           if (!angular.isArray(list)) list = [];
-          $scope.viewHistory.steeproj = list.slice(-10).join(',');
+          list = list.slice(-8);
+          $scope.viewHistory.steeproj = list.join(',');
           $scope.viewHistory.list.steeproj = list;
           $scope.viewHistory.totle = $scope.viewHistory.list.steefac.length + $scope.viewHistory.list.steeproj.length;
         });
-        $http.post("cache/load", { ac: "view-steefac" }).then(json => {
+        $http.post("cache/load", { ac: "fac-detail-history-steefac" }).then(json => {
           var list = json.datas.data;
           if (!angular.isArray(list)) list = [];
-          $scope.viewHistory.steefac = list.slice(-10).join(',');
+          list = list.slice(-8);
+          $scope.viewHistory.steefac = list.join(',');
           $scope.viewHistory.list.steefac = list;
           $scope.viewHistory.totle = $scope.viewHistory.list.steefac.length + $scope.viewHistory.list.steeproj.length;
         });

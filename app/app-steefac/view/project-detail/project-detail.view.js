@@ -12,59 +12,55 @@
     $routeProvider.when('/project-detail/:id', {
       pageTitle: "项目详情",
       templateUrl: 'app-steefac/view/project-detail/project-detail.template.html',
-      controller: ['$scope', '$routeParams', '$location', '$http', 'AppbData','$q','FacSearch','FacUser', ctrl]
+      controller: ['$scope', '$routeParams', '$location', '$http', 'AppbData','$q', ctrl]
     });
   }]);
 
-  function ctrl($scope, $routeParams, $location, $http, AppbData,$q,FacSearch,FacUser) {
-    var appData=AppbData.getAppData();
-    var userData=AppbData.getUserData();
-    var facId = $routeParams.id;
+  function ctrl($scope, $routeParams, $location, $http, AppbData, $q) {
+    var appData = AppbData.getAppData();
+    var userData;
+    var facid = $routeParams.id;
+    var type = "steeproj";
+    var pageCacheAc = `fac-detail-history-${type}`;
+
     /**
      * 初始化
      */
-    $q.all([
-      FacUser.readObjDetail("steeproj", facId),
-      FacUser.getMyData()
-    ]).then(
-      function(results){
-        // 是否管理员
-        if(FacUser.isSysAdmin())$scope.canEdit=true;
-        // 处理公司数据
-        return FacUser.preReadDetail('steeproj', facId, results[0].data).then(fac => {
-          resolveFac(fac);
-
-          $http.post("cache/load", { ac: "view-steeproj" }).then(json => {
-            var list = json.datas.data;
-            if (!angular.isArray(list)) list = [];
-            list = list.slice(-50);
-            //console.log('读取历史记录 :', json, list, [facId])
-            list = list.filter(id => id != facId);
-            //console.log('新记录 :', list)
-            list.push(facId);
-            $http.post("cache/save", { ac: "view-steeproj", data: list })
-            .then(json => {
-              //console.log('保存记录 :', json)
-            })
-            .catch(json => {
-              console.log('保存记录错误 :', json)
-            })
-            ;
-          }).catch(e => {
-            console.log('读取历史记录 error:', e)
-          });
-        })
-      },
-      function(json){
-        //console.log('读取详情错误', json);
-        return $location.path( "/search" ).search({}).replace();
-      }
-    );
-    // 处理公司数据
-    function resolveFac(fac){
-      appData.setPageTitleAndWxShareTitle(fac.name+'-详情');
+    var readObjDetail = $http.post('产能详情', { type, facid }).then(json => {
+      var fac = json.datas.detail;
       $scope.fac = fac;
-      FacSearch.markObj(fac, 'steeproj');
+      $http.post("cache/load", { ac: pageCacheAc }).then(json => {
+        var list = json.datas.data;
+        if (!angular.isArray(list)) list = [];
+        list = list.filter(id => id != facid);
+        list = list.slice(-50);
+        list.push(facid);
+        $http.post("cache/save", { ac: pageCacheAc, data: list });
+      }).catch(e => {
+        console.log('读取历史记录 error:', e)
+      });
+    });
+    var readUserInfo = $http.post("用户/个人信息").then(json => {
+      userData = json.datas;
+      console.log('个人信息, userData = ', userData)
+    });
+
+    $q.all([readObjDetail, readUserInfo]).then(()=>{
+      resolveFac($scope.fac);
+    }).catch(json => {
+      //console.log('读取详情错误', json);
+      return $location.path("/search").search({}).replace();
+    });
+
+    // 处理公司数据
+    function resolveFac(fac) {
+      appData.setPageTitleAndWxShareTitle(fac.name + '-详情');
+      $http.post("地图/markObj", [fac, type]).catch(json => {
+        console.log('地图/markObj 错误', json);
+      });
+      $scope.hidePoster = !userData.isSysAdmin;
+      // 是否可以添加业绩
+      $scope.canEdit = userData.isSysAdmin || userData.objAdmin[type] && userData.objAdmin[type].indexOf(facid);
     }
 
     /**
@@ -79,7 +75,7 @@
       active: $routeParams.tabIndex||0,
       click: function(index){
         tab.active = index;
-        $location.replace('/project-detail/:id', facId).search({tabIndex: index});
+        $location.replace('/project-detail/:id', facid).search({tabIndex: index});
       }
     }
     $scope.adminList = {};
@@ -88,21 +84,28 @@
       $scope.adminList = datas;
     });
     $scope.$on("fac-ui-user-list.itemClick", (event, datas) => {
-      if(!FacUser.isSysAdmin()) return
+      if (!userData.isSysAdmin) return
       // 只允许超级管理员操作
-      FacUser.DjDialog.confirm(`此操作将从本项目中移除管理员“${datas.user && datas.user.wxinfo && datas.user.wxinfo.nickname}”，移动后，将无法撤消。你确定？`, '移除管理员').then( () => {
-        FacUser.SIGN.post('stee_user', 'remove_admin', {
-          type  : 'steeproj',
-          facid : facId,
+      $http.post("显示对话框/confirm", [
+        `此操作将从本厂中移除管理员“${datas.user && datas.user.wxinfo && datas.user.wxinfo.nickname}”，移动后，将无法撤消。你确定？`, '移除管理员'
+      ]).then(() => {
+        return $http.post('stee_user/remove_admin', {
+          type: type,
+          facid: facid,
           userid: datas.uid
-        })
-        .then( json => {
-          $scope.adminList.uids = $scope.adminList.uids.filter(v => v.uid!=datas.user.uid);
         });
-      })
+      }).then(json => {
+        $scope.adminList.uids = $scope.adminList.uids.filter(v => v.uid != datas.uid);
+      });
     });
+
     $scope.$on("require-log-user-action", (event, datas) => {
-      FacUser.logAction('steeproj', facId, datas.ac, userData.uid);
+      $http.post("操作记录/log", {
+        k1: type,
+        k2: facid,
+        v1: datas.ac
+      });
     });
   }
+
 })(window, angular);

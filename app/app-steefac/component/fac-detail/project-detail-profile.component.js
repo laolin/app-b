@@ -12,13 +12,11 @@
       bindings: {
         fac: '<'
       },
-      controller: ['$scope', '$element', '$http', 'FacSearch', 'AppbData', 'ProjDefine', 'FacUser', 'SIGN', 'DjPop', ctrl]
+      controller: ['$scope', '$element', '$http', 'ProjDefine', 'FacUser', 'SIGN', 'DjPop', ctrl]
     });
 
 
-  function ctrl($scope, $element, $http, FacSearch, AppbData, ProjDefine, FacUser, SIGN, DjPop) {
-    $scope.appData = AppbData.getAppData();
-    $scope.FacSearch = FacSearch;
+  function ctrl($scope, $element, $http, ProjDefine, FacUser, SIGN, DjPop) {
     $scope.ProjDefine = ProjDefine;
     $scope.type = 'steeproj';
     $scope.adminInfo = {
@@ -51,7 +49,7 @@
 
       /** 如果用户有[推送产能给项目]权限， 添加最近浏览记录到待推送列表 */
       if (json.datas.rightIcons && json.datas.rightIcons.find(row => row.name == '推送产能给项目')) {
-        $http.post("cache/load", { ac: "view-steefac" }).then(json => {
+        $http.post("cache/load", { ac: "fac-detail-history-steefac" }).then(json => {
           var list = json.datas.data;
           if (!angular.isArray(list)) list = [];
           var adminIds = $scope.sendFromIds.length;
