@@ -46,6 +46,7 @@
   theConfigModule.run(['$rootScope', '$http', '$q', '$timeout', 'sign', 'DjWaiteReady', confogUser]);
 
   function confogUser($rootScope, $http, $q, $timeout, sign, DjWaiteReady) {
+    const SYS_ADMIN=0x10000;
 
     /**
      * 所有用户权限
@@ -103,6 +104,7 @@
           USER.me = json.datas;
           if (!angular.isArray(USER.me.rights)) USER.me.rights = [];
           angular.extend(USER.me, USER["权限分组"](USER.me.rights));
+          angular.extend(USER.me, USER.calc_me_data(USER.me.me));
           USER.wait_app_me.resolve(json);
           setTimeout(() => { USER.wait_app_me = false; }, 5000);
           return json;
@@ -118,6 +120,16 @@
       "保存个人信息": function (attr) {
         angular.extend(USER.me.attr || (USER.me.attr = {}), attr);
         return $http.post('user/save_info', { attr })
+      },
+      calc_me_data: function (me) {
+        return{
+          isAdmin: !!me.is_admin,
+          isSysAdmin: (me.is_admin & SYS_ADMIN),
+          objAdmin: {
+            steefac: me.steefac_can_admin && (me.steefac_can_admin.split(',')) || [],
+            steeproj: me.steeproj_can_admin && (me.steeproj_can_admin.split(',')) || [],
+          }
+        };
       },
       //---- 个人信息部分 end --------
 
