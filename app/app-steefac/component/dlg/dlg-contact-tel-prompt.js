@@ -14,7 +14,7 @@
             </div>
             <a href="tel://{{fac.contact_tel}}" class="flex flex-v-center flex-left tel-mal-box {{!fac.contact_tel&&'disabled'}}">
               <img ng-src="{{SiteConfig.assetsRoot}}/img/img-steefac/tel.png">
-              <span>拨打电话</span>
+              <span>{{fac.contact_tel}}</span>
             </a>
           </div>
           <div class="flex-v" ng-if="list.length">
@@ -25,7 +25,7 @@
             <br>
             <a href="tel://{{fac.contact_tel}}" class="flex flex-v-center flex-left tel-mal-box {{!fac.contact_tel&&'disabled'}}">
               <img ng-src="{{SiteConfig.assetsRoot}}/img/img-steefac/tel.png">
-              <span>拨打电话</span>
+              <span>{{fac.contact_tel}}</span>
             </a>
           </div>
         </dj-dialog-body>
@@ -60,6 +60,7 @@
     }
 
     function readContact(fac, type) {
+      if(!fac || !type) return;
       $scope.fac = fac || {};
       $http.post("stee_data/getActionList", {
         type: type,
