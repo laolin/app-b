@@ -65,6 +65,13 @@
     });
 
     $scope.showContactDlg = function () {
+      if ($scope.fac.contact_tel == 'yes') {
+        $http.post("请求电话号码", { type: $scope.type, facid: $scope.fac.id }).then(json => {
+          $scope.fac.contact_tel = json.datas.contact_tel;
+          /* 记录用户点击 */
+          $scope.$emit('require-log-user-action', { ac: '请求电话号码' });
+        });
+      }
       var isService = $scope.user.rightIcons && $scope.user.rightIcons.find(row => row.name == "工作人员");
       if(!isService) return;
       return DjPop.show("dlg-contact-tel-prompt", {
