@@ -124,7 +124,15 @@ function($http, $window,$location,$log,$timeout,$q, SIGN)
       return $q.resolve(singleUserinfo(arr, usersInfo));
     }
 
-    return $http.post("wx/get_users", {ids}).then(json => {
+    return $http.post("app/getWxInfo", {uid: ids}).then(json => {
+      json.datas.list.map( wxinfo => {
+        //headimgurl,nickname,uid
+        dealWxHeadImg(wxinfo);
+        usersInfo[wxinfo.uid]={wxinfo, uid: wxinfo.uid};
+      });
+      return $q.resolve(singleUserinfo(arr, usersInfo));
+
+
       var d = json.datas.list;
       for(var i=d.length;i--; ) {
         dealWxHeadImg(d[i].wxinfo);
