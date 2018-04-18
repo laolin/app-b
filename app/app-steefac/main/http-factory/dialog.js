@@ -10,7 +10,7 @@
       match: /^显示对话框\/(.*)$/,
       hookRequest: function (config, mockResponse, match) {
         var param = config.data;
-        return mockResponse.resolve(DjDialog[match[1]].call(param));
+        return mockResponse.resolve(DjDialog[match[1]].apply({},param));
       }
     });
   }]);
