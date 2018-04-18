@@ -19,40 +19,16 @@
 
   function ctrl($scope, $http, $q, FacUser, SIGN, DjPop) {
     $scope.type = 'steefac';
+    $scope.showVeryOld = false;
+    $scope.reshowVeryOld = ()=>{
+      $scope.showVeryOld = true;
+    };
     $scope.adminInfo = {
       count: 1,
       me: false
     };
-    var ctrl = this;
-    this.$onChanges = function (chg) {
-      $scope.fac = ctrl.fac || {};
-      if (!$scope.fac.id) return;
-      $scope.sendtoIds = [$scope.fac.id];
-      // 是否管理员
-      $scope.isSuperAdmin = !!FacUser.isSysAdmin();
-      $scope.adminInfo.me = FacUser.canAdminObj('steefac', $scope.fac.id);
-      $scope.adminInfo.count = 0;
 
-      $scope.fee = (function () {
-        var fees = JSON.parse($scope.fac.fee || '{}');
-        var totle = 0;
-        var nFee = 0;
-        for (var i in fees) {
-          if (+fees[i] <= 0) continue;
-          totle += +fees[i];
-          nFee++;
-        }
-        return Math.floor(totle / (nFee || 1));
-      })();
-      SIGN.postLaolin('stee_user', 'get_admin_of_obj', { type: $scope.type, facid: $scope.fac.id }).then(function (json) {
-        $scope.adminInfo = {
-          me: $scope.adminInfo.me,
-          admins: json,
-          count: json.length
-        }
-      });
-    }
-    $http.post("用户/个人信息").then(json => {
+    var getMeData = $http.post("用户/个人信息").then(json => {
       $scope.user = json.datas;
       var str = json.datas.me['steeproj_can_admin'] || "";
       $scope.sendFromIds = str ? str.split(',') : [];
@@ -69,7 +45,43 @@
           }
         });
       }
+      return $scope.user;
     });
+
+    this.$onChanges = (changes)=> {
+      if (changes.fac && changes.fac.currentValue) {
+        $scope.fac = changes.fac.currentValue;
+        $scope.sendtoIds = [$scope.fac.id];
+        $q.when(getMeData).then(user => {
+          // 是否管理员
+          $scope.isSuperAdmin = user.isSysAdmin;
+          var list = user.objAdmin[$scope.type] || [];
+          $scope.adminInfo.me = list.find(id => id == $scope.fac.id);
+          /** 读产能的所有管理员 */
+          $http.post('stee_user/get_admin_of_obj', { type: $scope.type, facid: $scope.fac.id }).then(function (json) {
+            console.log("get_admin_of_obj", json);
+            $scope.adminInfo = {
+              me: $scope.adminInfo.me,
+              admins: json.data,
+              count: json.data.length
+            }
+          })
+        })
+        $scope.fee = (function () {
+          var fees = JSON.parse($scope.fac.fee || '{}');
+          var totle = 0;
+          var nFee = 0;
+          for (var i in fees) {
+            if (+fees[i] <= 0) continue;
+            totle += +fees[i];
+            nFee++;
+          }
+          return Math.floor(totle / (nFee || 1));
+        })();
+        /** 超过 两星期 未更新 */
+        $scope.veryOld = new Date() / 1000 - $scope.fac.update_at > 14 * 24 * 3600;
+      }
+    }
 
     $scope.showContactDlg = (val) => {
       if ($scope.fac.contact_tel == 'yes') {
