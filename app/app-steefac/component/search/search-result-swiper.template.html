@@ -1,7 +1,7 @@
 ﻿<!-- 搜索结果组件 -->
 
 <!-- 轮播 -->
-<div class="search-result-swiper" ng-if="dataReady && pages.length">
+<!-- <div class="search-result-swiper" ng-if="dataReady && pages.length">
   <ks-swiper-container
     override-parameters="slider.params"
     on-ready="slider.onReady(swiper)"
@@ -10,7 +10,13 @@
       <ng-include src="'swiper-page-' + $ctrl.type + '.html'"></ng-include>
     </ks-swiper-slide>
   </ks-swiper-container>
-</div>
+</div> -->
+<dj-gallery class="search-result-gallery" on-page="notifyParent(page)" page-count="{{pages.length}}" ng-if="$ctrl.type=='steefac'">
+  <div class="result-items-box" ng-repeat="page in pages">
+    <ng-include src="'swiper-page-' + $ctrl.type + '.html'"></ng-include>
+  </div>
+</dj-gallery>
+
 <appb-ui-loading ng-if="!dataReady"></appb-ui-loading>
 <div class="padding-h-3 padding-v-1 flex-cc text-gray" ng-if="count > 0">
   共{{count}}项<span ng-if="pages.length > 1">，第{{pageIndex}}/{{pages.length}}页 - 左右滑动翻页</span>

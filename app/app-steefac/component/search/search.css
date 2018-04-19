@@ -1,4 +1,14 @@
 /* 搜索组件 */
+.search-result-gallery {
+  min-height: 4.2rem;
+}
+.search-result-gallery .dj-gallery-box > .dj-gallery-list{
+  overflow-y: hidden;
+}
+.search-result-gallery .dj-gallery-box > .dj-gallery-list .result-items-box{
+  background: #ffffff;
+  /* float: left; */
+}
 
 search-form > .form{
   font-size: .12rem;
@@ -27,7 +37,11 @@ search-form .my-city{
 }
 
 /* 搜索结果列表 */
-.result-items{ padding: 0; }
+.result-items{
+   padding: 0;
+   background: #fff;
+   padding: 0 .3rem;
+}
 .result-items>*{
   border-bottom: solid 1px #888;
 }
@@ -40,8 +54,13 @@ search-form .my-city{
   padding: 0 0 0 .05rem;
 }
 .result-items .result-item{
+  width: 100%;
   position: relative;
   padding: .03rem 0;
+}
+.result-items .result-item > * {
+  word-break: break-all;
+  white-space: normal;
 }
 .result-items .result-item > img.closed {
   height: .50rem;

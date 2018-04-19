@@ -5,26 +5,27 @@
  * build: 2018-01-21
  * power by LJH.
  */
-!(function (window, angular, undefined){
+!(function (window, angular, undefined) {
   'use strict';
 
   angular.module('steefac')
-  .component('searchResultSwiper', {
-    templateUrl: 'app-steefac/component/search/search-result-swiper.template.html',
-    bindings: {
-      result: '<',
-      type: '<'
-    },
-    controller:['$scope', '$location', 'FacSearch', 'ProjDefine', 'FacUser', 'DjDialog', ctrl]
-  });
+    .component('searchResultSwiper', {
+      templateUrl: 'app-steefac/component/search/search-result-swiper.template.html',
+      bindings: {
+        result: '<',
+        type: '<'
+      },
+      controller: ['$scope', '$location', 'FacSearch', 'ProjDefine', 'FacUser', 'DjDialog', ctrl]
+    });
 
-	function ctrl($scope, $location, FacSearch, ProjDefine, FacUser, DjDialog) {
+  function ctrl($scope, $location, FacSearch, ProjDefine, FacUser, DjDialog) {
     $scope.FacSearch = FacSearch;
     $scope.ProjDefine = ProjDefine;
-    var ctrl=this;
-    ctrl.$onChanges=function(chg){
-      //$scope.dataReady = !!ctrl.result;
-      initPage();
+    var ctrl = this;
+    this.$onChanges = (changes) => {
+      if (changes.result) {
+        initPage();
+      }
     }
 
     /**
@@ -34,20 +35,20 @@
     $scope.count = 0; // 共有几项
     $scope.pageIndex = 0; // 第几页，１开始
     $scope.pages = [];//分页数据
-    function initPage(){
+    function initPage() {
       $scope.pages = [[]];
-      if(!ctrl.result) return;
+      if (!ctrl.result) return;
       var length = $scope.count = ctrl.result.length || 0;
       var thisPage = $scope.pages[0];
-      for(var i = 0; i<length; i++ ){
-        if(i && (i % pageLength) == 0){
+      for (var i = 0; i < length; i++) {
+        if (i && (i % pageLength) == 0) {
           thisPage = [];
           $scope.pages.push(thisPage);
         }
         thisPage.push(ctrl.result[i]);
       }
       $scope.dataReady = true;
-      notifyParent(0);
+      $scope.notifyParent(0);
     }
 
     /* 轮播数据 */
@@ -60,14 +61,14 @@
         showNavButtons: true,
         slidesPerView: 1
       },
-      onReady: function(swiper){
+      onReady: function (swiper) {
         swiper.on('slideChangeEnd', function (swiper) {
           notifyParent(swiper.activeIndex);
         });
       }
     };
 
-    function notifyParent(page){
+    $scope.notifyParent = (page) => {
       $scope.pageIndex = page + 1;
       $scope.$emit('search-result-page-change', $scope.pages[page]);
     }
