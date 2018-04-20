@@ -37,14 +37,14 @@
   function ctrl($scope) {
     $scope.initValue = [];
     this.$onChanges = (changes) => {
-      if (changes.initValue) {
+      if(changes.initValue){
         var initValue = changes.initValue.currentValue || [];
-        if (!angular.isArray(initValue)) initValue = [];
+        if(!angular.isArray(initValue))initValue = [];
         $scope.initValue = initValue;
       }
     }
-    $scope.onChange = (imgs) => {
-      this.onChange({ value: imgs });
+    $scope.onChange = (imgs)=>{
+      this.onChange({value: imgs});
     }
   }
 })(window, angular);

@@ -7,20 +7,16 @@
       imgs: '<',
       active: '<',
       nav: '@',
-      pageCount: '@',
-      onPage: '&',
       btns: '<',
     },
-    transclude: true,
-    replace: true,
     template: `
       <div class="dj-gallery-box">
-        <div class="dj-gallery-list flex" ng-transclude>
+        <div class="dj-gallery-list">
           <div class="dj-gallery-item item-{{$index+1-active}}" ng-repeat="img in imgs track by $index" >
             <img class="" ng-src="{{img}}"/>
           </div>
         </div>
-        <div class="dj-gallery-nav flex flex-between">
+        <div class="dj-gallery-nav flex flex-between" ng-if="1">
           <div class="dots flex flex-w1 flex-center" ng-if="1">
             <div ng-click="scrollTo($index)" ng-repeat="img in imgs track by $index">{{$index==active&&'●'||'○'}}</div>
           </div>
@@ -33,22 +29,16 @@
         <div class="dj-gallery-debug" ng-if="debug">
           {{debug}}
         </div>
-        <div class="dj-gallery-top" ng-if="isMoving">
-        </div>
       </div>
     `,
     controller: ["$scope", "$window", "$element", "$q", "$animateCss", function ($scope, $window, $element, $q, $animateCss) {
+      $scope.ZZZ = "DJ_Gallery";
+
       $scope.active = 0;
-      $scope.pageCount = 1;
       this.$onChanges = (changes) => {
         if (changes.imgs) {
           $scope.imgs = changes.imgs.currentValue || [];
-          $scope.pageCount = $scope.imgs.length;
           //console.log('DJ_Gallery imgs=', $scope.imgs);
-        }
-        if (changes.pageCount && changes.pageCount.currentValue) {
-          $scope.pageCount = changes.pageCount.currentValue || 1;
-          setTimeout(Move.init);
         }
         if (changes.active) {
           $scope.active = changes.active.currentValue || 0;
@@ -58,13 +48,13 @@
       this.$onInit = () => {
         setTimeout(() => {
           Move.init();
-          var eleHandleMouse = $element[0];
-          eleHandleMouse.addEventListener('mousedown', Move.onTouchstart, true);
-          eleHandleMouse.addEventListener('touchstart', Move.onTouchstart, true);
-          eleHandleMouse.addEventListener('mousemove', Move.onTouchmove, true);
-          eleHandleMouse.addEventListener('touchmove', Move.onTouchmove, true);
-          eleHandleMouse.addEventListener('mouseup', Move.onTouchend, true);
-          eleHandleMouse.addEventListener('touchend', Move.onTouchend, true);
+          var eleHandleMouse = Move.list;
+          eleHandleMouse.addEventListener('mousedown', onTouchstart, true);
+          eleHandleMouse.addEventListener('touchstart', onTouchstart, true);
+          eleHandleMouse.addEventListener('mousemove', onTouchmove, true);
+          eleHandleMouse.addEventListener('touchmove', onTouchmove, true);
+          eleHandleMouse.addEventListener('mouseup', onTouchend, true);
+          eleHandleMouse.addEventListener('touchend', onTouchend, true);
           scrollTo($scope.active);
         });
       }
@@ -76,14 +66,11 @@
         slowTurn: 0.3, // 慢速移动可翻页的比例
         init: function () {
           Move.box = $element[0].querySelector(".dj-gallery-box");
-          $element.children().css("height", $element[0].clientHeight);
-          $element.children().css("width", $element[0].clientWidth);
           var w = Move.box.clientWidth;
           //console.log("初始化, w=", w);
           Move.list = $element[0].querySelector(".dj-gallery-list");
-          angular.element(Move.list).css("width", (w * $scope.pageCount) + "px");
-          angular.element(Move.list).children().css("width", w + "px");
-          //setTimeout(() => { angular.element(Move.list).addClass("flex"); }, 200);
+          angular.element(Move.list).css("width", (w * $scope.imgs.length) + "px");
+          angular.element(Move.list.querySelectorAll(".dj-gallery-item")).css("width", w + "px");
         },
         checkFast: function (timeStamp) {
           // 计算是否快速滑动
@@ -106,89 +93,69 @@
             return Move.box.clientWidth * Move.slowTurn * 0.3;
           }
           return Move.box.clientWidth * Move.slowTurn;
-        },
-        setMoving: function (isMoving) {
-          $scope.isMoving = isMoving;
-          $scope.$apply();
-          //setTimeout(() => { angular.element(Move.list).addClass("flex"); });
-        },
-
-        /** 事件监听 */
-        onTouchstart: function (event) {
-          Move.touchstart = true;
-          //console.log("滚动, 开始");
-          //event.preventDefault();
-          //event.stopPropagation();
-          Move.begin = true;
-          Move.moved = false;
-          Move.canceled = false;
-          Move.setMoving(false);
-          Move.x0 = Move.x1 = (event.touches && event.touches[0] || event).clientX;
-          Move.y0 = Move.y1 = (event.touches && event.touches[0] || event).clientY;
-          Move.fast = { x: Move.x1, t: event.timeStamp };
-          Move.offsetLeft = parseInt(Move.list.style.left) || 0;
-
-          //$scope.debug = "滚动, 开始" + Move.x1; $scope.$apply();
-        },
-        onTouchmove: function (event) {
-          if (!Move.begin) return;
-          if (Move.canceled) return;
-          Move.touchstart = true;
-          //console.log("滚动, 移动");
-          Move.x1 = (event.touches && event.touches[0] || event).clientX;
-          Move.y1 = (event.touches && event.touches[0] || event).clientY;
-          Move.list.style.left = (Move.offsetLeft + Move.x1 - Move.x0) + 'px';
-          var dx = Math.abs(Move.x1 - Move.x0);
-          var dy = Math.abs(Move.y1 - Move.y0);
-          if(!Move.moved && dy>Move.min && dy>dx){
-            Move.canceled = true;
-            return;
-          }
-          // 是否已移动了
-          if (Math.abs(Move.x1 - Move.x0) >= Move.min || Math.abs(Move.y1 - Move.y0) >= Move.min) {
-            Move.moved = true;
-          }
-          Move.checkFast(event.timeStamp);
-          /** 总是要阻止默认行为，以防止变成拖拽 */
-          event.preventDefault();
-          event.stopPropagation();
-          if (Move.moved) {
-            Move.setMoving(true);
-          }
-        },
-        onTouchend: function (event) {
-          Move.begin = false;
-          Move.touchstart = false;
-          //console.log("滚动, END");
-          var lastLeft = parseInt(Move.list.style.left);
-          var dMove = Move.offsetLeft - lastLeft;
-          var minMove = Move.minMove(event.timeStamp);
-          if (!Move.moved) {
-            //console.log("点击");
-            $scope.$emit("dj-pop-box-close", { active: $scope.active });
-          }
-          else if (dMove > minMove) {
-            scrollTo($scope.active + 1);
-          }
-          else if (dMove < -minMove) {
-            scrollTo($scope.active - 1);
-          }
-          else {
-            scrollTo($scope.active);
-          }
-          if (Move.moved) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-          Move.setMoving(false);
         }
       };
+
+      function onTouchstart(event) {
+        Move.touchstart = true;
+        //console.log("滚动, 开始");
+        event.preventDefault();
+        event.stopPropagation();
+        Move.begin = true;
+        Move.moved = false;
+        Move.x0 = Move.x1 = (event.touches && event.touches[0] || event).clientX;
+        Move.y0 = Move.y1 = (event.touches && event.touches[0] || event).clientY;
+        Move.fast = { x: Move.x1, t: event.timeStamp };
+        Move.offsetLeft = parseInt(Move.list.style.left) || 0;
+
+        //$scope.debug = "滚动, 开始" + Move.x1; $scope.$apply();
+      }
+      function onTouchmove(event) {
+        if (!Move.begin) return;
+        Move.touchstart = true;
+        //console.log("滚动, 移动");
+        event.preventDefault();
+        event.stopPropagation();
+        Move.x1 = (event.touches && event.touches[0] || event).clientX;
+        Move.y1 = (event.touches && event.touches[0] || event).clientY;
+        Move.list.style.left = (Move.offsetLeft + Move.x1 - Move.x0) + 'px';
+        // 是否已移动了
+        if (Math.abs(Move.x1 - Move.x0) >= Move.min || Math.abs(Move.y1 - Move.y0) >= Move.min) {
+          Move.moved = true;
+        }
+        Move.checkFast(event.timeStamp);
+
+        //$scope.debug = "滚动, 开始" + Move.x0 + ", 移动:" + Move.x1; $scope.$apply();
+      }
+      function onTouchend(event) {
+        Move.begin = false;
+        Move.touchstart = false;
+        //console.log("滚动, END");
+        event.preventDefault();
+        event.stopPropagation();
+        var lastLeft = parseInt(Move.list.style.left);
+        var dMove = Move.offsetLeft - lastLeft;
+        var minMove = Move.minMove(event.timeStamp);
+        if (!Move.moved) {
+          //console.log("点击");
+          $scope.$emit("dj-pop-box-close", { active: $scope.active });
+        }
+        else if (dMove > minMove) {
+          scrollTo($scope.active + 1);
+        }
+        else if (dMove < -minMove) {
+          scrollTo($scope.active - 1);
+        }
+        else {
+          scrollTo($scope.active);
+        }
+      }
 
       /** 导航 */
       var scrollTo = $scope.scrollTo = (nth) => {
         Move.init();
         if (nth < 0) nth = 0;
-        if (nth >= $scope.pageCount) nth = $scope.pageCount - 1;
+        if (nth >= $scope.imgs.length) nth = $scope.imgs.length - 1;
         $scope.active = nth;
 
         var animator = $animateCss(angular.element(Move.list), {
@@ -200,7 +167,6 @@
         animator.start().then(a => {
           //console.log("动画结束, a = ", a);
           $scope.active = nth;
-          this.onPage({ page: nth });
         }).catch(e => {
           console.log("动画结束, e = ", e);
         });
@@ -210,11 +176,11 @@
       $scope.clickButton = function (btn) {
         var result = btn.fn && btn.fn($scope.active);
         if (result) $q.when(result).then(r => {
-          if ($scope.pageCount < 1) {
+          if($scope.imgs.length < 1){
             $scope.$emit("dj-pop-box-close", { active: $scope.active });
           }
           scrollTo($scope.active);
-        }).catch(e => {
+        }).catch(e=>{
           console.log("点击, e = ", e);
         })
       };

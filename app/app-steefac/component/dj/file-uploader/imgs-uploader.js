@@ -54,8 +54,7 @@
     }
     this.$onChanges = (changes) => {
       if (changes.imgs) {
-        var imgs = changes.imgs.currentValue;
-        if(!angular.isArray(imgs)) imgs = [];
+        var imgs = changes.imgs.currentValue || [];
         $scope.imgList.splice(0, $scope.imgList.length);
         imgs.map(url => $scope.imgList.push(url));
       }

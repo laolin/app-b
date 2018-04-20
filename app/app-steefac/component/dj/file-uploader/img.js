@@ -18,14 +18,14 @@
           }
         }
       }
-      return getOrientation(file).then(orientation => {
+      return getOrientation(file).then(orientation=>{
         //alert("orientation=" + orientation);
         //console.log("原图旋转:", orientation)
         return fileToBlob(file, orientation).then(function (blob) {
           formData.append(key || 'file', blob, file.name);
           return post(url, formData)
         })
-      }).catch(e => {
+      }).catch(e=>{
         console.log("getOrientation ERROR:", e)
       });
     }

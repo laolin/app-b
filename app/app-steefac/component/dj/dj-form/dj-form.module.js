@@ -1,4 +1,4 @@
-!(function (angular, window, undefined) {
+!(function(angular, window, undefined){
 
   angular.module('dj-form', ['dj-service']);
 

@@ -78,7 +78,7 @@
 
     this.$onChanges = (changes) => {
       if (changes.configs) {
-        if (!this.configs || !this.configs.param) return;
+        if(!this.configs || !this.configs.param) return;
         $scope.list = this.configs.param.list;
         $scope.list_full = this.configs.param.list;
         $scope.searchMode = this.configs.param.searchMode;
