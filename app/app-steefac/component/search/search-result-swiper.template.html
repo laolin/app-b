@@ -11,7 +11,7 @@
     </ks-swiper-slide>
   </ks-swiper-container>
 </div> -->
-<dj-gallery class="search-result-gallery" on-page="notifyParent(page)" page-count="{{pages.length}}" ng-if="$ctrl.type=='steefac'">
+<dj-gallery class="search-result-gallery" on-page="notifyParent(page)" page-count="{{pages.length}}">
   <div class="result-items-box" ng-repeat="page in pages">
     <ng-include src="'swiper-page-' + $ctrl.type + '.html'"></ng-include>
   </div>
