@@ -1,7 +1,7 @@
 /**
  * 动态表单组件
- * ver: 0.0.1
- * build: 2018-02-25
+ * ver: 0.1.0
+ * build: 2018-04-26
  * power by LJH.
  * 
  * 上级向下级传递数据时，$onChanges将收到消息，处理
@@ -14,26 +14,23 @@
   angular.module('dj-form')
     .component('djForm', {
       bindings: {
-        pre: '@',
         configs: '<',
         initValues: '<',
         onFormValues: '&',
         onFormStatus: '&'
       },
       template: `
-        <dj-form-item class="flex-v rem-15"
-          pre="{{pre}}"
+        <dj-form-item class="{{$ctrl.configs.css.form || 'flex-v rem-15 item-box'}} {{$ctrl.configs.css.item2}}"
           configs="subItem"
           init-values="memValue[subItem.name]"
           on-status-change="onItemStatusChange(item, valid, dirty)"
           on-value-change="onItemValueChange(item, value, valid, dirty)"
-          ng-repeat="subItem in $ctrl.configs.items track by $index"
+          ng-repeat="subItem in configItems track by $index"
         ></dj-form-item>`,
       controller: ['$scope', '$element', '$timeout', '$q', 'DjWaiteReady', ctrlForm]
     });
   function ctrlForm($scope, $element, $timeout, $q, DjWaiteReady) {
     var configReady = new DjWaiteReady();
-    $scope.pre = $scope.pre || 'dj-form-item-';
 
     this.$onChanges = (changes) => {
       if (changes.initValues) {
@@ -41,7 +38,7 @@
         // 初始化整个表单的值，以确保下级上传时，表单值完整
         initValues(this.initValues);
       }
-      if (changes.configs) initConfigs(this.configs);
+      if (changes.configs) initConfigs(changes.configs.currentValue);
     }
 
     /**
@@ -70,6 +67,13 @@
     function initConfigs(vNew) {
       itemValid = {};
       itemDirty = {};
+      if (!vNew) return;
+      var templates = vNew.templates || {};
+      var pre = vNew.pre || 'dj-form-default-item-';
+      var css = vNew.css || {};
+      $scope.configItems = vNew.items.map(item => {
+        return angular.extend({ pre, css, template: templates[item.type] }, item);
+      });
       /** 通知配置已初始化 */
       vNew && configReady.resolve(vNew);
     };
@@ -131,15 +135,14 @@
   angular.module('dj-component')
     .component('djFormItem', {
       bindings: {
-        pre: '@',
         configs: '<',
         initValues: '<',
         onValueChange: '&',
         onStatusChange: '&'
       },
-      controller: ['$scope', '$element', '$timeout', '$q', '$compile', ctrlFormItem]
+      controller: ['$scope', '$element', '$timeout', '$q', '$compile', 'DjFormDefaultTemplate', ctrlFormItem]
     });
-  function ctrlFormItem($scope, $element, $timeout, $q, $compile) {
+  function ctrlFormItem($scope, $element, $timeout, $q, $compile, DjFormDefaultTemplate) {
 
     /** 数据校验 */
     var theValid = $scope.theValid = {
@@ -180,7 +183,8 @@
       /** 计算，验证数据是否有效，同时，设置提示文本 */
       calc: () => {
         if (!theValid.configReady || !theValid.valueReady) return;
-        var valid = theValid.configs.valid || {};
+        var valid = theValid.configs.param && theValid.configs.param.valid
+          || theValid.configs.valid || {};
 
         var invalid = angular.extend({ required: "不可为空" }, theValid.configs.invalid);
 
@@ -255,7 +259,7 @@
         syncStatus(false).then(emitStatus);
       }
       if (changes.configs) {
-        compileConfigs(this.pre, changes.configs.currentValue);
+        compileConfigs(changes.configs.currentValue);
         theValid.setConfig(changes.configs.currentValue);
         $scope.valid = '----';
         syncStatus(false).then(emitStatus);
@@ -266,12 +270,34 @@
     }
 
     /** 编译生成动态子表单项 */
-    function compileConfigs(pre, configs) {
+    function compileConfigs(configs) {
       if (!configs) {
         $element.html("");
         return;
       }
-      var eleName = pre + (configs.type || 'input');
+      var eleName = configs.pre + (configs.type || 'input');
+      var template = `
+        <${eleName}
+          class="{{$ctrl.configs.css.item||''}} {{dirty&&'ng-dirty'||''}} {{!theValid.valid&&'ng-invalid'||''}}"
+          configs="$ctrl.configs"
+          init-value="initValue"
+          on-change="onChange(value)"
+          invalid-text="theValid.tip"
+          dj-require="theValid.require"
+          dj-valid="theValid.valid"
+          dj-dirty="theValid.dirty"
+        ></${eleName}>
+      `;
+      var childElement = $compile(template)($scope);
+      $element.append(childElement[0]);
+      var childScope = $scope.$$childHead;
+      var childContent = $compile(configs.template || DjFormDefaultTemplate[configs.type])(childScope);
+      childElement.html(childContent);
+
+
+
+      return;
+
       //console.log('validText = ', validText);
       $element.html(`
         <${eleName}
@@ -285,6 +311,11 @@
           dj-dirty="theValid.dirty"
         ></${eleName}>`);
       $compile($element.contents())($scope);
+      console.log('插座,', configs.name, ",", $scope.id);
+      var childElement = $element.children();
+      var childScope = $scope.$$childHead;
+      childElement.html(configs.template || DjFormDefaultTemplate[configs.type])
+      $compile(childElement.contents())(childScope);
     };
 
     /** 状态，及其初始化 */

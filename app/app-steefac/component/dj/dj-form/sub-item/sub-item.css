@@ -1,10 +1,12 @@
 /* 动态表单子组件 */
 dj-form-item > * > input ,
-dj-form-item > * > dj-ui-input ,
+dj-form-item > * > textarea ,
+dj-form-item > * > djui-input ,
 dj-form-item > * > uib-dropdown ,
 dj-form-item > * > select,
 dj-form-item > * > * > select {
   line-height: 2.2em;
+  width: 100%;
   height: 2.2em;
   border: 1px solid #e6e6e6;
   border-radius: 0.04rem;
@@ -13,8 +15,11 @@ dj-form-item > * > * > select {
   outline: 0;
   font-size: inherit;
 }
+dj-form-item > * > textarea{
+  min-height: 5em;
+}
 dj-form-item > .ng-invalid > input ,
-dj-form-item > .ng-invalid > dj-ui-input ,
+dj-form-item > .ng-invalid > djui-input ,
 dj-form-item > .ng-invalid > uib-dropdown ,
 dj-form-item > .ng-invalid > select,
 dj-form-item > .ng-invalid > * > select {
@@ -22,7 +27,7 @@ dj-form-item > .ng-invalid > * > select {
 }
 
 
-dj-form-item-input > dj-ui-input {
+dj-form-item-input > djui-input {
   width: 100%;
   padding: .1rem;
 }

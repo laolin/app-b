@@ -3,7 +3,7 @@
 
 
   angular.module('dj-form')
-    .component('djUiInput', {
+    .component('djuiInput', {
       bindings: {
         //ngModel: '=',
         param: '=',
@@ -21,7 +21,7 @@
           <i class="fa fa-{{$ctrl.icon || $ctrl.param.icon}}" ng-if="$ctrl.icon || $ctrl.param.icon"></i>
           <input class="flex-w1"
             dj-focus="{{djFocus}}"
-            placeholder="{{placeholder}}"
+            placeholder="{{$ctrl.placeholder}}"
             ng-model="ngModel"
             ng-change="onChange(ngModel)"
           >

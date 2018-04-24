@@ -1,0 +1,31 @@
+
+
+djui-input > div {
+  width: 100%;
+}
+djui-input input {
+  border-width: 0;
+}
+djui-input i:first-child{
+  color:#cccccc;
+}
+djui-input > div > i.fa{
+  padding: 0 .08rem;
+  font-size: 1.5em;
+}
+
+
+djui-star {
+  display: inline-block;
+}
+djui-star > * {
+  height: 100%;
+}
+djui-star > * > .star {
+  height: 100%;
+  font-size: 1.5em;
+  line-height: 1.5em;
+  color: #ff8800;
+  padding: 0 0.3em;
+}
+
