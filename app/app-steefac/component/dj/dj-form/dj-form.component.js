@@ -197,7 +197,7 @@
         theValid.require = valid.require;
         /** 开始验证 */
         if (valid.require) {
-          if (!theValid.value) {
+          if (!theValid.value && theValid.value !== 0) {
             theValid.valid = false;
             theValid.tip = invalid.required || valid.errorTip || "";
             return;
