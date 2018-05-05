@@ -5,24 +5,61 @@
  * power by LJH.
  */
 !(function (window, angular, undefined) {
-  'use strict';
 
   angular.module('steefac')
     .config(['$routeProvider', function ($routeProvider) {
       $routeProvider.when('/fac-detail/:id', {
         pageTitle: "公司详情",
         templateUrl: 'app-steefac/view/fac-detail/fac-detail.template.html',
-        controller: ['$scope', '$routeParams', '$location', '$http', 'AppbData', '$q', ctrl]
+        controller: ['$scope', '$routeParams', '$location', '$http', 'AppbData', '$q', 'SiteConfig', ctrl]
       });
     }]);
 
-  function ctrl($scope, $routeParams, $location, $http, AppbData, $q) {
+  function ctrl($scope, $routeParams, $location, $http, AppbData, $q, SiteConfig) {
     var appData = AppbData.getAppData();
     var userData;
     var facid = $routeParams.id;
     var type = "steefac";
     var pageCacheAc = `fac-detail-history-${type}`;
 
+    $scope.caseParam = {
+      api: {
+        comment: { root: SiteConfig.apiRootUnit + 'comment/comment/' },
+        user: { root: '', me: '用户/个人信息', getWxInfo: '用户/微信数据' }
+      },
+      form: {
+        items: [
+          { name: 'projname', title: '项目名称', type: 'input', show: { autohide: "empty" }, param: { valid: { require: true }, placeholder: "在此输入项目名称" } },
+          { name: 'projtype', title: '项目类型', type: 'input', show: { autohide: "empty" }, param: { valid: { require: true }, placeholder: "在此输入项目类型" } },
+          { name: 'steetype', title: '钢构类别', type: 'tags', show: { autohide: "zero length" }, param: { list: ["超高层", "大跨", "桥梁", "工业", "海工", "轻钢", "其他"], valid: { require: true, minlength: 1 } } },
+          { name: 'comptype', title: '构件类型', type: 'tags', show: { autohide: "zero length" }, param: { list: ["超高层", "大跨", "桥梁", "工业", "海工", "轻钢", "其他"], valid: { require: true, minlength: 1 } } },
+          { name: 'tons', title: '吨位', type: 'input', show: { autohide: "empty" }, param: { valid: { min: 0 }, placeholder: "在此输入吨位" } },
+          { name: 'content', title: '简介', type: 'textarea', param: { valid: { require: true }, placeholder: "在此发表评论" } },
+          { name: 'pics', title: '图片', type: 'imgs-uploader', show: { autohide: "zero length" } },
+        ],
+      },
+      module: 'steeFacCase',
+      mid: facid
+    };
+    $scope.commentParam = {
+      api: {
+        comment: { root: SiteConfig.apiRootUnit + 'comment/comment/' },
+        user: { root: '', me: '用户/个人信息', getWxInfo: '用户/微信数据' }
+      },
+      form: {
+        items: [
+          { name: 'star1', title: '交货期', type: 'star', param: { valid: { require: true } } },
+          { name: 'star2', title: '质量', type: 'star', param: { valid: { require: true } } },
+          { name: 'star3', title: '服务配合', type: 'star', param: { valid: { require: true } } },
+          { name: 'star4', title: '安全管理', type: 'star', param: { valid: { require: true } } },
+          { name: 'star5', title: '环保管理', type: 'star', param: { valid: { require: true } } },
+          { name: 'content', title: '评论', type: 'textarea', param: { valid: { require: true }, placeholder: "在此发表评论" } },
+          { name: 'pics', title: '图片', show: { autohide: "zero length" }, type: 'imgs-uploader' },
+        ],
+      },
+      module: 'steeComment',
+      mid: facid
+    };
     /**
      * 初始化
      */
@@ -42,10 +79,9 @@
     });
     var readUserInfo = $http.post("用户/个人信息").then(json => {
       userData = json.datas;
-      console.log('个人信息, userData = ', userData)
     });
 
-    $q.all([readObjDetail, readUserInfo]).then(()=>{
+    $q.all([readObjDetail, readUserInfo]).then(() => {
       resolveFac($scope.fac);
     }).catch(json => {
       //console.log('读取详情错误', json);
@@ -76,7 +112,8 @@
       active: $routeParams.tabIndex || 0,
       click: function (index) {
         tab.active = index;
-        $location.replace('/fac-detail/:id', facid).search({ tabIndex: index });
+        history.replaceState(null, "", `#!/fac-detail/${facid}?tabIndex=${index}`);
+        //$location.replace('/fac-detail/:id', facid).search({ tabIndex: index });
       }
     }
     $scope.adminList = {};

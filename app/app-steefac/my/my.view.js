@@ -6,8 +6,8 @@ angular.module('steefac')
   $routeProvider.when('/my', {
     pageTitle: "我的",
     templateUrl: 'app-steefac/my/my.view.template.html',
-    controller: ['$scope','$timeout','$log', '$http', 'AppbFeedService','AppbData','AppbUiService','AmapMainData','FacUser','FacSearch',
-      function ($scope,$timeout,$log, $http, AppbFeedService,AppbData,AppbUiService,AmapMainData,FacUser,FacSearch) {
+    controller: ['$scope','$timeout','$log', '$http', 'SiteConfig', 'AppbFeedService','AppbData','AppbUiService','AmapMainData','FacUser','FacSearch',
+      function ($scope,$timeout,$log, $http, SiteConfig, AppbFeedService,AppbData,AppbUiService,AmapMainData,FacUser,FacSearch) {
 
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
@@ -77,6 +77,16 @@ angular.module('steefac')
         ctrl.appData=appData;
         ctrl.assetsRoot=appData.appCfg.assetsRoot;
         
+        $scope.updateComment=function() {
+          console.log("升级评论业绩数据库");
+          $http.post("显示对话框/confirm", { body: "升级评论业绩数据库后，非原来的评论业绩数据库将被清除，且不可恢复。确认？", title: "删除前，请确认：" }).then(json => {
+            $http.post(SiteConfig.apiRootUnit + "comment/comment/updateDB").then(json=>{
+              $http.post("显示对话框/alert", { body: "升级成功" })
+            }).catch(e=>{
+              console.log("升级失败,", e)
+            })
+          });
+        }
         
         ctrl.onDisableSysAdmin=function() {
           var me;

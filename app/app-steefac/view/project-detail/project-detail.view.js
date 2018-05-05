@@ -78,6 +78,25 @@
         $location.replace('/project-detail/:id', facid).search({tabIndex: index});
       }
     }
+    $scope.commentParam = {
+      api: {
+        comment: { root: SiteConfig.apiRootUnit + 'comment/comment/' },
+        user: { root: '', me: '用户/个人信息', getWxInfo: '用户/微信数据' }
+      },
+      form: {
+        items: [
+          { name: 'star1', title: '付款条件', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'star2', title: '实际付款情况', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'star3', title: '工期合理性', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'star4', title: '指令合理性', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'star5', title: '综合管理', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'content', title: '评论', type: 'textarea', param: { valid: { require: true }, placeholder: "在此发表评论" } },
+          { name: 'pics', title: '图片', show: { autohide: "zero length" }, type: 'imgs-uploader' },
+        ],
+      },
+      module: 'steeProjComment',
+      mid: facid
+    };
     $scope.adminList = {};
     $scope.$on("show-admin-list", (event, datas) => {
       tab.active = 'show-admin-list';

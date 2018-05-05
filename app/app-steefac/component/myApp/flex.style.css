@@ -63,6 +63,19 @@
 .flex-w11 { -webkit-flex-grow:11; -moz-flex-grow:11; -ms-flex-grow:11; -o-flex-grow:11; flex-grow:11;}
 .flex-w12 { -webkit-flex-grow:12; -moz-flex-grow:12; -ms-flex-grow:12; -o-flex-grow:12; flex-grow:12;}
 
+.flex-1  { -webkit-flex:1 ; -moz-flex:1 ; -ms-flex:1 ; -o-flex:1 ; flex:1 ;}
+.flex-2  { -webkit-flex:2 ; -moz-flex:2 ; -ms-flex:2 ; -o-flex:2 ; flex:2 ;}
+.flex-3  { -webkit-flex:3 ; -moz-flex:3 ; -ms-flex:3 ; -o-flex:3 ; flex:3 ;}
+.flex-4  { -webkit-flex:4 ; -moz-flex:4 ; -ms-flex:4 ; -o-flex:4 ; flex:4 ;}
+.flex-5  { -webkit-flex:5 ; -moz-flex:5 ; -ms-flex:5 ; -o-flex:5 ; flex:5 ;}
+.flex-6  { -webkit-flex:6 ; -moz-flex:6 ; -ms-flex:6 ; -o-flex:6 ; flex:6 ;}
+.flex-7  { -webkit-flex:7 ; -moz-flex:7 ; -ms-flex:7 ; -o-flex:7 ; flex:7 ;}
+.flex-8  { -webkit-flex:8 ; -moz-flex:8 ; -ms-flex:8 ; -o-flex:8 ; flex:8 ;}
+.flex-9  { -webkit-flex:9 ; -moz-flex:9 ; -ms-flex:9 ; -o-flex:9 ; flex:9 ;}
+.flex-10 { -webkit-flex:10; -moz-flex:10; -ms-flex:10; -o-flex:10; flex:10;}
+.flex-11 { -webkit-flex:11; -moz-flex:11; -ms-flex:11; -o-flex:11; flex:11;}
+.flex-12 { -webkit-flex:12; -moz-flex:12; -ms-flex:12; -o-flex:12; flex:12;}
+
 
 /* 主轴对齐 */
 .flex-left    { -webkit-box-pack:flex-start;    -webkit-justify-content:flex-start;    -moz-justify-content:flex-start;    -ms-justify-content:flex-start;    -o-justify-content:flex-start;    justify-content:flex-start;   }

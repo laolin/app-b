@@ -6,7 +6,7 @@
   angular.extend(angular.dj || (angular.dj = {}), (function () {
     var siteConfig = {
 
-      apiRoot: '/Laolin/api-core/src/cmoss/', //本地的API
+      apiRoot: window.location.origin + '/Laolin/api-core/src/cmoss/', //本地的API
       //apiRoot: 'https://api.jdyhy.com/cmoss-test-1.0/src/cmoss/', //服务器测试API
       //apiRoot: 'https://api.qinggaoshou.com/cmoss-master-1.0.0/src/cmoss/', //服务器预览版（最新版）
       //apiRoot: 'https://api.qinggaoshou.com/api-cmoss/master/open/', //服务器正式版
@@ -28,7 +28,12 @@
   angular.module('app-site-config', [])  .provider("SiteConfig", [function(){
     var siteConfig = angular.extend({apiRoot: './'}, angular.dj.siteConfig, window.theSiteConfig);
     if(!/\/$/.test(siteConfig.apiRoot)) siteConfig.apiRoot = siteConfig.apiRoot + '/';
+    if(!siteConfig.apiRootUnit){
+      siteConfig.apiRootUnit = siteConfig.apiRoot.match(/(.*)\/\w+\/$/)[1] + "/api-unit/";
+    }
+    if(!/\/$/.test(siteConfig.apiRootUnit)) siteConfig.apiRootUnit = siteConfig.apiRootUnit + '/';
     angular.extend(this, siteConfig);
+    
     /**
      * 暴露数据
      */

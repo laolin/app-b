@@ -63,13 +63,14 @@ function ($log,$http,$timeout,$location,AppbData){
     cmtData.likePublishing=true;
     //appData.toastLoading();
 
-    return $http.post("comment/add", angular.extend({ fid: fid }, obj)) //, {signType:'single'})
+    return $http.post("comment/add", angular.extend({type,  fid }, obj)) //, {signType:'single'})
       .then(json => {
         //点赞/评论 成功
         //appData.toastDone(1);
 
         //这几行comment倒过来依赖feed，不是很好，先将就
         //以后comment和feed会合并为同一数据表
+        //改数据库？要先哭三天，哇！哇！哇！
         var feed = appData.feedData.feedByFid[fid];
         var fids = appData.feedData.theFeedIdList(feed.app, feed.cat);
 
@@ -78,6 +79,7 @@ function ($log,$http,$timeout,$location,AppbData){
         return json.data;
       })
       .catch(json => {
+        console.log("EEEEEE", json);
         errorCount(1);
         cmtData.likePublishing = false;
         if (!errorJson(json)) {

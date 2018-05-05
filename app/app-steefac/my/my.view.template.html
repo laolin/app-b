@@ -110,6 +110,14 @@
   </div>
 </div>
 
+<div class='weui-cells' ng-if="me.uid==301173"> 
+  <div class="weui-cells__title">升级</div> 
+
+  <div class="weui-cell weui-cell_access" ng-click="updateComment()">
+    <div class="weui-cell__bd">升级评论业绩数据库</div>
+    <span class="weui-cell__ft"></span>
+  </div>
+</div>
 
 <div ng-if='$ctrl.FacUser.isSysAdmin()'> 
   <appb-weui-cells

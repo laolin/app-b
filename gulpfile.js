@@ -387,31 +387,36 @@ function build_loader() {
       window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
       window.theSiteConfig = {
         localStorage_Token_KEY: '__cmoss_master_token__',
-        apiRoot: 'https://api.qinggaoshou.com/cmoss-master-vers/ver-1.1.0/src/cmoss/'
+        apiRoot: 'https://api.qinggaoshou.com/cmoss-master-vers/ver-1.1.0/src/cmoss/',
+        apiRootUnit: 'https://api.qinggaoshou.com/cmoss-master-vers/ver-1.1.0/src/api-unit/'
       };`,
     "cmoss.xcx.loader": `
       window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
       window.theSiteConfig = {
         localStorage_Token_KEY: '__cmoss_xcx_token__',
-        apiRoot: 'https://api.qinggaoshou.com/cmoss-master-vers/ver-1.1.0/src/cmoss/'
+        apiRoot: 'https://api.qinggaoshou.com/cmoss-master-vers/ver-1.1.0/src/cmoss/',
+        apiRootUnit: 'https://api.qinggaoshou.com/cmoss-master-vers/ver-1.1.0/src/api-unit/'
       };`,
     "cmoss.preview.loader": `
       window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
       window.theSiteConfig = {
         localStorage_Token_KEY: '__cmoss_preview_token__',
-        apiRoot: 'https://api.qinggaoshou.com/cmoss-master-vers/ver-1.1.0/src/cmoss/'
+        apiRoot: 'https://api.qinggaoshou.com/cmoss-master-vers/ver-1.1.0/src/cmoss/',
+        apiRootUnit: 'https://api.qinggaoshou.com/cmoss-master-vers/ver-1.1.0/src/api-unit/'
       };`,
     "cmoss.test.loader": `
       window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
       window.theSiteConfig = {
         localStorage_Token_KEY: '__cmoss_test_token__',
-        apiRoot: 'https://api.jdyhy.com/cmoss-test-1.0/src/cmoss'
+        apiRoot: 'https://api.jdyhy.com/cmoss-test-1.0/src/cmoss/',
+        apiRootUnit: 'https://api.jdyhy.com/cmoss-test-1.0/src/api-unit/'
       };`,
     "debug.loader": `
       window.__assetsPath = "../dist/assets";
       window.theSiteConfig = {
         localStorage_Token_KEY: '__cmoss_debug_token__',
-        apiRoot: '../../api-core/src/cmoss'
+        apiRoot: '../../api-core/src/cmoss/',
+        apiRootUnit: '../../api-core/src/api-unit/comment/'
       };`
   };
 

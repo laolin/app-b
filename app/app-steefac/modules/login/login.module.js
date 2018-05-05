@@ -32,7 +32,6 @@
           'tokenid=' + userToken.data.tokenid,
           'timestamp=' + (timestamp + userToken.timestampOffset),
           'sign=' + md5(userToken.data.token + timestamp),
-          'a=' + userToken.data.token + timestamp
         ]
         return data.join('&');
       },
