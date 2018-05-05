@@ -30,7 +30,7 @@
               <li class="weui-uploader__file weui-uploader__file_status" ng-repeat='file in File.uploadingFiles track by $index'>
                 <div class="weui-uploader__file-content">{{file.per}}%</div>
               </li>
-              <div class="imgs-uploader-box weui-uploader__input-box" ng-if='imgList.length < (maxCount||9) '>
+              <div class="imgs-uploader-box weui-uploader__input-box" ng-if="mode!='show' && imgList.length < (maxCount||9)">
                 <input type="file" multiple accept="image/*,video/mp4" multi-file-upload change="File.onFile($files)">
               </div>
             </ul>
@@ -41,6 +41,7 @@
         appData: "<",
         maxCount: "<",
         imgs: "<",
+        mode: '@',
         updateImg: "&" //选择图片更新用的回调函数
       },
       controller: ["$scope", "$http", "IMG", "DjPop", "DjDialog", ctrl]
@@ -61,6 +62,9 @@
       if (changes.maxCount) {
         $scope.maxCount = +changes.maxCount.currentValue || 9;
       }
+      if (changes.mode) {
+        $scope.mode = changes.mode.currentValue || "";
+      }
     }
 
     this.deleteImg = (n) => {
@@ -77,7 +81,7 @@
         param: {
           imgs: $scope.imgList,
           active: n,
-          btns: [{ css: "fa fa-trash-o text-visited", fn: this.deleteImg }]
+          btns: $scope.mode=="show"? []:[{ css: "fa fa-trash-o text-visited", fn: this.deleteImg }]
         }
       }).then(data => {
         //console.log("show-gallery", data);
