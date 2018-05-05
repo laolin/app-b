@@ -15,8 +15,13 @@ dj-form-item > * > * > select {
   outline: 0;
   font-size: inherit;
 }
-dj-form-item > * > textarea{
+dj-form-item > .box > textarea{
   min-height: 5em;
+}
+dj-form-item > .box > select[multiple].multiple{
+  height: auto;
+  min-height: 5em;
+  max-height: 12em;
 }
 dj-form-item > .ng-invalid > input ,
 dj-form-item > .ng-invalid > djui-input ,

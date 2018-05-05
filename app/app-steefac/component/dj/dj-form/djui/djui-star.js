@@ -5,6 +5,7 @@
   angular.module('dj-form')
     .component('djuiStar', {
       bindings: {
+        mode: '@',
         max: '<',
         initValue: '<',
         onChange: '&'
@@ -23,6 +24,10 @@
 
   function ctrl($scope, $element) {
     this.$onChanges = (changes) => {
+      if (changes.mode) {
+        console.log("星星， mode=", changes.mode.currentValue);
+        $scope.mode = changes.mode.currentValue || "";
+      }
       if (changes.max) {
         var max = +changes.max.currentValue
         if (!max || max < 0) max = 5;
@@ -38,13 +43,16 @@
 
     $scope.valueOver = -1;
     $scope.leave = () => {
+      if ($scope.mode == "show") return;
       $scope.valueOver = -1;
     }
     $scope.overstar = (value) => {
+      if ($scope.mode == "show") return;
       $scope.valueOver = value;
     }
 
     $scope.click = (value) => {
+      if ($scope.mode == "show") return;
       console.log("星星", value)
       $scope.value = value;
       this.onChange({ value })
