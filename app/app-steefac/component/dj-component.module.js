@@ -2,6 +2,8 @@
 
   angular.module('dj-component', [
     'dj-form',
+    'dj-ui',
+    'dj-pop',
     'ngAnimate',
     'ui.uploader'
   ]);
