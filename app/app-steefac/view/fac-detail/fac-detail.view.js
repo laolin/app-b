@@ -32,7 +32,7 @@
           { name: 'projname', title: '项目名称', type: 'input', show: { autohide: "empty" }, param: { valid: { require: true }, placeholder: "在此输入项目名称" } },
           { name: 'weitu', title: '委托方', type: 'input', show: { autohide: "empty" }, param: { placeholder: "在此输入委托方（合同甲方）" } },
           { name: 'projplace', title: '项目地点', type: 'input', show: { autohide: "empty" }, param: { valid: { require: true }, placeholder: "在此输入项目地点" } },
-          { name: 'doneyear', title: '完成年份', type: 'input', show: { autohide: "empty" }, param: { valid: { pattern: '^(19|20)\\d\\d$' }, placeholder: "完成年份" } },
+          { name: 'doneyear', title: '完成年份', type: 'input', show: { autohide: "empty" }, param: { valid: { min:1900, max: new Date().getFullYear() }, placeholder: "完成年份" } },
           { name: 'projtype', title: '项目类型', type: 'dropdown', show: { autohide: "empty" }, param: { list: "stee-项目类别" } },
           { name: 'steetype', title: '钢构类别', type: 'dropdown', show: { autohide: "zero length" }, param: { list: "stee-擅长构件" } },
           { name: 'tons', title: '工程量', type: 'input', show: { autohide: "empty" }, param: { valid: { min: 0 }, placeholder: "在此输入工程量" } },
