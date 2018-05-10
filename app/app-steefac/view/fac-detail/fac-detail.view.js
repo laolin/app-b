@@ -61,11 +61,11 @@
       },
       form: {
         items: [
-          { name: 'star1', title: '交货期', type: 'star', param: { valid: { require: true } } },
-          { name: 'star2', title: '质量', type: 'star', param: { valid: { require: true } } },
-          { name: 'star3', title: '服务配合', type: 'star', param: { valid: { require: true } } },
-          { name: 'star4', title: '安全管理', type: 'star', param: { valid: { require: true } } },
-          { name: 'star5', title: '环保管理', type: 'star', param: { valid: { require: true } } },
+          { name: 'star1', title: '交货期', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'star2', title: '质量', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'star3', title: '服务配合', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'star4', title: '安全管理', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'star5', title: '环保管理', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
           { name: 'content', title: '评论', type: 'textarea', show: { autohide: "empty" }, param: { placeholder: "在此发表评论" } },
           { name: 'pics', title: '图片', show: { autohide: "zero length" }, type: 'imgs-uploader' },
         ],
@@ -78,7 +78,7 @@
           hostBodyShow: "flex-1 flex-top",
         },
       },
-      module: 'steeComment',
+      module: 'steeFacComment',
       mid: facid
     };
     /**
