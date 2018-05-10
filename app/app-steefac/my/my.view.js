@@ -29,22 +29,23 @@ angular.module('steefac')
         $http.post("cache/load", { ac: "me" }).then(json => {
           if($scope.me) return;
           $scope.me = json.datas.data;
-          initDatas(me);
+          initDatas($scope.me.me);
         });
         /** 从服务器读取me数据 */
-        FacUser.getMyData().then(function (me) {
-          $scope.me = me;
-          $http.post("cache/save", { ac: "me", data: me }).then(json => {
-            if($scope.me) return;
-            $scope.me = json.datas.data;
-          });
-          initDatas(me);
-          ctrl.isLoading=0;
+        $http.post("用户/刷新个人信息").then(json => {
+          $scope.me = json.datas;
+          console.log("me = ", $scope.me)
+          $http.post("cache/save", { ac: "me", data: $scope.me });
+          initDatas($scope.me.me);
         });
-        function initDatas(me){
-          for(var i=ctrl.objTypes.length;i--; ) {
-            ctrl.facIds[ctrl.objTypes[i]] = (me.objCanAdmin[ctrl.objTypes[i]] || []).join(',');
-            if(ctrl.facIds[ctrl.objTypes[i]].length)ctrl.noIds=false;
+        function initDatas(me) {
+          ctrl.isLoading = 0;
+          $scope.me.objCanAdmin = {}
+          for (var i = ctrl.objTypes.length; i--;) {
+            var str = me[ctrl.objTypes[i] + '_can_admin'];
+            $scope.me.objCanAdmin[ctrl.objTypes[i]] = str ? str.split(',') : [];
+            ctrl.facIds[ctrl.objTypes[i]] = str;//(me.objCanAdmin[ctrl.objTypes[i]] || []).join(',');
+            if (ctrl.facIds[ctrl.objTypes[i]].length) ctrl.noIds = false;
           }
         }
 
