@@ -11,11 +11,11 @@
     </ks-swiper-slide>
   </ks-swiper-container>
 </div> -->
-<dj-gallery class="search-result-gallery" on-page="notifyParent(page)" page-count="{{pages.length}}">
+<djui-gallery class="search-result-gallery" on-page="notifyParent(page)" page-count="{{pages.length}}">
   <div class="result-items-box" ng-repeat="page in pages">
     <ng-include src="'swiper-page-' + $ctrl.type + '.html'"></ng-include>
   </div>
-</dj-gallery>
+</djui-gallery>
 
 <appb-ui-loading ng-if="!dataReady"></appb-ui-loading>
 <div class="padding-h-3 padding-v-1 flex-cc text-gray" ng-if="count > 0">

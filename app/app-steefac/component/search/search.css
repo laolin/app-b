@@ -2,10 +2,10 @@
 .search-result-gallery {
   min-height: 4.2rem;
 }
-.search-result-gallery .dj-gallery-box > .dj-gallery-list{
+.search-result-gallery .djui-gallery-box > .djui-gallery-list{
   overflow-y: hidden;
 }
-.search-result-gallery .dj-gallery-box > .dj-gallery-list .result-items-box{
+.search-result-gallery .djui-gallery-box > .djui-gallery-list .result-items-box{
   background: #ffffff;
   /* float: left; */
 }
