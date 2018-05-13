@@ -90,6 +90,33 @@
         }
       });
 
+      sign.registerHttpHook({
+        match: /\/comment\/comment\/(\w+)$/,
+        hookRequest: function (config, mockResponse, match) {
+        },
+        hookResponse: function (response, $q) {
+          return $q.when(response.data).then(json => {
+            if (angular.isArray(json.datas.list)) {
+              json.datas.list.map(item => {
+                if (item.attr && angular.isArray(item.attr.pics)) {
+                  item.attr.pics = item.attr.pics.map(url => {
+                    if (!/^(http(s)?\:)?\/\//.test(url)) {
+                      url = theFilePathJson.data + "/" + url;
+                    }
+                    return url;
+                  })
+                }
+              });
+              console.log("请求评论, 处理图片", json);
+            }
+            return json;
+          }).catch(e => {
+            console.log("请求评论, error", e);
+            return $q.reject(e);
+          });
+        }
+      });
+
     }]);
 
 
@@ -114,6 +141,14 @@
 
   function confogUser($rootScope, $http, $q, $timeout, sign, DjWaiteReady) {
     const SYS_ADMIN = 0x10000;
+
+    function emptyWx(uid) {
+      return {
+        headimgurl: "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets/img/anonymous.png",
+        nickname: "",
+        uid
+      }
+    }
 
     /**
      * 所有用户权限
@@ -202,13 +237,15 @@
 
 
       /** 微信数据部分 */
-      wxCache: [],
+      wxCache: [
+        { headimgurl: "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets/img/anonymous.png", nickname: "匿名", uid: 0 }
+      ],
       "微信数据": function (uids) {
         uids = uids.uids || uids;
         var uidIsArray = angular.isArray(uids);
         if (!uidIsArray) uids = [uids];
 
-        var uidAllCache = USER.wxCache.map(row => row.uid);
+        var uidAllCache = USER.wxCache;//.map(row => row.uid);
         var uidInCache = uids.filter(uid => uidAllCache.indexOf(uid) >= 0);
         var uidNotCache = uids.filter(uid => uidAllCache.indexOf(uid) < 0);
 
@@ -221,9 +258,15 @@
 
         return $http.post('app/getWxInfo', { uid: uidNotCache }).then(json => {
           var list = json.datas.list;
+          console.log("微信数据", json);
           list.map(item => USER.wxCache.push(item));
           return sign.OK(uidIsArray ?
-            { list: USER.wxCache.filter(row => uids.indexOf(row.uid) >= 0) }
+            //{ list: USER.wxCache.filter(row => uids.indexOf(row.uid) >= 0) }
+            {
+              list: uids.map(uid => {
+                return USER.wxCache.find(item => item.uid == uid) || emptyWx(uid)
+              })
+            }
             : { wx: USER.wxCache.find(wx => wx.uid = uids[0]) }
           );
         })
