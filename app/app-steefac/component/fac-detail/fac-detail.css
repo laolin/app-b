@@ -34,7 +34,6 @@ fac-detail-profile .box-1 > .headimg img{
   font-size: .14rem;
   font-weight: 900;
   height: 1.5em;
-  display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   line-height: 1.5;

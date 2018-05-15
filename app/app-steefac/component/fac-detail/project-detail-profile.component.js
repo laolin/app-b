@@ -97,6 +97,19 @@
     }
 
     $scope.closeFac = function (toClose) {
+      console.log("产能操作/关闭项目");
+
+      $http.post("产能操作/关闭项目1", {facid: $scope.fac.id, close: toClose}).then(json => {
+        $scope.fac.close_time = toClose == 'close';
+      }).catch(e => {
+        console.error("关闭项目 error:", e);
+      })
+        ;
+
+      return;
+
+
+
       $http.post("sa_data/close_fac", { type: $scope.type, facid: $scope.fac.id, close: toClose }).then(json => {
         $scope.fac.close_time = toClose == 'close';
       }).catch(e => {

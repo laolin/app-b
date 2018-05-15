@@ -3,12 +3,16 @@
   var theConfigModule = angular.module('app-config')
 
   /**
-   * 项目字典
+   * 产能字典
    */
   theConfigModule.run(['$http', '$q', 'sign', function ($http, $q, sign) {
 
-    /** 项目阶段 - 字典 */
     var theSteeDick = {
+      "资质等级": ["特级", "一级", "二级", "三级", "没有申请"],
+      "体系认证": ["CWB", "AISC", "JASS", "EN", "自定义"],
+
+
+
       "项目阶段": [
         { value: "mode1", title: "中标后分包阶段" },
         { value: "mode2", title: "施工图设计阶段" },
@@ -31,16 +35,17 @@
         "国家级", "省部级"
       ],
 
-
     };
-
 
     sign.registerHttpHook({
       match: /^获取下拉列表$/, // \/stee-(.+)
       hookRequest: function (config, mockResponse, match) {
         var param = config.data;
         var dick_name = param;
-        var list = theSteeDick[dick_name]
+        var list = theSteeDick[dick_name];
+        if (angular.isFunction(list)) {
+          list = list();
+        }
         if (list) return mockResponse.resolve({ list });
       }
     });
@@ -48,25 +53,46 @@
 
 
   /**
+   * 产能操作
+   */
+  theConfigModule.run(['$http', '$q', 'sign', function ($http, $q, sign) {
+
+    var theActions = {
+      "关闭项目1": function (param) {
+        return $http.post("显示对话框/confirm", {
+          body: "确定要关闭？",
+          title: "关闭项目"
+        })
+      },
+      "关闭项目": function (param) {
+        return $http.post("显示对话框/component", {
+          componentName: "",
+          params: param
+        })
+      },
+    }
+    sign.registerHttpHook({
+      match: /^产能操作\/(.*)$/,
+      hookRequest: function (config, mockResponse, match) {
+        var param = config.data;
+        var ac = theActions[match[1]];
+        if (angular.isFunction(ac)) {
+          ac = ac(param);
+        }
+        if (ac) return mockResponse.resolve({ ac });
+      }
+    });
+  }]);
+
+
+
+  /**
    * 项目定义
    */
   theConfigModule.run(['$http', '$q', 'sign', function ($http, $q, sign) {
-    var theProjStep = [
-      { value: "mode1", title: "找分包/外协阶段" },
-      { value: "mode2", title: "施工图设计阶段" },
-    ];
-
-    var formBoolean = {
-      whenNotMode2: {
-        mode: "!=",
-        v1: { mode: "value", value: "mode2" },
-        v2: { mode: "formValue", field: "mode" }
-      }
-    };
 
     var theProjType = [];
     var theSteeType = [];
-
 
     var theProjDefine = {
       create: {
@@ -74,7 +100,6 @@
           { name: 'mode', value: "mode1", title: "找分包/外协阶段" },
           { name: 'mode', value: "mode2", title: "施工图设计阶段" },
         ],
-
         form: {
           items: [
             { name: 'step', title: '项目所处阶段', type: 'dropdown', mode: 'show' },
@@ -84,19 +109,9 @@
             { name: 'projtype', title: '项目类型', type: 'dropdown', param: { list: theProjType } },
             { name: 'steetype', title: '钢构类别', type: 'tags', param: { list: theSteeType } },
             { name: 'purchases', title: '总采购量', type: 'input', param: { valid: { min: 0 }, placeholder: "吨" } },
-
-
-
-            // { name: 'pics1', title: '图纸目录截图', type: 'imgs-uploader', param: { valid: { min: 0, max: 3 } }, hide: whenNotMode2 },
-            // { name: 'pics2', title: '总说明截图', type: 'imgs-uploader', param: { valid: { min: 0, max: 3 } }, hide: whenNotMode2 },
-            // { name: 'pics3', title: '清单截图', type: 'imgs-uploader', param: { valid: { min: 0, max: 3 } }, hide: whenNotMode2 },
           ],
-
         }
       },
-
-      /** */
-
     }
     sign.registerHttpHook({
       match: /^项目定义$/,
