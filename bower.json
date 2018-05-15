@@ -28,7 +28,7 @@
     "angular-swiper": "0.4.0",
     "moment": "^2.18.1",
     "angular-moment": "1.0.1",
-    "dj-component": "0.1.7",
+    "dj-component": "0.1.13",
     "weui": "^1.1.1"
   },
   "overrides": {
