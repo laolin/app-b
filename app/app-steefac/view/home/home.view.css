@@ -50,7 +50,7 @@
   flex-grow: 1;
 }
 .main-modules .module>*{
-  cursor: pointer; 
+  cursor: pointer;
   align-self: center;
 }
 .main-modules .module>img{
@@ -71,7 +71,7 @@
   font-size: 0.12rem;
 }
 .main-datainfo >*{
-  cursor: pointer; 
+  cursor: pointer;
   width: calc(33.3333% - 5px);
   display: flex;
   justify-content: center;
@@ -165,7 +165,7 @@
 /* 最新项目列表 */
 .main-fac-list.list2{
   margin-top: 0.12rem;
-}  
+}
 .main-fac-list.list2  .items {
   padding: 0.05rem calc(.15rem - 5px);
 }
