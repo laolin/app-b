@@ -28,6 +28,9 @@
 .page-fac-detail .detail{
   padding: 0.15rem .3rem;
 }
+.page-fac-detail .detail > *{
+  width: 100%;
+}
 
 .page-fac-detail .detail-show-admin-list,
 .page-fac-detail .detail-2,
@@ -35,3 +38,7 @@
   padding: 0;
 }
 
+
+dj-comment-list{
+  width: 100%;
+}

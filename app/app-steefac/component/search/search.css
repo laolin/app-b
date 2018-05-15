@@ -1,11 +1,14 @@
 /* 搜索组件 */
 .search-result-gallery {
-  min-height: 4.2rem;
+  box-sizing: border-box;
+  width: 100%;
 }
-.search-result-gallery .dj-gallery-box > .dj-gallery-list{
+.search-result-gallery .djui-gallery-box > .djui-gallery-list{
   overflow-y: hidden;
+  background: #ffffff;
+  -webkit-box-align:flex-start; -webkit-align-items:flex-start; -moz-align-items:flex-start; -ms-align-items:flex-start; -o-align-items:flex-start; align-items:flex-start;
 }
-.search-result-gallery .dj-gallery-box > .dj-gallery-list .result-items-box{
+.search-result-gallery .djui-gallery-box > .djui-gallery-list .result-items-box{
   background: #ffffff;
   /* float: left; */
 }

@@ -6,12 +6,14 @@
   <div class="detail detail-{{tab.active}}">
     <project-detail-profile fac="fac" ng-if="tab.active==0"></project-detail-profile>
     <project-detail-capacity fac="fac" ng-if="tab.active==1"></project-detail-capacity>
-    <appb-feed-list ng-if="tab.active==2"
+    <dj-comment-list ng-if="tab.active==2 && fac.id" param="commentParam">
+    </dj-comment-list>
+    <appb-feed-list ng-if="tab.active==2222"
       hide-poster="0",
       feed-app="'steeComment'"
       feed-cat="'steeproj' +fac.id">
     </appb-feed-list>
-    <div class="float-rb" ng-if="tab.active==2">
+    <div class="float-rb" ng-if="tab.active==2222">
       <a ng-href="#!/stee-feed-add?type=steeproj&id={{fac.id}}" class="my-btn box-primary">我要评论</a>
     </div>
 

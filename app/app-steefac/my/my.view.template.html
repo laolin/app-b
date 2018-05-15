@@ -29,10 +29,10 @@
 </div>
 
 
-<div class="weui-panel weui-panel_access" ng-repeat="type in $ctrl.objTypes" ng-if="!$ctrl.isLoading">
-  <div class="weui-cell">
+<div class="weui-panel weui-cells weui-panel_access" ng-repeat="type in $ctrl.objTypes" ng-if="!$ctrl.isLoading">
+  <div class="weui-cell" ng-click="showMyStee[type] = !showMyStee[type]">
     <div class="weui-cell__bd">我管理的{{$ctrl.objNames[type]}}</div>
-    <div class="weui-cell__ft text-active" ng-show="$ctrl.facIds[type]" ng-click="showMyStee[type] = !showMyStee[type]">
+    <div class="weui-cell__ft text-active" ng-show="$ctrl.facIds[type]">
       {{!showMyStee[type]&&('('+me.objCanAdmin[type].length+')')||'折叠'}}
     </div>
     <div class="weui-cell__ft" ng-if="!$ctrl.facIds[type]">暂无</div>
@@ -43,10 +43,10 @@
 </div>
 
 
-<div class="weui-panel weui-panel_access">
-  <div class="weui-cell">
+<div class="weui-panel weui-cells weui-panel_access">
+  <div class="weui-cell" ng-click="showRecentRead = !showRecentRead">
     <div class="weui-cell__bd">最近浏览</div>
-    <div class="weui-cell__ft text-active" ng-click="showRecentRead = !showRecentRead">
+    <div class="weui-cell__ft text-active">
       {{!showRecentRead&&('('+viewHistory.totle+')')||'折叠'}}
     </div>
   </div>
@@ -56,6 +56,15 @@
   </div>
 </div>
 
+<div class='weui-cells'>
+<a ng-path="/stat?type=steefac" class="weui-cell ng-scope weui-cell_access weui-cell_access">
+  <div class="weui-cell__hd ng-scope"><i class="fa fa-user-o" aria-hidden="true"></i></div>
+  <div class="weui-cell__bd weui-cell_primary">
+    <p class="ng-binding">钢构厂({{me.nFac}})</p>
+  </div>
+  <span class="weui-cell__ft ng-binding"></span>
+</a>
+</div>
 
 
 <div ng-if='1'> 
@@ -110,6 +119,14 @@
   </div>
 </div>
 
+<div class='weui-cells' ng-if="me.uid==301173"> 
+  <div class="weui-cells__title">升级</div> 
+
+  <div class="weui-cell weui-cell_access" ng-click="updateComment()">
+    <div class="weui-cell__bd">升级评论业绩数据库</div>
+    <span class="weui-cell__ft"></span>
+  </div>
+</div>
 
 <div ng-if='$ctrl.FacUser.isSysAdmin()'> 
   <appb-weui-cells

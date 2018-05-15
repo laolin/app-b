@@ -5,24 +5,82 @@
  * power by LJH.
  */
 !(function (window, angular, undefined) {
-  'use strict';
 
   angular.module('steefac')
     .config(['$routeProvider', function ($routeProvider) {
       $routeProvider.when('/fac-detail/:id', {
         pageTitle: "公司详情",
         templateUrl: 'app-steefac/view/fac-detail/fac-detail.template.html',
-        controller: ['$scope', '$routeParams', '$location', '$http', 'AppbData', '$q', ctrl]
+        controller: ['$scope', '$routeParams', '$location', '$http', 'AppbData', '$q', 'SiteConfig', ctrl]
       });
     }]);
 
-  function ctrl($scope, $routeParams, $location, $http, AppbData, $q) {
+  function ctrl($scope, $routeParams, $location, $http, AppbData, $q, SiteConfig) {
     var appData = AppbData.getAppData();
     var userData;
     var facid = $routeParams.id;
     var type = "steefac";
     var pageCacheAc = `fac-detail-history-${type}`;
 
+    $scope.caseParam = {
+      api: {
+        comment: { root: SiteConfig.apiRootUnit + 'comment/comment/' },
+        user: { root: '', me: '用户/个人信息', getWxInfo: '用户/微信数据' }
+      },
+      form: {
+        items: [
+          { name: 'projname', title: '项目名称', type: 'input', show: { autohide: "empty" }, param: { valid: { require: true }, placeholder: "在此输入项目名称" } },
+          { name: 'weitu', title: '委托方', type: 'input', show: { autohide: "empty" }, param: { placeholder: "在此输入委托方（合同甲方）" } },
+          { name: 'projplace', title: '项目地点', type: 'input', show: { autohide: "empty" }, param: { valid: { require: true }, placeholder: "在此输入项目地点" } },
+          { name: 'doneyear', title: '完成年份', type: 'input', show: { autohide: "empty" }, param: { valid: { min: 1900, max: new Date().getFullYear() }, placeholder: "完成年份" } },
+          { name: 'projtype', title: '项目类型', type: 'dropdown', show: { autohide: "empty" }, param: { list: "项目类别", placeholder: "请选择" } },
+          { name: 'steetype', title: '钢构类别', type: 'dropdown', show: { autohide: "zero length" }, param: { list: "擅长构件", placeholder: "请选择" } },
+          { name: 'tons', title: '工程量', type: 'input', show: { autohide: "empty", format: "{1} 吨" }, param: { valid: { min: 0 }, placeholder: "在此输入工程量" } },
+          { name: 'price', title: '平均单吨价', type: 'input', show: { autohide: "empty", format: "{1} 元/吨" }, param: { valid: { min: 0 }, placeholder: "在此输入平均单吨" } },
+          { name: 'projprize', title: '获奖', type: 'combobox', show: { autohide: "empty" }, param: { list: "业绩获奖", placeholder: "在此输入获奖名称" } },
+          { name: 'projclass', title: '工法', type: 'dropdown', show: { autohide: "empty" }, param: { list: "业绩工法", placeholder: "请选择" } },
+          { name: 'projpatent', title: '专利', type: 'input', show: { autohide: "zero length" }, param: { placeholder: "在此输入专利情况" } },
+          { name: 'content', title: '简介', type: 'textarea', show: { autohide: "empty" }, param: { placeholder: "在此发表评论" } },
+          { name: 'pics', title: '图片', type: 'imgs-uploader', show: { autohide: "zero length" } },
+        ],
+        css: {
+          host: "flex publish",
+          host2: "",
+          hostEdit: "box flex flex-top",
+          hostShow: "flex-1",
+          hostBodyShow: "flex-1 flex-top",
+        },
+      },
+      module: 'steeFacCase',
+      mid: facid
+    };
+    $scope.commentParam = {
+      api: {
+        comment: { root: SiteConfig.apiRootUnit + 'comment/comment/' },
+        user: { root: '', me: '用户/个人信息', getWxInfo: '用户/微信数据' }
+      },
+      form: {
+        items: [
+          { name: 'star1', title: '交货期', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'star2', title: '质量', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'star3', title: '服务配合', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'star4', title: '安全管理', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'star5', title: '环保管理', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'content', title: '评论', type: 'textarea', show: { autohide: "empty" }, param: { placeholder: "在此发表评论" } },
+          { name: 'pics', title: '图片', show: { autohide: "zero length" }, type: 'imgs-uploader' },
+        ],
+
+        css: {
+          host: "flex publish",
+          host2: "",
+          hostEdit: "box flex flex-top",
+          hostShow: "flex-1",
+          hostBodyShow: "flex-1 flex-top",
+        },
+      },
+      module: 'steeFacComment',
+      mid: facid
+    };
     /**
      * 初始化
      */
@@ -42,10 +100,9 @@
     });
     var readUserInfo = $http.post("用户/个人信息").then(json => {
       userData = json.datas;
-      console.log('个人信息, userData = ', userData)
     });
 
-    $q.all([readObjDetail, readUserInfo]).then(()=>{
+    $q.all([readObjDetail, readUserInfo]).then(() => {
       resolveFac($scope.fac);
     }).catch(json => {
       //console.log('读取详情错误', json);
@@ -76,7 +133,8 @@
       active: $routeParams.tabIndex || 0,
       click: function (index) {
         tab.active = index;
-        $location.replace('/fac-detail/:id', facid).search({ tabIndex: index });
+        history.replaceState(null, "", `#!/fac-detail/${facid}?tabIndex=${index}`);
+        //$location.replace('/fac-detail/:id', facid).search({ tabIndex: index });
       }
     }
     $scope.adminList = {};

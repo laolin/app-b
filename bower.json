@@ -10,24 +10,25 @@
   "authors": "LaoLin <http://laolin.com>",
   "private": false,
   "devDependencies": {
-    "angular-mocks": "^1.6.1"
+    "angular-mocks": "1.6.1"
   },
   "dependencies": {
     "jquery": "~2.1.4",
-    "angular": "^1.6.1",
-    "angular-route": "^1.6.1",
-    "angular-resource": "^1.6.1",
-    "angular-animate": "^1.6.1",
-    "angular-aria": "^1.6.1",
-    "angular-messages": "^1.6.1",
+    "angular": "1.6.1",
+    "angular-route": "1.6.1",
+    "angular-resource": "1.6.1",
+    "angular-animate": "1.6.1",
+    "angular-aria": "1.6.1",
+    "angular-messages": "1.6.1",
     "angular-touch": "1.6.1",
-    "angular-ui-uploader": "^1.4.1",
+    "angular-ui-uploader": "1.4.1",
     "font-awesome": "^4.7.0",
     "js-md5": "md5#^0.4.2",
     "swiper": "^3.0.8",
-    "angular-swiper": "^0.4.0",
+    "angular-swiper": "0.4.0",
     "moment": "^2.18.1",
-    "angular-moment": "^1.0.1",
+    "angular-moment": "1.0.1",
+    "dj-component": "0.1.13",
     "weui": "^1.1.1"
   },
   "overrides": {

@@ -6,8 +6,8 @@ angular.module('steefac')
   $routeProvider.when('/my', {
     pageTitle: "我的",
     templateUrl: 'app-steefac/my/my.view.template.html',
-    controller: ['$scope','$timeout','$log', '$http', 'AppbFeedService','AppbData','AppbUiService','AmapMainData','FacUser','FacSearch',
-      function ($scope,$timeout,$log, $http, AppbFeedService,AppbData,AppbUiService,AmapMainData,FacUser,FacSearch) {
+    controller: ['$scope','$timeout','$log', '$http', 'SiteConfig', 'AppbFeedService','AppbData','AppbUiService','AmapMainData','FacUser','FacSearch',
+      function ($scope,$timeout,$log, $http, SiteConfig, AppbFeedService,AppbData,AppbUiService,AmapMainData,FacUser,FacSearch) {
 
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
@@ -29,22 +29,23 @@ angular.module('steefac')
         $http.post("cache/load", { ac: "me" }).then(json => {
           if($scope.me) return;
           $scope.me = json.datas.data;
-          initDatas(me);
+          initDatas($scope.me.me);
         });
         /** 从服务器读取me数据 */
-        FacUser.getMyData().then(function (me) {
-          $scope.me = me;
-          $http.post("cache/save", { ac: "me", data: me }).then(json => {
-            if($scope.me) return;
-            $scope.me = json.datas.data;
-          });
-          initDatas(me);
-          ctrl.isLoading=0;
+        $http.post("用户/刷新个人信息").then(json => {
+          $scope.me = json.datas;
+          console.log("me = ", $scope.me)
+          $http.post("cache/save", { ac: "me", data: $scope.me });
+          initDatas($scope.me.me);
         });
-        function initDatas(me){
-          for(var i=ctrl.objTypes.length;i--; ) {
-            ctrl.facIds[ctrl.objTypes[i]] = (me.objCanAdmin[ctrl.objTypes[i]] || []).join(',');
-            if(ctrl.facIds[ctrl.objTypes[i]].length)ctrl.noIds=false;
+        function initDatas(me) {
+          ctrl.isLoading = 0;
+          $scope.me.objCanAdmin = {}
+          for (var i = ctrl.objTypes.length; i--;) {
+            var str = me[ctrl.objTypes[i] + '_can_admin'];
+            $scope.me.objCanAdmin[ctrl.objTypes[i]] = str ? str.split(',') : [];
+            ctrl.facIds[ctrl.objTypes[i]] = str;//(me.objCanAdmin[ctrl.objTypes[i]] || []).join(',');
+            if (ctrl.facIds[ctrl.objTypes[i]].length) ctrl.noIds = false;
           }
         }
 
@@ -77,6 +78,16 @@ angular.module('steefac')
         ctrl.appData=appData;
         ctrl.assetsRoot=appData.appCfg.assetsRoot;
         
+        $scope.updateComment=function() {
+          console.log("升级评论业绩数据库");
+          $http.post("显示对话框/confirm", { body: "升级评论业绩数据库后，非原来的评论业绩数据库将被清除，且不可恢复。确认？", title: "删除前，请确认：" }).then(json => {
+            $http.post(SiteConfig.apiRootUnit + "comment/comment/updateDB").then(json=>{
+              $http.post("显示对话框/alert", { body: "升级成功" })
+            }).catch(e=>{
+              console.log("升级失败,", e)
+            })
+          });
+        }
         
         ctrl.onDisableSysAdmin=function() {
           var me;

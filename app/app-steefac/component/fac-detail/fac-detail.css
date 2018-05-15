@@ -103,3 +103,6 @@ search-nearby .btn > select{
   opacity: 0;
 }
 
+.page-fac-detail dj-form-item-host{
+  margin: 0;
+}

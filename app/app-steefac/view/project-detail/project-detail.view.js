@@ -12,11 +12,11 @@
     $routeProvider.when('/project-detail/:id', {
       pageTitle: "项目详情",
       templateUrl: 'app-steefac/view/project-detail/project-detail.template.html',
-      controller: ['$scope', '$routeParams', '$location', '$http', 'AppbData','$q', ctrl]
+      controller: ['$scope', '$routeParams', '$location', '$http', 'AppbData','$q', 'SiteConfig', ctrl]
     });
   }]);
 
-  function ctrl($scope, $routeParams, $location, $http, AppbData, $q) {
+  function ctrl($scope, $routeParams, $location, $http, AppbData, $q, SiteConfig) {
     var appData = AppbData.getAppData();
     var userData;
     var facid = $routeParams.id;
@@ -78,6 +78,32 @@
         $location.replace('/project-detail/:id', facid).search({tabIndex: index});
       }
     }
+    $scope.commentParam = {
+      api: {
+        comment: { root: SiteConfig.apiRootUnit + 'comment/comment/' },
+        user: { root: '', me: '用户/个人信息', getWxInfo: '用户/微信数据' }
+      },
+      form: {
+        items: [
+          { name: 'star1', title: '付款条件', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'star2', title: '实际付款情况', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'star3', title: '工期合理性', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'star4', title: '指令合理性', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'star5', title: '综合管理', type: 'star', show: { autohide: "empty" }, param: { valid: { require: true } } },
+          { name: 'content', title: '评论', type: 'textarea', show: { autohide: "empty" }, param: { placeholder: "在此发表评论" } },
+          { name: 'pics', title: '图片', show: { autohide: "zero length" }, type: 'imgs-uploader' },
+        ],
+        css: {
+          host: "flex publish",
+          host2: "",
+          hostEdit: "box flex flex-top",
+          hostShow: "flex-1",
+          hostBodyShow: "flex-1 flex-top",
+        },
+      },
+      module: 'steeProjComment',
+      mid: facid
+    };
     $scope.adminList = {};
     $scope.$on("show-admin-list", (event, datas) => {
       tab.active = 'show-admin-list';
