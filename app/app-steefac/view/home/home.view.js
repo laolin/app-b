@@ -31,20 +31,13 @@
           </div>
         </div>
 
-        <appb-ui-loading ng-if='$ctrl.isLoading>0'></appb-ui-loading>
-
         <!-- 最新产能列表 -->
-        <div class="main-fac-list" ng-if='$ctrl.isLoading <=0'>
+        <div class="main-fac-list" ng-if='newlyList.steefac.length'>
           <div class="title weui-cell_access">
-            <span class="title-text">{{$ctrl.title1}}</span>
+            <span class="title-text">{{titles.steefac}}</span>
             <div class="weui-cell__ft" ng-click='goSearch("steefac")'>查看更多</div>
           </div>
-          <!--fac-grids
-          fac-list='$ctrl.facList1'
-          type='"steefac"'
-          >
-          </fac-grids-->
-          <a class="flex flex-between flex-stretch item" ng-repeat="item in $ctrl.facList1" fac-show-prompt="item" type="steefac">
+          <a class="flex flex-between flex-stretch item" ng-repeat="item in newlyList.steefac" fac-show-prompt="item" type="steefac">
             <div class="left flex-v flex-between flex-grow">
               <div class="text">{{item.name}}，产能{{item.cap_6m}}吨，擅长构件：{{item.goodat}}</div>
               <i class="fa fa-clock-o">&nbsp;
@@ -58,19 +51,17 @@
         </div>
 
         <!-- 最新项目列表 -->
-        <div class="main-fac-list list2" ng-if='$ctrl.isLoading <=0'>
+        <div class="main-fac-list list2" ng-if='newlyList.steeproj.length'>
           <div class="title weui-cell_access">
-            <span class="title-text">{{$ctrl.title2}}</span>
+            <span class="title-text">{{titles.steeproj}}</span>
             <div class="weui-cell__ft" ng-click='goSearch("steeproj")'>查看更多</div>
           </div>
           <div class="items">
-            <fac-grids
-              fac-list='$ctrl.facList2'
-              type='"steeproj"'
-            >
-            </fac-grids>
+            <fac-grids fac-list="newlyList.steeproj" type="'steeproj'"></fac-grids>
           </div>
         </div>
+
+        <appb-ui-loading ng-if="!newlyList.steefac.length || !newlyList.steeproj.length"></appb-ui-loading>
 
         <!-- 采购商 -->
         <div class="main-cgs">
@@ -85,17 +76,19 @@
 
         <fac-ui-copyright></fac-ui-copyright>
       `,
-      controller: ['$scope', '$log', '$location', 'AppbData', 'SIGN', 'FacSearch', 'FacUser', 'SteeBuyer', ctrl
+      controller: ['$scope', '$http', '$q', '$location', 'AppbData', ctrl
       ]
     })
   }]);
 
-  function ctrl($scope, $log, $location, AppbData, SIGN, FacSearch, FacUser, SteeBuyer) {
-    var userData = AppbData.getUserData();
+  var pageCache = {};
+
+  function ctrl($scope, $http, $q, $location, AppbData) {
+    //var userData = AppbData.getUserData();
+    //ctrl.userData = userData;
     var appData = AppbData.getAppData();
 
     appData.setPageTitleAndWxShareTitle('CMOSS：可信、严肃、专业');
-
 
     var pa = appData.appCfg.assetsRoot + '/img/img-steefac/'
 
@@ -132,79 +125,40 @@
       }
     };
 
-    $scope.moduleInfo = [
-      { src: pa + "hygs.png", text: "行业高手" },
-      { src: pa + "xjsb.png", text: "新技术榜" },
-      { src: pa + "cxpj.png", text: "诚信评级" },
-      { src: pa + "gwbg.png", text: "顾问报告" }
-    ];
-    $scope.dataInfo = [
-      { type: 'steeproj', name: '项目信息', n: '...', t: '个' },
-      { type: 'steefac', name: '钢构厂', n: '...', t: '个' },
-      { type: '', name: '采购商', n: '...', t: '家' }
-    ];
-
 
     $scope.goSearch = function (type) {
       if (type) $location.path('/stat').search({ type: type });
     }
 
-    //使用ctrl, 后面方便切换为 component
-    var ctrl = $scope.$ctrl = {};
-    // 使用 component 时
-    //var ctrl=this;
-
-    ctrl.userData = userData;
-    ctrl.appData = appData;
-    ctrl.FacUser = FacUser;
-    ctrl.isLoading = 3;
-
-    FacUser.getMyData().then(function (me) {
-      ctrl.isLoading--;
-      $scope.dataInfo[0].n = me.counter.nProj;
-      $scope.dataInfo[1].n = me.counter.nFac;
-      //$scope.dataInfo[2].n='...';
+    $scope.titles = {
+      steefac: '最新产能列表',
+      steeproj: '最新项目列表',
+    };
+    var newlyList = $scope.newlyList = pageCache || (pageCache = {
+      steefac: [],
+      steeproj: [],
     });
-    ctrl.buyerList = SteeBuyer.buyerList;
-    ctrl.links = [];
-    ctrl.title0 = '最新采购商';
-    for (var i = ctrl.buyerList.length; i--;) {
-      ctrl.links[i] = '/buyer?id=' + ctrl.buyerList[i].oid;
-    }
+    var get_steefac = $http.post('stee_data/search', { type: 'steefac', count: 4 })
+      .then(json => json.datas.list)
+      .then(list => {
+        newlyList.steefac = list;
+        list[0].picMain = pa + '101.jpg';
+        list[1].picMain = pa + '102.jpg';
+        list[2].picMain = pa + '103.jpg';
+        list[3].picMain = pa + '104.jpg';
+      });
 
-
-    ctrl.type1 = 'steefac';
-    SIGN.postLaolin('steeobj', 'search', { type: ctrl.type1, count: 4 }).then(
-      function (s) {
-        ctrl.facList1 = s;
-        s[0].picMain = pa + '101.jpg';
-        s[1].picMain = pa + '102.jpg';
-        s[2].picMain = pa + '103.jpg';
-        s[3].picMain = pa + '104.jpg';
-        ctrl.title1 = '最新产能列表';
-        ctrl.isLoading--;
-      }
-    );
-
-    ctrl.type2 = 'steeproj';
-    SIGN.postLaolin('steeobj', 'search', { type: ctrl.type2, count: 6 }).then(
-      function (s) {
-        ctrl.facList2 = s;
-        s[0].picMain = pa + '201.jpg';
-        s[1].picMain = pa + '202.jpg';
-        s[2].picMain = pa + '203.jpg';
-        s[3].picMain = pa + '204.jpg';
-        s[4].picMain = pa + '205.jpg';
-        s[5].picMain = pa + '206.jpg';
-        ctrl.title2 = '最新项目列表';
-        ctrl.isLoading--;
-      }
-    );
-
-    $scope.$on('$viewContentLoaded', function () {
-    });
-    $scope.$on('$destroy', function () {
-    });
+    var get_steeproj = $http.post('stee_data/search', { type: 'steeproj', count: 6 })
+      .then(json => json.datas.list)
+      .then(list => {
+        newlyList.steeproj = list;
+        list[0].picMain = pa + '201.jpg';
+        list[1].picMain = pa + '202.jpg';
+        list[2].picMain = pa + '203.jpg';
+        list[3].picMain = pa + '204.jpg';
+        list[4].picMain = pa + '205.jpg';
+        list[5].picMain = pa + '206.jpg';
+      });
   }
 
 })(window, window.angular);
