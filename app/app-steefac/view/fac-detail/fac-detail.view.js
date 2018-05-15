@@ -35,7 +35,7 @@
           { name: 'doneyear', title: '完成年份', type: 'input', show: { autohide: "empty" }, param: { valid: { min: 1900, max: new Date().getFullYear() }, placeholder: "完成年份" } },
           { name: 'projtype', title: '项目类型', type: 'dropdown', show: { autohide: "empty" }, param: { list: "项目类别", placeholder: "请选择" } },
           { name: 'steetype', title: '钢构类别', type: 'dropdown', show: { autohide: "zero length" }, param: { list: "擅长构件", placeholder: "请选择" } },
-          { name: 'tons', title: '工程量', type: 'input', show: { autohide: "empty" }, param: { valid: { min: 0 }, placeholder: "在此输入工程量" } },
+          { name: 'tons', title: '工程量', type: 'input', show: { autohide: "empty", format: "{1} 吨" }, param: { valid: { min: 0 }, placeholder: "在此输入工程量" } },
           { name: 'price', title: '平均单吨价', type: 'input', show: { autohide: "empty", format: "{1} 元/吨" }, param: { valid: { min: 0 }, placeholder: "在此输入平均单吨" } },
           { name: 'projprize', title: '获奖', type: 'combobox', show: { autohide: "empty" }, param: { list: "业绩获奖", placeholder: "在此输入获奖名称" } },
           { name: 'projclass', title: '工法', type: 'dropdown', show: { autohide: "empty" }, param: { list: "业绩工法", placeholder: "请选择" } },
