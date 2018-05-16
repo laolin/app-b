@@ -249,10 +249,6 @@ var configObj = require('./gulpfile.app.js')(app_name);
  *  并登记到 configObj.injects 中，后面可自动注入
  */
 gulp.task('templatecache', function () {
-
-  //登记到 configObj.injects 中，后面可自动注入
-  configObj.injects.splice(configObj.injects.length - 3, 0, [configObj.path.tmp + '/' + configObj.tplJsName]);
-
   //console.log('tplModule=',configObj.tplModule);
   //把模板文件打包成JS文件，放在TMP目录下
   return gulp.src(configObj.tplHtml)
@@ -275,9 +271,19 @@ gulp.task('inject', ['templatecache'], function () {
   configObj.injects.forEach(function (v, k) {
     streams[k] = gulp.src(v, { read: false });
   })
-  return gulp.src(src)
+  gulp.src(src)
     .pipe(inject(streamSeries(streams), { relative: true }))
     .pipe(rename(configObj.html_debug))
+    .pipe(gulp.dest(configObj.path.app));
+
+  //登记到 configObj.injects 中，后面可自动注入
+  streams.splice(streams.length - 3, 0,
+    gulp.src(configObj.path.tmp + '/' + configObj.tplJsName, { read: false })
+  );
+
+  return gulp.src(src)
+    .pipe(inject(streamSeries(streams), { relative: true }))
+    .pipe(rename(configObj.html_build))
     .pipe(gulp.dest(configObj.path.app))
 });
 
@@ -286,12 +292,13 @@ gulp.task('inject', ['templatecache'], function () {
  *  注入 bower components
  */
 gulp.task('wiredep', ['inject'], function () {
-  return gulp.src(configObj.path.app + '/' + configObj.html_debug)
-    .pipe(wiredep({
-      optional: 'configuration',
-      goes: 'here'
-    }))
-    //.pipe(rename(configObj.html_debug))
+  return gulp.src([
+    configObj.path.app + '/' + configObj.html_debug,
+    configObj.path.app + '/' + configObj.html_build,
+  ]).pipe(wiredep({
+    optional: 'configuration',
+    goes: 'here'
+  }))
     .pipe(gulp.dest(configObj.path.app));
 });
 
@@ -306,7 +313,7 @@ gulp.task('html-useref', ['wiredep'], function () {
   var jsFilter = filter("**/*.js", { restore: true });
   var cssFilter = filter("**/*.css", { restore: true });
 
-  return gulp.src(configObj.path.app + '/' + configObj.html_debug)
+  return gulp.src(configObj.path.app + '/' + configObj.html_build)
     .pipe(useref())
     .pipe(gulpif('*.css', cleanCSS()))
     .pipe(gulpif('*.html', htmlmin({ collapseWhitespace: true, removeComments: true })))

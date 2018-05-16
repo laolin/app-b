@@ -3,6 +3,7 @@
 module.exports = function(app_name) { return {
   "html_src": "app-b.html", 
   "html_debug": "index.html", //这是app目录下的文件名，用于调试
+  "html_build": "index.build.html", //这是app目录下的文件名，用于压缩打包
   
   "dist_loader": "index.html", // 只注入 loader 后做 index.html
   "dist_html": "index0.html", // 注入一大堆js,css的 不做index.html,改名做 index0.html
