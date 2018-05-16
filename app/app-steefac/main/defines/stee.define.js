@@ -58,16 +58,10 @@
   theConfigModule.run(['$http', '$q', 'sign', function ($http, $q, sign) {
 
     var theActions = {
-      "关闭项目1": function (param) {
-        return $http.post("显示对话框/confirm", {
-          body: "确定要关闭？",
-          title: "关闭项目"
-        })
-      },
       "关闭项目": function (param) {
-        return $http.post("显示对话框/component", {
-          componentName: "",
-          params: param
+        return $http.post("显示对话框/dialog", {
+          componentName: "dlg-close-proj",
+          params: angular.extend({ backClose: true }, param),
         })
       },
     }
@@ -79,7 +73,7 @@
         if (angular.isFunction(ac)) {
           ac = ac(param);
         }
-        if (ac) return mockResponse.resolve({ ac });
+        if (ac) return mockResponse.resolve(ac);
       }
     });
   }]);
