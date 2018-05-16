@@ -24,7 +24,7 @@
     <span class="text-gray">关闭原因</span>
     <span class="text-3">{{reason[closeData.data.mode]}}</span>
     <span class="text-gray" ng-if="closeData.data.remark">({{closeData.data.remark}})</span>
-    <span class="text-gray" ng-if="closeData.data.proj">(项目id: {{closeData.data.proj}})</span>
+    <span class="text-gray" ng-if="closeData.data.proj">( 项目: <a ng-path="/fac-detail/{{closeData.data.proj}}">点击查看</a> )</span>
   </div>
 </div>
       `,

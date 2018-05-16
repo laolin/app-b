@@ -36,7 +36,7 @@
       ],
       deal: [
         mode,
-        { name: 'proj', title: '成交项目', type: 'input', param: { valid: { require: true }, placeholder: "成交项目" } },
+        { name: 'proj', title: '成交项目', type: 'dropdown', param: { list: "现有钢构厂", valid: { require: true }, placeholder: "成交项目" } },
       ],
       error: [
         mode,

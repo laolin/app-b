@@ -39,6 +39,26 @@
         "国家级", "省部级"
       ],
 
+      "现有钢构厂": function () {
+        return $http.post("stee_data/dropdown", { type: "steefac" }).then(json => {
+          return json.datas.list.map(item=>{
+            return {
+              value: item.id,
+              title: item.name
+            }
+          });
+        });
+      },
+      "现有项目": function () {
+        return $http.post("stee_data/dropdown", { type: "steeproj" }).then(json => {
+          return json.datas.list.map(item=>{
+            return {
+              value: item.id,
+              title: item.name
+            }
+          });
+        });
+      },
     };
 
     sign.registerHttpHook({
