@@ -4,17 +4,17 @@
  * build: 2017-12-20
  * power by LJH.
  */
-!(function (window, angular, undefined){
+!(function (window, angular, undefined) {
   'use strict';
 
   angular.module('steefac')
-  .config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/project-detail/:id', {
-      pageTitle: "项目详情",
-      templateUrl: 'app-steefac/view/project-detail/project-detail.template.html',
-      controller: ['$scope', '$routeParams', '$location', '$http', 'AppbData','$q', 'SiteConfig', ctrl]
-    });
-  }]);
+    .config(['$routeProvider', function ($routeProvider) {
+      $routeProvider.when('/project-detail/:id', {
+        pageTitle: "项目详情",
+        templateUrl: 'app-steefac/view/project-detail/project-detail.template.html',
+        controller: ['$scope', '$routeParams', '$location', '$http', 'AppbData', '$q', 'SiteConfig', ctrl]
+      });
+    }]);
 
   function ctrl($scope, $routeParams, $location, $http, AppbData, $q, SiteConfig) {
     var appData = AppbData.getAppData();
@@ -29,6 +29,8 @@
     var readObjDetail = $http.post('产能详情', { type, facid }).then(json => {
       var fac = json.datas.detail;
       $scope.fac = fac;
+      $scope.role = json.datas.role || {};
+      tab.setListByRole(!!fac.close_time, $scope.role);
       $http.post("cache/load", { ac: pageCacheAc }).then(json => {
         var list = json.datas.data;
         if (!angular.isArray(list)) list = [];
@@ -42,10 +44,9 @@
     });
     var readUserInfo = $http.post("用户/个人信息").then(json => {
       userData = json.datas;
-      console.log('个人信息, userData = ', userData)
     });
 
-    $q.all([readObjDetail, readUserInfo]).then(()=>{
+    $q.all([readObjDetail, readUserInfo]).then(() => {
       resolveFac($scope.fac);
     }).catch(json => {
       //console.log('读取详情错误', json);
@@ -68,14 +69,45 @@
      */
     var tab = $scope.tab = {
       list: [
-        "项目详情",
-        "项目信息",
-        "评论",
+        { text: '项目详情', name: 'profile' },
+        { text: '项目信息', name: 'detail' },
+        { text: '评论', name: 'comment' },
       ],
-      active: $routeParams.tabIndex||0,
-      click: function(index){
+      active: $routeParams.tabIndex || 0,
+      item: {},
+      click: function (index, item) {
         tab.active = index;
-        $location.replace('/project-detail/:id', facid).search({tabIndex: index});
+        tab.item = item;
+        $location.replace('/project-detail/:id', facid).search({ tabIndex: item.name });
+      },
+      setListByRole: function (closed, role) {
+        if (!closed) {
+          tab.list = [
+            { text: '项目详情', name: 'profile' },
+            { text: '项目信息', name: 'detail' },
+            { text: '评论', name: 'comment' },
+          ];
+          tab.active = tab.list.findIndex(item => item.name == $routeParams.tabIndex);
+          if (tab.active < 0) tab.active = 0;
+          tab.item = tab.list[tab.active];
+        }
+        else if (!role || !(role.sa || role.admin)) {
+          tab.list = []
+          tab.item = { text: '关闭情况', name: 'close' },
+          tab.active = 0;
+        }
+        else if (role.sa || role.admin) {
+          tab.list = [
+            { text: '关闭情况', name: 'close' },
+            { text: '项目详情', name: 'profile' },
+            { text: '项目信息', name: 'detail' },
+            { text: '评论', name: 'comment' },
+          ];
+          tab.active = tab.list.findIndex(item => item.name == $routeParams.tabIndex);
+          if (tab.active < 0) tab.active = 0;
+          tab.item = tab.list[tab.active];
+        }
+        console.log("tab=", tab);
       }
     }
     $scope.commentParam = {
@@ -107,6 +139,7 @@
     $scope.adminList = {};
     $scope.$on("show-admin-list", (event, datas) => {
       tab.active = 'show-admin-list';
+      tab.item = {};
       $scope.adminList = datas;
     });
     $scope.$on("fac-ui-user-list.itemClick", (event, datas) => {
