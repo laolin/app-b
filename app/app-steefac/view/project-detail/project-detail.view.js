@@ -165,6 +165,14 @@
         v1: datas.ac
       });
     });
+
+    $scope.$on("fac-close-changed", (event, datas) => {
+      tab.setListByRole(datas.close == 'close', $scope.role);
+      // 减少浪费资源
+      event.preventDefault();
+      event.stopPropagation();
+    });
+
   }
 
 })(window, angular);

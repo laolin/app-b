@@ -99,6 +99,7 @@
     $scope.closeFac = function (toClose) {
       $http.post("产能操作/关闭项目", {fac: $scope.fac, close: toClose}).then(json => {
         $scope.fac.close_time = toClose == 'close';
+        $scope.$emit('fac-close-changed', { close: toClose });
       }).catch(e => {
         console.error("关闭项目 error:", e);
       });
