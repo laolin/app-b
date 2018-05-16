@@ -310,7 +310,7 @@
     var cacheAcTable = new LocalStorageTable('cmoss-cache-ac');
 
     /**
-     * 从缓存读取流程数据
+     * 从缓存读取数据
      */
     sign.registerHttpHook({
       match: /^cache\/load$/,
@@ -323,7 +323,7 @@
     });
 
     /**
-     * 保存流程数据到缓存
+     * 保存数据到缓存
      */
     sign.registerHttpHook({
       match: /^cache\/save$/,

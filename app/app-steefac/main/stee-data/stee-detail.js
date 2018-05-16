@@ -37,6 +37,22 @@
     });
 
     sign.registerHttpHook({
+      match: /^产能名称$/,
+      hookRequest: function (config, mockResponse, match) {
+        var param = config.data;
+        var facid = param.facid;
+        var type = param.type;
+
+        return mockResponse.resolve(
+          $http.post('stee_data/obj_name', {type, facid}).then(json => json.datas.name)
+        );
+      }
+    });
+
+
+
+
+    sign.registerHttpHook({
       match: /^请求电话号码$/,
       hookRequest: function (config, mockResponse, match) {
         var param = config.data;
