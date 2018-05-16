@@ -12,11 +12,11 @@
       bindings: {
         fac: '<'
       },
-      controller: ['$scope', '$q', '$http', 'ProjDefine', 'DjPop', ctrl]
+      controller: ['$scope', '$q', '$http', 'ProjDefine', ctrl]
     });
 
 
-  function ctrl($scope, $q, $http, ProjDefine, DjPop) {
+  function ctrl($scope, $q, $http, ProjDefine) {
     $scope.ProjDefine = ProjDefine;
     $scope.showVeryOld = false;
     $scope.reshowVeryOld = ()=>{
@@ -64,7 +64,6 @@
           $scope.adminInfo.me = list.find(id => id == $scope.fac.id);
           /** 读产能的所有管理员 */
           $http.post('stee_user/get_admin_of_obj', { type: $scope.type, facid: $scope.fac.id }).then(function (json) {
-            console.log("get_admin_of_obj", json);
             $scope.adminInfo = {
               me: $scope.adminInfo.me,
               admins: json.data,
@@ -87,12 +86,13 @@
       }
       var isService = $scope.user.rightIcons && $scope.user.rightIcons.find(row => row.name == "工作人员");
       if (!isService) return;
-      return DjPop.show("dlg-contact-tel-prompt", {
-        param: {
+      return $http.post("显示对话框/dialog", {
+        componentName: "dlg-contact-tel-prompt",
+        params: {
           fac: $scope.fac,
           type: $scope.type,
           user: $scope.user
-        }
+        },
       });
     }
 
