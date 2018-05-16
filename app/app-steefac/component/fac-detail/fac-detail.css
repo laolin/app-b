@@ -11,10 +11,12 @@ fac-detail-profile .box-1 > .headimg{
   margin: 0 0 0 .2rem;
 }
 
+project-close-show .closed.row,
 project-detail-profile .box-1,
 fac-detail-profile .box-1{
   position: relative;
 }
+project-close-show .closed.row > img.closed,
 project-detail-profile .box-1 > img.closed,
 fac-detail-profile .box-1 > img.closed {
   height: .60rem;
@@ -22,6 +24,10 @@ fac-detail-profile .box-1 > img.closed {
   bottom: 0;
   right: .30rem;
   opacity: 0.5;
+}
+project-close-show .closed.row > img.closed{
+  right: -5em;
+  bottom: -2em;
 }
 
 project-detail-profile .box-1 > .headimg img,
@@ -104,4 +110,12 @@ search-nearby .btn > select{
 
 .page-fac-detail dj-form-item-host{
   margin: 0;
+}
+
+
+.detail-close > .row {
+  padding: .8em 0;
+}
+.detail-close > .row >*:first-child {
+  width: 5em;
 }
