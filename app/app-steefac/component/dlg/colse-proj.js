@@ -32,7 +32,7 @@
     var theForm = {
       pause: [
         mode,
-        { name: 'name', title: '暂停原因', type: 'textarea', param: { valid: { require: true }, placeholder: "暂停原因" } },
+        { name: 'remark', title: '暂停原因', type: 'textarea', param: { valid: { require: true }, placeholder: "暂停原因" } },
       ],
       deal: [
         mode,
@@ -49,7 +49,11 @@
       beforeClose: (btnName) => {
         if (btnName != "OK") return true;
         if (!theData.valid && this.close != "open") return false;
-        return $http.post("sa_data/close_fac", { type: "steeproj", facid: this.fac.id, close: this.close });
+        var post_data = { type: "steeproj", facid: this.fac.id, close: this.close };
+        if(this.close == "close"){
+          post_data.data = theData.value;
+        }
+        return $http.post("sa_data/close_fac", post_data);
       },
       backClose: this.backClose,
     };
