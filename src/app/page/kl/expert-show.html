@@ -1,0 +1,24 @@
+<setpagetitlerow qgs="预设专家详情"></setpagetitlerow>
+<div class="xs-padding5" ng-controller="ServiceShowExpertCtrl">
+  
+  <div class="panel panel-default">
+    <div class="panel-heading hh4">
+      {{userinfo.name || '匿名'}} 
+      <a href="#/frame/editexpert?eid={{eid}}" class="pull-right">编辑</a>
+    </div>
+    <ul class="list-group hh5 color-888">
+      <li class="list-group-item hh5">
+        单位：</span> {{userinfo.company}}
+        <br>部门：{{userinfo.department}}
+        <br>职务：{{userinfo.position}}
+        <br>手机：{{userinfo.mobile}}
+        <br>电话：{{userinfo.office}}
+        <br>专业：{{userinfo.major}}
+      </li>
+      <li class="list-group-item text-center">
+        <img class="qrcode-60" ng-src="{{qrcodesrc}}">
+      </li>
+    </ul>
+  </div>
+</div>
+

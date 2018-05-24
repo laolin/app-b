@@ -1,0 +1,34 @@
+
+  <textarea class="form-control" id="question-content" rows="{{rows}}" ng-blur="edit.content.onblur()" ng-change="edit.content.onchange()" ng-model="edit.controldata.content" placeholder="{{placeholder || '请在此输入您的回答。如需要，您也可以附加图片等资料，使得回答更加完整、直观。'}}"></textarea>
+  <div class="ww25 overflow-auto mti-images-box">
+    <div class="item" ng-repeat="image in edit.images.list track by $index">
+    　<img ng-click="previewlocal(image,edit.images.list)" ng-src="{{miniimg(image)}}">
+    　<i class="fa fa-close color-fff hh4" ng-click="edit.images.delimage($index, image)"></i>
+    </div>
+    <div class="item" ng-click="edit.images.ongetimages()" ng-if="API.iswx">
+      <span class="glyphicon glyphicon-picture hh3"></span><span class="glyphicon glyphicon-plus" ng-show="!data.showing"></span><span class="glyphicon glyphicon-chevron-up" ng-show="data.showing"></span>
+      <hh7 class="color-ccc"><br>可选"原图"<hh7>
+    </div>
+    <div class="item">
+      <simpleimage class="absolute top0 left0" url="edit.images.uploading" change="edit.images.ongetimages(edit.images.uploading)" ng-if="!API.iswx"></simpleimage>
+    </div>
+    <div class="item border-ccc" ng-show="edit.images.list.length<cols2-1"></div>
+    <div class="item border-ccc" ng-show="edit.images.list.length<cols2-2"></div>
+    <div class="item border-ccc" ng-show="edit.images.list.length<cols2-3"></div>
+  </div>
+  <div class="ww25 audio-input" ng-if="enablevoice">
+    <div class="item bk-042 {{($index==3||$index==7||$index==11)&&'right-item'}}" ng-repeat="audio in edit.audios.list track by $index" ng-click="palyRecord(audio.localId)">
+      <i class="fa fa-wifi fa-rotate-90 vvv"> </i>
+      <i class="fa fa-close xx" ng-click="edit.audios.delrecord($index)"> </i>
+    </div>
+    <div class="item" ng-hide="edit.audios.recording" ng-click="edit.audios.onbeginrecord()"><i class="fa fa-microphone hh3"> </i> <i class="fa fa-wifi fa-rotate-90 sub"> </i></div>
+    <div class="item bk-888 color-fff" ng-if="edit.audios.recording" ng-click="edit.audios.onstoprecord()"><i class="fa fa-microphone hh3"> </i> <i class="fa fa-stop fa-rotate-90 sub"> </i></div>
+    <div class="item border-ccc" ng-if="edit.audios.list.length<cols2-3"></div>
+    <div class="item border-ccc" ng-if="edit.audios.list.length<cols2-2"></div>
+    <div class="item border-ccc" ng-if="edit.audios.list.length<cols2-1"></div>
+  </div>
+  <div class="ww25 audio-input" ng-if="!enablevoice && edit.audios.list.length>0">
+    含有声音附件，请在微信中查看。
+  </div>
+　
+　

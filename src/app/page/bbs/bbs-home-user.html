@@ -1,0 +1,29 @@
+<setpagetitlerow qgs="高谈阔论"></setpagetitlerow>
+<aaa ng-controller="BbsHomeUserCtrl">
+
+  <!--  搜索  -->
+  <div class="overflow-auto padding5 border-bottom bk-eee" ng-if="0">
+    <div class="input-group ww22 float-left">
+      <input type="text" class="form-control" ng-model="D.searchtext">
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" ng-click="D.search()()"><aaa class="hidden-xs">本页</aaa>搜索</button>
+      </span>
+    </div>
+    <a href="#/frame/bbs-new" class="fa fa-plus padding5 fee hh3 text-center float-right"></a>
+  </div>
+
+  <a href="#/frame/bbs-new" class="full-row hh5 fa full-row-next margin-top15">
+    <i class="fa fa-user fa-fw hh4"></i>
+    发帖
+  </a>
+
+  <a href="#/frame/bbs-list-user?en=user-bbs-all" class="full-row hh5 fa full-row-next margin-top15">
+    <i class="fa fa-user fa-fw hh4"></i>
+    我发的帖子
+  </a>
+  <a href="#/frame/bbs-list-user?en=user-followed" class="full-row hh5 fa full-row-next">
+    <i class="fa fa-user fa-fw hh4"></i>
+    我的回帖
+  </a>
+
+</aaa>

@@ -1,0 +1,15 @@
+
+<div class="list-group-item overflow-auto bk-f8f8f8">
+  <div class="hh4 color-f00" ng-if="API.module!='service' && YN.qaanswered">
+    A:<div class=" pull-right hh6 color-ccc"><span class="glyphicon glyphicon-time"></span> {{answ.rq}}</div>
+  </div>
+  <div class="color-888" ng-repeat="row in answ.attr.contents track by $index">{{row}}</div>
+  <div class="qa-image-edit-frame overflow-auto">
+    <div class="qa-image-edit-box" ng-repeat="image in answ.attr.imageslist track by $index"><img 
+      ng-click="previewlocal(image, answ.attr.imageslist)" class="qa-mini" ng-src="{{image}}.96.jpg">
+    </div>
+  </div>
+  <span ng-repeat="audio in answ.attr.audioslist track by $index" class="glyphicon glyphicon-play voice" ng-click="palyRecord(audio.localId)"></span>　
+
+  <div class="color-888">【{{answ.type}}】</div>
+</div>

@@ -1,0 +1,25 @@
+<setpagetitlerow qgs="我的回答列表" checklogin="no"></setpagetitlerow>
+<div ng-controller="MyAnswerListCtrl">
+
+  <!--  搜索  -->
+  <div class="padding5" ng-show="D.list.length>0 || D.searchtext">
+    <div class="input-group">
+      <input type="text" class="form-control" ng-model="D.searchtext">
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" ng-click="D.search()()"><aaa class="hidden-xs">本页</aaa>搜索</button>
+      </span>
+    </div>
+  </div>
+
+  <div ng-show="D.list.length==0" class="text-primary h4 padding15">{{(D.searchtext&&'搜索结果：空')||'暂无已回答的问题'}}</div>
+
+  <div class="color-list-item bk-row{{($odd&&1)||2}}" ng-repeat="qa in D.list">
+    <a class="click" href="#/frame/expert-qa-show?qaid={{qa.id}}" ng-include="API.templateUrl('page/qa/qa-list-item.html')"></a>
+  </div>
+
+  <div class="text-center">
+    <ul class="pagination pageturn-row">
+      <li ng-repeat="n in page.pageturn"><a ng-click="gotopage(n)" class="{{n==page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+    </ul>
+  </div>
+</div>

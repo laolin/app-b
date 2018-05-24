@@ -1,0 +1,17 @@
+
+  <div class="mulityshow-box">
+    <div class="break-all" ng-repeat="row in answ.contents track by $index">{{ row|| '&nbsp;' }}</div>
+    <div class="ww25 overflow-auto">
+      <div class="qa-image-edit-box-2 {{($index==3||$index==7||$index==11)&&'qa-image-right-box'}}" ng-repeat="image in answ.imageslist track by $index">
+      　<img ng-click="preview($index)" ng-src="{{miniimg(image)}}">
+      </div>
+    </div>
+    <div class="ww25 audio-input" ng-if="enablevoice">
+      <div class="item bk-042 {{($index==3||$index==7||$index==11)&&'right-item'}}" ng-repeat="audio in answ.audioslist track by $index" ng-click="palyRecord(audio.localId)">
+        <i class="fa fa-wifi fa-rotate-90 vvv"> </i>
+      </div>
+    </div>
+    <div class="ww25 audio-input" ng-if="!enablevoice && answ.audioslist.length>0">
+      含有声音附件，请在微信中查看。
+    </div>
+  </div>

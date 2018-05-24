@@ -1,0 +1,35 @@
+<setpagetitlerow qgs="知识库详情"></setpagetitlerow>
+<aaa ng-controller="ExpertKnowledgeShowCtrl">
+  <!-- 草稿部分 -->
+  <div class="padding5" ng-show="knowledgewriting">
+    <!-- 提问内容 -->
+    <div class="overflow-auto">
+      <span class="hh4">知识库描述:</span>
+      <mulityinput rows="12" edit="EDIT"
+            placeholder = "请在此输入您的正文。如需要，您也可以附加图片等资料，使描述更加详细、直观。"
+      ></mulityinput>
+    </div>
+    <!-- 按钮 -->      
+    <div class="ww25 text-center border-top padding15">
+      <button class="btn btn-primary" ng-click="onsubmit()">完成</button>
+    </div>
+  </div>
+  
+  
+  <!-- 显示部分 -->
+  <div class="padding5" ng-show="!knowledgewriting">
+    <div class="hh4 padding10 margin-bottom10 border-bottom">知识库描述:</div>
+    <cia-content class="overflow-auto padding5 qa-show-item-box bk-fff"
+       item="detail"
+       attr="detail.attr.ask"
+       title="知识库描述"
+       userid="{{detail.articleid}}"
+       deletetext="本知识库已删除"
+       canmodify="1"
+       apimodule="/kl/ask_"
+       onmodify="reget()"
+       ></cia-content>
+  </div>
+  
+  
+</aaa>

@@ -1,0 +1,22 @@
+<setpagetitlerow qgs="酬金发放记录"></setpagetitlerow>
+<div ng-controller="QgsPayExpertPointsCtrl">
+
+
+  <!--  列表  -->
+  <a href="#/frame/usershow?userid={{user.id}}" class="tab-list-item bk-fff userlist-item display-block" ng-repeat="user in D.list">
+    <img ng-src="{{user.headimgurl}}" ng-click="previewself(user.headimgurl)">
+    <div class="name">{{user.name}}{{ (user.nickname && ( ' ('+(user.nickname|cut:0:8)+')')) || ''}}</div>
+    <div class="id">ID:{{user.id}}</div>
+    <span class="rt fee hh4">{{user.n}}</span>
+    <span class="rb color-888 hh6">{{user.rq|hhmm}}</span>
+  </a>
+  
+  <!--  分页  -->
+  <div class="text-center">
+    <ul class="pagination pageturn-row">
+      <li ng-repeat="n in page.pageturn"><a ng-click="gotopage(n)" class="{{n==page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+    </ul>
+  </div>
+      
+</div>
+

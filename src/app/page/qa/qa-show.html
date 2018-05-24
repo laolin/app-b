@@ -1,0 +1,201 @@
+<setpagetitlerow qgs="问答详情"></setpagetitlerow>
+<div class="overflow-auto bk-fff"  ng-controller="QuestionCtrl">
+  
+  <div ng-if="ASK">
+    <!--  分类、难度和时效  -->
+    <div class="color-ccc hh5 padding10 bk-f8f8f8 border-bottom border-b86" ng-if="1 || YN.hasasked"><span
+      class="color-b86 b900">出价:{{API.module=='expert' && (ASK.attr.easy*0.8) || ASK.attr.easy}}元 / 时效:{{ASK.attr.timelimit}}天　<span class="color-080 border1">{{ASK.attr.major||''}}</span></span>
+      <i class="pull-right color-555 b900">
+        {{
+        (ASK.rq=='1999-99'&&'退回稿') ||
+        (ASK.type=='快速抢答' && '快速抢答' ) ||
+        (ASK.satisfy=='不满意' && '不满意') ||
+        (ASK.satisfy=='放弃回答'&&'放弃回答') ||
+        ('0'>=ASK.answerid&&'新提问') ||
+        ( (ASK.rq > ASK.answerrq && '未回答') ||
+          ( (ASK.rq > ASK.satisfyrq && '未评价') || ASK.satisfy)
+        )
+        }}</i>
+    </div>
+
+    <!-- 提问情况，总是显示 -->
+    <div class="overflow-auto padding5 border-bottom qa-show-item-box bk-row1" ng-if="1 || YN.hasasked">
+      <div class="info" ng-if="API.module!='user'">
+        <img ng-src="{{USERS[ASK.userid].headimgurl}}" ng-click="previewself(USERS[ASK.userid].headimgurl)" >
+        <div class="name">{{USERS[ASK.userid].name}}</div>
+      </div>
+      <div class="data color-555 b900 hh5">
+        <qa-content class="overflow-auto padding5 qa-show-item-box bk-fff"
+           users="USERS"
+           item="ASK"
+           lou="提问" 
+           canmodify="{{API.module=='service' || !ANSWER || ANSWER.length==0}}"
+           onmodify="reget()"
+           ng-click="answer(-1)">
+        </qa-content>
+      </div>
+    </div>
+    <div class="padding10 text-center bk-eee" ng-if="API.module=='user' && ASK.rq=='1999-99'">
+      <div class="btn btn-primary" ng-click="reask()">重新提问</div>
+    </div>
+
+    <!-- 历史回答, 隐藏 / 显示 -->
+    <div class="ww25 overflow-auto border-bottom hh6 text-primary" ng-show="count_un_satisfy" ng-click="show_history(!showinghistory)">
+      <span class="hh5 margin10 float-right"><i class="fa fa-chevron-{{showinghistory&&'up'||'down'}}"></i> {{showinghistory&&'隐藏'||'显示'}}历史回答</span>
+    </div>
+
+    <!-- 当前的回答 -->
+    <div class="ww25 overflow-auto border-bottom {{$index<count_un_satisfy&&'is-history'||''}} {{count_un_satisfy}}" i="{{$index}}" ng-repeat="asw in ANSWER">
+      <div class="overflow-auto padding5 qa-show-item-box bk-row1" ng-show="asw.state!='评价不满意' && asw.state!='评价满意' && asw.state!='待评价'">
+        <div class="info" ng-if="API.module!='user' && asw.userid">
+          <img ng-src="{{USERS[(asw.userid=='110001'&&asw.senderid) || asw.userid].headimgurl}}" ng-click="previewself(USERS[(asw.userid=='110001'&&asw.senderid) || asw.userid].headimgurl)">
+          <div class="name">{{USERS[(asw.userid=='110001'&&asw.senderid) || asw.userid].name}}</div>
+        </div>
+        <div class="ww25 color-555 b900 hh5 b300">
+          <div class="hh6 img-row-em bk-ddd color-888" ng-show="API.module=='service'" ng-if="asw.userid!='110001' && asw.state!='评价不满意' && asw.state!='评价满意'">
+            <img ng-src="{{USERS[asw.senderid].headimgurl}}" class="radius5" ng-click="previewself(USERS[asw.senderid].headimgurl)">
+            <div class="text1">{{USERS[asw.senderid].name}}</div>
+            <div class="text2">{{asw.rq_send|hhmm}}</div>
+            <span class="r1 hh4">【指定回答】</span>
+          </div> 
+          
+          <qa-content class="overflow-auto padding5 qa-show-item-box bk-fff" ng-show="asw.rq && asw.state!='放弃回答'"
+              item="asw"
+              lou="{{asw.userid=='110001'&&API.module=='service'&&'匹配知识库'||'回答'}}"
+              canmodify="{{API.module=='service' || ($index>=count_un_satisfy && API.userinfo.id==asw.userid&&asw.state=='问答')}}"
+              onmodify="reget()">
+          </qa-content>
+          <div class="text-right color-888" ng-if="asw.state=='问答'"></div>
+          <div class="text-right color-088" ng-if="asw.state=='用户满意'"><i class="fa fa-check"></i> 满意</div>
+          <div class="text-right color-ccc" ng-if="asw.state=='用户不满意'"><i class="fa fa-close"></i> 不满意</div>
+          <div class="ww25 overflow-auto padding15 color-555 b900 hh5" ng-if="!asw.rq && asw.state!='放弃回答' && API.module!='user'">
+            未回答
+          </div>
+          <div class="ww25 overflow-auto padding15 color-555 b900 hh5" ng-if="asw.state=='放弃回答'">
+            放弃回答：{{asw.attr.reason||''}}
+            <div class="color-aaa hh6 b300 rq">{{asw.rq|hhmm}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="hh6 img-row-em bk-eee fee" ng-if="API.module!='user' && (asw.state=='评价不满意' || asw.state=='评价满意')">
+        <img ng-src="{{USERS[asw.userid].headimgurl}}" class="radius5" ng-click="previewself(USERS[asw.userid].headimgurl)">
+        <div class="text1">{{USERS[asw.userid].name}}</div>
+        <div class="text2">{{asw.rq|hhmm}}</div>
+        <span class="hh4 margin10 float-right">{{asw.state=='评价不满意'&&'不'||''}}满意</span>
+      </div>
+      <div class="hh6 img-row-em bk-eee fee" ng-if="API.module=='user' && (asw.state=='评价不满意' || asw.state=='评价满意')">
+        <span class="hh4 margin10 float-left">用户评价</span>
+        <span class="hh4 margin10 float-right">{{asw.state=='评价不满意'&&'不'||''}}满意</span>
+      </div>
+
+      <!-- 我要评价 -->
+      <div class="ww25 overflow-auto border-bottom padding15 text-center" ng-if="API.module=='user' && asw.state=='待评价'" ng-repeat="ac in [AC.getbody('我要评价')]">
+        <span class="btn btn-primary" ng-click="ac.saysatisfy('满意')">满意</span>
+        <span class="btn btn-primary" ng-click="ac.saysatisfy('不满意')">不满意</span>
+      </div>
+    </div>
+
+    <!-- 未回答 / 未指定专家 -->
+    <div class="ww25 overflow-auto border-bottom hh5 padding15 color-888" ng-show="!ANSWER || ANSWER.length==0 || ANSWER.length==count_un_satisfy">
+      <span ng-if="API.module=='user'">未回答</span>
+      <span ng-if="API.module=='service'">未指定专家</span>
+    </div>
+
+    <!-- 回答界面，用户和专家界面显示 -->
+    <div class="answer-box overflow-auto padding5 border-bottom" ng-if="YN.experttoanswer" ng-repeat="ac in [AC.other['我要回答']]">
+      <span class="hh4 color-f00">
+        A:
+      </span>
+      <mulityinput rows="6" edit="EDIT"></mulityinput>
+    　<div>
+        <surebutton css="btn-primary" d="ac.answer"></surebutton>
+        <surebutton css="btn-primary" d="ac.notanswer" ng-if="!YN.is_sq"></surebutton>
+    　</div>
+    </div>
+
+    <!-- 归档 -->
+    <div class="overflow-auto padding5 border-bottom {{ask.satisfy || 'color-ccc'}}" ng-if="YN.hasfiled && API.module=='service'">
+      【已归档】
+    </div>
+
+    <!-- 多页面标签（知识库、标识、找专家、历史） -->
+    <div class="list-group-item bk-f8f8f8 overflow-auto" ng-show="AC.body.length>1">
+      <a class="padding10 {{tab.css||''}} {{(tab==AC.active&& 'color-fff bk-00f')|| 'color-88f'}}" ng-repeat="tab in AC.body" ng-click="AC.clicktab(tab)">{{tab.name}}</a>
+    </div>
+
+    <!-- 知识库 -->
+    <div class="overflow-auto padding5" ng-if="AC.active.name=='知识库'" ng-repeat="ac in [AC.getbody('匹配知识库')]">
+      <div class="box-list-item position-relative {{(ac.active==qa&&'active-userlist-item')||'bk-fff'}}" ng-click="ac.select(qa)" ng-repeat="qa in ac.D.list" >
+        <h4 class="full-width overflow-auto"><div class=" pull-right hh6 color-ccc"><span class="glyphicon glyphicon-time"></span> {{qa.includerq}}</div></h4>
+        <div class="hh5 color-888">{{(qa.type=='问答'&&qa.answer) || qa.ask}}</div>
+        <surebutton css="abs-top-right btn btn-primary" d="ac.bt" ng-if="ac.active==qa"></surebutton>
+      </div>
+    </div>
+
+    <!-- 退回提问 -->
+    <div class="overflow-auto padding5" ng-if="AC.active.name=='退回提问'" ng-repeat="ac in [AC.getbody('退回提问')]">
+      <span class="hh4 color-f00"> </span>
+      <div class="answer-box overflow-auto margin-top15 padding15 bk-fff pos-follow">
+        <mulityinput rows="6" edit="ac.BACK"
+              placeholder = "请输入提问将被退回的原因，以便用户修改。"
+          ></mulityinput>
+      　<div class="padding15 text-right">
+          <div class="btn btn-primary" ng-click="ac.backtoask()">退回</div>
+      　</div>
+      </div>
+    </div>
+
+    <!-- 标识 -->
+    <div class="overflow-auto padding5" ng-if="AC.active.name=='标识'">
+    </div>
+
+    <!-- 找专家 -->
+    <div class="overflow-auto padding5" ng-if="AC.active.name=='找专家'" ng-repeat="ac in [AC.getbody('找专家')]">
+      <div class="list-group-item hh5 bk-eee overflow-auto">
+        系统根据问题内容推荐专家：
+      </div>
+      <!--  搜索  -->
+      <div class="padding5">
+        <div class="input-group">
+          <input type="text" class="form-control" ng-model="ac.pointexpert.D.searchtext" on-enter="ac.pointexpert.D.search()" placeholder="用户ID、姓名、呢称、手机号、专业等">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type="button" ng-click="ac.pointexpert.D.search()"><aaa class="hidden-xs">本页</aaa>搜索</button>
+          </span>
+        </div>
+      </div>
+      <div class="list-group-item superior-list userlist-item {{ac.pointexpert.active == e && 'active-userlist-item'}}"  ng-repeat="e in ac.pointexpert.D.list track by $index"  ng-click="ac.pointexpert.select(e)">
+        <img ng-src="{{e.headimgurl}}" ng-click="previewself(e.headimgurl)">
+        <div class="name">{{e.attr.name || e.name}}{{ (e.nickname && ( ' ('+e.nickname+')')) || ''}}</div>
+        <div class="id">
+          <span class="">ID:{{e.id}}</span>
+          <span ng-show="e.mobile">　<span class="glyphicon glyphicon-phone-alt">{{e.mobile}}</span></span>
+          <span class="color-080" ng-if="e.attr.major1">　{{e.attr.major1||''}}</span>
+          <span class="color-080" ng-if="e.attr.major2">　{{e.attr.major2||''}}</span>
+          <span class="color-080" ng-if="e.attr.major3">　{{e.attr.major3||''}}</span>
+        </div>
+        <botton class="pop btn btn-primary" ng-click="ac.pointexpert.surepointexpert()" ng-if="ac.pointexpert.active == e">发送</botton>
+      </div>
+      <div class="text-center">
+        <ul class="pagination pageturn-row">
+          <li ng-repeat="n in page.pageturn track by $index"><a ng-click="gotopage(n)" class="{{n==page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 我要归档 -->
+    <div class="history-answer overflow-auto padding5"  ng-repeat="ac in [AC.getbody('我要归档')]" ng-if="AC.active.name=='我要归档'">
+      <!-- 标签 -->
+      <tagsinput tags="ac.tags"></tagsinput>
+      &nbsp;　&nbsp;
+      <surebutton css=" btn btn-primary" d="ac.yes"></surebutton>
+      <div class="overflow-auto">
+        <span class="keywords" ng-repeat="text in ac.keywords track by $index"> {{text}} 
+          <span class="glyphicon glyphicon-remove color-00f hh4" ng-click="ac.delkeyword($index)"></span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,32 @@
+<setpagetitlerow qgs="发放酬金"></setpagetitlerow>
+
+<div ng-controller="PayExpertCtrl">
+  <div class="bk-fff padding5 overflow-auto">
+
+    <div class="margin-top15 border-bottom">
+      选择发放酬金的专家：
+    </div>
+
+    <div class="margin-top5 padding5 overflow-auto">
+      <label class="b300 {{PAY.payall && 'color-000' || 'color-888'}}  margin0 ww23">
+        <input type="checkbox" ng-model="PAY.payall" ng-click="PAY.clickpayall()">
+        全部待发放酬金（{{PAY.maxpay.n}}位专家，共{{PAY.maxpay.totle}}元）
+      </label>
+
+      <label class="b300 {{PAY.payuserlist && 'color-000' || 'color-888'}}  margin0 ww20">
+        <input type="checkbox" ng-model="PAY.payuserlist" ng-click="PAY.clickpayuserlist()">
+        逐一指定（{{PAY.listpay.n}}位专家，共{{PAY.listpay.totle}}元）
+      </label>
+      <div class="bk-fff padding5 overflow-auto" ng-show="PAY.payuserlist">
+        <inputusers data="inputusers"></inputusers>
+      </div>
+    </div>
+
+    <div class="border-top margin-top5 padding-top15">
+      <button class="btn bk-fee color-fff" ng-click="PAY.beginpay()" ng-disabled="!PAY.payall && (!PAY.payuserlist || inputusers.users.length <= 0)">开始发放酬金</button>
+    </div>
+  </div>
+  
+      
+</div>
+

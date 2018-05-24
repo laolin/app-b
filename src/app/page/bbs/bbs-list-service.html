@@ -1,0 +1,41 @@
+<setpagetitlerow qgs="论坛管理"></setpagetitlerow>
+<aaa ng-controller="BbsListServiceCtrl">
+
+  <!--  分类列表 - 导航  -->
+  <div class="row-nav" ng-if="1">
+    <nobr>
+      <span class="item {{sub.en==D.en && 'active'}}" ng-click="D.setsublist(sub.en)" ng-repeat="sub in D.sublist">{{sub.cn}}</span>
+    </nobr>
+  </div>
+
+  <!--  搜索  -->
+  <div class="padding5" ng-if="0">
+    <div class="input-group">
+      <input type="text" class="form-control" ng-model="D.searchtext">
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" ng-click="D.search()()"><aaa class="hidden-xs">本页</aaa>搜索</button>
+      </span>
+    </div>
+  </div>
+
+  <!--  列表  -->
+  <div>
+    <div class="abs-row-em abs-row-b1 border-bottom bk-row{{($odd&&1)||2}}" ng-repeat="bbs in D.list" slide-delete text="删除" ondelete="D.removedata(bbs)" ng-show="!bbs.rq_delete">
+      <a class="click" href="#/frame/bbs-show-service?bbsid={{bbs.id}}">
+        <nobr class="hh4 line-clip color-{{bbs.rq_delete&&'bbb' || (bbs.state=='新帖'|| bbs.newfollowed>0)&&'00f'||'008'}}">{{bbs.attr.content || '　'}}</nobr>
+      </a>
+        <span class="hh6 color-ccc">{{bbs.rq|hhmm}}</span>
+        <span class="color-{{ bbs.state=='新帖'&& 'f00'    || bbs.newfollowed>0&& '00f'                      || 'ccc'                 }} pull-right hh6">
+                           {{ bbs.state=='新帖'&& '未审核' || bbs.newfollowed>0&&('待审核 '+bbs.newfollowed) || ('回复 '+bbs.followed)}}
+        </span>
+    </div>
+  </div>
+
+  <!--  分页  -->
+  <div class="text-center">
+    <ul class="pagination pageturn-row">
+      <li ng-repeat="n in D.page.pageturn"><a ng-click="D.gotopage(n)" class="{{n==D.page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==D.page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+    </ul>
+  </div>
+  
+</aaa>

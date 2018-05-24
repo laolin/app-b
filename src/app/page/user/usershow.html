@@ -1,0 +1,101 @@
+<setpagetitlerow qgs="用户信息"></setpagetitlerow>
+
+<div class="xs-padding5 bk-ccc" ng-controller="ServiceEditUserCtrl">
+  
+  <div class="panel panel-default margin-bottom0">
+    <ul class="list-group hh5 color-888">
+      <li class="list-group-item userlist-item">
+        <img ng-src="{{userinfo.headimgurl}}" ng-click="previewself(userinfo.headimgurl)">
+        <div class="name">{{userinfo.name || '匿名'}}{{ (userinfo.nickname && ( ' ('+(userinfo.nickname|cut:2:16)+')')) || ''}}</div>
+        <div class="id">ID:{{userinfo.id}}</div>
+        <a href="#/frame/useredit?userid={{userinfo.id}}" class="pop block">修改资料</a>
+      </li>
+      <li class="list-group-item hh5">
+        类型：{{usertypes(', ', userinfo)}}
+        <br>单位：{{userinfo.company}}
+        <br>部门：{{userinfo.department}}
+        <br>职务：{{userinfo.position}}
+        <br>手机：{{userinfo.mobile}}
+        <br>电话：{{userinfo.office}}
+      </li>
+      <li class="list-group-item text-center">
+        <surebutton css="bk-080 color-fff" d="DD.activeuser" ng-if="API.hasright('激活用户') && userinfo.userstate<3"></surebutton>
+        <surebutton css="bk-f00 color-fff" d="DD.unactiveuser" ng-if="API.hasright('激活用户') && userinfo.userstate>=3"></surebutton>
+        <surebutton css="bk-080 color-fff" d="DD.activeexpert" ng-if="API.hasright('激活专家') && userinfo.expertstate<3"></surebutton>
+        <surebutton css="bk-f00 color-fff" d="DD.unactiveexpert" ng-if="API.hasright('激活专家') && userinfo.expertstate>=3"></surebutton>
+        <surebutton css="bk-080 color-fff" d="DD.activeservice" ng-if="API.hasright('激活编导') && userinfo.servicestate<3"></surebutton>
+        <surebutton css="bk-f00 color-fff" d="DD.unactiveservice" ng-if="API.hasright('激活编导') && userinfo.servicestate>=3"></surebutton>
+      </li>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sep-row-block radius3">
+    <a href="#/frame/usertrace?userid={{userinfo.id}}&page=1"  class="full-row fa full-row-next" ng-if="API.hasright('查看活跃度')">查看活跃度</a>
+    <a href="#/frame/useroptions?userid={{userinfo.id}}" class="full-row fa full-row-next" ng-if="API.hasright('查看活跃度')">用户设置</a>
+    <a href="#/frame/userroleright?userid={{userinfo.id}}" class="full-row fa full-row-next" ng-if="API.hasright('角色权限管理')">角色权限</a>
+  </div>
+
+  <div class="sep-row-block ">
+    <a href="#/frame/userpointslist?userid={{userinfo.id}}" class="full-row fa full-row-next" ng-if="API.hasright('发放专家酬金')">用户分 <span class="color-888">{{userinfo.points + userinfo.prepoints|money}}</span></a>
+    <a href="#/frame/expertpointslist?userid={{userinfo.id}}" class="full-row fa full-row-next" ng-if="API.hasright('发放专家酬金')">专家分 <span class="color-888">{{userinfo.expertpoints + userinfo.referrerpoints|money}}</span></a>
+  </div>
+  <div class="full-row overflow-visible radius3 margin-top15 margin-bottom15" ng-if="API.hasright('发放专家酬金')">
+      <div class="input-group">
+         <div class="input-group-btn" bootstrap-dropdown="payexpert.payType"></div>
+         <input type="text" class="form-control" ng-model="payexpert.money" placeholder="{{payexpert.prompt}}">
+         <span class="input-group-btn">
+            <button class="btn bk-fee color-fff" type="button" ng-click="payexpert.pay()">
+               发放酬金
+            </button>
+         </span>
+      </div>
+  </div>
+        
+  <div class="panel panel-default">
+    <ul class="list-group hh5 color-888">
+      <li class="list-group-item bk-eee" ng-if="userinfo.parentid>0">
+        TA的关联人：
+      </li>
+      <li class="list-group-item text-center" ng-if="userinfo.parentid>0">
+        <div class="userlist-item">
+          <img ng-src="{{referrer.headimgurl}}" ng-click="previewself(referrer.headimgurl)">
+          <div class="name">{{referrer.name || '匿名'}}{{ (referrer.nickname && ( ' ('+referrer.nickname+')')) || ''}}</div>
+          <div class="id">Ta的关联人ID:{{referrer.id}}</div>
+        </div>
+      </li>
+      <li class="list-group-item bk-eee">
+        TA推荐的人：
+      </li>
+      <li ng-controller="GetUserReferedListControl">
+        <!--  搜索  -- >
+        <div class="padding5">
+          <div class="input-group">
+            <input type="text" class="form-control" ng-model="D.searchtext" placeholder="用户ID号、姓名、呢称、手机号、专业等">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="button" ng-click="D.search()"><aaa class="hidden-xs">本页</aaa>搜索</button>
+            </span>
+          </div>
+        </div-->
+
+        <!--  列表  -->
+        <a href="#/frame/{{nexturl}}?userid={{user.id}}" class="tab-list-item bk-fff userlist-item display-block" ng-repeat="user in D.list">
+          <img ng-src="{{user.headimgurl}}" ng-click="previewself(user.headimgurl)">
+          <div class="name">{{user.name}}{{ (user.nickname && ( ' ('+user.nickname+')')) || ''}}</div>
+          <div class="id">ID:{{user.id}}</div>
+          <div class="major">{{ ((user.userstate==3 && '用户')||'') + ((user.expertstate==3 && '　专家')||'') + ((user.servicestate==3 && '　编导')||'')}}</div>
+          <div class="tel" ></div>
+        </a>
+        <!--  分页  -->
+        <div class="text-center" ng-if="D.list.length>0">
+          <ul class="pagination pageturn-row">
+            <li ng-repeat="n in page.pageturn"><a ng-click="gotopage(n)" class="{{n==page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+          </ul>
+        </div>
+
+        <div class="padding15" ng-if="D.list.length<=0">暂无</div>
+      </li>
+    </ul>
+  </div>
+</div>
+

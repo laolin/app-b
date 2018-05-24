@@ -1,0 +1,112 @@
+<setpagetitlerow qgs="编导功能"></setpagetitlerow>
+<uuu ng-controller="UserIconsController">
+  
+  <div class="sep-row-block">
+    <div class="sub-title border-bottom bk-f8f8f8">
+      问答管理
+    </div>
+    <div class="table-row">
+      <a href="#/frame/qa?en=new&page=1"  class="cell icons-flat-box icons-flat-box-more">
+        <span class="glyphicon glyphicon-question-sign fee"></span>
+        <div class="text">新提问</div>
+        <div class="n">{{todocounts.qanew || ''}}</div>
+      </a>
+      <a href="#/frame/qa?en=tosatisfy&page=1"  class="cell icons-flat-box icons-flat-box-more color-080">
+        <span class="glyphicon glyphicon-question-sign"></span>
+        <div class="text">已回答</div>
+        <div class="n">{{todocounts.qaanswered || ''}}</div>
+      </a>
+      <a href="#/frame/qa?en=tofile&page=1"  class="cell icons-flat-box icons-flat-box-more">
+        <span class="glyphicon glyphicon-question-sign color-008"></span>
+        <div class="text">已评价</div>
+        <div class="n">{{todocounts.qasatisfyed || ''}}</div>
+      </a>
+      <a href="#/frame/qa?en=sqallanswering" class="cell icons-flat-box icons-flat-box-more">
+        <span class="glyphicon glyphicon-plane text-danger"></span>
+        <div class="text">快速抢答</div>
+      </a>
+    </div>
+  </div>
+  
+  <div class="sep-row-block" ng-if="API.hasright('查看充值记录') || API.hasright('推送消息')">
+    <a href="#/frame/qgsaccount" class="full-row" ng-if="API.hasright('查看充值记录')">
+      <span class="glyphicon glyphicon-tree-deciduous icon fee"></span>
+      资金账户
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+    <a href="#/frame/payexpert" class="full-row" ng-if="API.hasright('发放专家酬金')">
+      <span class="glyphicon glyphicon-tree-deciduous icon fee"></span>
+      发放专家酬金
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+    <a href="#/frame/payexpertlist" class="full-row" ng-if="API.hasright('发放专家酬金')">
+      <span class="glyphicon glyphicon-tree-deciduous icon fee"></span>
+      酬金发放记录
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+    <a href="#/frame/sendmessage" class="full-row" ng-if="API.hasright('推送消息')">
+      <span class="glyphicon glyphicon-tree-deciduous icon fee"></span>
+      消息推送
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+  </div>
+
+
+  <div class="sep-row-block" ng-if="API.hasright('激活用户') || API.hasright('激活专家') || API.hasright('激活编导') || API.hasright('管理专家库')">
+    <a href="#/frame/userlist?en=newuser" class="full-row" ng-if="API.hasright('激活用户')">
+      <span class="glyphicon glyphicon-user icon fee"></span>
+      新用户
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+    <a href="#/frame/userlist?en=activeexpert" class="full-row" ng-if="API.hasright('激活专家')">
+      <span class="glyphicon glyphicon-tower color-080"></span>
+      专家
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+    <a href="#/frame/userlist?en=activeservice" class="full-row" ng-if="API.hasright('激活编导')">
+      <span class="glyphicon glyphicon-glass color-080"></span>
+      编导
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+    <a href="#/frame/expert" class="full-row" ng-if="API.hasright('管理专家库')">
+      <span class="glyphicon glyphicon-tower icon color-008"></span>
+      专家库
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+  </div>
+
+  <div class="sep-row-block">
+    <a href="#/frame/bbs-list-service" class="full-row hh5 fa full-row-next">
+      <i class="fa fa-user fa-fw hh4"></i>
+      论坛管理
+    </a>
+    <a href="#/frame/kl-list" class="full-row" ng-if="API.hasright('管理知识库')">
+      <span class="glyphicon glyphicon-book icon color-00f"></span>
+      知识库
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+    <a href="#/frame/myaccount" class="full-row">
+      <span class="glyphicon glyphicon-edit icon color-080"></span>
+      我的账户
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+  </div>
+
+  <div class="sep-row-block" ng-if="API.hasright('角色权限管理')">
+    <a href="#/frame/roleright" class="full-row" ng-if="API.hasright('角色权限管理')">
+      <span class="glyphicon glyphicon-thumbs-up icon color-080"></span>
+      角色权限管理
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+  </div>
+  
+  
+	<div class="">
+		<h6>&nbsp;</h6>
+		<h4 class="text-info" ng-show="API.userinfo.name && API.userinfo.mobile">　　欢迎您！<span class="fee">{{API.userinfo.name}}</span></h4>
+		<h6>&nbsp;</h6>
+		<h4 class="text-primary">　　目前专家总数{{todocounts.allexpert || '20'}}位</h4>
+		<h4 class="text-primary">　　在线专家总数{{todocounts.onlineexpert || '6'}}位</h4>
+	</div>
+
+</uuu>

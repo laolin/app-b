@@ -1,0 +1,43 @@
+<setpagetitlerow qgs="高谈阔论" checklogin="no"></setpagetitlerow>
+<aaa ng-controller="BbsListUserCtrl">
+
+  <!--  分类列表 - 导航  -->
+  <div class="row-nav">
+    <nobr>
+      <span class="item {{sub.en==D.en && 'active'}}" ng-click="D.setsublist(sub.en)" ng-repeat="sub in D.sublist">{{sub.cn}}</span>
+      <a href="#/frame/bbs-new" class="bk-fee radius5 color-fff padding-right10 margin5 text-center float-right"><i class="fa fa-plus padding10 hh4 "></i>发起论谈</a>
+    </nobr>
+  </div>
+
+  <!--  搜索  -->
+  <div class="padding5" ng-if="0">
+    <div class="input-group">
+      <input type="text" class="form-control" ng-model="D.searchtext">
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" ng-click="D.search()()"><aaa class="hidden-xs">本页</aaa>搜索</button>
+      </span>
+    </div>
+  </div>
+
+  <!--  列表  -->
+  <div>
+    <div class="color-list-item bk-row{{($odd&&1)||2}}" ng-repeat="bbs in D.list" ng-show="!bbs.rq_delete">
+      <a class="click" href="#/frame/bbs-show-user?bbsid={{bbs.id}}">
+        <nobr class="hh4 line-clip" ng-show="!bbs.rq_delete">{{bbs.attr.content || '　'}}</nobr>
+        <nobr class="hh4 line-clip color-f00" ng-show=" bbs.rq_delete">此帖已被删除</nobr>
+        <span class="hh6 color-ccc">{{bbs.rq|hhmm}}</span>
+        <span class="color-{{ bbs.state=='新帖' && 'ccc'    || bbs.followed>0 && 'aaa'    || '008' }} pull-right hh6">
+                           {{ bbs.state=='新帖' && '待审核' || ('回复 '+bbs.followed)  }}
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <!--  分页  -->
+  <div class="text-center">
+    <ul class="pagination pageturn-row">
+      <li ng-repeat="n in D.page.pageturn"><a ng-click="D.gotopage(n)" class="{{n==D.page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==D.page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+    </ul>
+  </div>
+  
+</aaa>

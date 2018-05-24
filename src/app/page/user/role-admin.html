@@ -1,0 +1,40 @@
+<setpagetitlerow qgs="角色分组"></setpagetitlerow>
+
+<div class="bk-ddd" ng-controller="ServiceRoleAdminCtrl">
+
+  <div class="ww25 padding5 bk-eee">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="请输入角色名称" ng-model="rolename">
+      <span class="input-group-btn">
+        <span class="btn btn-primary" type="button" ng-click="rename_role()" ng-if="!adding">更改名称</span>
+        <span class="btn btn-danger" type="button" ng-click="add_role()">{{adding&&'添加角色'||'添加…'}}</span>
+      </span>
+    </div><!-- /input-group -->
+  </div>
+
+  <div class="margin-top15 bk-fff">
+    <div class="ww25 bk-eee padding5 border-bottom">所有角色</div>
+    <div class="ww25">
+      <span class="margin5 inline-block border2 padding5 radius3 border-{{role==activerole&&'000 bk-008 color-fff'||'eee'}} "
+        ng-click="set_role(role)"
+        ng-repeat="role in D.roles">{{role.name}}</span>
+    </div>
+  </div>
+
+  <div class="ww25 margin-top15 bk-fff" ng-if="activerole">
+    <div class="ww25 bk-eee border-bottom overflow-auto">
+      <div class="padding5 float-left">拥有的权限</div>
+      <div class="pull-right padding5 color-00f" ng-click="delete_role()">删除角色</div>
+    </div>
+    <div class="ww25">
+      <span class="margin5 inline-block border1 {{hasrights[$index] && 'bk-8ff ' || 'bk-ddd color-aaa'}} padding5 radius3"
+        ng-click="click_right($index)"
+        ng-repeat="right in D.rights">{{right}}</span>
+    </div>
+  </div>
+  <div class="margin-top15 bk-fff padding15 color-f00" ng-if="!activerole">
+    请选择一个角色
+  </div>
+
+</div>
+

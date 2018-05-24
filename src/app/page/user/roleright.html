@@ -1,0 +1,92 @@
+<setpagetitlerow qgs="编辑用户信息"></setpagetitlerow>
+<div ng-controller="RoleRightCtrl">
+  <!--  分类列表 - 导航  -->
+  <div class="row-nav">
+    <nobr>
+      <span class="item {{sub.cn==RR.cn && 'active'}}" ng-click="RR.set(sub)" ng-repeat="sub in RR.list">{{sub.cn}}</span>
+    </nobr>
+  </div>
+
+  <div class="sep-row"></div>
+
+  <div ng-switch="RR.cn">
+
+    <!--  角色管理  -->
+    <div class="table-row bk-fff overflow-auto" ng-switch-when="角色管理">
+      <div class="cell role-edit-list">
+        <div class="item {{role==RR.rolenow && 'active'}}" ng-repeat="role in RR.roles track by $index" ng-click="RR.showrole(role)">{{role.name || '新建'}}</div>
+      </div>
+      <div class="cell role-select-right" ng-show="RR.rolenow">
+        <div class="full-row overflow-auto">
+          <div class="item {{RR.hasright[right] && 'active'}}" ng-click="RR.clickroleright(right)" ng-repeat="right in RR.rights">{{right}}</div>
+        </div>
+        <div class="full-row overflow-auto">
+          角色名称：<input id="input-role-name" class="form-control" size=10 ng-model="RR.rolenow.name" placeholder="输入角色名称"><br>
+          <div class="btn btn-primary" ng-click="RR.saverole()">保存</div>
+        </div>
+      </div>
+    </div>
+
+    <!--  权限列表  -->
+    <div class="panel panel-default" ng-switch-when="权限管理">
+      <ul class="list-group hh5">
+        <li class="list-group-item userlist-item">
+          所有权限
+        </li>
+        <li class="list-group-item hh5">
+          <div class="keywords" ng-repeat="right in RR.rights">{{right}}</div>
+        </li>
+      </ul>
+    </div>
+
+
+    <!--  用户权限  -->
+    <div class="table-row bk-fff overflow-auto" ng-switch-when="用户权限">
+      <div class="cell role-edit-list">
+        <!-- 列表 -->
+        <div class="item imgrow {{row==RR.showinguser && 'active'}}" ng-repeat="row in RR.D.list track by $index" ng-click="RR.showuserright(row)">
+          <img class="img30" ng-src="{{row.headimgurl}}" ng-click="previewself(row.headimgurl)">
+          <nobr class="name">{{row.name || '匿名'}}</nobr>
+        </div>
+        <!-- 页码 -->
+        <div class="text-center">
+          <ul class="pagination pageturn-row">
+            <li ng-repeat="n in page.pageturn"><a ng-click="gotopage(n)" class="{{n==page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="cell role-select-right" ng-if="RR.showinguser">
+        <div class="bottom-dotted overflow-auto">
+          <div class="item {{hasright(RR.showinguser,right) && 'active'}}" ng-click="RR.clickuserright(right)" ng-repeat="right in RR.rights">{{right}}</div>
+        </div>
+        <div class="full-row overflow-auto">
+          <div class="btn btn-primary" ng-click="RR.saveuserright()">保存</div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="panel panel-default" ng-switch-when="0">
+      <ul class="list-group hh5">
+        <li class="list-group-item userlist-item">
+          <img ng-src="{{userinfo.headimgurl}}" ng-click="previewself(userinfo.headimgurl)">
+          <div class="name">{{userinfo.name || '匿名'}}{{ (userinfo.nickname && ( ' ('+userinfo.nickname+')')) || ''}}</div>
+          <div class="id">ID:{{userinfo.id}}</div>
+        </li>
+        <li class="list-group-item hh5">
+          <h4>姓名：<input ng-model="controller.name" id="input-name"></h4>
+          <h4>单位：<input ng-model="controller.company"></h4>
+          <h4>部门：<input ng-model="controller.department"></h4>
+          <h4>职务：<input ng-model="controller.position"></h4>
+          <h4>手机：<input ng-model="controller.mobile"></h4>
+          <h4>电话：<input ng-model="controller.office"></h4>
+          <h5 class="overflow-auto">
+            <button id="button-save" onfocus="parentElement.focus()" class="hidefocus btn btn-primary" ng-disabled="btn_save.disable" ng-click="btn_save.click()">{{btn_save.text}}</button>
+          </h5>
+        </li>
+      </ul>
+    </div>
+    
+  </div>
+
+</div>

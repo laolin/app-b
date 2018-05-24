@@ -1,0 +1,22 @@
+<setpagetitlerow qgs="我的知识库" checklogin="no"></setpagetitlerow>
+<div ng-controller="ExpertKnowledgeListCtrl">
+
+  <div class="box-list-item bk-fff text-center" ng-hide="D.list.length>0 && !D.list[0].rq && true">
+    <a class="btn btn-primary" href="#/frame/expert-kl-show?klid=0">
+      添加一个
+    </a>
+  </div>
+  <div class="box-list-item bk-fff" ng-repeat="qa in D.list">
+    <a class="click" href="#/frame/expert-kl-show?klid={{qa.id}}">
+      <div class=" pull-right hh6 color-ccc" ng-show="qa.rq">{{qa.rq|hhmm}}</div>
+      <div class=" pull-right hh6 color-ccc" ng-hide="qa.rq"><span class="color-f88">[草稿]</span></div>
+      <nobr class="hh4 line-clip">{{qa.ask || '　'}}</nobr>
+    </a>
+  </div>
+
+  <div class="text-center">
+    <ul class="pagination pageturn-row">
+      <li ng-repeat="n in page.pageturn"><a ng-click="gotopage(n)" class="{{n==page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+    </ul>
+  </div>
+</div>

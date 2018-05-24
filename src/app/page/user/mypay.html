@@ -1,0 +1,24 @@
+<setpagetitlerow qgs="充值记录"></setpagetitlerow>
+
+<div ng-controller="MyPaylistCtrl">
+      
+  <div class="box-list-item bk-fff" ng-repeat="item in D.list">
+    <div>
+      <span class="glyphicon glyphicon-time color-ccc"></span> {{item.rq}} <span class="pull-right fee">{{item.n}}</span>
+    </div>
+    <div>
+      {{item.k1}}
+    </div>
+  </div>
+
+  <div class="text-center">
+    <ul class="pagination pageturn-row">
+      <li ng-repeat="n in page.pageturn"><a ng-click="gotopage(n)" class="{{n==page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+    </ul>
+  </div>
+  
+
+  <div class="text-primary h4 text-center">
+    <a href="#/frame/recharge" class="btn btn-warning" >去充值</a>
+  </div>
+</div>

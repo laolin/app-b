@@ -1,0 +1,35 @@
+<setpagetitlerow qgs="用户角色权限"></setpagetitlerow>
+
+<div class="bk-ddd" ng-controller="ServiceEditUserRoleRightCtrl">
+
+  <div class="img-row-em bk-fff">
+    <img ng-src="{{user.headimgurl}}" ng-click="previewself(user.headimgurl)">
+    <div class="text1">{{user.name || '匿名'}}{{ (user.nickname && ( ' ('+user.nickname+')')) || ''}}</div>
+    <div class="text2">{{user.id}}</div>
+  </div>
+
+  <div class="margin-top15 bk-fff">
+    <div class="ww25 bk-eee padding5 border-bottom">拥有的角色 <a href="#/frame/role-admin" class="pull-right">角色分组 <i class="fa fa-caret-right"> </i></a></div>
+    <div class="ww25">
+      <span class="margin5 inline-block border2 padding5 radius3 border-{{role==activerole&&'000'||'ccc'}} {{role.yn=='y'&&'bk-8ff'||role.yn=='yn'&&'bk-eee color-000'||'bk-eee color-ccc'}}"
+        ng-click="set_role(role)"
+        ng-repeat="role in D.roles">{{role.name}}</span>
+    </div>
+  </div>
+
+  <div class="margin-top15 bk-fff">
+    <div class="ww25">拥有的权限</div>
+    <div class="ww25">
+      <span class="margin5 inline-block border1 {{hasrights[$index] && 'bk-8ff ' || 'bk-ddd color-aaa'}} padding5 radius3"
+        ng-click="click_right($index)"
+        ng-show="showrights[$index]"
+        ng-repeat="right in D.rights">{{right}}</span>
+    </div>
+    <div class="ww25 text-center padding15 border-top border-888">
+      <span class="btn btn-{{rights_changed&&'primary' || 'default color-ddd'}}" ng-click="save()">保存</span>
+      <span class="color-f00">{{prompt}}</span>
+    </div>
+  </div>
+
+</div>
+

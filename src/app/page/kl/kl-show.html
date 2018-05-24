@@ -1,0 +1,32 @@
+<setpagetitlerow qgs="知识库详情"></setpagetitlerow>
+<aaa  ng-controller="KnowledgeShowCtrl">
+  <div class="padding5 border-bottom">
+    <span class="keywords" ng-repeat="k in detail.keywords track by $index">{{k}}</span>
+    <span class="padding10 color-888" ng-hide="detail.keywords.length > 0">没有标签</span>
+  </div>
+  <div class="padding5 border-bottom">
+    <cia-content class="overflow-auto padding5 qa-show-item-box bk-fff"
+       item="detail"
+       attr="detail.attr.ask"
+       title="知识库描述"
+       userid="{{detail.articleid}}"
+       deletetext="本知识库已删除"
+       canmodify="1"
+       apimodule="/kl/ask_"
+       onmodify="reget()"
+       ></cia-content>
+  </div>
+  <div class="padding5 border-bottom" ng-repeat="asw in detail.attr.answer" ng-hide="detail.attr.ask.all_modify[detail.attr.ask.all_modify.length-1].ac=='删除'">
+    <cia-content class="overflow-auto padding5 qa-show-item-box bk-fff"
+       item="detail"
+       attr="asw"
+       title="回答"
+       userid=""
+       sub="{{$index}}"
+       deletetext="本回答已删除"
+       canmodify="1"
+       apimodule="/kl/answer_"
+       onmodify="reget()"
+       ></cia-content>
+  </div>
+</aaa>

@@ -1,0 +1,33 @@
+
+<setpagetitlerow qgs="论坛管理"></setpagetitlerow>
+<div class="overflow-auto bk-ddd"  ng-controller="BbsShowServiceCtrl">
+  
+    <!-- 楼主 -->
+    <div class="overflow-auto position-relative bk-fff padding5 border-bottom margin-bottom15 ">
+      <bbs-item-service class="overflow-auto qa-show-item-box" users="users" item="bbs" lou="楼主" onmodify="reget()"></bbs-item-service>
+      <div class="padding15 border-top" ng-show="bbs.state=='新帖'">
+        <div class="btn btn-primary padding-right15" ng-click="checkbbs()">审核通过</div>
+      </div>
+      <div class="rt right15 top5">
+        <span class="btn btn-default padding-right15" ng-click="showrecommend()" ng-show="bbs.attr.service_conmmend">推荐记录</span>
+        <div class="btn btn-danger padding-right15" ng-click="recommendtoall()" ng-show="!bbs.rq_recommend">推荐</div>
+        <span class="btn btn-danger padding-right15" ng-click="unrecommend()" ng-show="bbs.rq_recommend">取消推荐</span>
+      </div>
+    </div>
+
+    <!-- 回帖 -->
+    <div class="overflow-auto position-relative bk-fff padding5 border-bottom margin-bottom15 " ng-repeat="item in follows">
+      <bbs-item-service class="overflow-auto qa-show-item-box bk-row1" users="users" item="item" lou="{{$index+1}}楼" onmodify="reget()"></bbs-item-service>
+      <div class="padding15 border-top" ng-show="item.state=='新跟帖'">
+        <div class="btn btn-primary padding-right15" ng-click="checkfollow(item, '公开跟帖')">审核为公开</div>
+        <div class="btn btn-primary padding-right15" ng-click="checkfollow(item, '私密跟帖')">仅自己可见</div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
+
+
+

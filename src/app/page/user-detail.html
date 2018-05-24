@@ -1,0 +1,61 @@
+<setpagetitlerow qgs="账户详情"></setpagetitlerow>
+<div class="xs-paddi-ng5">
+
+  <div ng-if="API.module=='user'">
+    <div class="sep-row border-bottom"></div>
+    <div class="sub-title border-bottom bk-f8f8f8">
+      我的积分：
+    </div>
+    <div class="full-row hh6 overflow-auto">
+      可用余额：<a href="#/frame/mypoints"><span class="w-money">{{(API.userinfo.points+API.userinfo.prepoints)|money}}</span></a>
+      <a href="#/frame/recharge" class="btn btn-warning pull-right" ng-show="1 || API.userinfo.id=='209108'">我要充值</a>
+      <br>　专家分：<a href="#/frame/mypoints"><span class="w-money">{{(API.userinfo.expertpoints)|money}}</span></a>
+    </div>
+  </div>
+
+  <div class="sep-row "></div>
+  <div class="sep-row "></div>
+  <div class="sep-row border-bottom"></div>
+  <div class="sub-title border-bottom bk-f8f8f8">
+    我的推荐二维码：
+  </div>
+  <a class="full-row">
+    <userqrcode text="推荐人：{{API.userinfo.name}}" userid="{{API.userinfo.id}}"><userqrcode/>
+  </a>
+  <div class="sub-title border-bottom bk-f8f8f8">
+    我的关联人：
+  </div>
+  <a href="{{(refered.totle&&'#/frame/myreferedlist')||''}}" class="full-row" ng-controller="MyReferedInfoControl">
+    {{(refered.totle&& '共 '+refered.totle+' 位用户/专家')||'暂无'}}
+  </a>
+  
+  
+  <div ng-if="API.hasmoremodule()">
+    <div class="sep-row "></div>
+    <div class="sep-row "></div>
+    <div class="sep-row border-bottom"></div>
+    <div class="sub-title border-bottom bk-f8f8f8">
+      模块切换
+    </div>
+    <div class="table-row">
+      <a href="../user/index.htm" class="cell icons-flat-box icons-flat-box-more" ng-if="API.module!='user' && API.userinfo['userstate']=='3'">
+        <span class="glyphicon glyphicon-tree-conifer fee"></span>
+        <div class="text">用户模块</div>
+        <div class="n">{{todocounts.qanew || ''}}</div>
+      </a>
+      <a href="../service/index.htm" class="cell icons-flat-box icons-flat-box-more" ng-if="API.module!='service' && API.userinfo['servicestate']=='3'">
+        <span class="glyphicon glyphicon-tree-conifer text-danger"></span>
+        <div class="text">编导模块</div>
+        <div class="n">{{todocounts.qanew || ''}}</div>
+      </a>
+      <a href="../expert/index.htm" class="cell icons-flat-box icons-flat-box-more" ng-if="API.module!='expert' && API.userinfo['expertstate']=='3'">
+        <span class="glyphicon glyphicon-tree-conifer text-info"></span>
+        <div class="text">专家模块</div>
+        <div class="n">{{todocounts.qanew || ''}}</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="sep-row "></div>
+  <div class="sep-row "></div>
+</div>

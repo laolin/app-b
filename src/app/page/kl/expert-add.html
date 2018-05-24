@@ -1,0 +1,37 @@
+<setpagetitlerow qgs="新增专家"></setpagetitlerow>
+
+<div class="xs-padding5" ng-controller="ServiceAddExpertCtrl">
+  
+  <div class="panel panel-default">
+    <div class="panel-heading hh4 {{userinfo.name || 'color-f00'}}">{{userinfo.name || '未输入'}}</div>
+    <ul class="list-group hh5 color-888">
+      <li class="list-group-item hh5 edit">
+        <div>姓名：
+          <input size=25 class="form-control" id="userinfo-name" ng-model="userinfo.name">
+        </div>
+        <div>单位：
+          <input size=25 class="form-control" id="userinfo-company" ng-model="userinfo.company" >
+        </div>
+        <div>部门：
+          <input size=25 class="form-control" id="userinfo-department" ng-model="userinfo.department">
+        </div>
+        <div>职务：
+          <input size=25 class="form-control" id="userinfo-position" ng-model="userinfo.position" >
+        </div>
+        <div>手机：
+          <input size=25 class="form-control" id="userinfo-mobile" ng-model="userinfo.mobile">
+        </div>
+        <div>电话：
+          <input size=25 class="form-control" id="userinfo-office" ng-model="userinfo.office">
+        </div>
+        <div>专业：
+          <mydropdown class="btn-group size25" value="userinfo.major" defaults="请选择专业" arr="majorarr"></mydropdown>
+        </div>
+        <h5>　　　
+          <button class="btn btn-primary" ng-disabled="btn_save.disable" ng-click="btn_save.click()">{{btn_save.text}}</button>
+        </h5>
+      </li>
+    </ul>
+  </div>
+</div>
+

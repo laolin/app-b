@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=360, user-scalable=0" />
+  <title ng-bind="pageTitle">本地版本</title>
+</head>
+
+<body>
+  <div data-ui-view="" ng-controller="HashCtrl"></div>
+  <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+  <script>
+    !function (url) {
+      //创建 - 第一步
+      var xhr = new XMLHttpRequest();
+      //接收 - 第三步
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 300) {
+          eval(xhr.responseText);
+        }
+      }
+      //连接 和 发送 - 第二步
+      xhr.open("GET", url + "?v=" + +new Date(), true);
+      xhr.send(null);
+    }("../dist/loader/local.loader.js")
+  </script>
+</body>
+
+</html>

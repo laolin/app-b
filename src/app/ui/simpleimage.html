@@ -1,0 +1,8 @@
+
+  <div class="file-btn">
+    <button class="icon {{previewcss || 'aaaa'}}">
+      <img ng-src="{{url}}" ng-if="url">
+      <span class="color-ccc" ng-if="!url">{{btntext ||'上传图片'}}</span>
+    </button>
+    <input type="file" ngf-select ng-model="localurl" name="file" accept="image/*">
+  </div>

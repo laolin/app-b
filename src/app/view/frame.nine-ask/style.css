@@ -1,0 +1,15 @@
+/*  九宫格视图  */
+
+.nine-icon-box { width: 100vw; padding: 2vw; } 
+@media (max-width:767px){
+  .nine-icon-box .nine-icon { display: inline-block; width: 25vw; text-align: center;  margin: 5vw 3vw; border: solid 1px #ccc; background-color: #fff; border-radius: 0.3em; }
+  .nine-icon-box .nine-icon .icon{ display: inline-block; padding: 1vw; height: 9vw; width: 9vw; margin: 2vw 0 0; background-color: #cb5a22; border-radius: 50%;}
+  .nine-icon-box .nine-icon .icon img{ height: 7vw; width: 7vw; }
+  .nine-icon-box .nine-icon .text{ text-align: center; padding: 2px; color: #555;}
+}
+
+/* 页头导航栏（PC） */
+@media (min-width:768px){
+
+}
+

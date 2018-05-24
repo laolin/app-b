@@ -1,0 +1,46 @@
+<setpagetitlerow qgs="提问"></setpagetitlerow>
+<div ng-controller="QuestionNewCtrl" class="bk-eee">
+
+  <div class="padding15">
+    <!-- 提问内容 -->
+    <div class="over-flow-auto">
+      <div>
+        <d class="hh4 padding5">问题描述:</d>
+        <div class="dropdown float-right" css-dropdown-menu="dropdown-menu-right dropdown-menu-single-line" major-dropdown="major" major-change="changeMajor()">
+        </div>
+      </div>
+      <mulityinput rows="7" edit="EDIT"
+            placeholder = "请在此输入您的提问。如需要，您也可以附加图片等资料，使问题描述更加详细、直观，专家回答更加准确、高效。"
+      ></mulityinput>
+    </div>
+    <!-- 标签 -->
+    <tagsinput tags="EDIT.controldata.tags" change="EDIT.updatedraft('tags')"></tagsinput>
+    <!-- 出价、时效 -->      
+    <div class="overflow-auto ww25 row-input hh5">
+      <div class="prompt float-left">出价：</div>
+      <div class="input-group ww9 float-left">
+        <input id="question-easy" class="form-control {{easy.bad&&'border-f00'||''}}" ng-model="easy.model" ng-change="prechange('easy')" placeholder="_ _ _ _">
+        <span class="input-group-btn">
+          <button class="btn bk-ccc" type="button">元</button>
+        </span>
+      </div>
+      <div class="input-group ww7 float-right">
+        <input id="question-timelimit" class="form-control {{timelimit.bad&&'border-f00'||''}}" ng-model="timelimit.model" ng-change="prechange('timelimit')" placeholder="_ _">
+        <span class="input-group-btn">
+          <button class="btn bk-ccc" type="button">天</button>
+        </span>
+      </div>
+      <div class="prompt ww4 float-right text-right">时效：</div>
+    </div>
+    <div class="overflow-auto ww25 hh6 color-888">
+        <span class="">请根据问题合理出价</span>
+        <span class="float-right">您的问题有效期　</span>
+    </div>
+    <!-- 按钮 -->  
+    <button class="btn btn-danger ww25 margin-top10 hh4" ng-click="onsubmit()">提交问题</button>
+    <!--surebutton css="ww25 btn-danger margin-top10 hh4" d="RR.bt"></surebutton-->
+  </div>
+  
+</div>	
+	
+	

@@ -1,0 +1,23 @@
+<setpagetitlerow qgs="充值"></setpagetitlerow>
+<div class="" ng-controller="RechargeCtrl">
+  <div class="ww25 padding15">
+    <div class="input-group ww25 padding5 margin-bottom15">
+      <span class="input-group-btn"><span class="btn btn-default bk-eee ">充值金额(元)</span></span>
+      <input type="text" class="form-control text-center" ng-model="recharge100">
+      <span class="input-group-btn"><span class="btn btn-warning b900" ng-click="recharge()">{{paytext}}</span></span>
+    </div>
+    <div class="ww25">
+      <span class="btn btn-danger disabled margin5" ng-click="recharge100='100'">100元</span>
+      <span class="btn btn-danger disabled margin5" ng-click="recharge100='200'">200元</span>
+      <span class="btn btn-danger disabled margin5" ng-click="recharge100='500'">500元</span>
+      <span class="btn btn-danger disabled margin5" ng-click="recharge100='1000'">1000元</span>
+      <span class="btn btn-danger disabled margin5" ng-click="recharge100='2000'">2000元</span>
+      <span class="btn btn-danger disabled margin5" ng-click="recharge100='5000'">5000元</span>
+      <span class="btn btn-danger disabled margin5" ng-click="recharge100='10000'">10000元</span>
+    </div>
+  </div>
+  <div class="ww25 padding15 border-top border-eee">
+    <a href="#/frame/mypay" class="pull-right">充值记录</a>
+  </div>
+</div>
+

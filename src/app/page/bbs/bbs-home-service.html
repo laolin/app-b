@@ -1,0 +1,23 @@
+<setpagetitlerow qgs="论坛管理"></setpagetitlerow>
+<aaa ng-controller="BbsHomeServiceCtrl">
+
+  <!--  搜索  -->
+  <div class="overflow-auto padding5 border-bottom bk-eee" ng-if="0">
+    <div class="input-group">
+      <input type="text" class="form-control" ng-model="D.searchtext">
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" ng-click="D.search()()"><aaa class="hidden-xs">本页</aaa>搜索</button>
+      </span>
+    </div>
+  </div>
+
+  <a href="#/frame/bbs-list-service?en=service-bbs-tocheck" class="full-row hh5 fa full-row-next margin-top15">
+    <i class="fa fa-user fa-fw hh4"></i>
+    帖子审核
+  </a>
+  <a href="#/frame/bbs-list-service?en=service-follow-tocheck" class="full-row hh5 fa full-row-next margin-top15">
+    <i class="fa fa-user fa-fw hh4"></i>
+    回帖审核
+  </a>
+
+</aaa>

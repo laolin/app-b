@@ -1,0 +1,31 @@
+<setpagetitlerow qgs="待回答列表" checklogin="no"></setpagetitlerow>
+<aaa ng-controller="QuestionToAnswerListCtrl">
+  <!--  分类列表 - 导航  -->
+  <!--
+  <div class="row-nav">
+    <nobr>
+      <span class="item {{sub.cn==D.cn && 'active'}}" ng-click="setsublist(sub.en)" ng-repeat="sub in D.sublist">{{sub.cn}}</span>
+    </nobr>
+  </div>
+  -->
+
+  <!--  列表  -->
+  <div ng-show="D.en=='experttoanswer' && D.list.length==0" class="text-primary h4">目前没有待回答问题</div>
+  
+  <div ng-show="D.list.length>0">
+    <div class="color-list-item bk-row{{($odd&&1)||2}}" ng-repeat="qa in D.list">
+      <a href="#/frame/expert-qa-show?qaid={{qa.id}}" ng-include="API.templateUrl('page/qa/qa-list-item.html')"></a>
+    </div>
+    <!--  分页  -->
+    <div class="text-center">
+      <ul class="pagination pageturn-row">
+        <li ng-repeat="n in page.pageturn"><a ng-click="gotopage(n)" class="{{n==page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- div ng-show="D.en=='speedquestions'" class="text-primary h4 text-center">
+    <a href="#/frame/qa-toasksq" class="btn btn-primary">我来提问一个</a>
+  </div -->
+  
+</aaa>

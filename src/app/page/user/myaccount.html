@@ -1,0 +1,116 @@
+<setpagetitle qgs="我的账户"></setpagetitle>
+<div class="bk-eee" ng-controller="UserInfoController">
+  <div class="ww25 text-right hh4 padding10 fee bk-f8f8f8" ng-show="!editing">
+    <span ng-click="editing=!editing"><i class="fa fa-edit"></i> <hh6>编辑信息</hh6></span>
+  </div>
+  <div class="ww25 text-right hh4 padding10 fee bk-f8f8f8" ng-show="editing">
+    <span ng-click="reset()"><i class="fa fa-reply"></i> <hh6>取消</hh6></span>
+    　　<span ng-click="save()"><i class="fa fa-save"></i> <hh6>保存</hh6></span>
+  </div>
+
+  <div class="myaccount border-bottom bk-f8f8f8">
+    <img class="icon" ng-src="{{API.userinfo.wx.headimgurl}}">
+    <div class="info color-888" ng-show="!editing">
+      <div class="item">姓名：<span class="color-000">{{D.name}}</span></div>
+      <div class="item">手机：<span class="color-000">{{D.mobile}}</span></div>
+      <div class="item">专业：<span class="color-000">{{D['major'+API.module]}}</span></div>
+      <div class="item">单位：<span class="color-000">{{D.company}}</span></div>
+    </div>
+    <div class="edit color-888" ng-show="editing">
+      <div class="item">姓名：<input ng-model="D.name"></div>
+      <div class="item">手机：<input ng-model="D.mobile"></div>
+      <div class="item">专业：<mulityselect class="click-select open" value="D['major'+API.module]"
+                  arr="API.majors" options=""></mulityselect></div>
+      <div class="item">单位：<input ng-model="D.company"></div>
+    </div>
+  </div>
+
+  <div class="myaccount-modules-box border-bottom bk-f8f8f8 position-relative" ng-if="API.hasmoremodule()">
+    <span class="">
+      模块切换
+    </span>
+    <span class="myaccount-modules rt margin15">
+      <div class="{{API.module=='user' && 'active' || 'item'}}" ng-click="setmodule('user')" ng-if="API.userinfo['userstate']=='3'">
+        用户模块
+      </div>
+      <div class="{{API.module=='expert' && 'active' || 'item'}}" ng-click="setmodule('expert')" ng-if="API.userinfo['expertstate']=='3'">
+        专家模块
+      </div>
+      <div class="{{API.module=='service' && 'active' || 'item'}}" ng-click="setmodule('service')" ng-if="API.userinfo['servicestate']=='3'">
+        编导模块
+      </div>
+    </span>
+  </div>
+
+  <div class="border-bottom bk-eee padding15 hh3">
+    <a class="fee" href="#/frame/password"><i class="fa fa-unlock-alt"></i> <span class="hh6">修改密码</span></a>
+    <a class="fee pull-right" href="#/qrcode"><i class="fa fa-users"></i> <span class="hh6">邀请朋友</span></a>
+  </div>
+
+  <div class="myaccount-points border-bottom bk-eee overflow-auto" ng-if="API.module=='user'">
+    <div class="padding5">
+      金　额：<a href="#/frame/myuserpoints"><span class="w-money">{{(API.userinfo.points+API.userinfo.prepoints)|money}}</span></a>
+    </div>
+    <div class=" padding5">
+      专家币：<a><span class="w-money">{{(API.userinfo.expertpoints + API.userinfo.referrerpoints)|money}}</span></a>
+    </div>
+    <a href="#/frame/recharge" class="pay btn btn-danger">我要充值</a>
+  </div>
+
+  <div class="border-bottom padding15 bk-eee overflow-auto" ng-if="API.module=='expert'">
+    <div class="">
+      专家币：<a><span class="w-money">{{(API.userinfo.expertpoints)|money}}</span></a>
+    </div>
+  </div>
+  <a href="#/frame/expert-kl-list" class="full-row margin-top15 hh5 fa full-row-next" ng-if="API.module=='expert'">
+    <i class="fa fa-book fa-fw hh4"></i>
+    知识库
+  </a>
+
+</div>
+
+
+<uuu class="block bk-ddd" ng-controller="UserIconsController">
+  <div class="sep-row-block" ng-repeat="sub in MENU" ng-show="API.module=='service'">
+    <div class="sub-title border-bottom bk-f8f8f8" ng-if="sub.show=='cols'">
+      {{sub.title}}
+    </div> 
+    <div class="table-row" ng-if="sub.show=='cols'">
+      <a href="{{item.href}}" class="cell icons-flat-box icons-flat-box-more" ng-repeat="item in sub.sub">
+        <span class="{{item.icon}}"></span>
+        <div class="text">{{item.text}}</div>
+        <div class="n">{{API.todocounts[item.n[0]][item.n[1]] || ''}}</div>
+      </a> 
+    </div> 
+    <a href="{{item.href}}" class="full-row hh5 fa full-row-next" ng-repeat="item in sub.sub" ng-if="sub.show=='rows'">
+      <i class="{{item.icon}}"></i>
+      {{item.text}}
+    </a> 
+  </div> 
+ 
+  <div ng-if="0">
+    <h6>&nbsp;</h6>
+    <h4 class="text-info" ng-show="API.userinfo.name && API.userinfo.mobile">　　欢迎您！<span class="fee">{{API.userinfo.name}}</span></h4>
+    <h6>&nbsp;</h6>
+    <h4 class="text-primary">　　目前专家总数{{todocounts.allexpert || '20'}}位</h4>
+    <h4 class="text-primary">　　在线专家总数{{todocounts.onlineexpert || '6'}}位</h4>
+  </div>
+
+  <div class="bk-f7f7f7">
+    <h6>&nbsp;</h6>
+    <h4 class="text-info">　　欢迎您！<span class="fee">{{API.userinfo.name}}</span></h4>
+    <h6>&nbsp;</h6>
+    <h4 class="text-primary">　　全部用户：{{API.todocounts.allUser || '0'}}人</h4>
+    <h4 class="text-primary">　　专家：{{API.todocounts.allExpert || '0'}}人</h4>
+    <h4 class="text-primary">　　编导：{{API.todocounts.allSevvice || '0'}}人</h4>
+  </div>
+</uuu>
+ 
+
+  <div class="sep-row-block" ng-if="!API.iswx">
+    <div class="full-row" ng-click="logout()">
+      <span class="glyphicon glyphicon-log-out icon color-080"></span>
+      退出登陆
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+  </div>

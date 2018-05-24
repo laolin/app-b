@@ -1,0 +1,26 @@
+<setpagetitlerow qgs="知识库"></setpagetitlerow>
+<aaa ng-controller="KnowledgeListCtrl">
+
+  <div class="row-nav">
+    <nobr>
+      <span class="item {{sub.en==D.en && 'active'}}" ng-click="setsublist(sub.en)" ng-repeat="sub in D.sublist">{{sub.cn}}</span>
+    </nobr>
+  </div>
+  <div>
+    <div>
+      <div class="abs-row-em abs-row-b1 border-bottom" ng-repeat="kl in D.list" slide-delete text="删除" ondelete="D.removedata(kl)">
+        <a class="click" href="#/frame/kl-show?klid={{kl.id}}">
+          <div class=" pull-right hh6 color-ccc">{{kl.rq|hhmm}}</div>
+          <nobr class="hh4 line-clip">{{kl.ask || '　'}}</nobr>
+        </a>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <ul class="pagination pageturn-row">
+        <li ng-repeat="n in page.pageturn"><a ng-click="gotopage(n)" class="{{n==page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+      </ul>
+    </div>
+    
+  </div>
+</aaa>

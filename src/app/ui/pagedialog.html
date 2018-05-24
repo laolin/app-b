@@ -1,0 +1,22 @@
+
+  <!-- 确定对话框 -->
+  <div class="dialog-body" ng-show="dlg.showing">
+    <div class="dialog-body-cell">
+      <div class="dialog-body-box">
+        <div class="prompt" ng-if="!dlg.tpl"></div>
+        <div ng-if="dlg.tpl" >
+          <aaa ng-include="dlg.tpl.url" ng-repeat="tpl in [dlg.tpl]"></aaa>
+        </div>
+        <div class="hh3 text-center ww25 padding5" ng-if="!dlg.btns">
+          <button class="btn btn-primary" ng-click="OK()">{{dlg.OKtext ||'确定'}}</button>
+          <button class="btn btn-primary margin-left15" ng-click="CANCEL()" ng-if="dlg.CANCEL">{{dlg.CANCELtext ||'取消'}}</button>
+        </div>
+        <hh3 class="text-center padding5" ng-if="dlg.btns">
+          <aaa ng-repeat="btn in dlg.btns">
+          <button class="btn {{btn.css || 'btn-primary'}} margin5" ng-click="dlg.userclick(btn)">{{btn.text}}</button>
+          {{btn.sep}}
+          </aaa>
+        </hh3>
+      </div>
+    </div>
+  </div>

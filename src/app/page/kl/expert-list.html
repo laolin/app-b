@@ -1,0 +1,23 @@
+<setpagetitlerow qgs="专家库"></setpagetitlerow>
+<div ng-controller="SuperiorListCtrl">
+  
+  <div class="body-part">
+    <div class="tab-list-item bk-fff" ng-repeat="user in userlist">
+      <a class="click" href="#/frame/expertshow?userid={{user.id}}">
+        <h4>{{user.name}}<small class="color-ccc pull-right" ng-show="user.mobile"><span class="glyphicon glyphicon-phone-alt"> {{user.mobile}}</small></h4>
+      </a>
+    </div>
+  </div>
+  
+  
+  <div class="text-center">
+    <ul class="pagination pageturn-row">
+      <li ng-repeat="n in page.pageturn"><a ng-click="gotopage(n)" class="{{n==page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+    </ul>
+  </div>
+
+  <div class="text-primary h4 text-center">
+    <a href="#/frame/addexpert" class="pop">新建专家</a>
+  </div>
+
+</div>

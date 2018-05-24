@@ -1,0 +1,25 @@
+<setpagetitlerow qgs="邀请朋友原始版"></setpagetitlerow>
+
+<div class="xs-padding5" ng-controller="RefereeCtrl">
+  <div id="xs-head-nav">
+    <img ng-src="{{referrer.headimgurl||'http://qinggaoshou.com/qgs/images/logo-128.png'}}">
+    <div class="title">{{(referrer.name && (referrer.name+'向您推荐')) || '请高手平台'}}</div>
+  </div>
+  <div id="xs-head-nav-div"></div>
+
+  <div class="xs-padding5" ng-if="API.userinfo && API.userinfo.wx.isgz!='已关注'">
+    <div class="panel panel-default">
+      <div class="panel-heading hh4">请长按识别下方二维码，关注我们！</div>
+      <ul class="list-group hh5">
+      
+        <!-- 公众号二维码 -->
+        <li class="list-group-item overflow-auto text-center hh4">
+          <img class="qrcode-60" ng-src="{{API.root + '/qrcode/png?str=请高手&s=' + urlEncode('http://weixin.qq.com/r/oURwaKnEXPQjre0L9xGz')}}">
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+</div>
+

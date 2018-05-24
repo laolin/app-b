@@ -1,0 +1,18 @@
+<setpagetitlerow qgs="发帖"></setpagetitlerow>
+<div ng-controller="BbsNewCtrl" class="bk-ddd">
+
+  <div class="padding15">
+    <!-- 提问内容 -->
+    <div class="overflow-auto">
+      <span class="hh4">帖子正文:</span>
+      <mulityinput rows="7" edit="BBS"
+            placeholder = "请在此输入您的帖子正文。如需要，您也可以附加图片等资料，使帖子描述更加详细、直观，回帖更加准确、高效。"
+      ></mulityinput>
+    </div>
+    <!-- 标签 -->
+    <tagsinput tags="BBS.controldata.tags" change="BBS.updatedraft('tags')"></tagsinput>
+    <!-- 按钮 -->  
+    <button class="btn btn-danger ww25 margin-top10 hh4" ng-click="onsubmit()">发帖</button>
+  </div>
+
+</div>	

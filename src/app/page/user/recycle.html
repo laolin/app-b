@@ -1,0 +1,39 @@
+<setpagetitlerow qgs="回收站"></setpagetitlerow>
+<div ng-controller="RecycleCtrl">
+
+  <!--  分类列表 - 导航  -->
+  <div class="row-nav">
+    <nobr>
+      <span class="item {{sub.en==D.en && 'active'}}" ng-click="setsublist(sub.en)" ng-repeat="sub in D.sublist">{{sub.cn}}</span>
+    </nobr>
+  </div>
+
+  <!--  用户列表  -->
+  <div class="img-row-em img-row-b1 hh6 border-bottom border-888 bk-fff" ng-if="D.en=='user'" ng-repeat="user in D.list" slide-delete text="恢复" ondelete="D.undelete(user)" >
+    <img ng-src="{{user.headimgurl}}" ng-click="previewself(user.headimgurl)">
+    <a href="#/frame/usershow?userid={{user.id}}"  class="text1 color-00f"><span class="hh4">{{user.attr.name || user.name}}{{ (user.nickname && ( ' ('+ (user.nickname|cut:0:8)+')')) || ''}}</span></a>
+    <div class="text2 color-888">ID:{{user.id}} 　
+      {{user.hhh&&'活跃度'+user.hhh ||''}}
+      {{user.ep&&'专家分'+ (user.ep|money) ||''}}
+      {{user.ref&&'关联人数'+user.ref ||''}}
+      <span ng-if="user.expertpoints">专家分：<span class="fee">{{user.expertpoints|money}}</span></span>
+    </div>
+    <div class="r1">{{ ((user.userstate=='3' && '用户')||'') + ((user.expertstate=='3' && '　专家')||'') + ((user.servicestate=='3' && '　编导')||'')}}</div>
+    <div class="r2" ng-show="user.mobile"><span class="glyphicon glyphicon-phone-alt"> {{user.mobile}}</div>
+  </div>
+  
+  <!--  列表  -->
+  <div class="abs-row-em abs-row-b1 bk-row{{($odd&&1)||2}} border-bottom" ng-if="D.en!='user'" ng-repeat="qa in D.list" slide-delete text="恢复" ondelete="D.undelete(qa)">
+    <div ng-include="API.templateUrl('page/qa/qa-list-item.html')">
+    </div>
+  </div>
+  
+  <!--  分页  -->
+  <div class="text-center">
+    <ul class="pagination pageturn-row">
+      <li ng-repeat="n in page.pageturn"><a ng-click="gotopage(n)" class="{{n==page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+    </ul>
+  </div>
+      
+</div>
+

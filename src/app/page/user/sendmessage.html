@@ -1,0 +1,88 @@
+<setpagetitlerow qgs="消息推送"></setpagetitlerow>
+
+<div class="" ng-controller="SendMessageCtrl">
+
+  <!--  分类列表 - 导航  -->
+  <div class="row-nav">
+    <nobr>
+      <span class="item {{sub==D.active && 'active'}}" ng-click="D.click(sub)" ng-repeat="sub in D.tabs">{{sub}}</span>
+    </nobr>
+  </div>
+
+  <div class="bk-fff padding5 overflow-auto">
+    <div class="padding5 overflow-auto">
+      <label class="b300 color-888  margin0 ww20">
+        <input type="checkbox" ng-model="SEND.touser">
+        所有用户
+      </label>
+      <label class="b300 color-888  margin0 ww20">
+        <input type="checkbox" ng-model="SEND.toexpert">
+        所有专家
+      </label>
+      <label class="b300 color-888  margin0 ww20">
+        <input type="checkbox" ng-model="SEND.toservice">
+        所有编导
+      </label>
+      <label class="b300 color-888  margin0 ww20">
+        <input type="checkbox" ng-model="SEND.toguest">
+        未激活用户
+      </label>
+      <!--label class="b300 color-888  margin0 ww20">
+        <input type="checkbox" ng-model="SEND.totest">
+        测试组
+      </label-->
+
+      <label class="b300 color-888  margin0 ww20">
+        <input type="checkbox" ng-model="SEND.touserlist">
+        指定用户列表
+      </label>
+      <div class="bk-fff padding5 overflow-auto" ng-show="SEND.touserlist">
+        <inputusers data="inputusers"></inputusers>
+      </div>
+    </div>
+  </div>
+
+  <div ng-if="D.active=='发送文本'" class="bk-fff padding5 overflow-auto">
+    <div class="padding5 overflow-auto">
+      <textarea rows="{{D.active=='单人'&&12||6}}" class="form-control" ng-model="SEND.text" placeholder="消息正文"></textarea>
+    </div>
+    <div class="padding5 overflow-auto">
+      <surebutton d="SEND.sendtext" css="{{SEND.has_group()&&'color-ccc'||''}}"></surebutton>
+      <surebutton d="SEND.sendtextbyapi"></surebutton>
+    </div>
+  </div>
+  
+  <div ng-if="D.active=='发送文章'" class="bk-fff padding5 overflow-auto">
+    <div class="padding5 overflow-auto">
+      <!--  列表  -->
+      <div>
+        <div class="color-list-item {{(SEND.activenews.id==item.id&&'color-fff bk-00f')|| ('color-555 bk-row'+($odd&&1)||2)}}" ng-repeat="item in SEND.news.D.list">
+          <div ng-click="SEND.selectnews(item)">
+            <nobr class="hh4 line-clip">{{item.title || '　'}}</nobr>
+          </div>
+        </div>
+      </div>
+
+      <!--  分页  -->
+      <div class="text-center">
+        <ul class="pagination pageturn-row">
+          <li ng-repeat="n in SEND.news.D.page.pageturn"><a ng-click="SEND.news.D.gotopage(n)" class="{{n==SEND.news.D.page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==SEND.news.D.page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="padding5 overflow-auto">
+      <surebutton d="SEND.sendnews" css="{{SEND.has_group()&&'color-ccc'||''}}"></surebutton>
+      <surebutton d="SEND.sendnewsbyapi"></surebutton>
+      <surebutton d="syncnewsmsg"></surebutton>
+    </div>
+  </div>
+
+  <div class="bk-fff padding5 overflow-auto">
+    <div class="padding5 overflow-auto color-f00">
+      {{SEND.prompt}}
+    </div>
+  </div>
+  
+  
+</div>
+

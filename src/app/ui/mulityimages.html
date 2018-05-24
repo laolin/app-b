@@ -1,0 +1,16 @@
+
+  <div class="{{boxclass}} {{($index==3||$index==7||$index==11)&&'qa-image-right-box'}} mulityimages-box" ng-repeat="pic in urls">
+    <img ng-src="{{pic}}{{picext||''}}" class="{{previewcss}}" ng-click="preview($index)">
+    <i class="fa fa-remove del" ng-click="remove($index)"></i>
+    <i class="fa fa-step-backward " ng-click="backward($index)" ng-if="!$first"></i>
+    <i class="fa fa-step-forward " ng-click="forward($index)" ng-if="!$last"></i>
+  </div>
+
+  <div class="{{boxclass}} mulityimages-box file-btn {{(urls.length==3||urls.length==7||urls.length==11)&&'qa-image-right-box'}}">
+    <button class=" {{previewcss || 'def-preview'}}">
+      <i class="fa fa-photo hh3" ng-show="!prompt"></i>
+      <i class="fa fa-plus hh6" ng-show="!prompt"></i>
+      <span class="color-ccc" ng-show="prompt">{{prompt ||'上传图片'}}</span>
+    </button>
+    <input type="file" ngf-select ng-model="url" name="file" accept="image/*;capture=camcorder" capture="camera">
+  </div>

@@ -1,0 +1,38 @@
+<!-- 问答内容模板 - 用户 -->
+  <div class="data color-555  hh5 position-relative" ng-show="!modifying">
+    <div class="color-aaa padding-bottom5">
+      {{title || ''}}
+      <span class="color-080">{{title2||''}}</span>
+      <span class="pull-right">{{userid&&('id：'+userid)||''}}</span>
+    </div>
+    <div class="hh5 padding10 color-f00" ng-show="attr.all_modify[attr.all_modify.length-1].ac=='删除'">{{deletetext}}</div>
+    <aaa ng-hide="attr.all_modify[attr.all_modify.length-1].ac=='删除'">
+      <mulityshow answ="attr"></mulityshow>
+      <div class="padding-top15">&nbsp;</div>
+      <div class="hh6 color-f00 b300" ng-repeat="m in attr.all_modify" ng-click="tips(m)">{{(m.rq|hhmm) +' ' + m.ac}}</div>
+      <div class="hh6 padding-top15">&nbsp;</div>
+      <div class="color-aaa hh6 b300 rq">
+        {{(item.rq)|hhmm}}
+      </div>
+    </aaa>
+    <div class="text-primary absolute right5 bottom10" ng-if="canmodify">
+      <span ng-click="gotomodify(attr)">修改</span>
+      <span ng-click="gotodelete(attr)"   ng-hide="attr.all_modify[attr.all_modify.length-1].ac=='删除'">删除</span>
+      <span ng-click="gotoundelete(attr)" ng-show="attr.all_modify[attr.all_modify.length-1].ac=='删除'">恢复</span>
+    </div>
+  </div>
+
+  <!-- 修改界面 -->
+  <div class="answer-box overflow-auto bk-fff" ng-show="modifying">
+    <span class="hh4 color-008">
+      正文:
+    </span>
+    <mulityinput rows="5" edit="EDIT" cols="{{API.module=='service'&&3||4}}"
+          placeholder = "{{placeholder}}"
+      ></mulityinput>
+  　<div class="padding5 text-right">
+      <div class="btn btn-primary padding-right15" ng-click="tomodify()">修改</div>
+      <div class="btn btn-primary" ng-click="modifying=0">取消</div>
+      <div class="color-f00">{{prompt}}</div>
+  　</div>
+  </div>

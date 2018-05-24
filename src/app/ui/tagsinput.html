@@ -1,0 +1,12 @@
+
+    <div class="ask-defit-box overflow-hidden" ng-click="BQ.clicknull()">
+      <div class="defit" ng-repeat="a in BQ.arr  track by $index">
+        {{a|cut:1:18}}
+        <i class="fa fa-close xx"ng-click="BQ.del($index)" > </i>
+      </div>
+      <div class="virture position-relative">
+        <div class="color-ccc" ng-if="BQ.text.length<1">标签用空格隔开</div>
+        <input class="lt" size="{{BQ.text.length*2+1}}" id="ask-defit-input-{{autoid}}" type="text" ng-trim="false" ng-model="BQ.text" ng-change="BQ.textchange()">
+      </div>
+      <span>{{debug_____}}</span>
+    </div>

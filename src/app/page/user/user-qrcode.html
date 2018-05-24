@@ -1,0 +1,34 @@
+<setpagetitlerow qgs="邀请朋友" checklogin="no"></setpagetitlerow>
+<div class="ww25 bk-eee" ng-controller="QrCodeControl">
+  <div class="padding15 bk-eee text-center" ng-show="logged">
+    <div class="ww25 text-center border-bottom padding-bottom15">两步邀请好友加入：</div>
+    <br>1、点击右上角分享此页面给好友
+    <br>2、请好友扫码下面二维码或关注
+    <br>
+  </div>
+  <div class="padding15 bk-eee text-center" ng-show="!logged">
+    <div class="ww25 text-center border-bottom padding-bottom15">想请高手？</div>
+    <br>微信扫码，或点开并长按她@关注
+    <br>
+  </div>
+    
+  <div class="qrcode-pad">
+    <img src="/images/qrcode-back.jpg" class="back">
+    <div class="body">
+      <div class="ww25 text-center color-fff b900 margin-bottom10 hh6">请高手</div>
+      <userqrcode text="{{username && (username+'向您推荐请高手平台') || '欢迎关注请高手平台' }}" css="ww12" userid="{{userid}}"><userqrcode/>
+    </div>
+  </div>
+  <div class="padding15 bk-eee" ng-show="logged">
+    <div class="ww25 text-center border-bottom padding-bottom15">已邀请的朋友：</div>
+    <div class="ww25 border-bottom padding-bottom15 padding-top15">
+      <a href="{{(refered.totle&&'#/frame/myreferedlist')||''}}" class="">
+        {{(refered.totle&& '共 '+refered.totle+' 位用户/专家')||'暂无'}}
+      </a>
+      <a href="#/frame/myreferedlist" class="pull-right"><i class="fa fa-chevron-down"></i> 查看列表</a>
+    </div>
+  </div>
+
+  <br><br><br><br><br><br><br><br><br>
+
+</div>

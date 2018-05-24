@@ -1,0 +1,58 @@
+<setpagetitlerow qgs="用户列表"></setpagetitlerow>
+<div ng-controller="UserListCtrl">
+
+  <!--  分类列表 - 导航  -->
+  <div class="row-nav">
+    <nobr>
+      <span class="item {{sub.en==D.en && 'active'}}" ng-click="setsublist(sub.en)" ng-repeat="sub in D.sublist">{{sub.cn}}</span>
+    </nobr>
+  </div>
+
+  <!--  搜索  -->
+  <div class="padding5 search-box bk-eee border-bottom">
+    <div class="ww20 float-left position-relative">
+      <input type="text" class="default form-control" ng-model="D.searchtext" on-enter="D.search()" placeholder="ID、姓名、呢称、手机号、专业等">
+      <span class="fa fa-search icon color-888" ng-click="D.search()"> </span>
+    </div>
+    <div class="position-relative float-right">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-sort-alpha-desc"></i>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu pull-right z-8000">
+        <li><a ng-click="D.sortby('近2天活跃度')" class="{{D.post.sortby=='近2天活跃度'&&'bk-88f'}}">按近2天活跃度排序</a></li>
+        <li><a ng-click="D.sortby('近10天活跃度')" class="{{D.post.sortby=='近10天活跃度'&&'bk-88f'}}">按近10天活跃度排序</a></li>
+        <li><a ng-click="D.sortby('近30天活跃度')" class="{{D.post.sortby=='近30天活跃度'&&'bk-88f'}}">按近30天活跃度排序</a></li>
+        <li class="divider"></li>
+        <li><a ng-click="D.sortby('专家分')" class="{{D.post.sortby=='专家分'&&'bk-88f'}}">按专家分排序</a></li>
+        <li class="divider"></li>
+        <li><a ng-click="D.sortby('推荐人数')" class="{{D.post.sortby=='推荐人数'&&'bk-88f'}}">按推荐人数排序</a></li>
+        <li class="divider"></li>
+        <li><a ng-click="D.sortby('')" class="{{D.post.sortby==''&&'bk-88f'}}">默认排序</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!--  列表  -->
+  <div class="sub img-row-em img-row-b1 hh6 border-bottom border-888 bk-fff"  ng-repeat="user in D.list" slide-delete text="删除" ondelete="D.delete_user(user)" >
+    <img ng-src="{{user.headimgurl}}" ng-click="previewself(user.headimgurl)">
+    <a href="#/frame/usershow?userid={{user.id}}"  class="text1 color-00f"><span class="hh4">{{user.attr.name || user.name || (!user.nickname&&'匿名'||'')}}{{ (user.nickname && ( (user.name&&' ('||'')+ (user.nickname|cut:0:8)+(user.name&&')'||''))) || ''}}</span></a>
+    <div class="text2 color-888">ID:{{user.id}} 　
+      {{user.hhh&&'活跃度'+user.hhh ||''}}
+      {{user.ep&&'专家分'+ (user.ep|money) ||''}}
+      {{user.ref&&'关联人数'+user.ref ||''}}
+      <span ng-if="user.expertpoints">专家分：<span class="fee">{{user.expertpoints|money}}</span></span>
+    </div>
+    <div class="r1">{{ ((user.userstate=='3' && '用户')||'') + ((user.expertstate=='3' && '　专家')||'') + ((user.servicestate=='3' && '　编导')||'')}}</div>
+    <div class="r2" ng-show="user.mobile"><span class="glyphicon glyphicon-phone-alt"> {{user.mobile}}</div>
+  </div>
+  
+  <!--  分页  -->
+  <div class="text-center">
+    <ul class="pagination pageturn-row">
+      <li ng-repeat="n in page.pageturn"><a ng-click="gotopage(n)" class="{{n==page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+    </ul>
+  </div>
+      
+</div>
+

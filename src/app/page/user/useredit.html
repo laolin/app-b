@@ -1,0 +1,48 @@
+<setpagetitlerow qgs="编辑用户信息"></setpagetitlerow>
+<div ng-controller="ServiceEditUserCtrl">
+  <div class="img-row-em border-bottom border-ccc">
+    <img ng-src="{{userinfo.headimgurl}}" ng-click="previewself(userinfo.headimgurl)">
+    <div class="text1"><span class="hh4">{{userinfo.name || '匿名'}}{{ (userinfo.nickname && ( ' ('+userinfo.nickname+')')) || ''}}</span></div>
+    <div class="text2">ID:{{userinfo.id}}</div>
+  </div>
+  
+  <div class="ww25 overflow-auto margin-top10">
+    <div class="ww5 float-left padding5 text-right">姓名：</div><input class="ww16 padding3 height-auto form-control" ng-model="controller.name" id="input-name">
+  </div>
+  <div class="ww25 overflow-auto margin-top10">
+    <div class="ww5 float-left padding5 text-right">单位：</div><input class="ww16 padding3 height-auto form-control" ng-model="controller.company" id="input-name">
+  </div>
+  <div class="ww25 overflow-auto margin-top10">
+    <div class="ww5 float-left padding5 text-right">部门：</div><input class="ww16 padding3 height-auto form-control" ng-model="controller.department" id="input-name">
+  </div>
+  <div class="ww25 overflow-auto margin-top10">
+    <div class="ww5 float-left padding5 text-right">职务：</div><input class="ww16 padding3 height-auto form-control" ng-model="controller.position" id="input-name">
+  </div>
+  <div class="ww25 overflow-auto margin-top10">
+    <div class="ww5 float-left padding5 text-right">手机：</div><input class="ww16 padding3 height-auto form-control" ng-model="controller.mobile" id="input-name">
+  </div>
+  <div class="ww25 overflow-auto margin-top10">
+    <div class="ww5 float-left padding5 text-right">电话：</div><input class="ww16 padding3 height-auto form-control" ng-model="controller.office" id="input-name">
+  </div>
+  <hr>
+  <div class="ww25">
+    <div class="float-left padding5">　专家专业：</div>
+    <div class="float-left ">
+      <div class="dropdown clear-both margin-bottom5" major-dropdown="serviceEdit.serviceEditExpertMajor1"></div>
+      <div class="dropdown clear-both margin-bottom5" major-dropdown="serviceEdit.serviceEditExpertMajor2" ng-show="serviceEdit.serviceEditExpertMajor2 || serviceEdit.serviceEditExpertMajor1"></div>
+      <div class="dropdown clear-both margin-bottom5" major-dropdown="serviceEdit.serviceEditExpertMajor3" ng-show="serviceEdit.serviceEditExpertMajor3 || serviceEdit.serviceEditExpertMajor2"></div>
+    </div>
+  </div>
+  <div class="ww25 padding-top10">
+    <div class="float-left padding5 text-right">　裁判专业：</div>
+    <div class="float-left ">
+      <div class="dropdown clear-both margin-bottom5" major-dropdown="serviceEdit.serviceEditServiceMajor1"></div>
+      <div class="dropdown clear-both margin-bottom5" major-dropdown="serviceEdit.serviceEditServiceMajor2" ng-show="serviceEdit.serviceEditServiceMajor2 || serviceEdit.serviceEditServiceMajor1"></div>
+      <div class="dropdown clear-both margin-bottom5" major-dropdown="serviceEdit.serviceEditServiceMajor3" ng-show="serviceEdit.serviceEditServiceMajor3 || serviceEdit.serviceEditServiceMajor2"></div>
+    </div>
+  </div>
+  <div class="ww25 overflow-auto margin-top10 text-center">
+    <span id="button-save" class="btn btn-primary" ng-click="btn_save.click()">{{btn_save.text}}</span>
+  </div>
+</div>
+

@@ -1,0 +1,33 @@
+
+<div class="list-group-item overflow-auto bk-f8f8f8" ng-show="answ.operate.pointerid>0">
+  <div class="hh4 userinfo userinfo-noborder">
+    <img ng-src="{{USERS[answ.operate.pointerid].headimgurl}}" ng-click="previewself(USERS[answ.operate.pointerid].headimgurl)">
+    <div class="name">{{USERS[answ.operate.pointerid].name}}</div>
+    <div class="time"><span class="glyphicon glyphicon-time"></span> {{answ.operate.pointerrq}}</div>
+    <span class="pop">【指定专家】</span>
+  </div>
+</div>
+<div class="list-group-item overflow-auto bk-f8f8f8">
+  <div class="hh4 userinfo">
+    <img ng-src="{{USERS[answ.userid].headimgurl}}" ng-click="previewself(USERS[answ.userid].headimgurl)">
+    <div class="name">{{(answ.userid=='110001'&&'匹配知识库')||USERS[answ.userid].name}}</div>
+    <div class="time"><span class="glyphicon glyphicon-time"></span> {{answ.rq||answ.operate.pointerrq}}</div>
+    <span class="pop">【{{(answ.operate && answ.operate.reason)||''}} {{answ.type || '回答'}}】</span>
+  </div>
+  <div class="color-888" ng-repeat="row in answ.attr.contents track by $index">{{row}}</div>
+  <div class="qa-image-edit-frame overflow-auto">
+    <div class="qa-image-edit-box" ng-repeat="image in answ.attr.imageslist track by $index"><img 
+      ng-click="previewlocal(image, answ.attr.imageslist)" class="qa-mini" ng-src="{{image}}.96.jpg">
+    </div>
+  </div>
+  <span ng-repeat="audio in answ.attr.audioslist track by $index" class="glyphicon glyphicon-play voice" ng-click="palyRecord(audio.localId)"></span>　
+</div>
+<div class="list-group-item overflow-auto bk-f8f8f8" ng-show="answ.satisfy">
+  <div class="hh4 userinfo">
+    <img ng-src="{{USERS[ask.userid].headimgurl}}" ng-click="previewself(USER[ask.userid].headimgurl)" >
+    <div class="name">{{USERS[ask.userid].name}}</div>
+    <div class="time"><span class="glyphicon glyphicon-time"></span> {{answ.satisfyrq || ask.rq}}</div>
+    <span class="pop">【用户评价】</span>
+  </div>
+  <div class="color-888">{{answ.satisfy}}</div>
+</div>

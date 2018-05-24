@@ -1,0 +1,5 @@
+  <span class="hh6 color-ccc">{{qa.rq|hhmm}}</span>
+  <span class="color-{{ {'已删除':'f00','未回答':'888','已评价':'880','待评价':'880','不满意':'f00','满意':'080','已归档':'000'}[qa.state] }} pull-right hh6">
+       {{ qa.state }}
+  </span>
+  <nobr class="hh4 line-clip">{{qa.content || '　'}}</nobr>

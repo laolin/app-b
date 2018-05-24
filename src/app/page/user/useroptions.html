@@ -1,0 +1,73 @@
+<setpagetitlerow qgs="用户设置"></setpagetitlerow>
+
+<div class="xs-padding5" ng-controller="ServiceEditUserOptionsCtrl">
+  
+  <div class="panel panel-default">
+    <ul class="list-group hh5">
+      <li class="list-group-item userlist-item">
+        <img ng-src="{{userinfo.headimgurl}}" ng-click="previewself(userinfo.headimgurl)">
+        <div class="name">{{userinfo.name || '匿名'}}{{ (userinfo.nickname && ( ' ('+userinfo.nickname+')')) || ''}}</div>
+        <div class="id">ID:{{userinfo.id}}</div>
+        <div class="rt color-ccc">
+          可用余额：<span class="w-money">{{(userinfo.points+userinfo.prepoints)|money}}</span>
+        <br>　专家分：<span class="w-money">{{(userinfo.expertpoints + userinfo.referrerpoints)|money}}</span>
+
+        </div>
+      </li>
+      <li class="list-group-item hh5" ng-if="API.hasright('设置抢答推送')">
+        <div class="form-group hh4">
+          <label><input type="checkbox" ng-model="options.alwaysrecivesq" ng-change="changeoptions('alwaysrecivesq')">总是接收抢答推送消息</label>
+        </div>
+      </li>
+      <li class="list-group-item hh5" ng-if="API.hasright('设置关联人')">
+        <div class="form-group overflow-auto">
+          <div class="input-group ww18 float-left">
+             <input class="form-control" ng-model="RR.referrer.id" ng-pattern="/^\d{6,9}$/" placeholder="关联人ID">
+             <span class="input-group-btn">
+                <surebutton css="btn-warning" d="RR.referrer"></surebutton>
+             </span>
+          </div>
+          <span class="margin-left15">
+            <a href="#/frame/usershow?userid={{options.referrer}}" class="btn btn-info">查看</a>
+          </span>
+          <div class="color-f00">{{RR.referrer.prompt}}</div>
+        </div>
+        <div class="userlist-item" ng-if="referrer.id">
+          <img ng-src="{{referrer.headimgurl}}" ng-click="previewself(referrer.headimgurl)">
+          <div class="name">{{referrer.name || '匿名'}}{{ (referrer.nickname && ( ' ('+referrer.nickname+')')) || ''}}</div>
+          <div class="id">ID:{{referrer.id}}</div>
+        </div>
+      </li>
+      <!--li class="list-group-item hh5">
+        <div>
+          他/她的推荐二维码：
+        </div>
+        <userqrcode text="推荐人：{{userinfo.name}}" userid="{{userinfo.id}}"><userqrcode/>
+      </li-->
+      <li class="list-group-item hh5" ng-if="(API.hasright('赠送用户积分') || API.hasright('赠送专家积分'))">
+        <div class="form-group" ng-if="API.hasright('赠送用户积分')">
+          <div class="input-group {{send.userpoints.n<=0 && 'has-error'}}">
+             <input type="number" class="form-control" ng-model="send.userpoints.n">
+             <span class="input-group-btn">
+                <surebutton css="btn-warning" d="send.userpoints"></surebutton>
+             </span>
+          </div>
+        </div>
+        <div class="form-group" ng-if="API.hasright('赠送专家积分')">
+          <div class="input-group {{send.expertpoints.n<=0 && 'has-error'}}">
+             <input type="number" class="form-control" ng-model="send.expertpoints.n">
+             <span class="input-group-btn">
+                <surebutton css="btn-warning" d="send.expertpoints"></surebutton>
+             </span>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item hh5" ng-if="API.hasright('重置密码')">
+        <div class="padding5 input-row hh4">新密码 <input type="password" class="form-control" ng-model="RR.resetpassword.p1" placeholder="输入新密码"></div>
+        <div class="padding5 input-row hh4 {{RR.resetpassword.p1!=RR.resetpassword.p2 && 'has-error'}}">新密码 <input type="password" class="form-control" ng-model="RR.resetpassword.p2" placeholder="确认新密码"></div>
+        <div> 　　 　　 <surebutton css="btn-warning" d="RR.resetpassword"></surebutton><span class="pull-right color-f00">{{RR.resetpassword.prompt}}</span></div>
+      </li>
+    </ul>
+  </div>
+</div>
+

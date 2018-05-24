@@ -1,0 +1,19 @@
+<setpagetitlerow qgs="用户活跃度"></setpagetitlerow>
+
+<div ng-controller="UserTraceCtrl">
+
+  <!--  列表  -->
+  <a class="tab-list-item bk-fff display-block" ng-repeat="item in D.list">
+    <span class="color-888">{{item.rq}}</span>
+    <span class="color-800">{{item.api}} - {{item.call}}</span>
+  </a>
+  
+  <!--  分页  -->
+  <div class="text-center">
+    <ul class="pagination pageturn-row">
+      <li ng-repeat="n in page.pageturn"><a ng-click="gotopage(n)" class="{{n==page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+    </ul>
+  </div>
+      
+</div>
+

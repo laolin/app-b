@@ -1,0 +1,28 @@
+<setpagetitlerow qgs="资金账户"></setpagetitlerow>
+<div ng-controller="QgsAccountCtrl">
+
+  <!--  分类列表 - 导航  -->
+  <div class="row-nav">
+    <nobr>
+      <span class="item {{sub.cn==D.cn && 'active'}}" ng-click="setsublist(sub.en)" ng-repeat="sub in D.sublist">{{sub.cn}}</span>
+    </nobr>
+  </div>
+
+  <!--  列表  -->
+  <a href="#/frame/usershow?userid={{user.id}}" class="tab-list-item bk-fff userlist-item display-block" ng-repeat="user in D.list">
+    <img ng-src="{{user.headimgurl}}" ng-click="previewself(user.headimgurl)">
+    <div class="name">{{user.name}}{{ (user.nickname && ( ' ('+(user.nickname|cut:0:8)+')')) || ''}}</div>
+    <div class="id">ID:{{user.id}}</div>
+    <span class="rt fee hh4">{{user.n}}</span>
+    <span class="rb color-888 hh6"><span class="glyphicon glyphicon-time"></span> {{user.time_end}}</span>
+  </a>
+  
+  <!--  分页  -->
+  <div class="text-center">
+    <ul class="pagination pageturn-row">
+      <li ng-repeat="n in page.pageturn"><a ng-click="gotopage(n)" class="{{n==page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+    </ul>
+  </div>
+      
+</div>
+

@@ -1,0 +1,39 @@
+<!-- 单帖模板 编导版 -->
+  <div class="info">
+    <a href="#/frame/usershow?userid={{item.userid}}"><img ng-src="{{users[item.userid].headimgurl}}"></a>
+    <div class="name">{{users[item.userid].name}}</div>
+  </div>
+  <div class="data color-555 b900 hh5 position-relative" ng-show="!modifying">
+    <div class="color-aaa padding-bottom5">{{lou || ''}}  <span class="color-080">{{item.attr.n_follow&&('回复'+item.attr.n_follow+'楼')||''}}</span></div>
+    <mulityshow answ="item.attr"></mulityshow>
+    <div class="padding-top15">&nbsp;</div>
+    <div class="hh6 color-f00 b300" ng-repeat="m in item.attr.all_modify" ng-click="tips(m)">{{(m.rq|hhmm) +' ' + (m.id||'用户') + ': ' + m.ac}}</div>
+    <div class="hh6 padding-top15">&nbsp;</div>
+    <div class="color-aaa hh6 b300 rq">
+      {{item.rq|hhmm}}
+      {{item.state=='新帖' && '　待审核'||''}}
+    </div>
+    <div class="padding5">
+    </div>
+    <div class="text-primary rb right15 bottom5">
+      <span ng-click="gotomodify(item)">修改</span>
+      <span ng-click="gotodelete(item)" ng-show="!item.rq_delete">删除</span>
+      <span ng-click="gotoundelete(item)" ng-show="item.rq_delete">恢复</span>
+    </div>
+  </div>
+
+  <!-- 修改界面 -->
+  <div class="answer-box overflow-auto bk-fff" ng-show="modifying">
+    <span class="hh4 color-008">
+      正文:
+    </span>
+    <mulityinput rows="5" edit="EDIT" cols="3"
+          placeholder = "请在此输入正文。如需要，您也可以附加图片等资料，使帖子描述更加详细、直观。"
+      ></mulityinput>
+  　<div class="padding5 text-right">
+      <div class="btn btn-primary padding-right15" ng-click="tomodify()">修改</div>
+      <div class="btn btn-primary" ng-click="modifying=0">取消</div>
+      <div class="color-f00">{{prompt}}</div>
+  　</div>
+  </div>
+

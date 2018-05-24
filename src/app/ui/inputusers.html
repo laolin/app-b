@@ -1,0 +1,43 @@
+
+  <!--  列表  -->
+  <div class="inputusers-list overflow-auto">
+    <div class="icon" ng-repeat="user in data.users">
+      <img ng-src="{{user.headimgurl}}">
+      <nobr class="text hh6">{{user.name ||  user.nickname || ' '}}</nobr>
+      <span class="glyphicon glyphicon-remove hh4 del" ng-click="deleteuser(user)"></span>
+    </div>
+    <div class="icon-add-user color-ccc" ng-click="data.showing = !data.showing">
+      <span class="glyphicon glyphicon-user hh3"></span><span class="glyphicon glyphicon-plus" ng-show="!data.showing"></span><span class="glyphicon glyphicon-chevron-up" ng-show="data.showing"></span>
+    </div>
+  </div>
+
+  <!-- 输入模块 -->
+  <div class="ww25 overflow-auto" ng-if="data.showing">
+    <!--  搜索  -->
+    <div class="padding5">
+      <div class="input-group">
+        <input type="text" class="form-control" ng-model="D.searchtext" placeholder="用户ID、姓名、呢称、手机号、专业等">
+        <span class="input-group-btn">
+          <button class="btn btn-primary" type="button" ng-click="D.search()">搜索</button>
+        </span>
+      </div>
+    </div>
+    <div class="list-group-item superior-list userlist-item {{active == user && 'active-userlist-item'}}"  ng-repeat="user in D.list track by $index"  ng-click="clickuser(user)">
+      <img ng-src="{{user.headimgurl}}" ng-click="previewself(user.headimgurl)">
+      <div class="name">{{user.attr.name || user.name}}{{ (user.nickname && ( ' ('+ (user.nickname|cut:0:8)+')')) || ''}}</div>
+      <div class="id">ID:{{user.id}} 　
+        {{user.hhh&&'活跃度'+user.hhh ||''}}
+        {{user.ep&&'专家分'+ (user.ep|money) ||''}}
+        {{user.ref&&'关联人数'+user.ref ||''}}
+        <span ng-if="user.expertpoints">专家分：<span class="fee">{{user.expertpoints|money}}</span></span>
+      </div>
+      <div class="major" ng-if="user.userstate || user.expertstate || user.servicestate">{{ ((user.userstate==3 && '用户')||'') + ((user.expertstate==3 && '　专家')||'') + ((user.servicestate==3 && '　编导')||'')}}</div>
+      <div class="tel" ng-show="user.mobile" ng-if="user.mobile"><span class="glyphicon glyphicon-phone-alt"> {{user.mobile}}</div>
+
+    </div>
+    <div class="text-center">
+      <ul class="pagination pageturn-row">
+        <li ng-repeat="n in page.pageturn track by $index"><a ng-click="gotopage(n)" class="{{n==page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+      </ul>
+    </div>
+  </div>

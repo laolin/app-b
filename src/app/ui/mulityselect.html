@@ -1,0 +1,15 @@
+
+  <nobr>
+    <span id="question-major1" ng-click="editing = !editing" class="{{!sel[0]&&'color-f00'}}">{{sel[0]||'未选择'}}</span>
+    <span class="color-ccc">{{sel[1]&&'/'||''}}</span>
+    <span id="question-major2" ng-click="editing = !editing" class="{{!sel[1]&&'color-f00'}}">{{sel[1]||''}}</span>
+  </nobr>
+  
+  <div class=" major-popmenu dropdown-menu" ng-show="editing">
+    <div class="major1">
+      <div class="item {{item==sel[0] && 'active'}}" ng-repeat="item in list[0]" ng-click="onselect(0, item, 1)">{{item}}</div>
+    </div>
+    <div class="major2">
+      <div class="item {{item==sel[1] && 'active'}}" ng-repeat="item in list[1]" ng-click="onselect(1, item, 1)">{{item}}</div>
+    </div>
+  </div>

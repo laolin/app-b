@@ -1,0 +1,16 @@
+
+  <a ng-href="{{(item.k1=='预扣积分'||item.k1=='回答满意'||item.k1=='预扣积分返回'||item.k1=='问答满意')&&('#/frame/'+(hash||(API.module+'-qa-show'))+'?qaid='+item.k2)||''}}" class="box-list-item bk-fff block" ng-repeat="item in D.list">
+    <div class="color-ccc">
+      {{item.rq|hhmm}} <span class="pull-right">可用余额 {{item.lastn|money}}</span>
+    </div>
+    <div class="{{(item.k1=='预扣积分'||item.k1=='回答满意'||item.k1=='预扣积分返回'||item.k1=='问答满意')&&'color-00f'||'color-ccc'}}">
+      {{item.k1}} <span class="color-888" ng-if="(item.k1=='预扣积分'||item.k1=='回答满意'||item.k1=='预扣积分返回'||item.k1=='问答满意')"> id:{{item.k2}}</span><span class="pull-right fee">{{item.n|money}} </span>
+    </div>
+  </a>
+  
+  <!--  分页  -->
+  <div class="text-center">
+    <ul class="pagination pageturn-row">
+      <li ng-repeat="n in page.pageturn"><a ng-click="gotopage(n)" class="{{n==page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+    </ul>
+  </div>

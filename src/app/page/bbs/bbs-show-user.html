@@ -1,0 +1,34 @@
+<setpagetitlerow qgs="高谈阔论" checklogin="no"></setpagetitlerow>
+<div class="overflow-auto bk-ddd"  ng-controller="BbsShowUserCtrl">
+  
+    <!-- 楼主 -->
+    <bbs-item class="overflow-auto padding5 border-bottom qa-show-item-box bk-fff margin-bottom15" users="users" item="bbs" lou="楼主" onmodify="reget()" ng-click="answer(-1)">
+    </bbs-item>
+
+    <!-- 回帖 -->
+    <bbs-item class="overflow-auto padding5 border-bottom qa-show-item-box bk-row1" users="users" item="item" lou="{{$index+1}}楼" onmodify="reget()" ng-repeat="item in follows"
+      ng-show="!item.rq_delete"
+      ng-click="answer($index)">
+    </bbs-item>
+
+    <!-- 回帖界面，用户和专家界面显示 -->
+    <div class="full-row hh4 margin-top15" ng-show="!following">
+      <div class="btn btn-primary" ng-click="following=1">回帖</div>
+    </div>
+    <div class="answer-box overflow-auto margin-top15 padding15 bk-fff pos-follow" ng-show="following">
+      <span class="hh4">回复内容:</span>
+      <span class="pull-right color-f00">{{n_follow&&('回复'+n_follow+'楼')||'可点击楼层回复'}}</span>
+      <mulityinput rows="6" edit="EDIT"
+            placeholder = "请在此输入您的回帖正文。如需要，您也可以附加图片等资料，使帖子描述更加详细、直观。"
+        ></mulityinput>
+    　<div class="padding15 text-right">
+        <div class="btn btn-primary padding-right15" ng-click="tofollow()">回帖</div>
+        <div class="btn btn-primary" ng-click="following=0">取消</div>
+    　</div>
+    </div>
+    
+  </div>
+</div>
+
+
+

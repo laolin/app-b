@@ -1,0 +1,36 @@
+
+<h5>&nbsp;</h5>
+<div class="container" ng-controller="RegisterCtrl">
+  <div class="row padding15">
+    <div class="userlist-item">
+      <img src='http://qinggaoshou.com/qgs/images/logo-128.png' class="img-rounded">
+      <span class="hh3 text1 b900">注册请高手用户账号</span>
+    </div>
+    <div class="col-xs-12">&nbsp;</div>
+  </div>
+  <div class="row">
+    <form name='form-register' ng-submit="register()">
+      <div class="col-md-offset-2 col-md-8">
+        <ul class="list-group">
+          <li class="list-group-item" >
+            <h4>已有请高手平台ID，<a href="#/login" >登陆</a></h4>
+            <h6>&nbsp;</h6>
+            <input id="mobile" name="mobile" ng-model="mobile" class="form-control" placeholder="手机号码">
+            <h6>&nbsp;</h6>
+            <input id="p1" name="p1" type="password" ng-model="password" class="form-control" placeholder="密码">
+            <div style="height:0.5em;"></div>
+            <input id="p2" name="p2"  type="password" ng-model="password2" class="form-control" placeholder="确认密码">
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-offset-2 col-md-8">
+        <div class="btn {{registing&&'color-888 btn-default'||'color-fff btn-primary'}} btn-lg btn-block" ng-click="register()">注册</div>
+      </div>
+      <div class="col-md-offset-2 col-md-8 text-warning fee" id="prompt">
+        {{prompt}}
+      </div>
+    </form>
+  </div>
+</div>
+
+<h3>&nbsp;</h3>

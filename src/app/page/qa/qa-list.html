@@ -1,0 +1,36 @@
+<setpagetitlerow qgs="问答列表"></setpagetitlerow>
+<aaa ng-controller="QuestionListCtrl">
+
+  <!--  分类列表 - 导航  -->
+  <div class="row-nav">
+    <nobr>
+      <span class="item {{sub.en==D.en && 'active'}}" ng-click="D.setsublist(sub.en)" ng-repeat="sub in D.sublist">{{sub.cn}}</span>
+    </nobr>
+  </div>
+
+  <!--  搜索  -->
+  <div class="padding5">
+    <div class="input-group">
+      <input type="text" class="form-control" ng-model="D.searchtext" on-enter="D.search()">
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" ng-click="D.search()"><aaa class="hidden-xs">本页</aaa>搜索</button>
+      </span>
+    </div>
+  </div>
+
+  <!--  列表  -->
+  <div>
+    <div class="color-list-item bk-row{{($odd&&1)||2}}" ng-repeat="qa in D.list">
+      <a class="click" href="#/frame/service-qa-show?qaid={{qa.id}}" ng-include="API.templateUrl('page/qa/qa-list-item.html')">
+      </a>
+    </div>
+  </div>
+
+  <!--  分页  -->
+  <div class="text-center">
+    <ul class="pagination pageturn-row">
+      <li ng-repeat="n in D.page.pageturn"><a ng-click="D.gotopage(n)" class="{{n==D.page.pagenow && 'active-page-number'}}">{{(n==1&&'&laquo;1')||(n==D.page.pagecount&&(n+'&raquo;'))||n}}</a></li>
+    </ul>
+  </div>
+  
+</aaa>

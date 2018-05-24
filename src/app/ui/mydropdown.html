@@ -1,0 +1,9 @@
+
+
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+    <span class="text" id="mydropdown-{{id}}">{{value || defaults}}</span>
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li ng-repeat="item in arr" ng-click="dropdownselect(item)"><a>{{item}}</a></li>
+  </ul>
