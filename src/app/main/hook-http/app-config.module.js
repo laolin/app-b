@@ -1,20 +1,7 @@
 !(function (angular, window, undefined) {
 
-  var theConfigModule = angular.module('app-config', ['dj-service'])
+  var theConfigModule = angular.module('dj-http');
 
-
-  /** 签名配置 */
-  // theConfigModule.config(['signProvider', 'SiteConfigProvider', 'UserTokenProvider', function (signProvider, SiteConfigProvider, UserTokenProvider) {
-  //   signProvider.setApiRoot(SiteConfigProvider.apiRoot);
-  //   signProvider.registerDefaultRequestHook((config, mockResponse) => {
-  //     return {
-  //       url: SiteConfigProvider.apiRoot + config.url,
-  //       post: angular.extend({}, UserTokenProvider.reload().signToken(), config.data)
-  //     }
-  //   });
-  // }]);
-
-  theConfigModule.value("UserToken", {});
   /**
    * 仅仅签名
    */
@@ -34,5 +21,5 @@
       }
     });
   }]);
-  //___________________________________
+
 })(angular, window);
