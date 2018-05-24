@@ -54,18 +54,32 @@
     $scope.keeplogin = true;
     $scope.logining = false;
 
-    $scope.login = function () {
+    $scope.login = () => {
       if ($scope.logining) return;
       $scope.prompt = "正在登陆...";
       $scope.logining = true;
       //window.setTimeout(function(){$scope.logining = false;$scope.$apply();}, 1500);
 
-      var myDate = new Date();
-      var t = (myDate.getTime() / 1000).toFixed();
+      var password = API.MD5($scope.password);
+      var nick = $scope.nick;
+      var timestamp = (new Date().getTime() / 1000).toFixed();
+      var sign = MD5(timestamp + password);
+      var data = { timestamp, sign, nick };
 
-      API.setCookie("user_password", API.MD5($scope.password));
+
+      return $http.post('user/login', data).then(json => {
+        json.datas.password = password;
+        $scope.$emit("loginByUserFormSuccess", { json, pageTo: this.pageTo});
+      }).catch(json => {
+        $scope.logining = false;
+        console.log('登录失败, ', json);
+      });
+
+
+
+
       API.get("/user/login", { nick: $scope.nick }, {
-        success: function (json) {
+        success: (json) => {
           if (json.errcode !== 0) {
             window.setTimeout(function () { $scope.logining = false; $scope.$apply(); }, 1500);//$scope.logining = false;
             $scope.prompt = json.errmsg;
@@ -77,14 +91,7 @@
           API.setCookie("user_openid", "", 0);
           API.setCookie("user_password", API.MD5($scope.password), $scope.keeplogin && API.keeplogin);//密码按选择决定是否保存10天
 
-          //到上次登陆的模块
-          var return_url = API.getCookie("return_url");
-          if (return_url) {
-            API.setCookie("return_url", '');
-            window.location.href = return_url;
-            return;
-          }
-          window.location.href = "#/frame/myaccount";
+          $scope.$emit("loginByUserFormSuccess", { json, pageTo: this.pageTo });
         },
         error: function (e) {
           $scope.logining = false;

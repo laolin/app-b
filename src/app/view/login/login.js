@@ -20,9 +20,10 @@
         url: '/login',
         //templateUrl: templateUrl('view/login/login.html'),
         templateProvider: ["$location", function ($location) {
-          console.log("模板参数", arguments);
-          var componentName = getLoginComponent($location.$$search.mode);
-          return `<${componentName} page-to="pageTo"></${componentName}>`
+          var search = $location.search();
+          console.log("模板参数", search, arguments);
+          var componentName = getLoginComponent(search.mode);
+          return `<${componentName} page-to="'${search.pageTo}'"></${componentName}>`
         }],
         controller: ['$scope', '$http', function () { }]
       })
