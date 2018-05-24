@@ -385,12 +385,12 @@ var USER = {
   }
 };
 
-setCookie('gs_user_last_module', API.module);
+API.setCookie('gs_user_last_module', API.module);
 function gotologin(){
-  setCookie('gs_return_url', window.location.href);
-  setCookie('gs_user_id', "");//为了交给主页处理，且不会造成循环，取消cookie（如果跨域跳转，可能造成循环）。
+  API.setCookie('return_url', window.location.href);
+  API.setCookie('user_id', "");//为了交给主页处理，且不会造成循环，取消cookie（如果跨域跳转，可能造成循环）。
   //window.location.href = "/";//交给主页处理
-  window.location.href = API.iswx && "#/login?mode=wx" || "#/login";
+  window.location.href = (API.iswx && "#/login?mode=wx&" || "#/login?") + 'pageTo=abc';
 }
 // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 // ┃               常用函数                                                       ┃
@@ -916,7 +916,7 @@ function main_APIController($scope, $http, fn_guest, fn_logged) {
     API.setCookie("user_id", 0);
     API.setCookie("user_openid", "");
     API.setCookie("user_password", "");
-    window.location.href = "#/login";
+    gotologin();
   }
   //申请激活
   $scope.activeaplly = function(){

@@ -2,7 +2,6 @@
 
   var theApp = angular.module('dj-app', [
     'ngFileUpload',
-    'app-config',
     'dj-view',
     'dj-service',
     'dj-component',
