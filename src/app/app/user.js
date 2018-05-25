@@ -1,56 +1,4 @@
 
-// ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-// ┃          login                                       ┃
-// ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-function LoginCtrl($scope, $http) {
-  window.setTimeout(enablePlaceholder, 10);
-  document.title = "请高手 - 登陆";
-  $scope.keeplogin = true;
-  $scope.logining = false;
-
-  $scope.login=function(){
-    if($scope.logining)return;
-    $scope.prompt = "正在登陆...";
-    $scope.logining = true;
-    //window.setTimeout(function(){$scope.logining = false;$scope.$apply();}, 1500);
-
-    var myDate = new Date();
-    var t = (myDate.getTime()/1000).toFixed();
-
-    API.setCookie("user_password", API.MD5($scope.password));
-    API.get("/user/login", {nick: $scope.nick}, {
-      success:function(json){
-        if( json.errcode !== 0){
-          window.setTimeout(function(){$scope.logining = false;$scope.$apply();}, 1500);//$scope.logining = false;
-          $scope.prompt = json.errmsg;
-          $scope.$apply();
-          return;
-        }
-        var keepminute = 10*24*60// 保持10天
-        API.setCookie("user_id", json.id, API.keeplogin);
-        API.setCookie("user_openid", "", 0);
-        API.setCookie("user_password", API.MD5($scope.password), $scope.keeplogin && API.keeplogin );//密码按选择决定是否保存10天
-
-        //到上次登陆的模块
-        var return_url = API.getCookie("return_url");
-        if(return_url){
-          API.setCookie("return_url", '');
-          window.location.href = return_url;
-          return;
-        }
-        window.location.href = "#/frame/myaccount";
-      },
-      error: function(e){
-        $scope.logining = false;
-        $scope.prompt = "登陆失败";
-        $scope.$apply();
-      }
-    });
-    return true;
-  }
-}
-
-
 
 
 // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -243,7 +191,7 @@ CTRL("RechargeCtrl", function($scope) {
       return;
     }
     
-    var openid = API.userinfo && API.userinfo.wx && API.userinfo.wx.openid;//getCookie("gs_user_openid");
+    var openid = API.userinfo && API.userinfo.wx && API.userinfo.wx.openid;
     if(!openid){
       API.alert("请使用微信客户端支付");
       return;
@@ -352,7 +300,7 @@ CTRL("RefereeCtrl", function ($scope) {
 // ┃          推荐朋友                                    ┃
 // ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 CTRL("QrCodeControl", function ($scope) {
-  $scope.userid = toNumber(GetQueryString("userid") || getCookie(API.pre_cookie + "share_id"));
+  $scope.userid = toNumber(GetQueryString("userid") || API.getCookie("share_id"));
   API.get("/user/getfullinfo", {}, {
     success: function(json){
       if(json.errcode == 0){
@@ -420,26 +368,5 @@ CTRL("MyReferedInfoControl", function ($scope) {
       $scope.$apply();
     }});
   });
-});
-
-AUTO_CTRL("frame.myreferedlist", function ($scope) {
-  if(!API.module)API.module = "user";
-  $scope.is_service = DATAS.hasmodule("service");
-  $scope.user = DATAS.me;
-  var D = $scope.D = {
-    hash_data: "frame.myreferedlist",
-    pagesize: 8, 
-    sublist: [{en:"all",cn:"全部"} ],
-    baseAPI: "/user/getmyreferedlist",
-    defaultlist: 0,
-    post:{page: 0},
-    searchtext:"",
-    search: function(){
-      D.post.searchtext = D.searchtext;
-      D.post.page = 0;
-      D.gotopage(D.post.page);
-    }
-  }
-  InitSmartPage($scope, $scope.D);
 });
 

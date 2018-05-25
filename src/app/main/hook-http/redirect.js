@@ -5,7 +5,7 @@
   /**
    * 微信登录。也可不拦截，但是多传递了些签名数据
    */
-  theConfigModule.run(['$http', 'sign', 'SiteConfig', 'UserToken', function ($http, sign, SiteConfig, UserToken) {
+  theConfigModule.run(['sign', 'SiteConfig', function (sign, SiteConfig) {
     sign.registerHttpHook({
       match: /^app\/wx_code_login$/,
       hookRequest: function (config, mockResponse, match) {

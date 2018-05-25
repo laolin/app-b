@@ -35,14 +35,16 @@
       UserToken.prototype = {
         load: function () {
           var k = theSiteConfig.localStorage_KEY_UserToken;
-          this.data = JSON.parse(localStorage.getItem(k) || '{}');
+          var str = localStorage.getItem(k) || '{}';
+          if(!/^\{.*\}/.test(str)) str = '{}'
+          this.data = JSON.parse(str);
           return this;
         },
         /** 保存到 */
         save: function (data) {
           var k = theSiteConfig.localStorage_KEY_UserToken;
           localStorage.removeItem(k);
-          localStorage.setItem(k, JSON.stringify(this.data = data));
+          localStorage.setItem(k, JSON.stringify(this.data = data || {}));
           return this;
         },
         hasToken: function () {
@@ -75,10 +77,10 @@
     })();
 
     var userToken = new UserToken();
-    function reload(){
+    function reload() {
       return userToken.load();
     }
-    function save(data){
+    function save(data) {
       return userToken.save(data);
     }
 
@@ -107,7 +109,7 @@
     signProvider.registerDefaultRequestHook((config, mockResponse) => {
       return {
         url: SiteConfigProvider.apiRoot + config.url,
-        post: angular.extend({}, UserTokenProvider.reload().signToken(), config.data)
+        post: angular.extend({}, UserTokenProvider.userToken.signToken(), config.data)
       }
     });
   }]);

@@ -71,10 +71,6 @@
       }).then(json => {
         $scope.loginState = "Login by WX, Success!";
         $scope.$emit("loginByWxCodeSuccess", {json, pageTo: search.pageTo});
-        // UserToken.save(json.datas);
-        // $http.post("wx_code_login", { token: json.datas });
-        // location.hash = (/\#\!/.test(window.location.hash) ? "#!" : "#") + search.pageTo;
-        //$location.path( search.pageTo ).search({});
       }).catch(json => {
         $scope.loginState = `Login by WX, Error: ${json}`;
         console.log('静态api, 拒绝', json);

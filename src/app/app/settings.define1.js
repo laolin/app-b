@@ -78,34 +78,6 @@ var SETTINGS = {
   }
 };
 
-// ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-// ┃          cookie                                      ┃
-// ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-function setCookie(c_name,value, mins){
-  var exdate=new Date()
-  exdate.setTime(exdate.getTime() + mins * 60)//几分钟后过期
-  document.cookie=c_name+ "=" +escape(value)+
-    (typeof mins!="number" ? "" : ";expires="+exdate.toGMTString()) +
-    ";path=/;domain=" + API.domain
-}
-function getCookie(c_name){
-  if (document.cookie.length>0){
-    var c_start=document.cookie.indexOf(c_name + "=")
-    if (c_start!=-1){
-      c_start=c_start + c_name.length+1
-      var c_end=document.cookie.indexOf(";",c_start)
-      if (c_end==-1) c_end=document.cookie.length
-      return unescape(document.cookie.substring(c_start,c_end))
-    }
-  }
-  return ""
-}
-function delCookie(name){//为了删除指定名称的cookie，可以将其过期时间设定为一个过去的时间
-  var date = new Date();
-  date.setTime(date.getTime() - 10000);
-  document.cookie = name + "=a; expires=" + date.toGMTString();
-}
-
 
 // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 // ┃          placeholder                                 ┃

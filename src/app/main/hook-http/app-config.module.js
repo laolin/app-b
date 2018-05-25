@@ -5,7 +5,7 @@
   /**
    * 仅仅签名
    */
-  theConfigModule.run(['sign', 'SiteConfig', 'UserToken', function (sign, SiteConfig, UserToken) {
+  theConfigModule.run(['sign', 'SiteConfig', function (sign, SiteConfig) {
     sign.registerHttpHook({
       match: /^签名$/,
       hookRequest: function (config, mockResponse, match) {
@@ -15,7 +15,6 @@
         var data = param.data || {};
         return mockResponse.resolve(sign.OK({
           url: SiteConfig.apiRoot + url,
-          //data: angular.extend({}, UserToken.reload().signToken(), data),
           data: angular.extend({}, data),
         }));
       }

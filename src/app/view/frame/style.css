@@ -33,7 +33,7 @@ ul.dropdown-menu-single-line li{ white-space: nowrap; }
 .search-box .default { color:#555 }
 
 /* -------------------------- 邀请朋友 -------------------------- */
-.qrcode-pad    { position: relative; }
+.qrcode-pad    { position: relative;  min-height: 20em;}
 .qrcode-pad .back{ width:100%; height:100%; }
 .qrcode-pad .body{ position: absolute; top:15px; left:0; right:0; text-align:center; }
 

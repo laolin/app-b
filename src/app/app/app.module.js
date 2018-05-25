@@ -17,21 +17,9 @@ window.dcode && window.dcode.debug();
   //.when('/frame/myaccount-user', 'myaccount?module=user')
 
   $stateProvider
-        //.state('mainpage', {
-        //    url: '/mainpage',
-        //    templateUrl: templateUrl('mainpage/mainpage.html')
-        //})
-        // .state('login', {
-        //     url: '/login',
-        //     templateUrl: templateUrl('page/login/login.html')//'login/login.html?v=1108'
-        // })
         .state('register', {
             url: '/register',
             templateUrl: templateUrl('page/login/register.html')//'login/register.html?v=1108'
-        })
-        .state('frame', {
-            url: '/frame',
-            templateUrl: templateUrl('frame/frame.html')
         })
         .state('user', {
             url: '/user',
@@ -52,20 +40,6 @@ window.dcode && window.dcode.debug();
         .state('frame.search', {
             url: '/search',
             templateUrl: templateUrl('search/search.html')
-        })
-
-        // ---------- 2016春节 -----------------
-        .state('frame.newyear2016-choose-user', {
-            url: '/newyear2016-choose-user',
-            templateUrl: templateUrl('newyear-2016/choose-user.html')
-        })
-        .state('frame.newyear2016-choose-user-mark', {
-            url: '/newyear2016-choose-user-mark',
-            templateUrl: templateUrl('newyear-2016/choose-user-mark.html')
-        })
-        .state('frame.newyear2016-get-red-packet', {
-            url: '/newyear2016-get-red-packet',
-            templateUrl: templateUrl('newyear-2016/get-red-packet.html')
         })
 
         // ---------- 问题部分 -----------------      
@@ -234,10 +208,6 @@ window.dcode && window.dcode.debug();
             url: '/qrcode',
             templateUrl: templateUrl('page/user/user-qrcode.html')
         })
-        .state('frame.myreferedlist', {
-            url: '/myreferedlist',
-            templateUrl: templateUrl('page/user/myreferedlist.html')
-        })
 
         //支付部分    
         .state('frame.recharge', {
@@ -295,20 +265,6 @@ function CTRL(ctrlName, fn){
   myapp.controller(ctrlName, ['$scope', '$rootScope', '$state', fn]);
 }
 
-// ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-// ┃          hash监听                                    ┃
-// ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-myapp.controller("HashCtrl", ['$scope', '$rootScope', '$state', function($scope, $rootScope, $state) {
-  AUTO_CTRL.init($scope, $rootScope, $state);
-}]);
- 
-// ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-// ┃          主控控件                                    ┃
-// ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-myapp.controller("APIController", ['$scope', '$http', '$state', function($scope, $http, $state) {
-  main_APIController($scope, $http);
-  $("#main-poster").PPT_POSTER({});
-}]);
 
 // ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 // ┃          用户信息                                    ┃
@@ -1313,12 +1269,6 @@ CTRL("UserIconsController", function($scope) {
           {text:"已回答"  , href:"#/frame/qa?en=tosatisfy&page=1", right:"问答管理", n:["qa-service","tosatisfy"], icon:"glyphicon glyphicon-question-sign"},
           {text:"已评价"  , href:"#/frame/qa?en=tofile&page=1"   , right:"问答管理", n:["qa-service","tofile"   ], icon:"glyphicon glyphicon-question-sign color-008"},
           {text:"快速抢答", href:"#/frame/qa?en=sqallanswering"  , right:"问答管理",                               icon:"glyphicon glyphicon-plane text-danger"},
-        ]},
-      { show: "rows",
-        sub:[
-          {text:"2016春节"    , href:"#/frame/newyear2016-choose-user"   , right:"发放专家酬金", icon:"glyphicon glyphicon-tree-deciduous icon fee"},
-          {text:"测试特权"    , href:"#/frame/newyear2016-choose-user-mark"   , right:"发放专家酬金", icon:"glyphicon glyphicon-tree-deciduous icon fee"},
-          {text:"新年红包"    , href:"#/frame/newyear2016-get-red-packet", right:"发放专家酬金", icon:"glyphicon glyphicon-tree-deciduous icon fee"}
         ]},
       { show: "rows",
         sub:[
