@@ -16,21 +16,21 @@
     },
     controller: ['$scope', '$http', function ($scope, $http) {
       if (isWx) {
-        /**
-         * 微信浏览器中，网页授权登录
-         * 在 angular.module 启动前, angular.dj.wxAuth.authUrl() 函数可用
-         */
-        var pageTo = this.pageTo;
-        if (/^\/login(\/.*)?$/.test(pageTo)) pageTo = '/';
-
-        var auhParam = getAuhParam(location.href, pageTo, 'wx');
-        var wxAuthUrl =
-          'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + auhParam.appid +
-          '&redirect_uri=' + auhParam.redirect_uri +
-          '&response_type=code&scope=snsapi_userinfo&state=' + auhParam.state +
-          '#wechat_redirect';
-
-        location.href = wxAuthUrl;
+        this.$onInit = () => {
+          /**
+           * 微信浏览器中，网页授权登录
+           * 在 angular.module 启动前, angular.dj.wxAuth.authUrl() 函数可用
+           */
+          var pageTo = this.pageTo;
+          if (/^\/login(\/.*)?$/.test(pageTo)) pageTo = '/';
+          var auhParam = getAuhParam(location.href, pageTo, 'wx');
+          var wxAuthUrl =
+            'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + auhParam.appid +
+            '&redirect_uri=' + auhParam.redirect_uri +
+            '&response_type=code&scope=snsapi_userinfo&state=' + auhParam.state +
+            '#wechat_redirect';
+          location.href = wxAuthUrl;
+        }
         return;
       }
       this.$onInit = () => {
@@ -70,7 +70,7 @@
         code: search.code
       }).then(json => {
         $scope.loginState = "Login by WX, Success!";
-        $scope.$emit("loginByWxCodeSuccess", {json, pageTo: search.pageTo});
+        $scope.$emit("loginByWxCodeSuccess", { json, pageTo: atob(search.state) });
       }).catch(json => {
         $scope.loginState = `Login by WX, Error: ${json}`;
         console.log('静态api, 拒绝', json);
@@ -86,10 +86,10 @@
    * @param {string} appName : 第三方授权的微信公众号自定义名称，前后端约定
    */
   function getAuhParam(href, hash, appName) {
-    var loginHash = (/\#\!/.test(window.location.hash) ? "#!" : "#") + "/login/wx-code";
+    var loginHash = (/\#\!/.test(window.location.hash) ? "#!" : "#") + "/wx-code-login";
     var theSiteConfig = angular.extend({}, window.theSiteConfig);
     var appid = theSiteConfig.wx_app[appName].appid;
-    var state = encodeURIComponent(btoa(hash));
+    var state = encodeURIComponent(btoa((hash || '').match(/^\#?(.*)/)[1]));
     var para1 = theSiteConfig.wx_app[appName].name;
     var para2 = encodeURIComponent(btoa(href.split("#")[0] + loginHash));
 
