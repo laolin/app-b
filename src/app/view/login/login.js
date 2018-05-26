@@ -17,25 +17,23 @@
     $stateProvider
       .state('login', {
         pageTitle: "登录",
-        url: '/login',
-        //templateUrl: templateUrl('view/login/login.html'),
-        templateProvider: ["$location", function ($location) {
-          var search = $location.search();
-          console.log("模板参数", search, arguments);
-          var componentName = getLoginComponent(search.mode);
-          return `<${componentName} page-to="'${search.pageTo}'"></${componentName}>`
-        }],
-        controller: ['$scope', '$http', function () { }]
-      })
-      .state('login-all', {
-        pageTitle: "登录",
-        url: '/login/:mode',
+        requireLogin: false,
+        url: '/login?mode&pageTo&code',
         //templateUrl: templateUrl('view/login/login.html'),
         templateProvider: ["$stateParams", function ($stateParams) {
           console.log("模板参数", arguments);
           var componentName = getLoginComponent($stateParams.mode);
-          return `<${componentName} page-to="pageTo"></${componentName}>`
+          var pageTo = $stateParams.pageTo || '';
+          return `<${componentName} page-to="'${pageTo}'"></${componentName}>`
         }],
+        controller: ['$scope', '$http', function () { }]
+      })
+      .state('wx-code-login', {
+        pageTitle: "登录",
+        requireLogin: false,
+        url: '/wx-code-login',
+        //templateUrl: templateUrl('view/login/login.html'),
+        template: `<login-by-wx-code></login-by-wx-code>`,
         controller: ['$scope', '$http', function () { }]
       })
   }]);
