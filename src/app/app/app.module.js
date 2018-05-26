@@ -55,10 +55,10 @@ window.dcode && window.dcode.debug();
             url: '/myanswer',
             templateUrl: templateUrl('page/qa/myanswer-list.html')
         })
-        .state('frame.toask', {
-            url: '/toask',
-            templateUrl: templateUrl('page/qa/qa-toask.html')
-        })
+        //.state('frame.toask', {
+        //    url: '/toask',
+        //    templateUrl: templateUrl('page/qa/qa-toask.html')
+        //})
         .state('frame.toanswerlist', {
             url: '/toanswerlist',
             templateUrl: templateUrl('page/qa/toanswer-list.html')
