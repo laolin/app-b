@@ -192,6 +192,15 @@ function CQaEdit($scope, keyid){
     ctrl.setvalue = function(str_value){
       ctrl.list = (str_value && str_value.split(",")) || [];
     }
+
+    /**
+     * 新增, 用于新的图片上传组件
+     */
+    ctrl.updateValue = function(imgs){
+      ctrl.list = imgs || [];
+      self.controldata.images = ctrl.list.join(",");
+      self.updatedraft("images");
+    }
   
     //删除
     ctrl.delimage = function(index, localId) {
