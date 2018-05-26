@@ -1,5 +1,8 @@
 
 angular.module('dj-view', [
+  'ui.router',
+  'ui.router.state.events', // 已覆盖 'ui.router'
+  'ngAnimate',
 ]);
 
 angular.module('dj-component', [
