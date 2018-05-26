@@ -1044,7 +1044,7 @@ myapp.directive('slideDelete', function() {
       //按钮宽度
       var btn_w = 60;
       //设计按钮：
-      scope.btn = $('<div style="position:absolute;z-index:5998;right:0;top:0;width:'+btn_w+'px;height:'+h+'px;color:#fff;background-color:#900;text-align:center;padding-top:'+(btn_w/2-15)+'px">'+(scope.text||'删除')+'</div>');
+      scope.btn = $('<div style="position:absolute;z-index:598;right:0;top:0;width:'+btn_w+'px;height:'+h+'px;color:#fff;background-color:#900;text-align:center;padding-top:'+(btn_w/2-15)+'px">'+(scope.text||'删除')+'</div>');
       //改造行,用一个绝对定位div将内容包裹起来
       $(element).contents().wrapAll('<div new_box style="position:absolute;z-index:599;left:0;top:0;width:'+w+'px;height:'+h+'px;background-color:#fff;"></div>');
       //添加按钮：
