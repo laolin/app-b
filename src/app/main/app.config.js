@@ -23,6 +23,13 @@
         text: '请高手' // 默认标题
       },
 
+      wx_share: {
+        title: "更专业的人做更专业的事",
+        desc: "土木领域 海量专家 资源与您共享! 搞不定，请高手!",
+        imgUrl: "https://qinggaoshou.com/qgs/images/logo-128.png",
+        lineLink: location.origin + location.pathname,
+      },
+
       wx_app____PGY: {
         web: { name: 'pgy-web', appid: 'wxffc089a88065e759' },
         wx: { name: 'pgy-wx', appid: 'wx3a807a2f301479ae' }
