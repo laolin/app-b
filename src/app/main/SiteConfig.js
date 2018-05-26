@@ -36,7 +36,7 @@
         load: function () {
           var k = theSiteConfig.localStorage_KEY_UserToken;
           var str = localStorage.getItem(k) || '{}';
-          if(!/^\{.*\}/.test(str)) str = '{}'
+          if (!/^\{.*\}/.test(str)) str = '{}'
           this.data = JSON.parse(str);
           return this;
         },
@@ -85,10 +85,13 @@
     }
 
     var theFactory = {
-      userToken,
-      reload,
-      save,
+      userToken
     };
+    for (let name in UserToken.prototype) {
+      theFactory[name] = function (a, b, c) {
+        return userToken.load()[name](a, b, c);
+      }
+    }
 
 
     /**
