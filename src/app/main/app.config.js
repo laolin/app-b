@@ -18,6 +18,11 @@
       /** 微服务器地址 */
       apiRoot_unit: 'https://api.qinggaoshou.com/api-unit-server/ver-1.0.0', //微服务器地址
 
+      /** 默认的图片地址根目录 */
+      IMG_ROOT: 'https://qinggaoshou.com',
+
+
+
       title: {
         hide: false,  // 默认是否隐藏上方标题栏
         text: '请高手' // 默认标题

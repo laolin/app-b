@@ -218,29 +218,31 @@
     $scope.palyRecord = function (localId) {
       wx.playVoice({ localId: localId });
     }
+
+    var IMG_ROOT = window.theSiteConfig.IMG_ROOT || 'https://qinggaoshou.com';
+    function goodImgUrl(url) {
+      if (/^(http|https)\:\/\//.test(url)) return url;
+      var match;
+      match = url.match(/^http\:\/\/qinggaoshou\.com\/(.*)$/i);
+      if (match && match[1]) return IMG_ROOT + '/' + match[1];
+      match = url.match(/^\/downloads\/upload\/(.*)(.96.jpg)?$/i);
+      if (match && match[1]) return IMG_ROOT + '/downloads/upload/' + match[1];
+      return url;
+    }
     //利用微信预览图片组：
     $scope.preview = function (pic, arr) {
-      (API.iswx && wx.previewImage || $.previewImage)
-        ({
-          current: pic, // 当前显示图片的http链接
-          urls: arr // 需要预览的图片http链接列表
-        });
+      console.log('要求预览');
+      var imgs = arr.map(url => goodImgUrl(url));
+      pic = goodImgUrl(pic);
+      var active = imgs.indexOf(pic);
+      return $http.post('显示对话框/gallery', [{ imgs, active }]);
     }
     $scope.previewself = function (pic) {
-      (API.iswx && wx.previewImage || $.previewImage)({
-        current: pic, // 当前显示图片的http链接
-        urls: [pic] // 需要预览的图片http链接列表
-      });
+      return $scope.preview(pic, [pic]);
     }
     //相对路径的图片预览：
     $scope.previewlocal = function (piclocal, arrlocal) {
-      var pic = SITE.root + piclocal;//因为API数据库中保存相对路径
-      var arr = [];
-      for (var i in arrlocal) arr.push(SITE.root + arrlocal[i]);
-      (API.iswx && wx.previewImage || $.previewImage)({
-        current: pic, // 当前显示图片的http链接
-        urls: arr // 需要预览的图片http链接列表
-      });
+      return $scope.preview(piclocal, arrlocal);
     }
 
     $scope.urlEncode = function (url) {

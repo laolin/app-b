@@ -430,22 +430,6 @@ myapp.directive('mulityinput', function() {
         //alert( JSON.stringify(scope.edit.audios));
         wx.playVoice({localId: localId});
       }
-      scope.previewself = function(pic) {
-        (API.iswx && wx.previewImage || $.previewImage)({
-          current: pic, // 当前显示图片的http链接
-          urls: [pic] // 需要预览的图片http链接列表
-        });
-      }
-      //相对路径的图片预览：
-      scope.previewlocal = function(piclocal, arrlocal) {
-        var pic = SITE.root + piclocal;//因为API数据库中保存相对路径
-        var arr = [];
-        for(var i in arrlocal)arr.push(SITE.root + arrlocal[i]);
-        (API.iswx && wx.previewImage || $.previewImage)({
-          current: pic, // 当前显示图片的http链接
-          urls: arr // 需要预览的图片http链接列表
-        });
-      }
     }
   };
 });
