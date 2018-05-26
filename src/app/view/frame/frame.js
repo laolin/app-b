@@ -62,7 +62,7 @@
   function ctrl($scope, $http) {
     $("#main-poster").PPT_POSTER({});
 
-    API.fn_guest = gotologin;
+    //API.fn_guest = gotologin;
     $scope.API = API;
     //$scope.USER = USER;
     API.$scope = $scope;
@@ -154,7 +154,7 @@
         }
       });
     }
-    //$scope.reget(fn_logged);
+    $scope.reget();
 
     $scope.usertypes = function (sep, user) {
       user = user || API.userinfo;
