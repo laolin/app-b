@@ -63,18 +63,18 @@ window.dcode && window.dcode.debug();
             url: '/toanswerlist',
             templateUrl: templateUrl('page/qa/toanswer-list.html')
         })
-        .state('frame.user-qa-show', {
-            url: '/user-qa-show',
-            templateUrl: templateUrl('page/qa/qa-show.html')
-        })
-        .state('frame.service-qa-show', {
-            url: '/service-qa-show',
-            templateUrl: templateUrl('page/qa/qa-show.html')
-        })
-        .state('frame.expert-qa-show', {
-            url: '/expert-qa-show',
-            templateUrl: templateUrl('page/qa/qa-show.html')
-        })
+        // .state('frame.user-qa-show', {
+        //     url: '/user-qa-show',
+        //     templateUrl: templateUrl('page/qa/qa-show.html')
+        // })
+        // .state('frame.service-qa-show', {
+        //     url: '/service-qa-show',
+        //     templateUrl: templateUrl('page/qa/qa-show.html')
+        // })
+        // .state('frame.expert-qa-show', {
+        //     url: '/expert-qa-show',
+        //     templateUrl: templateUrl('page/qa/qa-show.html')
+        // })
 
 
         // ---------- 专家库 -----------------   
