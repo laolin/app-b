@@ -1046,9 +1046,9 @@ myapp.directive('slideDelete', function() {
       //设计按钮：
       scope.btn = $('<div style="position:absolute;z-index:5998;right:0;top:0;width:'+btn_w+'px;height:'+h+'px;color:#fff;background-color:#900;text-align:center;padding-top:'+(btn_w/2-15)+'px">'+(scope.text||'删除')+'</div>');
       //改造行,用一个绝对定位div将内容包裹起来
-      $(element).contents().wrapAll('<div new_box style="position:absolute;z-index:5999;left:0;top:0;width:'+w+'px;height:'+h+'px;background-color:#fff;"></div>');
+      $(element).contents().wrapAll('<div new_box style="position:absolute;z-index:599;left:0;top:0;width:'+w+'px;height:'+h+'px;background-color:#fff;"></div>');
       //添加按钮：
-      $(element).css({overflow:"hidden", position:"relative", "z-index":5999}).append(scope.btn);
+      $(element).css({overflow:"hidden", position:"relative", "z-index":599}).append(scope.btn);
       //滑屏功能
       var domListener = scope.domListener = $(element).children(":first-child");
       function sliding(event){
@@ -1063,14 +1063,14 @@ myapp.directive('slideDelete', function() {
       function slideEnd(event){
         var data = event.data;
         scope.open = data.dx < -btn_w / 2;
-        domListener.parent().css("z-index", scope.open && 6001 || 5999);
+        domListener.parent().css("z-index", scope.open && 6001 || 599);
         //背景，点击收起
-        var bk = $.fixedBackground(6000, scope.open);
+        var bk = $.fixedBackground(600, scope.open);
         scope.open && bk.data("self", scope.domListener).click(function(){
           var self = bk.data("self");
-          $.fixedBackground(6000, false);
+          $.fixedBackground(600, false);
           scope.open = false;
-          self && self.animate({left: 0},100).parent().css("z-index", 5999);
+          self && self.animate({left: 0},100).parent().css("z-index", 599);
         });
         scope.domListener.animate({left: scope.open ? -btn_w : 0},100);
       }
@@ -1080,7 +1080,7 @@ myapp.directive('slideDelete', function() {
       //按钮事件
       scope.btn.click(function(){
         scope.ondelete && scope.ondelete();
-        $.fixedBackground(6000, 1).click();
+        $.fixedBackground(600, 1).click();
       });
     }
   };

@@ -808,7 +808,7 @@ span.userinfo-major1 { min-width: 125px; display: inline-block; text-align:left;
 /* 页脚导航栏（手机） */
 @media (max-width:767px){
 	.page-nav-container-bg-top { display:none;} 
-	.page-nav-container { position:fixed; bottom:0; background-color:#f8f8f8;border-top:solid 1px #888; padding:0; margin:0;  z-index:9000;}
+	.page-nav-container { position:fixed; bottom:0; background-color:#f8f8f8;border-top:solid 1px #888; padding:0; margin:0;  z-index:900;}
 	.page-nav-container .icons{ width:100%; display:table;}
 	.page-nav-container .icons-row{ display:table-row;}
 	.page-nav-container .icons .ng-scope { display:inline-block;padding:0; margin:0;}
