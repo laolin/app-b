@@ -1,0 +1,11 @@
+/* */
+
+.qa-content-box imgs-uploader {
+  padding: 1em 0;
+}
+
+.qa-content-box imgs-uploader>.box>.img {
+  width: 6em;
+  height: 6em;
+  margin: 0 .5em .5em 0;
+}
