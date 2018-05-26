@@ -22,7 +22,8 @@
 
     function gotoPage(pageTo){
       pageTo = pageTo || '';
-      if(/\/login/.test(pageTo)) pageTo = '';
+      if(/^login/.test(pageTo)) pageTo = '';
+      pageTo = pageTo.match(/^\#?(.*)/)[1];
       location.hash = (/\#\!/.test(window.location.hash) ? "#!" : "#") + pageTo;
     }
 
