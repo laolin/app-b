@@ -17,7 +17,7 @@
       API.setCookie("user_id", tokenData.id);
       API.setCookie("user_password", tokenData.password);
 
-      gotoPage(data.pageTo);
+      if(data.pageTo !== false)gotoPage(data.pageTo);
     }
 
     function gotoPage(pageTo){

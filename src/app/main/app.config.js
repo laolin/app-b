@@ -1,5 +1,7 @@
 !(function (window, angular, undefined) {
 
+  var API_BASE_PATH = (location.origin + location.pathname).match(/(.*)(\/[^\/]*){3}$/)[1];
+
   /**
    * 网站通用配置
    */
@@ -9,11 +11,11 @@
 
       /** 早期版本仍使用的 api 地址 */
       apiRoot_old: 'https://api.qinggaoshou.com/api-qgs-vers/2.0.0/src/api-old', //服务器正式版
-      apiRoot_old: '../../api-qgs/src/api-old', // 本地
+      apiRoot_old: API_BASE_PATH + '/api-qgs/src/api-old', // 本地
 
       /** 新版本增加的 api 地址 */
       apiRoot: 'https://api.esunion.com/store/master/src/store', //服务器正式版
-      apiRoot: '../../api-qgs/src/qgs', //本地的API
+      apiRoot: API_BASE_PATH + '/api-qgs/src/qgs', //本地的API
 
       /** 微服务器地址 */
       apiRoot_unit: 'https://api.qinggaoshou.com/api-unit-server/ver-1.0.0', //微服务器地址

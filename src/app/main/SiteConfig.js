@@ -77,12 +77,6 @@
     })();
 
     var userToken = new UserToken();
-    function reload() {
-      return userToken.load();
-    }
-    function save(data) {
-      return userToken.save(data);
-    }
 
     var theFactory = {
       userToken
@@ -92,6 +86,7 @@
         return userToken.load()[name](a, b, c);
       }
     }
+    theFactory.reload = theFactory.load;
 
 
     /**
@@ -110,8 +105,12 @@
   theModule.config(['signProvider', 'SiteConfigProvider', 'UserTokenProvider', function (signProvider, SiteConfigProvider, UserTokenProvider) {
     signProvider.setApiRoot(SiteConfigProvider.apiRoot);
     signProvider.registerDefaultRequestHook((config, mockResponse) => {
+      var url = config.url;
+      if (!/^(http(s)?\:)?\/\//.test(url)) {
+        url = SiteConfigProvider.apiRoot + url
+      }
       return {
-        url: SiteConfigProvider.apiRoot + config.url,
+        url,
         post: angular.extend({}, UserTokenProvider.userToken.signToken(), config.data)
       }
     });
