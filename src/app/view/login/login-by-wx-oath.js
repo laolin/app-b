@@ -58,11 +58,11 @@
 
 
   theModule.component('loginByWxCode', {
-    template: `<div class="text-center">{{loginState || 'Logging ...'}}</div>`,
+    template: `<div class="text-center">{{loginState || 'Logging ...'}}</div><div>{{loginError||''}}</div>`,
     bindings: {
       pageTo: '<'
     },
-    controller: ['$scope', '$location', '$http', function ($scope, $location, $http) {
+    controller: ['$scope', '$location', '$http', '$q', function ($scope, $location, $http, $q) {
       var search = $location.search();
       $http.post('app/wx_code_login', {
         name: search.app,
@@ -70,9 +70,17 @@
         code: search.code
       }).then(json => {
         $scope.loginState = "Login by WX, Success!";
-        $scope.$emit("loginByWxCodeSuccess", { json, pageTo: atob(search.state) });
+        var pageTo;
+        $q.when((function () {
+          pageTo = atob(search.state);
+          $scope.$emit("loginByWxCodeSuccess", { json, pageTo});
+        })()).catch(() => {
+          pageTo = "";
+          $scope.$emit("loginByWxCodeSuccess", { json, pageTo});
+        })
       }).catch(json => {
-        $scope.loginState = `Login by WX, Error: ${json}`;
+        $scope.loginState = `Login by WX, Error:`;
+        $scope.loginError = JSON.stringify(json);
         console.log('静态api, 拒绝', json);
       });
     }]

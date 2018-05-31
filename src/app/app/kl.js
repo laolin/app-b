@@ -65,8 +65,9 @@ CTRL("ExpertKnowledgeShowCtrl", function ($scope) {
   var reget = $scope.reget = function(){
     API.get("/kl/expertgetdetail", {klid: klid}, {
       success: function(json){
-        API.iswx ? WXAPP.init(function(){init(json.detail);}) : init(json.detail);
-        $scope.$apply();
+        $http.post("WxJssdk/initWx", {}).finally(res => {
+          init(json.detail);
+        });
       } 
     });
   }

@@ -147,10 +147,10 @@
             $scope.$apply();
             $scope.regeting = false;
           }
-          else API.fn_guest(); //用户现在是未成功登陆状态
+          //else API.fn_guest(); //用户现在是未成功登陆状态
         },
         error: function () {
-          API.fn_guest();
+          //API.fn_guest();
         }
       });
     }

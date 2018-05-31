@@ -427,13 +427,15 @@ myapp.directive('mulityinput', function() {
       }
       //利用微信播放声音：
       scope.palyRecord = function(localId) {
-        //alert( JSON.stringify(scope.edit.audios));
-        wx.playVoice({localId: localId});
+        //alert( "localId=" + localId + "\n" + JSON.stringify(scope.edit));
+        
+        $http.post('WX_VIOCE/playVoice', localId);
+        //wx.playVoice({localId: localId});
       }
     }
   };
 });
-myapp.directive('mulityshow', function() {
+myapp.directive('mulityshow', ['$http', function($http) {
   return {
     restrict: 'AE',
     templateUrl: templateUrl("ui/mulityshow.html"),
@@ -449,15 +451,17 @@ myapp.directive('mulityshow', function() {
       }
       //利用微信播放声音：
       scope.palyRecord = function(localId) {
-        //alert( JSON.stringify(scope.edit.audios));
-        wx.playVoice({localId: localId});
+        //alert( "localId=" + localId + "\n" + JSON.stringify(scope.answ));
+        
+        $http.post('WX_VIOCE/playVoice', localId);
+        //wx.playVoice({localId: localId});
       }
       scope.preview= function(index){
         API.$scope.previewlocal(scope.answ.imageslist[index], scope.answ.imageslist);
       }
     }
   };
-});
+}]);
 
 
 myapp.directive('ciaContent', function() {

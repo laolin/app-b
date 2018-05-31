@@ -277,7 +277,7 @@
       //显示提问部分：
       ASK = $scope.ASK = qadetail.jbxx;
       if (ASK.attr) {//旧版兼容
-        initqa_attr($scope, ASK.attr);//数据初始化
+        initqa_attr($scope, ASK.attr, $http);//数据初始化
         neasy = ASK.attr.easy && SETTINGS.qa_easy2n[ASK.attr.easy] || 0;
         neasy > 0 && (ASK.attr.easy = neasy);
         ntimelimit = ASK.attr.timelimit && SETTINGS.qa_timelimit2n[ASK.attr.timelimit] || 0;
@@ -285,13 +285,21 @@
       }
       ASK.imageslist = ASK.attr.images ? ASK.attr.images.split(",") : [];
       ASK.audioslist = ASK.attr.audioslist;
-      if (API.iswx && ASK.audioslist) for (var i in ASK.audioslist) {
-        audio_serverId_to_localId({ scope: $scope, audio: ASK.audioslist[i] });
+      if (ASK.audioslist) for (var i in ASK.audioslist) {
+        var audio = ASK.audioslist[i];
+        var serverId = audio.serverId;
+        $http.post('WX_VIOCE/fromServerId', audio.serverId).then(json => {
+          audio.localId = json.datas;
+          //alert('转换为本地ID, OK:' + audio.localId);
+        }).catch(e=>{
+          //alert('转换为本地ID, ERROR:\n' + JSON.stringify(e));
+        })
+        //audio_serverId_to_localId({ scope: $scope, audio: ASK.audioslist[i] });
       }
       //所有回答：
       ANSWER = $scope.ANSWER = qadetail.answers || [];//快速抢答时是我的回答，问答时是当前回答
       if (ANSWER.length > 0) for (var i in ANSWER) {
-        ANSWER[i].attr && initqa_attr($scope, ANSWER[i].attr);//当前回答，数据初始化
+        ANSWER[i].attr && initqa_attr($scope, ANSWER[i].attr, $http);//当前回答，数据初始化
       }
 
       //显示头像呢称等：

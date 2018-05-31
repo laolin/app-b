@@ -53,7 +53,5 @@
     $scope.quickAsk = function (major) {
       window.location.href = "#/frame/toask?major=" + escape(escape(major));
     }
-
-    WXAPP && WXAPP.setShare();//使用默认分享
   }
 })(window, angular);

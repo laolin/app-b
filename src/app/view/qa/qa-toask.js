@@ -125,9 +125,6 @@
         }).finally(res => {
           init_ask_data(json.qadetail);
         });
-        // API.iswx ?
-        //   WXAPP.init(function () { init_ask_data(json.qadetail); }) :
-        //   init_ask_data(json.qadetail);
         $scope.major = json.qadetail.jbxx.attr && json.qadetail.jbxx.attr.major || "";
         initMajor();
         $scope.initEasyTimelimit(json.qadetail.jbxx.attr || {});
@@ -135,7 +132,7 @@
       }
     });
     function init_ask_data(detail) {
-      var attr = detail.jbxx.attr && initqa_attr($scope, detail.jbxx.attr) || {};
+      var attr = detail.jbxx.attr && initqa_attr($scope, detail.jbxx.attr, $http) || {};
       InitCIA($scope, "EDIT", { keyid: "qaid", url: "/qa/updatedraft" });
       EDIT = $scope.EDIT;
       EDIT.controldata = {

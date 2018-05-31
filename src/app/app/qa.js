@@ -321,14 +321,23 @@ function CQaEdit($scope, keyid){
 
 
 
-function initqa_attr($scope, attr){
+function initqa_attr($scope, attr, $http){
   attr.contents = (attr.content||"").split("\n");//处理不能自动换行
   //初始化回答的图片：
   attr.imageslist = attr.images ? attr.images.split(",") : [];
   //初始化回答的录音：
-  if(API.iswx && attr.audioslist)for(var i in attr.audioslist){
+  if(attr.audioslist)for(var i in attr.audioslist){
     //将录音的服务器ID转换为本地ID：
-    audio_serverId_to_localId({scope: $scope, audio: attr.audioslist[i]});//异步执行
+    var audio = attr.audioslist[i];
+    var serverId = audio.serverId;
+    $http.post('WX_VIOCE/fromServerId', audio.serverId).then(json => {
+      audio.localId = json.datas;
+      //alert('转换为本地ID, OK:' + audio.localId);
+    }).catch(e=>{
+      console.error(e);
+      //alert('转换为本地ID, ERROR:\n' + JSON.stringify(e));
+    })
+    //audio_serverId_to_localId({scope: $scope, audio: attr.audioslist[i]});//异步执行
   }
   return attr;
 }

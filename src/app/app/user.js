@@ -316,7 +316,6 @@ CTRL("QrCodeControl", function ($scope) {
     $scope.logged = true;
     $scope.userid = json.userinfo.id;
     $scope.username = json.userinfo.name;
-    WXAPP.setShare();
     API.get("/user/getmyreferedinfo", { }, { success: function( json){
       if(json.errcode !== 0)return;//
       $scope.refered = json.info;
@@ -333,7 +332,6 @@ CTRL("QrCodeControl", function ($scope) {
         $scope.userid = json.userid;
         //window.location.hash = "#/qrcode?userid=" + $scope.userid;
         $scope.username = json.name;
-        WXAPP.setShare();
         $scope.$apply();
       }
     });

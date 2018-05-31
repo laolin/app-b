@@ -4,7 +4,7 @@
   var theConfigModule = angular.module('dj-http')
 
   /**
-   * 请求登录
+   * 请求登录, 验证登录
    */
   theConfigModule.run(['$state', 'sign', 'DjPop', function ($state, sign, DjPop) {
     sign.registerHttpHook({
@@ -13,6 +13,13 @@
         console.log('请求登录');
         var pageTo = $state.href(config.data.toState, config.data.toParams);
         $state.go("login", { mode: 'wx', pageTo });
+        return mockResponse.reject();
+      }
+    });
+    sign.registerHttpHook({
+      match: /^验证登录$/,
+      hookRequest: function (config, mockResponse, match) {
+        console.log('验证登录, 如果当前登录票据不合法，就要跳转到登录界面');
         return mockResponse.reject();
       }
     });

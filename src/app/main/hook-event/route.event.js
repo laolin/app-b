@@ -28,10 +28,13 @@
 
       var needLogin = checkNeedLogin(toState);
       var hasToken = UserToken.hasToken();
+      var token_data = UserToken.load().data;
+      var unLogged = ! hasToken || !token_data.id
 
-      console.log('判断登录', needLogin, hasToken);
+      console.log('判断登录', needLogin, !unLogged);
+      $http.post("验证登录", {toState, toParams});
 
-      if(needLogin && ! hasToken){
+      if(needLogin && unLogged){
         event.preventDefault();
         $http.post("请求登录", {toState, toParams}).then(json=>{
           $state.go(toState.name, toParams);
