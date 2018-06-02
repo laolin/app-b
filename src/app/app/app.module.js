@@ -210,10 +210,6 @@ window.dcode && window.dcode.debug();
         })
 
         //支付部分    
-        .state('frame.recharge', {
-            url: '/recharge',
-            templateUrl: templateUrl('page/user/recharge.html')
-        })
         .state('frame.myuserpoints', {
             url: '/myuserpoints',
             templateUrl: templateUrl('page/user/points-list-user.html')
