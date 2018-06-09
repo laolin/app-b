@@ -19,18 +19,19 @@
 
   function ctrl($scope, $location, $http) {
     var search = $location.search();
-    $http.post('/app/wx_code_login',{
-      name: search._ret_app,
-      code: search._ret_code
-    },{
-      signType: 'single'
-    }).then(json => {
-      angular.dj.userToken.save(json.datas);
-      location.hash = '#!' + search.pageTo;
-      //$location.path( search.pageTo ).search({});
-    }).catch(json =>{
-      console.log('静态api, 拒绝', json);
-    });
+    $http.post('app/wx_code_login', {
+      name: search.app,
+      code: search.code
+    }, {
+        signType: 'single'
+      }).then(json => {
+        angular.dj.userToken.save(json.datas);
+        var pageTo = atob(search.state);
+        //location.hash = '#!' + pageTo;
+        $location.path(pageTo).search({});
+      }).catch(json => {
+        console.log('静态api, 拒绝', json);
+      });
 
   }
 })(window, angular);

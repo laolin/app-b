@@ -17,7 +17,8 @@
         web: { name: 'qgs-web', appid: 'wx8fb342a27567fee7' },
         wx: { name: 'qgs-mp', appid: 'wx93301b9f5ddf5c8f' }
       },
-      wx_authApiBase: 'https://qinggaoshou.com/api-eb', //WX 授权 callback 域名限制的URI
+      //wx_authApiBase: 'https://qinggaoshou.com/api-eb', //WX 授权 callback 域名限制的URI
+      wx_authApiBase: 'https://qinggaoshou.com/bridge/wx-auth', //WX 授权 callback 域名限制, 由此脚本处理桥接
       wx_markWxLoginCallback: 'cb_xd', //和后端API的约定字符串，在 /wx-login里用'
     }
     return {

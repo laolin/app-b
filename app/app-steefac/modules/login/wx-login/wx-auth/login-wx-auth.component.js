@@ -9,20 +9,13 @@
    */
   angular.extend(angular.dj || (angular.dj = {}), (function () {
     var wxAuth = {
-      authUrl: (href, hash) => {
-        var theSiteConfig = angular.extend({}, angular.dj.siteConfig, window.theSiteConfig);
-        var appid = theSiteConfig.wx_app.wx.appid;
-        var state = theSiteConfig.wx_markWxLoginCallback + '~' + theSiteConfig.wx_app.wx.name;
-        var redirect_uri = ((href, hash) => {
-          var para1 = btoa(href.split("#")[0] + "#!/wx-code-login");
-          para1 = para1.replace('/', '_');//由于 base64的第64个字符是 '/'，要替换为 '_'
-          var para2 = btoa(encodeURIComponent(hash));
-          return `${theSiteConfig.wx_authApiBase}/bindwx/callback_bridge/${para1}/${para2}`;
-        })(href, hash);
+      authUrl: (redirect_page, pageTo) => {
+        var auhParam = getAuhParam(redirect_page, pageTo, 'wx');
+
         var wxAuthUrl =
-          'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appid +
-          '&redirect_uri=' + redirect_uri +
-          '&response_type=code&scope=snsapi_userinfo&state=' + state +
+          'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + auhParam.appid +
+          '&redirect_uri=' + auhParam.redirect_uri +
+          '&response_type=code&scope=snsapi_userinfo&state=' + auhParam.state +
           '#wechat_redirect';
         return wxAuthUrl;
       }
@@ -44,18 +37,18 @@
     });
 
   function ctrl($scope, $location, $http) {
-    if(isWx){
-      var pageTo = this.pageTo;
-      if(/^\/login(\/.*)?$/.test(pageTo)) pageTo = '/';
+    var pageTo = $location.search().pageTo;
+    if (isWx) {
+      if (/^\/login(\/.*)?$/.test(pageTo)) pageTo = '/';
       var wxAuth = angular.dj.wxAuth.authUrl(location.href, pageTo);
       location.href = wxAuth;
       return;
     }
     this.$onInit = function () {
-      var auhParam = getAuhParam(location.href, this.pageTo, 'web');
+      var auhParam = getAuhParam(location.href, pageTo, 'web');
       var wx_src = "https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js";
       if (typeof (WxLogin) == 'undefined') {
-        $http.jsonp(wx_src).finally( json => {
+        $http.jsonp(wx_src).finally(json => {
           showWxLogin(auhParam);
         });
       } else {
@@ -63,7 +56,7 @@
       }
 
     }
-    function showWxLogin(auhParam){
+    function showWxLogin(auhParam) {
       new WxLogin(angular.extend({}, auhParam, {
         id: idWxLoginDiv,
         scope: "snsapi_login",
@@ -80,16 +73,16 @@
    * @param {string} hash : 在 wx-code-login 调用成功后，将跳转到的页面
    * @param {string} appName : 第三方授权的微信公众号自定义名称，前后端约定
    */
-  function getAuhParam(href, hash, appName) {
+  function getAuhParam(redirect_page, pageTo, appName) {
     var theSiteConfig = angular.extend({}, angular.dj.siteConfig, window.theSiteConfig);
     var appid = theSiteConfig.wx_app[appName].appid;
-    var state = theSiteConfig.wx_markWxLoginCallback + '~' + theSiteConfig.wx_app[appName].name;
-    var redirect_uri = ((href, hash) => {
-      var para1 = btoa(href.split("#")[0] + "#!/wx-code-login");
-      para1 = para1.replace('/', '_');//由于 base64的第64个字符是 '/'，要替换为 '_'
-      var para2 = btoa(hash);
-      return `${theSiteConfig.wx_authApiBase}/bindwx/callback_bridge/${para1}/${para2}`;
-    })(href, hash);
+    var state = btoa(pageTo || '');
+    var redirect_uri = ((redirect_page) => {
+      var loginHash = (/\#\!/.test(window.location.hash) ? "#!" : "#") + "/wx-code-login";
+      var para1 = theSiteConfig.wx_app[appName].name;
+      var para2 = encodeURIComponent(btoa(redirect_page.split("#")[0] + loginHash));
+      return `${theSiteConfig.wx_authApiBase}/${para1}/${para2}`;
+    })(redirect_page);
     return {
       appid,
       state,

@@ -8,7 +8,7 @@
        */
       $rootScope.$on('$routeChangeSuccess', function (evt, current, prev) {
         let route = current.$$route;
-        requireLogin(route).catch(e => {
+        return requireLogin(route).catch(e => {
           var pageTo = current.originalPath || '/';
           // 防止回来时，又跳转到登录页面
           if(/^\/login(\/.*)?$/.test(pageTo)) pageTo = '/';

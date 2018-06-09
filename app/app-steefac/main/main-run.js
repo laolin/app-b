@@ -46,7 +46,7 @@
    */
   function runNotLoggedIsWx() {
 
-    var hasCode = (/\/wx-code-login(\?|\?.*\&)_ret_code\=/i).test(window.location.hash);
+    var hasCode = (/\/wx-code-login(\?|\?.*\&)code\=/i).test(window.location.hash);
     if (hasCode) {
       // 按已登录处理，在 /wx-code-login 页面中将进行登录
       runLogged();
