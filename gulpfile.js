@@ -4,7 +4,8 @@ var app_name = 'qgs';
 var srcPath = 'src';
 var distPath = 'dist';
 var SERVET_ROOT = 'https://api.qinggaoshou.com/api-qgs-vers';
-var VER = '2.0.0';
+var VER = '2.0.1';
+var VER_time = new Date().toLocaleString();
 
 var configs = {
   "srcPath": srcPath,
@@ -52,6 +53,8 @@ var configs = {
     "master.loader": `
       window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
       window.theSiteConfig = {
+        VER: "${VER}",
+        VER_time: "${VER_time}",
         localStorage_Token_KEY: '__cmoss_master_token__',
         apiRoot_old: '${SERVET_ROOT}/${VER}/src/api-old',
         apiRoot: '${SERVET_ROOT}/${VER}/src/${app_name}',
@@ -63,6 +66,8 @@ var configs = {
     "preview.loader": `
       window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
       window.theSiteConfig = {
+        VER: "${VER}",
+        VER_time: "${VER_time}",
         localStorage_Token_KEY: '__cmoss_preview_token__',
         apiRoot_old: '${SERVET_ROOT}/${VER}/src/api-old',
         apiRoot: '${SERVET_ROOT}/${VER}/src/${app_name}',
@@ -74,6 +79,8 @@ var configs = {
     "local.loader": `
       window.__assetsPath = "../dist";
       window.theSiteConfig = {
+        VER: "${VER}",
+        VER_time: "${VER_time}",
         apiRoot: '../../../api-${app_name}/src/${app_name}',
         title:{
           hide   : true,
