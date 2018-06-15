@@ -2,10 +2,25 @@
 
 angular.module('steefac')
 .component('myApp',{
-  templateUrl: 'app-steefac/component/myApp/myApp.component.template.html',
+  template: `
+    <appb-ui-header header-data='appb.headerData' ng-if="!appb.headerData.hide && sj"></appb-ui-header>
+    <div class="main-container flex-v flex-1" scroll-parent ng-if="sj">
+      <div ng-view class="flex-v flex-1">
+        <h5 class='text-center'>Loading...</h5>
+      </div>
+    </div>
+    <appb-ui-footer class="{{SiteConfig.ver.name}}" footer-data='appb.footerData' ng-if="sj"></appb-ui-footer>
+
+    <!-- 迟早要删除的，呵呵 -->
+    <appb-ui-abc app-data='appb.appData' ng-if="sj"></appb-ui-abc>
+  <div class="pc" ng-if="!sj">
+    <h3>请在手机微信中打开</h3>
+    <!-- <img src="http://qr.liantu.com/api.php?text={{url}}"> -->
+  </div>`,
   bindings: {
   },
-  controller:['$scope', '$log', 'AppbData', 'APP', function ($scope, $log, AppbData, APP) {
+  controller:['$scope', '$element', 'AppbData', 'APP', function ($scope, $element, AppbData, APP) {
+    $element.addClass("flex-v flex-1");
     var appb = $scope.appb = {
       appData    : AppbData.getAppData(),
       headerData : AppbData.getHeaderData(),
