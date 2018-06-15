@@ -5,7 +5,7 @@
   <div class="panel panel-default">
     <ul class="list-group hh5">
       <li class="list-group-item userlist-item">
-        <img ng-src="{{userinfo.headimgurl}}" ng-click="previewself(userinfo.headimgurl)">
+        <img https-img="{{userinfo.headimgurl}}" ng-click="previewself(userinfo.headimgurl)">
         <div class="name">{{userinfo.name || '匿名'}}{{ (userinfo.nickname && ( ' ('+userinfo.nickname+')')) || ''}}</div>
         <div class="id">ID:{{userinfo.id}}</div>
         <div class="rt color-ccc">
@@ -33,7 +33,7 @@
           <div class="color-f00">{{RR.referrer.prompt}}</div>
         </div>
         <div class="userlist-item" ng-if="referrer.id">
-          <img ng-src="{{referrer.headimgurl}}" ng-click="previewself(referrer.headimgurl)">
+          <img https-img="{{referrer.headimgurl}}" ng-click="previewself(referrer.headimgurl)">
           <div class="name">{{referrer.name || '匿名'}}{{ (referrer.nickname && ( ' ('+referrer.nickname+')')) || ''}}</div>
           <div class="id">ID:{{referrer.id}}</div>
         </div>

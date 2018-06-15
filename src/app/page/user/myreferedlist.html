@@ -12,7 +12,7 @@
 
   <!--  列表  -->
   <div class="sub img-row-em img-row-b1 hh6 border-bottom border-888 bk-fff" ng-repeat="user in D.list">
-    <img ng-src="{{user.headimgurl}}" ng-click="previewself(user.headimgurl)">
+    <img https-img="{{user.headimgurl}}" ng-click="previewself(user.headimgurl)">
     <a ng-href="{{is_service && ('#/frame/usershow?userid='+user.id) || ''}}" class="text1 color-00f"><span class="hh4">{{user.attr.name || user.name || '匿名'}}{{ (user.nickname && ( ' ('+ (user.nickname|cut:0:8)+')')) || ''}}</span></a>
     <div class="text2 color-888">ID:{{user.id}}</div>
     <div class="r1">{{ ((user.userstate==3 && '用户')||'') + ((user.expertstate==3 && '　专家')||'') + ((user.servicestate==3 && '　编导')||'')}}</div>

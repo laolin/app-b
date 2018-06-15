@@ -21,7 +21,7 @@
     <!-- 提问情况，总是显示 -->
     <div class="overflow-auto padding5 border-bottom qa-show-item-box bk-row1" ng-if="1 || YN.hasasked">
       <div class="info" ng-if="API.module!='user'">
-        <img ng-src="{{USERS[ASK.userid].headimgurl}}" ng-click="previewself(USERS[ASK.userid].headimgurl)" >
+        <img https-img="{{USERS[ASK.userid].headimgurl}}" ng-click="previewself(USERS[ASK.userid].headimgurl)" >
         <div class="name">{{USERS[ASK.userid].name}}</div>
       </div>
       <div class="data color-555 b900 hh5">
@@ -48,12 +48,12 @@
     <div class="ww25 overflow-auto border-bottom {{$index<count_un_satisfy&&'is-history'||''}} {{count_un_satisfy}}" i="{{$index}}" ng-repeat="asw in ANSWER">
       <div class="overflow-auto padding5 qa-show-item-box bk-row1" ng-show="asw.state!='评价不满意' && asw.state!='评价满意' && asw.state!='待评价'">
         <div class="info" ng-if="API.module!='user' && asw.userid">
-          <img ng-src="{{USERS[(asw.userid=='110001'&&asw.senderid) || asw.userid].headimgurl}}" ng-click="previewself(USERS[(asw.userid=='110001'&&asw.senderid) || asw.userid].headimgurl)">
+          <img https-img="{{USERS[(asw.userid=='110001'&&asw.senderid) || asw.userid].headimgurl}}" ng-click="previewself(USERS[(asw.userid=='110001'&&asw.senderid) || asw.userid].headimgurl)">
           <div class="name">{{USERS[(asw.userid=='110001'&&asw.senderid) || asw.userid].name}}</div>
         </div>
         <div class="ww25 color-555 b900 hh5 b300">
           <div class="hh6 img-row-em bk-ddd color-888" ng-show="API.module=='service'" ng-if="asw.userid!='110001' && asw.state!='评价不满意' && asw.state!='评价满意'">
-            <img ng-src="{{USERS[asw.senderid].headimgurl}}" class="radius5" ng-click="previewself(USERS[asw.senderid].headimgurl)">
+            <img https-img="{{USERS[asw.senderid].headimgurl}}" class="radius5" ng-click="previewself(USERS[asw.senderid].headimgurl)">
             <div class="text1">{{USERS[asw.senderid].name}}</div>
             <div class="text2">{{asw.rq_send|hhmm}}</div>
             <span class="r1 hh4">【指定回答】</span>
@@ -78,7 +78,7 @@
         </div>
       </div>
       <div class="hh6 img-row-em bk-eee fee" ng-if="API.module!='user' && (asw.state=='评价不满意' || asw.state=='评价满意')">
-        <img ng-src="{{USERS[asw.userid].headimgurl}}" class="radius5" ng-click="previewself(USERS[asw.userid].headimgurl)">
+        <img https-img="{{USERS[asw.userid].headimgurl}}" class="radius5" ng-click="previewself(USERS[asw.userid].headimgurl)">
         <div class="text1">{{USERS[asw.userid].name}}</div>
         <div class="text2">{{asw.rq|hhmm}}</div>
         <span class="hh4 margin10 float-right">{{asw.state=='评价不满意'&&'不'||''}}满意</span>
@@ -164,7 +164,7 @@
         </div>
       </div>
       <div class="list-group-item superior-list userlist-item {{ac.pointexpert.active == e && 'active-userlist-item'}}"  ng-repeat="e in ac.pointexpert.D.list track by $index"  ng-click="ac.pointexpert.select(e)">
-        <img ng-src="{{e.headimgurl}}" ng-click="previewself(e.headimgurl)">
+        <img https-img="{{e.headimgurl}}" ng-click="previewself(e.headimgurl)">
         <div class="name">{{e.attr.name || e.name}}{{ (e.nickname && ( ' ('+e.nickname+')')) || ''}}</div>
         <div class="id">
           <span class="">ID:{{e.id}}</span>

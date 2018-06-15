@@ -10,7 +10,7 @@
 
   <!--  用户列表  -->
   <div class="img-row-em img-row-b1 hh6 border-bottom border-888 bk-fff" ng-if="D.en=='user'" ng-repeat="user in D.list" slide-delete text="恢复" ondelete="D.undelete(user)" >
-    <img ng-src="{{user.headimgurl}}" ng-click="previewself(user.headimgurl)">
+    <img https-img="{{user.headimgurl}}" ng-click="previewself(user.headimgurl)">
     <a href="#/frame/usershow?userid={{user.id}}"  class="text1 color-00f"><span class="hh4">{{user.attr.name || user.name}}{{ (user.nickname && ( ' ('+ (user.nickname|cut:0:8)+')')) || ''}}</span></a>
     <div class="text2 color-888">ID:{{user.id}} 　
       {{user.hhh&&'活跃度'+user.hhh ||''}}

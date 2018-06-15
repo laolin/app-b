@@ -45,7 +45,7 @@
       <div class="cell role-edit-list">
         <!-- 列表 -->
         <div class="item imgrow {{row==RR.showinguser && 'active'}}" ng-repeat="row in RR.D.list track by $index" ng-click="RR.showuserright(row)">
-          <img class="img30" ng-src="{{row.headimgurl}}" ng-click="previewself(row.headimgurl)">
+          <img class="img30" https-img="{{row.headimgurl}}" ng-click="previewself(row.headimgurl)">
           <nobr class="name">{{row.name || '匿名'}}</nobr>
         </div>
         <!-- 页码 -->
@@ -69,7 +69,7 @@
     <div class="panel panel-default" ng-switch-when="0">
       <ul class="list-group hh5">
         <li class="list-group-item userlist-item">
-          <img ng-src="{{userinfo.headimgurl}}" ng-click="previewself(userinfo.headimgurl)">
+          <img https-img="{{userinfo.headimgurl}}" ng-click="previewself(userinfo.headimgurl)">
           <div class="name">{{userinfo.name || '匿名'}}{{ (userinfo.nickname && ( ' ('+userinfo.nickname+')')) || ''}}</div>
           <div class="id">ID:{{userinfo.id}}</div>
         </li>

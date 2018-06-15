@@ -1,7 +1,7 @@
 <setpagetitlerow qgs="编辑用户信息"></setpagetitlerow>
 <div ng-controller="ServiceEditUserCtrl">
   <div class="img-row-em border-bottom border-ccc">
-    <img ng-src="{{userinfo.headimgurl}}" ng-click="previewself(userinfo.headimgurl)">
+    <img https-img="{{userinfo.headimgurl}}" ng-click="previewself(userinfo.headimgurl)">
     <div class="text1"><span class="hh4">{{userinfo.name || '匿名'}}{{ (userinfo.nickname && ( ' ('+userinfo.nickname+')')) || ''}}</span></div>
     <div class="text2">ID:{{userinfo.id}}</div>
   </div>
