@@ -316,7 +316,7 @@
       match: /^cache\/load$/,
       hookRequest: function (config, mockResponse) {
         var param = config.data;
-        return mockResponse.resolve(cacheAcTable.select({ ac: param.ac }).then(list => {
+        return mockResponse.resolve(cacheAcTable.select(param).then(list => {
           return sign.OK(list[0] || {});
         }));
       }
