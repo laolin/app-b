@@ -12,12 +12,6 @@
    */
   var theModule = angular.module('wx-jssdk');
 
-  var theWxRecordDefault = {
-    api: {
-      SAVE_VOICE: 'SAVE_VOICE',// 上传声音到自己的服务器
-    }
-  }
-
   theModule.factory('WxVoiceBase', ['$q', 'WxJssdk', function ($q, WxJssdk) {
 
     /** 从微信服务器下载音频 */
