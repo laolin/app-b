@@ -9,6 +9,12 @@ angular.module('steefac')
     controller: ['$scope','$timeout','$log', '$http', 'SiteConfig', 'AppbFeedService','AppbData','AppbUiService','AmapMainData','FacUser','FacSearch',
       function ($scope,$timeout,$log, $http, SiteConfig, AppbFeedService,AppbData,AppbUiService,AmapMainData,FacUser,FacSearch) {
 
+
+        /** 版本日期 */
+        $scope.ver = window.theSiteConfig.ver || '最新';
+        $scope.ver_time = window.theSiteConfig.ver_time || new Date().toLocaleString();
+
+
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
 
