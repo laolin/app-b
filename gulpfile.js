@@ -397,7 +397,7 @@ function build_loader() {
     "cmoss.master.loader": `
       window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
       window.theSiteConfig = {
-        ver: '${ver}',
+        ver: 'Ver:master${ver}',
         ver_time: '${ver_time}',
         localStorage_Token_KEY: '__cmoss_master_token__',
         apiRoot: 'https://api.qinggaoshou.com/cmoss-master-vers/ver-${ver}/src/cmoss/',
@@ -406,7 +406,7 @@ function build_loader() {
     "cmoss.xcx.loader": `
       window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
       window.theSiteConfig = {
-        ver: '${ver}',
+        ver: 'Ver:xcx${ver}',
         ver_time: '${ver_time}',
         localStorage_Token_KEY: '__cmoss_xcx_token__',
         apiRoot: 'https://api.qinggaoshou.com/cmoss-master-vers/ver-${ver}/src/cmoss/',
@@ -415,7 +415,7 @@ function build_loader() {
     "cmoss.preview.loader": `
       window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
       window.theSiteConfig = {
-        ver: '${ver}',
+        ver: 'Ver:preview${ver}',
         ver_time: '${ver_time}',
         localStorage_Token_KEY: '__cmoss_preview_token__',
         apiRoot: 'https://api.qinggaoshou.com/cmoss-master-vers/ver-${ver}/src/cmoss/',
@@ -424,7 +424,7 @@ function build_loader() {
     "cmoss.newest.loader": `
       window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
       window.theSiteConfig = {
-        ver: '${ver}',
+        ver: 'Ver:newest${ver}',
         ver_time: '${ver_time}',
         localStorage_Token_KEY: '__cmoss_preview_token__',
         apiRoot: 'https://api.qinggaoshou.com/cmoss-master-vers/ver-${ver}/src/cmoss/',
@@ -433,7 +433,7 @@ function build_loader() {
     "cmoss.test.loader": `
       window.__assetsPath = "https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets";
       window.theSiteConfig = {
-        ver: '${ver}',
+        ver: 'Ver:test${ver}',
         ver_time: '${ver_time}',
         localStorage_Token_KEY: '__cmoss_test_token__',
         apiRoot: 'https://api.jdyhy.com/cmoss-test-1.0/src/cmoss/',
