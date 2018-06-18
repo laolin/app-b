@@ -603,10 +603,10 @@ function clearTplFile() {
   fs.writeFile(configObj.path.tmp + '/' + configObj.tplJsName, '//clear after build');
 };
 
-gulp.task('build', ['bu', 'copy']);
+gulp.task('build', ['bu', 'copy'],function(){});
 gulp.task('bu', ['build-loader_safe'], clearTplFile);
 gulp.task('dev', ['wiredep'], clearTplFile);
-gulp.task('debug', ['wiredep']);
-gulp.task('de', ['debug']);
+gulp.task('debug', ['wiredep'],function(){});
+gulp.task('de', ['debug'],function(){});
 
-gulp.task('default', ['dev']);
+gulp.task('default', ['dev'],function(){});
