@@ -439,6 +439,16 @@ function build_loader() {
         apiRoot: 'https://api.jdyhy.com/cmoss-test-1.0/src/cmoss/',
         apiRootUnit: 'https://api.jdyhy.com/cmoss-test-1.0/src/api-unit/'
       };`,
+      //pre-test全部文件在本地测试，方便看访问log
+      "cmoss.pre-test.loader": `
+        window.__assetsPath = "https://qinggaoshou.com/assets";
+        window.theSiteConfig = {
+          ver: 'Ver:pre-t${ver}',
+          ver_time: '${ver_time}',
+          localStorage_Token_KEY: '__cmoss_pre_test_token__',
+          apiRoot: 'https://api.jdyhy.com/cmoss-test-1.0/src/cmoss/',
+          apiRootUnit: 'https://api.jdyhy.com/cmoss-test-1.0/src/api-unit/'
+        };`,
     "debug.loader": `
       window.__assetsPath = "../dist/assets";
       window.theSiteConfig = {
