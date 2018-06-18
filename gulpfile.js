@@ -502,7 +502,7 @@ function build_loader() {
 
 gulp.task('copyImg', function () {
   return gulp.src(configObj.path.app_assets + '/img/**/*.*')
-    .pipe(imagemin())
+    //.pipe(imagemin())
     .pipe(gulp.dest(configObj.path.dist_assets + '/img'))
 });
 
