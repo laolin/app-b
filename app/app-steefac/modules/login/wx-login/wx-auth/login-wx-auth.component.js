@@ -83,8 +83,8 @@
       var loginHash =  "#!" + "/wx-code-login"; //本项目应该总是使用 #! ，不会有使用 # 的情况
       var para1 = theSiteConfig.wx_app[appName].name;
 
-      //这里有加上随机数，'/'+ (+new Date) ，否则微信不刷新，会导致不会去真的登录
-      var para2 = encodeURIComponent(btoa(redirect_page.split("#")[0] +'/'+ (+new Date) + loginHash));
+      //这里有加上随机数，'?_'+ (+new Date) ，否则微信不刷新，会导致不会去真的登录
+      var para2 = encodeURIComponent(btoa(redirect_page.split("#")[0] +'?_'+ (+new Date) + loginHash));
       return `${theSiteConfig.wx_authApiBase}/${para1}/${para2}`;
     })(redirect_page);
     return {
