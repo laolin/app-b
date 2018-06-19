@@ -82,7 +82,7 @@
       //bug: 首页不带#路径打开时，上一行location.hash是空 ，会导致使用#，进而导致不能跳到正确的路由
       var loginHash =  "#!" + "/wx-code-login"; //本项目应该总是使用 #! ，不会有使用 # 的情况
       var para1 = theSiteConfig.wx_app[appName].name;
-      var para2 = encodeURIComponent(btoa(redirect_page.split("#")[0] + loginHash));
+      var para2 = encodeURIComponent(btoa(redirect_page.split("#")[0] +'/'+ (+new Date) + loginHash));
       return `${theSiteConfig.wx_authApiBase}/${para1}/${para2}`;
     })(redirect_page);
     return {
