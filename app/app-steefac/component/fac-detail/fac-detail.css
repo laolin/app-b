@@ -10,6 +10,26 @@ fac-detail-profile .box-1 > .headimg{
   background: #ccc;
   margin: 0 0 0 .2rem;
 }
+
+project-close-show .closed.row,
+project-detail-profile .box-1,
+fac-detail-profile .box-1{
+  position: relative;
+}
+project-close-show .closed.row > img.closed,
+project-detail-profile .box-1 > img.closed,
+fac-detail-profile .box-1 > img.closed {
+  height: .60rem;
+  position: absolute;
+  bottom: 0;
+  right: .30rem;
+  opacity: 0.5;
+}
+project-close-show .closed.row > img.closed{
+  right: -5em;
+  bottom: -2em;
+}
+
 project-detail-profile .box-1 > .headimg img,
 fac-detail-profile .box-1 > .headimg img{
   width: .75rem;
@@ -20,7 +40,6 @@ fac-detail-profile .box-1 > .headimg img{
   font-size: .14rem;
   font-weight: 900;
   height: 1.5em;
-  display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   line-height: 1.5;
@@ -46,7 +65,7 @@ fac-detail-profile .btns{
 }
 project-detail-profile .btns > *,
 fac-detail-profile .btns > *{
-  padding: .05rem .20rem .05rem 0;
+  padding: .05rem .05rem .05rem 0;
   margin-right: 0.8em;
   border: solid 0;
 }
@@ -89,3 +108,14 @@ search-nearby .btn > select{
   opacity: 0;
 }
 
+.page-fac-detail dj-form-item-host{
+  margin: 0;
+}
+
+
+.detail-close > .row {
+  padding: .8em 0;
+}
+.detail-close > .row >*:first-child {
+  width: 5em;
+}

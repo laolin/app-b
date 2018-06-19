@@ -6,11 +6,11 @@ var RIGHTS_ADMIN = 0x00010000;//TODO 和服务器端统一文件
 
 angular.module('appb')
 .factory('AppbDataUser',
-['$http','$window','$location','$log','$timeout','$q',
-function($http, $window,$location,$log,$timeout,$q)
+['$http','$window','$location','$log','$timeout','$q', "SIGN",
+function($http, $window,$location,$log,$timeout,$q, SIGN)
 {
   var userData={};
-  var u_saved=JSON.parse($window.localStorage.getItem(KEY_USERDATA));
+  var u_saved=JSON.parse($window.localStorage.getItem(KEY_USERDATA)||'{}');
   this.userData=userData;
   
   var usersInfo={};//头像等用户信息
@@ -19,6 +19,11 @@ function($http, $window,$location,$log,$timeout,$q)
   
   //factory functions
   function getUserData() {
+    if(angular.dj && angular.dj.userToken && angular.dj.userToken.data && angular.dj.userToken.data.token){
+      userData.uid     = angular.dj.userToken.data.uid;
+      userData.tokenid = angular.dj.userToken.data.tokenid;
+      userData.token   = angular.dj.userToken.data.token;
+    }
     return userData;
   }
   function saveUserDataToLocalStorage() {
@@ -32,9 +37,17 @@ function($http, $window,$location,$log,$timeout,$q)
       if (obj.hasOwnProperty(attr)) userData[attr] = obj[attr];
     }
     
+    if(angular.dj && angular.dj.userToken && angular.dj.userToken.data && angular.dj.userToken.data.token){
+      userData.uid     = angular.dj.userToken.data.uid;
+      userData.tokenid = angular.dj.userToken.data.tokenid;
+      userData.token   = angular.dj.userToken.data.token;
+    }
     _initUserData();
     dealWxHeadImg(userData.wxinfo);
     saveUserDataToLocalStorage();
+
+
+
     return userData;
   }
   //处理头像
@@ -80,6 +93,16 @@ function($http, $window,$location,$log,$timeout,$q)
     return (userData.rights & RIGHTS_ADMIN)
   }
   
+  /** 只返回所请求的用户数组 */
+  function singleUserinfo(arr) {
+    return Object.keys(arr)
+    .map(k => {
+      return Object.keys(usersInfo)
+      .map(kUser => usersInfo[kUser])
+      .find(user => user.uid == arr[k].uid)
+    })
+    .filter(item => !!item);
+  }
   //独立部署的SERVER for user api
   /**
   *  获取数组各uid 头像图片地址
@@ -87,13 +110,9 @@ function($http, $window,$location,$log,$timeout,$q)
   *  arr 数组，每个元素的uid是要获取头像用户
   *  
   *  根据 usersInfo 查现在头像 ，如果对应 uid 已有就跳过
-  *  如果没有，就用 /wx/get_users/uid1,uid2,uid3 API获取一堆用户的信息   
+  *  如果没有，就用 wx/get_users/uid1,uid2,uid3 API获取一堆用户的信息
   */
   function requireUsersInfo(arr) {
-    $log.log('requireUsersInfo:',arr);
-    var i;
-    var deferred = $q.defer();
-
     var ids=[];
     for(var i=arr.length;i--; ) {
       if(arr[i]['uid']>0&&
@@ -101,25 +120,67 @@ function($http, $window,$location,$log,$timeout,$q)
         ids.indexOf(arr[i]['uid'])<0)ids.push(arr[i]['uid']);
     }
     if(!ids.length) {
-      deferred.resolve(1);
-      return deferred.promise;
+      // 只返回所请求的用户数组
+      return $q.resolve(singleUserinfo(arr, usersInfo));
     }
-    var api=appData.urlSignApi('wx','get_users',ids.join(','));
-    return $http.jsonp(api).then(function(s){
-      if(s.data.errcode!=0) {
-        $log.log('Err:getUsers:',s.data.errcode,s.data.msg);
-        deferred.reject(-2);
-        return deferred.promise;
-      }
-      var d=s.data.data;
-      for(i=d.length;i--; ) {
+
+    return $http.post("app/getWxInfo", {uid: ids}).then(json => {
+      json.datas.list.map( wxinfo => {
+        //headimgurl,nickname,uid
+        dealWxHeadImg(wxinfo);
+        usersInfo[wxinfo.uid]={wxinfo, uid: wxinfo.uid};
+      });
+      return $q.resolve(singleUserinfo(arr, usersInfo));
+
+
+      var d = json.datas.list;
+      for(var i=d.length;i--; ) {
         dealWxHeadImg(d[i].wxinfo);
-        usersInfo[d[i]['uid']]=d[i];
+        usersInfo[d[i].wxinfo.uid]=d[i];
       }
+      // 只返回所请求的用户数组
+      return $q.resolve(singleUserinfo(arr, usersInfo));
+    }).catch(json => {
+      console.log('requireUsersInfo 错误:', json);
+    });
+  }
+
+  /**
+  *  获取数组各 uid 头像图片地址
+  *  @param userids 数组
+  *  根据 usersInfo 查现在头像 ，如果对应 uid 已有就跳过
+  *  如果没有，就用向后台请求
+  */
+  function requireWxInfo(userids) {
+    var cache = requireWxInfo.cache || (requireWxInfo.cache = []);
+    if(!userids){
+      return $q.reject('错误的请求');
+    }
+    var idsNew = [];
+    userids.map( userid => {
+      if(!userid) return;
+      if(cache.find(item => item.uidBinded == userid)) return;
+      idsNew.push(userid);
+    })
+    if(!idsNew.length) {
+      // 只返回所请求的用户数组
+      return $q.resolve(cache.filter(item => userids.indexOf(item.uidBinded) >= 0));
+    }
+    return SIGN.post('sa_data', 'getWxInfo', {userid: idsNew})
+    .then(json => json.datas)
+    .then(list => {
+      console.log('得到微信信息：', list);
+      list.map( item =>{
+        dealWxHeadImg(item);
+        if(!cache.find(item_cache => item.uidBinded == item_cache.uidBinded)){
+          cache.push(item);
+        }
+      })
+      // 只返回所请求的用户数组
+      return cache.filter(item => userids.indexOf(item.uidBinded) >= 0);
     },function(e){
       $log.log('Err:getUsers:',e);
-      deferred.reject(e);
-      return deferred.promise;
+      return $q.reject(e);
     });
   }
   
@@ -132,9 +193,15 @@ function($http, $window,$location,$log,$timeout,$q)
     userData.dealWxHeadImg=dealWxHeadImg;
     userData.isAdmin=isAdmin;
     userData.requireUsersInfo=requireUsersInfo;
+    userData.requireWxInfo = requireWxInfo;
   }  
   
   setUserData(u_saved);
+  if(angular.dj && angular.dj.userToken && angular.dj.userToken.data && angular.dj.userToken.data.token){
+    userData.uid     = angular.dj.userToken.data.uid;
+    userData.tokenid = angular.dj.userToken.data.tokenid;
+    userData.token   = angular.dj.userToken.data.token;
+  }
   
   return {
     addApiSignature:addApiSignature,

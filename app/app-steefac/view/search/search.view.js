@@ -6,67 +6,89 @@
  */
 !(function (window, angular, undefined){
   'use strict';
-  var config = {
-    templateUrl: 'app-steefac/view/search/search.view.template.html',
-    controller: ['$scope','$log','$routeParams','$q','$location','AppbData','FacSearch', 'FacMap', 'AmapMainData',ctrl]
-  }
   angular.module('steefac')
   .config(['$routeProvider', function($routeProvider) {
     $routeProvider
-      .when('/search', config)
-      .when('/search/:ac', config);
+      .when('/search', {
+        pageTitle: "搜索",
+        wxShare:{
+        },
+        templateUrl: 'app-steefac/view/search/search.view.template.html',
+        controller: ['$scope', '$routeParams', '$location','AppbData', ctrlSearch]
+      })
+      .when('/searching', {
+        pageTitle: "搜索结果",
+        wxShare:{
+        },
+        templateUrl: 'app-steefac/view/search/searching.view.template.html',
+        controller: ['$scope','FacUser','$routeParams','$q','$location','AppbData','FacSearch', 'FacMap', 'AmapMainData',ctrlSearching]
+      });
   }]);
 
 
+  /**
+   * 保存两个页面的状态
+   */
   var pageState = {
-    datas: {},
-    save: function(data){
-      this.datas = data;
-    },
-    clear: function(){
-      this.datas = {};
-    }
+    search: {},
+    searching: {},
+    hideMap: false
   };
 
 
-  function ctrl($scope,$log, $routeParams,$q,$location,AppbData,FacSearch, FacMap, AmapMainData) {
-    appData.setPageTitle('搜索');
-    $scope.$on('$routeChangeStart', function(evt, next, current) {
-      //console.log('搜索:页面离开');
-      if(current.$$route.originalPath == '/search/:ac'){
-        //console.log('搜索:保存页面状态');
-        pageState.save({
-          param: $scope.search
-        });
-      }
-      else{
-        //console.log('搜索:未保存页面状态');
-      }
-    })
+  function ctrlSearch($scope, $routeParams, $location, AppbData) {
+    var userData = AppbData.getUserData();
+    $scope.appData = AppbData.getAppData();
+    
     $scope.$on('$routeChangeSuccess', function(evt, current, prev) {
-      //console.log('搜索:页面成功');
       if(prev && current.$$route.originalPath == '/search'){
-        if(prev.$$route.originalPath == '/search/:ac'){
-          //console.log('搜索:清除页面状态');
-          pageState.clear();
+        if(prev.$$route.originalPath == '/searching'){
+          pageState.searching = {};
         }
-        else if(pageState.datas.param){
-          //console.log('搜索:恢复页面状态');
-          $location.path('/search/searching').search(pageState.datas.param).replace();
+        else if(pageState.searching.searchType){
+          $location.path('/searching').search(pageState.searching).replace();
         }
-      }
-      else{
-        //console.log('搜索:无已保存的页面状态');
       }
     })
+
+    /**
+     * 搜索
+     */
+    $scope.search = function(searchType){
+      var monthBetween = $scope.search.monthBetween || {};
+      var param = {
+        searchType : searchType,
+        distSelect : $scope.searchData.distSelect,
+        level      : $scope.searchData.level       ,
+        currentCity: $scope.searchData.currentCity ,
+        searchWord : $scope.searchData.searchWord||'',
+        monthFrom  : monthBetween.from||'',
+        monthTo    : monthBetween.to||'',
+      }
+      $location.path('/searching').search(param);
+    }
+
+    $scope.searchData = pageState.search;
+    angular.extend($scope.searchData, {
+      currentCity : $scope.searchData.currentCity || "上海市 上海市",
+      distSelect  : $scope.searchData.distSelect || '0',
+      monthBetween: $scope.searchData.monthBetween || {}
+    });
+  }
+
+
+  function ctrlSearching($scope, FacUser, $routeParams,$q,$location,AppbData,FacSearch, FacMap, AmapMainData) {
+    var userData=AppbData.getUserData();
+
+    $scope.$on('$routeChangeStart', function(evt, next, current) {
+      pageState.searching = $scope.search;
+    });
 
     $scope.appData = AppbData.getAppData();
 
-    var userData=AppbData.getUserData();
-    if(! userData || !userData.token) {
-      return $location.path( "/wx-login" ).search({pageTo: '/search'});;
-    }
     $scope.FacSearch = FacSearch;
+    var type = $scope.type = $location.$$search.searchType || 'steefac';
+    $scope.typeOther = type == 'steefac' && 'steeproj' || 'steefac';
 
     function paramSearchCityOrLngLat(param, data){
       if(data.currentCity){
@@ -83,92 +105,77 @@
     /**
      * 搜索
      */
-    $scope.research = function(searchType){
-      var monthBetween = $scope.search.monthBetween || {};
+    function getSearchParam(options, position){
       var param = {
-        searchType : searchType || FacSearch.searchType,
-        distSelect : $scope.search.distSelect  ,
-        level      : $scope.search.level       ,
-        orderBy    : $scope.search.orderBy,
+        searchType : $scope.type,
+        distSelect : options.distSelect || 0,
+        level      : options.level || 'all',
+        orderBy    : options.orderBy || '按更新排序',
       };
-      if($routeParams.ac == 'searching'){
-        paramSearchCityOrLngLat(param, $location.$$search);
+      if(options.searchWord) param.searchWord = options.searchWord;
+      if(options.monthFrom ) param.monthFrom  = options.monthFrom ;
+      if(options.monthTo   ) param.monthTo    = options.monthTo   ;
+      if(position){
+        paramSearchCityOrLngLat(param, position);
       }
-      else{
-        angular.extend(param, {
-          currentCity: $scope.search.currentCity ,
-          searchWord : $scope.search.searchWord||'',
-          monthFrom  : monthBetween.from||'',
-          monthTo    : monthBetween.to||'',
+      return param;
+    }
+    $scope.hideMap = pageState.hideMap;
+    $scope.toggleHideMap = function(){
+      $scope.hideMap = pageState.hideMap = !$scope.hideMap;
+    }
+    $scope.research = function(){
+      var param = getSearchParam($scope.search, $location.$$search);
+      $location.replace('/searching').search(param);
+    }
+
+    $scope.search = getSearchParam($location.$$search, $location.$$search);
+    $scope.searchResult = false;
+    FacSearch.search($scope.search, type)
+    .then(function(json){
+      if($scope.search.level != 'all'){
+        json.list = json.list.filter( item => {
+          return item.level == $scope.search.level;
         });
       }
-      if($location.$$path == "/search"){
-        $location.path('/search/searching').search(param);
-      }
-      else{
-        $location.replace('/search/searching').search(param);
-      }
-    }
-
-    if($routeParams.ac == 'searching'){
-      $scope.searching = true;
-      $scope.searchResult = '';
-      $scope.search = angular.extend({}, FacSearch.options);
-      angular.extend($scope.search, {
-        distSelect : "" + $location.$$search.distSelect || "0", // 数字，下拉框居然不认！
-        level      : $location.$$search.level      || 'all',
-        orderBy    : $location.$$search.orderBy    || (pageState.datas.param&&pageState.datas.param.orderBy) ||'按更新排序' ,
-        searchWord : $location.$$search.searchWord  ,
-        monthFrom  : $location.$$search.monthFrom   ,
-        monthTo    : $location.$$search.monthTo     ,
-      });
-      paramSearchCityOrLngLat($scope.search, $location.$$search);
-      var type = $scope.type = $location.$$search.searchType || FacSearch.searchType;
-      FacSearch.search($scope.search, type)
-      .then(function(json){
-        if($scope.search.level != 'all'){
-          json.list = json.list.filter( item => {
-            return item.level == $scope.search.level;
-          });
-        }
-        setSearchResult(json.list, json.pos, 3);
-      });
-      $scope.$on('AMap.OnClick', (event, msg) => {
-        console.log('地图点击, lng = ', msg.lnglat.lng);
-      });
-    }
-
-    else{
-      $scope.searching = false;
-
-      $scope.searchResult = [];
-      $scope.search = FacSearch.options;
-      angular.extend(FacSearch.options, {
-        currentCity: FacSearch.options.currentCity || "上海市 上海城区 杨浦区",
-        monthBetween: {from:'2017.12', to:'2018.3'},
-        level: "all"
-      });
-    }
-
+      $scope.searchResult = json.list;
+      sortBy[$scope.search.orderBy] && $scope.searchResult.sort(sortBy[$scope.search.orderBy]);
+    });
     var sortBy = {
       '按产能排序': function (a, b) { return +a.cap_6m > +b.cap_6m ? -1 : 1;},
+      '按需求排序': function (a, b) { return +a.need_steel > +b.need_steel ? -1 : 1;},
       '按更新排序': function (a, b) { return a.update_at > b.update_at ? -1 : 1;},
-      '按距离排序': function (a, b) { return a.distance > b.distance ? 1 : -1;}
+      '按距离排序': function (a, b) { return a.distance > b.distance ? 1 : -1;},
+      '关注度排序': function (a, b) { return a.totleAction < b.totleAction ? 1 : -1;}
     }
-    function setSearchResult(list, pos, insideCount){
-      insideCount = insideCount || 5;
-      $scope.searchResult = list;
-      $scope.searchResult.sort( sortBy[$scope.search.orderBy]);
-      // 全部标志, 但地图放大到最大，等下再缩小
-      FacSearch.markObjList($scope.searchResult, type)
+
+    /**
+     * 地图点击事件，是否有移动后，根据地图位置搜索的需求？
+     */
+    $scope.$on('AMap.OnClick', (event, msg) => {
+      // console.log('地图点击, lng = ', msg.lnglat.lng);
+    });
+
+    /**
+     * 分页相关，如事件、发送模板消息。。。
+     */
+    $scope.$on('search-result-page-change', (event, list) => {
+      $scope.sendtoIds = list.map(item => item.id);
+      // 只显示这一页数据到地图上
+      FacSearch.markObjList(list, type)
       .then(()=>{
         // 显示前 insideCount  个标志
         $q.when(AmapMainData.onAmap, (amap)=> {
           window.amap = amap; // 调试用！！！
-          var insideMarkers = FacMap.searchMarkers.slice(0, insideCount);
-          amap.setFitView(insideMarkers);
+          amap.setFitView(FacMap.searchMarkers);
         });
       });
-    }
+    });
+    FacUser.getMyData().then((myData)=>{
+      $scope.myData = myData;
+    })
+
   }
+
+
 })(window, angular);

@@ -16,6 +16,12 @@ angular.module('steefac')
       }
       ctrl.addrInput=FacMap.addrInput;
 
+      this.useAddress = () => {
+        if(ctrl.addrInput.addr == ctrl.addrInput.formatted_address) return;
+        $http.post("显示对话框/confirm", { body: `即将替换地址为“${ctrl.addrInput.formatted_address}”。确认？`, title: "即将替换地址文本，请确认：" }).then(()=>{
+          ctrl.addrInput.addr = ctrl.addrInput.formatted_address;
+        })
+      }
     }
   ]
 });

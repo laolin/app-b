@@ -13,17 +13,17 @@
     bindings: {
       fac: '<'
     },
-    controller:['$scope', '$element', 'FacSearch', 'AppbData', ctrl]
+    controller:['$scope', '$element', 'FacSearch', 'AppbData', 'FacDefine', ctrl]
   });
 
 
-  function ctrl($scope, $element, FacSearch, AppbData) {
+  function ctrl($scope, $element, FacSearch, AppbData, FacDefine) {
     $scope.appData = AppbData.getAppData();
     $scope.FacSearch = FacSearch;
     var ctrl = this;
     this.$onChanges=function(chg){
       $scope.fac = ctrl.fac;
-      $scope.goodat = ((ctrl.fac||{}).goodat||'').split(',');
+      $scope.goodat = FacDefine.goodatOptions; // ((ctrl.fac||{}).goodat||'').split(',');
       $scope.fee = JSON.parse((ctrl.fac||{}).fee||'{}');
     }
   }

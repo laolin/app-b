@@ -3,6 +3,7 @@
 */
 (function (document,allJs,allCss,buildTime){
 
+  //window.theSiteConfig //将在loader构建时，自动加入
 
   //window.__assetsPath 在 index.html 中定义
   var __assetsPath=window.__assetsPath||'../assets'; 

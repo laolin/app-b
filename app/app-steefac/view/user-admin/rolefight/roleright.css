@@ -1,0 +1,17 @@
+
+
+
+.text-icon-list{
+  display: flex;
+}
+.text-icon-list > text-icon{
+  display: flex;
+  padding: .15rem;
+  color: #888;
+}
+
+
+
+
+
+

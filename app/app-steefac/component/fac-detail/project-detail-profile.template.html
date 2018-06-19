@@ -3,11 +3,17 @@
 <div class="flex box-1">
   <div class="flex-grow">
     <div class="flex">
-      <div class="fac-name text-3">{{fac.name}}</div>
+      <div class="fac-name text-3 flex">
+        <span class="line___1">{{fac.name}}</span>
+        <span ng-if="canClose && !fac.close_time" class="text-active shrink0" ng-click="closeFac('close')">　<i class="fa fa-close"></i>关闭</span>
+        <span ng-if="canClose && fac.close_time" class="text-active shrink0" ng-click="closeFac('open')">　<i class="fa fa-close"></i>恢复</span>
+      </div>
     </div>
     <div class="flex bb-ccc">
-      <div class="rem-10" c="6B"><span edit-url="{{(isSuperAdmin || isThisAdmin) && ('#!/fac-edit?type=steeproj&id=' + fac.id) || ''}}">{{fac.update_at|timespan:'MM月d日更新'}}</span></div>
-      <div class="rem-10" c="6B">1.2KM</div>
+      <div class="rem-10" c="6B">
+        <span am-time-ago='1000*fac.update_at'></span>
+        <span ng-if="!fac.close_time" edit-url="{{(isSuperAdmin || adminInfo.me) && ('#!/fac-edit?type=steeproj&id=' + fac.id) || ''}}">更新</span>
+      </div>
     </div>
     <div class="text-gray">采购量：<span class="text-3">{{fac.need_steel}}</span>吨</div>
     <div class="text-gray">首批供货时间：<span>{{ProjDefine.objReqInMonth[fac.in_month]}}</span></div>
@@ -15,20 +21,37 @@
   <div class="headimg shrink0">
     <img ng-src="">
   </div>
+  <img class="closed" ng-if="fac.close_time" src="https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets/img/img-steefac/close.png">
+
 </div>
 
-<div class="flex-v bb-ccc box-2">
+<div class="flex-v bb-ccc box-2" ng-if="!veryOld || showVeryOld">
   <div class="title text-3 bb-ccc">联系方式</div>
   <div class="flex flex-top">
     <div class="">
       <div class="text-gray line___1">地址：<span>{{fac.addr}}</span></div>
       <div class="text-gray">联系人：<span>{{fac.contact_person}}</span></div>
     </div>
-    <div class="btn-box box-primary shrink0" tobe-admin="steeproj" fac="fac" ng-if="canAddAdmin && !isSuperAdmin">申请成为管理员</div>
+    <tobe-admin class="shrink0" type="type" fac="fac" admin-info="adminInfo">管理员申请或管理</tobe-admin>
   </div>
-  <div class="btns flex flex-left">
-    <tel-box  class="text-active" val="fac.contact_tel"></tel-box>
+  <div class="btns flex flex-wrap flex-left">
+    <tel-box  class="text-active" val="fac.contact_tel" click="showContactDlg()"></tel-box>
     <mail-box class="text-active" val="fac.contact_email"></mail-box>
+    <sendtpl-box
+     btn-text="'推送我的公司'"
+     ids-to="sendtoIds"
+     ids-from="sendFromIds"
+     my-da------ta="myData"
+     type-to="type"
+     type-from="type=='steeproj'&&'steefac'||'steeproj'"
+    ></sendtpl-box>
+  </div>
+</div>
+<div class="flex-v bb-ccc box-2" ng-if="veryOld && !showVeryOld">
+  <div class="flex-v flex-cc padding-v-3">
+    <div>本页数据管理员已超过14天未更新</div>
+    <div>较旧的数据可能有误，请知悉。</div>
+    <button class="weui-btn weui-btn_warn" ng-click="reshowVeryOld()">显示旧数据</button>
   </div>
 </div>
 

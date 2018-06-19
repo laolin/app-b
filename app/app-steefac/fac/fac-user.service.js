@@ -4,18 +4,19 @@
 var FAC_ADMIN=0x1;
 var SYS_ADMIN=0x10000;
 
+
+
+
 angular.module('steefac')
 .factory('FacUser',
-['$location','$log','$q','$timeout','AppbData','AppbAPI','AppbDataUser',
-function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser) {
+['$location','$log','$q', '$http', '$timeout','AppbData','AppbDataUser', 'SIGN', 'DjDialog',
+function($location,$log,$q,$http, $timeout,AppbData,AppbDataUser, SIGN, DjDialog) {
   
-  var FacUser={};
+  var FacUser = {$log, $q, $timeout, SIGN, DjDialog}; // 省得再注入！
   var appData=AppbData.getAppData();
   var dialogData=appData.dialogData;
   
-  appData.headerData.hide=true;//说不要页面顶部的标题栏了
-  
-  appData.requireLogin();
+  appData.headerData.hide=window.__wxjs_environment !== 'miniprogram';//在小程序的webView里，还是要页面顶部的标题栏
 
   appData.FacUser=FacUser;
 
@@ -25,6 +26,114 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser) {
 
 
   var objTypes=['steefac','steeproj'];
+
+  /**
+   * 用户点击事件记录
+   * 不返回
+   */
+  FacUser.logAction = function(k1, k2, v1, v2, json){
+    $http.post('stee_data/logAction', {k1, k2, v1, v2, json});
+  }
+
+  /**
+   * 查看详情页之前，拦截
+   */
+  FacUser.preReadDetail = function(type, id, fac){
+    if (!fac.limit) return $q.when(fac);
+    var limit = fac.limit;
+    var dontDialog = limit.max - limit.used >= 5;
+    if(dontDialog){
+      return $http.post('steeobj/detail', { type, id, confirm: 1 }).then(json =>json.data);
+    }
+    return DjDialog.modal({
+      title: `今日额度 ${limit.max} 条，已用 ${limit.used} 条`,
+      body: `查看 该项目 详情？`
+    }).then(() => {
+      return $http.post('steeobj/detail', { type, id, confirm: 1 }).then(json =>json.data);
+    });
+  }
+
+  /**
+   * 用户点击产能链接
+   * 不返回
+   */
+  FacUser.clickFac = function(fac, type){
+    var routers = {
+      steefac: '/fac-detail/',
+      steeproj: '/project-detail/',
+    }
+    var path = routers[type];
+
+    console.log('用户点击产能链接, DDDDDDDDDD');
+    return FacUser.getPageReadLimit(type, fac.id)
+    .then(limit =>{
+      if(limit == 'never'){
+        // 不受额度限制，直接打开
+        $location.path(path + fac.id).search({});
+        return limit;
+      }
+      var dontDialog = limit.max - limit.used >= 5;
+      if(dontDialog){
+        FacUser.applyReadDetail(type, fac.id).then(() =>{
+          $location.path(path + fac.id).search({c:1});
+        });
+        return limit;
+      }
+      return FacUser.DjDialog.modal({
+        title: `今日额度 ${limit.max} 条，已用 ${limit.used} 条`,
+        body: `查看“${fac.name}”详情？`
+      }).then(()=>{
+        return FacUser.applyReadDetail(type, fac.id).then(() =>{
+          $location.path(path + fac.id).search({c:1});
+          return limit;
+        })
+      }, (e) => {
+        console.log('取消不看了');
+      });
+    })
+    .catch(info => {
+      FacUser.DjDialog.alert(info.text);
+    })
+  }
+
+    /**
+     * 页面计数功能
+     */
+    FacUser.getPageReadLimit = function(type, facid){
+    return $http.post('stee_data/getReadDetailLimit', {type, facid})
+    .then(json => {
+      var limit = json.datas.limit;
+      if(!limit){
+        $q.reject({text: '失败'});
+      }
+      if(limit==='never' || limit.limit == 'never'){
+        return 'never'; // 不受限制
+      }
+      if(limit.max <= limit.used){
+        $q.reject({
+          text: '额度用完',
+          max: limit.max,
+          used: limit.used
+        });
+      }
+      return {
+        max: limit.max,
+        used: limit.used
+      };
+    })
+  }
+  /**
+   * 申请查看页面
+   */
+  FacUser.applyReadDetail = function(type, facid){
+    return $http.post('stee_data/applyReadDetail', {type, facid});
+  }
+  /**
+   * 获取公司或项目详情
+   */
+  FacUser.readObjDetail = function(type, facid){
+    return $http.post('steeobj/detail', {type, id: facid});
+  }
 
   //0 : not admin
   // > :普通
@@ -41,31 +150,35 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser) {
   }
 
   FacUser.getAdmins=function() {
-    var deferred = $q.defer();
     if(FacUser.admins.length) {
-      deferred.resolve(FacUser.admins);
-      return deferred.promise;
+      return $q.resolve(FacUser.admins);
     }
-    return AppbAPI('stee_user','get_admins').then(function(s){
-      $log.log('get_admins',s);
+    return SIGN.postLaolin('stee_user','get_admins').then(function(s){
+      if(!s) {
+        return $q.reject('noData');
+      }
+      FacUser.admins=s;
+      return appData.userData.requireUsersInfo(s).then(function(){
+        return $q.resolve(FacUser.admins);
+      });
+    });
+  }
+  
+
+  FacUser.getRights=function(userid) {
+    var deferred = $q.defer();
+    return SIGN.postLaolin('stee_user','get_user_rights',{userid:userid}).then(function(s){
       if(!s) {
         deferred.reject('noData');
         return deferred.promise;
       }
-      
-      
-      FacUser.admins=s;
-      return appData.userData.requireUsersInfo(s).then(function(){
-        deferred.resolve(FacUser.admins);
-        return deferred.promise;
-      });
+      deferred.resolve(s.data);
+      return deferred.promise;
     },function(e){
       deferred.reject(e);
       return deferred.promise;
     });
-  }
-  
-  
+  }  
   
   FacUser.applyFacAdmin=function(fac) {
     return FacUser.applyAdmin('steefac',fac);
@@ -79,7 +192,7 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser) {
       '管理员申请',
       '确认','取消',
       function(){
-        return AppbAPI('stee_user','apply_admin',
+        return SIGN.postLaolin('stee_user','apply_admin',
           {type:type,facid:fac.id,userid:appData.userData.uid}
         ).then(function(s){//成功
           myData.init=0;
@@ -87,12 +200,11 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser) {
           FacUser.getMyData();
           $location.path( "/my-fac" )
         },function(e){//失败
-          dialogData.msgBox(e,'操作失败');
+          dialogData.msgBox(e.msg || e,'操作失败');
         });
       }
     );
   }
-
 
   /**
    * 申请用户数据，返回一个承诺
@@ -104,43 +216,53 @@ function($location,$log,$q,$timeout,AppbData,AppbAPI,AppbDataUser) {
    * 请求失败，则将 FacUser.getMyData.result 置为 false, 下次将再次发起请求
    * 本函数可以多次调用，不用考虑是否正在请求
    */
+  AppbDataUser.getMyData =
   FacUser.getMyData=function(reNew) {
     if(!reNew && FacUser.getMyData.result){
       // 不管 FacUser.getMyData.result 现在是承诺或实际数据，作为承诺的数据，返回
       return $q.when(FacUser.getMyData.result);
     }
     var deferred = $q.defer();
-    AppbAPI('steesys','info').then(function(s){
-      myData.init=1;
-      if(!s) { // 客户端的登录信息有误，要求重新登录。
-        AppbDataUser.setUserData({});
-        $location.path( "/wx-login" ).search({pageTo: '/'});
-        // 错误了，就要重置一下，并告诉承诺不能兑现的原因
-        FacUser.getMyData.result = false;
-        return $q.reject("客户端的登录信息有误，要求重新登录。");
+    $http.post(reNew? "用户/刷新个人信息": "用户/个人信息").then(json => {
+      // alert('个人信息, json =' + JSON.stringify(json));
+      return json.datas;
+    }).then(function (s) {
+      if (1) {
+        // 当用户的数据被服务器重置时
+        myData.isAdmin = 0;
+        myData.wx = {};
+        myData.uid = 0;
+        myData.objCanAdmin = {};
+        myData.datas = '';
+        myData.counter = {};
+        myData.update_at = '';
       }
-      myData.counter={};
-      myData.counter.nFac=s.nFac;
-      myData.counter.nProj=s.nProj;
-      if(s.wx && s.wx.openid) {
+      myData.init = 1;
+      myData.counter = {};
+      myData.counter.nFac = s.nFac;
+      myData.counter.nProj = s.nProj;
+      if (s.wx && s.wx.openid) {
         AppbDataUser.dealWxHeadImg(s.wx);
-        myData.wx=s.wx;
-        angular.extend(appData.userData.wxinfo,s.wx)
+        myData.wx = s.wx;
+        appData.userData.wxinfo = angular.extend({}, appData.userData.wxinfo, s.wx)
         AppbDataUser.saveUserDataToLocalStorage();
       }
-      if(s.me && s.me.uid) {
-        myData.isAdmin=parseInt(s.me.is_admin);
-        myData.update_at=parseInt(s.me.update_at);
-        myData.uid=parseInt(s.me.uid);
-        myData.objCanAdmin={};
-        for(var i=objTypes.length;i--; ) {
-          myData.objCanAdmin[objTypes[i]]=s.me[objTypes[i]+'_can_admin'].split(',')
+      if (s.me && s.me.uid) {
+        myData.isAdmin = parseInt(s.me.is_admin);
+        myData.update_at = parseInt(s.me.update_at);
+        myData.uid = parseInt(s.me.uid);
+        myData.objCanAdmin = {};
+        for (var i = objTypes.length; i--;) {
+          var str = s.me[objTypes[i] + '_can_admin']
+          myData.objCanAdmin[objTypes[i]] = str && str.split(',') || [];
         }
       }
+      s.datas && (myData.datas = s.datas);
+      myData.uid = s.uid;
       // 请求成功，将 FacUser.getMyData.result 原为承诺，改为实际数据，
       deferred.resolve(FacUser.getMyData.result = myData);
-    },function(e){
-      // 请求失败，以后要数据时，将再次调用 AppbAPI
+    }, function (e) {
+      // 请求失败，以后要数据时，将再次请求
       FacUser.getMyData.result = false;
       deferred.reject(e);
     });

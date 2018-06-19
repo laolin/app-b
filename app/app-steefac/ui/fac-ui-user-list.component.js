@@ -9,15 +9,21 @@ angular.module('steefac')
     texts: "<",
     uids: '<'
   },
-  controller:['$log','$location','AppbData',
-	function ($log,$location,AppbData) {
+  controller:['$scope','$location','AppbData',
+	function ($scope,$location,AppbData) {
     var ctrl=this;
     var userData=AppbData.getUserData();
+    var appData=AppbData.getAppData();
     ctrl.usersInfo=userData.usersInfo;
     
-    ctrl.goLink=function(a) {
-      if(typeof a == 'function') return a();
-      if(a)$location.url(a);
+    ctrl.goLink=appData.goLink;
+    $scope.clickItem = (item, index) => {
+      if(this.links && this.links[index]){
+        appData.goLink(this.links[index])
+      }
+      else{
+        $scope.$emit('fac-ui-user-list.itemClick', {user: userData.usersInfo[item.uid], index, uid: item.uid});
+      }
     }
   }]
 });

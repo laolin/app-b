@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" class="no-js">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+  <title ng-bind="pageTitle">CMOSS 测试版</title>
+  <meta name="description" content="laolin's app B">
+</head>
+
+<body>
+  <my-app>
+    CMOSS PreTest版<br>
+    <i>使用测试数据，不影响正式数据</i><br>
+    <b id='rn-mark'>Loading...</b>
+  </my-app>
+  <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+  <script>
+    !function (url) {
+      var rn=Math.round(Math.random()*1e6);
+      document.getElementById('rn-mark').innerHTML='Rn='+rn+'|'+location.search;
+      
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 300) {
+          eval(xhr.responseText);
+        }
+      }
+      xhr.open("GET", url + "?v=" + +new Date()+'&rn='+rn+'&'+location.search, true);
+      xhr.send(null);
+    }("https://qinggaoshou.com/assets/loaders/cmoss.pre-test.loader.js")
+  </script>
+</body>
+
+</html>

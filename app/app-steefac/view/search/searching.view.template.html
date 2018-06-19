@@ -1,0 +1,40 @@
+<!-- 搜索页面 -->
+<div class="page-search-view flex-grow flex-v">
+  <amap-main class="shrink0" ng-hide="hideMap"></amap-main>
+
+  <div class="flex result-toolbar shrink0">
+    <div class="flex-cc flex-center" next="down">
+      <select class="weui-select" ng-model="search.distSelect" ng-change="research()">
+        <option ng-repeat="t in FacSearch.distText" value="{{$index}}">{{t}}</option>
+      </select>
+    </div>
+    <div class="flex-cc flex-center" next="down">
+      <select class="weui-select" ng-model="search.level" ng-change="research()">
+        <option value="all">资质不限</option>
+        <option ng-repeat="t in FacSearch.levelDick" value="{{$index}}">{{t}}资质</option>
+      </select>
+    </div>
+    <div class="flex-cc flex-center" next="down">
+      <select class="weui-select" ng-model="search.orderBy" ng-change="research()">
+        <option value='auto'>智能排序</option>
+        <option>按更新排序</option>
+        <option>按距离排序</option>
+        <option ng-if="type == 'steefac'">按产能排序</option>
+        <option ng-if="type != 'steefac'">按需求排序</option>
+        <option ng-if="type == 'steefac'">关注度排序</option>
+      </select>
+    </div>
+    <div class="flex-cc rem-13" ng-click="toggleHideMap()" c="6B">折叠地图</div>
+  </div>
+
+  <search-result-swiper class="flex-grow" result="searchResult" type="type"></search-result-swiper>
+
+  <div class="float-rb box-primary sendtpl-box-box text-active" ng-if="myData.objCanAdmin[typeOther][0]">
+    <sendtpl-box
+     ids-to="sendtoIds"
+     my-data="myData"
+     type-to="type"
+     type-from="type=='steeproj'&&'steepfac'||'steeproj'"
+  ></sendtpl-box>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+/* 用户活跃度页面 */
+
+.dlg-body-user-activity .body {
+  height: 50vh;
+  overflow-y: auto;
+}
+.dlg-body-user-activity .body input.weui-input{
+  border: solid 1px #ccc;
+  border-radius: .05rem;
+  box-sizing: border-box;
+  padding: .08rem .10rem;
+  height: .36rem;
+}

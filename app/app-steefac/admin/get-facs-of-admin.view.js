@@ -3,17 +3,13 @@
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
 $routeProvider.when('/get-facs-of-admin', {
+  pageTitle: "管理的钢构厂",
 templateUrl: 'app-steefac/admin/get-facs-of-admin.view.template.html',
 controller: ['$scope','$http','$log','$location',
   'AppbData','FacDefine','FacUser','FacSearch',
 function ($scope,$http,$log,$location,
   AppbData,FacDefine,FacUser,FacSearch) {
   var userData=AppbData.getUserData();
-  if(! userData || !userData.token) {
-    return $location.path( "/wx-login" ).search({pageTo: '/my'});;
-  }
-
-  appData.setPageTitle('管理的钢构厂'); 
 
   $scope.isLoading=1;
   $scope.facIds=[];
@@ -29,16 +25,14 @@ function ($scope,$http,$log,$location,
     if(!$scope.user)  $scope.err='error uid/aid:'+uid+'/'+aid;
   });
   
-  FacUser.getAdmins().then(function(a){
-    if(uid==FacUser.admins[aid].uid) {
-      for(var i=$scope.objTypes.length;i--; ) {
-
-        $scope.facIds[$scope.objTypes[i]]=FacUser.admins[aid][$scope.objTypes[i]+'_can_admin'];
+  FacUser.getAdmins().then(function(admins){
+    var user = admins.find( item => item.uid == uid);
+    if(user) {
+      for(var type  of $scope.objTypes) {
+        $scope.facIds[type] = user[type + '_can_admin'];
       }
       $scope.isLoading=0;
-      $log.log('$scope.facIds/uid,aid:',uid,aid,$scope.facIds);
     } else {
-      $log.log('err uid,aid:',uid,aid);
       $scope.err='error uid/aid:'+uid+'/'+aid;
       $scope.isLoading=0;
     }

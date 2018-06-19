@@ -3,15 +3,14 @@
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
 $routeProvider.when('/case-show', {
+  pageTitle: "钢构厂业绩",
 templateUrl: 'app-steefac/case/case-show.view.template.html',
 controller: ['$scope','$http','$log','$location',
-  'AppbData','FacSearch','AppbAPI','FacUser','FacDefine',
+  'AppbData','FacSearch','SIGN','FacUser','FacDefine',
 function ($scope,$http,$log,$location,
-  AppbData,FacSearch,AppbAPI,FacUser,FacDefine) {
+  AppbData,FacSearch,SIGN,FacUser,FacDefine) {
   var appData=AppbData.getAppData();
   var userData=AppbData.getUserData();
-        
-  appData.setPageTitle('钢构厂业绩');
 
   var search=$location.search();
   $scope.id=parseInt(search.id);
@@ -33,7 +32,7 @@ function ($scope,$http,$log,$location,
       return appData.showInfoPage('参数错误','Err id: '+$scope.id,'/search')
     }
     FacDefine.formatObj(s);
-    appData.setPageTitle(s.name);
+    appData.setPageTitleAndWxShareTitle(s.name);
     $scope.fac=s;
   },function(e){
     return appData.showInfoPage('发生错误',e+', id:'+$scope.id,'/search')
@@ -49,8 +48,7 @@ function ($scope,$http,$log,$location,
           $scope.hidePoster=false;
         }
       },function(e){$log.log('Err:',e)});
-      AppbAPI('stee_user','get_admin_of_fac',{facid:$scope.id}).then(function(s){
-        $log.log('get_admin_of_fac',s);
+      SIGN.postLaolin('stee_user','get_admin_of_fac',{facid:$scope.id}).then(function(s){
         $scope.isLoading--;
         if(s) {
           var uids=[];

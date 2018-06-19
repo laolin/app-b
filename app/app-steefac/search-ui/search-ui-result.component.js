@@ -13,15 +13,8 @@ angular.module('steefac')
   controller:['$http','$log','$timeout',
 	function ($http,$log,$timeout) {
     var ctrl=this;
-    
-    
-    ctrl.$onInit=function(){
-      $log.log('facResult.onInit');
-    }
     ctrl.$onChanges=function(chg){
-      $log.log('facResult.onChanges');
       if(1) {
-        $log.log('searchProjResult$onChanges',chg,ctrl.searchType,ctrl.searchData.searchResult);
         genCells();
         var r=ctrl.searchData.searchResult[ctrl.searchType];
         if(!r)return;

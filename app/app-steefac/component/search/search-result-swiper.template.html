@@ -1,0 +1,75 @@
+﻿<!-- 搜索结果组件 -->
+
+<!-- 轮播 -->
+<!-- <div class="search-result-swiper" ng-if="dataReady && pages.length">
+  <ks-swiper-container
+    override-parameters="slider.params"
+    on-ready="slider.onReady(swiper)"
+  >
+    <ks-swiper-slide class="box" ng-repeat="page in pages">
+      <ng-include src="'swiper-page-' + $ctrl.type + '.html'"></ng-include>
+    </ks-swiper-slide>
+  </ks-swiper-container>
+</div> -->
+<djui-gallery class="search-result-gallery" on-page="notifyParent(page)" page-count="{{pages.length}}">
+  <div class="result-items-box" ng-repeat="page in pages">
+    <ng-include src="'swiper-page-' + $ctrl.type + '.html'"></ng-include>
+  </div>
+</djui-gallery>
+
+<appb-ui-loading ng-if="!dataReady"></appb-ui-loading>
+<div class="padding-h-3 padding-v-1 flex-cc text-gray" ng-if="count > 0">
+  共{{count}}项<span ng-if="pages.length > 1">，第{{pageIndex}}/{{pages.length}}页 - 左右滑动翻页</span>
+</div>
+<div class="padding-h-3 padding-v-3" ng-if="dataReady && !pages[0].length">
+  没有找到
+</div>
+
+
+
+<script type="text/ng-template" id="swiper-page-steefac.html">
+<div class="result-items">
+  <div class="flex" ng-repeat="item in page track by $index" ng-click="clickItem(item)">
+    <div class="result-item flex-grow">
+      <div class="flex flex-between">
+        <div class="flex">
+          <div class="name">{{item.name}}</div>
+          <level-box class="shrink0" level="item.level"></level-box>
+        </div>
+        <div class="update shrink0">{{item.update_at|timespan:'MM月d日更新'}}</div>
+      </div>
+      <div class="flex row-2">
+        <span>剩余产能：<span>{{item.cap_6m}}吨</span></span>
+        <span>受关注度：<span>{{item.totleAction}}</span></span>
+      </div>
+      <div class="flex row-3">
+        <div class="">擅长：<span>{{item.goodat}}</span></div>
+        <div class="">{{item.distance|distance}}</div>
+      </div>
+    </div>
+    <i class="shrink0 next fa fa-angle-right"></i>
+  </div>
+</div>
+</script>
+
+<script type="text/ng-template" id="swiper-page-steeproj.html">
+<div class="result-items">
+  <div class="flex" ng-repeat="item in page track by $index" ng-click="clickItem(item)">
+    <div class="result-item flex-grow">
+      <div class="flex flex-between">
+        <div class="flex">
+          <div class="name">{{item.name}}</div>
+        </div>
+        <div class="update shrink0">{{item.update_at|timespan:'MM月d日更新'}}</div>
+      </div>
+      <div class="row-2">采购量：<span>{{item.need_steel}}吨</span></div>
+      <div class="flex row-3">
+        <div class="">首批供货时间：<span>{{ProjDefine.objReqInMonth[item.in_month]}}</span></div>
+        <div class="">{{item.distance|distance}}</div>
+      </div>
+      <img class="closed" ng-if="item.close_time" src="https://qgs.oss-cn-shanghai.aliyuncs.com/app-b/assets/img/img-steefac/close.png">
+    </div>
+    <i class="shrink0 next fa fa-angle-right"></i>
+  </div>
+</div>
+</script>

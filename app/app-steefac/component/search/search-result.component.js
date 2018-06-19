@@ -55,7 +55,6 @@
     }
     $scope.allLoaded = 0;
     $scope.loadMore = function(event, top, isTopMost){
-      console.log('分页, top=', top, ',isTopMost=', isTopMost);
       if(page.size >= page.totle){
         $scope.allLoaded ++;
       }
@@ -72,7 +71,6 @@
       steeproj: '/project-detail/',
     }
     $scope.clickItem = function(item){
-      console.log(item);
       return $location.path(routers[ctrl.type] + item.id).search({});
     }
   }

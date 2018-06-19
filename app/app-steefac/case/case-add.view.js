@@ -3,14 +3,13 @@
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
 $routeProvider.when('/case-add', {
+  pageTitle: "钢构厂业绩",
 templateUrl: 'app-steefac/case/case-add.view.template.html',
 controller: ['$scope','$http','$log','$location',
   'AppbData','FacSearch','FacUser','AppbFeedService',
 function ($scope,$http,$log,$location,
   AppbData,FacSearch,FacUser,AppbFeedService) {
   var appData=AppbData.getAppData();
-        
-  appData.setPageTitle('钢构厂业绩');
 
   var search=$location.search();
   $scope.id=parseInt(search.id);

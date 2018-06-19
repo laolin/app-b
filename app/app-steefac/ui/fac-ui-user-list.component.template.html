@@ -3,7 +3,7 @@
   <div class="weui-panel__bd">
     <a href class="weui-media-box weui-media-box_appmsg"
     ng-repeat='ua in $ctrl.uids track by $index'
-    ng-click='$ctrl.goLink($ctrl.links[$index])'>
+    ng-click='clickItem(ua, $index)'>
       <div class="weui-media-box__hd"  
       appb-weui-badge='{show:$ctrl.usersInfo[ua.uid].wxinfo.subscribe!="0",text:""}'
         >

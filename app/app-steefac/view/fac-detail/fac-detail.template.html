@@ -1,28 +1,53 @@
 <!-- 公司详情页面 -->
 
 <amap-main ng-hide="hideMap"></amap-main>
-<div class="page-fac-detail flex-grow">
+<div class="page-fac-detail flex-v flex-grow">
   <tab-bar list="tab.list" active="{{tab.active}}" tab-click="tab.click($n)" item-css="text-gray"></tab-bar>
-  <div class="detail detail-{{tab.active}}">
+  <div class="detail flex flex-1 flex-stretch detail-{{tab.active}}">
     <fac-detail-profile fac="fac" ng-if="tab.active==0"></fac-detail-profile>
     <fac-detail-capacity fac="fac" ng-if="tab.active==1"></fac-detail-capacity>
 
-    <appb-feed-list ng-if="tab.active==2"
+    <dj-comment-list ng-if="tab.active==2 && fac.id" param="caseParam">
+      <!-- <dj-comment-content>
+        <script type="text/ng-template">
+          <div flex-row="5em" ng-if="item.attr.projname"><span>项目名称</span><span>{{item.attr.projname}}</span></div>
+          <div flex-row="5em" ng-if="item.attr.projtype"><span>项目类型</span><span>{{item.attr.projtype}}</span></div>
+          <div flex-row="5em" ng-if="item.attr.steetype"><span>钢构类别</span><djui-tags-show list="item.attr.steetype"></djui-tags-show></div>
+          <div flex-row="5em" ng-if="item.attr.comptype"><span>构件类型</span><djui-tags-show list="item.attr.comptype"></djui-tags-show></div>
+          <div flex-row="5em" ng-if="item.attr.tons"><span>吨位</span><span>{{item.attr.tons}}</span></div>
+          <div flex-row="5em"><span>简介</span><span>{{item.attr.content}}</span></div>
+          <imgs-uploader class="" ng-if="item.attr.pics.length"
+            imgs="item.attr.pics"
+            mode="show"
+          ></imgs-uploader>
+        </script>
+      </dj-comment-content> -->
+    </dj-comment-list>
+    <appb-feed-list ng-if="tab.active==2222"
       hide-poster="hidePoster",
       feed-app="'steeFacCase'"
       feed-cat="'fac_case_' +fac.id">
     </appb-feed-list>
-    <div class="float-rb" ng-if="tab.active==2 && canEdit">
+    <div class="float-rb" ng-if="tab.active==2222 && canEdit">
       <a ng-href="#!/case-add?id={{fac.id}}" class="my-btn box-primary">添加业绩</a>
     </div>
 
-    <appb-feed-list ng-if="tab.active==3"
+    <dj-comment-list ng-if="tab.active==3 && fac.id" param="commentParam">
+    </dj-comment-list>
+    <appb-feed-list ng-if="tab.active==33333"
       hide-poster="0",
       feed-app="'steeComment'"
       feed-cat="'steefac' + fac.id">
     </appb-feed-list>
-    <div class="float-rb" ng-if="tab.active==3">
+    <div class="float-rb" ng-if="tab.active==33333">
       <a ng-href="#!/stee-feed-add?type=steefac&id={{fac.id}}" class="my-btn box-primary">我要评论</a>
     </div>
+
+    <fac-ui-user-list ng-if="tab.active=='show-admin-list'"
+      title='"管理员："'
+      uids='adminList.uids' users-info='adminList.usersInfo'
+    >
+    </fac-ui-user-list>
+
   </div>
 </div>

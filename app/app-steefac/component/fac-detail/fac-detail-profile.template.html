@@ -7,30 +7,46 @@
       <level-box class="shrink0" level="fac.level"></level-box>
     </div>
     <div class="flex bb-ccc">
-      <div class="rem-10" c="6B"><span edit-url="{{(isSuperAdmin || isThisAdmin) && ('#!/fac-edit?type=steefac&id=' + fac.id) || ''}}">{{fac.update_at|timespan:'MM月d日更新'}}</span></div>
+      <div class="rem-10" c="6B"><span am-time-ago='1000*fac.update_at'></span><span edit-url="{{(isSuperAdmin || adminInfo.me) && ('#!/fac-edit?type=steefac&id=' + fac.id) || ''}}">更新</span></div>
+      <!--div class="rem-10" c="6B"><span edit-url="{{(isSuperAdmin || adminInfo.me) && ('#!/fac-edit?type=steefac&id=' + fac.id) || ''}}">{{fac.update_at|timespan:'MM月d日更新'}}</span></div-->
       <div class="rem-10" c="6B">1.2KM</div>
     </div>
     <div class="text-gray">剩余产能：<span class="text-warning">{{fac.cap_6m}}</span>吨</div>
-    <div class="text-gray"><span edit-url="{{(isSuperAdmin || isThisAdmin) && ('#!/edit-fac-fee?id=' + fac.id) || ''}}">加工费</span>：<span>{{fee}}/吨</span></div>
-    <div class="text-gray line___1"><span edit-url="{{(isSuperAdmin || isThisAdmin) && ('#!/edit-fac-goodat?id=' + fac.id) || ''}}">擅长</span>：<span>{{fac.goodat}}</span></div>
+    <div class="text-gray"><span edit-url="{{(isSuperAdmin || adminInfo.me) && ('#!/edit-fac-fee?id=' + fac.id) || ''}}">加工费</span>：<span>{{fee}}/吨</span></div>
+    <div class="text-gray line___1"><span edit-url="{{(isSuperAdmin || adminInfo.me) && ('#!/edit-fac-goodat?id=' + fac.id) || ''}}">擅长</span>：<span>{{fac.goodat}}</span></div>
   </div>
   <div class="headimg shrink0">
     <img ng-src="">
   </div>
 </div>
 
-<div class="flex-v bb-ccc box-2" ng-if="fac.id">
-  <div class="title text-3 bb-ccc"><span edit-url="{{(isSuperAdmin || isThisAdmin) && ('#!/edit-fac-contact?id=' + fac.id) || ''}}">联系方式</span></div>
+<div class="flex-v bb-ccc box-2" ng-if="!veryOld || showVeryOld">
+  <div class="title text-3 bb-ccc"><span edit-url="{{(isSuperAdmin || adminInfo.me) && ('#!/edit-fac-contact?id=' + fac.id) || ''}}">联系方式</span></div>
   <div class="flex flex-top">
     <div class="">
       <div class="text-gray line___1">地址：<span>{{fac.addr}}</span></div>
       <div class="text-gray">联系人：<span>{{fac.contact_person}}</span></div>
     </div>
-    <div class="btn-box box-primary shrink0" tobe-admin="steefac" fac="fac" ng-if="canAddAdmin && !isSuperAdmin">申请成为管理员</div>
+    <tobe-admin class="shrink0" type="type" fac="fac" admin-info="adminInfo">管理员申请或管理</tobe-admin>
   </div>
-  <div class="btns flex flex-left">
-    <tel-box  class="text-active" val="fac.contact_tel"></tel-box>
+  <div class="btns flex flex-wrap flex-left">
+    <tel-box  class="text-active" val="fac.contact_tel" click="showContactDlg()"></tel-box>
     <mail-box class="text-active" val="fac.contact_email"></mail-box>
+    <sendtpl-box
+     btn-text="'推送我的项目'"
+     ids-to="sendtoIds"
+     ids-from="sendFromIds"
+     my-da------ta="myData"
+     type-to="type"
+     type-from="type=='steeproj'&&'steefac'||'steeproj'"
+    ></sendtpl-box>
+  </div>
+</div>
+<div class="flex-v bb-ccc box-2" ng-if="veryOld && !showVeryOld">
+  <div class="flex-v flex-cc padding-v-3">
+    <div>本页数据管理员已超过14天未更新</div>
+    <div>较旧的数据可能有误，请知悉。</div>
+    <button class="weui-btn weui-btn_warn" ng-click="reshowVeryOld()">显示旧数据</button>
   </div>
 </div>
 

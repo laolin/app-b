@@ -1,4 +1,5 @@
 app/index.html
+app/index.*.html
 app/bower_components
 bower_components
 node_modules
@@ -6,6 +7,12 @@ tmp
 dist
 dist*
 package-lock.json
+
+
+
+# Windows vs code
+.vscode
+
 
 # Windows image file caches
 Thumbs.db

@@ -64,7 +64,6 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     });
   }
   function _msg(m,tim) {
-    $log.log(m)
     $timeout(function(){appData.toastMsg(m,tim)},78);
   }
   function init() {
@@ -161,7 +160,6 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
     mapData.plugins.geocoder.getAddress(lnglat, function(status, result) {
       if (status === 'complete' && result.info === 'OK') {
         result.regeocode.formattedAddress; //返回地址描述
-        $log.log('--_selPosition Result->',result.regeocode.addressComponent);
         $timeout(function(){
           FacMap.selectedLocation=result.regeocode;
           FacMap.selName=result.regeocode.formattedAddress;
@@ -186,7 +184,6 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
   
   //给madData自动回调的
   function onLocateComplete(obj,a,b,c) {
-    $log.log('LacCmp==',obj);
     FacMap.myPosition=obj.position;
     //_moveMarker(obj.lnglat);
     //_msg('已自动定位到您的位置',7);
@@ -204,7 +201,6 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
         _msg('NothingFound');
         return;
       }
-      $log.log('bn-',res.geocodes[0]);
       var pos=res.geocodes[0];
       mapData.map.setZoomAndCenter(16,pos.location);
       FacMap.selMarker.setPosition(pos.location);
@@ -243,7 +239,6 @@ function ($log,$timeout,$q,AppbData,AmapMainData){
 
   function getInfoWindow() {
     getInfoWindow.i++;
-    //$log.log('getInfoWindow-',getInfoWindow.i);
     var deferred = $q.defer();
     if(FacMap.infoWindow){
       getInfoWindow.i=0;

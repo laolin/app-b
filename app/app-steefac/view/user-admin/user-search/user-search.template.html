@@ -1,0 +1,33 @@
+<!-- 用户搜索页面 -->
+<div class="weui-search-bar weui-search-bar_focusing" id="searchBar">
+  <div class="weui-search-bar__form">
+    <div class="weui-search-bar__box">
+      <i class="weui-icon-search"></i>
+      <input type="search" class="weui-search-bar__input" placeholder="用户id，呢称" ng-model="text">
+      <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+    </div>
+  </div>
+  <div class="flex-cc padding-h-1 text-active" ng-click="search()">搜索</div>
+</div>
+
+
+<div class="weui-panel weui-panel_access">
+  <div class="weui-panel__bd">
+    <a ng-path="/user-show" search="{userid: {{item.uid || item.uidBinded||0}}}" class="weui-media-box weui-media-box_appmsg" ng-repeat='item in listShow track by $index'>
+      <div class="weui-media-box__hd">
+        <img class="weui-media-box__thumb" ng-src="{{item.headimgurl|https}}" alt="">
+      </div>
+      <div class="weui-media-box__bd">
+        <h4 class="weui-media-box__title">
+          <span ng-if='item.nickname'>
+            {{item.nickname}}
+          </span>
+          <span>( ID:{{item.uid || item.uidBinded}} )</span>
+        </h4>
+      </div>
+    </a>
+    <div load-more list-base="list" list-show="listShow"></div>
+    <appb-ui-loading ng-if="laoding"></appb-ui-loading>
+    <div class="flex flex-cc padding-3" ng-if="!laoding && !list.length">没有数据</div>
+  </div>
+</div>

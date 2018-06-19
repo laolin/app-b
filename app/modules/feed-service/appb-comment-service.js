@@ -43,45 +43,50 @@ function ($log,$http,$timeout,$location,AppbData){
   function addLike(fid) {
     _addCommentOrLike(fid,'like')
   }
-  
+
+
+  function errorJson(json) {
+    if (json.errcode) {
+      $log.log('Er:ebcomment:', json.errcode, json.msg);
+      if (json.errcode == ERR_EBC_INVALID) {
+        appData.toastMsg(json.msg, 7);
+      } else {
+        appData.toastMsg('Er:ebcomment:', json.errcode, json.msg, 8);
+      }
+    }
+    return json.errcode;
+  }
+
   function _addCommentOrLike(fid,type,obj) {
     if(errorCount()>10)return;
     if(cmtData.likePublishing)return;
     cmtData.likePublishing=true;
     //appData.toastLoading();
-  
-    var api=appData.urlSignApi('comment','add',type);
-    //$log.log('api1',api,obj);
-    $http.jsonp(api,{params:angular.extend({fid:fid},obj)})
-    .then(function(s){
-      
-      if(s.data.errcode!=0) {
-        $log.log('Er:ebcomment:',s.data.errcode,s.data.msg);
-        if(s.data.errcode==ERR_EBC_INVALID) {
-          appData.toastMsg(s.data.msg,7);
-        } else {
-          appData.toastMsg('Er:ebcomment:',s.data.errcode,s.data.msg,8);
-        }
+
+    return $http.post("comment/add", angular.extend({type,  fid }, obj)) //, {signType:'single'})
+      .then(json => {
+        //点赞/评论 成功
+        //appData.toastDone(1);
+
+        //这几行comment倒过来依赖feed，不是很好，先将就
+        //以后comment和feed会合并为同一数据表
+        //改数据库？要先哭三天，哇！哇！哇！
+        var feed = appData.feedData.feedByFid[fid];
+        var fids = appData.feedData.theFeedIdList(feed.app, feed.cat);
+
+        getComment({ newMore: cmtData.cidMax, fids: fids.join(',') });
+        cmtData.likePublishing = false;
+        return json.data;
+      })
+      .catch(json => {
+        console.log("EEEEEE", json);
         errorCount(1);
-        cmtData.likePublishing=false;
-        return;
-      }
-      //点赞/评论 成功
-      //appData.toastDone(1);
-      
-      //这几行comment倒过来依赖feed，不是很好，先将就
-      //以后comment和feed会合并为同一数据表
-      var feed=appData.feedData.feedByFid[fid];
-      var fids=appData.feedData.theFeedIdList(feed.app,feed.cat);
-      
-      getComment({newMore:cmtData.cidMax,fids:fids.join(',')});
-      cmtData.likePublishing=false;
-    },function(e){
-      appData.toastMsg('Ejsonp:ebcomment',8);
-      errorCount(1);
-      cmtData.likePublishing=false;
-    });
-  
+        cmtData.likePublishing = false;
+        if (!errorJson(json)) {
+          appData.toastMsg('Ejsonp($http):ebcomment', 8);
+        }
+        return $q.reject(json);
+      });
   }
 
   /**
@@ -100,38 +105,35 @@ function ($log,$http,$timeout,$location,AppbData){
    *  删除 点赞/评论
    */
   function delCtype(fid,cid,ctype) {
-    var api=appData.urlSignApi('comment','del');
-    $http.jsonp(api,{params:{fid:fid,cid:cid,ctype:ctype}})
-    .then(function(s){
-      if(s.data.errcode!=0) {
-        $log.log('Er:del c:',s.data.errcode,s.data.msg);
-        if(s.data.errcode==ERR_EBC_INVALID) {
-          appData.toastMsg(s.data.msg,7);
-        } else {
-          appData.toastMsg('Er:del c:',s.data.errcode,s.data.msg,8);
+
+
+    return $http.post("comment/del", { fid: fid, cid: cid, ctype: ctype }) //, {signType:'single'})
+      .then(json => {
+        //取消点赞成功
+        //appData.toastDone(1);
+        //本地 相应删除点赞数据：
+        var cm=cmtData.commentList[fid+ctype];
+        for(var i=cm.length; i-- ; ) {
+          if(cm[i].cid==cid) {
+            cm.splice(i,1);
+            break;
+          }
         }
-        return;
-      }
-      //取消点赞成功
-      //appData.toastDone(1);
-      //本地 相应删除点赞数据：
-      var cm=cmtData.commentList[fid+ctype];
-      for(var i=cm.length; i-- ; ) {
-        if(cm[i].cid==cid) {
-          cm.splice(i,1);
-          break;
+        for(var i=cmtData.commentIdList.length; i-- ; ) {
+          if(cmtData.commentIdList[i]==cid) {
+            cmtData.commentIdList.splice(i,1);
+            break;
+          }
         }
-      }
-      for(i=cmtData.commentIdList.length; i-- ; ) {
-        if(cmtData.commentIdList[i]==cid) {
-          cmtData.commentIdList.splice(i,1);
-          break;
+        return json.data;
+      })
+      .catch(json => {
+        errorCount(1);
+        if (!errorJson(json)) {
+          appData.toastMsg('Ejsonp($http):ebcomment', 8);
         }
-      }
-    },function(e){
-      appData.toastMsg('Ejsonp:del c',8);
-      errorCount(1);
-    });
+        return $q.reject(json);
+      });
   }
   
   /**
@@ -146,85 +148,65 @@ function ($log,$http,$timeout,$location,AppbData){
       $log.log('Too many errors @getComment');
       return;
     }
-    var i;
-    var api=appData.urlSignApi('comment','li');
-    if(!api){
-      appData.requireLogin();//没有登录时 需要验证的 api 地址是空的
-      return false;
+    var pdata = { count: 200 };
+    if (para && para.newMore) {
+      pdata.newmore = para.newMore;
     }
-    var pdata={count:200};
- 
-    if(para && para.newMore) {
-      pdata.newmore=para.newMore;
+    if (para && para.oldMore) {
+      pdata.oldmore = para.oldMore;
     }
-    if(para && para.oldMore) {
-      pdata.oldmore=para.oldMore;
+    if (para && para.count) {
+      pdata.count = para.count;
     }
-    if(para && para.count) {
-      pdata.count=para.count;
+    if (para && para.page) {
+      pdata.page = para.page;
     }
-    if(para && para.page) {
-      pdata.page=para.page;
+    if (para && para.fids) {
+      pdata.fids = para.fids;
     }
-    if(para && para.fids) {
-      pdata.fids=para.fids;
-    }
-    
-    $log.log('getComment',para,pdata);
-    
-    $http.jsonp(api, {params:pdata})
-    .then(function(s){
-      if(s.data.errcode!=0) {
-        $log.log('Er:getComment:',s.data.msg);
-        if(s.data.errcode==ERR_EB_NOTHING) { 
-          //appData.toastMsg('已没有更多',3);
-          //s1，没有更多的评论，才算完成
-          return;
-        }
-        errorCount(1);
-        //s2，有错等几秒重试
-        $timeout(function(){getComment(para)},8000);
-        return;
-      }
-      
+    $log.log('getComment', para, pdata);
 
-      //
-      var cm=s.data.data;
-      var rquids=[];
+    return $http.post("comment/li", pdata) //, {signType:'single'})
+    .then( json => {
+      var cm = json.data;
+      var rquids = [];
       var cid;
-      for(i=0;i<cm.length;i++) {
+      for (var i = 0; i < cm.length; i++) {
         cid = + cm[i].cid//转为数字，否则字符串比较9比10大
-        if(cid<cmtData.cidMin)cmtData.cidMin=cid;
-        if(cid>cmtData.cidMax)cmtData.cidMax=cid;
-        if(cmtData.commentIdList.indexOf(cid)>=0)return;//已有的数据
+        if (cid < cmtData.cidMin) cmtData.cidMin = cid;
+        if (cid > cmtData.cidMax) cmtData.cidMax = cid;
+        if (cmtData.commentIdList.indexOf(cid) >= 0) return;//已有的数据
         cmtData.commentIdList.push(cid);
-        if(!cmtData.commentList[cm[i].fid+'comment']) {
-          cmtData.commentList[cm[i].fid+'comment']=[];
+        if (!cmtData.commentList[cm[i].fid + 'comment']) {
+          cmtData.commentList[cm[i].fid + 'comment'] = [];
         }
-        if(!cmtData.commentList[cm[i].fid+'like']) {
-          cmtData.commentList[cm[i].fid+'like']=[];
+        if (!cmtData.commentList[cm[i].fid + 'like']) {
+          cmtData.commentList[cm[i].fid + 'like'] = [];
         }
-        cmtData.commentList[cm[i].fid+cm[i].ctype].push(cm[i]);
-        rquids.push({uid:cm[i].uid},{uid:cm[i].re_uid});
+        cmtData.commentList[cm[i].fid + cm[i].ctype].push(cm[i]);
+        rquids.push({ uid: cm[i].uid }, { uid: cm[i].re_uid });
       }
 
       //获取所有 需要 的用户信息
       userData.requireUsersInfo(rquids);
-      
+
       //s3，没有错，返回满页，也要继续取下一页评论
-      if(pdata.count == s.data.data.length) {
-        var page=para.page;
-        if(!page) page=1;
-        para.page=++page;
+      if (pdata.count == json.data.length) {
+        var page = para.page;
+        if (!page) page = 1;
+        para.page = ++page;
         getComment(para);
       }
-    },function(e){
-      // error
-      errorCount(1);
-      //s4，有错等几秒重试
-      $timeout(function(){getComment(para)},8000);
-      $log.log('error at getComment',e);
+      return json.data;
     })
+    .catch( json =>{
+      errorCount(1);
+      $timeout(function () { getComment(para) }, 8000);
+      // if (!errorJson(json)) {
+      //   appData.toastMsg('Ejsonp($http):ebcomment', 8);
+      // }
+      return $q.reject(json);
+    });
   }
   
   

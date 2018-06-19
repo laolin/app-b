@@ -2,8 +2,8 @@
 (function(){
 
 angular.module('amap-main')
-.factory('AmapMainData', ['$log', '$rootScope', '$timeout','$http','$q','AppbData',
-function ($log, $rootScope, $timeout,$http,$q,AppbData){
+.factory('AmapMainData', ['$log', '$rootScope', '$timeout','$http','$q','AppbData', 'DjWaiteReady',
+function ($log, $rootScope, $timeout,$http,$q,AppbData, DjWaiteReady){
   var svc=this;
   var amapDeferred = $q.defer();
   var onAmap = amapDeferred.promise;
@@ -200,6 +200,7 @@ function ($log, $rootScope, $timeout,$http,$q,AppbData){
   }
 
 
+  var onGeolocation = new DjWaiteReady();
 
   svc.showLocateButton = function() {
     mapData.map.plugin('AMap.Geolocation', function () {
@@ -216,6 +217,7 @@ function ($log, $rootScope, $timeout,$http,$q,AppbData){
         panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
         zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
       });
+      onGeolocation.resolve(svc.geolocation);
       mapData.map.addControl(svc.geolocation);
       AMap.event.addListener(svc.geolocation, 'complete', _onLocateComplete);//返回定位信息
       AMap.event.addListener(svc.geolocation, 'error', _onLocateError);
@@ -291,29 +293,41 @@ function ($log, $rootScope, $timeout,$http,$q,AppbData){
      * 返回 承诺
      */
     function getLocalCity(){
-      if(getLocalCity.promise) return $q.when(getLocalCity.promise);
-      var deferred = $q.defer();
-      getLocalCity.promise = deferred.promise;
-      $q.when(onAmap, (amap) => {
-        new AMap.CitySearch().getLocalCity((status, city) =>{
-          deferred.resolve(getLocalCity.promise = city)
-        });
+      console.log('当前用户所在城市。。。');
+      $log.log('当前用户所在城市。。。');
+      var positionPromise = new DjWaiteReady();
+      onGeolocation.ready().then( geolocation => {
+        geolocation.getCurrentPosition((status,result) => {
+          $log.log('当前用户所在城市: ', result.addressComponent);
+          positionPromise.resolve(result.addressComponent);
+        })
       });
-      return getLocalCity.promise;
+      return positionPromise.ready().then( address => {
+        if(address && address.province) return address;
+        var positionPromise2 = new DjWaiteReady();
+        $q.when(onAmap, (amap) => {
+          new AMap.CitySearch().getLocalCity((status, city) =>{
+            $log.log('当前用户所在城市(接口2): ', city);
+            positionPromise2.resolve(getLocalCity.promise = city)
+          });
+        });
+        return positionPromise2.ready()
+      });
     }
 
     /**
      * 根据名称，查城市数据
+     * @param useLastGood: 未能精确找到时，是否使用最大匹配
      */
-    function findCity(cityList, names){
-      let city;
+    function findCity(cityList, names, useLastGood){
+      let city = {}, goodCity;
       for(let name of names){
-        if(!name || !cityList) return {};
-        city = cityList.find(subCity => {
+        if(!name || !cityList) return useLastGood? city : {};
+        goodCity = cityList.find(subCity => {
           return subCity.name == name;
         });
-        if(!city) return {};
-        cityList = city.districtList;
+        if(!goodCity) return useLastGood? city : {};
+        cityList = (city = goodCity).districtList;
       }
       return city;
     }
@@ -324,7 +338,7 @@ function ($log, $rootScope, $timeout,$http,$q,AppbData){
     function getCity(cityName){
       let names = cityName ? cityName.split(' ') : [];
       return getAllCity().then( cityList => {
-        return findCity(cityList, names);
+        return findCity(cityList, names, '不要精确');
       });
     }
 

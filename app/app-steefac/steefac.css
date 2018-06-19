@@ -14,7 +14,56 @@
   html, body{ font-size: 100px; }
   *{ font-size: 0.12rem; }
 }
+* {box-sizing: border-box;}
+input, button {
+  outline: 0;
+  -webkit-appearance: none;
+}
+input, select {
+  background: #ffffff;
+}
 
+/* 隐藏高德的一个按钮 */
+.amap-geolocation-con {display: none;}
+
+.weui-dialog__title, .weui-dialog__title * { font-size: 18px; }
+.weui-dialog__bd,    .weui-dialog__bd *    { font-size: 15px; }
+.weui-dialog__ft,    .weui-dialog__ft *    { font-size: 18px; }
+
+
+.weui-media-box__desc a,
+.weui-media-box__desc p,
+.weui-media-box__desc span,
+.weui-media-box__desc label,
+.weui-media-box__desc div{
+  font-size: 13px;
+}
+
+.weui-article label,
+.weui-article a,
+.weui-article p,
+.weui-article span,
+.weui-article div{
+  font-size: 15px;
+}
+.weui-media-box__title a,
+.weui-media-box__title p,
+.weui-media-box__title span,
+.weui-media-box__title label,
+.weui-media-box__title div,
+
+.weui-cells .weui-cell label,
+.weui-cells .weui-cell div,
+.weui-cells .weui-cell a,
+.weui-cells .weui-cell span,
+.weui-cells .weui-cell p {
+  font-size: 17px;
+}
+
+.weui-dialog__ft a {
+    font-size: 18px;
+}
+    
 .fac-fix-wrapper {
   position: absolute;
   top:0;
@@ -41,6 +90,13 @@ amap-main { height: 200px;}
 
 
 /* 一些通用CSS */
+
+img.headimg-large,
+img.headimg-middle,
+img.headimg-small  { border-radius: .05rem; margin-right: .10rem; }
+img.headimg-large , .height-large  { height: .60rem; }
+img.headimg-middle, .height-middle { height: .50rem; }
+img.headimg-small , .height-small  { height: .36rem; }
 
 /* 单行，太长省略号 */
 .line___1{
@@ -84,6 +140,9 @@ amap-main { height: 200px;}
 .em-80{ font-size: 8.0em;}  .rem-80{ font-size: .80rem;}
 .em-90{ font-size: 9.0em;}  .rem-90{ font-size: .90rem;}
 
+img.rem { width: 1em; height: 1em;}
+img.rem-w { width: 1em;}
+img.rem-h { height: 1em;}
 
 /* 一些通用颜色 */
 
@@ -102,6 +161,7 @@ amap-main { height: 200px;}
 .text-dark    { color: #000000; background-color: rgba(0,0,0,0); }
 .box-primary-light { color: #FFFFFF; background-color: rgba(51, 102, 204, .5); } .text-primary-light { color: #006699; background-color: rgba(0,0,0,0); }
 
+i.box-primary { line-height: 1.5; text-align: center; border-radius: .3em;}
 
 .padding-h-1{ padding-left: .10rem; padding-right: .10rem; }
 .padding-h-2{ padding-left: .15rem; padding-right: .15rem; }
@@ -121,6 +181,17 @@ amap-main { height: 200px;}
   text-align: center;
 }
 
+.opacity-select-btn {
+  position: relative;
+}
+.opacity-select-btn > select{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  opacity: 0;
+}
 
 /* 漂浮定位 */
 .float-rb{

@@ -3,8 +3,8 @@
 
 angular.module('steefac')
 .factory('SteeBuyer',
-['$location','$log','$q','AppbData','AppbAPI',
-function($location,$log,$q,AppbData,AppbAPI) {
+['$location','$log','$q','AppbData',
+function($location,$log,$q,AppbData) {
   
   var SteeBuyer={};
   var appData=AppbData.getAppData();

@@ -5,13 +5,10 @@ angular.module('steefac')
   $routeProvider.when('/fac-edit', {
     templateUrl: 'app-steefac/fac-edit/fac-edit.view.template.html',
     controller: ['$scope','$http','$log','$location',
-        'AppbData','ProjDefine','FacMap','AppbAPI','FacUser','FacSearch',
+        'AppbData','ProjDefine','FacMap','SIGN','FacUser','FacSearch',
       function mzUserSearchCtrl($scope,$http,$log,$location,
-          AppbData,ProjDefine,FacMap,AppbAPI,FacUser,FacSearch) {
+          AppbData,ProjDefine,FacMap,SIGN,FacUser,FacSearch) {
         var userData=AppbData.getUserData();
-        if(! userData || !userData.token) {
-          return $location.path( "/wx-login" ).search({pageTo: '/my'});;
-        }
 
         $scope.isLoading=2;
         
@@ -30,7 +27,7 @@ angular.module('steefac')
           return appData.showInfoPage('类型错误','E:type:'+objtype,'/my');
         }
 
-        appData.setPageTitle('修改'+FacSearch.objNames[objtype]); 
+        appData.setPageTitleAndWxShareTitle('修改'+FacSearch.objNames[objtype]); 
         
         $scope.formDefine=FacSearch.objDefines[objtype];
         $scope.models=FacMap.addrInput;
@@ -80,8 +77,7 @@ angular.module('steefac')
           
         }
         function _doDel() {
-          $log.log('/obj-Del .onOk');
-          AppbAPI('steeobj','delete',{type:objtype,id:id})
+          SIGN.postLaolin('steeobj','delete',{type:objtype,id:id})
           .then(function(s){
             if(s) {
               delete FacSearch.datailCache[objtype+id];
@@ -91,15 +87,12 @@ angular.module('steefac')
             } else {
               appData.toastMsg('删除异常',3);
             }
-            $log.log('sec',s);
           },function(e){
             appData.toastMsg(e,3);//'删除失败'+
             $log.log('err',e);
           });
         }
         $scope.onUpdate=function(){
-          $log.log('/obj-edit .onOk');
-
           var dd={}
           dd.name=FacMap.addrInput[objtype+'name'];
           dd.addr=FacMap.addrInput.addr;
@@ -116,7 +109,6 @@ angular.module('steefac')
           for(var i=$scope.formDefine.inputs.length;i--;){
             k=$scope.formDefine.inputs[i].name;
             dd[k]=FacMap.addrInput[k]
-            $log.log('FacMap.addrInput[k]',k,FacMap.addrInput[k]);
           }
 
 
@@ -126,7 +118,7 @@ angular.module('steefac')
 
           
           //TODO 没有更新的数据别上传
-          AppbAPI('steeobj','update',{type:objtype,id:id,d:JSON.stringify(dd)})
+          SIGN.postLaolin('steeobj','update',{type:objtype,id:id,d:JSON.stringify(dd)})
           .then(function(s){
             delete FacSearch.datailCache[objtype+id];
             appData.toastMsg('数据已成功更新',2);

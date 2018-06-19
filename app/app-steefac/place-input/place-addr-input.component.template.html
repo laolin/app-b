@@ -1,5 +1,10 @@
 ﻿
 <div class="weui-cells__title" ng-hide='1'></div> 
+<div class="map-wrapper">
+  <amap-main ></amap-main>
+</div>
+<p ng-click="$ctrl.useAddress()">{{$ctrl.addrInput.formatted_address}}</p>
+<p ng-if='!$ctrl.addrInput.formatted_address'>未指定地址</p>
 <!-- 上面加一个隐藏的是为了让weui-cells的margin-top=0 -->
 <div class="weui-cells weui-cells_form">
  
@@ -15,8 +20,3 @@
   </div>
     
 </div>
-<div class="map-wrapper">
-  <amap-main ></amap-main>
-</div>
-<p>{{$ctrl.addrInput.formatted_address}}</p>
-<p ng-if='!$ctrl.addrInput.formatted_address'>未指定地址</p>

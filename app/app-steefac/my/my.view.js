@@ -4,17 +4,19 @@
 angular.module('steefac')
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/my', {
+    pageTitle: "我的",
     templateUrl: 'app-steefac/my/my.view.template.html',
-    controller: ['$scope','$timeout','$log','AppbFeedService','AppbData','AppbUiService','AmapMainData','FacUser','FacSearch',
-      function ($scope,$timeout,$log,AppbFeedService,AppbData,AppbUiService,AmapMainData,FacUser,FacSearch) {
+    controller: ['$scope','$timeout','$log', '$http', 'SiteConfig', 'AppbFeedService','AppbData','AppbUiService','AmapMainData','FacUser','FacSearch',
+      function ($scope,$timeout,$log, $http, SiteConfig, AppbFeedService,AppbData,AppbUiService,AmapMainData,FacUser,FacSearch) {
+
+
+        /** 版本日期 */
+        $scope.ver = window.theSiteConfig.ver || '最新';
+        $scope.ver_time = window.theSiteConfig.ver_time || new Date().toLocaleString();
+
 
         var userData=AppbData.getUserData();
         var appData=AppbData.getAppData();
-        appData.setPageTitle('我的');
-        
-        
-        //要求登录，如果未登录，会自动跳转到登录界面
-        appData.requireLogin();
 
         //使用ctrl, 后面方便切换为 component
         var ctrl=$scope.$ctrl={};
@@ -29,13 +31,47 @@ angular.module('steefac')
         ctrl.facIds={};
         ctrl.noIds=true;
        
-        FacUser.getMyData().then(function (me) {
-          for(var i=ctrl.objTypes.length;i--; ) {
-            ctrl.facIds[ctrl.objTypes[i]] = (me.objCanAdmin[ctrl.objTypes[i]] || []).join(',');
-            if(ctrl.facIds[ctrl.objTypes[i]].length)ctrl.noIds=false;
+        /** 从缓存中读取me数据 */
+        $http.post("cache/load", { ac: "me" }).then(json => {
+          if($scope.me) return;
+          $scope.me = json.datas.data;
+          initDatas($scope.me.me);
+        });
+        /** 从服务器读取me数据 */
+        $http.post("用户/刷新个人信息").then(json => {
+          $scope.me = json.datas;
+          console.log("me = ", $scope.me)
+          $http.post("cache/save", { ac: "me", data: $scope.me });
+          initDatas($scope.me.me);
+        });
+        function initDatas(me) {
+          ctrl.isLoading = 0;
+          $scope.me.objCanAdmin = {}
+          for (var i = ctrl.objTypes.length; i--;) {
+            var str = me[ctrl.objTypes[i] + '_can_admin'];
+            $scope.me.objCanAdmin[ctrl.objTypes[i]] = str ? str.split(',') : [];
+            ctrl.facIds[ctrl.objTypes[i]] = str;//(me.objCanAdmin[ctrl.objTypes[i]] || []).join(',');
+            if (ctrl.facIds[ctrl.objTypes[i]].length) ctrl.noIds = false;
           }
-          $log.log('me.objCanAdmin',ctrl.facIds);
-          ctrl.isLoading=0;
+        }
+
+        /** 浏览历史 */
+        $scope.viewHistory = { list: {} };
+        $http.post("cache/load", { ac: "fac-detail-history-steeproj" }).then(json => {
+          var list = json.datas.data;
+          if (!angular.isArray(list)) list = [];
+          list = list.slice(-8);
+          $scope.viewHistory.steeproj = list.join(',');
+          $scope.viewHistory.list.steeproj = list;
+          $scope.viewHistory.totle = $scope.viewHistory.list.steefac.length + $scope.viewHistory.list.steeproj.length;
+        });
+        $http.post("cache/load", { ac: "fac-detail-history-steefac" }).then(json => {
+          var list = json.datas.data;
+          if (!angular.isArray(list)) list = [];
+          list = list.slice(-8);
+          $scope.viewHistory.steefac = list.join(',');
+          $scope.viewHistory.list.steefac = list;
+          $scope.viewHistory.totle = $scope.viewHistory.list.steefac.length + $scope.viewHistory.list.steeproj.length;
         });
         
         $scope.$on('$viewContentLoaded', function () {
@@ -48,6 +84,16 @@ angular.module('steefac')
         ctrl.appData=appData;
         ctrl.assetsRoot=appData.appCfg.assetsRoot;
         
+        $scope.updateComment=function() {
+          console.log("升级评论业绩数据库");
+          $http.post("显示对话框/confirm", { body: "升级评论业绩数据库后，非原来的评论业绩数据库将被清除，且不可恢复。确认？", title: "删除前，请确认：" }).then(json => {
+            $http.post(SiteConfig.apiRootUnit + "comment/comment/updateDB").then(json=>{
+              $http.post("显示对话框/alert", { body: "升级成功" })
+            }).catch(e=>{
+              console.log("升级失败,", e)
+            })
+          });
+        }
         
         ctrl.onDisableSysAdmin=function() {
           var me;
@@ -68,8 +114,7 @@ angular.module('steefac')
         }
         ctrl.swipeRight=function() {
           appData.toastMsg('重登录',2);
-          appData.setUserData({});
-          appData.requireLogin();
+          window.location.hash = "#!/login";
         }
       }
     ]

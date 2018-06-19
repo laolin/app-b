@@ -18,7 +18,7 @@ function($http,$log,AppbConfig) {
     
     //注， WjSign 目前用统一的qgs api, 不使用 Api-Core 代码系列中。
     var url=location.href.split('#')[0];
-    return $http.jsonp(apiRoot+'/wx/jsapisign?app=qgs-mp&url='+encodeURIComponent(url));
+    return $http.post('app/jsapi_sign', { name:'qgs-mp', url: encodeURIComponent(url)}, {signType: 'single'});
   }
   
   /**

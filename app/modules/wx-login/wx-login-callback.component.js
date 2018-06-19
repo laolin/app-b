@@ -17,8 +17,26 @@ angular.module('wx-login')
         var pageTo=srh.pageTo;
         if(!pageTo)pageTo='/';
 
+        $http.post('/app/wx_code_login',{
+          name: srh._ret_app,
+          code: srh._ret_code
+        },{
+          signType: 'single'
+        }).then(json => {
+          console.log('静态api, OK', json);
+          angular.dj.userToken.save(json.datas);
+          console.log('即将跳转：', pageTo);
+          location.hash = '#!' + pageTo;
+          //$location.path( pageTo ).search({});
+        }).catch(json =>{
+          console.log('静态api, 拒绝', json);
+        });
+
+        return;
+
         var url=appData.appCfg.apiWxAuth+"/bindwx/callback_auth?code="
           +srh._ret_code+'&app='+srh._ret_app+'&clientid='+appData.clientId;
+
         $http.jsonp(url).then(function(data) {
           if(data.data.errcode!=0) {
             $log.log('Recall Error!',data.data.errcode,data.data.msg);

@@ -5,16 +5,12 @@ angular.module('steefac')
 $routeProvider.when('/obj-detail', {
 templateUrl: 'app-steefac/fac-detail/obj-detail.view.template.html',
   controller: ['$scope','$http','$log','$location',
-    'AppbData','FacDefine','FacSearch','AppbAPI','FacUser',
+    'AppbData','FacDefine','FacSearch','SIGN','FacUser',
   function ($scope,$http,$log,$location,
-    AppbData,FacDefine,FacSearch,AppbAPI,FacUser) {
+    AppbData,FacDefine,FacSearch,SIGN,FacUser) {
     var appData=AppbData.getAppData();
     var userData=AppbData.getUserData();
-    if(! userData || !userData.token) {
-      return $location.path( "/wx-login" ).search({pageTo: '/my'});;
-    }
 
-    
     var options=FacDefine.goodatOptions;
     
     var search=$location.search();
@@ -27,7 +23,7 @@ templateUrl: 'app-steefac/fac-detail/obj-detail.view.template.html',
     }
     var objName=FacSearch.objNames[$scope.objType];
 
-    appData.setPageTitle( objName+'详情'); 
+    appData.setPageTitleAndWxShareTitle( objName+'详情'); 
     
     // 1,'steefac-detail'| 2,'stee_user-get_admin_of_fac'
     $scope.isLoading=2;
@@ -43,7 +39,7 @@ templateUrl: 'app-steefac/fac-detail/obj-detail.view.template.html',
       if(!s) {
         return appData.showInfoPage('参数错误','Err id: '+id,'/search')
       } 
-      appData.setPageTitle(s.name+'-详情');
+      appData.setPageTitleAndWxShareTitle(s.name+'-详情');
       $scope.fac=s;
       $scope.isLoading--;
       /*
@@ -66,8 +62,7 @@ templateUrl: 'app-steefac/fac-detail/obj-detail.view.template.html',
         if(FacUser.isSysAdmin())$scope.canEdit=true;
       },function(e){$log.log('Err:',e)});
       
-      AppbAPI('stee_user','get_admin_of_obj',{type:objType,facid:id}).then(function(s){
-        $log.log('get_admin_of:',objType,s);
+      SIGN.postLaolin('stee_user','get_admin_of_obj',{type:objType,facid:id}).then(function(s){
         $scope.isLoading--;
         if(s) {
           var uids=[];

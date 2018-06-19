@@ -1,9 +1,9 @@
-<div class="weui-cells__title"></div>
+<div class="weui-cells__title" ng-if='! me.uid'></div>
 
-<div class='text-center' ng-if='! $ctrl.userData.token'>
-  请<a href="#!/wx-login">登录</a>
+<div class='text-center' ng-if='! me.uid'>
+  请<a href="#!/login">登录</a>
 </div>
-<div class="weui-panel weui-panel_access" ng-if='$ctrl.userData.token'>
+<div class="weui-panel weui-panel_access" ng-if='me.uid'>
   <div class="weui-panel__bd">
     <a href class="weui-media-box weui-media-box_appmsg"
     ng-swipe-left='$ctrl.swipeLeft()'
@@ -21,25 +21,49 @@
           </span>
           
         </h4>
-        <p class="weui-media-box__desc">UID:{{$ctrl.userData.uid}}</p>
+        <p class="weui-media-box__desc">UID:{{me.uid}}</p>
       </div>
     </a>
   </div>
 
 </div>
 
-<facs-show
-  ng-repeat='type in $ctrl.objTypes'
-  ng-if='$ctrl.isLoading<=0 && $ctrl.facIds[type] '
-  
-  title=' "我管理的" +$ctrl.objNames[type]'
-  type='type'
-  fac-ids='$ctrl.facIds[type]'
->
-</facs-show>
-<div class='weui-article'
-  ng-if='!$ctrl.facIds["steefac"]&&!$ctrl.facIds["steeproj"]'>
-  暂无您管理的钢构厂或项目信息。
+
+<div class="weui-panel weui-cells weui-panel_access" ng-repeat="type in $ctrl.objTypes" ng-if="!$ctrl.isLoading">
+  <div class="weui-cell" ng-click="showMyStee[type] = !showMyStee[type]">
+    <div class="weui-cell__bd">我管理的{{$ctrl.objNames[type]}}</div>
+    <div class="weui-cell__ft text-active" ng-show="$ctrl.facIds[type]">
+      {{!showMyStee[type]&&('('+me.objCanAdmin[type].length+')')||'折叠'}}
+    </div>
+    <div class="weui-cell__ft" ng-if="!$ctrl.facIds[type]">暂无</div>
+  </div>
+  <div class="weui-panel__bd padding-h-2" dj-collapse="{{showMyStee[type]}}" dj-collapse-group="showMyStee[type]=false">
+    <facs-show title='A' type="type" fac-ids="$ctrl.facIds[type]"></facs-show>
+  </div>
+</div>
+
+
+<div class="weui-panel weui-cells weui-panel_access">
+  <div class="weui-cell" ng-click="showRecentRead = !showRecentRead">
+    <div class="weui-cell__bd">最近浏览</div>
+    <div class="weui-cell__ft text-active">
+      {{!showRecentRead&&('('+viewHistory.totle+')')||'折叠'}}
+    </div>
+  </div>
+  <div class="weui-panel__bd padding-h-2" dj-collapse="{{showRecentRead}}" dj-collapse-group="showRecentRead=false">
+    <facs-show title='A' type="'steefac'" fac-ids='viewHistory.steefac'></facs-show>
+    <facs-show title='B' type="'steeproj'" fac-ids='viewHistory.steeproj'></facs-show>
+  </div>
+</div>
+
+<div class='weui-cells'>
+<a ng-path="/stat?type=steefac" class="weui-cell ng-scope weui-cell_access weui-cell_access">
+  <div class="weui-cell__hd ng-scope"><i class="fa fa-user-o" aria-hidden="true"></i></div>
+  <div class="weui-cell__bd weui-cell_primary">
+    <p class="ng-binding">钢构厂({{me.nFac}})</p>
+  </div>
+  <span class="weui-cell__ft ng-binding"></span>
+</a>
 </div>
 
 
@@ -67,8 +91,8 @@
   ng-if='$ctrl.isLoading<=0'>
 
   <div>
-    <a ng-if='$ctrl.userData.wxinfo.subscribe'> 感谢您关注钢构产能地图CMOSS！<br/>关注时间：<span am-time-ago='1000*$ctrl.userData.wxinfo.subscribe_time'></span>。</a>
-    <a ng-if='!$ctrl.userData.wxinfo.subscribe'>请扫描识别二维码关注“钢构产能地图CMOSS”公众号，以便我们更好地为您服务，谢谢。
+    <a ng-if="me.wx.subscribe==1"> 感谢您关注钢构产能地图CMOSS！<br/>关注时间：<span am-time-ago='1000*$ctrl.userData.wxinfo.subscribe_time'></span>。</a>
+    <a ng-if="me.wx.subscribe!=1">请扫描识别二维码关注“钢构产能地图CMOSS”公众号，以便我们更好地为您服务，谢谢。
     <br/>
     <img ng-src='{{$ctrl.assetsRoot}}/img/img-steefac/stee-cmoss-qrcode.png'/>
     </a>
@@ -95,6 +119,14 @@
   </div>
 </div>
 
+<div class='weui-cells' ng-if="me.uid==301173"> 
+  <div class="weui-cells__title">升级</div> 
+
+  <div class="weui-cell weui-cell_access" ng-click="updateComment()">
+    <div class="weui-cell__bd">升级评论业绩数据库</div>
+    <span class="weui-cell__ft"></span>
+  </div>
+</div>
 
 <div ng-if='$ctrl.FacUser.isSysAdmin()'> 
   <appb-weui-cells
@@ -102,7 +134,10 @@
     cells="[
       {text:'钢构厂管理员列表',url:'/get-admins?type=steefac',icon:'user-o',notes:''},
       {text:'采购商列表',url:'/get-admins?type=steeproj',icon:'user-o',notes:''},
-      {text:'用户活跃度',url:'/admin-show-activety',icon:'user',notes:'仅限超级管理员'}
+      {text:'用户管理',url:'/user-admin-home',icon:'users',notes:''},
+      {text:'用户活跃度（1小时）',url:'/user-activity?hour=1',icon:'coffee',notes:'仅限超级管理员'},
+      {text:'用户活跃度（24小时）',url:'/user-activity?hour=24',icon:'coffee',notes:'仅限超级管理员'},
+      {text:'详细用户活跃度',url:'/admin-show-activety',icon:'user',notes:'仅限超级管理员'}
       
     ]"
   >
@@ -118,6 +153,7 @@
     cells="[
      {text:'搜索（测试版）',url:'/search-old',icon:'search',notes:''},
      {text:'发消息',url:'/send-msg',icon:'comments',notes:'待办提醒模板消息'},
+     {text:ver,url:'/my',icon:'copyright',notes:ver_time},
     ]"
   >
   </appb-weui-cells>

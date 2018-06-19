@@ -5,10 +5,11 @@
   "main": "gulpfile.js",
   "dependencies": {
     "babel-core": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
     "gulp-babel": "^7.0.0"
   },
   "devDependencies": {
+    "babel-preset-es2017": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-alioss": "^0.1.3",

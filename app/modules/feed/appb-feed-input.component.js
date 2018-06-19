@@ -19,6 +19,7 @@ angular.module('appb')
       var ctrl=this;
       var intervalRes;
       
+      ctrl.isWx = (/micromessenger/i).test(navigator.userAgent);
 
       //注，目前这样的设计只支持一个 'pics'
       ctrl.imgs=-1;//-1 as:the mark of not-init

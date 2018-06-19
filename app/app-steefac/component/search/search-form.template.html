@@ -1,21 +1,12 @@
 ﻿<!-- 搜索表单组件 -->
-<div id="loadinnngToast" ng-if='$ctrl.searchData.searching'>
-  <div class="weui-mask_transparent"></div>
-  <div class="weui-toast">
-      <i class="weui-loading weui-icon_toast"></i>
-      <p class="weui-toast__content">数据加载中</p>
-  </div>
-</div>
-
-
 <div class="form">
   <div class="flex flex-v-center bb-888">
     <div class="flex flex-grow rem-16 b-900" next="right">
-      <span class="line___1 rem-16 b-900" c="51" ng-click="$ctrl.pickingCity=true">{{$ctrl.searchData.options.currentCity||'尚未定位'}}</span>
+      <span class="line___1 rem-16 b-900" c="51" ng-click="$ctrl.pickingCity=true">{{$ctrl.searchData.currentCity||'尚未定位'}}</span>
       <div china-address class="pick-city-box" ng-if="$ctrl.pickingCity"
-        close="$ctrl.pickingCity=false;$ctrl.searchData.options.currentCity=$value"
+        close="$ctrl.pickingCity=false;$ctrl.searchData.currentCity=$value"
         dismiss="$ctrl.pickingCity=false"
-        address="{{$ctrl.searchData.options.currentCity}}"
+        address="{{$ctrl.searchData.currentCity}}"
       ></div>
     </div>
     <div class="flex gray rem-12 shrink0" c="06c" ng-click="getMyCity()">
@@ -27,8 +18,8 @@
     <div class="gray rem-14" c="6B">搜索半径</div>
     <div class="flex rem-16" next>
         <select class="rem-16 weui-select b-900 " name="input_dist" c="51"
-        ng-model="$ctrl.searchData.options.distSelect" >
-          <option ng-repeat="t in $ctrl.searchData.distText"
+        ng-model="$ctrl.searchData.distSelect" >
+          <option ng-repeat="t in FacSearch.distText"
             value="{{$index}}">{{t}}</option>
         </select>
     </div>
@@ -36,18 +27,18 @@
   <div class="flex flex-v-center bb-888  rem-16" next>
     <div class="gray rem-14" c="6B">项目周期</div>
     <div class="flex-grow flex-cc" c="51">
-      <month-between class="rem-16" ng-model="$ctrl.searchData.options.monthBetween"></month-between>
+      <month-between class="rem-16" ng-model="$ctrl.searchData.monthBetween"></month-between>
     </div>
   </div>
   <div class="flex flex-v-center bb-888 ">
     <div class="rem-14" c="6B">产能需求</div>
     <div class="flex flex-bottom">
-      <input class="rem-16 b-900 w5em" c="51" ng-model="$ctrl.searchData.options.cnxq" placeholder="所需产能">
+      <input class="rem-16 b-900 w5em" c="51" ng-model="$ctrl.searchData.cnxq" placeholder="所需产能">
       <div class="rem-12" c="51">吨</div>
     </div>
   </div>
   <div class="flex flex-v-center bb-888 ">
-    <input class="rem-16 b-900" c="51" ng-model="$ctrl.searchData.options.searchWord" placeholder="关键词/名称/地址">
+    <input class="rem-16 b-900" c="51" ng-model="$ctrl.searchData.searchWord" placeholder="关键词/名称/地址">
   </div>
 
 

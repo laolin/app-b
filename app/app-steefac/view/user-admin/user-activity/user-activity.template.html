@@ -1,0 +1,72 @@
+<!-- 用户活跃度 -->
+<div class="weui-cells__title flex">
+  <span>{{
+    param.from && ('从 ' + (param.from|timespan:'M月d日HH:mm')
+        + (param.to && (' 到 ' + (param.to|timespan:'M月d日HH:mm') + ' 止') || ' 开始') )
+    || param.day  && (param.day + '天' )
+    || param.hour && (param.hour + '小时') || ''
+    }} 的用户活跃度
+  </span>
+  <span ng-click="showDialog()">
+    <span class="weui-btn weui-btn_primary rem-12">
+      条件...
+    </span>
+  </span>
+</div>
+
+<div class="weui-cells" ng-if='loading'>
+  <div class="weui-cell">
+    <div class="weui-loadmore-XX">
+      <i class="weui-loading"></i>
+      <span class="weui-loadmore__tips">正在加载</span>
+    </div>
+  </div>
+</div>
+
+<div class="weui-panel weui-panel_access" ng-if='userData.isAdmin() && !loading'>
+  <div class="weui-panel__bd">
+    <a ng-path="/user-activity-list" search="{{searchParam(ua.uidBinded)}}" class="weui-media-box weui-media-box_appmsg" ng-repeat='ua in list track by $index'>
+      <div class="weui-media-box__hd">
+        <img class="weui-media-box__thumb" ng-src="{{ua.headimgurl}}" alt="">
+      </div>
+      <div class="weui-media-box__bd">
+        <h4 class="weui-media-box__title">
+          <span ng-if='ua.nickname'>
+            {{ua.nickname}}
+          </span>
+          <span ng-if='!ua.nickname'>
+            {{ua.uname}}
+          </span>
+          <span>( ID:{{ua.uidBinded}} )</span>
+        </h4>
+        <p class="weui-media-box__desc">活跃度：{{ua.n}}</p>
+      </div>
+    </a>
+
+    <div load-more totle="{{page.totle}}" loaded="{{list.length}}" on-load-more="loadMore()"></div>
+
+  </div>
+</div>
+
+<dj-dialog class="dlg-user-activity text-5" dialog-show="showing" on-close="onClose($name)">
+  <dj-dialog-title class="rem-15">
+    <div tab-bar list="tab.list" active="{{tab.active}}" tab-click="tab.click($n)" active-css="active text-active"></div>
+  </dj-dialog-title>
+  <dj-dialog-body class="dlg-body-user-activity flex-v text-5">
+    <div class="body" ng-if="tab.active==0">
+      <div class="weui-cells weui-cells_checkbox">
+        <weui-radio text="{{item.text}}" ng-model="form.quickValue" value="item.value" ng-repeat="item in form.quickList"></weui-radio>
+      </div>
+    </div>
+    <div class="body" ng-if="tab.active==1">
+      <div class="flex-v flex-top padding-v-2">
+        <span>开始时间</span>
+        <input class="weui-input" type="datetime-local" ng-model="form.between.from">
+      </div>
+      <div class="flex-v flex-top padding-v-2">
+        <span>结束时间</span>
+        <input class="weui-input" type="datetime-local" ng-model="form.between.to">
+      </div>
+    </div>
+  </dj-dialog-body>
+</dj-dialog>

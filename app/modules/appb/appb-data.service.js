@@ -3,11 +3,16 @@
   
 var KEY_CLIENTID=appbCfg.keyClientId;
 
+// 只在微信浏览器中运行
+// @var useWX: 是否应该使用微信 JSSDK
+var useWX = location.origin.length > 12 && location.origin.indexOf('192.168') < 0 && navigator.userAgent.indexOf("MicroMessenger") > 0;
+
+
 angular.module('appb')
 .factory('AppbData',
-['$route','$rootScope','$location','$log','$timeout','$http','$window',
+['$q','$rootScope','$location','$log','$timeout','$http','$window',
   'AppbConfig','AppbDataHeader','AppbDataFooter','AppbDataUser','AppbUiService','AppbDataApi','moment','AppbErrorInfo',
-function($route, $rootScope,$location,$log,$timeout,$http,$window,
+function($q, $rootScope,$location,$log,$timeout,$http,$window,
   AppbConfig,AppbDataHeader,AppbDataFooter,AppbDataUser,AppbUiService,AppbDataApi,moment,AppbErrorInfo) 
 {
   
@@ -26,6 +31,100 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   // BEGIN: factory functions
   //---------------------------------------------
   
+  /**
+   * 设置页面标题
+   */
+  function setTitle(title){
+    document.title = title;
+    if(navigator.userAgent.indexOf("MicroMessenger") > 0){
+      // hack在微信等webview中无法修改document.title的情况
+      var body = document.body,
+        iframe = document.createElement('iframe');
+      iframe.src = "/null.html";
+      iframe.style.display = "none";
+      iframe.onload = function(){
+        setTimeout(function() {
+          body.removeChild(iframe);
+        }, 0);
+      }
+      body.appendChild(iframe);
+    }
+  }
+  /**
+   * 微信分享
+   * @param options 可选的相关参数
+   */
+  function setWxShare(options){
+    //微信分享
+    var wxShareData={
+      title: appbCfg.htmlTitle, // 分享标题
+      desc : appbCfg.appDesc,
+      link : location.href,
+      imgUrl: appbCfg.appLogo, // 分享图标
+      success: () => {},
+      cancel: () =>{}
+    }
+    if(options){
+      options.title  && (wxShareData.title  = options.title );
+      options.desc   && (wxShareData.desc   = options.desc  );
+      options.link   && (wxShareData.link   = options.link  );
+      options.imgUrl && (wxShareData.imgUrl = options.imgUrl);
+    }
+    initWx().then( wx => {
+      wx.onMenuShareAppMessage( wxShareData );
+      wx.onMenuShareTimeline  ( wxShareData );
+    })
+    .catch( e =>{
+      //console.log('微信分享无效：', e);
+    })
+  }
+  /**
+   * 设置页面标题，同时，设置标题栏的标题
+   * @param title 标题
+   */
+  function setPageTitle(title){
+    setTitleAuto(title);
+    AppbDataHeader.setPageTitle(title);
+  }
+  /**
+   * 设置页面标题，同时，设置标题栏的标题
+   * @param title 标题
+   */
+  function setPageTitleAndWxShareTitle(title){
+    setTitleAuto(title)
+    AppbDataHeader.setPageTitle(title);
+    setWxShare({title});
+  }
+  /**
+   * 设置页面标题, 根据是否显示标题栏，显示不同内容
+   */
+  function setTitleAuto(title){
+    if(headerData.hide){
+      setTitle(title + '-' + appbCfg.htmlTitle)
+    }
+    else{
+      setTitle(appbCfg.htmlTitle);
+    }
+  }
+  /**
+   * 路由监听，设置标题，设置微信分享
+   */
+  $rootScope.$on('$routeChangeSuccess', function(evt, current, prev) {
+    let title;
+    let route = current.$$route;
+    if(route.pageTitle){
+      title = route.pageTitle + '-' + appbCfg.htmlTitle;
+      setTitleAuto(route.pageTitle)
+      AppbDataHeader.setPageTitle(route.pageTitle);
+    }
+    else{
+      setTitle(title = appbCfg.htmlTitle)
+    }
+
+    //微信分享
+    setWxShare(angular.extend({}, {title}, route.wxShare));
+  });
+
   //快捷弹对话框函数
   function msgBox(content,title,b1,b2,f1,f2) {
     var d={
@@ -95,10 +194,19 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   /**
    *  需要用户登录的页面
    */
-  function requireLogin() {
+  function requireLogin(str) {
+    // 不再用此处代码跳转登录页面
+    return true;
+    if(angular.dj && angular.dj.userToken && angular.dj.userToken.data && angular.dj.userToken.data.token){
+      userData.uid     = angular.dj.userToken.data.uid;
+      userData.tokenid = angular.dj.userToken.data.tokenid;
+      userData.token   = angular.dj.userToken.data.token;
+    }
     if(! userData || !userData.token) {
+      //alert(str + ',  userData=' + JSON.stringify(userData))
       var currPath=$location.path();
-      $location.path( "/wx-login" ).search({pageTo: currPath});
+      if(currPath == '/wx-callback') return true;
+      $location.path( "/login" ).search({pageTo: currPath});
       return false;
     }
     return true;
@@ -130,17 +238,17 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   function errorMsg() {
     return lastError.msg;
   }
-  function goLink(a) {
+  function goLink(a, data) {
     if(typeof a == 'function') {
-      a();
+      a(data);
       return false;
     }
-    if(a.indexOf(':')>0){
+    if(a && a.indexOf(':')>0){
       window.location=a;
     } else if(a) {
       $location.url(a);
-      return false;
     }
+    return false;
   }
   //---------------------------------------------
   // END: factory functions
@@ -150,23 +258,38 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
   // BEGIN: init functions
   //---------------------------------------------
   function init() {
-    $http.jsonp(urlApi('file','path')).then(function(d){
-      if(d.data.errcode==0) {
-        appData.filePath=appData.appCfg.apiRoot+d.data.data;
+    $http.post('file/path', {}, {signType: 'single'}).then(function(json){
+      if(/^http(s)?\:\/\//.test(json.data)){
+        appData.filePath = json.data;
+      }
+      else{
+        var apiRoot = angular.extend({}, angular.dj.siteConfig, window.theSiteConfig).apiRoot;
+        if(!/\/$/.test(apiRoot)) apiRoot = apiRoot + '/';
+        appData.filePath = apiRoot + json.data;
       }
     });
 
-    initWx();
+    initWx().catch( e =>{
+      //console.log('微信分享无效：', e);
+    })
     initClientId();
     //moment.changeLocale('zh-cn');
     moment.locale('zh-cn');
   }
 
   function initWx() {
-    AppbDataApi.getWjSign().then(function(r){
-      var data=r.data.data;
+    // 只在微信浏览器中运行
+    if(!useWX) return $q.reject('not wx');
+    if(initWx.promise){
+      return $q.when(initWx.promise);
+    }
+
+    var deferred = $q.defer();
+
+    AppbDataApi.getWjSign().then(function(json){
+      var data = json.datas.config;
       if(!data) {
-        appData.msgBox('Err#'+r.data.errcode+':'+r.data.msg,'Error WxJsSign');
+        deferred.reject('config error!');
         return;
       }
       wx.config({
@@ -211,7 +334,16 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
           'chooseWXPay'
         ]
       });
+
+      wx.ready(function () {
+        deferred.resolve(initWx.promise = wx);
+      });
+    })
+    .catch( e => {
+      deferred.reject('getWjSign error!');
     });
+
+    return initWx.promise = deferred.promise;
   }
 
   //
@@ -248,10 +380,25 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
      *  （通常是通过API /file/g 访问文件 ）
      */
     filePath: '',// see: init()
+
+    imgUrl: function(url){
+      if(!url) return '';
+      if(/^http(s)?\:\/\/\w+\.oss-cn-beijing\.aliyuncs\.com/.test(url)) return url;
+      if(/^http(s)?\:\/\//.test(url)) return url;
+      return appData.filePath + '/' + url;
+    },
+    imgPreviewUrl: function(url){
+      if(!url) return '';
+      if(/^http(s)?\:\/\/\w+\.oss-cn-beijing\.aliyuncs\.com/.test(url)) return url + "?x-oss-process=image/resize,m_fill,h_100,w_100";
+      if(/^http(s)?\:\/\//.test(url)) return url;
+      return appData.filePath + '/' + url;
+    },
+
     errorCount:errorCount,
     errorMsg:errorMsg,
     
-    setPageTitle:AppbDataHeader.setPageTitle,
+    setPageTitle: setPageTitle,
+    setPageTitleAndWxShareTitle: setPageTitleAndWxShareTitle,
     showInfoPage:AppbErrorInfo.showInfoPage,
     
     headerData:headerData,
@@ -294,6 +441,8 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
 //MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 
   return {
+    useWX: useWX,
+    setWxShare: setWxShare,
     
     getHeaderData:AppbDataHeader.getHeaderData,
     setHeader:AppbDataHeader.setHeader,
@@ -309,7 +458,7 @@ function($route, $rootScope,$location,$log,$timeout,$http,$window,
     startPathMonitor:AppbDataFooter.startPathMonitor,
     
     getAppData:function(){return appData},
-    getUserData:function(){return userData},
+    getUserData:function(){return AppbDataUser.getUserData();},
     
     getDialogData:function(){return dialogData},
 

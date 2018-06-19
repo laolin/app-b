@@ -1,0 +1,40 @@
+/* 电话、邮件组件 */
+
+
+.tel-mal-box > img {
+  width: .18rem;
+  height: .18rem;
+  margin: 0 .03rem 0 0;
+}
+.tel-mal-box > i {
+  width: .18rem;
+  height: .18rem;
+  margin: 0 .03rem 0 0;
+}
+.tel-mal-box > span{
+  color: #3366cc;
+}
+.tel-mal-box.disabled {
+  opacity: 0.5;
+}
+.tel-mal-box.disabled span{
+  color: #888;
+}
+
+sendtpl-box .fac-list{
+  width: 100%;
+}
+sendtpl-box .fac-list .item{
+  text-align: left;
+  padding: .10rem .03rem;
+}
+sendtpl-box .fac-list .item.active{
+  background: rgba(51, 102, 204, 0.5);
+}
+sendtpl-box .fac-list .item.active .name{
+  color: #ffffff;
+}
+
+
+
+
