@@ -9,17 +9,17 @@
   <div class="shrink0 flex flex-grow flex-stretch list-box">
     <div class="high-light-box">
     </div>
-    <div class="flex-w1 shrink0" my-scroll="D.changeA($pos, $event)" my-scroll-top="D.scrollTopA">
+    <div class="flex-1 shrink0" my-scroll="D.changeA($pos, $event)" my-scroll-top="D.scrollTopA">
       <div class="list-abc">
         <div class="flex flex-cc {{D.activeA == $index && 'active text-3'||'text-gray'}} " ng-repeat="item in D.listA track by $index">{{item}}</div>
       </div>
     </div>
-    <div class="flex-w1 shrink0" my-scroll="D.changeB($pos, $event)" my-scroll-top="D.scrollTopB">
+    <div class="flex-1 shrink0" my-scroll="D.changeB($pos, $event)" my-scroll-top="D.scrollTopB">
       <div class="list-abc">
         <div class="flex flex-cc {{D.activeB == $index && 'active text-3'||'text-gray'}}" ng-repeat="item in D.listB track by $index">{{item}}</div>
       </div>
     </div>
-    <div class="flex-w1 shrink0" my-scroll="D.changeC($pos, $event)" my-scroll-top="D.scrollTopC">
+    <div class="flex-1 shrink0" my-scroll="D.changeC($pos, $event)" my-scroll-top="D.scrollTopC">
       <div class="list-abc">
         <div class="flex flex-cc {{D.activeC == $index && 'active text-3'||'text-gray'}}" ng-repeat="item in D.listC track by $index">{{item}}</div>
       </div>
