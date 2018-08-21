@@ -11,3 +11,8 @@
   padding: .08rem .10rem;
   height: .36rem;
 }
+
+.weui-media-box__desc.flex {
+  display: flex;
+}
+

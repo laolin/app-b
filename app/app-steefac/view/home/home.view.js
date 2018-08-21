@@ -16,7 +16,7 @@
         </div>
 
         <div class="main-modules flex" ng-if="0">
-          <div class="module flex-v flex-w1 flex-center" ng-repeat="item in moduleInfo">
+          <div class="module flex-v flex-1 flex-center" ng-repeat="item in moduleInfo">
             <img ng-src="{{item.src}}">
             <span>{{item.text}}</span>
           </div>
